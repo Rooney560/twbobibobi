@@ -1,0 +1,889 @@
+@charset "utf-8";
+/* CSS Document */
+
+/*-----css基本設定---------*/
+@font-face {
+  font-family: FakePearl-Regular;
+  src: url(https://cdn.jsdelivr.net/gh/max32002/FakePearl@1.1/webfont/FakePearl-Regular.woff2) format("woff2")
+  , url(https://cdn.jsdelivr.net/gh/max32002/FakePearl@1.1/webfont/FakePearl-Regular.woff) format("woff");
+}
+
+*, body, h1, h2, h3, h4, h5, h6, a, p, select  {
+	font-family: FakePearl-Regular, "微軟正黑體", "Microsoft JhengHei", sans-serif, Arial, Helvetica;
+}
+/*文字反選顏色*/
+::selection, ::-moz-selection {
+	background: #e78d09;
+	color: #ffffff;
+}
+
+/*a:focus {
+	background-color: #F7AD00 !important;
+}*/
+a {
+	transition: .5s;
+}
+/*a:hover {
+	filter:brightness(110%);
+	transition: .5s;
+}*/
+/*a:focus img {
+	-webkit-filter:saturate(0.2);
+}*/
+
+
+/*--行動版隱藏--*/
+.mob {
+	display: none !important;
+}
+
+
+html {
+	height: 100%;
+	margin: 0;
+}
+body {
+	margin: 0;
+	min-height: 100%;
+    background: url("../images/bg.png"), #FFF0BF;
+}
+
+/*清除格式*/
+.CleanFormat { 
+	clear: both;
+}
+#article::after, section::after, header::after {
+	content: "";
+	display: block;
+	clear: both;
+}
+
+/*分隔線*/
+.Dividers {
+	margin: 10px auto;
+	width: 100%;
+	height: 1px;
+	border-bottom: 1px dotted #373b80;
+}
+
+/*------------------------WebStart----------------------*/
+#wrap {
+    display: block;
+    position: relative;
+    margin: 0 auto;
+    width: 100%;
+}
+
+
+/*-------------------------Header-----------------------*/
+header {
+    
+}
+
+/*---------------------------Menu-----------------------*/
+nav {
+    
+}
+nav li {
+    
+}
+nav a {
+    
+}
+nav a:hover, nav a.active {
+    
+}
+
+/*-----手機版選單------*/
+
+
+/*-------------------------BODY-------------------------*/
+article {
+    position: relative;
+}
+section {
+}
+/*-------------------------FOOTER-----------------------*/
+footer {
+    
+}
+
+#footer {
+    
+}
+
+/*--------------------------共用項目-------------------------------*/
+/*-----圖片初始-----*/
+img {
+    display: block;
+    position: relative;
+    width: 100%;
+    height: auto;
+}
+/*--------------------------內容開始-------------------------------*/
+/*----------表單----------*/
+#FormBox {
+    display: block;
+    position: absolute;
+    z-index: 1;
+    width: 30%;
+    min-height: 100vh;
+    left: 35%;
+    text-align: center;
+}
+
+.title {
+    position: absolute;
+    background: url(../images/titleBg.png) no-repeat center;
+    background-size: 100%;
+    height: 0;
+    width: 100%;
+    padding-top: 11.808%;
+    margin-bottom: 0.5vw;
+    bottom: 43vw;
+}
+
+.title h1 {
+    position: relative;
+    color: #fff;
+    font-size: 2vw;
+    line-height: 3.542vw;
+    margin-top: -11.808%;
+}
+
+.Subtitle {
+    position: absolute;
+    font-size: 1.5vw;
+    font-weight: bold;
+    color: #dc214f;
+    bottom: 41vw;
+    width: 100%;
+}
+
+.Form {
+    position: absolute;
+    display: block;
+    width: 50%;
+    left: 25%;
+    bottom: 15.2vw;
+}
+
+.infoTxt {
+    font-size: 1vw;
+    color: #C16A28;
+    margin-bottom: 1.3vw;
+}
+
+.inputTxt {
+    margin-bottom: 0.5vw;
+}
+
+.inputTxt input {
+    width: 100%;
+    text-align: center;
+    border: none;
+    border-radius: 100px;
+    font-size: 1.05vw;
+    line-height: 2.2vw;
+}
+
+.inputBtn {
+    margin-top: 1.3vw;
+}
+
+.inputBtn input {
+    border: 0.2vw solid #fff;
+    display: block;
+    width: 100%;
+    border-radius: 100px;
+    height: 2.2vw;
+    font-size: 1.2vw;
+    color: #fff;
+    background: #FDBF3F;
+}
+
+/*----------頁面美術設計----------*/
+#WebView {
+    display: block;
+    position: absolute;
+    width: 100%;
+    top: 0;
+    z-index: 0;
+    min-height: 100vh;
+    overflow: hidden;
+}
+
+#WebView div {
+    display: block;
+    position: absolute;
+}
+
+/*扇子*/
+.Fan {
+    bottom: 0;
+    z-index: 15;
+    width: 100%;
+}
+
+.Fan div {
+    bottom: 0;
+    width: 14.688%;
+}
+
+.Fan div:last-child {
+    right: 0;
+}
+
+/*宮廟+燈籠*/
+.temple {
+    width: 100%;
+    padding-top: 42.084%;
+    bottom: 0;
+    background: url(../images/temple.png) no-repeat center top;
+    background-size: auto 100%;
+    z-index: 4;
+}
+
+.temple > div {top: 19%;width: 16.553%;}
+
+.temple > div > img {
+    width: 59.687%;
+    left: 20.1565%;
+}
+
+.Light {
+    top: 0;
+    animation-name:light;
+    animation-timing-function:linear;
+    animation-iteration-count:infinite;
+    animation-duration:2s;
+}
+
+@keyframes light{
+    0%{
+        opacity: 0.2;
+    }
+    10%{
+        opacity: 0.8;
+    }
+    20%{
+        opacity: 0.6;
+    }
+    30%{
+        opacity: 1;
+    }
+    40%{
+        opacity: 0.3;
+    }
+    50%{
+        opacity: 0.8;
+    }
+    60%{
+        opacity: 0.5;
+    }
+    70%{
+        opacity: 1;
+    }
+    80%{
+        opacity: 0.6;
+    }
+    90%{
+        opacity: 0.1;
+    }
+    100%{
+        opacity: 0.5;
+    }
+}
+
+.temple > div:first-child {
+    left: 23%;
+}
+
+.temple > div:last-child {
+    right: 23%;
+}
+
+/*小花背景*/
+.bg_flower {
+    background: url(../images/bg_flower.png) no-repeat center;
+    background-size: auto 100%;
+    width: 89.4799%;
+    padding-top: 39.323%;
+    bottom: 27%;
+    left: 4%;
+    z-index: -1;
+}
+
+/*後側雲*/
+.bgCloud {
+    width: 100%;
+    bottom: 14%;
+    z-index: 1;
+}
+
+.bgCloud div {
+    bottom: 0;
+    animation-name:bcloud;
+    animation-timing-function:linear;
+    animation-iteration-count:infinite;
+    animation-duration:10s;
+}
+
+.bgCloud div:last-child {
+    right: 0;
+}
+
+@keyframes bcloud{
+    0% {
+        width: 15.782%;
+    }
+    25% {
+        width: 14.2%;
+    }
+    50% {
+        width: 15%;
+    }
+    75% {
+        width: 13.8%;
+    }
+    100% {
+        width: 15.782%;
+    }
+}
+
+/*簾*/
+.curtain {
+    width: 100%;
+    z-index: 2;
+}
+
+.curtain div {
+    width: 20.417%;
+}
+
+.curtain div:last-child {
+    right: 0;
+}
+
+/*上方燈籠*/
+.lantern {
+    width: 100%;
+    z-index: 5;
+    top: -2%;
+}
+
+.lantern div {
+    width: 11.563%;
+    transform-origin: top;
+    animation-timing-function:linear;
+    animation-iteration-count:infinite;
+    animation-duration:10s;
+}
+
+.lantern div:first-child {
+    left: 15.5%;
+    animation-name:lanternA;
+}
+
+.lantern div:last-child {
+    right: 15.5%;
+    animation-name:lanternB;
+}
+
+@keyframes lanternA{
+    0%{
+        transform:rotate(-3deg);
+    }
+    50% {
+        transform:rotate(3deg);
+    }
+    100%{
+        transform:rotate(-3deg);
+    }
+}
+@keyframes lanternB{
+    0%{
+        transform:rotate(3deg);
+    }
+    50% {
+        transform:rotate(-3deg);
+    }
+    100%{
+        transform:rotate(3deg);
+    }
+}
+
+
+.Round {
+    background: url(../images/bg_round.png) no-repeat center;
+    background-size: cover !important;
+    transition: .5s;
+    width: 55.912%;
+    padding-top: 55.912%;
+    z-index: 0;
+    animation-name:bground;
+    animation-timing-function:linear;
+    animation-iteration-count:infinite;
+    animation-duration:80s;
+}
+@keyframes bground{
+    0%{
+        transform:rotate(0deg);
+    }
+    100%{
+        transform:rotate(360deg);
+    }
+}
+
+/*前方雲*/
+.FCloud {
+    width: 100%;
+    bottom: 4%;
+    z-index: 5;
+}
+
+.FCloud div {
+    bottom: 0;
+    animation-timing-function:linear;
+    animation-iteration-count:infinite;
+    animation-duration:10s;
+}
+
+.FCloud div:first-child {
+    animation-name:fcloudL;
+}
+
+.FCloud div:last-child {
+    animation-name:fcloudR;
+    
+}
+@keyframes fcloudL{
+    0%{
+        left: 23%;
+        margin-bottom: 0;
+        width: 25.365%;
+    }
+    25%{
+        left: 21%;
+        margin-bottom: 2%;
+        width: 24%;
+    }
+    50%{
+        left: 20%;
+        margin-bottom: 0;
+        width: 24.8%;
+    }
+    75%{
+        left: 21.5%;
+        margin-bottom: -1.5%;
+        width: 24%;
+    }
+    100%{
+        left: 23%;
+        margin-bottom: 0;
+        width: 25.365%;
+    }
+}
+@keyframes fcloudR{
+    0%{
+        right: 23%;
+        margin-bottom: 0;
+        width: 25.365%;
+    }
+    25%{
+        right: 21%;
+        margin-bottom: 2%;
+        width: 24%;
+    }
+    50%{
+        right: 20%;
+        margin-bottom: 0;
+        width: 24.8%;
+    }
+    75%{
+        right: 21.5%;
+        margin-bottom: -1.5%;
+        width: 24%;
+    }
+    100%{
+        right: 23%;
+        margin-bottom: 0;
+        width: 25.365%;
+    }
+}
+
+/*葉子*/
+.leaf {
+    top: 0;
+    z-index: 3;
+    width: 100%;
+}
+
+.leaf div {
+    width: 9.792%;
+}
+
+.leaf div:first-child {
+    left: 5%;
+}
+
+.leaf div:last-child {
+    right: 5%;
+}
+
+
+
+/*----------PUP彈跳視窗----------*/
+#DataResult {
+    display: none;
+    position: fixed;
+    left: 0;
+    top: 0;
+    z-index: 99;
+    width: 100vw;
+    height: 96vh;
+    background: rgba(0, 0, 0, .8);
+    text-align: center;
+    font-size: 0;
+    overflow: auto;
+    padding: 2vh 0;
+}
+
+.PubBox {
+    display: inline-block;
+    vertical-align: middle;
+    width: calc(35vw - 100px);
+    background: url(../images/PupCloud_L.png) no-repeat ,url(../images/PupCloud_R.png) no-repeat, #fff;
+    background-size: 46%, 61%;
+    background-position: -17% -2%, 119% 73%;
+    padding: 30px 50px;
+    border-radius: 20px;
+}
+
+#DataResult::before {
+    content: "";
+    width: 0;
+    height: 100%;
+    display: inline-block;
+    vertical-align: middle;
+}
+
+.PupTitle {
+    font-size: 3vw;
+    letter-spacing: 1vw;
+    padding-left: 1vw;
+    margin-bottom: 1vw;
+    color: #dc214f;
+}
+
+.DataUser > div, .PupContent li > div {
+    text-align: left;
+    padding-bottom: 0.5vw;
+}
+
+.DataUser > div > div, .PupContent li > div > div {
+    display: inline-block;
+    font-size: 1.2vw;
+}
+
+.DataUser > div > div:first-child::after, .PupContent li > div > div:first-child::after {
+    content: "：";
+}
+
+.DataUser > div > div:first-child, .PupContent li > div > div:first-child {
+    font-weight: bold;
+    color: #dc214f;
+}
+
+.DataUser {
+    border-bottom: 1px solid #dc214f;
+}
+
+.ClosePup {
+    /* padding-top: 1vw; */
+}
+
+.ClosePup a {
+    position: relative;
+    display: block;
+    margin: 0 auto;
+    width: 3vw;
+    padding-top: 3vw;
+    border-radius: 100%;
+    background: #dc214f;
+    border: 1px solid #dc214f;
+}
+
+.ClosePup a:hover {
+    background: #fff;
+}
+
+.ClosePup a span {
+    position: absolute;
+    width: 80%;
+    height: 1px;
+    background: #fff;
+    top: calc(50% - 0.5px);
+    left: 10%;
+    transition: .5s;
+}
+
+.ClosePup a span:first-child {
+    transform: rotate(45deg);
+}
+
+.ClosePup a span:last-child {
+    transform: rotate(-45deg);
+}
+
+.ClosePup a:hover span {
+    background: #dc214f;
+}
+
+.PupContent {
+    padding: 1vw 0;
+}
+
+.NoData {
+    display: none;
+    font-size: 2vw;
+    font-weight: bold;
+    color: #dc214f;
+}
+
+
+
+/*---------------------------自適應內容----------------------------*/
+/*--高--*/
+@media only screen and (max-height: 820px) {
+
+}
+@media only screen and (max-height: 600px) {
+
+}
+
+
+
+/*--寬--*/
+@media only screen and (max-width: 1180px) {
+.temple {padding-top: 55%;}
+
+.temple > div:first-child {
+    left: 17%;
+}
+
+.temple > div:last-child {
+    right: 17%;
+}
+
+.title {
+    bottom: 56vw;
+}
+
+.Subtitle {
+    bottom: 53vw;
+    font-size: 2vw;
+}
+
+#FormBox {
+    width: 40%;
+    left: 30%;
+}
+
+.title h1 {
+    font-size: 3vw;
+    line-height: 4.7vw;
+}
+
+.Form {
+    bottom: 20vw;
+}
+
+.infoTxt {
+    font-size: 1.6vw;
+}
+
+.inputTxt input {
+    font-size: 1.5vw;
+    line-height: 3vw;
+}
+
+.inputBtn input {
+    font-size: 1.5vw;
+    height: 3vw;
+}
+    
+    
+    
+.PubBox {
+    width: calc(50vw - 60px);
+    padding: 15px 30px;
+    background-size: 34%, 56%;
+    background-position: -2% -2%, 119% 80%;
+}
+
+.PupTitle {
+    font-size: 4vw;
+    margin-bottom: 0;
+}
+    
+.DataUser > div > div, .PupContent li > div > div {
+    display: inline-block;
+    font-size: 1.8vw;
+}    
+    
+.NoData {
+    font-size: 3vw;
+}
+}
+
+
+@media only screen and (max-width: 720px) {
+.Round {
+    width: 120%;
+    padding-top: 120%;
+}
+
+#FormBox {
+    position: relative;
+    height: auto;
+    padding-top: 19vh;
+    min-height: auto;
+    width: 70%;
+    margin: 0 auto;
+    left: auto;
+}
+
+.title h1 {
+    font-size: 5vw;
+    line-height: 8.3vw;
+}
+
+.title {
+    position: relative;
+    bottom: auto;
+    margin-bottom: 3vw;
+}
+
+.Subtitle {
+    position: relative;
+    bottom: auto;
+    font-size: 4vw;
+    margin-bottom: 10vh;
+}
+
+.Form {
+    position: relative;
+    bottom: auto;
+    width: 80%;
+    left: 10%;
+}
+
+.infoTxt {
+    font-size: 4vw;
+    margin-bottom: 1vh;
+}
+
+.inputTxt {
+    margin-bottom: 1vh;
+}
+    
+.inputTxt input {
+    font-size: 3vw;
+    line-height: 6vw;
+}
+
+.inputBtn {
+    margin-top: 3vh;
+}
+    
+.inputBtn input {
+    font-size: 3vw;
+    height: 6vw;
+}
+
+.temple {
+    padding-top: 42.084%;
+}
+
+.temple > div:first-child {
+    left: 23%;
+}
+
+.temple > div:last-child {
+    right: 23%;
+}
+    
+    
+.PubBox {
+    width: calc(90% - 40px);
+    padding: 20px;
+}
+
+.PupTitle {
+    font-size: 6vw;
+}
+
+.DataUser > div > div, .PupContent li > div > div {
+    font-size: 3vw;
+}
+
+.ClosePup a {
+    width: 7vw;
+    padding-top: 7vw;
+}
+
+.NoData {
+    font-size: 5vw;
+}       
+    
+}
+
+@media only screen and (max-width: 420px) {
+#FormBox {
+    width: 90%;
+}
+
+.title h1 {
+    line-height: 10.7vw;
+    font-size: 6vw;
+}
+
+.Subtitle {
+    font-size: 6vw;
+    margin-bottom: 5vh;
+}
+
+.infoTxt {
+    font-size: 5vw;
+}
+
+.inputTxt input {
+    font-size: 5vw;
+    line-height: 10vw;
+}
+
+.inputBtn input {
+    font-size: 5vw;
+    height: 10vw;
+}
+
+
+
+.PupTitle {
+    font-size: 8vw;
+}
+
+.DataUser > div > div, .PupContent li > div > div {
+    font-size: 4.5vw;
+}
+
+.ClosePup a {
+    width: 10vw;
+    padding-top: 10vw;
+}
+
+.NoData {
+    font-size: 7vw;
+}   
+}

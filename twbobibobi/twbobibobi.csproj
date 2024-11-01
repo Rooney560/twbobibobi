@@ -1,0 +1,1977 @@
+﻿<Project ToolsVersion="15.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.1\build\net46\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props" Condition="Exists('..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.1\build\net46\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props')" />
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>
+    </ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{E1A21A5F-FC03-4C12-8AC0-B6442721AF91}</ProjectGuid>
+    <ProjectTypeGuids>{349c5851-65df-11da-9384-00065b846f21};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>twbobibobi</RootNamespace>
+    <AssemblyName>twbobibobi</AssemblyName>
+    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
+    <UseIISExpress>true</UseIISExpress>
+    <Use64BitIISExpress />
+    <IISExpressSSLPort />
+    <IISExpressAnonymousAuthentication />
+    <IISExpressWindowsAuthentication />
+    <IISExpressUseClassicPipelineMode />
+    <UseGlobalApplicationHostFile />
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="AL.Common">
+      <HintPath>..\..\TempleAdmin\bin\AL.Common.dll</HintPath>
+    </Reference>
+    <Reference Include="BCFBaseLibrary, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Temple\Temple\bin\BCFBaseLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="BouncyCastle.Crypto">
+      <HintPath>..\..\Temple\Temple\bin\BouncyCastle.Crypto.dll</HintPath>
+    </Reference>
+    <Reference Include="LitJSON">
+      <HintPath>..\..\TempleAdmin\bin\LitJSON.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="Newtonsoft.Json, Version=13.0.1.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Temple\Temple\bin\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Runtime.Caching" />
+    <Reference Include="System.Web.DynamicData" />
+    <Reference Include="System.Web.Entity" />
+    <Reference Include="System.Web.ApplicationServices" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Web.Extensions" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Web.Services" />
+    <Reference Include="System.EnterpriseServices" />
+    <Reference Include="zxing">
+      <HintPath>..\..\..\WorkTime\WorkTime\WorkTime\bin\zxing.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="Microsoft.CodeDom.Providers.DotNetCompilerPlatform">
+      <HintPath>..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.1\lib\net45\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Controls\AjaxClientControl.ascx" />
+    <Content Include="Controls\PopupMessageDialogControl.ascx" />
+    <Content Include="css\images\ajax-loader.gif" />
+    <Content Include="css\images\animated-overlay.gif" />
+    <Content Include="css\images\bg.png" />
+    <Content Include="css\images\bgCloud_L.png" />
+    <Content Include="css\images\bgCloud_R.png" />
+    <Content Include="css\images\bg_flower.png" />
+    <Content Include="css\images\bg_round.png" />
+    <Content Include="css\images\book_tag.png" />
+    <Content Include="css\images\cart2_icon.png" />
+    <Content Include="css\images\cart_icon.png" />
+    <Content Include="css\images\cloud_F_L.png" />
+    <Content Include="css\images\cloud_F_R.png" />
+    <Content Include="css\images\curtain_L.png" />
+    <Content Include="css\images\curtain_R.png" />
+    <Content Include="css\images\fan_L.png" />
+    <Content Include="css\images\fan_R.png" />
+    <Content Include="css\images\favicon.png" />
+    <Content Include="css\images\fb.png" />
+    <Content Include="css\images\fb_icon.png" />
+    <Content Include="css\images\footer_slogan.png" />
+    <Content Include="css\images\global_bg_5.png" />
+    <Content Include="css\images\lantern_F_L.png" />
+    <Content Include="css\images\lantern_F_Light.png" />
+    <Content Include="css\images\lantern_F_R.png" />
+    <Content Include="css\images\lantern_L.png" />
+    <Content Include="css\images\lantern_R.png" />
+    <Content Include="css\images\leaf_L.png" />
+    <Content Include="css\images\leaf_R.png" />
+    <Content Include="css\images\location_icon.png" />
+    <Content Include="css\images\logo_d.png" />
+    <Content Include="css\images\mail_icon.png" />
+    <Content Include="css\images\main_menu_bg.png" />
+    <Content Include="css\images\menu_d_10_20210507.png" />
+    <Content Include="css\images\menu_d_1_20210507.png" />
+    <Content Include="css\images\menu_d_2_20210507.png" />
+    <Content Include="css\images\menu_d_3_20210507.png" />
+    <Content Include="css\images\menu_d_3_hover_20210507.png" />
+    <Content Include="css\images\menu_d_4_20210507.png" />
+    <Content Include="css\images\menu_d_5_20210507.png" />
+    <Content Include="css\images\menu_d_5_hover_20210507.png" />
+    <Content Include="css\images\menu_d_6_20210507.png" />
+    <Content Include="css\images\menu_d_7_20210507.png" />
+    <Content Include="css\images\menu_d_8_20210507.png" />
+    <Content Include="css\images\page_top.png" />
+    <Content Include="css\images\phone_icon.png" />
+    <Content Include="css\images\PupCloud_L.png" />
+    <Content Include="css\images\PupCloud_R.png" />
+    <Content Include="css\images\record_list_icon_1.png" />
+    <Content Include="css\images\search_icon.png" />
+    <Content Include="css\images\select_arrow.png" />
+    <Content Include="css\images\service_item_mask.png" />
+    <Content Include="css\images\temple.png" />
+    <Content Include="css\images\titleBg.png" />
+    <Content Include="css\images\ui-bg_diagonals-thick_90_eeeeee_40x40 - Copy.png" />
+    <Content Include="css\images\ui-bg_diagonals-thick_90_eeeeee_40x40.png" />
+    <Content Include="css\images\ui-bg_flat_15_cd0a0a_40x100.png" />
+    <Content Include="css\images\ui-bg_glass_100_e4f1fb_1x400.png" />
+    <Content Include="css\images\ui-bg_glass_50_3baae3_1x400.png" />
+    <Content Include="css\images\ui-bg_glass_80_d7ebf9_1x400.png" />
+    <Content Include="css\images\ui-bg_highlight-hard_100_f2f5f7_1x100.png" />
+    <Content Include="css\images\ui-bg_highlight-hard_70_000000_1x100.png" />
+    <Content Include="css\images\ui-bg_highlight-soft_100_deedf7_1x100.png" />
+    <Content Include="css\images\ui-bg_highlight-soft_25_ffef8f_1x100.png" />
+    <Content Include="css\images\ui-icons_2694e8_256x240.png" />
+    <Content Include="css\images\ui-icons_2e83ff_256x240.png" />
+    <Content Include="css\images\ui-icons_3d80b3_256x240.png" />
+    <Content Include="css\images\ui-icons_72a7cf_256x240.png" />
+    <Content Include="css\images\ui-icons_ffffff_256x240.png" />
+    <Content Include="css\images\weibo_icon.png" />
+    <Content Include="css\search\fonts\slick.svg" />
+    <Content Include="css\search\fonts\_notes\dwsync.xml" />
+    <Content Include="css\search\reset.css" />
+    <Content Include="css\search\slick-theme.css" />
+    <Content Include="css\search\slick.css" />
+    <Content Include="css\search\style.css" />
+    <Content Include="FET\API\AESOrder.aspx" />
+    <Content Include="FET\API\CancelOrder.aspx" />
+    <Content Include="FET\API\CreateOrder.aspx" />
+    <Content Include="FET\API\QueryOrder.aspx" />
+    <Content Include="FET\Lights\css\chunk-23f845af-7540c1d883da3183df9d.css" />
+    <Content Include="FET\Lights\css\chunk-vendors-95b4e198519adae54646.css" />
+    <Content Include="FET\Lights\css\index-89a9d5513bc830f1dacf.css" />
+    <Content Include="FET\Lights\css\jquery-ui.css" />
+    <Content Include="FET\Lights\css\jquery-ui.theme.css" />
+    <Content Include="FET\Lights\css\main.css" />
+    <Content Include="FET\Lights\favicon.ico" />
+    <Content Include="FET\Lights\images\10001.png" />
+    <Content Include="FET\Lights\images\ajax-loader.gif" />
+    <Content Include="FET\Lights\images\arrow_l.png" />
+    <Content Include="FET\Lights\images\arrow_r.png" />
+    <Content Include="FET\Lights\images\background-pattern-transparent.png" />
+    <Content Include="FET\Lights\images\banner.jpg" />
+    <Content Include="FET\Lights\images\banner2.jpg" />
+    <Content Include="FET\Lights\images\banner_m.jpg" />
+    <Content Include="FET\Lights\images\banner_m2.jpg" />
+    <Content Include="FET\Lights\images\btn-del.jpg" />
+    <Content Include="FET\Lights\images\completed%402x.png" />
+    <Content Include="FET\Lights\images\downdrop.png" />
+    <Content Include="FET\Lights\images\fet.png" />
+    <Content Include="FET\Lights\images\fetnet-footer-logo.png" />
+    <Content Include="FET\Lights\images\fetnet-logo.png" />
+    <Content Include="FET\Lights\images\go-top.png" />
+    <Content Include="FET\Lights\images\hook-w.png" />
+    <Content Include="FET\Lights\images\hook.png" />
+    <Content Include="FET\Lights\images\img-credit-card-jcb%402x.png" />
+    <Content Include="FET\Lights\images\img-credit-card-mastercard%402x.png" />
+    <Content Include="FET\Lights\images\img-credit-card-versignsecured%402x.png" />
+    <Content Include="FET\Lights\images\img-credit-card-visa%402x.png" />
+    <Content Include="FET\Lights\images\pic1-2.jpg" />
+    <Content Include="FET\Lights\images\pic1-3.jpg" />
+    <Content Include="FET\Lights\images\pic1-4.jpg" />
+    <Content Include="FET\Lights\images\pic1-5.jpg" />
+    <Content Include="FET\Lights\images\pic1.jpg" />
+    <Content Include="FET\Lights\images\pic2-2.jpg" />
+    <Content Include="FET\Lights\images\pic2-3.jpg" />
+    <Content Include="FET\Lights\images\pic2-4.jpg" />
+    <Content Include="FET\Lights\images\pic2-5.jpg" />
+    <Content Include="FET\Lights\images\pic2.jpg" />
+    <Content Include="FET\Lights\images\pic3-2.jpg" />
+    <Content Include="FET\Lights\images\pic3-3.jpg" />
+    <Content Include="FET\Lights\images\pic3-4.jpg" />
+    <Content Include="FET\Lights\images\pic3-5.jpg" />
+    <Content Include="FET\Lights\images\pic3.jpg" />
+    <Content Include="FET\Lights\images\pic4-2.jpg" />
+    <Content Include="FET\Lights\images\pic4-3.jpg" />
+    <Content Include="FET\Lights\images\pic4-4.jpg" />
+    <Content Include="FET\Lights\images\pic4-5.jpg" />
+    <Content Include="FET\Lights\images\pic4.jpg" />
+    <Content Include="FET\Lights\js\chunk-23f845af-7540c1d883da3183df9d.js" />
+    <Content Include="FET\Lights\js\chunk-vendors-95b4e198519adae54646.js" />
+    <Content Include="FET\Lights\js\index-1a9658a032948fcda1d2.js" />
+    <Content Include="FET\Lights\js\jquery-3.2.1.min.js" />
+    <Content Include="FET\Lights\js\jquery-ui.js" />
+    <Content Include="FET\Lights\js\jquery.twzipcode.min.js" />
+    <Content Include="FET\Lights\js\main.js" />
+    <Content Include="FET\Lights\LightsCheck.aspx" />
+    <Content Include="FET\Lights\LightsComplete.aspx" />
+    <Content Include="FET\Lights\LightsIndex_Luer.aspx" />
+    <Content Include="FET\Lights\TWPaymentCallback_Lights_Luer.aspx" />
+    <Content Include="FET\Supplies\css\chunk-23f845af-7540c1d883da3183df9d.css" />
+    <Content Include="FET\Supplies\css\chunk-vendors-95b4e198519adae54646.css" />
+    <Content Include="FET\Supplies\css\index-89a9d5513bc830f1dacf.css" />
+    <Content Include="FET\Supplies\css\jquery-ui.css" />
+    <Content Include="FET\Supplies\css\jquery-ui.theme.css" />
+    <Content Include="FET\Supplies\css\main.css" />
+    <Content Include="FET\Supplies\css\style.css" />
+    <Content Include="FET\Supplies\favicon.ico" />
+    <Content Include="FET\Supplies\images\10001.png" />
+    <Content Include="FET\Supplies\images\ajax-loader.gif" />
+    <Content Include="FET\Supplies\images\arrow_l.png" />
+    <Content Include="FET\Supplies\images\arrow_r.png" />
+    <Content Include="FET\Supplies\images\background-pattern-transparent.png" />
+    <Content Include="FET\Supplies\images\banner.jpg" />
+    <Content Include="FET\Supplies\images\banner2.jpg" />
+    <Content Include="FET\Supplies\images\banner_m.jpg" />
+    <Content Include="FET\Supplies\images\banner_m2.jpg" />
+    <Content Include="FET\Supplies\images\btn-del.jpg" />
+    <Content Include="FET\Supplies\images\completed%402x.png" />
+    <Content Include="FET\Supplies\images\downdrop.png" />
+    <Content Include="FET\Supplies\images\fet.png" />
+    <Content Include="FET\Supplies\images\fetnet-footer-logo.png" />
+    <Content Include="FET\Supplies\images\fetnet-logo.png" />
+    <Content Include="FET\Supplies\images\go-top.png" />
+    <Content Include="FET\Supplies\images\hook-w.png" />
+    <Content Include="FET\Supplies\images\hook.png" />
+    <Content Include="FET\Supplies\images\img-credit-card-jcb%402x.png" />
+    <Content Include="FET\Supplies\images\img-credit-card-mastercard%402x.png" />
+    <Content Include="FET\Supplies\images\img-credit-card-versignsecured%402x.png" />
+    <Content Include="FET\Supplies\images\img-credit-card-visa%402x.png" />
+    <Content Include="FET\Supplies\images\pic1-2.jpg" />
+    <Content Include="FET\Supplies\images\pic1-3.jpg" />
+    <Content Include="FET\Supplies\images\pic1-4.jpg" />
+    <Content Include="FET\Supplies\images\pic1-5.jpg" />
+    <Content Include="FET\Supplies\images\pic1.jpg" />
+    <Content Include="FET\Supplies\images\pic2-2.jpg" />
+    <Content Include="FET\Supplies\images\pic2-3.jpg" />
+    <Content Include="FET\Supplies\images\pic2-4.jpg" />
+    <Content Include="FET\Supplies\images\pic2-5.jpg" />
+    <Content Include="FET\Supplies\images\pic2.jpg" />
+    <Content Include="FET\Supplies\images\pic3-2.jpg" />
+    <Content Include="FET\Supplies\images\pic3-3.jpg" />
+    <Content Include="FET\Supplies\images\pic3-4.jpg" />
+    <Content Include="FET\Supplies\images\pic3-5.jpg" />
+    <Content Include="FET\Supplies\images\pic3.jpg" />
+    <Content Include="FET\Supplies\images\pic4-2.jpg" />
+    <Content Include="FET\Supplies\images\pic4-3.jpg" />
+    <Content Include="FET\Supplies\images\pic4-4.jpg" />
+    <Content Include="FET\Supplies\images\pic4-5.jpg" />
+    <Content Include="FET\Supplies\images\pic4.jpg" />
+    <Content Include="FET\Supplies\js\bootstrap.min.js" />
+    <Content Include="FET\Supplies\js\chunk-23f845af-7540c1d883da3183df9d.js" />
+    <Content Include="FET\Supplies\js\chunk-vendors-95b4e198519adae54646.js" />
+    <Content Include="FET\Supplies\js\index-1a9658a032948fcda1d2.js" />
+    <Content Include="FET\Supplies\js\jquery-3.2.1.min.js" />
+    <Content Include="FET\Supplies\js\jquery-ui.js" />
+    <Content Include="FET\Supplies\js\jquery.twzipcode.min.js" />
+    <Content Include="FET\Supplies\js\main.js" />
+    <Content Include="FET\Supplies\SuppliesCheck.aspx" />
+    <Content Include="FET\Supplies\SuppliesComplete.aspx" />
+    <Content Include="FET\Supplies\SuppliesIndex.aspx" />
+    <Content Include="FET\Supplies\SuppliesIndex_test.aspx" />
+    <Content Include="FET\Supplies\TWPaymentCallback_Supplies_wu3.aspx" />
+    <Content Include="images\bg_flower.png" />
+    <Content Include="images\bg_round.png" />
+    <Content Include="images\curtain_L.png" />
+    <Content Include="images\curtain_R.png" />
+    <Content Include="images\fan_L.png" />
+    <Content Include="images\fan_R.png" />
+    <Content Include="images\favicon.png" />
+    <Content Include="images\fb.png" />
+    <Content Include="images\lantern_F_L.png" />
+    <Content Include="images\lantern_F_Light.png" />
+    <Content Include="images\lantern_F_R.png" />
+    <Content Include="images\lantern_L.png" />
+    <Content Include="images\lantern_R.png" />
+    <Content Include="images\leaf_L.png" />
+    <Content Include="images\leaf_R.png" />
+    <Content Include="images\temple.png" />
+    <Content Include="images\titleBg.png" />
+    <Content Include="index.aspx" />
+    <Content Include="Product\css\fancybox.css" />
+    <Content Include="Product\css\fonts\slick.svg" />
+    <Content Include="Product\css\images\ajax-loader.gif" />
+    <Content Include="Product\css\images\animated-overlay.gif" />
+    <Content Include="Product\css\images\bg.png" />
+    <Content Include="Product\css\images\bgCloud_L.png" />
+    <Content Include="Product\css\images\bgCloud_R.png" />
+    <Content Include="Product\css\images\bg_flower.png" />
+    <Content Include="Product\css\images\bg_round.png" />
+    <Content Include="Product\css\images\book_tag.png" />
+    <Content Include="Product\css\images\cart2_icon.png" />
+    <Content Include="Product\css\images\cart_icon.png" />
+    <Content Include="Product\css\images\cloud_F_L.png" />
+    <Content Include="Product\css\images\cloud_F_R.png" />
+    <Content Include="Product\css\images\curtain_L.png" />
+    <Content Include="Product\css\images\curtain_R.png" />
+    <Content Include="Product\css\images\fan_L.png" />
+    <Content Include="Product\css\images\fan_R.png" />
+    <Content Include="Product\css\images\favicon.png" />
+    <Content Include="Product\css\images\fb.png" />
+    <Content Include="Product\css\images\fb_icon.png" />
+    <Content Include="Product\css\images\footer_slogan.png" />
+    <Content Include="Product\css\images\global_bg_5.png" />
+    <Content Include="Product\css\images\lantern_F_L.png" />
+    <Content Include="Product\css\images\lantern_F_Light.png" />
+    <Content Include="Product\css\images\lantern_F_R.png" />
+    <Content Include="Product\css\images\lantern_L.png" />
+    <Content Include="Product\css\images\lantern_R.png" />
+    <Content Include="Product\css\images\leaf_L.png" />
+    <Content Include="Product\css\images\leaf_R.png" />
+    <Content Include="Product\css\images\location_icon.png" />
+    <Content Include="Product\css\images\logo_d.png" />
+    <Content Include="Product\css\images\mail_icon.png" />
+    <Content Include="Product\css\images\main_menu_bg.png" />
+    <Content Include="Product\css\images\menu_d_10_20210507.png" />
+    <Content Include="Product\css\images\menu_d_1_20210507.png" />
+    <Content Include="Product\css\images\menu_d_2_20210507.png" />
+    <Content Include="Product\css\images\menu_d_3_20210507.png" />
+    <Content Include="Product\css\images\menu_d_3_hover_20210507.png" />
+    <Content Include="Product\css\images\menu_d_4_20210507.png" />
+    <Content Include="Product\css\images\menu_d_5_20210507.png" />
+    <Content Include="Product\css\images\menu_d_5_hover_20210507.png" />
+    <Content Include="Product\css\images\menu_d_6_20210507.png" />
+    <Content Include="Product\css\images\menu_d_7_20210507.png" />
+    <Content Include="Product\css\images\menu_d_8_20210507.png" />
+    <Content Include="Product\css\images\page_top.png" />
+    <Content Include="Product\css\images\phone_icon.png" />
+    <Content Include="Product\css\images\PupCloud_L.png" />
+    <Content Include="Product\css\images\PupCloud_R.png" />
+    <Content Include="Product\css\images\record_list_icon_1.png" />
+    <Content Include="Product\css\images\search_icon.png" />
+    <Content Include="Product\css\images\select_arrow.png" />
+    <Content Include="Product\css\images\service_item_mask.png" />
+    <Content Include="Product\css\images\temple.png" />
+    <Content Include="Product\css\images\titleBg.png" />
+    <Content Include="Product\css\images\ui-bg_diagonals-thick_90_eeeeee_40x40 - Copy.png" />
+    <Content Include="Product\css\images\ui-bg_diagonals-thick_90_eeeeee_40x40.png" />
+    <Content Include="Product\css\images\ui-bg_flat_15_cd0a0a_40x100.png" />
+    <Content Include="Product\css\images\ui-bg_glass_100_e4f1fb_1x400.png" />
+    <Content Include="Product\css\images\ui-bg_glass_50_3baae3_1x400.png" />
+    <Content Include="Product\css\images\ui-bg_glass_80_d7ebf9_1x400.png" />
+    <Content Include="Product\css\images\ui-bg_highlight-hard_100_f2f5f7_1x100.png" />
+    <Content Include="Product\css\images\ui-bg_highlight-hard_70_000000_1x100.png" />
+    <Content Include="Product\css\images\ui-bg_highlight-soft_100_deedf7_1x100.png" />
+    <Content Include="Product\css\images\ui-bg_highlight-soft_25_ffef8f_1x100.png" />
+    <Content Include="Product\css\images\ui-icons_2694e8_256x240.png" />
+    <Content Include="Product\css\images\ui-icons_2e83ff_256x240.png" />
+    <Content Include="Product\css\images\ui-icons_3d80b3_256x240.png" />
+    <Content Include="Product\css\images\ui-icons_72a7cf_256x240.png" />
+    <Content Include="Product\css\images\ui-icons_ffffff_256x240.png" />
+    <Content Include="Product\css\images\weibo_icon.png" />
+    <Content Include="Product\css\jquery-ui.min.css" />
+    <Content Include="Product\css\reset.css" />
+    <Content Include="Product\css\slick-theme.css" />
+    <Content Include="Product\css\slick.css" />
+    <Content Include="Product\css\style.css" />
+    <Content Include="Product\images\ajax-loader.gif" />
+    <Content Include="Product\images\banner.jpg" />
+    <Content Include="Product\images\banner_dec_L.png" />
+    <Content Include="Product\images\banner_dec_R.png" />
+    <Content Include="Product\images\cloud_deco_1.png" />
+    <Content Include="Product\images\cloud_deco_2.png" />
+    <Content Include="Product\images\cloud_deco_3.png" />
+    <Content Include="Product\images\content_deco_L.png" />
+    <Content Include="Product\images\content_deco_R.png" />
+    <Content Include="Product\images\deco_1.png" />
+    <Content Include="Product\images\deco_2.png" />
+    <Content Include="Product\images\deco_3.png" />
+    <Content Include="Product\images\deco_4.png" />
+    <Content Include="Product\images\deco_5.png" />
+    <Content Include="Product\images\deco_6.png" />
+    <Content Include="Product\images\FarEasTone_3rd_Logo.svg" />
+    <Content Include="Product\images\favicon.png" />
+    <Content Include="Product\images\fb.png" />
+    <Content Include="Product\images\footerLogo.png" />
+    <Content Include="Product\images\foot_logo_03.png" />
+    <Content Include="Product\images\foot_logo_04.png" />
+    <Content Include="Product\images\Google_Pay.png" />
+    <Content Include="Product\images\icon_LIVE.png" />
+    <Content Include="Product\images\icon_member.png" />
+    <Content Include="Product\images\joss-sticks-temple-asian-praying.png" />
+    <Content Include="Product\images\logo_13670.jpg" />
+    <Content Include="Product\images\products\products_A_1.jpg" />
+    <Content Include="Product\images\products\products_A_2.jpg" />
+    <Content Include="Product\images\products\products_A_3.jpg" />
+    <Content Include="Product\images\products\products_A_4.jpg" />
+    <Content Include="Product\images\products\products_A_5.jpg" />
+    <Content Include="Product\images\products\products_A_6.jpg" />
+    <Content Include="Product\images\products\products_A_7.jpg" />
+    <Content Include="Product\images\products\products_A_video.jpg" />
+    <Content Include="Product\images\products\products_B_1.jpg" />
+    <Content Include="Product\images\products\products_B_2.jpg" />
+    <Content Include="Product\images\products\products_B_3.jpg" />
+    <Content Include="Product\images\products\products_B_4.jpg" />
+    <Content Include="Product\images\products\products_B_5.jpg" />
+    <Content Include="Product\images\products\products_B_video.jpg" />
+    <Content Include="Product\images\products\products_C_1.jpg" />
+    <Content Include="Product\images\sample\img01.png" />
+    <Content Include="Product\images\sample\img02.png" />
+    <Content Include="Product\images\sample\img03.png" />
+    <Content Include="Product\images\TitleBg.png" />
+    <Content Include="Product\images\videoPlay.png" />
+    <Content Include="Product\images\webTitle.png" />
+    <Content Include="Product\images\webTitle2.png" />
+    <Content Include="Product\js\fancybox.umd.js" />
+    <Content Include="Product\js\jquery-2.1.4.min.js" />
+    <Content Include="Product\js\jquery-3.2.1.min.js" />
+    <Content Include="Product\js\jquery.ui.min.js" />
+    <Content Include="Product\js\slick.min.js" />
+    <Content Include="Product\MoneymotherComplete.aspx" />
+    <Content Include="Product\MoneymotherIndex.aspx" />
+    <Content Include="scripts\js\jquery-3.2.1.min.js" />
+    <Content Include="scripts\js\slick.min.js" />
+    <Content Include="scripts\js\_notes\dwsync.xml" />
+    <Content Include="SearchLog.aspx" />
+    <Content Include="Temples\bootstrap\css\bootstrap-grid.css" />
+    <Content Include="Temples\bootstrap\css\bootstrap-grid.min.css" />
+    <Content Include="Temples\bootstrap\css\bootstrap-grid.rtl.css" />
+    <Content Include="Temples\bootstrap\css\bootstrap-grid.rtl.min.css" />
+    <Content Include="Temples\bootstrap\css\bootstrap-reboot.css" />
+    <Content Include="Temples\bootstrap\css\bootstrap-reboot.min.css" />
+    <Content Include="Temples\bootstrap\css\bootstrap-reboot.rtl.css" />
+    <Content Include="Temples\bootstrap\css\bootstrap-reboot.rtl.min.css" />
+    <Content Include="Temples\bootstrap\css\bootstrap-utilities.css" />
+    <Content Include="Temples\bootstrap\css\bootstrap-utilities.min.css" />
+    <Content Include="Temples\bootstrap\css\bootstrap-utilities.rtl.css" />
+    <Content Include="Temples\bootstrap\css\bootstrap-utilities.rtl.min.css" />
+    <Content Include="Temples\bootstrap\css\bootstrap.css" />
+    <Content Include="Temples\bootstrap\css\bootstrap.min.css" />
+    <Content Include="Temples\bootstrap\css\bootstrap.rtl.css" />
+    <Content Include="Temples\bootstrap\css\bootstrap.rtl.min.css" />
+    <Content Include="Temples\bootstrap\js\bootstrap.bundle.js" />
+    <Content Include="Temples\bootstrap\js\bootstrap.bundle.min.js" />
+    <Content Include="Temples\bootstrap\js\bootstrap.esm.js" />
+    <Content Include="Temples\bootstrap\js\bootstrap.esm.min.js" />
+    <Content Include="Temples\bootstrap\js\bootstrap.js" />
+    <Content Include="Temples\bootstrap\js\bootstrap.min.js" />
+    <Content Include="Temples\css\Activity.css" />
+    <Content Include="Temples\css\fancybox.css" />
+    <Content Include="Temples\css\fonts\slick.svg" />
+    <Content Include="Temples\css\fonts\_notes\dwsync.xml" />
+    <Content Include="Temples\css\inside_sty.css" />
+    <Content Include="Temples\css\jquery-ui.css" />
+    <Content Include="Temples\css\jquery-ui.theme.css" />
+    <Content Include="Temples\css\reset.css" />
+    <Content Include="Temples\css\slick-theme.css" />
+    <Content Include="Temples\css\slick.css" />
+    <Content Include="Temples\css\style.css" />
+    <Content Include="Temples\css\take_draw.css" />
+    <Content Include="Temples\css\_notes\dwsync.xml" />
+    <Content Include="Temples\footer.ascx" />
+    <Content Include="Temples\header.ascx" />
+    <Content Include="Temples\images\970328.png" />
+    <Content Include="Temples\images\ajax-loader.gif" />
+    <Content Include="Temples\images\a_act_draw.gif" />
+    <Content Include="Temples\images\bdr_for_draw.png" />
+    <Content Include="Temples\images\body_img.jpg" />
+    <Content Include="Temples\images\btn_click.png" />
+    <Content Include="Temples\images\btn_linebot.png" />
+    <Content Include="Temples\images\community_icon_01.png" />
+    <Content Include="Temples\images\community_icon_02.png" />
+    <Content Include="Temples\images\community_icon_03.png" />
+    <Content Include="Temples\images\community_icon_04.png" />
+    <Content Include="Temples\images\deletData.svg" />
+    <Content Include="Temples\images\even.png" />
+    <Content Include="Temples\images\favicon.ico" />
+    <Content Include="Temples\images\favicon.png" />
+    <Content Include="Temples\images\favicon2.png" />
+    <Content Include="Temples\images\favicon3.png" />
+    <Content Include="Temples\images\favicon4.png" />
+    <Content Include="Temples\images\favicon5.png" />
+    <Content Include="Temples\images\footBg.jpg" />
+    <Content Include="Temples\images\foot_icon_01.png" />
+    <Content Include="Temples\images\foot_icon_02.png" />
+    <Content Include="Temples\images\foot_icon_03.png" />
+    <Content Include="Temples\images\foot_logo_01.png" />
+    <Content Include="Temples\images\foot_logo_02.png" />
+    <Content Include="Temples\images\foot_logo_03.png" />
+    <Content Include="Temples\images\foot_logo_03.svg" />
+    <Content Include="Temples\images\foot_logo_04.png" />
+    <Content Include="Temples\images\foot_logo_05.svg" />
+    <Content Include="Temples\images\f\1.png" />
+    <Content Include="Temples\images\f\10.png" />
+    <Content Include="Temples\images\f\11.png" />
+    <Content Include="Temples\images\f\12.png" />
+    <Content Include="Temples\images\f\13.png" />
+    <Content Include="Temples\images\f\14.png" />
+    <Content Include="Temples\images\f\15.png" />
+    <Content Include="Temples\images\f\16.png" />
+    <Content Include="Temples\images\f\17.png" />
+    <Content Include="Temples\images\f\18.png" />
+    <Content Include="Temples\images\f\19.png" />
+    <Content Include="Temples\images\f\2.png" />
+    <Content Include="Temples\images\f\20.png" />
+    <Content Include="Temples\images\f\21.png" />
+    <Content Include="Temples\images\f\22.png" />
+    <Content Include="Temples\images\f\23.png" />
+    <Content Include="Temples\images\f\24.png" />
+    <Content Include="Temples\images\f\25.png" />
+    <Content Include="Temples\images\f\26.png" />
+    <Content Include="Temples\images\f\27.png" />
+    <Content Include="Temples\images\f\28.png" />
+    <Content Include="Temples\images\f\29.png" />
+    <Content Include="Temples\images\f\3.png" />
+    <Content Include="Temples\images\f\30.png" />
+    <Content Include="Temples\images\f\31.png" />
+    <Content Include="Temples\images\f\32.png" />
+    <Content Include="Temples\images\f\33.png" />
+    <Content Include="Temples\images\f\34.png" />
+    <Content Include="Temples\images\f\35.png" />
+    <Content Include="Temples\images\f\36.png" />
+    <Content Include="Temples\images\f\37.png" />
+    <Content Include="Temples\images\f\38.png" />
+    <Content Include="Temples\images\f\39.png" />
+    <Content Include="Temples\images\f\4.png" />
+    <Content Include="Temples\images\f\40.png" />
+    <Content Include="Temples\images\f\41.png" />
+    <Content Include="Temples\images\f\42.png" />
+    <Content Include="Temples\images\f\43.png" />
+    <Content Include="Temples\images\f\44.png" />
+    <Content Include="Temples\images\f\45.png" />
+    <Content Include="Temples\images\f\46.png" />
+    <Content Include="Temples\images\f\47.png" />
+    <Content Include="Temples\images\f\48.png" />
+    <Content Include="Temples\images\f\49.png" />
+    <Content Include="Temples\images\f\5.png" />
+    <Content Include="Temples\images\f\50.png" />
+    <Content Include="Temples\images\f\51.png" />
+    <Content Include="Temples\images\f\52.png" />
+    <Content Include="Temples\images\f\53.png" />
+    <Content Include="Temples\images\f\54.png" />
+    <Content Include="Temples\images\f\55.png" />
+    <Content Include="Temples\images\f\56.png" />
+    <Content Include="Temples\images\f\57.png" />
+    <Content Include="Temples\images\f\58.png" />
+    <Content Include="Temples\images\f\59.png" />
+    <Content Include="Temples\images\f\6.png" />
+    <Content Include="Temples\images\f\60.png" />
+    <Content Include="Temples\images\f\7.png" />
+    <Content Include="Temples\images\f\8.png" />
+    <Content Include="Temples\images\f\9.png" />
+    <Content Include="Temples\images\Google_Pay.png" />
+    <Content Include="Temples\images\icon_01.png" />
+    <Content Include="Temples\images\icon_02.png" />
+    <Content Include="Temples\images\icon_03.png" />
+    <Content Include="Temples\images\icon_04.png" />
+    <Content Include="Temples\images\icon_05.png" />
+    <Content Include="Temples\images\icon_06.png" />
+    <Content Include="Temples\images\indexImg.jpg" />
+    <Content Include="Temples\images\indexImg.png" />
+    <Content Include="Temples\images\indexServiceListBg.jpg" />
+    <Content Include="Temples\images\indexServiceListBg.png" />
+    <Content Include="Temples\images\indexTempleListBg.jpg" />
+    <Content Include="Temples\images\indexTempleListBg.png" />
+    <Content Include="Temples\images\jqueryUiImages\ui-icons_444444_256x240.png" />
+    <Content Include="Temples\images\jqueryUiImages\ui-icons_555555_256x240.png" />
+    <Content Include="Temples\images\jqueryUiImages\ui-icons_777620_256x240.png" />
+    <Content Include="Temples\images\jqueryUiImages\ui-icons_777777_256x240.png" />
+    <Content Include="Temples\images\jqueryUiImages\ui-icons_cc0000_256x240.png" />
+    <Content Include="Temples\images\jqueryUiImages\ui-icons_ffffff_256x240.png" />
+    <Content Include="Temples\images\jqueryUiImages\_notes\dwsync.xml" />
+    <Content Include="Temples\images\kv_bg.jpg" />
+    <Content Include="Temples\images\kv_bg_2.png" />
+    <Content Include="Temples\images\kv_bg_l.png" />
+    <Content Include="Temples\images\kv_bg_r.png" />
+    <Content Include="Temples\images\logo_big.png" />
+    <Content Include="Temples\images\logo_big2.png" />
+    <Content Include="Temples\images\logo_big3.png" />
+    <Content Include="Temples\images\logo_big4.png" />
+    <Content Include="Temples\images\logo_big5.png" />
+    <Content Include="Temples\images\logo_big6.png" />
+    <Content Include="Temples\images\logo_big7.png" />
+    <Content Include="Temples\images\logo_big8.png" />
+    <Content Include="Temples\images\logo_small.png" />
+    <Content Include="Temples\images\logo_small2.png" />
+    <Content Include="Temples\images\logo_small3.png" />
+    <Content Include="Temples\images\logo_small4.png" />
+    <Content Include="Temples\images\logo_small5.png" />
+    <Content Include="Temples\images\menu_01.png" />
+    <Content Include="Temples\images\menu_02.png" />
+    <Content Include="Temples\images\menu_03.png" />
+    <Content Include="Temples\images\menu_04.png" />
+    <Content Include="Temples\images\menu_05.png" />
+    <Content Include="Temples\images\newsBg.png" />
+    <Content Include="Temples\images\new_inside_img.jpg" />
+    <Content Include="Temples\images\pageCtrl_L1.png" />
+    <Content Include="Temples\images\pageCtrl_L2.png" />
+    <Content Include="Temples\images\pageCtrl_R1.png" />
+    <Content Include="Temples\images\pageCtrl_R2.png" />
+    <Content Include="Temples\images\QRCODE.png" />
+    <Content Include="Temples\images\run_fortune.gif" />
+    <Content Include="Temples\images\serviceBox_h_A.png" />
+    <Content Include="Temples\images\serviceBox_h_B.png" />
+    <Content Include="Temples\images\serviceBox_h_C.png" />
+    <Content Include="Temples\images\serviceBox_v_A.png" />
+    <Content Include="Temples\images\serviceBox_v_B.png" />
+    <Content Include="Temples\images\serviceBox_v_C.png" />
+    <Content Include="Temples\images\static_fortune.png" />
+    <Content Include="Temples\images\temple\0029.jpg" />
+    <Content Include="Temples\images\temple\0029.png" />
+    <Content Include="Temples\images\temple\0030.jpg" />
+    <Content Include="Temples\images\temple\031.jpg" />
+    <Content Include="Temples\images\temple\All-purposecard.jpg" />
+    <Content Include="Temples\images\temple\banner2.png" />
+    <Content Include="Temples\images\temple\banner3.png" />
+    <Content Include="Temples\images\temple\banner4.png" />
+    <Content Include="Temples\images\temple\coollogo_com-316181184.png" />
+    <Content Include="Temples\images\temple\coollogo_com-7262113.png" />
+    <Content Include="Temples\images\temple\emperorGuansheng_ty.jpg" />
+    <Content Include="Temples\images\temple\Fiction\20230917\b62cbf67-1719-42e8-b635-e11a52f36bf9.jpg" />
+    <Content Include="Temples\images\temple\Fiction\20230917\b62cbf67-1719-42e8-b635-e11a52f36bf9_disp.jpg" />
+    <Content Include="Temples\images\temple\Fiction\20230917\b62cbf67-1719-42e8-b635-e11a52f36bf9_thumb.jpg" />
+    <Content Include="Temples\images\temple\Fiction\20230917\f58ec653-96f6-4512-97d6-6f465081f537.jpg" />
+    <Content Include="Temples\images\temple\Fiction\20230917\f58ec653-96f6-4512-97d6-6f465081f537_disp.jpg" />
+    <Content Include="Temples\images\temple\Fiction\20230917\f58ec653-96f6-4512-97d6-6f465081f537_thumb.jpg" />
+    <Content Include="Temples\images\temple\Fiction\20230918\52f11cec-77b3-4156-b71c-635df8ac7b09.jpg" />
+    <Content Include="Temples\images\temple\Fiction\20230918\52f11cec-77b3-4156-b71c-635df8ac7b09_disp.jpg" />
+    <Content Include="Temples\images\temple\Fiction\20230918\52f11cec-77b3-4156-b71c-635df8ac7b09_thumb.jpg" />
+    <Content Include="Temples\images\temple\Fiction\20230918\bdd2ceab-ce89-4cb2-aa54-acead1348862.jpg" />
+    <Content Include="Temples\images\temple\Fiction\20230918\bdd2ceab-ce89-4cb2-aa54-acead1348862_disp.jpg" />
+    <Content Include="Temples\images\temple\Fiction\20230918\bdd2ceab-ce89-4cb2-aa54-acead1348862_thumb.jpg" />
+    <Content Include="Temples\images\temple\Fiction\20230918\fb5c070f-c930-44fa-a1f5-75085baa7813.png" />
+    <Content Include="Temples\images\temple\Fiction\20230918\fb5c070f-c930-44fa-a1f5-75085baa7813_disp.jpg" />
+    <Content Include="Temples\images\temple\Fiction\20230918\fb5c070f-c930-44fa-a1f5-75085baa7813_thumb.jpg" />
+    <Content Include="Temples\images\temple\light-03.jpg" />
+    <Content Include="Temples\images\temple\light-04.jpg" />
+    <Content Include="Temples\images\temple\light-05.jpg" />
+    <Content Include="Temples\images\temple\lights_Am.jpg" />
+    <Content Include="Temples\images\temple\lights_da.jpg" />
+    <Content Include="Temples\images\temple\lights_da.png" />
+    <Content Include="Temples\images\temple\lights_dh.jpg" />
+    <Content Include="Temples\images\temple\lights_Fu.jpg" />
+    <Content Include="Temples\images\temple\lights_Fw.jpg" />
+    <Content Include="Temples\images\temple\lights_h.jpg" />
+    <Content Include="Temples\images\temple\lights_Hs.jpg" />
+    <Content Include="Temples\images\temple\lights_h_01.jpg" />
+    <Content Include="Temples\images\temple\lights_Jt.jpg" />
+    <Content Include="Temples\images\temple\lights_Lk.jpg" />
+    <Content Include="Temples\images\temple\lights_ty.jpg" />
+    <Content Include="Temples\images\temple\lights_ty_mom.jpg" />
+    <Content Include="Temples\images\temple\lights_ty_mom_gift.jpg" />
+    <Content Include="Temples\images\temple\lights_wu.jpg" />
+    <Content Include="Temples\images\temple\marriagelights_0001.png" />
+    <Content Include="Temples\images\temple\marriagelights_0002.png" />
+    <Content Include="Temples\images\temple\marriagelights_Luer.png" />
+    <Content Include="Temples\images\temple\product\Fw\1_8.jpg" />
+    <Content Include="Temples\images\temple\product\Fw\1_9.jpg" />
+    <Content Include="Temples\images\temple\product\Luer\1_1.png" />
+    <Content Include="Temples\images\temple\product\Luer\2_1.png" />
+    <Content Include="Temples\images\temple\product\Luer\3_1.png" />
+    <Content Include="Temples\images\temple\product\Luer\4_1.png" />
+    <Content Include="Temples\images\temple\product\Luer\5_1.png" />
+    <Content Include="Temples\images\temple\product\Luer\6_1.png" />
+    <Content Include="Temples\images\temple\product\Luer\7_1.png" />
+    <Content Include="Temples\images\temple\product_supplies_ty.jpg" />
+    <Content Include="Temples\images\temple\purdue_da.jpg" />
+    <Content Include="Temples\images\temple\purdue_dh.jpg" />
+    <Content Include="Temples\images\temple\purdue_Fu.jpg" />
+    <Content Include="Temples\images\temple\purdue_Fu2.jpg" />
+    <Content Include="Temples\images\temple\purdue_h.jpg" />
+    <Content Include="Temples\images\temple\purdue_Jing.jpg" />
+    <Content Include="Temples\images\temple\purdue_Luer.jpg" />
+    <Content Include="Temples\images\temple\purdue_Luer2.jpg" />
+    <Content Include="Temples\images\temple\purdue_ma.jpg" />
+    <Content Include="Temples\images\temple\purdue_wu.jpg" />
+    <Content Include="Temples\images\temple\sample.png" />
+    <Content Include="Temples\images\temple\sample_Fu.jpg" />
+    <Content Include="Temples\images\temple\sample_h.jpg" />
+    <Content Include="Temples\images\temple\sample_Jing.jpg" />
+    <Content Include="Temples\images\temple\sample_Luer.jpg" />
+    <Content Include="Temples\images\temple\sample_wu.jpg" />
+    <Content Include="Temples\images\temple\supplies3_wu.jpg" />
+    <Content Include="Temples\images\temple\supplies_ty.jpg" />
+    <Content Include="Temples\images\temple\supplies_wu.jpg" />
+    <Content Include="Temples\images\temple\supplies_wu2.jpg" />
+    <Content Include="Temples\images\tpl_page_title_bg.jpg" />
+    <Content Include="Temples\js\fancybox.umd.js" />
+    <Content Include="Temples\js\fixbox.js" />
+    <Content Include="Temples\js\grouploop-1.0.3.min.js" />
+    <Content Include="Temples\js\inside_js.js" />
+    <Content Include="Temples\js\jquery-1.10.1.min.js" />
+    <Content Include="Temples\js\jquery-3.2.1.min.js" />
+    <Content Include="Temples\js\jquery-3.7.1.min.js" />
+    <Content Include="Temples\js\jquery-ui.js" />
+    <Content Include="Temples\js\jquery.twzipcode.min.js" />
+    <Content Include="Temples\js\slick.min.js" />
+    <Content Include="Temples\LightsGuide.aspx" />
+    <Content Include="Temples\news.aspx" />
+    <Content Include="Temples\newsContent_2022lights.aspx" />
+    <Content Include="Temples\newsContent_2022purdue.aspx" />
+    <Content Include="Temples\newsContent_2022supplies.aspx" />
+    <Content Include="Temples\newsContent_2023lights.aspx" />
+    <Content Include="Temples\newsContent_2023Pilgrimage.aspx" />
+    <Content Include="Temples\newsContent_2023purdue.aspx" />
+    <Content Include="Temples\newsContent_2023supplies.aspx" />
+    <Content Include="Temples\newsContent_2023supplies2.aspx" />
+    <Content Include="Temples\newsContent_2024emperorGuansheng_ty.aspx" />
+    <Content Include="Temples\newsContent_2024lights.aspx" />
+    <Content Include="Temples\newsContent_2024lights_Fu.aspx" />
+    <Content Include="Temples\newsContent_2024lights_pet.aspx" />
+    <Content Include="Temples\newsContent_2024lights_ty.aspx" />
+    <Content Include="Temples\newsContent_2024lingbaolidou_ma.aspx" />
+    <Content Include="Temples\newsContent_2024purdue.aspx" />
+    <Content Include="Temples\newsContent_2024purdue_baby.aspx" />
+    <Content Include="Temples\newsContent_2024purdue_pet.aspx" />
+    <Content Include="Temples\newsContent_2024supplies.aspx" />
+    <Content Include="Temples\newsContent_2024supplies2.aspx" />
+    <Content Include="Temples\newsContent_2024supplies2_ty.aspx" />
+    <Content Include="Temples\newsContent_2024supplies_ty.aspx" />
+    <Content Include="Temples\newsContent_2024taoistJiaoCeremony_da.aspx" />
+    <Content Include="Temples\newsContent_2025lights.aspx" />
+    <Content Include="Temples\PrivacyIndex.aspx" />
+    <Content Include="Temples\PrivacyPolicy.aspx" />
+    <Content Include="Temples\service.aspx" />
+    <Content Include="Temples\ShoppingGuide.aspx" />
+    <Content Include="Temples\SiteFile\Event\20211125_LightsImg.jpeg" />
+    <Content Include="Temples\SiteFile\Event\20220709_PurdueImg.png" />
+    <Content Include="Temples\SiteFile\Event\20220914_SuppliesImg.jpg" />
+    <Content Include="Temples\SiteFile\Event\20221125_LightsImg.png" />
+    <Content Include="Temples\SiteFile\Event\20230318_PilgrimageImg.png" />
+    <Content Include="Temples\SiteFile\Event\20230406_Supplies2Img.jpg" />
+    <Content Include="Temples\SiteFile\Event\20230709_NewsImg.png" />
+    <Content Include="Temples\SiteFile\Event\20230709_NewsImg_s.png" />
+    <Content Include="Temples\SiteFile\Event\newsImg_Sample.jpg" />
+    <Content Include="Temples\SiteFile\Event\sample1.jpg" />
+    <Content Include="Temples\SiteFile\Event\sample2.jpg" />
+    <Content Include="Temples\SiteFile\Event\sample3.jpg" />
+    <Content Include="Temples\SiteFile\Event\sample4.jpg" />
+    <Content Include="Temples\SiteFile\Event\sample5.jpg" />
+    <Content Include="Temples\SiteFile\Event\sample6.jpg" />
+    <Content Include="Temples\SiteFile\Event\_notes\dwsync.xml" />
+    <Content Include="Temples\SiteFile\News\20211125_LightsImg.jpeg" />
+    <Content Include="Temples\SiteFile\News\20220709_PurdueImg.png" />
+    <Content Include="Temples\SiteFile\News\20220709_PurdueImg2.png" />
+    <Content Include="Temples\SiteFile\News\20220914_SuppliesImg.jpg" />
+    <Content Include="Temples\SiteFile\News\20221125_LightsImg.png" />
+    <Content Include="Temples\SiteFile\News\20230318_PilgrimageImg.png" />
+    <Content Include="Temples\SiteFile\News\20230406_Supplies2Img.jpg" />
+    <Content Include="Temples\SiteFile\News\20230709_NewsImg.png" />
+    <Content Include="Temples\SiteFile\News\20230709_NewsImg_s.png" />
+    <Content Include="Temples\SiteFile\News\20231012_NewsImg.png" />
+    <Content Include="Temples\SiteFile\News\20231220_NewsImg.jpg" />
+    <Content Include="Temples\SiteFile\News\20240322_NewsImg.jpg" />
+    <Content Include="Temples\SiteFile\News\20240409_NewsImg.png" />
+    <Content Include="Temples\SiteFile\News\20240426_NewsImg.jpg" />
+    <Content Include="Temples\SiteFile\News\20240518_NewsImg.png" />
+    <Content Include="Temples\SiteFile\News\20240520_NewsImg - Copy.jpg" />
+    <Content Include="Temples\SiteFile\News\20240520_NewsImg.jpg" />
+    <Content Include="Temples\SiteFile\News\newsImg_Sample.jpg" />
+    <Content Include="Temples\SiteFile\News\product_bag.png" />
+    <Content Include="Temples\SiteFile\News\_notes\dwsync.xml" />
+    <Content Include="Temples\SiteFile\Temple\sample.png" />
+    <Content Include="Temples\SiteFile\Temple\sample_light.png" />
+    <Content Include="Temples\SiteFile\Temple\_notes\dwsync.xml" />
+    <Content Include="Temples\slick\ajax-loader.gif" />
+    <Content Include="Temples\slick\fonts\slick.svg" />
+    <Content Include="Temples\slick\slick-theme.css" />
+    <Content Include="Temples\slick\slick.css" />
+    <Content Include="Temples\slick\slick.js" />
+    <Content Include="Temples\slick\slick.min.js" />
+    <Content Include="Temples\temple.aspx" />
+    <Content Include="Temples\templeCheck.aspx" />
+    <Content Include="Temples\templeCheck_in.aspx" />
+    <Content Include="Temples\templeComplete.aspx" />
+    <Content Include="Temples\templeComplete_in.aspx" />
+    <Content Include="Temples\templeInfo.aspx" />
+    <Content Include="Temples\templeService_EmperorGuansheng_bobi_ty.aspx" />
+    <Content Include="Temples\templeService_EmperorGuansheng_ty.aspx" />
+    <Content Include="Temples\templeService_lights.aspx" />
+    <Content Include="Temples\templeService_lights_da.aspx" />
+    <Content Include="Temples\templeService_lights_dh.aspx" />
+    <Content Include="Temples\templeService_lights_Fu.aspx" />
+    <Content Include="Temples\templeService_lights_Fw.aspx" />
+    <Content Include="Temples\templeService_lights_h.aspx" />
+    <Content Include="Temples\templeService_lights_Lk.aspx" />
+    <Content Include="Temples\templeService_lights_Luer.aspx" />
+    <Content Include="Temples\templeService_lights_ma.aspx" />
+    <Content Include="Temples\templeService_lights_ty.aspx" />
+    <Content Include="Temples\templeService_lights_ty_mom.aspx" />
+    <Content Include="Temples\templeService_lights_wjsan.aspx" />
+    <Content Include="Temples\templeService_lights_wu.aspx" />
+    <Content Include="Temples\templeService_lingbaolidou_ma.aspx" />
+    <Content Include="Temples\templeService_lingbaolidou_ma_fet.aspx" />
+    <Content Include="Temples\templeService_lingbaolidou_ty.aspx" />
+    <Content Include="Temples\templeService_lingbaolidou_ty_fet.aspx" />
+    <Content Include="Temples\templeService_marriagelights_Luer.aspx" />
+    <Content Include="Temples\templeService_marriagelights_Luer_twm.aspx" />
+    <Content Include="Temples\templeService_purdue_da.aspx" />
+    <Content Include="Temples\templeService_purdue_dh.aspx" />
+    <Content Include="Temples\templeService_purdue_Fu.aspx" />
+    <Content Include="Temples\templeService_purdue_Fw.aspx" />
+    <Content Include="Temples\templeService_purdue_h.aspx" />
+    <Content Include="Temples\templeService_purdue_Lk.aspx" />
+    <Content Include="Temples\templeService_purdue_Luer.aspx" />
+    <Content Include="Temples\templeService_purdue_ma.aspx" />
+    <Content Include="Temples\templeService_purdue_mazu.aspx" />
+    <Content Include="Temples\templeService_purdue_ty.aspx" />
+    <Content Include="Temples\templeService_purdue_wjsan.aspx" />
+    <Content Include="Temples\templeService_purdue_wu.aspx" />
+    <Content Include="Temples\templeService_supplies.aspx" />
+    <Content Include="Temples\templeService_supplies2.aspx" />
+    <Content Include="Temples\templeService_supplies2_ty.aspx" />
+    <Content Include="Temples\templeService_supplies3.aspx" />
+    <Content Include="Temples\templeService_supplies_dh.aspx" />
+    <Content Include="Temples\templeService_supplies_ty.aspx" />
+    <Content Include="Temples\templeService_TaoistJiaoCeremony_da.aspx" />
+    <Content Include="TWPaymentCallback_EmperorGuansheng_ty.aspx" />
+    <Content Include="TWPaymentCallback_Lights.aspx" />
+    <Content Include="TWPaymentCallback_Lights_da.aspx" />
+    <Content Include="TWPaymentCallback_Lights_dh.aspx" />
+    <Content Include="TWPaymentCallback_Lights_Fu.aspx" />
+    <Content Include="TWPaymentCallback_Lights_Fw.aspx" />
+    <Content Include="TWPaymentCallback_Lights_h.aspx" />
+    <Content Include="TWPaymentCallback_Lights_Lk.aspx" />
+    <Content Include="TWPaymentCallback_Lights_Luer.aspx" />
+    <Content Include="TWPaymentCallback_Lights_ma.aspx" />
+    <Content Include="TWPaymentCallback_Lights_ty.aspx" />
+    <Content Include="TWPaymentCallback_Lights_wjsan.aspx" />
+    <Content Include="TWPaymentCallback_Lights_wu.aspx" />
+    <Content Include="TWPaymentCallback_Lingbaolidou_ma.aspx" />
+    <Content Include="TWPaymentCallback_Lingbaolidou_ty.aspx" />
+    <Content Include="TWPaymentCallback_Moneymother.aspx" />
+    <Content Include="TWPaymentCallback_Pilgrimage.aspx" />
+    <Content Include="TWPaymentCallback_Product.aspx" />
+    <Content Include="TWPaymentCallback_Purdue.aspx" />
+    <Content Include="TWPaymentCallback_Purdue_da.aspx" />
+    <Content Include="TWPaymentCallback_Purdue_dh.aspx" />
+    <Content Include="TWPaymentCallback_Purdue_Fu.aspx" />
+    <Content Include="TWPaymentCallback_Purdue_Fw.aspx" />
+    <Content Include="TWPaymentCallback_Purdue_h.aspx" />
+    <Content Include="TWPaymentCallback_Purdue_Jing.aspx" />
+    <Content Include="TWPaymentCallback_Purdue_Lk.aspx" />
+    <Content Include="TWPaymentCallback_Purdue_Luer.aspx" />
+    <Content Include="TWPaymentCallback_Purdue_ma.aspx" />
+    <Content Include="TWPaymentCallback_Purdue_mazu.aspx" />
+    <Content Include="TWPaymentCallback_Purdue_ty.aspx" />
+    <Content Include="TWPaymentCallback_Purdue_wu.aspx" />
+    <Content Include="TWPaymentCallback_Supplies2_ty.aspx" />
+    <Content Include="TWPaymentCallback_Supplies_dh.aspx" />
+    <Content Include="TWPaymentCallback_Supplies_ty.aspx" />
+    <Content Include="TWPaymentCallback_Supplies_wu.aspx" />
+    <Content Include="TWPaymentCallback_Supplies_wu2.aspx" />
+    <Content Include="TWPaymentCallback_Supplies_wu3.aspx" />
+    <Content Include="TWPaymentCallback_TaoistJiaoCeremony_da.aspx" />
+    <Content Include="Web.config" />
+    <Content Include="WebForm1.aspx" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Controls\AjaxClientControl.ascx.cs">
+      <DependentUpon>AjaxClientControl.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Controls\AjaxClientControl.ascx.designer.cs">
+      <DependentUpon>AjaxClientControl.ascx</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\PopupMessageDialogControl.ascx.cs">
+      <DependentUpon>PopupMessageDialogControl.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Controls\PopupMessageDialogControl.ascx.designer.cs">
+      <DependentUpon>PopupMessageDialogControl.ascx</DependentUpon>
+    </Compile>
+    <Compile Include="Data\AdminDAC.cs" />
+    <Compile Include="Data\AESHelper.cs" />
+    <Compile Include="Data\AjaxBasePage.cs">
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Data\BaseDAC.cs" />
+    <Compile Include="Data\BasePage.cs">
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Data\CacheCarousel.cs" />
+    <Compile Include="Data\CacheCeremony.cs" />
+    <Compile Include="Data\CacheLight.cs" />
+    <Compile Include="Data\CacheSeoTag.cs" />
+    <Compile Include="Data\CacheSysSetting.cs" />
+    <Compile Include="Data\CarouselDAC.cs" />
+    <Compile Include="Data\CeremonyDAC.cs" />
+    <Compile Include="Data\DatabaseAdapter.cs" />
+    <Compile Include="Data\DatabaseHelper.cs" />
+    <Compile Include="Data\ImagesDAC.cs" />
+    <Compile Include="Data\JSonHelper.cs" />
+    <Compile Include="Data\LightDAC.cs" />
+    <Compile Include="Data\LunarSolarConverter.cs" />
+    <Compile Include="Data\ProductDAC.cs" />
+    <Compile Include="Data\QRCoderHelper.cs" />
+    <Compile Include="Data\ResourceUploadPage.cs">
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Data\SeoTagDAC.cs" />
+    <Compile Include="Data\SMSHepler.cs" />
+    <Compile Include="Data\SqlClientBase.cs" />
+    <Compile Include="Data\SysSettingDAC.cs" />
+    <Compile Include="Data\UtilDataMask.cs" />
+    <Compile Include="Entities\Carousel.cs" />
+    <Compile Include="Entities\Ceremony.cs" />
+    <Compile Include="Entities\Light.cs" />
+    <Compile Include="Entities\SysSetting.cs" />
+    <Compile Include="FET\API\AESOrder.aspx.cs">
+      <DependentUpon>AESOrder.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="FET\API\AESOrder.aspx.designer.cs">
+      <DependentUpon>AESOrder.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="FET\API\CancelOrder.aspx.cs">
+      <DependentUpon>CancelOrder.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="FET\API\CancelOrder.aspx.designer.cs">
+      <DependentUpon>CancelOrder.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="FET\API\CreateOrder.aspx.cs">
+      <DependentUpon>CreateOrder.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="FET\API\CreateOrder.aspx.designer.cs">
+      <DependentUpon>CreateOrder.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="FET\API\QueryOrder.aspx.cs">
+      <DependentUpon>QueryOrder.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="FET\API\QueryOrder.aspx.designer.cs">
+      <DependentUpon>QueryOrder.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="FET\Lights\LightsCheck.aspx.cs">
+      <DependentUpon>LightsCheck.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="FET\Lights\LightsCheck.aspx.designer.cs">
+      <DependentUpon>LightsCheck.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="FET\Lights\LightsComplete.aspx.cs">
+      <DependentUpon>LightsComplete.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="FET\Lights\LightsComplete.aspx.designer.cs">
+      <DependentUpon>LightsComplete.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="FET\Lights\LightsIndex_Luer.aspx.cs">
+      <DependentUpon>LightsIndex_Luer.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="FET\Lights\LightsIndex_Luer.aspx.designer.cs">
+      <DependentUpon>LightsIndex_Luer.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="FET\Lights\TWPaymentCallback_Lights_Luer.aspx.cs">
+      <DependentUpon>TWPaymentCallback_Lights_Luer.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="FET\Lights\TWPaymentCallback_Lights_Luer.aspx.designer.cs">
+      <DependentUpon>TWPaymentCallback_Lights_Luer.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="FET\Supplies\SuppliesCheck.aspx.cs">
+      <DependentUpon>SuppliesCheck.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="FET\Supplies\SuppliesCheck.aspx.designer.cs">
+      <DependentUpon>SuppliesCheck.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="FET\Supplies\SuppliesComplete.aspx.cs">
+      <DependentUpon>SuppliesComplete.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="FET\Supplies\SuppliesComplete.aspx.designer.cs">
+      <DependentUpon>SuppliesComplete.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="FET\Supplies\SuppliesIndex.aspx.cs">
+      <DependentUpon>SuppliesIndex.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="FET\Supplies\SuppliesIndex.aspx.designer.cs">
+      <DependentUpon>SuppliesIndex.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="FET\Supplies\SuppliesIndex_test.aspx.cs">
+      <DependentUpon>SuppliesIndex_test.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="FET\Supplies\SuppliesIndex_test.aspx.designer.cs">
+      <DependentUpon>SuppliesIndex_test.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="FET\Supplies\TWPaymentCallback_Supplies_wu3.aspx.cs">
+      <DependentUpon>TWPaymentCallback_Supplies_wu3.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="FET\Supplies\TWPaymentCallback_Supplies_wu3.aspx.designer.cs">
+      <DependentUpon>TWPaymentCallback_Supplies_wu3.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="index.aspx.cs">
+      <DependentUpon>index.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="index.aspx.designer.cs">
+      <DependentUpon>index.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Product\MoneymotherComplete.aspx.cs">
+      <DependentUpon>MoneymotherComplete.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Product\MoneymotherComplete.aspx.designer.cs">
+      <DependentUpon>MoneymotherComplete.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Product\MoneymotherIndex.aspx.cs">
+      <DependentUpon>MoneymotherIndex.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Product\MoneymotherIndex.aspx.designer.cs">
+      <DependentUpon>MoneymotherIndex.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SearchLog.aspx.cs">
+      <DependentUpon>SearchLog.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="SearchLog.aspx.designer.cs">
+      <DependentUpon>SearchLog.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Temples\footer.ascx.cs">
+      <DependentUpon>footer.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Temples\footer.ascx.designer.cs">
+      <DependentUpon>footer.ascx</DependentUpon>
+    </Compile>
+    <Compile Include="Temples\header.ascx.cs">
+      <DependentUpon>header.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Temples\header.ascx.designer.cs">
+      <DependentUpon>header.ascx</DependentUpon>
+    </Compile>
+    <Compile Include="Temples\LightsGuide.aspx.cs">
+      <DependentUpon>LightsGuide.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Temples\LightsGuide.aspx.designer.cs">
+      <DependentUpon>LightsGuide.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Temples\news.aspx.cs">
+      <DependentUpon>news.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Temples\news.aspx.designer.cs">
+      <DependentUpon>news.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Temples\newsContent_2022lights.aspx.cs">
+      <DependentUpon>newsContent_2022lights.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Temples\newsContent_2022lights.aspx.designer.cs">
+      <DependentUpon>newsContent_2022lights.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Temples\newsContent_2022purdue.aspx.cs">
+      <DependentUpon>newsContent_2022purdue.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Temples\newsContent_2022purdue.aspx.designer.cs">
+      <DependentUpon>newsContent_2022purdue.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Temples\newsContent_2022supplies.aspx.cs">
+      <DependentUpon>newsContent_2022supplies.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Temples\newsContent_2022supplies.aspx.designer.cs">
+      <DependentUpon>newsContent_2022supplies.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Temples\newsContent_2023lights.aspx.cs">
+      <DependentUpon>newsContent_2023lights.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Temples\newsContent_2023lights.aspx.designer.cs">
+      <DependentUpon>newsContent_2023lights.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Temples\newsContent_2023Pilgrimage.aspx.cs">
+      <DependentUpon>newsContent_2023Pilgrimage.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Temples\newsContent_2023Pilgrimage.aspx.designer.cs">
+      <DependentUpon>newsContent_2023Pilgrimage.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Temples\newsContent_2023purdue.aspx.cs">
+      <DependentUpon>newsContent_2023purdue.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Temples\newsContent_2023purdue.aspx.designer.cs">
+      <DependentUpon>newsContent_2023purdue.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Temples\newsContent_2023supplies.aspx.cs">
+      <DependentUpon>newsContent_2023supplies.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Temples\newsContent_2023supplies.aspx.designer.cs">
+      <DependentUpon>newsContent_2023supplies.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Temples\newsContent_2023supplies2.aspx.cs">
+      <DependentUpon>newsContent_2023supplies2.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Temples\newsContent_2023supplies2.aspx.designer.cs">
+      <DependentUpon>newsContent_2023supplies2.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Temples\newsContent_2024emperorGuansheng_ty.aspx.cs">
+      <DependentUpon>newsContent_2024emperorGuansheng_ty.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Temples\newsContent_2024emperorGuansheng_ty.aspx.designer.cs">
+      <DependentUpon>newsContent_2024emperorGuansheng_ty.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Temples\newsContent_2024lights.aspx.cs">
+      <DependentUpon>newsContent_2024lights.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Temples\newsContent_2024lights.aspx.designer.cs">
+      <DependentUpon>newsContent_2024lights.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Temples\newsContent_2024lights_Fu.aspx.cs">
+      <DependentUpon>newsContent_2024lights_Fu.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Temples\newsContent_2024lights_Fu.aspx.designer.cs">
+      <DependentUpon>newsContent_2024lights_Fu.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Temples\newsContent_2024lights_pet.aspx.cs">
+      <DependentUpon>newsContent_2024lights_pet.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Temples\newsContent_2024lights_pet.aspx.designer.cs">
+      <DependentUpon>newsContent_2024lights_pet.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Temples\newsContent_2024lights_ty.aspx.cs">
+      <DependentUpon>newsContent_2024lights_ty.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Temples\newsContent_2024lights_ty.aspx.designer.cs">
+      <DependentUpon>newsContent_2024lights_ty.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Temples\newsContent_2024lingbaolidou_ma.aspx.cs">
+      <DependentUpon>newsContent_2024lingbaolidou_ma.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Temples\newsContent_2024lingbaolidou_ma.aspx.designer.cs">
+      <DependentUpon>newsContent_2024lingbaolidou_ma.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Temples\newsContent_2024purdue.aspx.cs">
+      <DependentUpon>newsContent_2024purdue.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Temples\newsContent_2024purdue.aspx.designer.cs">
+      <DependentUpon>newsContent_2024purdue.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Temples\newsContent_2024purdue_baby.aspx.cs">
+      <DependentUpon>newsContent_2024purdue_baby.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Temples\newsContent_2024purdue_baby.aspx.designer.cs">
+      <DependentUpon>newsContent_2024purdue_baby.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Temples\newsContent_2024purdue_pet.aspx.cs">
+      <DependentUpon>newsContent_2024purdue_pet.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Temples\newsContent_2024purdue_pet.aspx.designer.cs">
+      <DependentUpon>newsContent_2024purdue_pet.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Temples\newsContent_2024supplies.aspx.cs">
+      <DependentUpon>newsContent_2024supplies.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Temples\newsContent_2024supplies.aspx.designer.cs">
+      <DependentUpon>newsContent_2024supplies.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Temples\newsContent_2024supplies2.aspx.cs">
+      <DependentUpon>newsContent_2024supplies2.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Temples\newsContent_2024supplies2.aspx.designer.cs">
+      <DependentUpon>newsContent_2024supplies2.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Temples\newsContent_2024supplies2_ty.aspx.cs">
+      <DependentUpon>newsContent_2024supplies2_ty.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Temples\newsContent_2024supplies2_ty.aspx.designer.cs">
+      <DependentUpon>newsContent_2024supplies2_ty.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Temples\newsContent_2024supplies_ty.aspx.cs">
+      <DependentUpon>newsContent_2024supplies_ty.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Temples\newsContent_2024supplies_ty.aspx.designer.cs">
+      <DependentUpon>newsContent_2024supplies_ty.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Temples\newsContent_2024taoistJiaoCeremony_da.aspx.cs">
+      <DependentUpon>newsContent_2024taoistJiaoCeremony_da.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Temples\newsContent_2024taoistJiaoCeremony_da.aspx.designer.cs">
+      <DependentUpon>newsContent_2024taoistJiaoCeremony_da.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Temples\newsContent_2025lights.aspx.cs">
+      <DependentUpon>newsContent_2025lights.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Temples\newsContent_2025lights.aspx.designer.cs">
+      <DependentUpon>newsContent_2025lights.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Temples\PrivacyIndex.aspx.cs">
+      <DependentUpon>PrivacyIndex.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Temples\PrivacyIndex.aspx.designer.cs">
+      <DependentUpon>PrivacyIndex.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Temples\PrivacyPolicy.aspx.cs">
+      <DependentUpon>PrivacyPolicy.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Temples\PrivacyPolicy.aspx.designer.cs">
+      <DependentUpon>PrivacyPolicy.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Temples\service.aspx.cs">
+      <DependentUpon>service.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Temples\service.aspx.designer.cs">
+      <DependentUpon>service.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Temples\ShoppingGuide.aspx.cs">
+      <DependentUpon>ShoppingGuide.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Temples\ShoppingGuide.aspx.designer.cs">
+      <DependentUpon>ShoppingGuide.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Temples\temple.aspx.cs">
+      <DependentUpon>temple.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Temples\temple.aspx.designer.cs">
+      <DependentUpon>temple.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Temples\templeCheck.aspx.cs">
+      <DependentUpon>templeCheck.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Temples\templeCheck.aspx.designer.cs">
+      <DependentUpon>templeCheck.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Temples\templeCheck_in.aspx.cs">
+      <DependentUpon>templeCheck_in.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Temples\templeCheck_in.aspx.designer.cs">
+      <DependentUpon>templeCheck_in.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Temples\templeComplete.aspx.cs">
+      <DependentUpon>templeComplete.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Temples\templeComplete.aspx.designer.cs">
+      <DependentUpon>templeComplete.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Temples\templeComplete_in.aspx.cs">
+      <DependentUpon>templeComplete_in.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Temples\templeComplete_in.aspx.designer.cs">
+      <DependentUpon>templeComplete_in.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Temples\templeInfo.aspx.cs">
+      <DependentUpon>templeInfo.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Temples\templeInfo.aspx.designer.cs">
+      <DependentUpon>templeInfo.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Temples\templeService_EmperorGuansheng_bobi_ty.aspx.cs">
+      <DependentUpon>templeService_EmperorGuansheng_bobi_ty.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Temples\templeService_EmperorGuansheng_bobi_ty.aspx.designer.cs">
+      <DependentUpon>templeService_EmperorGuansheng_bobi_ty.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Temples\templeService_EmperorGuansheng_ty.aspx.cs">
+      <DependentUpon>templeService_EmperorGuansheng_ty.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Temples\templeService_EmperorGuansheng_ty.aspx.designer.cs">
+      <DependentUpon>templeService_EmperorGuansheng_ty.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Temples\templeService_lights.aspx.cs">
+      <DependentUpon>templeService_lights.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Temples\templeService_lights.aspx.designer.cs">
+      <DependentUpon>templeService_lights.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Temples\templeService_lights_da.aspx.cs">
+      <DependentUpon>templeService_lights_da.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Temples\templeService_lights_da.aspx.designer.cs">
+      <DependentUpon>templeService_lights_da.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Temples\templeService_lights_dh.aspx.cs">
+      <DependentUpon>templeService_lights_dh.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Temples\templeService_lights_dh.aspx.designer.cs">
+      <DependentUpon>templeService_lights_dh.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Temples\templeService_lights_Fu.aspx.cs">
+      <DependentUpon>templeService_lights_Fu.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Temples\templeService_lights_Fu.aspx.designer.cs">
+      <DependentUpon>templeService_lights_Fu.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Temples\templeService_lights_Fw.aspx.cs">
+      <DependentUpon>templeService_lights_Fw.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Temples\templeService_lights_Fw.aspx.designer.cs">
+      <DependentUpon>templeService_lights_Fw.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Temples\templeService_lights_h.aspx.cs">
+      <DependentUpon>templeService_lights_h.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Temples\templeService_lights_h.aspx.designer.cs">
+      <DependentUpon>templeService_lights_h.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Temples\templeService_lights_Lk.aspx.cs">
+      <DependentUpon>templeService_lights_Lk.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Temples\templeService_lights_Lk.aspx.designer.cs">
+      <DependentUpon>templeService_lights_Lk.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Temples\templeService_lights_Luer.aspx.cs">
+      <DependentUpon>templeService_lights_Luer.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Temples\templeService_lights_Luer.aspx.designer.cs">
+      <DependentUpon>templeService_lights_Luer.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Temples\templeService_lights_ma.aspx.cs">
+      <DependentUpon>templeService_lights_ma.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Temples\templeService_lights_ma.aspx.designer.cs">
+      <DependentUpon>templeService_lights_ma.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Temples\templeService_lights_ty.aspx.cs">
+      <DependentUpon>templeService_lights_ty.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Temples\templeService_lights_ty.aspx.designer.cs">
+      <DependentUpon>templeService_lights_ty.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Temples\templeService_lights_ty_mom.aspx.cs">
+      <DependentUpon>templeService_lights_ty_mom.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Temples\templeService_lights_ty_mom.aspx.designer.cs">
+      <DependentUpon>templeService_lights_ty_mom.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Temples\templeService_lights_wjsan.aspx.cs">
+      <DependentUpon>templeService_lights_wjsan.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Temples\templeService_lights_wjsan.aspx.designer.cs">
+      <DependentUpon>templeService_lights_wjsan.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Temples\templeService_lights_wu.aspx.cs">
+      <DependentUpon>templeService_lights_wu.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Temples\templeService_lights_wu.aspx.designer.cs">
+      <DependentUpon>templeService_lights_wu.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Temples\templeService_lingbaolidou_ma.aspx.cs">
+      <DependentUpon>templeService_lingbaolidou_ma.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Temples\templeService_lingbaolidou_ma.aspx.designer.cs">
+      <DependentUpon>templeService_lingbaolidou_ma.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Temples\templeService_lingbaolidou_ma_fet.aspx.cs">
+      <DependentUpon>templeService_lingbaolidou_ma_fet.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Temples\templeService_lingbaolidou_ma_fet.aspx.designer.cs">
+      <DependentUpon>templeService_lingbaolidou_ma_fet.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Temples\templeService_lingbaolidou_ty.aspx.cs">
+      <DependentUpon>templeService_lingbaolidou_ty.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Temples\templeService_lingbaolidou_ty.aspx.designer.cs">
+      <DependentUpon>templeService_lingbaolidou_ty.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Temples\templeService_lingbaolidou_ty_fet.aspx.cs">
+      <DependentUpon>templeService_lingbaolidou_ty_fet.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Temples\templeService_lingbaolidou_ty_fet.aspx.designer.cs">
+      <DependentUpon>templeService_lingbaolidou_ty_fet.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Temples\templeService_marriagelights_Luer.aspx.cs">
+      <DependentUpon>templeService_marriagelights_Luer.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Temples\templeService_marriagelights_Luer.aspx.designer.cs">
+      <DependentUpon>templeService_marriagelights_Luer.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Temples\templeService_marriagelights_Luer_twm.aspx.cs">
+      <DependentUpon>templeService_marriagelights_Luer_twm.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Temples\templeService_marriagelights_Luer_twm.aspx.designer.cs">
+      <DependentUpon>templeService_marriagelights_Luer_twm.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Temples\templeService_purdue_da.aspx.cs">
+      <DependentUpon>templeService_purdue_da.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Temples\templeService_purdue_da.aspx.designer.cs">
+      <DependentUpon>templeService_purdue_da.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Temples\templeService_purdue_dh.aspx.cs">
+      <DependentUpon>templeService_purdue_dh.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Temples\templeService_purdue_dh.aspx.designer.cs">
+      <DependentUpon>templeService_purdue_dh.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Temples\templeService_purdue_Fu.aspx.cs">
+      <DependentUpon>templeService_purdue_Fu.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Temples\templeService_purdue_Fu.aspx.designer.cs">
+      <DependentUpon>templeService_purdue_Fu.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Temples\templeService_purdue_Fw.aspx.cs">
+      <DependentUpon>templeService_purdue_Fw.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Temples\templeService_purdue_Fw.aspx.designer.cs">
+      <DependentUpon>templeService_purdue_Fw.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Temples\templeService_purdue_h.aspx.cs">
+      <DependentUpon>templeService_purdue_h.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Temples\templeService_purdue_h.aspx.designer.cs">
+      <DependentUpon>templeService_purdue_h.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Temples\templeService_purdue_Lk.aspx.cs">
+      <DependentUpon>templeService_purdue_Lk.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Temples\templeService_purdue_Lk.aspx.designer.cs">
+      <DependentUpon>templeService_purdue_Lk.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Temples\templeService_purdue_Luer.aspx.cs">
+      <DependentUpon>templeService_purdue_Luer.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Temples\templeService_purdue_Luer.aspx.designer.cs">
+      <DependentUpon>templeService_purdue_Luer.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Temples\templeService_purdue_ma.aspx.cs">
+      <DependentUpon>templeService_purdue_ma.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Temples\templeService_purdue_ma.aspx.designer.cs">
+      <DependentUpon>templeService_purdue_ma.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Temples\templeService_purdue_mazu.aspx.cs">
+      <DependentUpon>templeService_purdue_mazu.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Temples\templeService_purdue_mazu.aspx.designer.cs">
+      <DependentUpon>templeService_purdue_mazu.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Temples\templeService_purdue_ty.aspx.cs">
+      <DependentUpon>templeService_purdue_ty.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Temples\templeService_purdue_ty.aspx.designer.cs">
+      <DependentUpon>templeService_purdue_ty.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Temples\templeService_purdue_wjsan.aspx.cs">
+      <DependentUpon>templeService_purdue_wjsan.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Temples\templeService_purdue_wjsan.aspx.designer.cs">
+      <DependentUpon>templeService_purdue_wjsan.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Temples\templeService_purdue_wu.aspx.cs">
+      <DependentUpon>templeService_purdue_wu.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Temples\templeService_purdue_wu.aspx.designer.cs">
+      <DependentUpon>templeService_purdue_wu.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Temples\templeService_supplies.aspx.cs">
+      <DependentUpon>templeService_supplies.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Temples\templeService_supplies.aspx.designer.cs">
+      <DependentUpon>templeService_supplies.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Temples\templeService_supplies2.aspx.cs">
+      <DependentUpon>templeService_supplies2.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Temples\templeService_supplies2.aspx.designer.cs">
+      <DependentUpon>templeService_supplies2.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Temples\templeService_supplies2_ty.aspx.cs">
+      <DependentUpon>templeService_supplies2_ty.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Temples\templeService_supplies2_ty.aspx.designer.cs">
+      <DependentUpon>templeService_supplies2_ty.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Temples\templeService_supplies3.aspx.cs">
+      <DependentUpon>templeService_supplies3.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Temples\templeService_supplies3.aspx.designer.cs">
+      <DependentUpon>templeService_supplies3.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Temples\templeService_supplies_dh.aspx.cs">
+      <DependentUpon>templeService_supplies_dh.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Temples\templeService_supplies_dh.aspx.designer.cs">
+      <DependentUpon>templeService_supplies_dh.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Temples\templeService_supplies_ty.aspx.cs">
+      <DependentUpon>templeService_supplies_ty.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Temples\templeService_supplies_ty.aspx.designer.cs">
+      <DependentUpon>templeService_supplies_ty.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Temples\templeService_TaoistJiaoCeremony_da.aspx.cs">
+      <DependentUpon>templeService_TaoistJiaoCeremony_da.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Temples\templeService_TaoistJiaoCeremony_da.aspx.designer.cs">
+      <DependentUpon>templeService_TaoistJiaoCeremony_da.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="TWPaymentCallback_EmperorGuansheng_ty.aspx.cs">
+      <DependentUpon>TWPaymentCallback_EmperorGuansheng_ty.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="TWPaymentCallback_EmperorGuansheng_ty.aspx.designer.cs">
+      <DependentUpon>TWPaymentCallback_EmperorGuansheng_ty.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="TWPaymentCallback_Lights.aspx.cs">
+      <DependentUpon>TWPaymentCallback_Lights.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="TWPaymentCallback_Lights.aspx.designer.cs">
+      <DependentUpon>TWPaymentCallback_Lights.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="TWPaymentCallback_Lights_da.aspx.cs">
+      <DependentUpon>TWPaymentCallback_Lights_da.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="TWPaymentCallback_Lights_da.aspx.designer.cs">
+      <DependentUpon>TWPaymentCallback_Lights_da.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="TWPaymentCallback_Lights_dh.aspx.cs">
+      <DependentUpon>TWPaymentCallback_Lights_dh.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="TWPaymentCallback_Lights_dh.aspx.designer.cs">
+      <DependentUpon>TWPaymentCallback_Lights_dh.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="TWPaymentCallback_Lights_Fu.aspx.cs">
+      <DependentUpon>TWPaymentCallback_Lights_Fu.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="TWPaymentCallback_Lights_Fu.aspx.designer.cs">
+      <DependentUpon>TWPaymentCallback_Lights_Fu.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="TWPaymentCallback_Lights_Fw.aspx.cs">
+      <DependentUpon>TWPaymentCallback_Lights_Fw.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="TWPaymentCallback_Lights_Fw.aspx.designer.cs">
+      <DependentUpon>TWPaymentCallback_Lights_Fw.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="TWPaymentCallback_Lights_h.aspx.cs">
+      <DependentUpon>TWPaymentCallback_Lights_h.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="TWPaymentCallback_Lights_h.aspx.designer.cs">
+      <DependentUpon>TWPaymentCallback_Lights_h.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="TWPaymentCallback_Lights_Lk.aspx.cs">
+      <DependentUpon>TWPaymentCallback_Lights_Lk.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="TWPaymentCallback_Lights_Lk.aspx.designer.cs">
+      <DependentUpon>TWPaymentCallback_Lights_Lk.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="TWPaymentCallback_Lights_Luer.aspx.cs">
+      <DependentUpon>TWPaymentCallback_Lights_Luer.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="TWPaymentCallback_Lights_Luer.aspx.designer.cs">
+      <DependentUpon>TWPaymentCallback_Lights_Luer.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="TWPaymentCallback_Lights_ma.aspx.cs">
+      <DependentUpon>TWPaymentCallback_Lights_ma.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="TWPaymentCallback_Lights_ma.aspx.designer.cs">
+      <DependentUpon>TWPaymentCallback_Lights_ma.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="TWPaymentCallback_Lights_ty.aspx.cs">
+      <DependentUpon>TWPaymentCallback_Lights_ty.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="TWPaymentCallback_Lights_ty.aspx.designer.cs">
+      <DependentUpon>TWPaymentCallback_Lights_ty.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="TWPaymentCallback_Lights_wjsan.aspx.cs">
+      <DependentUpon>TWPaymentCallback_Lights_wjsan.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="TWPaymentCallback_Lights_wjsan.aspx.designer.cs">
+      <DependentUpon>TWPaymentCallback_Lights_wjsan.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="TWPaymentCallback_Lights_wu.aspx.cs">
+      <DependentUpon>TWPaymentCallback_Lights_wu.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="TWPaymentCallback_Lights_wu.aspx.designer.cs">
+      <DependentUpon>TWPaymentCallback_Lights_wu.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="TWPaymentCallback_Lingbaolidou_ma.aspx.cs">
+      <DependentUpon>TWPaymentCallback_Lingbaolidou_ma.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="TWPaymentCallback_Lingbaolidou_ma.aspx.designer.cs">
+      <DependentUpon>TWPaymentCallback_Lingbaolidou_ma.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="TWPaymentCallback_Lingbaolidou_ty.aspx.cs">
+      <DependentUpon>TWPaymentCallback_Lingbaolidou_ty.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="TWPaymentCallback_Lingbaolidou_ty.aspx.designer.cs">
+      <DependentUpon>TWPaymentCallback_Lingbaolidou_ty.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="TWPaymentCallback_Moneymother.aspx.cs">
+      <DependentUpon>TWPaymentCallback_Moneymother.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="TWPaymentCallback_Moneymother.aspx.designer.cs">
+      <DependentUpon>TWPaymentCallback_Moneymother.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="TWPaymentCallback_Pilgrimage.aspx.cs">
+      <DependentUpon>TWPaymentCallback_Pilgrimage.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="TWPaymentCallback_Pilgrimage.aspx.designer.cs">
+      <DependentUpon>TWPaymentCallback_Pilgrimage.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="TWPaymentCallback_Product.aspx.cs">
+      <DependentUpon>TWPaymentCallback_Product.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="TWPaymentCallback_Product.aspx.designer.cs">
+      <DependentUpon>TWPaymentCallback_Product.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="TWPaymentCallback_Purdue.aspx.cs">
+      <DependentUpon>TWPaymentCallback_Purdue.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="TWPaymentCallback_Purdue.aspx.designer.cs">
+      <DependentUpon>TWPaymentCallback_Purdue.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="TWPaymentCallback_Purdue_da.aspx.cs">
+      <DependentUpon>TWPaymentCallback_Purdue_da.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="TWPaymentCallback_Purdue_da.aspx.designer.cs">
+      <DependentUpon>TWPaymentCallback_Purdue_da.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="TWPaymentCallback_Purdue_dh.aspx.cs">
+      <DependentUpon>TWPaymentCallback_Purdue_dh.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="TWPaymentCallback_Purdue_dh.aspx.designer.cs">
+      <DependentUpon>TWPaymentCallback_Purdue_dh.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="TWPaymentCallback_Purdue_Fu.aspx.cs">
+      <DependentUpon>TWPaymentCallback_Purdue_Fu.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="TWPaymentCallback_Purdue_Fu.aspx.designer.cs">
+      <DependentUpon>TWPaymentCallback_Purdue_Fu.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="TWPaymentCallback_Purdue_Fw.aspx.cs">
+      <DependentUpon>TWPaymentCallback_Purdue_Fw.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="TWPaymentCallback_Purdue_Fw.aspx.designer.cs">
+      <DependentUpon>TWPaymentCallback_Purdue_Fw.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="TWPaymentCallback_Purdue_h.aspx.cs">
+      <DependentUpon>TWPaymentCallback_Purdue_h.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="TWPaymentCallback_Purdue_h.aspx.designer.cs">
+      <DependentUpon>TWPaymentCallback_Purdue_h.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="TWPaymentCallback_Purdue_Jing.aspx.cs">
+      <DependentUpon>TWPaymentCallback_Purdue_Jing.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="TWPaymentCallback_Purdue_Jing.aspx.designer.cs">
+      <DependentUpon>TWPaymentCallback_Purdue_Jing.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="TWPaymentCallback_Purdue_Lk.aspx.cs">
+      <DependentUpon>TWPaymentCallback_Purdue_Lk.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="TWPaymentCallback_Purdue_Lk.aspx.designer.cs">
+      <DependentUpon>TWPaymentCallback_Purdue_Lk.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="TWPaymentCallback_Purdue_Luer.aspx.cs">
+      <DependentUpon>TWPaymentCallback_Purdue_Luer.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="TWPaymentCallback_Purdue_Luer.aspx.designer.cs">
+      <DependentUpon>TWPaymentCallback_Purdue_Luer.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="TWPaymentCallback_Purdue_ma.aspx.cs">
+      <DependentUpon>TWPaymentCallback_Purdue_ma.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="TWPaymentCallback_Purdue_ma.aspx.designer.cs">
+      <DependentUpon>TWPaymentCallback_Purdue_ma.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="TWPaymentCallback_Purdue_mazu.aspx.cs">
+      <DependentUpon>TWPaymentCallback_Purdue_mazu.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="TWPaymentCallback_Purdue_mazu.aspx.designer.cs">
+      <DependentUpon>TWPaymentCallback_Purdue_mazu.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="TWPaymentCallback_Purdue_ty.aspx.cs">
+      <DependentUpon>TWPaymentCallback_Purdue_ty.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="TWPaymentCallback_Purdue_ty.aspx.designer.cs">
+      <DependentUpon>TWPaymentCallback_Purdue_ty.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="TWPaymentCallback_Purdue_wu.aspx.cs">
+      <DependentUpon>TWPaymentCallback_Purdue_wu.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="TWPaymentCallback_Purdue_wu.aspx.designer.cs">
+      <DependentUpon>TWPaymentCallback_Purdue_wu.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="TWPaymentCallback_Supplies2_ty.aspx.cs">
+      <DependentUpon>TWPaymentCallback_Supplies2_ty.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="TWPaymentCallback_Supplies2_ty.aspx.designer.cs">
+      <DependentUpon>TWPaymentCallback_Supplies2_ty.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="TWPaymentCallback_Supplies_dh.aspx.cs">
+      <DependentUpon>TWPaymentCallback_Supplies_dh.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="TWPaymentCallback_Supplies_dh.aspx.designer.cs">
+      <DependentUpon>TWPaymentCallback_Supplies_dh.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="TWPaymentCallback_Supplies_ty.aspx.cs">
+      <DependentUpon>TWPaymentCallback_Supplies_ty.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="TWPaymentCallback_Supplies_ty.aspx.designer.cs">
+      <DependentUpon>TWPaymentCallback_Supplies_ty.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="TWPaymentCallback_Supplies_wu.aspx.cs">
+      <DependentUpon>TWPaymentCallback_Supplies_wu.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="TWPaymentCallback_Supplies_wu.aspx.designer.cs">
+      <DependentUpon>TWPaymentCallback_Supplies_wu.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="TWPaymentCallback_Supplies_wu2.aspx.cs">
+      <DependentUpon>TWPaymentCallback_Supplies_wu2.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="TWPaymentCallback_Supplies_wu2.aspx.designer.cs">
+      <DependentUpon>TWPaymentCallback_Supplies_wu2.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="TWPaymentCallback_Supplies_wu3.aspx.cs">
+      <DependentUpon>TWPaymentCallback_Supplies_wu3.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="TWPaymentCallback_Supplies_wu3.aspx.designer.cs">
+      <DependentUpon>TWPaymentCallback_Supplies_wu3.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="TWPaymentCallback_TaoistJiaoCeremony_da.aspx.cs">
+      <DependentUpon>TWPaymentCallback_TaoistJiaoCeremony_da.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="TWPaymentCallback_TaoistJiaoCeremony_da.aspx.designer.cs">
+      <DependentUpon>TWPaymentCallback_TaoistJiaoCeremony_da.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="WebForm1.aspx.cs">
+      <DependentUpon>WebForm1.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="WebForm1.aspx.designer.cs">
+      <DependentUpon>WebForm1.aspx</DependentUpon>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="FET\Lights\images\_notes\arrow_l.png.mno" />
+    <Content Include="FET\Lights\images\_notes\arrow_r.png.mno" />
+    <Content Include="FET\Lights\images\_notes\banner2.jpg.mno" />
+    <Content Include="FET\Lights\images\_notes\banner_m2.jpg.mno" />
+    <Content Include="FET\Lights\images\_notes\completed%402x.png.mno" />
+    <Content Include="FET\Lights\images\_notes\downdrop.png.mno" />
+    <Content Include="FET\Lights\images\_notes\hook-w.png.mno" />
+    <Content Include="FET\Lights\images\_notes\pic1.jpg.mno" />
+    <Content Include="FET\Lights\images\_notes\pic2.jpg.mno" />
+    <Content Include="FET\Lights\images\_notes\pic3.jpg.mno" />
+    <Content Include="FET\Lights\images\_notes\pic4.jpg.mno" />
+    <Content Include="FET\Supplies\images\_notes\arrow_l.png.mno" />
+    <Content Include="FET\Supplies\images\_notes\arrow_r.png.mno" />
+    <Content Include="FET\Supplies\images\_notes\banner2.jpg.mno" />
+    <Content Include="FET\Supplies\images\_notes\banner_m2.jpg.mno" />
+    <Content Include="FET\Supplies\images\_notes\completed%402x.png.mno" />
+    <Content Include="FET\Supplies\images\_notes\downdrop.png.mno" />
+    <Content Include="FET\Supplies\images\_notes\hook-w.png.mno" />
+    <Content Include="FET\Supplies\images\_notes\pic1.jpg.mno" />
+    <Content Include="FET\Supplies\images\_notes\pic2.jpg.mno" />
+    <Content Include="FET\Supplies\images\_notes\pic3.jpg.mno" />
+    <Content Include="FET\Supplies\images\_notes\pic4.jpg.mno" />
+    <Content Include="css\search\fonts\slick.eot" />
+    <Content Include="css\search\fonts\slick.ttf" />
+    <Content Include="css\search\fonts\slick.woff" />
+    <Content Include="css\images\Thumbs.db" />
+    <None Include="packages.config" />
+    <Content Include="Temples\css\fonts\slick.eot" />
+    <Content Include="Temples\css\fonts\slick.ttf" />
+    <Content Include="Temples\css\fonts\slick.woff" />
+    <Content Include="Temples\slick\config.rb" />
+    <Content Include="Temples\slick\fonts\slick.eot" />
+    <Content Include="Temples\slick\fonts\slick.ttf" />
+    <Content Include="Temples\slick\fonts\slick.woff" />
+    <Content Include="Temples\slick\slick-theme.less" />
+    <Content Include="Temples\slick\slick-theme.scss" />
+    <Content Include="Temples\slick\slick.less" />
+    <Content Include="Temples\slick\slick.scss" />
+    <Content Include="Temples\bootstrap\css\bootstrap-grid.css.map" />
+    <Content Include="Temples\bootstrap\css\bootstrap-grid.min.css.map" />
+    <Content Include="Temples\bootstrap\css\bootstrap-grid.rtl.css.map" />
+    <Content Include="Temples\bootstrap\css\bootstrap-grid.rtl.min.css.map" />
+    <Content Include="Temples\bootstrap\css\bootstrap-reboot.css.map" />
+    <Content Include="Temples\bootstrap\css\bootstrap-reboot.min.css.map" />
+    <Content Include="Temples\bootstrap\css\bootstrap-reboot.rtl.css.map" />
+    <Content Include="Temples\bootstrap\css\bootstrap-reboot.rtl.min.css.map" />
+    <Content Include="Temples\bootstrap\css\bootstrap-utilities.css.map" />
+    <Content Include="Temples\bootstrap\css\bootstrap-utilities.min.css.map" />
+    <Content Include="Temples\bootstrap\css\bootstrap-utilities.rtl.css.map" />
+    <Content Include="Temples\bootstrap\css\bootstrap-utilities.rtl.min.css.map" />
+    <Content Include="Temples\bootstrap\css\bootstrap.css.map" />
+    <Content Include="Temples\bootstrap\css\bootstrap.min.css.map" />
+    <Content Include="Temples\bootstrap\css\bootstrap.rtl.css.map" />
+    <Content Include="Temples\bootstrap\css\bootstrap.rtl.min.css.map" />
+    <Content Include="Temples\bootstrap\js\bootstrap.bundle.js.map" />
+    <Content Include="Temples\bootstrap\js\bootstrap.bundle.min.js.map" />
+    <Content Include="Temples\bootstrap\js\bootstrap.esm.js.map" />
+    <Content Include="Temples\bootstrap\js\bootstrap.esm.min.js.map" />
+    <Content Include="Temples\bootstrap\js\bootstrap.js.map" />
+    <Content Include="Temples\bootstrap\js\bootstrap.min.js.map" />
+    <Content Include="Temples\images\.DS_Store" />
+    <Content Include="Temples\images\jqueryUiImages\Thumbs.db" />
+    <Content Include="Temples\SiteFile\News\.DS_Store" />
+    <Content Include="Product\css\fonts\slick.eot" />
+    <Content Include="Product\css\fonts\slick.ttf" />
+    <Content Include="Product\css\fonts\slick.woff" />
+    <Content Include="Product\css\images\Thumbs.db" />
+    <None Include="Web.Debug.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </None>
+    <None Include="Web.Release.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </None>
+  </ItemGroup>
+  <ItemGroup />
+  <PropertyGroup>
+    <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
+    <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
+  </PropertyGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(VSToolsPath)\WebApplications\Microsoft.WebApplication.targets" Condition="'$(VSToolsPath)' != ''" />
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" Condition="false" />
+  <ProjectExtensions>
+    <VisualStudio>
+      <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
+        <WebProjectProperties>
+          <UseIIS>True</UseIIS>
+          <AutoAssignPort>True</AutoAssignPort>
+          <DevelopmentServerPort>56371</DevelopmentServerPort>
+          <DevelopmentServerVPath>/</DevelopmentServerVPath>
+          <IISUrl>http://localhost:56371/</IISUrl>
+          <NTLMAuthentication>False</NTLMAuthentication>
+          <UseCustomServer>False</UseCustomServer>
+          <CustomServerUrl>
+          </CustomServerUrl>
+          <SaveServerSettingsInUserFile>False</SaveServerSettingsInUserFile>
+        </WebProjectProperties>
+      </FlavorProperties>
+    </VisualStudio>
+  </ProjectExtensions>
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.1\build\net46\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.1\build\net46\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props'))" />
+  </Target>
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

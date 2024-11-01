@@ -1,0 +1,1758 @@
+@charset "utf-8";
+/* CSS Document */
+
+/*-----css基本設定---------*/
+@font-face {
+  font-family: FakePearl-Regular;
+  src: url(https://cdn.jsdelivr.net/gh/max32002/FakePearl@1.1/webfont/FakePearl-Regular.woff2) format("woff2")
+  , url(https://cdn.jsdelivr.net/gh/max32002/FakePearl@1.1/webfont/FakePearl-Regular.woff) format("woff");
+}
+
+*, body, h1, h2, h3, h4, h5, h6, a, p, select  {
+	font-family: FakePearl-Regular, "微軟正黑體", "Microsoft JhengHei", sans-serif, Arial, Helvetica;
+}
+/*文字反選顏色*/
+::selection, ::-moz-selection {
+	background: #e78d09;
+	color: #ffffff;
+}
+
+/*a:focus {
+	background-color: #F7AD00 !important;
+}*/
+a {
+	transition: .5s;
+}
+/*a:hover {
+	filter:brightness(110%);
+	transition: .5s;
+}*/
+/*a:focus img {
+	-webkit-filter:saturate(0.2);
+}*/
+
+
+/*--行動版隱藏--*/
+.mob {
+	display: none !important;
+}
+
+
+html {
+	height: 100%;
+	margin: 0;
+}
+body {
+	margin: 0;
+	min-height: 100%;
+    background: url("../images/bg.png"), #FFF0BF;
+}
+
+/*清除格式*/
+.CleanFormat { 
+	clear: both;
+}
+#article::after, section::after, header::after {
+	content: "";
+	display: block;
+	clear: both;
+}
+
+/*分隔線*/
+.Dividers {
+	margin: 10px auto;
+	width: 100%;
+	height: 1px;
+	border-bottom: 1px dotted #373b80;
+}
+
+/*------------------------WebStart----------------------*/
+#wrap {
+    display: block;
+    position: relative;
+    margin: 0 auto;
+    width: 100%;
+    overflow: hidden;
+}
+
+
+/*-------------------------Header-----------------------*/
+header {
+    display: block;
+    position: relative;
+    z-index: 5;
+}
+
+/*---------------------------Menu-----------------------*/
+nav {
+    
+}
+nav li {
+    
+}
+nav a {
+    
+}
+nav a:hover, nav a.active {
+    
+}
+
+/*-----手機版選單------*/
+
+
+/*-------------------------BODY-------------------------*/
+article {
+    position: relative;
+    z-index: 1;
+}
+section {
+    position: relative;
+}
+/*-------------------------FOOTER-----------------------*/
+footer {
+    background: #9A0F1B;
+    padding: 2vw 0;
+    position: relative;
+    z-index: 1;
+}
+
+.FooterLogo {
+    display: block;
+    width: 28vw;
+    margin: 0 auto 1vw;
+}
+
+.FooterLogo ul {
+    font-size: 0;
+    text-align: center;
+}
+
+.FooterLogo li {
+    display: inline-block;
+    vertical-align: middle;
+    width: 45%;
+    margin-right: 10%;
+}
+
+.FooterLogo li:last-child {
+    margin-right: 0;
+}
+
+.footerinfo {
+    font-size: 1.2vw;
+    color: #fff;
+    text-align: center;
+    margin-bottom: 1vw;
+}
+
+.footerTxt, .footerTxt div, .footerTxt label, .footerTxt a, .footerTxt span {
+    color: #CCA161;
+    text-align: center;
+    font-size: 1vw;
+}
+
+.footerContact > div {
+    display: inline-block;
+}
+
+.footerContact > div:first-child {
+    margin-right: 1vw;
+}
+
+.footerTxt label:after {
+    content: "：";
+}
+
+.serviceTime span:last-child {
+    margin-left:0.5vw;
+}
+
+/*--------------------------共用項目-------------------------------*/
+/*-----圖片初始-----*/
+img {
+    display: block;
+    position: relative;
+    width: 100%;
+    height: auto;
+}
+
+
+/*-----內容設定-----*/
+h3 {
+    text-align: center;
+    color: #CCA161;
+    font-size: 2.3vw;
+}
+.content {
+    font-size: 1.25vw;
+    line-height: 2.25vw;
+    text-align: justify;
+    font-weight: lighter;
+}
+
+.content span {
+    font-size: inherit;
+}
+
+.TxtW {
+    color: #fff;
+}
+
+.TxtB {
+    color: #000;
+}
+
+.nextpart {
+    margin-bottom: 5vw;
+}
+
+
+h5 {
+    color: #CCA161;
+    text-align: center;
+    font-size: 1.7vw;
+    font-weight: lighter;
+}
+/*--------------------------內容開始-------------------------------*/
+/*-----固定背景-----*/
+#BgFixed {
+    display: block;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: url("../images/banner.jpg") no-repeat center;
+    background-size: cover !important;
+}
+
+/*-----選單-----*/
+#Menu {
+    width: calc(100% - 40px);
+    position: absolute;
+    text-align: right;
+    padding: 37.5px 20px;
+    top: 0;
+    background: -moz-linear-gradient(top, rgba(204,161,97,1) 0%, rgba(204,161,97,0) 100%);
+    background: -webkit-linear-gradient(top, rgba(204,161,97,1) 0%,rgba(204,161,97,0) 100%);
+    background: linear-gradient(to bottom, rgba(204,161,97,1) 0%,rgba(204,161,97,0) 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#cca161', endColorstr='#00cca161',GradientType=0 );
+}
+
+ul.MenuList {
+    display: block;
+    font-size: 0;
+}
+
+ul.MenuList li {
+    display: inline-block;
+    vertical-align: middle;
+    margin-right: 20px;
+}
+
+ul.MenuList li:last-child {
+    margin-right: 0;
+}
+
+ul.MenuList a {
+    color: #fff;
+    display: block;
+}
+
+ul.MenuList a div {
+    display: inline-block;
+    vertical-align: middle;
+    font-size: 1.2rem;
+    line-height: 25px;
+}
+
+ul.MenuList a div:last-child {
+    margin-left: 10px;
+}
+
+ul.MenuList a img {
+    height: 25px;
+}
+
+
+/*-----區塊一：Banner-----*/
+#Banner {
+    display: block;
+    position: relative;
+    width: 100vw;
+    height: 100vh;
+}
+
+.WebTitleBk {
+    display: block;
+    width: 100%;
+    height: 100%;
+    text-align: center;
+}
+
+.WebTitleBk::after {
+    content: "";
+    display: inline-block;
+    vertical-align: middle;
+    height: 100%;
+}
+
+h1.WebTitle {
+    display: inline-block;
+    width: 42%;
+    vertical-align: middle;
+}
+
+.deco_lamp {
+    display: block;
+    width: 100vw;
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
+.deco_lamp div {
+    background-size: cover;
+    background-position: center;
+    position: absolute;
+    top: 0;
+}
+
+.deco_lamp_L {
+    background: url(../images/banner_dec_L.png);
+    width: 13.8025vw;
+    padding-top: 26.9278vw;
+    left: 17vw;
+}
+.deco_lamp_R {
+    background: url(../images/banner_dec_R.png);
+    width: 14.323vw;
+    padding-top: 28.49vw;
+    right: 17vw;
+}
+
+/*-----區塊二：活動說明-----*/
+#EventInfo {
+    background: #9A0F1B;
+    padding: 4vw 0;
+}
+.EventContent {
+    display: block;
+    margin: 0 auto;
+    width: 37%;
+}
+
+
+
+/*-----區塊三：小贈品-----*/
+#Gift {
+    background: #FFF3F3;
+    padding: 4vw 0;
+}
+
+#Gift h2 {
+    background: url(../images/TitleBg.png) no-repeat center;
+    background-size: contain !important;
+    color: #CCA161;
+    font-size: 3vw;
+    font-weight: lighter;
+    text-align: center;
+    padding: 2.3vw 0 0.55vw;
+    line-height: 4vw;
+    margin-bottom: 3vw;
+    position: relative;
+    z-index: 1;
+}
+
+.GiftTitle {
+    width: 35vw;
+    display: block;
+    margin: 0 auto 3vw;
+    color: #9A0F1B;
+    position: relative;
+    z-index: 1;
+    text-align: center;
+}
+
+.GiftTitle span {
+    font-size: 2vw;
+    display: inline-block;
+    font-weight: lighter;
+    line-height: 3vw;
+}
+
+.GiftTitle span:nth-child(odd) {
+    margin-right: 1vw;
+}
+
+.GiftInfo {
+    width: 35vw;
+    text-align: center;
+    display: block;
+    margin: 0 auto 3vw;
+    position: relative;
+    z-index: 1;
+}
+
+.GiftContent {
+    position: relative;
+    z-index: 1;
+}
+
+.GiftW {
+    display: block;
+    width: 35vw;
+    margin: 0 auto;
+}
+
+.GiftW .GiftImgList {
+    display: block;
+    width: 90%;
+    margin: 0 auto 2vw;
+    font-size: 0;
+}
+
+.GiftW .GiftImgList li {
+    display: inline-block;
+    margin-right: 3.5%;
+    vertical-align: middle;
+    width: 31%;
+}
+
+.GiftW .GiftImgList li:last-child {
+    margin-right: 0;
+}
+
+.GiftTxt h5 {
+    font-size: 1.5vw;
+    color: #CCA161;
+    font-weight: lighter;
+}
+
+.GiftTxt li {
+    margin-bottom: 1vw;
+}
+
+.GiftTxt li:last-child {
+    margin-bottom: 0;
+}
+
+
+.GiftM {
+    display: none;
+}
+
+
+.GiftDecoBg {
+    width: 80vw;
+    display: block;
+    position: absolute;
+    left: 10vw;
+    bottom: 0;
+    z-index: 0;
+    overflow: hidden;
+}
+
+.GiftDecoBg::after {
+    content: "";
+    display: block;
+    width: 100%;
+    padding-top: 100%;
+    background: #FFC8AD;
+    border-radius: 50%;
+    margin-bottom: -20%;
+}
+
+.deco_gift {
+    display: block;
+    position: absolute;
+    left: 0;
+    width: 100vw;
+}
+
+.deco_gift div {
+    display: block;
+    position: absolute;
+    background-size: cover;
+    background-position: center;
+    z-index: 1;
+}
+
+.deco_gift_lamp_L {
+    background: url("../images/content_deco_L.png");
+    width: 9.792vw;
+    padding-top: 27.188vw;
+    left: 16vw;
+}
+.deco_gift_lamp_R {
+    background: url("../images/content_deco_R.png");
+    width: 9.323vw;
+    padding-top: 24.636vw;
+    right: 16vw;
+}
+.deco_gift_cloud_L {
+    background: url("../images/cloud_deco_1.png");
+    width: 28.646vw;
+    padding-top: 9.532vw;
+    left: -6vw;
+    top: 43vw;
+}
+.deco_gift_cloud_R_1 {
+    background: url("../images/cloud_deco_2.png");
+    width: 30.625vw;
+    padding-top: 10.1045vw;
+    right: -12vw;
+    top: 9vw;
+}
+.deco_gift_cloud_R_2 {
+    background: url("../images/cloud_deco_3.png");
+    width: 41.667vw;
+    padding-top: 13.8545vw;
+    right: -12vw;
+    top: 45vw;
+}
+.deco_gift_btm_L {
+    background: url("../images/deco_4.png");
+    width: 19.375vw;
+    padding-top: 7.917vw;
+    left: 10vw;
+    bottom: -5vw;
+}
+.deco_gift_btm_R {
+    background: url("../images/deco_3.png");
+    width: 19.375vw;
+    padding-top: 11.875vw;
+    right: 10vw;
+    bottom: -5vw;
+}
+
+/*-----區塊四：產品介紹-----*/
+#Products {
+    background: #9A0F1B;
+    padding: 4vw 0;
+}
+
+.ProductsList {
+    width: 64vw;
+    margin: 0 auto;
+    padding-top: 3vw;
+    font-size: 0;
+}
+
+.Products {
+    display: inline-block;
+    width: 41%;
+    vertical-align: top;
+}
+
+.Products:first-child {
+    margin-right: 18%;
+}
+
+ul.ProductsImg {
+    width: 90%;
+    display: block;
+    margin: 0 auto;
+}
+
+.ProductsPrice {
+    text-align: center;
+    font-size: 1.2vw;
+    color: #fff;
+    margin-bottom: 2vw;
+}
+
+.ProductsPrice span {
+    font-size: 1.5vw;
+    color: #CCA161;
+}
+
+.ProductsContent {
+    margin-bottom: 2vw;
+}
+
+.ProductsVideo a {
+    position: relative;
+    width: 100%;
+    padding-top: 56.25%;
+    display: block;
+    background-size: cover !important;
+    background-position: center !important;
+}
+
+.ProductsVideo a img {
+    display: block;
+    position: absolute;
+    width: 20%;
+    left: 40%;
+    top: 30%;
+}
+
+
+/*-----區塊五：行程-----*/
+#schedule {
+    background: url("../images/deco_5.png") no-repeat bottom left, url("../images/deco_6.png") no-repeat bottom right, #CCA161;
+    padding: 4vw 0 8vw;
+    background-size: 35.8vw, 29.8vw;
+}
+
+#schedule h3 {
+    color: #9A0F1B;
+}
+
+#schedule p {
+    text-align: center;
+    font-size: 1.2vw;
+    color: #fff;
+    font-weight: lighter;
+    margin-bottom: 3vw;
+}
+
+ul.scheduleList {
+    display: block;
+    width: 49vw;
+    font-size: 0;
+    margin: 0 auto;
+    text-align: center;
+}
+
+ul.scheduleList li {
+    display: inline-block;
+    vertical-align: top;
+    width: 19%;
+    margin: 0 1.25% 2% 0;
+}
+
+ul.scheduleList li:nth-child(5n) {
+    margin: 0 0 2%;
+}
+
+ul.scheduleList li div {
+    font-size: 1vw;
+}
+
+ul.scheduleList li > div:first-child {
+    background: #9A0F1B;
+    color: #fff;
+}
+
+ul.scheduleList li > div:last-child {
+    background: #fff;
+}
+
+ul.scheduleList li > div {
+    padding: 5% 0;
+}
+
+ul.scheduleList li > div:last-child > div:first-child {
+    color: #CCA161;
+}
+
+ul.scheduleList li > div:last-child > div:last-child {
+    color: #9A0F1B;
+}
+
+/*-----區塊六：購物車-----*/
+#Shopcart {
+    background: #FFF3F3;
+    padding: 4vw 0;
+}
+
+#Shopcart h3 {
+    color: #9A0F1B;
+    margin-bottom: 3vw;
+}
+
+
+/*---產品表單---*/
+.shopproducts {
+    display: block;
+    margin: 0 auto 2vw;
+    width: 50vw;
+    border-bottom: 1px solid #707070;
+}
+
+.shopproducts > div {
+    padding: 2vw 1vw;
+    border-bottom: 1px dashed #707070;
+    font-size: 0;
+}
+
+.shopproducts > div:last-child {
+    border-bottom: none;
+}
+
+.shopproducts > div > div {
+    display: inline-block;
+    vertical-align: top;
+}
+
+.shopProductsImg {
+    width: 40%;
+    margin-right: 5%;
+}
+
+.shopProductsInfo {
+    width: 55%;
+}
+
+.shopProductsInfo h5 {
+    text-align: left;
+}
+
+.ItemInfo label, .ItemInfo div, .ItemInfo span {
+    font-size: 1.2vw;
+}
+
+.ItemInfo > label, .ItemInfo > div {
+    display: inline-block;
+    vertical-align: middle;
+}
+
+.ItemInfo > label::after {
+    content: "：";
+}
+
+.CountBtn {
+    background: #9A0F1B;
+    border: none;
+    color: #fff;
+    width: 1.6vw;
+    height: 1.6vw;
+    vertical-align: middle;
+    border-radius: 0;
+    -webkit-appearance: none;
+}
+
+.ItemCount {
+    width: 4.5vw;
+    height: 1.6vw;
+    vertical-align: middle;
+    border: none;
+    background: none;
+    text-align: center;
+}
+
+#ItemTag label, #ItemTag div, #ItemTag input[type="text"] {
+    display: inline;
+}
+
+#ItemTag li > label::after {
+    content: "：";
+}
+
+#ItemTag input[type="text"] {
+    width: 9vw;
+    border: none;
+    text-align: center;
+    border-radius: 0;
+    -webkit-appearance: none;
+}
+
+.shopProductsInfo > div {
+    margin-bottom: 0.5vw;
+}
+
+ul#ItemTag li {
+    margin-bottom: 0.5vw;
+}
+
+#ItemTag input[type="text"][readonly] {
+    background: #dfdfdf;
+}
+
+.shopmemberInfo {
+    width: 40vw;
+    margin: 0 auto;
+}
+
+.shopmemberInfoTitle {
+    text-align: center;
+    font-size: 2vw;
+    margin-bottom: 2vw;
+}
+
+.shopmemberInfoTitle span {
+    font-size: 1.2vw;
+}
+
+.shopmemberForm > div {
+    margin-bottom: 0.5vw;
+}
+
+.shopmemberForm label {
+    font-size: 1.2vw;
+    display: inline-block;
+    vertical-align: top;
+    width: 6.5vw;
+    text-align: right;
+    line-height: calc(2vw + 12px);
+}
+
+.shopmemberForm label::after {
+    content: "：";
+}
+
+.shopmemberForm > div > div {
+    display: inline-block;
+    width: calc(100% - 6.5vw);
+}
+
+.shopmemberForm > div > div input {
+    border: none;
+    height: 2vw;
+    width: 15vw;
+    padding: 6px;
+    font-size: 1vw;
+    border-radius: 0;
+    -webkit-appearance: none;
+}
+
+.twzipcode select {
+    border: none;
+    height: calc(2vw + 12px);
+    width: 10vw;
+    padding: 0 6px;
+    font-size: 1vw;
+    background: #fff;
+    color: #000;
+    -webkit-appearance: menulist; /* 保留默认外观样式 */
+    appearance: menulist;
+    border-radius: 0;
+}
+
+.twzipcode {
+    margin-bottom: 0.5vw;
+}
+
+.twzipcode select:first-child {
+    margin-right: 0.5vw;
+}
+
+.twzipcode ~ div input {
+    width: calc(80% - 12px) !important;
+}
+
+.shopmemberInfo > div:last-child {
+    text-align: center;
+    margin-top: 2vw;
+}
+
+.shopmemberInfo > div:last-child input[type="button"] {
+    color: #fff;
+    background: #9A0F1B;
+    border: none;
+    font-size: 1.5vw;
+    padding: 0.5vw 2vw;
+    border-radius: 0;
+    -webkit-appearance: none;
+}
+
+
+/*-----裝飾項目-----*/
+.decoCircle {
+    display: block;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+}
+
+.decoCircle > div {
+    width: 25vw;
+    display: block;
+    position: absolute;
+    z-index: 5;
+}
+.decoCircle > div > div {
+    width: 100%;
+    padding-top: 100%;
+    background-size: cover;
+    background-position: center;
+}
+.deco_Circle_Type1 {
+    background: url("../images/deco_1.png");
+}.deco_Circle_Type2 {
+    background: url("../images/deco_2.png");
+}
+
+.deco_Circle_A {
+    top: -15vh;
+    left: -6vw;
+}
+
+.deco_Circle_B {
+    top: calc(100vh + 23vw);
+    left: -7vw;
+}
+
+.deco_Circle_C {
+    top: 75vh;
+    right: -6vw;
+}
+
+
+
+/*-----訂單確認-----*/
+.OrderPupBox {
+    background: #fff3f3;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: 10;
+    padding: 0 0 2vh 0;
+}
+
+.OrderTitle {
+    color: #fff;
+    text-align: center;
+    font-size: 2vw;
+    background: #9A0F1B;
+    padding-top: 1vw;
+}
+
+.OrderContent {
+    height: 90vh;
+    overflow: auto;
+    text-align: center;
+}
+
+.OrderContent .shopProductsImg {
+    width: 20%;
+}
+
+.OrderContent .shopProductsInfo {text-align: left;}
+
+#OrderItemTag li {
+    font-size: 1.2vw;
+    margin-bottom: .5vw;
+}
+
+#OrderItemTag li:last-child {
+    margin-bottom: 0;
+}
+
+.OrderName, .OrderTel, .OrderAdd, .OrderDiscountCode {
+    font-size: 1.2vw;
+    line-height: calc(2vw + 12px);
+    text-align: left;
+}
+
+.OrderSum {
+    font-size: 1.8vw;
+    font-weight: bold;
+}
+
+.OrderSum span {
+    font-size: inherit;
+    font-weight: inherit;
+    color: #9A0F1B;
+}
+
+.PayButton ul li {
+    display: inline-block;
+    vertical-align: middle;
+    margin-right: 1vw;
+}
+
+.PayButton ul li:last-child {
+    margin-right: 0;
+}
+
+.PayButton {
+    text-align: center;
+    margin-top: 2vw;
+}
+
+.PayButton input {
+    display: block;
+    padding: .5vw 2vw;
+    font-size: 1.2vw;
+    border: none;
+    color: #fff;
+}
+
+#EditOrder {
+    background: #BAAF98;
+}
+
+#mobile_pay, #card_pay, #Jkos_pay, #Line_pay, #mobile_cht_pay, #mobile_twm_pay {
+    background: #9A0F1B;
+}
+
+#Google_pay {
+    background: #fff;
+}
+
+/*-----錯誤提示-----*/
+.AlertPupBox {
+    display: block;
+    position: fixed;
+    z-index: 99;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0, 0, 0, .8);
+    top: 0;
+    left: 0;
+    font-size: 0;
+    text-align: center;
+}
+
+.AlertPupBox::after {
+    content: "";
+    width: 0;
+    height: 100%;
+    display: inline-block;
+    vertical-align: middle;
+}
+
+.PupContent {
+    display: inline-block;
+    width: 50vw;
+    padding: 2vw;
+    background: #FFF3F3;
+}
+
+.AlertTitle {
+    font-size: 2vw;
+    color: #9A0F1B;
+    border-bottom: 1px solid #9A0F1B;
+    margin-bottom: 0.5vw;
+}
+
+#AlertContent {
+    font-size: 1.2vw;
+    margin-bottom: 1vw;
+}
+
+.CloseBtn input {
+    font-size: 1.2vw;
+    width: 35%;
+    border: 0;
+    background: #9A0F1B;
+    color: #fff;
+    padding: 0.5vw;
+}
+
+/*-----訂單完成-----*/
+.PayButton a {
+    display: block;
+    color: #fff;
+    background: #9a0f1b;
+    width: 90%;
+    max-width: 430px;
+    padding: 10px 0;
+    margin: 0 auto;
+    font-size: 1.2vw;
+}
+
+
+
+/*---------------------------自適應內容----------------------------*/
+/*--高--*/
+@media only screen and (max-height: 820px) {
+
+}
+@media only screen and (max-height: 600px) {
+
+}
+
+
+
+/*--寬--*/
+@media only screen and (max-width: 1180px) {
+/*--ipad air--*/
+ul.MenuList a div {
+    font-size: 2.5vw;
+}    
+    
+    
+.decoCircle > div {
+    width: 40vw;
+}
+
+.deco_Circle_A {
+    top: -10vh;
+    left: -10vw;
+}
+
+#EventInfo {
+    padding: 8vh 0;
+}
+
+.deco_Circle_B {
+    top: calc(100vh + 45vw);
+    left: -7vw;
+    opacity: 0.5;
+}
+
+.deco_Circle_C {
+    top: 84vh;
+    right: -13vw;
+}    
+    
+.deco_gift_lamp_L {
+    width: 14vw;
+    padding-top: 41vw;
+    left: 5vw;
+}
+
+.deco_gift_lamp_R {
+    width: 12vw;
+    padding-top: 32vw;
+    right: 6vw;
+}
+
+.deco_gift_cloud_L {
+    width: 38vw;
+    padding-top: 13vw;
+    top: 76vw;
+}
+
+.deco_gift_cloud_R_1 {
+    width: 40vw;
+    padding-top: 13vw;
+    top: 65vw;
+}
+
+.deco_gift_cloud_R_2 {
+    width: 50vw;
+    padding-top: 16.8vw;
+    top: 94vw;
+}
+
+.deco_gift_btm_L {
+    width: 30vw;
+    padding-top: 12vw;
+    left: 3vw;
+    bottom: -6vw;
+}
+
+.deco_gift_btm_R {
+    width: 25vw;
+    padding-top: 14.875vw;
+    right: 4vw;
+    bottom: -7vw;
+}
+    
+    
+h1.WebTitle {
+    width: 70%;
+}
+    
+.deco_lamp_L {
+    width: 20vw;
+    padding-top: 39vw;
+    left: 5vw;
+}
+    
+.deco_lamp_R {
+    width: 20vw;
+    padding-top: 40vw;
+    right: 5vw;
+}
+    
+.EventContent {
+    width: 80%;
+}
+
+h3 {
+    font-size: 5vw;
+}
+
+.content {
+    font-size: 2.5vw;
+    line-height: 3.5vw;
+}    
+
+#Gift {
+    padding: 4vh 0 6vh;
+}
+    
+#Gift h2 {
+    font-size: 7vw;
+    line-height: 9vw;
+}
+
+.GiftTitle {
+    width: 70%;
+}
+
+.GiftTitle span {
+    font-size: 4vw;
+    line-height: 5vw;
+}    
+    
+.GiftInfo, .GiftW {
+    width: 80%;
+}
+
+.GiftTxt h5 {
+    font-size: 4vw;
+}
+
+#Gift {
+    padding: 4vh 0 6vh;
+}    
+    
+.ProductsList {
+    width: 80%;
+}
+
+.Products {
+    width: 47%;
+}
+
+.Products:first-child {
+    margin-right: 6%;
+}    
+
+.ProductsPrice {
+    font-size: 2.5vw;
+}
+
+.ProductsPrice span {
+    font-size: 2.8vw;
+}    
+    
+    
+#schedule p {
+    font-size: 3.5vw;
+}
+
+ul.scheduleList {
+    width: 80%;
+}
+
+ul.scheduleList li div {
+    font-size: 2.2vw;
+}
+    
+.shopproducts {
+    width: 80%;
+}
+
+h5 {
+    font-size: 4vw;
+}
+
+.shopProductsImg {
+    width: 27%;
+    margin-right: 3%;
+}
+
+.shopProductsInfo {
+    width: 70%;
+}    
+    
+.ItemInfo label, .ItemInfo div, .ItemInfo span {
+    font-size: 2.5vw;
+}
+
+.CountBtn {
+    width: 2.5vw;
+    height: 2.5vw;
+    font-size: 2.5vw;
+    line-height: 2.5vw;
+}
+
+.ItemCount {
+    width: 8vw;
+    height: 3vw;
+}    
+
+#ItemTag input[type="text"] {
+    width: 18vw;
+}    
+    
+.shopmemberInfoTitle {
+    font-size: 5vw;
+}
+
+.shopmemberInfo {
+    width: 80%;
+}
+
+.shopmemberInfoTitle span {
+    font-size: 2.5vw;
+}
+
+.shopmemberForm label {
+    font-size: 2.5vw;
+    width: 20vw;
+    line-height: calc(3vw + 12px);
+}
+
+.shopmemberForm > div > div {
+    width: calc(100% - 20vw);
+}
+
+.shopmemberForm > div > div input {
+    font-size: 2vw;
+    height: 3vw;
+    width: 30vw;
+}
+
+.twzipcode select {
+    height: calc(3vw + 12px);
+    font-size: 2vw;
+    width: 15.5vw;
+}
+    
+.twzipcode ~ div input {
+    width: calc(90% - 12px) !important;
+}    
+
+.shopmemberInfo > div:last-child input[type="button"] {
+    font-size: 2.5vw;
+    padding: 1vw 5vw;
+}
+
+.FooterLogo {
+    width: 90%;
+    max-width: 500px;
+    margin: 0 auto 5vw;
+}
+
+.footerinfo {
+    font-size: 2.5vw;
+}
+
+.footerTxt, .footerTxt div, .footerTxt label, .footerTxt a, .footerTxt span {
+    font-size: 2vw;
+}
+   
+.PupContent {
+    width: 80%;
+}
+
+.AlertTitle {
+    font-size: 5vw;
+}
+
+#AlertContent {
+    font-size: 2.5vw;
+}
+
+.CloseBtn input {
+    width: 45%;
+    font-size: 2.5vw;
+    padding: 1vw 0;
+}
+    
+.OrderTitle {
+    font-size: 4vw;
+}    
+    
+#OrderItemTag li {
+    font-size: 2.5vw;
+}
+
+.OrderName, .OrderTel, .OrderAdd {
+    font-size: 2.5vw;
+}
+
+.OrderSum {
+    font-size: 3vw;
+}    
+   
+.PayButton input {
+    padding: 1vw 4vw;
+    font-size: 2.5vw;
+}    
+    
+    
+.PayButton a {
+    font-size: 2.5vw;
+}    
+    
+}
+
+
+@media only screen and (max-width: 720px) {
+
+}
+
+@media only screen and (max-width: 480px) {
+header {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+}
+
+#Menu {
+    display: block;
+    position: relative;
+    padding: 0;
+    width: 100%;
+    background: none;
+    text-align: center;
+    border-top: 2px solid #cca161;
+}
+
+ul.MenuList li {
+    width: 50%;
+    margin-right: 0;
+}
+
+ul.MenuList a {
+    background: #9a0f1b;
+    padding: 10px 0;
+}
+
+ul.MenuList a div {
+    font-size: 5vw;
+}
+    
+.decoCircle > div {
+    width: 55vw;
+}
+    
+.deco_Circle_B {
+    top: calc(100vh + 124vw);
+}    
+    
+.deco_lamp_R {
+    width: 25vw;
+    padding-top: 50vw;
+    right: 5vw;
+}
+
+.deco_lamp_L {
+    width: 27vw;
+    padding-top: 53vw;
+    left: 5vw;
+}    
+    
+h1.WebTitle {
+    width: 90%;
+}
+
+#EventInfo {
+    padding: 16vh 0;
+}
+    
+.EventContent {
+    width: 90%;
+}
+    
+h3 {
+    font-size: 8vw;
+}    
+   
+.content {
+    font-size: 4.5vw;
+    line-height: 7vw;
+} 
+    
+#Gift {
+    padding: 16vh 0 13vh;
+}    
+    
+.deco_gift_lamp_L {
+    width: 20vw;
+    padding-top: 46vw;
+    left: 2vw;
+    background-position: bottom !important;
+}
+
+.deco_gift_lamp_R {
+    width: 20vw;
+    padding-top: 38vw;
+    right: 1vw;
+    background-position: bottom !important;
+}
+    
+#Gift h2 {
+    font-size: 8.5vw;
+    line-height: 10vw;
+    padding: 6vw 0 3vw;
+    font-weight: bold;
+}    
+   
+.GiftTitle {
+    width: 80%;
+    margin-bottom: 7vw;
+}
+   
+.GiftTitle span {
+    font-size: 6.5vw;
+    line-height: 8vw;
+}    
+
+.GiftInfo, .GiftW {
+    width: 90%;
+}    
+
+.GiftW .GiftImgList {
+    width: 100%;
+}
+
+.GiftTxt h5 {
+    font-size: 7vw;
+}    
+  
+.GiftDecoBg {
+    left: -50vw; 
+}
+    
+.deco_gift_btm_R {
+    width: 45vw;
+    padding-top: 27vw;
+    right: 4vw;
+    bottom: -6vw;
+}  
+    
+.deco_gift_btm_L {
+    width: 53vw;
+    padding-top: 21vw;
+    left: 2vw;
+    bottom: -5vw;
+}
+    
+.deco_gift_cloud_R_1 {
+    width: 79vw;
+    padding-top: 26vw;
+    top: 71vw;
+}   
+    
+.deco_gift_cloud_L {
+    width: 77vw;
+    padding-top: 26vw;
+    top: 150vw;
+    left: -21vw;
+}
+  
+.deco_gift_cloud_R_2 {
+    width: 81vw;
+    padding-top: 27vw;
+    top: 198vw;
+}    
+    
+    
+#Products {
+    padding: 10vw 0;
+}    
+    
+h5 {
+    font-size: 6.5vw;
+}    
+    
+.ProductsList {
+    width: 90%;
+}    
+   
+.Products {
+    width: 100%;
+}    
+    
+.Products:first-child {
+    margin-right: 0;
+    margin-bottom: 10vw;
+    padding-bottom: 10vw;
+    border-bottom: 1px dashed #fff;
+}   
+.ProductsPrice {
+    font-size: 4.5vw;
+} 
+.ProductsPrice span {
+    font-size: 6vw;
+}    
+    
+.slick-dotted.slick-slider {
+    margin-bottom: 15vw !important;
+}    
+#schedule {
+    padding: 8vw 0;
+    background-size: 65vw, 67vw;
+}
+#schedule p {
+    font-size: 6vw;
+}    
+ 
+ul.scheduleList li {
+    width: 48%;
+    margin: 0 2% 2% 0 !important;
+}    
+
+ul.scheduleList li div {
+    font-size: 5vw;
+}    
+ 
+#Shopcart {
+    padding: 8vw 0;
+}    
+    
+.shopproducts {
+    width: 90%;
+}
+    
+.ItemInfo label, .ItemInfo div, .ItemInfo span {
+    font-size: 4.5vw;
+}    
+    
+.CountBtn {
+    width: 4.5vw;
+    height: 4.5vw;
+    font-size: 4.5vw;
+    line-height: 4.5vw;
+}
+    
+.ItemCount {
+    width: 13vw;
+    height: 8vw;
+} 
+
+ul#ItemTag li {
+    padding-bottom: 2vw;
+    border-bottom: 1px dashed #333;
+}   
+    
+ul#ItemTag li:last-child {
+    margin-bottom: 0;
+    padding-bottom: 0;
+    border-bottom: none;    
+}    
+    
+#ItemTag li > label {
+    display: block;
+}    
+    
+#ItemTag input[type="text"] {
+    width: 35vw;
+    line-height: 7vw;
+}   
+    
+.shopmemberInfo {
+    width: 90%;
+}    
+.shopmemberInfoTitle {
+    font-size: 7vw;
+}
+    
+.shopmemberInfoTitle span {
+    font-size: 4.5vw;
+    display: block;
+}    
+    
+.shopmemberForm label {
+    font-size: 4.5vw;
+    width: 25vw;
+    line-height: calc(5vw + 12px);
+}    
+    
+.shopmemberForm > div > div {
+    width: calc(100% - 25vw);
+}
+    
+.shopmemberForm > div > div input {
+    font-size: 4vw;
+    height: 5vw;
+    width: 60vw;
+} 
+    
+.twzipcode select {
+    height: calc(5vw + 12px);
+    font-size: 4vw;
+    width: 31vw;
+}
+    
+.twzipcode ~ div input {
+    width: 60vw !important;
+} 
+    
+.shopmemberInfo > div:last-child input[type="button"] {
+    font-size: 4.5vw;
+    padding: 2vw 0;
+    width: 100%;
+} 
+    
+    
+footer {
+    padding: 5vw 0 18vw;
+}    
+    
+.footerinfo {
+    font-size: 4.5vw;
+}
+    
+.footerTxt, .footerTxt div, .footerTxt label, .footerTxt a, .footerTxt span {
+    font-size: 4vw;
+}    
+    
+.serviceTime label, .serviceTime span, .copyright span {
+    display: block;
+}  
+    
+.footerContact > div {
+    margin-right: 0 !important;
+    margin-bottom: 1.5vw;
+}
+    
+.serviceTime {
+    margin-bottom: 1.5vw;
+}    
+    
+    
+.PupContent {
+    width: 90%;
+}    
+    
+.AlertTitle {
+    font-size: 8vw;
+}
+    
+#AlertContent {
+    font-size: 4.5vw;
+}
+    
+.CloseBtn input {
+    width: 65%;
+    font-size: 4.5vw;
+    padding: 1vw 0;
+}   
+    
+    
+    
+.OrderTitle {
+    font-size: 8vw;
+}    
+    
+#OrderItemTag li {
+    font-size: 4.5vw;
+}    
+  
+.OrderName, .OrderTel, .OrderAdd {
+    font-size: 4.5vw;
+    line-height: calc(5vw + 12px);
+}
+
+.OrderSum {
+    font-size: 5vw;
+}    
+    
+.PayButton input {
+    padding: 1vw 4vw;
+    font-size: 4.5vw;
+}    
+    
+.PayButton ul li:first-child {
+    display: block;
+    margin-bottom: 4vw;
+    text-align: center;
+}
+
+.PayButton ul li:first-child input {
+    margin: 0 auto;
+    padding: 1.5vw 0;
+    width: 88% !important;
+}
+    
+.PayButton a {
+    font-size: 4.5vw;
+}    
+    
+    
+}

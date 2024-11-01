@@ -1,0 +1,2604 @@
+@charset "utf-8";
+/* CSS Document */
+
+/*-----css基本設定---------*/
+@font-face {
+  font-family: FakePearl-Regular;
+  src: url(https://cdn.jsdelivr.net/gh/max32002/FakePearl@1.1/webfont/FakePearl-Regular.woff2) format("woff2")
+  , url(https://cdn.jsdelivr.net/gh/max32002/FakePearl@1.1/webfont/FakePearl-Regular.woff) format("woff");
+}
+
+*, body, h1, h2, h3, h4, h5, h6, a, p, select  {
+	font-family: FakePearl-Regular, "微軟正黑體", "Microsoft JhengHei", sans-serif, Arial, Helvetica;
+}
+/*文字反選顏色*/
+::selection, ::-moz-selection {
+	background: #E3BABA;
+	color: #ffffff;
+}
+
+/*a:focus {
+	background-color: #F7AD00 !important;
+}*/
+a {
+	transition: .5s;
+}
+/*a:hover {
+	filter:brightness(110%);
+	transition: .5s;
+}*/
+/*a:focus img {
+	-webkit-filter:saturate(0.2);
+}*/
+
+
+/*--行動版隱藏--*/
+.mob {
+	display: none !important;
+}
+
+
+html {
+	height: 100%;
+	margin: 0;
+}
+body {
+	margin: 0;
+	min-height: 100%;
+}
+
+/*清除格式*/
+.CleanFormat { 
+	clear: both;
+}
+#article::after, section::after, header::after {
+	content: "";
+	display: block;
+	clear: both;
+}
+
+/*分隔線*/
+.Dividers {
+	margin: 10px auto;
+	width: 100%;
+	height: 1px;
+	border-bottom: 1px dotted #373b80;
+}
+
+/*------------------------WebStart----------------------*/
+#wrap {
+    display: block;
+    position: relative;
+    margin: 0 auto;
+    width: 100%;
+    overflow: hidden;
+}
+
+
+/*-------------------------Header-----------------------*/
+header {
+    transition: 1s;
+    top: -7.813vw;
+    display: block;
+    position: fixed;
+    z-index: 100;
+    width: 100%;
+    height: 7.813vw;
+    background: url(../images/footBg.jpg) no-repeat bottom center;
+    background-size: cover;
+    text-align: center;
+}
+
+header.active {
+    top: 0;
+}
+
+.SiteLogo {
+    display: block;
+    position: absolute;
+    left: 1vw;
+    top: 20%;
+    width: 7.62%;
+}
+
+header::before {
+    content: "";
+    display: inline-block;
+    height: 100%;
+    vertical-align: middle;
+}
+
+/*---------------------------Menu-----------------------*/
+.KVMenu {
+    display: block;
+    height: 15vh;
+    text-align: center;
+}
+
+.KVMenu::before {
+    content: "";
+    display: inline-block;
+    height: 100%;
+    vertical-align: middle;
+}
+
+.MenuBk {
+    display: inline-block;
+    vertical-align: middle;
+    margin: 0 auto;
+    width: 34.517%;
+}
+
+ul.MenuList {
+    font-size: 0;
+}
+
+ul.MenuList li {
+    width: 13.492%;
+    text-align: center;
+    display: inline-block;
+    vertical-align: middle;
+    margin-right: 15.344%;
+}
+
+ul.MenuList li:last-child {
+    margin-right: 0;
+}
+
+ul.MenuList a {
+    display: block;
+}
+
+ul.MenuList a:hover, ul.MenuList a.active {
+    background: url("../images/btn_click.png");
+    background-size: contain;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+ul.MenuList li img {
+    display: block;
+    width: 93.76%;
+    margin: 0 auto;
+}
+
+ul.MenuList li a div {
+    font-size: 1vw;
+    color: #5E0B15;
+}
+
+
+/*-----手機版選單------*/
+
+
+
+
+
+/*-------------------------BODY-------------------------*/
+article {
+    position: relative;
+    z-index: 1;
+}
+section {
+    position: relative;
+}
+.page {
+    padding-top: 7.813vw;
+}
+
+.page section {
+    width: 60.417%;
+    margin: 0 auto;
+}
+/*-------------------------FOOTER-----------------------*/
+footer {
+    background: url(../images/footBg.jpg) no-repeat center;
+    background-size: cover;
+    padding: 3vw 0;
+}
+
+.footer {
+    display: block;
+    width: 71vw;
+    margin: 0 auto;
+    font-size: 0;
+}
+
+.footer a:hover, .footer a:hover span {
+    color: #5e0b15;
+    text-decoration: underline;
+}
+
+.footer > div {
+    display: inline-block;
+    vertical-align: top;
+    margin-right: 5.5%;
+}
+
+.footer > div:last-child {
+    margin-right: 0;
+}
+
+.footTitle {
+    font-size: 1.1vw;
+    color: #5e0b15;
+    margin-bottom: 1vw;
+}
+
+.footMenu {
+    width: 16%;
+}
+
+.footMenuList ul {
+    font-size: 0;
+}
+
+.footMenuList ul li {
+    display: inline-block;
+    margin-right: 25%;
+    margin-bottom: 0.5vw;
+}
+
+.footMenuList a {
+    font-size: .9vw;
+    line-height: 1.5vw;
+    color: #707070;
+}
+
+.footContactList li {
+    margin-bottom: 0.5vw;
+}
+
+.footContactList a img {
+    display: inline-block;
+    vertical-align: middle;
+    width: 1.459vw;
+    margin-right: .5vw;
+}
+
+.footContactList a span {
+    font-size: .9vw;
+    color: #707070;
+    display: inline-block;
+    vertical-align: middle;
+    line-height: 1.5vw;
+}
+
+
+.footCommunityList ul {
+    font-size: 0;
+}
+
+.footCommunityList li {
+    display: inline-block;
+    margin-right: 1vw;
+    vertical-align: middle;
+    width: 2.344vw;
+}
+
+
+.footLogo {
+    width: 33%;
+}
+
+.footLogoList {
+    margin-bottom: 1vw;
+}
+
+.footLogoList ul {
+    font-size: 0;
+    text-align: center;
+}
+
+.footLogoList li {
+    display: inline-block;
+    vertical-align: middle;
+    margin-right: 1vw;
+}
+
+img.CoLogo_A {
+    /*薪薪網元*/
+    width: 11.459vw;
+}
+
+img.CoLogo_B {
+    /*遠傳*/
+    width: 9.323vw;
+}
+
+.copyright {
+    font-size: 1vw;
+    color: #707070;
+}
+
+.copyright span {
+    font-size: inherit;
+}
+
+.footMenuList ul li:nth-child(even), .footCommunityList li:last-child, .footLogoList li:last-child {
+    margin-right: 0;
+}
+
+/*--------------------------共用項目-------------------------------*/
+/*----------路徑----------*/
+.breadcrumb {
+    width: 60.417%;
+    padding: 1% 0;
+    display: block;
+    margin: 0 auto;
+    font-size: 0;
+}
+
+.Here {
+    display: inline-block;
+    vertical-align: middle;
+    font-size: .9vw;
+    color: #707070;
+}
+
+.breadcrumb ul {
+    display: inline-block;
+    font-size: 0;
+    vertical-align: middle;
+}
+
+.breadcrumb ul li {
+    display: inline-block;
+    font-size: 0.9vw;
+}
+
+.breadcrumb ul li::after {
+    content: "/";
+    display: inline-block;
+    margin: 0 10px;
+}
+
+.breadcrumb ul li:last-child {
+    color: #5E0B15;
+}
+
+.breadcrumb ul li:last-child::after {
+    display: none;
+}
+
+.breadcrumb ul li a {
+    color: #707070;
+    text-decoration: underline;
+    font-size: inherit;
+}
+
+/*----------圖片初始----------*/
+img {
+    display: block;
+    position: relative;
+    width: 100%;
+    height: auto;
+}
+
+/*----------頁碼控制----------*/
+.pageCtrl {
+    padding: 5% 0;
+    text-align: center;
+}
+
+.pageCtrl ul {
+    font-size: 0;
+}
+
+.pageCtrl ul li {
+    display: inline-block;
+    vertical-align: middle;
+    margin-right: 10px;
+}
+
+.pageCtrl ul li a {
+    display: block;
+    width: 1.2vw;
+    font-size: 0.9vw;
+    color: #707070;
+}
+
+.pageCtrl ul li a.active {
+    color: #5e0b15;
+    font-weight: bold;
+    text-decoration: underline;
+}
+
+/*----------文章設定----------*/
+.Content {
+    color: #707070;
+    font-size: 1vw;
+    line-height: 2vw;
+}
+
+.Content p {
+    margin-bottom: 1vw;
+}
+
+.Content p, .Content b, .Content a, .Content i {
+    font-size: inherit;
+}
+
+.Content img {
+    display: block;
+    margin: 0 auto;
+    width: auto;
+    height: auto;
+    max-width: 100%;
+    margin-bottom: 1vw;
+}
+
+.Content h2, .Content h3 {
+    color: #600f19;
+}
+
+.Content h2 {
+    font-size: 1.3vw;
+}
+
+.Content h3 {
+    font-size: 1.1vw;
+}
+
+
+/*----------表單樣式----------*/
+.OrderForm {
+    background: #F5F5F5;
+    padding: 1vw;
+}
+
+.FormTitle_A {
+    color: #587291;
+    font-size: 1.6vw;
+}
+
+.FormTitle_A span {
+    font-size: 0.9vw;
+}
+
+.FormInput {
+    display: block;
+    margin: 0.5vw 0;
+}
+
+.FormInput label, .FormInput div, .FormInput span, .FormInput input, .FormInput select {
+    display: inline-block;
+    font-size: 1vw;
+    vertical-align: middle;
+}
+
+.FormInput label {
+    color: #707070;
+    width: 6vw;
+    text-align: right;
+    margin-right: 1vw;
+}
+
+.FormInput input, .FormInput select {
+    border: 1px solid #D3D4D9;
+    padding: 5px;
+    color: #707070;
+}
+
+.FormAddList a {
+    color: #587291;
+    font-size: 1vw;
+    font-weight: bold;
+}
+
+.FormAddList {
+    padding: 0.5vw 0;
+    text-align: center;
+    border-bottom: 1px solid #587291;
+}
+
+ul.InputGroup {
+    border-top: 1px solid #587291;
+}
+
+ul.InputGroup li {
+    border-bottom: 1px dotted  #587291;
+    padding-top: 0.5vw;
+    position: relative;
+}
+
+.FormTitle_B {
+    color:  #587291;
+    font-size: 1.2vw;
+}
+
+::placeholder {
+  color: #BFBFBF;
+}
+
+.text_s input, .tel input, .mail input, .date input {
+    width: 15vw;
+}
+
+.address > input {
+    width: 45%;
+}
+
+.select select {
+    width: calc(15vw + 10px);
+}
+
+.addr-zip {
+    width: 3vw;
+    text-align: center;
+    background: none;
+    border: 0 !important;
+}
+
+.discount .cehckBtn {
+    margin-left: 5px;
+    background: #587291;
+    color: #fff;
+    padding: 5px 1vw;
+}
+
+.DeletData {
+    display: none;
+    position: absolute;
+    right: 0%;
+    top: 1vw;
+    width: 1.2vw;
+}
+
+.DeletData.active {
+    display: block;
+}
+
+.Notice {
+    display: none;
+    text-align: center;
+    color: #f00;
+    font-size: 1vw;
+    padding-top: 1vw;
+}
+.Notice.active {
+    display: block;
+}
+
+.subBtn {
+    display: block;
+    margin: 0 auto;
+    border: none !important;
+    background: #587291;
+    color: #fff;
+    font-size: 1.5vw;
+    padding: 0.5vw 5vw;
+}
+
+.FormButtom {
+    padding: 2vw 0;
+}
+
+.unfilled {
+    background: #FFCDCE;
+}
+
+/*--------------------------內容開始-------------------------------*/
+/*----------首頁----------*/
+/*-----kv-----*/
+.KVBgItem {
+    display: block;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    z-index: -1;
+    background: url(../images/kv_bg.jpg);
+    background-size: cover;
+    background-position: center;
+}
+
+.KVBgItem > div {
+    display: block;
+    position: absolute;
+}
+
+.KVTreeR {
+    display: block;
+    position: absolute;
+    top: 15%;
+    right: 0;
+    width: 9.532%;
+}
+
+.KVTreeL {
+    display: block;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 16.823%;
+}
+
+
+
+.KVBk {
+    display: block;
+    position: relative;
+    height: 100vh;
+}
+
+.KVLogo {
+    display: block;
+    height: 85vh;
+    position: relative;
+    font-size: 0;
+    text-align: center;
+}
+.KVLogo::before {
+    content: "";
+    display: inline-block;
+    height: 100%;
+    vertical-align: middle;
+}
+
+.KVLine {
+    background: #5D0D17;
+    width: 1px;
+    height: 7.9vw;
+    margin: 0 auto;
+    position: absolute;
+    left: calc(50% - 0.5px);
+}
+
+.KVLine.btm {
+    bottom: 0;
+}
+
+.KVLine.top {
+    top: 0;
+}
+
+.KVContent {
+    display: inline-block;
+    width: 39.063%;
+    vertical-align: middle;
+}
+
+.SiteName {
+    position: relative;
+    display: block;
+    margin: 0 auto;
+    background: url("../images/logo_big.png");
+    width: 100%;
+    text-align: center;
+    padding-top: 42%;
+    background-size: cover;
+}
+
+.SiteNameTxt {
+    color: #5E0B15;
+    font-size: 1.4vw;
+    font-weight: lighter;
+    position: absolute;
+    bottom: 29%;
+    margin-left: -0.25vw;
+    width: 100%;
+    letter-spacing: 0.25vw;
+}
+
+.KVText {
+    text-align: center;
+    padding: 2% 0;
+}
+
+.KVText p {
+    font-size: 0.9vw;
+    line-height: 2vw;
+}
+
+/*-----宮廟列表-----*/
+#IndexTemple {
+    padding: 6vw 0;
+    background: url("../images/indexTempleListBg.png");
+    background-size: cover;
+    background-position: center;
+}
+
+#TempleList li {
+    margin: 0 2vw;
+}
+
+#TempleList .slick-slide {
+    filter: brightness(0.8);
+    opacity: 0.8;
+    transform: scale(0.9);
+}
+
+#TempleList .slick-slide.slick-center {
+    filter: brightness(1);
+    opacity: 1;
+    transform: scale(1);
+}
+
+.IndexTempleImg img {
+    display: block;
+}
+
+.IndexTempleName {
+    color: #707070;
+    font-size: 1.5vw;
+}
+
+.IndexTempleTag ul {
+    font-size: 0;
+}
+
+.IndexTempleTag ul li {
+    display: inline-block;
+    margin: 0 10px 10px 0 !important;
+    padding: 0 10px;
+    border: 1px solid;
+    border-radius: 50px;
+    font-size: 0.8vw;
+}
+
+.Tag_01 {
+    color: #5E0B15;
+    border-color: #5E0B15;
+}
+
+.Tag_02 {
+    color: #A4754C;
+    border-color: #A4754C;
+}
+
+.Tag_03 {
+    color: #597390;
+    border-color: #597390;
+}
+
+.Tag_04 {
+    color: #52a966;
+    border-color: #52a966;
+}
+
+.Tag_05 {
+    color: #9229af;
+    border-color: #9229af;
+}
+
+.Tag_06 {
+    color: #c74646;
+    border-color: #c74646;
+}
+
+
+/*-----照片區域-----*/
+#IndexPhoto {
+    
+}
+
+.IndexPhoto {
+    width: 100%;
+    padding-top: 28.646%;
+    background-attachment: fixed;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+    background-image: url(../images/indexImg.png);
+}
+
+
+/*-----信眾服務-----*/
+#IndexService {
+    background: url(../images/indexServiceListBg.png);
+    padding: 5vw 0;
+    background-position: center;
+    background-size: cover;
+}
+
+.IndexServiceList {
+    display: block;
+    margin: 0 auto;
+    text-align: center;
+}
+
+.IndexServiceList ul {
+    font-size: 0;
+}
+
+.IndexServiceList li {
+    display: inline-block;
+    vertical-align: middle;
+    margin-right: 4vw;
+}
+
+.IndexServiceList li:last-child {
+    margin-right: 0;
+}
+
+.IndexServiceList a {
+    display: block;
+    color: #000;
+}
+
+.IndexServiceList a::before, .IndexServiceList a::after {
+    content: "";
+    display: block;
+    background-size: 100% auto !important;
+    background-repeat: no-repeat !important;
+    width: 100%;
+    padding-top: 31.34%;
+}
+    
+.IndexServiceList a::before {
+    background: url(../images/serviceBox_v_A.png);
+    background-position: bottom;
+}
+
+.IndexServiceList a::after {
+    background: url("../images/serviceBox_v_C.png");
+    background-position: top;
+}
+
+.IndexServiceList a div {
+    display: block;
+    background: url(../images/serviceBox_v_B.png);
+    -webkit-writing-mode: vertical-lr;
+    writing-mode: vertical-lr;
+    font-size: 3vw;
+    line-height: 8.061vw;
+    min-height: 15vw;
+    background-size: contain;
+}
+
+
+/*-----最新消息-----*/
+#IndexNews {
+    padding: 5vw 0;
+    background: url("../images/newsBg.png"), #d4d4d4;
+}
+
+.IndexNewsList {
+    display: block;
+    width: 65vw;
+    margin: 0 auto;
+}
+
+.IndexNewsList ul {
+    font-size: 0;
+}
+
+.IndexNewsList > ul > li {
+    display: inline-block;
+    width: 25.642%;
+    margin-right: 11.537%;
+}
+
+.IndexNewsList > ul > li:nth-child(3n) {
+    margin-right: 0;
+}
+
+.Newsimg {
+    margin-bottom: 1vw;
+}
+
+.Newsimg img {
+    display: block;
+}
+
+.NewsTtile {
+    text-align: justify;
+    font-size: 1.2vw;
+    line-height: 1.5vw;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+    overflow: hidden;
+    margin-bottom: 1vw;
+}
+
+.IndexNewsList a {
+    color: #707070;
+}
+
+.NewsInfo {
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 4;
+    overflow: hidden;
+    font-size: 1vw;
+    text-align: justify;
+    margin-bottom: 0.5vw;
+}
+
+.ReadMoreBtn {
+    text-align: right;
+}
+
+a .ReadMoreBtn span {
+    display: inline-block;
+    border: 1px solid #707070;
+    padding: 0 10px;
+    border-radius: 50px;
+    font-size: 1vw;
+    transition: .5s;
+}
+
+a:hover .ReadMoreBtn span {
+    background: #707070;
+    color: #fff;
+}
+
+
+/*-----歷年活動-----*/
+li.IndexEventItem a {
+    background-size: 100% auto !important;
+    background-position: center !important;
+    display: block; 
+    width: 21.875vw;
+    padding-top: 83.335%;
+    filter: grayscale(0.5);
+}
+
+
+ul.HistoryEventList {
+    position: relative;
+    white-space: nowrap;
+    display: flex;
+}
+
+li.IndexEventItem {
+    display: flex;
+    vertical-align: middle;
+    flex: 1;
+    align-items: center;
+    justify-content: center;
+}
+
+.IndexHistoryEventBk {
+    display: block;
+}
+
+
+li.IndexEventItem a:hover {
+    background-size: 105% auto !important;
+    filter: grayscale(0);
+}
+
+
+/*----------合作宮廟----------*/
+#Temple {
+    background: url(../images/indexTempleListBg.png);
+    background-size: 100% auto;
+}
+
+/*-----列表頁-----*/
+.PageTempleList ul#TempleList {
+    display: block;
+    font-size: 0;
+}
+
+.PageTempleList ul#TempleList > li {
+    display: inline-block;
+    width: 30%;
+    margin: 0 5% 2% 0;
+    vertical-align: top;
+}
+
+.PageTempleList ul#TempleList > li:nth-child(3n) {
+    margin-right: 0;
+}
+
+/*-----宮廟內頁-----*/
+.TempleImg {
+    margin-bottom: 2%;
+}
+
+h1.TempleName {
+    font-size: 1.5vw;
+    line-height: 2vw;
+    color: #5e0b15;
+    margin-bottom: 1%;
+}
+
+.TempleInfo {
+    font-size: 1vw;
+    text-align: justify;
+    color: #707070;
+    margin-bottom: 5%;
+}
+
+.TempleInfo p {
+    font-size: inherit;
+}
+
+.TempleService {
+    text-align: center;
+}
+
+.TempleService ul {
+    font-size: 0;
+}
+
+.TempleService ul li {
+    display: inline-block;
+    margin: 1%;
+}
+
+.TempleService ul li a {
+    font-size: 0;
+    display: block;
+}
+
+.TempleService ul li a span {
+    font-size: 1.2vw;
+    line-height: 2.865vw;
+    color: #000;
+    display: inline-block;
+    background: url(../images/serviceBox_h_B.png);
+    background-size: auto 100%;
+    min-width: 6vw;
+    vertical-align: middle;
+}
+.TempleService ul li a::before, .TempleService ul li a::after {
+    content: "";
+    display: inline-block;
+    vertical-align: middle;
+    width: 0.92vw;
+    padding-top: 36.55%;
+    background-size: auto 100% !important;
+    background-repeat: no-repeat !important;
+}
+
+.TempleService ul li a::before {
+    background: url(../images/serviceBox_h_A.png);
+    background-position: center right !important;
+}
+
+.TempleService ul li a::after {
+    background: url(../images/serviceBox_h_C.png);
+    background-position: center left !important;
+}
+
+.BackBtn {
+    padding: 5% 0;
+}
+
+.BackBtn a {
+    display: block;
+    text-align: center;
+    margin: 0 auto;
+    width: 17.396%;
+    border: 1px solid #597390;
+    color: #597390;
+    font-size: 1.1vw;
+    padding: 0.5% 0;
+}
+
+.BackBtn a:hover {
+    color: #fff;
+    background: #597390;
+}
+
+/*-----訂購頁面-----*/
+.EventTime {
+    color: #587291;
+    font-size: 1vw;
+    margin-bottom: 1%;
+}
+
+.EventTime > div {
+    display: inline-block;
+    vertical-align: middle;
+    font-size: inherit;
+}
+
+.EventServiceContent {
+    margin-bottom: 5%;
+    text-align: justify;
+}
+
+.EventServiceContent > div {
+    display: block;
+    margin-bottom: 1%;
+}
+
+.EventServiceContent > div:last-child {
+    margin-bottom: 0;
+}
+
+.EventServiceContent h2 {
+    font-size: 1.2vw;
+    color: #5e0b15;
+}
+
+.EventServiceContent p {
+    font-size: 1vw;
+    color: #707070;
+    font-weight: normal;
+}
+
+.TotalCost {
+    font-size: 1.5vw;
+    text-align: center;
+    padding-top: 1vw;
+}
+
+.Cost {
+    font-size: inherit;
+    color: #f00;
+    padding: 0 1vw;
+}
+
+
+/*-----訂單完成-----*/
+.OrderStateTitle {
+    font-size: 2vw;
+    margin-bottom: 2vw;
+    text-align: center;
+    color: #587291;
+    font-weight: bold;
+}
+
+.OrderState {
+    font-size: 1.5vw;
+    text-align: center;
+    color: #f00;
+    margin-bottom: 2vw;
+}
+
+.OrderStateContent {
+    display: block;
+    margin: 0 auto 1vw;
+    width: 16vw;
+}
+
+.OrderStateContent > div div {
+    font-size: 1vw;
+    display: inline-block;
+    vertical-align: middle;
+}
+
+.OrderTxt {
+    color: #587297;
+}
+
+.OrderCompleteTxt {
+    margin: 0 auto 2vw;
+    width: 40vw;
+    text-align: center;
+    font-size: 0.9vw;
+}
+
+.OrderCompleteTxt p {
+    font-size: inherit;
+    margin: 0;
+    color: #707070;
+}
+
+.BackLink a {
+    display: block;
+    width: 15vw;
+    text-align: center;
+    margin: 0 auto;
+    background: #587291;
+    color: #fff;
+    font-size: 1.5vw;
+    padding: 0.5vw 0;
+}
+
+
+
+/*----------信眾服務----------*/
+#Service {
+    background: url(../images/indexServiceListBg.png);
+    background-size: 100% auto;
+}
+
+article#Service section {
+    padding: 2vw 0;
+}
+
+.ServiceBk {
+    border-bottom: 1px solid #5e0b15;
+    margin-bottom: 2vw;
+}
+
+.ServiceBk:last-child {
+    border-bottom: none;
+    margin-bottom: 0;
+}
+
+.ServiceTitle {
+    font-size: 0;
+    display: block;
+    width: 7.813vw;
+    text-align: center;
+    margin-bottom: 1vw;
+}
+
+.ServiceTitle::before, .ServiceTitle::after {
+    content: "";
+    display: inline-block;
+    vertical-align: middle;
+    width: 0.92vw;
+    padding-top: 36.55%;
+    background-size: auto 100% !important;
+    background-repeat: no-repeat !important;
+}
+
+.ServiceTitle::before {
+    background: url(../images/serviceBox_h_A.png);
+    background-position: center right !important;
+}
+    
+.ServiceTitle::after {
+    background: url(../images/serviceBox_h_C.png);
+    background-position: center left !important;
+}
+
+.ServiceTitle span {
+    font-size: 1.2vw;
+    line-height: 2.865vw;
+    color: #000;
+    display: inline-block;
+    background: url(../images/serviceBox_h_B.png);
+    background-size: auto 100%;
+    min-width: 5.97vw;
+    vertical-align: middle;
+}
+
+.ServiceList > li {
+    padding: 0.5vw 0;
+    border-bottom: 1px dashed #5e0b15;
+    font-size: 0;
+}
+
+.ServiceList > li:last-child {
+    border-bottom: none;
+}
+
+.ServiceList > li > div {
+    display: inline-block;
+    vertical-align: middle;
+    font-size: 0;
+}
+
+.ServiceType {
+    width: 8vw;
+    margin-right: 1vw;
+    text-align: right;
+}
+
+.ServiceType div {
+    display: inline-block;
+    vertical-align: middle;
+}
+
+.ServiceType div:first-child {
+    width: 2.6048vw;
+}
+
+.ServiceType div:last-child {
+    font-size: 1.2vw;
+    color: #5e0b15;
+}
+
+.ServiceTempleList {
+    width: calc(100% - 9vw);
+}
+
+.ServiceTempleList ul {
+    display: block;
+    font-size: 0;
+}
+
+.ServiceTempleList li {
+    display: inline-block;
+    margin: 0.2vw 0.5vw 0.2vw 0;
+}
+
+.ServiceTempleList a {
+    display: block;
+    background: #fff;
+    color: #707070;
+    border: 1px solid #707070;
+    padding: .2vw .7vw;
+    border-radius: 100px;
+    font-size: 0.9vw;
+}
+
+.ServiceTempleList a:hover {
+    background: #5e0b15;
+    color: #fff;
+}
+
+
+/*----------最新消息----------*/
+#News {
+    background: url("../images/newsBg.png");
+    background-size: 100% auto;
+}
+
+/*-----列表頁-----*/
+.PageNewsList .NewsTtile {
+    margin-bottom: 0;
+}
+
+.NewsDate {
+    color: #587291;
+    font-size: .9vw;
+}
+
+.PageNewsList  > ul > li {
+    margin-bottom: 3vw;
+}
+
+/*-----內容頁-----*/
+.NewsBk {
+    padding: 2vw 0;
+    border-bottom: 1px solid #5e0b15;
+}
+
+.NewsBk h1 {
+    font-size: 1.4vw;
+    color: #5e0b15;
+}
+
+
+/*----------歷年活動----------*/
+/*-----內容頁-----*/
+.EventImgList {
+    padding-top: 2vw;
+}
+
+.EventImgList li {
+    display: inline-block;
+    width: 23%;
+    margin: 1%;
+    vertical-align: middle;
+}
+
+.EventImgList ul {
+    display: block;
+    font-size: 0;
+}
+
+
+
+
+/*----------訂單確認頁----------*/
+.OrderPurchaser {
+    width: 90%;
+    margin: 0 auto 2vw;
+}
+
+.OrderData {
+    font-size: 0;
+    margin-bottom: 0.5vw;
+}
+
+.OrderData:last-child {
+    margin-bottom: 0;
+}
+
+.OrderData > div {
+    display: inline-block;
+    vertical-align: middle;
+    font-size: 1vw;
+}
+
+.OrderData .label {
+    font-weight: bold;
+    color: #5e0b15;
+}
+
+.OrderData .txt {
+    color: #707070;
+}
+
+.OrderInfo {
+    width: 90%;
+    margin: 0 auto 2vw;
+    border-bottom: 5px solid #5e0b15;
+}
+
+.OrderInfo ul {
+    padding: 0;
+    margin: 0;
+}
+
+
+.OrderInfo li {
+    font-size: 0;
+    display: block;
+    padding: 0.5vw;
+}
+
+li.OrderInfoTitle {
+    text-align: center;
+    font-size: 1.2vw;
+    font-weight: bold;
+    background: #5e0b15 !important;
+    color: #fff;
+}
+
+.OrderInfo li > div {
+    display: inline-block;
+    vertical-align: middle;
+}
+
+li.OrderInfoTitle > div {
+    font-size: inherit !important;
+}
+
+.OrderInfo li > div:first-child {
+    width: 80%;
+}
+
+.OrderInfo li > div:last-child {
+    width: 20%;
+    text-align: center;
+    font-size: 1vw;
+}
+
+.OrderInfo li:nth-child(odd) {
+    background: #e4e4e4;
+}
+
+.ProductsName {
+    font-size: 1.3vw;
+    font-weight: bold;
+    color: #5e0b15;
+    border-bottom: 1px solid;
+    padding-bottom: 0.5vw;
+    margin-bottom: 0.5vw;
+}
+
+.PayButton ul li {
+    display: inline-block;
+    vertical-align: middle;
+    margin-right: 1vw;
+}
+
+.PayButton ul li:last-child {
+    margin-right: 0;
+}
+
+.PayButton {
+    text-align: center;
+    margin-top: 2vw;
+}
+
+.PayButton input {
+    display: block;
+    padding: .5vw 2vw;
+    font-size: 1.2vw;
+    border: none;
+    color: #fff;
+}
+
+.PayButton input {
+    background: #587291;
+}
+
+.PayButton ul li:first-child input {
+    background: #7ca9d2;
+}
+
+.PayButton ul li:last-child input {
+    background: #fff;
+}
+
+
+
+.discountOk {
+    color: #0db400;
+}
+
+/*---------------------------自適應內容----------------------------*/
+/*--高--*/
+@media only screen and (max-height: 820px) {
+
+}
+@media only screen and (max-height: 600px) {
+
+}
+
+
+
+/*--寬--*/
+@media only screen and (max-width: 1180px) {
+/*--ipad air--*/
+.KVContent {
+    width: 66%;
+}    
+
+.SiteNameTxt {
+    font-size: 2.5vw;
+}
+.KVText p {
+    font-size: 1.6vw;
+    line-height: 2.5vw;
+}
+    
+.MenuBk {
+    width: 50%;
+}
+    
+ul.MenuList li img {
+    width: 80%;
+}
+    
+ul.MenuList li a div {
+    font-size: 1.5vw;
+}
+    
+#TempleList li {
+    margin: 0;
+} 
+    
+.IndexTempleName {
+    font-size: 3vw;
+} 
+    
+.IndexTempleTag ul li {
+    font-size: 1.5vw;
+}    
+    
+.IndexPhoto {
+    padding-top: 40%;
+    background-attachment: inherit;
+}    
+
+.IndexServiceList a {
+    font-size: 0;
+}    
+    
+.IndexServiceList a::before {
+    background: url(../images/serviceBox_h_A.png);
+    background-position: right;
+}
+    
+.IndexServiceList a::after {
+    background: url(../images/serviceBox_h_C.png);
+    background-position: left;
+}
+    
+.IndexServiceList a::before, .IndexServiceList a::after {
+    display: inline-block;
+    vertical-align: middle;
+    width: 1.9vw;
+    padding-top: 30%;
+}
+    
+.IndexServiceList a div {
+    display: inline-block;
+    vertical-align: middle;
+    background: url(../images/serviceBox_h_B.png);
+    background-size: auto 100%;
+    -webkit-writing-mode: initial;
+    writing-mode: initial;
+    line-height: 6vw;
+    min-height: 6vw;
+    min-width: 16vw;
+}    
+    
+.IndexNewsList {
+    width: 85vw;
+}
+   
+.IndexNewsList > ul > li {
+    width: 30%;
+    margin-right: 5%;
+}    
+    
+.NewsTtile {
+    font-size: 2vw;
+    line-height: 2.5vw;
+}
+
+.NewsInfo {
+    font-size: 1.5vw;
+}
+
+a .ReadMoreBtn span {
+    font-size: 1.5vw;
+}    
+    
+li.IndexEventItem a {
+    width: 35vw;
+    padding-top: 83.3%;
+}    
+    
+.footer > div {
+    margin-right: 3%;
+}
+    
+.footMenu {
+    width: 20%;
+}    
+    
+.footer {
+    width: 85vw;
+}
+    
+.footTitle {
+    font-size: 2vw;
+}
+    
+.footMenuList a {
+    font-size: 1.5vw;
+    line-height: 2vw;
+}
+   
+.footContactList a img {
+    width: 2vw;
+}
+
+.footContactList a span {
+    font-size: 1.5vw;
+    line-height: 2vw;
+}    
+  
+.footCommunityList li {
+    width: 3vw;
+}    
+    
+.footLogo {
+    width: 34%;
+}    
+
+img.CoLogo_A {
+    width: 15vw;
+}    
+    
+img.CoLogo_B {
+    width: 12vw;
+}    
+  
+.copyright {
+    font-size: 1.25vw;
+}
+    
+    
+.breadcrumb {
+    width: 85%;
+}
+    
+.breadcrumb ul li {
+    font-size: 1.5vw;
+}    
+    
+.Here {
+    font-size: 1.5vw;
+}
+    
+.page section {
+    width: 85%;
+}
+    
+.pageCtrl ul li a {
+    width: 2vw;
+    font-size: 1.5vw;
+}  
+    
+    
+h1.TempleName {
+    font-size: 3vw;
+    line-height: 4vw;
+}    
+
+.TempleInfo {
+    font-size: 1.5vw;
+}
+    
+.TempleService ul li a span, .ServiceTitle span {
+    font-size: 2.5vw;
+    line-height: 5vw;
+    min-width: 12vw;
+}    
+ 
+.TempleService ul li a::before, .TempleService ul li a::after, .ServiceTitle::before, .ServiceTitle::after {
+    width: 1.7vw;
+    padding-top: 32.5%;
+}    
+   
+.BackBtn a {
+    width: 30%;
+    font-size: 1.6vw;
+}    
+    
+    
+.EventTime {
+    font-size: 1.5vw;    
+}
+    
+.EventServiceContent h2 {
+    font-size: 2vw;
+}
+.EventServiceContent p {
+    font-size: 1.5vw;    
+}
+
+    
+    
+.FormTitle_A {
+    font-size: 3vw;
+}
+
+.FormTitle_A span {
+    font-size: 1.5vw;
+}    
+
+.FormTitle_B {
+    font-size: 2vw;
+}    
+    
+.FormInput label {
+    width: 9vw;    
+}
+    
+.FormInput label, .FormInput div, .FormInput span, .FormInput input, .FormInput select {
+    font-size: 1.5vw;
+}    
+    
+.FormAddList a {
+    font-size: 1.8vw;
+}    
+    
+.DeletData {
+    width: 2vw;
+}  
+    
+.TotalCost {
+    font-size: 2.5vw;
+}    
+.Notice {
+    font-size: 1.5vw;
+} 
+    
+    
+.OrderStateTitle {
+    font-size: 3.5vw;    
+}
+    
+.OrderState {
+    font-size: 2.5vw;    
+}
+    
+.OrderStateContent {
+    width: 25vw;
+}    
+ 
+.OrderStateContent > div div {
+    font-size: 1.5vw;
+}    
+
+.OrderCompleteTxt {
+    width: 75vw;
+    font-size: 1.5vw;
+}    
+
+.BackLink a {
+    width: 25vw;
+    font-size: 2vw;
+    padding: 0.5vw 0;
+}    
+    
+    
+    
+.ServiceTitle {
+    width: 15.5vw;
+}    
+    
+.ServiceType {
+    width: 12vw;
+}
+.ServiceType div:first-child {
+    width: 4vw;
+}
+    
+.ServiceType div:last-child {
+    font-size: 2vw;
+}    
+    
+.ServiceTempleList {
+    width: calc(100% - 13vw);
+}
+    
+.ServiceTempleList a {
+    font-size: 1.5vw;
+}   
+    
+    
+.NewsBk h1 {
+    font-size: 3vw;
+}    
+.NewsDate {
+    font-size: 1.5vw;
+}
+.Content {
+    font-size: 1.5vw;
+    line-height: 2.5vw;
+}    
+    
+    
+    
+    
+.Content h2 {
+    font-size: 2.5vw;
+}
+
+.Content h3 {
+    font-size: 2.2vw;
+} 
+    
+    
+    
+.OrderData > div, .OrderInfo li > div:last-child {
+    font-size: 1.5vw;
+}
+
+.ProductsName {
+    font-size: 2vw;
+}
+
+li.OrderInfoTitle {
+    font-size: 1.5vw;
+}    
+    
+    
+.PayButton input {
+    padding: 1vw 4vw;
+    font-size: 2.5vw;
+}     
+}
+
+
+@media only screen and (max-width: 720px) {
+.KVContent {
+    width: 100%;
+}
+    
+.SiteNameTxt {
+    font-size: 5vw;
+    bottom: 25%;
+}
+
+.KVText p {
+    font-size: 3vw;
+    line-height: 4.5vw;
+}
+    
+header {
+    top: -100px;
+    height: 100px;
+    text-align: right;
+} 
+    
+.SiteLogo {
+    width: 95px;
+}   
+    
+.MenuBk {
+    width: 65%;
+}
+    
+.KVLine {
+    height: 20vh;
+}
+    
+ul.MenuList li {
+    width: 22%;
+    margin-right: 4%;
+}  
+    
+ul.MenuList a {
+    font-size: 0;
+}    
+ul.MenuList li img {
+    width: 65%;
+}
+ul.MenuList li a div {
+    font-size: 2.5vw;
+}   
+    
+    
+.IndexTempleName {
+    font-size: 5vw;
+}   
+    
+.IndexTempleTag ul li {
+    font-size: 2.5vw;
+}    
+    
+.IndexPhoto {
+    padding-top: 50%;
+}
+    
+.IndexServiceList a div {
+    line-height: 8vw;
+    min-height: 8vw;
+    min-width: 22vw;
+    font-size: 5vw;
+}    
+    
+.IndexServiceList a::before, .IndexServiceList a::after {
+    display: inline-block;
+    vertical-align: middle;
+    width: 2.45vw;
+    padding-top: 29%;
+}    
+
+.IndexNewsList > ul > li {
+    width: 100%;
+    margin-right: 0;
+    margin-bottom: 10%;
+}   
+    
+.NewsTtile {
+    font-size: 4vw;
+    line-height: 5vw;
+}    
+    
+.NewsInfo {
+    font-size: 3vw;
+}  
+    
+a .ReadMoreBtn span {
+    font-size: 3vw;
+}    
+  
+li.IndexEventItem a {
+    width: 50vw;
+    padding-top: 83%;
+}      
+   
+    
+.footer {
+    width: 90vw;
+}
+    
+.footMenuList {
+    text-align: center;
+}    
+    
+.footer > div {
+    margin-right: 0;
+    margin-bottom: 5%;
+    display: block;
+    width: 100% !important;
+}   
+    
+.footTitle {
+    font-size: 4vw;
+    text-align: center;
+}    
+   
+.footMenuList ul li {
+    width: calc(100% / 6);
+    margin-right: 0;
+    text-align: center;
+}    
+    
+.footMenuList a {
+    font-size: 2.8vw;
+    line-height: 4.5vw;
+}    
+    
+    .footContactList ul {
+        display: block;
+        font-size: 0;
+    }
+  
+.footContactList li {
+    width: 33.3%;
+    display: inline-block;
+    vertical-align: middle;
+}    
+    
+.footContactList a img {
+    width: 3vw;
+}
+
+.footContactList a span {
+    font-size: 2.8vw;
+    line-height: 4.5vw;
+}       
+    
+.footCommunityList li {
+    width: 8%;
+    margin: 0 8% !important;
+}  
+
+.footCommunityList ul {
+    text-align: center;
+}    
+    
+.footLogoList li {
+    max-width: 49%;
+}    
+    
+img.CoLogo_A, img.CoLogo_B {
+    width: 100%;
+} 
+    
+.copyright {
+    font-size: 3vw;
+    text-align: center;
+}    
+    
+.page {
+    padding-top: 100px;
+}
+    
+.breadcrumb {
+    padding: 2% 0;
+}
+    
+.Here, .breadcrumb ul li {
+    font-size: 3vw;
+}    
+    
+.PageTempleList ul#TempleList > li {
+    width: 100%;
+    margin-right: 0 !important;
+}    
+    
+.pageCtrl ul li a {
+    width: 3vw;
+    font-size: 3vw;
+}    
+    
+h1.TempleName {
+    font-size: 5vw;
+    line-height: 7vw;
+}    
+
+.TempleInfo {
+    font-size: 3vw;
+}    
+    
+.TempleService ul li a span, .ServiceTitle span {
+    font-size: 4vw;
+    line-height: 9vw;
+    min-width: 20vw;
+}    
+    
+.TempleService ul li a::before, .TempleService ul li a::after, .ServiceTitle::before, .ServiceTitle::after {
+    width: 3.1vw;
+    padding-top: 34%;
+}    
+    
+.BackBtn a {
+    width: 50%;
+    font-size: 3.5vw;
+} 
+    
+.EventTime, .EventServiceContent p {
+    font-size: 3vw;
+}   
+    
+.EventServiceContent h2 {
+    font-size: 4vw;
+}
+    
+.FormTitle_A {
+    font-size: 5vw;
+    text-align: center;
+}    
+.DeletData {
+    width: 3.2vw;
+}
+.FormTitle_A span {
+    font-size: 3vw;
+    display: block;
+}   
+    
+.FormInput label, .FormInput div, .FormInput span, .FormInput input, .FormInput select {
+    font-size: 3vw;
+}    
+    
+.FormInput label {
+    width: 16vw;
+}
+    
+.FormTitle_B {
+    font-size: 4vw;
+}    
+    
+.text_s input, .tel input, .mail input, .date input {
+    width: 39vw;
+}    
+.address > input {
+    width: 77%;
+    margin-left: 21%;
+    margin-top: 1%;
+}    
+.CusAddress {
+    width: calc(100% - 18vw);
+}    
+.CusAddress > div:first-child {
+    width: 20%;
+}
+.addr-zip {
+    width: 100%;
+}
+    
+    
+.FormAddList {
+    padding: 2vw 0;
+}    
+
+.FormAddList a {
+    font-size: 3.5vw;
+}    
+.Notice {
+    font-size: 3vw;
+}
+.TotalCost {
+    font-size: 4vw;
+}  
+    
+.subBtn {
+    font-size: 3.5vw;
+    padding: 1vw 20vw;
+}
+    
+.ServiceTitle {
+    width: 26.5vw;
+    margin: 0 auto 2%;
+}    
+    
+.ServiceList > li > div {
+    display: block;
+    text-align: center;
+    width: 100%;
+    margin: 0 0 2%;
+}   
+    
+.ServiceType div:first-child {
+    width: 7vw;
+}
+    
+.ServiceType div:last-child {
+    font-size: 4vw;
+}
+    
+.ServiceTempleList a {
+    font-size: 3vw;
+    padding: 0.5vw 1.5vw;
+}  
+    
+    
+.NewsDate {
+    font-size: 3vw;
+}    
+    
+.NewsBk h1 {
+    font-size: 5vw;
+}
+    
+.Content {
+    font-size: 3vw;
+    line-height: 4.5vw;
+}  
+    
+.OrderState {
+    font-size: 4vw;
+}    
+ 
+.OrderStateTitle {
+    font-size: 5vw;
+}    
+    
+.OrderStateContent {
+    width: 46vw;
+}
+.OrderStateContent > div div {
+    font-size: 3vw;
+}
+.OrderCompleteTxt {
+    width: 95%;
+    font-size: 2.1vw;
+}    
+.BackLink a {
+    width: 35vw;
+    font-size: 3vw;
+    padding: 1vw 0;
+}
+    
+    
+    
+    
+.Content h2 {
+    font-size: 4vw;
+}
+
+.Content h3 {
+    font-size: 3.8vw;
+}
+    
+    
+    
+.OrderData > div, .OrderInfo li > div:last-child {
+    font-size: 3vw;
+}    
+.ProductsName {
+    font-size: 4vw;
+}
+    
+.OrderInfo li > div {
+    display: block;
+    width: 100% !important;
+}
+
+.OrderInfo li > div:last-child {
+    text-align: right;
+}
+
+.OrderInfo li {
+    padding: 1vw;
+}
+
+li.OrderInfoTitle {
+    display: none;
+}
+
+.OrderInfo {
+    border-top: 5px solid #5e0b15;
+}    
+    
+}
+
+@media only screen and (max-width: 420px) {
+header .MenuBk {
+    padding-right: 1vw;
+}    
+.SiteLogo {
+    width: 70px;
+    top: 30%;
+}
+.MenuBk {
+    width: 75%;
+}
+ul.MenuList li img {
+    width: 80%;
+}
+ul.MenuList li a div {
+    font-size: 4vw;
+}
+
+.KVText p {
+    font-size: 3.5vw;
+    line-height: 6vw;
+}
+.IndexTempleName {
+    font-size: 6vw;
+}  
+    
+.IndexTempleTag ul li {
+    font-size: 3.5vw;
+}    
+    
+.IndexPhoto {
+    padding-top: 90%;
+}
+    
+.IndexServiceList li {
+    display: block;
+    margin: 0 auto 10%;
+}
+    
+.IndexServiceList li:last-child {
+    margin-bottom: 0;
+}
+    
+.IndexServiceList a div {
+    line-height: 16vw;
+    min-height: 8vw;
+    min-width: 40vw;
+    font-size: 8vw;
+}  
+    
+.IndexServiceList a::before, .IndexServiceList a::after {
+    width: 5.1vw;
+    padding-top: 16.0%;
+}  
+    
+.NewsTtile {
+    font-size: 5vw;
+    line-height: 7vw;
+}   
+    
+.NewsInfo, a .ReadMoreBtn span, .NewsDate {
+    font-size: 3.8vw;
+}    
+
+li.IndexEventItem a {
+    width: 80vw;
+    padding-top: 83%;
+}       
+
+.Here, .breadcrumb ul li {
+    font-size: 3.8vw;
+}    
+
+.pageCtrl ul li a {
+    width: 4.2vw;
+    font-size: 4vw;
+}    
+.footTitle {
+    font-size: 6vw;
+} 
+
+.footMenuList ul li {
+    width: calc(100% / 3);
+    margin-bottom: 3%;
+}    
+    
+.footMenuList a {
+    font-size: 3.8vw;
+    line-height: 4.5vw;
+}
+    
+.footContactList li {
+    width: 100%;
+    text-align: center;
+    display: block;
+    margin-bottom: 2%;
+} 
+    
+.footContactList a img {
+    width: 5vw;
+}
+    
+.footContactList a span {
+    font-size: 3.8vw;
+    line-height: 6vw;
+}    
+
+.footCommunityList li {
+    width: 11%;
+    margin: 0 7% !important;
+}
+    
+.copyright {
+    font-size: 3.8vw;
+}
+    
+h1.TempleName {
+    font-size: 6vw;
+    line-height: 8vw;
+}    
+    
+.TempleInfo, .EventTime, .EventServiceContent p {
+    font-size: 3.8vw;
+}
+ 
+.TempleService ul li {
+    display: block;
+    margin: 1%;
+}    
+    
+.TempleService ul li a span, .ServiceTitle span {
+    font-size: 6vw;
+    line-height: 12vw;
+    min-width: 30vw;
+}
+    
+.TempleService ul li a::before, .TempleService ul li a::after, .ServiceTitle::before, .ServiceTitle::after {
+    width: 4vw;
+    padding-top: 14.2%;
+}    
+
+.TempleService ul li {
+    display: block;
+    margin: 0 auto 5% !important;
+}    
+
+.BackBtn a {
+    width: 100%;
+    font-size: 4.5vw;
+}    
+    
+.EventServiceContent h2 {
+    font-size: 5vw;
+}
+
+.OrderForm {
+    background: #F5F5F5;
+    padding: 1vw 3vw 5vw;
+}    
+    
+.FormTitle_A {
+    font-size: 7vw;
+}    
+    
+.FormTitle_A span {
+    font-size: 4vw;
+} 
+    
+.FormInput {
+    margin: 1.5vw 0;
+}    
+    
+.FormInput label {
+    width: 100%;
+    text-align: left;
+    margin-bottom: 1%;
+}  
+    
+    
+.FormInput label, .FormInput div, .FormInput span, .FormInput input, .FormInput select {
+    font-size: 3.8vw;
+}  
+    
+.text_s input, .tel input, .mail input, .date input {
+    width: calc(100% - 12px);
+}   
+
+.address > input {
+    margin-left: 0;
+    width: calc(100% - 12px);
+    margin-top: 1%;
+}
+
+.select select {
+    width: 100%;
+}    
+    
+.FormTitle_B {
+    font-size: 5vw;
+}  
+
+.FormAddList a {
+    font-size: 5vw;
+}  
+
+.DeletData {
+    width: 5vw;
+}
+    
+    
+.discount input[type="text"] {
+    width: calc(67% - 12px);
+}    
+.discount > div {
+    width: 28%;
+    margin-left: 5%;
+}
+.discount .cehckBtn {
+    width: 100%;
+    margin-left: 0 !important;
+}
+    
+.TotalCost {
+    font-size: 6vw;
+}
+    
+.Notice {
+    font-size: 3.8vw;
+    padding: 3vw 0;
+}    
+    
+.subBtn {
+    font-size: 5vw;
+    padding: 2vw 22vw;
+}    
+    
+.ServiceTitle {
+    width: 100%;
+}    
+    
+.ServiceType div:first-child {
+    width: 9vw;
+}    
+.ServiceType div:last-child {
+    font-size: 6vw;
+} 
+    
+.ServiceTempleList a {
+    font-size: 3.8vw;
+    padding: 0.5vw 2vw;
+}    
+
+.ServiceTempleList li {
+    display: inline-block;
+    margin: 1%;
+}
+    
+.Content {
+    font-size: 3.8vw;
+    line-height: 5vw;
+}
+    
+.EventImgList li {
+    width: calc((100% / 3) - 2%);
+}
+    
+    
+ 
+    
+.OrderStateTitle {
+    font-size: 6vw;
+} 
+.OrderState {
+    font-size: 5vw;
+}    
+    
+    
+.OrderStateContent {
+    width: 58vw;
+    margin: 0 auto 2vw;
+}     
+.OrderStateContent > div div {
+    font-size: 3.8vw;
+}    
+    
+.OrderCompleteTxt {
+    width: 100%;
+    font-size: 3.8vw;
+}    
+.BackLink a {
+    width: 80%;
+    font-size: 5vw;
+    padding: 1vw 0;
+}    
+    
+    
+    
+    
+.Content h2 {
+    font-size: 4.6vw;
+}
+
+.Content h3 {
+    font-size: 4.2vw;
+}    
+    
+    
+    
+.OrderPurchaser {
+    width: 100%;
+    margin-bottom: 5%;
+}
+
+.OrderData {
+    margin-bottom: 1%;
+}
+
+.OrderData > div, .OrderInfo li > div:last-child {
+    font-size: 3.8vw;
+}
+
+.OrderInfo {
+    width: 100%;
+}
+
+.ProductsName {
+    font-size: 5vw;
+}  
+    
+    
+    
+.PayButton input {
+    padding: 1vw 4vw;
+    font-size: 4.5vw;
+}    
+    
+.PayButton ul li:first-child {
+    display: block;
+    margin-bottom: 4vw;
+    text-align: center;
+}
+
+.PayButton ul li:first-child input {
+    margin: 0 auto;
+    padding: 1.5vw 0;
+    width: 88% !important;
+}
+         
+.discountOk {
+    margin-left: 0 !important;
+    width: auto !important;
+}
+}

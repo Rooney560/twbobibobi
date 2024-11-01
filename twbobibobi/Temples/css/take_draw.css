@@ -1,0 +1,52 @@
+@charset "utf-8";
+/* CSS Document */
+
+/* 抽籤內文*/
+.content-textB2{
+	text-decoration: none;
+	font-size: 14pt;
+	font-weight: bold ;
+	color: #944309;
+	line-height: 22pt;
+}
+/* 線上抽籤 籤號*/
+.content-textB3{
+	font-family: "新細明體";
+	text-decoration: none;
+	font-size: 14pt;
+	font-weight: bold ;
+	color: #990000;
+	line-height: 22pt;
+}
+/* 抽籤按鈕*/
+.btn_class {
+	font-size:16pt;
+	font-weight:normal;
+	text-decoration: none;
+	-moz-border-radius:5px;
+	-webkit-border-radius:5px;
+	border-radius:5px;
+	border: none;
+	padding:10px 20px;
+	text-decoration:none;
+	background:-moz-linear-gradient( center top, #E38C09 12%, #944309 50% );
+	background:-ms-linear-gradient( top, #E38C09 12%, #944309 50% );
+	filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#E38C09', endColorstr='#944309');
+	background:-webkit-gradient( linear, left top, left bottom, color-stop(12%, #E38C09), color-stop(50%, #944309) );
+	background-color:#944309;
+	color:#ffffff;
+	display:inline-block;
+}
+.btn_class:hover {
+	background:-moz-linear-gradient( center top, #944309 50%, #E38C09 93% );
+	background:-ms-linear-gradient( top, #944309 50%, #E38C09 93% );
+	filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#944309', endColorstr='#E38C09');
+	background:-webkit-gradient( linear, left top, left bottom, color-stop(50%, #944309), color-stop(93%, #E38C09) );
+	background-color:#E38C09;
+	text-decoration: none;
+}
+.btn_class:active {
+	position:relative;
+	top:1px;
+	text-decoration: none;
+}
