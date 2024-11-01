@@ -125,16 +125,17 @@ namespace Temple.Temples
                 JArray JleapMonth = JArray.Parse(leapMonth_Tag);
                 JArray Jbirthtime = JArray.Parse(birthtime_Tag);
                 JArray Jsbirth = JArray.Parse(sbirth_Tag);
-                JArray Jemail = JArray.Parse(email_Tag);
                 JArray JzipCode = JArray.Parse(zipCode_Tag);
                 JArray Jcounty = JArray.Parse(county_Tag);
                 JArray Jdist = JArray.Parse(dist_Tag);
                 JArray Jaddr = JArray.Parse(addr_Tag);
                 JArray JLightsString_Tag = JArray.Parse(LightsString_Tag);
 
+                JArray Jemail = new JArray();
                 JArray Jhomenum = new JArray();
                 JArray Jremark = new JArray();
 
+                nullChecked(email_Tag, ref Jemail);
                 nullChecked(homenum_Tag, ref Jhomenum);
                 nullChecked(remark_Tag, ref Jremark);
 

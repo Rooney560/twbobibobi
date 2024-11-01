@@ -396,6 +396,14 @@
             var newId = originalId.slice(0, -1) + lastblessNum;
             $(this).attr('id', newId);
             $(this).attr('name', newId);
+
+            $("input[type='tel']").on("keypress keyup blur", function (event) {
+                $(this).val($(this).val().replace(/[^\d].+/, ""));
+                if ((event.which < 48 || event.which > 57)) {
+                    event.preventDefault();
+                }
+            });
+
         });
         $('.InputGroup > li:last').find('select').each(function (index) {
             var originalId = $(this).attr('id');
