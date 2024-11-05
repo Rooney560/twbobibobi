@@ -164,6 +164,23 @@
                 });
             }
 
+            //大樓電梯
+            if (location.search.indexOf('elv') >= 0) {
+                $(document).attr("title", "(ELV)" + $("title").html());
+
+                $.each($("a"), function (i, n) {
+                    var $href = $(this).attr("href");
+                    if ($href.indexOf('.aspx') > 0) {
+                        if ($href.indexOf('?') > 0) {
+                            $(this).attr("href", $href + "&elv=1");
+                        }
+                        else {
+                            $(this).attr("href", $href + "?elv=1");
+                        }
+                    }
+                });
+            }
+
             if (location.search.indexOf('gads') >= 0) {
                 $(document).attr("title", "(GADS)" + $("title").html());
                 //$(document).attr("title", "２０２４(LINE)中元普渡線上報名開始囉~|最新消息|【保必保庇】線上宮廟服務平台");
@@ -181,22 +198,42 @@
                 });
             }
 
-            if (location.search.indexOf('inda') >= 0) {
-                $(document).attr("title", "(INDA)" + $("title").html());
-                //$(document).attr("title", "２０２４(LINE)中元普渡線上報名開始囉~|最新消息|【保必保庇】線上宮廟服務平台");
+            var adminlist = ["inda", "inh", "inwu", "inFu", "inLuer", "inty", "inFw", "indh", "inLk", "inma", "inwjsan"];
+            adminlist.forEach(function (item, index, array) {
 
-                $.each($("a"), function (i, n) {
-                    var $href = $(this).attr("href");
-                    if ($href.indexOf('.aspx') > 0) {
-                        if ($href.indexOf('?') > 0) {
-                            $(this).attr("href", $href + "&inda=1");
+                if (location.search.indexOf(item) >= 0) {
+                    $(document).attr("title", "(" + item.toUpperCase() + ")" + $("title").html());
+                    //$(document).attr("title", "２０２４(LINE)中元普渡線上報名開始囉~|最新消息|【保必保庇】線上宮廟服務平台");
+
+                    $.each($("a"), function (i, n) {
+                        var $href = $(this).attr("href");
+                        if ($href.indexOf('.aspx') > 0) {
+                            if ($href.indexOf('?') > 0) {
+                                $(this).attr("href", $href + "&" + item +"=1");
+                            }
+                            else {
+                                $(this).attr("href", $href + "?" + item +"=1");
+                            }
                         }
-                        else {
-                            $(this).attr("href", $href + "?inda=1");
-                        }
-                    }
-                });
-            }
+                    });
+                }
+                //if (location.search.indexOf('inda') >= 0) {
+                //    $(document).attr("title", "(INDA)" + $("title").html());
+                //    //$(document).attr("title", "２０２４(LINE)中元普渡線上報名開始囉~|最新消息|【保必保庇】線上宮廟服務平台");
+
+                //    $.each($("a"), function (i, n) {
+                //        var $href = $(this).attr("href");
+                //        if ($href.indexOf('.aspx') > 0) {
+                //            if ($href.indexOf('?') > 0) {
+                //                $(this).attr("href", $href + "&inda=1");
+                //            }
+                //            else {
+                //                $(this).attr("href", $href + "?inda=1");
+                //            }
+                //        }
+                //    });
+                //}
+            });
 
         });
     </script>

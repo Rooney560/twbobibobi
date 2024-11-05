@@ -111,6 +111,10 @@ namespace Temple.Temples
 
                 postURL += basePage.Request["gads"] != null ? "_GADS" : "";
 
+                postURL += basePage.Request["indh"] != null ? "_INDH" : "";
+
+                postURL += basePage.Request["elv"] != null ? "_ELV" : "";
+
                 if (basePage.Request["ad"] == "2")
                 {
                     Year = "2025";

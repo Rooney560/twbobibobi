@@ -167,6 +167,10 @@ namespace twbobibobi.Temples
 
                 postURL += basePage.Request["gads"] != null ? "_GADS" : "";
 
+                postURL += basePage.Request["inwjsan"] != null ? "_INWJSAN" : "";
+
+                postURL += basePage.Request["elv"] != null ? "_ELV" : "";
+
                 bool checkednum_wjsan = true;
 
                 if (checkednum_wjsan)

@@ -335,6 +335,7 @@ namespace Temple.Temples
                         case 4:
                             //下元補庫
                             typeString = " 2024下元補庫";
+                            Year = "2024";
                             title = "北港武德宮";
                             GetStateContentlist_wu(adminID, ApplicantID, kind, Year);           //購買人資料列表
                             EndDate = "2024/11/08 23:59";
@@ -396,6 +397,7 @@ namespace Temple.Temples
                         case 13:
                             //大甲鎮瀾宮七朝清醮
                             typeString = " 重修慶成祈安七朝清醮活動";
+                            Year = "2024";
                             title = " 大甲鎮瀾宮";
                             GetStateContentlist_da(adminID, ApplicantID, kind, Year);           //購買人資料列表
                             EndDate = "2024/11/30 23:59";

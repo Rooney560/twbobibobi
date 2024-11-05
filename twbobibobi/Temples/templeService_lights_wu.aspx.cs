@@ -157,6 +157,10 @@ namespace Temple.Temples
 
                 postURL += basePage.Request["gads"] != null ? "_GADS" : "";
 
+                postURL += basePage.Request["inwu"] != null ? "_INWU" : "";
+
+                postURL += basePage.Request["elv"] != null ? "_ELV" : "";
+
                 int[] count_wu_lights = new int[3];
                 bool checkednum_wu = true;
                 for (int i = 0; i < listcount; i++)
@@ -192,7 +196,14 @@ namespace Temple.Temples
                 //}
                 for (int i = 0; i < JLightsString_Tag.Count; i++)
                 {
-                    if (objLightDAC.checkedLightsNum(GetLightsType(JLightsString_Tag[i].ToString(), "6"), AdminID.ToString(), count_wu_lights[i], -1, Year))
+                    string lightsType = GetLightsType(JLightsString_Tag[i].ToString(), "6");
+                    int c = 0;
+
+                    c += lightsType == "3" ? count_wu_lights[0] : 0;
+                    c += lightsType == "4" ? count_wu_lights[1] : 0;
+                    c += lightsType == "6" ? count_wu_lights[2] : 0;
+                    
+                    if (objLightDAC.checkedLightsNum(lightsType, AdminID.ToString(), c, -1, Year))
                     {
                         checkednum_wu = false;
 

@@ -142,6 +142,10 @@ namespace Temple.Temples
 
                 postURL += basePage.Request["gads"] != null ? "_GADS" : "";
 
+                postURL += basePage.Request["inLk"] != null ? "_INLK" : "";
+
+                postURL += basePage.Request["elv"] != null ? "_ELV" : "";
+
                 ApplicantID = objLightDAC.addapplicantinfo_lights_Lk(AppName, AppMobile, "0", "", "", "", "0", "N", "", "", 0, AdminID, postURL, Year);
                 bool lightsinfo = false;
 

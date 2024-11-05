@@ -169,7 +169,7 @@ namespace Temple.FET.APITEST
             //FETVALUE = "9834f17bdeff4ad8d84c18d89c669017dd5a1b97797f82a90e948284a6ac1c7b";
 
             string key = "g%Qx7h_eOg";
-            if (URL.IndexOf("132.148.2.191") >= 0 || URL.IndexOf("localhost:56371") >= 0)
+            if (URL.IndexOf("132.148.2.191") >= 0 )
             {
                 key = "koB#pPv2%t";
             }
@@ -214,7 +214,7 @@ namespace Temple.FET.APITEST
 
             checkedkey = "shh#upsu6lyoeBkx";
 
-            if (URL.IndexOf("132.148.2.191") >= 0 || URL.IndexOf("localhost:56371") >= 0)
+            if (URL.IndexOf("132.148.2.191") >= 0)
             {
                 checkedkey = "lvrd5bidxr^dqlwX";
             }
@@ -406,7 +406,13 @@ namespace Temple.FET.APITEST
                                                 //string[] Lightstypelist = new string[] { "3", "4", "5" };
                                                 for (int i = 0; i < lightstypelist.Length; i++)
                                                 {
-                                                    if (objLightDAC.checkedLightsNum(lightstypelist[i], AdminID.ToString(), count_da_lights[i], -1, Year))
+                                                    int c = 0;
+
+                                                    c += lightstypelist[i] == "3" ? count_da_lights[0] : 0;
+                                                    c += lightstypelist[i] == "4" ? count_da_lights[1] : 0;
+                                                    c += lightstypelist[i] == "5" ? count_da_lights[2] : 0;
+
+                                                    if (objLightDAC.checkedLightsNum(lightstypelist[i], AdminID.ToString(), c, -1, Year))
                                                     {
                                                         checkednum_da = false; break;
                                                     }
@@ -680,24 +686,28 @@ namespace Temple.FET.APITEST
                                                     {
                                                         string LightsString = dtTempleCodeInfo.Rows[0]["TypeString"].ToString();
                                                         string LightsType = dtTempleCodeInfo.Rows[0]["TypeID"].ToString();
+                                                        string adminID = dtTempleCodeInfo.Rows[0]["AdminID"].ToString();
 
-                                                        var Ists = lightstypelist.ToList();
-                                                        lightstypelist = Ists.Append(LightsType).ToArray();
-
-                                                        switch (LightsType)
+                                                        if (adminID == "6")
                                                         {
-                                                            case "3":
-                                                                //光明燈
-                                                                count_wu_lights[0]++;
-                                                                break;
-                                                            case "4":
-                                                                //安太歲
-                                                                count_wu_lights[1]++;
-                                                                break;
-                                                            case "6":
-                                                                //財神燈
-                                                                count_wu_lights[2]++;
-                                                                break;
+                                                            var Ists = lightstypelist.ToList();
+                                                            lightstypelist = Ists.Append(LightsType).ToArray();
+
+                                                            switch (LightsType)
+                                                            {
+                                                                case "3":
+                                                                    //光明燈
+                                                                    count_wu_lights[0]++;
+                                                                    break;
+                                                                case "4":
+                                                                    //安太歲
+                                                                    count_wu_lights[1]++;
+                                                                    break;
+                                                                case "6":
+                                                                    //財神燈
+                                                                    count_wu_lights[2]++;
+                                                                    break;
+                                                            }
                                                         }
                                                     }
                                                     index++;
@@ -706,7 +716,13 @@ namespace Temple.FET.APITEST
                                                 //Lightstypelist = new string[] { "3", "4", "6" };
                                                 for (int i = 0; i < lightstypelist.Length; i++)
                                                 {
-                                                    if (objLightDAC.checkedLightsNum(lightstypelist[i], AdminID.ToString(), count_wu_lights[i], -1, Year))
+                                                    int c = 0;
+
+                                                    c += lightstypelist[i] == "3" ? count_wu_lights[0] : 0;
+                                                    c += lightstypelist[i] == "4" ? count_wu_lights[1] : 0;
+                                                    c += lightstypelist[i] == "6" ? count_wu_lights[2] : 0;
+
+                                                    if (objLightDAC.checkedLightsNum(lightstypelist[i], AdminID.ToString(), c, -1, Year))
                                                     {
                                                         checkednum_wu = false; break;
                                                     }
@@ -865,10 +881,19 @@ namespace Temple.FET.APITEST
                                                     index++;
                                                 }
 
-                                                //Lightstypelist = new string[] { "3", "4", "6", "8", "10" };
+                                                //Lightstypelist = new string[] { "3", "4", "6", "8", "10", "11" };
                                                 for (int i = 0; i < lightstypelist.Length; i++)
                                                 {
-                                                    if (objLightDAC.checkedLightsNum(lightstypelist[i], AdminID.ToString(), count_ty_lights[i], 1, Year))
+                                                    int c = 0;
+
+                                                    c += lightstypelist[i] == "3" ? count_ty_lights[0] : 0;
+                                                    c += lightstypelist[i] == "4" ? count_ty_lights[1] : 0;
+                                                    c += lightstypelist[i] == "6" ? count_ty_lights[2] : 0;
+                                                    c += lightstypelist[i] == "8" ? count_ty_lights[3] : 0;
+                                                    c += lightstypelist[i] == "10" ? count_ty_lights[4] : 0;
+                                                    c += lightstypelist[i] == "11" ? count_ty_lights[5] : 0;
+
+                                                    if (objLightDAC.checkedLightsNum(lightstypelist[i], AdminID.ToString(), c, 1, Year))
                                                     {
                                                         checkednum_ty = false; break;
                                                     }
@@ -1087,16 +1112,146 @@ namespace Temple.FET.APITEST
                                                 break;
                                             case 23:
                                                 //玉敕大樹朝天宮
-                                                ApplicantID = addapplicantID_ma_Lights(appName, appMobile, total, appCity, appRegion, appAddr, appzipCode, sendback, reName,
-                                                    reMobile, itemsInfo, productCode, clientOrderNumber, fetOrderNumber, Year, ref Lightslist, ref LightsID, ref OrderID);
 
-                                                tempList_aid.Add(ApplicantID);
-                                                tempList_lid.Add(LightsID);
-                                                tempList_oid.Add(OrderID);
+                                                int count_ma = 0;
+                                                index = 0;
+                                                int[] count_ma_lights = new int[6];
+                                                lightstypelist = new string[0];
 
-                                                ApplicantID_Array = tempList_aid.ToArray();
-                                                LightsID_Array = tempList_lid.ToArray();
-                                                OrderID_Array = tempList_oid.ToArray();
+                                                bool checkednum_ma = true;
+                                                foreach (var item2 in itemsInfo)
+                                                {
+                                                    int.TryParse(item2["qty"].ToString(), out count_ma);
+                                                    //int.TryParse(item["unitPrice"].ToString(), out cost);
+                                                    string productCode2 = item2["productCode"].ToString();
+
+                                                    dtTempleCodeInfo = objLightDAC.GetTempleCodeInfo(productCode2);
+                                                    if (dtTempleCodeInfo.Rows.Count > 0)
+                                                    {
+                                                        string LightsString = dtTempleCodeInfo.Rows[0]["TypeString"].ToString();
+                                                        string LightsType = dtTempleCodeInfo.Rows[0]["TypeID"].ToString();
+
+                                                        var Ists = lightstypelist.ToList();
+                                                        lightstypelist = Ists.Append(LightsType).ToArray();
+
+                                                        switch (LightsType)
+                                                        {
+                                                            case "3":
+                                                                //光明燈
+                                                                count_ma_lights[0]++;
+                                                                break;
+                                                            case "4":
+                                                                //安太歲
+                                                                count_ma_lights[1]++;
+                                                                break;
+                                                            case "6":
+                                                                //財神燈
+                                                                count_ma_lights[2]++;
+                                                                break;
+                                                            case "8":
+                                                                //藥師燈
+                                                                count_ma_lights[3]++;
+                                                                break;
+                                                            case "10":
+                                                                //貴人燈
+                                                                count_ma_lights[4]++;
+                                                                break;
+                                                            case "11":
+                                                                //福祿燈
+                                                                count_ma_lights[5]++;
+                                                                break;
+                                                        }
+                                                    }
+                                                    index++;
+                                                }
+
+                                                //Lightstypelist = new string[] { "3", "4", "6", "8", "10", "11" };
+                                                for (int i = 0; i < lightstypelist.Length; i++)
+                                                {
+                                                    int c = 0;
+
+                                                    c += lightstypelist[i] == "3" ? count_ma_lights[0] : 0;
+                                                    c += lightstypelist[i] == "4" ? count_ma_lights[1] : 0;
+                                                    c += lightstypelist[i] == "6" ? count_ma_lights[2] : 0;
+                                                    c += lightstypelist[i] == "8" ? count_ma_lights[3] : 0;
+                                                    c += lightstypelist[i] == "10" ? count_ma_lights[4] : 0;
+                                                    c += lightstypelist[i] == "11" ? count_ma_lights[5] : 0;
+
+                                                    if (objLightDAC.checkedLightsNum(lightstypelist[i], AdminID.ToString(), c, 1, Year))
+                                                    {
+                                                        checkednum_ma = false; break;
+                                                    }
+                                                }
+
+                                                if (checkednum_ma)
+                                                {
+                                                    ApplicantID = addapplicantID_ma_Lights(appName, appMobile, total, appCity, appRegion, appAddr, appzipCode, sendback, reName,
+                                                        reMobile, itemsInfo, productCode, clientOrderNumber, fetOrderNumber, Year, ref Lightslist, ref LightsID, ref OrderID);
+
+                                                    tempList_aid.Add(ApplicantID);
+                                                    tempList_lid.Add(LightsID);
+                                                    tempList_oid.Add(OrderID);
+
+                                                    ApplicantID_Array = tempList_aid.ToArray();
+                                                    LightsID_Array = tempList_lid.ToArray();
+                                                    OrderID_Array = tempList_oid.ToArray();
+                                                }
+                                                else
+                                                {
+                                                    //JSON寫入到檔案
+                                                    using (StringWriter sw = new StringWriter())
+                                                    {
+                                                        using (JsonTextWriter writer = new JsonTextWriter(sw))
+                                                        {
+                                                            //建立物件
+                                                            writer.WriteStartObject();
+
+                                                            //物件名稱
+                                                            writer.WritePropertyName("detail");
+
+                                                            using (StringWriter sw2 = new StringWriter())
+                                                            {
+                                                                using (JsonTextWriter writer2 = new JsonTextWriter(sw2))
+                                                                {
+                                                                    //建立物件
+                                                                    writer2.WriteStartObject();
+
+                                                                    writer2.WritePropertyName(string.Format("clientOrderNumber", clientOrderNumber));
+                                                                    writer2.WriteValue(clientOrderNumber);
+
+                                                                    writer2.WritePropertyName("partnerOrderNumber");
+                                                                    writer2.WriteValue(OrderID);
+
+                                                                    writer2.WritePropertyName("orderMsg");
+                                                                    writer2.WriteValue("fail");
+
+                                                                    writer2.WritePropertyName("orderStatus");
+                                                                    writer2.WriteValue("1001");
+
+                                                                    writer2.WriteEndObject();
+
+                                                                    encrypt = AESHelper.AesEncrypt(sw2.ToString(), checkedkey);
+                                                                }
+                                                            }
+
+                                                            writer.WriteValue(encrypt);
+
+                                                            writer.WritePropertyName("resultCode"); writer.WriteValue("9999");
+
+                                                            writer.WriteEndObject();
+
+                                                            writer.Flush();
+                                                            writer.Close();
+                                                            sw.Flush();
+                                                            sw.Close();
+
+                                                            //輸出結果
+                                                            Response.Write(sw.ToString());
+
+                                                            SaveRequestLog(Request.Url + sw.ToString());
+                                                        }
+                                                    }
+                                                }
                                                 break;
                                             case 29:
                                                 //進寶財神廟

@@ -148,6 +148,8 @@ namespace Temple.Temples
 
                 postURL += basePage.Request["inda"] != null ? "_INDA" : "";
 
+                postURL += basePage.Request["elv"] != null ? "_ELV" : "";
+
                 int[] count_da_lights = new int[3];
                 bool checkednum_da = true;
                 for (int i = 0; i < listcount; i++)
@@ -172,7 +174,14 @@ namespace Temple.Temples
                 //string[] Lightstypelist = new string[] { "3", "4", "5" };
                 for (int i = 0; i < JLightsString_Tag.Count; i++)
                 {
-                    if (objLightDAC.checkedLightsNum(GetLightsType(JLightsString_Tag[i].ToString(), "3"), AdminID.ToString(), count_da_lights[i], -1, Year))
+                    string lightsType = GetLightsType(JLightsString_Tag[i].ToString(), "3");
+                    int c = 0;
+
+                    c += lightsType == "3" ? count_da_lights[0] : 0;
+                    c += lightsType == "4" ? count_da_lights[1] : 0;
+                    c += lightsType == "5" ? count_da_lights[2] : 0;
+
+                    if (objLightDAC.checkedLightsNum(lightsType, AdminID.ToString(), c, -1, Year))
                     {
                         checkednum_da = false;
 

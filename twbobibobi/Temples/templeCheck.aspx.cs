@@ -312,6 +312,7 @@ namespace Temple.Temples
                         //下元補庫
                         case 4:
                             typeString = " 2024下元補庫";
+                            Year = "2024";
 
                             switch (adminID)
                             {
@@ -445,6 +446,7 @@ namespace Temple.Temples
                         //七朝清醮
                         case 13:
                             typeString = " 七朝清醮";
+                            Year = "2024";
 
                             switch (adminID)
                             {

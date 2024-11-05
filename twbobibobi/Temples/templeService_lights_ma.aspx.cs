@@ -158,6 +158,10 @@ namespace twbobibobi.Temples
 
                 postURL += basePage.Request["gads"] != null ? "_GADS" : "";
 
+                postURL += basePage.Request["inma"] != null ? "_INMA" : "";
+
+                postURL += basePage.Request["elv"] != null ? "_ELV" : "";
+
                 int[] count_ma_lights = new int[4];
                 bool checkednum_ma = true;
                 for (int i = 0; i < listcount; i++)
@@ -186,7 +190,15 @@ namespace twbobibobi.Temples
                 //string[] Lightstypelist = new string[] { "3", "4", "5" };
                 for (int i = 0; i < JLightsString_Tag.Count; i++)
                 {
-                    if (objLightDAC.checkedLightsNum(GetLightsType(JLightsString_Tag[i].ToString(), "23"), AdminID.ToString(), count_ma_lights[i], -1, Year))
+                    string lightsType = GetLightsType(JLightsString_Tag[i].ToString(), "23");
+                    int c = 0;
+
+                    c += lightsType == "3" ? count_ma_lights[0] : 0;
+                    c += lightsType == "4" ? count_ma_lights[1] : 0;
+                    c += lightsType == "5" ? count_ma_lights[2] : 0;
+                    c += lightsType == "6" ? count_ma_lights[3] : 0;
+
+                    if (objLightDAC.checkedLightsNum(lightsType, AdminID.ToString(), c, -1, Year))
                     {
                         checkednum_ma = false;
 

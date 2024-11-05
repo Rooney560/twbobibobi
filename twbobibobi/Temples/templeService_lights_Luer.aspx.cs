@@ -67,12 +67,11 @@ namespace Temple.Temples
                 string name_Tag = basePage.Request["name_Tag"];                                     //祈福人姓名
                 string mobile_Tag = basePage.Request["mobile_Tag"];                                 //祈福人電話
                 string sex_Tag = basePage.Request["sex_Tag"];                                       //祈福人性別
-                //string sex_Tag = basePage.Request["sex_Tag"];                                       //祈福人性別
                 string birth_Tag = basePage.Request["birth_Tag"];                                   //祈福人農歷生日
                 string leapMonth_Tag = basePage.Request["leapMonth_Tag"];                           //閏月 Y-是 N-否
                 string birthtime_Tag = basePage.Request["birthtime_Tag"];                           //祈福人農曆時辰
-                //string sbirth_Tag = basePage.Request["sbirth_Tag"];                                 //祈福人國曆生日
-                //string email_Tag = basePage.Request["email_Tag"];                                   //祈福人信箱
+                string sbirth_Tag = basePage.Request["sbirth_Tag"];                                 //祈福人國曆生日
+                string email_Tag = basePage.Request["email_Tag"];                                   //祈福人信箱
                 string zipCode_Tag = basePage.Request["zipCode_Tag"];                               //祈福人郵遞區號
                 string county_Tag = basePage.Request["county_Tag"];                                 //祈福人縣市
                 string dist_Tag = basePage.Request["dist_Tag"];                                     //祈福人區域
@@ -90,12 +89,12 @@ namespace Temple.Temples
 
                 JArray Jname = JArray.Parse(name_Tag);
                 JArray Jmobile = JArray.Parse(mobile_Tag);
-                //JArray Jsex = JArray.Parse(sex_Tag);
+                JArray Jsex = JArray.Parse(sex_Tag);
                 JArray Jbirth = JArray.Parse(birth_Tag);
                 JArray JleapMonth = JArray.Parse(leapMonth_Tag);
                 JArray Jbirthtime = JArray.Parse(birthtime_Tag);
-                //JArray Jsbirth = JArray.Parse(sbirth_Tag);
-                //JArray Jemail = JArray.Parse(email_Tag);
+                JArray Jsbirth = JArray.Parse(sbirth_Tag);
+                JArray Jemail = JArray.Parse(email_Tag);
                 JArray JzipCode = JArray.Parse(zipCode_Tag);
                 JArray Jcounty = JArray.Parse(county_Tag);
                 JArray Jdist = JArray.Parse(dist_Tag);
@@ -126,6 +125,10 @@ namespace Temple.Temples
 
                 postURL += basePage.Request["gads"] != null ? "_GADS" : "";
 
+                postURL += basePage.Request["inLuer"] != null ? "_INLUER" : "";
+
+                postURL += basePage.Request["elv"] != null ? "_ELV" : "";
+
                 ApplicantID = objLightDAC.addapplicantinfo_lights_Luer(AppName, AppMobile, "0", "", "", "", "0", "N", "", "", 0, AdminID, postURL, Year);
                 bool lightsinfo = false;
 
@@ -138,15 +141,12 @@ namespace Temple.Temples
 
                         string name = Jname[i].ToString();
                         string mobile = Jmobile[i].ToString();
-                        //string sex = Jsex[i].ToString();
+                        string sex = Jsex[i].ToString();
                         string Birth = Jbirth[i].ToString();
                         string leapMonth = JleapMonth[i].ToString();
                         string birthTime = Jbirthtime[i].ToString();
-                        //string sBirth = Jsbirth[i].ToString();
-                        //string email = Jemail.Count > 0 ? Jemail[i].ToString() : "";
-                        string sex = "善男";
-                        string sBirth = "";
-                        string email = "";
+                        string sBirth = Jsbirth[i].ToString();
+                        string email = Jemail.Count > 0 ? Jemail[i].ToString() : "";
                         string lightsString = JLightsString_Tag[i].ToString(); ;
                         string lightsType = GetLightsType(lightsString, "10");
                         string addr = Jaddr[i].ToString();
