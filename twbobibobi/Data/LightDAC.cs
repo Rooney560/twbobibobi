@@ -15106,7 +15106,7 @@ namespace Temple.data
                             break;
                         case "4":
                             //安太歲
-                            if (dtGetData.Rows.Count >= 4000 || dtGetData.Rows.Count + Count > 4000)
+                            if (dtGetData.Rows.Count >= 5000 || dtGetData.Rows.Count + Count > 5000)
                             {
                                 result = true;
                             }
