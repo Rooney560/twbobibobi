@@ -570,312 +570,312 @@ namespace Temple.FET.Supplies
 
 
         //點燈燈種 3-光明燈 4-安太歲 5-文昌燈 6-財神燈 7-姻緣燈 8-藥師燈 9-財利燈 10-貴人燈 11-福祿(壽)燈 12-寵物平安燈 13-龍王燈 14-虎爺燈 15-轉運納福燈 16-光明燈上層 17-偏財旺旺燈 18-廣進安財庫 19-財庫燈 20-月老姻緣燈 21-孝親祈福燈
-        protected int GetLightsCost(int AdminID, string LightsType)
-        {
-            int result = 0;
+        //protected int GetLightsCost(int AdminID, string LightsType)
+        //{
+        //    int result = 0;
 
-            switch (AdminID)
-            {
-                case 3:
-                    //大甲鎮瀾宮
-                    switch (LightsType)
-                    {
-                        case "3":
-                            //光明燈
-                            result = 620;
-                            break;
-                        case "4":
-                            //安太歲
-                            result = 520;
-                            break;
-                        case "5":
-                            //文昌燈
-                            result = 820;
-                            break;
-                    }
-                    break;
-                case 4:
-                    //新港奉天宮
-                    switch (LightsType)
-                    {
-                        case "3":
-                            //光明燈
-                            result = 620;
-                            break;
-                        case "4":
-                            //安太歲
-                            result = 620;
-                            break;
-                    }
-                    break;
-                case 6:
-                    //北港武德宮
-                    switch (LightsType)
-                    {
-                        case "3":
-                            //光明燈
-                            result = 600;
-                            break;
-                        case "4":
-                            //安太歲
-                            result = 600;
-                            break;
-                        case "6":
-                            //財神燈
-                            result = 600;
-                            break;
-                    }
-                    break;
-                case 8:
-                    //西螺福興宮
-                    switch (LightsType)
-                    {
-                        case "3":
-                            //光明燈
-                            result = 600;
-                            break;
-                        case "4":
-                            //安太歲
-                            result = 300;
-                            break;
-                        case "6":
-                            //財神燈
-                            result = 600;
-                            break;
-                        case "8":
-                            //藥師燈
-                            result = 600;
-                            break;
-                    }
-                    break;
-                case 10:
-                    //台南正宗鹿耳門聖母廟
-                    switch (LightsType)
-                    {
-                        case "3":
-                            //光明燈
-                            result = 500;
-                            break;
-                        case "4":
-                            //安太歲
-                            result = 500;
-                            break;
-                        case "5":
-                            //文昌燈
-                            result = 500;
-                            break;
-                        case "7":
-                            //姻緣燈
-                            result = 999;
-                            break;
-                        case "9":
-                            //財利燈
-                            result = 600;
-                            break;
-                        case "11":
-                            //福壽燈
-                            result = 999;
-                            break;
-                        case "12":
-                            //寵物平安燈
-                            result = 500;
-                            break;
-                        case "20":
-                            //月老姻緣燈
-                            result = 999;
-                            break;
-                    }
-                    break;
-                case 14:
-                    //桃園威天宮
-                    switch (LightsType)
-                    {
-                        case "3":
-                            //光明燈
-                            result = 300;
-                            break;
-                        case "4":
-                            //太歲燈
-                            result = 300;
-                            break;
-                        case "6":
-                            //財神燈
-                            result = 600;
-                            break;
-                        case "8":
-                            //藥師燈
-                            result = 600;
-                            break;
-                        case "10":
-                            //貴人燈
-                            result = 600;
-                            break;
-                        case "11":
-                            //福祿燈
-                            result = 600;
-                            break;
-                    }
-                    break;
-                case 15:
-                    //斗六五路財神宮
-                    switch (LightsType)
-                    {
-                        case "3":
-                            //貴人燈(光明燈)
-                            result = 500;
-                            break;
-                        case "4":
-                            //安太歲
-                            result = 500;
-                            break;
-                        case "6":
-                            //發財燈
-                            result = 500;
-                            break;
-                        case "7":
-                            //桃花燈
-                            result = 500;
-                            break;
-                        case "19":
-                            //財庫燈
-                            result = 500;
-                            break;
-                    }
-                    break;
-                case 16:
-                    //台東東海龍門天聖宮
-                    switch (LightsType)
-                    {
-                        case "3":
-                            //光明燈
-                            result = 500;
-                            break;
-                        case "4":
-                            //安太歲
-                            result = 500;
-                            break;
-                        case "5":
-                            //文昌燈
-                            result = 500;
-                            break;
-                        case "9":
-                            //財利燈
-                            result = 500;
-                            break;
-                        case "13":
-                            //龍王燈
-                            result = 800;
-                            break;
-                        case "14":
-                            //虎爺燈
-                            result = 500;
-                            break;
-                    }
-                    break;
-                case 17:
-                    //五股賀聖宮
-                    switch (LightsType)
-                    {
-                        case "3":
-                            //光明燈
-                            result = 600;
-                            break;
-                        case "4":
-                            //安太歲
-                            result = 600;
-                            break;
-                        case "5":
-                            //文昌燈
-                            result = 600;
-                            break;
-                        case "8":
-                            //藥師燈
-                            result = 600;
-                            break;
-                        case "9":
-                            //財利燈
-                            result = 600;
-                            break;
-                    }
-                    break;
-                case 18:
-                    //外澳接天宮
-                    switch (LightsType)
-                    {
-                        case "3":
-                            //光明燈
-                            result = 300;
-                            break;
-                        case "4":
-                            //安太歲
-                            result = 600;
-                            break;
-                        case "6":
-                            //財神燈
-                            result = 600;
-                            break;
-                    }
-                    break;
-                case 19:
-                    //安平開台天后宮
-                    switch (LightsType)
-                    {
-                        case "3":
-                            //光明燈
-                            result = 620;
-                            break;
-                        case "4":
-                            //安太歲
-                            result = 620;
-                            break;
-                        case "5":
-                            //文昌燈
-                            result = 620;
-                            break;
-                    }
-                    break;
-                case 21:
-                    //鹿港城隍廟
-                    switch (LightsType)
-                    {
-                        case "3":
-                            //元神光明燈
-                            result = 500;
-                            break;
-                        case "4":
-                            //太歲平安符
-                            result = 500;
-                            break;
-                        case "5":
-                            //文魁智慧燈
-                            result = 500;
-                            break;
-                        case "6":
-                            //正財福報燈
-                            result = 500;
-                            break;
-                        case "15":
-                            //轉運納福燈
-                            result = 1000;
-                            break;
-                        case "16":
-                            //光明燈上層
-                            result = 1000;
-                            break;
-                        case "17":
-                            //偏財旺旺燈
-                            result = 500;
-                            break;
-                        case "18":
-                            //廣進安財庫
-                            result = 300;
-                            break;
-                    }
-                    break;
-            }
+        //    switch (AdminID)
+        //    {
+        //        case 3:
+        //            //大甲鎮瀾宮
+        //            switch (LightsType)
+        //            {
+        //                case "3":
+        //                    //光明燈
+        //                    result = 620;
+        //                    break;
+        //                case "4":
+        //                    //安太歲
+        //                    result = 520;
+        //                    break;
+        //                case "5":
+        //                    //文昌燈
+        //                    result = 820;
+        //                    break;
+        //            }
+        //            break;
+        //        case 4:
+        //            //新港奉天宮
+        //            switch (LightsType)
+        //            {
+        //                case "3":
+        //                    //光明燈
+        //                    result = 620;
+        //                    break;
+        //                case "4":
+        //                    //安太歲
+        //                    result = 620;
+        //                    break;
+        //            }
+        //            break;
+        //        case 6:
+        //            //北港武德宮
+        //            switch (LightsType)
+        //            {
+        //                case "3":
+        //                    //光明燈
+        //                    result = 600;
+        //                    break;
+        //                case "4":
+        //                    //安太歲
+        //                    result = 600;
+        //                    break;
+        //                case "6":
+        //                    //財神燈
+        //                    result = 600;
+        //                    break;
+        //            }
+        //            break;
+        //        case 8:
+        //            //西螺福興宮
+        //            switch (LightsType)
+        //            {
+        //                case "3":
+        //                    //光明燈
+        //                    result = 600;
+        //                    break;
+        //                case "4":
+        //                    //安太歲
+        //                    result = 300;
+        //                    break;
+        //                case "6":
+        //                    //財神燈
+        //                    result = 600;
+        //                    break;
+        //                case "8":
+        //                    //藥師燈
+        //                    result = 600;
+        //                    break;
+        //            }
+        //            break;
+        //        case 10:
+        //            //台南正宗鹿耳門聖母廟
+        //            switch (LightsType)
+        //            {
+        //                case "3":
+        //                    //光明燈
+        //                    result = 500;
+        //                    break;
+        //                case "4":
+        //                    //安太歲
+        //                    result = 500;
+        //                    break;
+        //                case "5":
+        //                    //文昌燈
+        //                    result = 500;
+        //                    break;
+        //                case "7":
+        //                    //姻緣燈
+        //                    result = 999;
+        //                    break;
+        //                case "9":
+        //                    //財利燈
+        //                    result = 600;
+        //                    break;
+        //                case "11":
+        //                    //福壽燈
+        //                    result = 999;
+        //                    break;
+        //                case "12":
+        //                    //寵物平安燈
+        //                    result = 500;
+        //                    break;
+        //                case "20":
+        //                    //月老姻緣燈
+        //                    result = 999;
+        //                    break;
+        //            }
+        //            break;
+        //        case 14:
+        //            //桃園威天宮
+        //            switch (LightsType)
+        //            {
+        //                case "3":
+        //                    //光明燈
+        //                    result = 300;
+        //                    break;
+        //                case "4":
+        //                    //太歲燈
+        //                    result = 300;
+        //                    break;
+        //                case "6":
+        //                    //財神燈
+        //                    result = 600;
+        //                    break;
+        //                case "8":
+        //                    //藥師燈
+        //                    result = 600;
+        //                    break;
+        //                case "10":
+        //                    //貴人燈
+        //                    result = 600;
+        //                    break;
+        //                case "11":
+        //                    //福祿燈
+        //                    result = 600;
+        //                    break;
+        //            }
+        //            break;
+        //        case 15:
+        //            //斗六五路財神宮
+        //            switch (LightsType)
+        //            {
+        //                case "3":
+        //                    //貴人燈(光明燈)
+        //                    result = 500;
+        //                    break;
+        //                case "4":
+        //                    //安太歲
+        //                    result = 500;
+        //                    break;
+        //                case "6":
+        //                    //發財燈
+        //                    result = 500;
+        //                    break;
+        //                case "7":
+        //                    //桃花燈
+        //                    result = 500;
+        //                    break;
+        //                case "19":
+        //                    //財庫燈
+        //                    result = 500;
+        //                    break;
+        //            }
+        //            break;
+        //        case 16:
+        //            //台東東海龍門天聖宮
+        //            switch (LightsType)
+        //            {
+        //                case "3":
+        //                    //光明燈
+        //                    result = 500;
+        //                    break;
+        //                case "4":
+        //                    //安太歲
+        //                    result = 500;
+        //                    break;
+        //                case "5":
+        //                    //文昌燈
+        //                    result = 500;
+        //                    break;
+        //                case "9":
+        //                    //財利燈
+        //                    result = 500;
+        //                    break;
+        //                case "13":
+        //                    //龍王燈
+        //                    result = 800;
+        //                    break;
+        //                case "14":
+        //                    //虎爺燈
+        //                    result = 500;
+        //                    break;
+        //            }
+        //            break;
+        //        case 17:
+        //            //五股賀聖宮
+        //            switch (LightsType)
+        //            {
+        //                case "3":
+        //                    //光明燈
+        //                    result = 600;
+        //                    break;
+        //                case "4":
+        //                    //安太歲
+        //                    result = 600;
+        //                    break;
+        //                case "5":
+        //                    //文昌燈
+        //                    result = 600;
+        //                    break;
+        //                case "8":
+        //                    //藥師燈
+        //                    result = 600;
+        //                    break;
+        //                case "9":
+        //                    //財利燈
+        //                    result = 600;
+        //                    break;
+        //            }
+        //            break;
+        //        case 18:
+        //            //外澳接天宮
+        //            switch (LightsType)
+        //            {
+        //                case "3":
+        //                    //光明燈
+        //                    result = 300;
+        //                    break;
+        //                case "4":
+        //                    //安太歲
+        //                    result = 600;
+        //                    break;
+        //                case "6":
+        //                    //財神燈
+        //                    result = 600;
+        //                    break;
+        //            }
+        //            break;
+        //        case 19:
+        //            //安平開台天后宮
+        //            switch (LightsType)
+        //            {
+        //                case "3":
+        //                    //光明燈
+        //                    result = 620;
+        //                    break;
+        //                case "4":
+        //                    //安太歲
+        //                    result = 620;
+        //                    break;
+        //                case "5":
+        //                    //文昌燈
+        //                    result = 620;
+        //                    break;
+        //            }
+        //            break;
+        //        case 21:
+        //            //鹿港城隍廟
+        //            switch (LightsType)
+        //            {
+        //                case "3":
+        //                    //元神光明燈
+        //                    result = 500;
+        //                    break;
+        //                case "4":
+        //                    //太歲平安符
+        //                    result = 500;
+        //                    break;
+        //                case "5":
+        //                    //文魁智慧燈
+        //                    result = 500;
+        //                    break;
+        //                case "6":
+        //                    //正財福報燈
+        //                    result = 500;
+        //                    break;
+        //                case "15":
+        //                    //轉運納福燈
+        //                    result = 1000;
+        //                    break;
+        //                case "16":
+        //                    //光明燈上層
+        //                    result = 1000;
+        //                    break;
+        //                case "17":
+        //                    //偏財旺旺燈
+        //                    result = 500;
+        //                    break;
+        //                case "18":
+        //                    //廣進安財庫
+        //                    result = 300;
+        //                    break;
+        //            }
+        //            break;
+        //    }
 
-            return result;
-        }
+        //    return result;
+        //}
 
         protected string OrderData(string label, string text)
         {

@@ -157,10 +157,10 @@
                     <form>
                         <div class="FormTitle_A">購買人資料<span>（資料務必填寫正確，日後查詢訂單使用。聯絡電話請填09開頭號碼，例：0912345678。）</span></div>
                         <div class="FormInput text_s">
-                            <label>申請人姓名</label><input name="member_name" type="text" class="required" id="member_name" placeholder="請輸入申請人姓名"/>
+                            <label>購買人姓名</label><input name="member_name" type="text" class="required" id="member_name" placeholder="請輸入購買人姓名"/>
                         </div>
                         <div class="FormInput tel">
-                            <label>申請人電話</label><input name="member_tel" type="tel" class="required" id="member_tel" placeholder="請輸入聯絡電話"/>
+                            <label>購買人電話</label><input name="member_tel" type="tel" class="required" id="member_tel" placeholder="請輸入聯絡電話"/>
                         </div>
                         <div class="FormInput date">
                             <label>國歷生日</label><input name="member_birthday" type="text" class="datapicker required" id="member_birthday" placeholder="請選擇國歷生日" />
@@ -510,13 +510,13 @@
     function gotoChecked_ty() {
         var listcount = $('.InputGroup > li').last().attr('bless-id');
 
-        Appname = $("#member_name").val();                      //申請人姓名
-        Appmobile = $("#member_tel").val();                     //申請人電話
-        Appbirth = $("#member_birthday").val();                 //申請人國歷生日
-        AppzipCode = $("#member_zipcode").val();                //申請人郵遞區號
-        Appcounty = $("select[name='member_county']").val();    //申請人縣市
-        Appdist = $("select[name='member_district']").val();    //申請人區域
-        Appaddr = $("#member_address").val();                   //申請人部分地址
+        Appname = $("#member_name").val();                      //購買人姓名
+        Appmobile = $("#member_tel").val();                     //購買人電話
+        Appbirth = $("#member_birthday").val();                 //購買人國歷生日
+        AppzipCode = $("#member_zipcode").val();                //購買人郵遞區號
+        Appcounty = $("select[name='member_county']").val();    //購買人縣市
+        Appdist = $("select[name='member_district']").val();    //購買人區域
+        Appaddr = $("#member_address").val();                   //購買人部分地址
 
         name_Tag = [];
         mobile_Tag = [];

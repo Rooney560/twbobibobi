@@ -33,6 +33,15 @@ namespace Temple.Temples
         protected global::Temple.Temples.header header;
 
         /// <summary>
+        /// lights_an 控制項。
+        /// </summary>
+        /// <remarks>
+        /// 自動產生的欄位。
+        /// 若要修改，請將欄位宣告從設計工具檔案移到程式碼後置檔案。
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl lights_an;
+
+        /// <summary>
         /// label_birth_1 控制項。
         /// </summary>
         /// <remarks>

@@ -25,6 +25,7 @@ namespace twbobibobi
         public string carousel_inners = string.Empty;
         public string ceremonyList = string.Empty;
         public List<SysSetting> sysSettings = new List<SysSetting>();
+        public string eventTitbitsList = string.Empty; //活動花絮
         protected void Page_Load(object sender, EventArgs e)
         {
             if (!Page.IsPostBack)
@@ -41,6 +42,7 @@ namespace twbobibobi
                 InitLightList();
                 InitCarouselList();
                 InitCeremonyList();
+                InitEventTitbits();
 
                 AdminDAC objAdminDAC = new AdminDAC(this);
                 DataTable dtAdmin = objAdminDAC.GetAdminList(9);
@@ -60,10 +62,12 @@ namespace twbobibobi
                             string suppliesService = dtTempleInfo.Rows[0]["SuppliesService"].ToString();
                             string supplies2Service = dtTempleInfo.Rows[0]["Supplies2Service"].ToString();
                             string supplies3Service = dtTempleInfo.Rows[0]["Supplies3Service"].ToString();
+                            string supplies4Service = dtTempleInfo.Rows[0]["Supplies4Service"].ToString();
                             string lights2Service = dtTempleInfo.Rows[0]["Lights2Service"].ToString();
                             if (adminID != "30")
                             {
-                                Templelist += InitTemplelist(adminID, title, img, lightsService, purdueService, suppliesService, supplies2Service, lights2Service, supplies3Service);
+                                Templelist += InitTemplelist(adminID, title, img, lightsService, purdueService, suppliesService, supplies2Service, lights2Service, supplies3Service,
+                                     supplies4Service);
                             }
                         }
                     }
@@ -71,7 +75,8 @@ namespace twbobibobi
             }
         }
 
-        protected string InitTemplelist(string adminID, string title, string img, string lightsService, string purdueService, string suppliesService, string supplies2Service, string lights2Service, string supplies3Service)
+        protected string InitTemplelist(string adminID, string title, string img, string lightsService, string purdueService, string suppliesService, string supplies2Service, 
+            string lights2Service, string supplies3Service, string supplies4Service)
         {
             string result = string.Empty;
 
@@ -108,6 +113,11 @@ namespace twbobibobi
                 result += "<li class=\"Tag_05\">企業補財庫</li>";
             }
 
+            if (supplies4Service == "1")
+            {
+                result += "<li class=\"Tag_05\">補財庫</li>";
+            }
+
             if (lights2Service == "1")
             {
                 result += "<li class=\"Tag_01\">月老姻緣燈</li>";
@@ -129,7 +139,10 @@ namespace twbobibobi
             lightList = "";
             foreach (var item in list)
             {
-                lightList += $"                        <div class=\"LightList-Item\">\r\n                            <a href=\"./Temples/lightInfo.aspx?a={item.Id}\">\r\n                                <div class=\"card shadow h-100 LightCard\">\r\n                                    <img src=\"./Temples/SiteFile/light/{item.Id}.{item.ImageFileType}\" style=\"height: 150px;\" class=\"card-img-to\" alt=\"\" />\r\n                                    <div class=\"card-body pb-0\">\r\n                                        <div class=\"fs-3\">{item.Title}</div>\r\n                                        <div class=\"fs-5\">{item.Description}</div>\r\n                                    </div>\r\n                                    <div class=\"card-footer pt-0 pb-3\" style=\"border-top: none; background-color: transparent;\">\r\n                                        <div class=\"ReadMoreBtn\"><span>&nbsp;立即點燈&nbsp;</span></div>\r\n                                    </div>\r\n                                </div>\r\n                            </a>\r\n                        </div>\r\n";
+                if (item.ButtonVisible == 1 && item.ButtonText.Length > 0 && item.ButtonLink.Length > 0)
+                    lightList += $"                        <div class=\"LightList-Item\">\r\n                            <a href=\"{item.ButtonLink}\">\r\n                                <div class=\"card shadow h-100 LightCard\">\r\n                                    <img src=\"./Temples/SiteFile/light/{item.Id}.{item.ImageFileType}\" style=\"height: 150px;\" class=\"card-img-to\" alt=\"\" />\r\n                                    <div class=\"card-body pb-0\">\r\n                                        <div class=\"fs-3\">{item.Title}</div>\r\n                                        <div class=\"fs-5\">{item.Description}</div>\r\n                                    </div>\r\n                                    <div class=\"card-footer pt-0 pb-3\" style=\"border-top: none; background-color: transparent;\">\r\n                                        <div class=\"ReadMoreBtn\"><span>&nbsp;{item.ButtonText}&nbsp;</span></div>\r\n                                    </div>\r\n                                </div>\r\n                            </a>\r\n                        </div>\r\n";
+                else
+                    lightList += $"                        <div class=\"LightList-Item\">\r\n                            <div class=\"card shadow h-100 LightCard\">\r\n                                    <img src=\"./Temples/SiteFile/light/{item.Id}.{item.ImageFileType}\" style=\"height: 150px;\" class=\"card-img-to\" alt=\"\" />\r\n                                    <div class=\"card-body pb-0\">\r\n                                        <div class=\"fs-3\">{item.Title}</div>\r\n                                        <div class=\"fs-5\">{item.Description}</div>\r\n                                    </div>\r\n                            </div>\r\n                        </div>\r\n";
             }
         }
         protected void InitCarouselList()
@@ -154,37 +167,52 @@ namespace twbobibobi
                 {
                     title = item.Title.Length == 0 ? "" : $"                            <h1>{item.Title}</h1>\r\n";
                     description = item.Description.Length == 0 ? "" : $"                            <h5>{item.Description}</h5>\r\n";
-                    button = item.ButtonText.Length == 0 ? "" : $"                            <a href=\"{item.ButtonLink}\">\r\n                                <div class=\"btn btn-warning carousel-button\">{item.ButtonText}</div>\r\n                            </a>\r\n";
+                    button = item.ButtonVisible != 1 || item.ButtonText.Length == 0 || item.ButtonLink.Length == 0 ? "" : $"                            <a href=\"{item.ButtonLink}\">\r\n                                <div class=\"btn btn-warning carousel-button\">{item.ButtonText}</div>\r\n                            </a>\r\n";
                     carousel_caption = $"                        <div class=\"carousel-caption\">\r\n{title}{description}{button}                        </div>\r\n";
                 }
 
                 carousel_inners += $"                    <div class=\"carousel-item{activeTag}\">\r\n                        <img src=\"./Temples/SiteFile/carousel/{item.Id}.{item.ImageFileType}\" class=\"d-none d-sm-block w-100\" alt=\"...\" />\r\n                        <img src=\"./Temples/SiteFile/carousel/{item.Id}s.{item.ImageFileType}\" class=\"d-block d-sm-none w-100\" alt=\"...\" />\r\n{carousel_caption}                    </div>\r\n";
             }
-
-            int index = list.Count;
-            if (Request["test"] != null)
-            {
-                activeTag = $"                        class=\"\"\r\n                        aria-current=\"true\"\r\n";
-                carousel_indicators += $"                    <button\r\n                        type=\"button\"\r\n                        data-bs-target=\"#carouselExampleCaptions\"\r\n                        data-bs-slide-to=\"{index}\"\r\n{activeTag}                        aria-label=\"Slide {index + 1}\">\r\n                    </button>\r\n";
-
-                activeTag = index > 0 ? "" : $" active";
-                carousel_caption = "";
-
-                carousel_inners += $"                    <div class=\"carousel-item{activeTag}\">\r\n                        <img src=\"./Temples/SiteFile/carousel/test2.png\" class=\"d-none d-sm-block w-100\" alt=\"...\" />\r\n                        <img src=\"./Temples/SiteFile/carousel/test2s.png\" class=\"d-block d-sm-none w-100\" alt=\"...\" />\r\n{carousel_caption}                    </div>\r\n";
-            }
         }
+        //protected void InitCeremonyList()
+        //{
+        //    ceremonyList = "";
+
+        //    if (FindSysSetting("home_show_ceremony") == "false") return;
+
+        //    string sectionPrefix = $"            <hr />\r\n            <div class=\"IndexCeremony\">\r\n                <div class=\"row justify-content-center py-5\">\r\n                    <img src=\"./Temples/images/roof.png\" class=\"pb-1\" style=\"width: 200px;\" alt=\"\" />\r\n                    <div class=\"CategoryTitle\">-&nbsp;新聞報導&nbsp;-</div>\r\n                    <hr class=\"Category\" />\r\n                </div>\r\n                <div class=\"row justify-content-center\">\r\n                    <div class=\"accordion CeremonyList\" id=\"accordionExample\">\r\n";
+        //    string sectionSuffix = $"                    </div>\r\n                </div>\r\n            </div>\r\n";
+
+        //    var list = CacheCeremony.GetList();
+
+        //    string expanded, show, button;
+
+        //    for (int i = 0; i < list.Count; i++)
+        //    {
+        //        var item = list[i];
+
+        //        expanded = i > 0 ? "false" : "true";
+        //        show = i > 0 ? "" : " show";
+        //        button = item.ButtonVisible != 1 || item.ButtonText.Length == 0 || item.ButtonLink.Length == 0 ? "" : $"                                    <a href=\"{item.ButtonLink}\">\r\n                                        <div class=\"btn btn-warning btn-lg\">{item.ButtonText}</div>\r\n                                    </a>\r\n";
+
+        //        ceremonyList += $"                        <div class=\"accordion-item\" style=\"background-color: papayawhip;\">\r\n                            <div class=\"accordion-button\" style=\"background-color: wheat;\" type=\"button\" data-bs-toggle=\"collapse\" data-bs-target=\"#collapse{i}\" aria-expanded=\"{expanded}\" aria-controls=\"collapse{i}\">\r\n                                <h2 class=\"accordion-header\">{item.Title}\r\n                                </h2>\r\n                            </div>\r\n                            <div id=\"collapse{i}\" class=\"accordion-collapse collapse{show}\" data-bs-parent=\"#accordionExample\">\r\n                                <div class=\"accordion-body\">\r\n                                    <div class=\"row justify-content-center pt-3 pb-5\">\r\n                                        <img src=\"./Temples/SiteFile/ceremony/{item.Id}.{item.ImageFileType}\" class=\"w-50\" alt=\"\" />\r\n                                    </div>\r\n                                    <div class=\"fs-5 fw-lighter lh-lg\">\r\n{item.Description.Replace("\n", "<br />")}\r\n                                    </div>\r\n{button}                                </div>\r\n                            </div>\r\n                        </div>\r\n";
+        //    }
+
+        //    if (ceremonyList.Length > 0)
+        //        ceremonyList = sectionPrefix + ceremonyList + sectionSuffix;
+        //}
         protected void InitCeremonyList()
         {
             ceremonyList = "";
 
             if (FindSysSetting("home_show_ceremony") == "false") return;
 
-            string sectionPrefix = $"            <hr />\r\n            <div class=\"IndexCeremony\">\r\n                <div class=\"row justify-content-center py-5\">\r\n                    <img src=\"./Temples/images/roof.png\" class=\"pb-1\" style=\"width: 200px;\" alt=\"\" />\r\n                    <div class=\"CategoryTitle\">-&nbsp;法會介紹&nbsp;-</div>\r\n                    <hr class=\"Category\" />\r\n                </div>\r\n                <div class=\"row justify-content-center\">\r\n                    <div class=\"accordion CeremonyList\" id=\"accordionExample\">\r\n";
+            string sectionPrefix = $"            <hr />\r\n            <div class=\"IndexCeremony\">\r\n                <div class=\"row justify-content-center py-5\">\r\n                    <img src=\"./Temples/images/roof.png\" class=\"pb-1\" style=\"width: 200px;\" alt=\"\" />\r\n                    <div class=\"CategoryTitle\">-&nbsp;新聞報導&nbsp;-</div>\r\n                    <hr class=\"Category\" />\r\n                </div>\r\n                <div class=\"row justify-content-center\">\r\n                    <div class=\"accordion CeremonyList\" id=\"accordionExample\">\r\n";
             string sectionSuffix = $"                    </div>\r\n                </div>\r\n            </div>\r\n";
 
             var list = CacheCeremony.GetList();
 
-            string expanded, show;
+            string expanded, show, button, img;
 
             for (int i = 0; i < list.Count; i++)
             {
@@ -192,12 +220,36 @@ namespace twbobibobi
 
                 expanded = i > 0 ? "false" : "true";
                 show = i > 0 ? "" : " show";
+                button = item.ButtonVisible != 1 || item.ButtonText.Length == 0 || item.ButtonLink.Length == 0 ? "" : $"                                    <a href=\"{item.ButtonLink}\">\r\n                                        <div class=\"btn btn-warning btn-lg\">{item.ButtonText}</div>\r\n                                    </a>\r\n";
+                img = item.ImageFileType.Length == 0 ? "" : $"                                    <div class=\"row justify-content-center pt-3\">\r\n                                        <div class=\"col-lg-7 col-md-12\">\r\n                                            <img src=\"./Temples/SiteFile/ceremony/{item.Id}.{item.ImageFileType}\" class=\"w-100\" alt=\"\" />\r\n                                        </div>\r\n                                    </div>\r\n";
 
-                ceremonyList += $"                        <div class=\"accordion-item\" style=\"background-color: papayawhip;\">\r\n                            <div class=\"accordion-button\" style=\"background-color: wheat;\" type=\"button\" data-bs-toggle=\"collapse\" data-bs-target=\"#collapse{i}\" aria-expanded=\"{expanded}\" aria-controls=\"collapse{i}\">\r\n                                <h2 class=\"accordion-header\">{item.Title}\r\n                                </h2>\r\n                            </div>\r\n                            <div id=\"collapse{i}\" class=\"accordion-collapse collapse{show}\" data-bs-parent=\"#accordionExample\">\r\n                                <div class=\"accordion-body\">\r\n                                    <div class=\"row justify-content-center pt-3 pb-5\">\r\n                                        <img src=\"./Temples/SiteFile/ceremony/{item.Id}.{item.ImageFileType}\" /*class=\"w-50\"*/ alt=\"\" />\r\n                                    </div>\r\n                                    <div class=\"fs-5 fw-lighter lh-lg\">\r\n{item.Description.Replace("\n", "<br />")}\r\n                                    </div>\r\n                                </div>\r\n                            </div>\r\n                        </div>\r\n";
+                ceremonyList += $"                        <div class=\"accordion-item\" style=\"background-color: papayawhip;\">\r\n                            <div class=\"accordion-button\" style=\"background-color: wheat;\" type=\"button\" data-bs-toggle=\"collapse\" data-bs-target=\"#collapse{i}\" aria-expanded=\"{expanded}\" aria-controls=\"collapse{i}\">\r\n                                <h2 class=\"accordion-header\">{item.Title}\r\n                                </h2>\r\n                            </div>\r\n                            <div id=\"collapse{i}\" class=\"accordion-collapse collapse{show}\" data-bs-parent=\"#accordionExample\">\r\n                                <div class=\"accordion-body\">\r\n{img}                                    <div class=\"fs-5 fw-lighter lh-lg\">\r\n{item.Description.Replace("\n", "<br />")}\r\n                                    </div>\r\n{button}                                </div>\r\n                            </div>\r\n                        </div>\r\n";
             }
 
             if (ceremonyList.Length > 0)
                 ceremonyList = sectionPrefix + ceremonyList + sectionSuffix;
+        }
+
+
+        /// <summary>
+        /// 初始化活動花絮
+        /// </summary>
+        protected void InitEventTitbits()
+        {
+            eventTitbitsList = "";
+            string val = CacheSysSetting.GetValue("event_titbits_top_rows"); //首頁活動花絮顯示最新的前 xx 筆記錄
+            if (!int.TryParse(val, out int topRows)) return;
+
+            var list = CacheEventTitbits.GetList(topRows);
+            if (list == null || list.Count == 0) return;
+
+            eventTitbitsList = "             <div class=\"EventTitbitsList\">\r\n";
+            foreach (var item in list)
+            {
+                eventTitbitsList += $"                 <div>\r\n                     <a href=\"Temples/EventTitbits.aspx?eventId={item.EventId}\">\r\n                         <div class=\"IndexEventTitbitsImg\">\r\n                             <img src=\"./Temples/SiteFile/EventTitbits/{item.EventId}/{item.Id}.{item.ImageFileType}\" alt=\"\" />\r\n                         </div>\r\n                     </a>\r\n                 </div>\r\n";
+            }
+            eventTitbitsList += "             </div>\r\n             <br />\r\n";
+            eventTitbitsList = $"         <div class=\"IndexEventTitbits\">\r\n             <div class=\"row justify-content-center py-5\">\r\n                 <img src=\"Temples/images/roof.png\" class=\"pb-1\" style=\"width: 200px;\" alt=\"\" />\r\n                 <div class=\"CategoryTitle\">-&nbsp;活動花絮&nbsp;-</div>\r\n                 <hr class=\"Category\" />\r\n             </div>\r\n{eventTitbitsList}         </div>\r\n";
         }
         protected string FindSysSetting(string item)
         {
@@ -213,5 +265,73 @@ namespace twbobibobi
             }
             return "";
         }
+
+        //protected void InitCeremonyList()
+        //{
+        //    ceremonyList = "";
+
+        //    if (FindSysSetting("home_show_ceremony") == "false") return;
+
+        //    string sectionPrefix = $"            <hr />\r\n            <div class=\"IndexCeremony\">\r\n                <div class=\"row justify-content-center py-5\">\r\n                    <img src=\"./Temples/images/roof.png\" class=\"pb-1\" style=\"width: 200px;\" alt=\"\" />\r\n                    <div class=\"CategoryTitle\">-&nbsp;法會介紹&nbsp;-</div>\r\n                    <hr class=\"Category\" />\r\n                </div>\r\n                <div class=\"row justify-content-center\">\r\n                    <div class=\"accordion CeremonyList\" id=\"accordionExample\">\r\n";
+        //    string sectionSuffix = $"                    </div>\r\n                </div>\r\n            </div>\r\n";
+
+        //    var list = CacheCeremony.GetList();
+
+        //    string expanded, show;
+
+        //    for (int i = 0; i < list.Count; i++)
+        //    {
+        //        var item = list[i];
+
+        //        expanded = i > 0 ? "false" : "true";
+        //        show = i > 0 ? "" : " show";
+
+        //        ceremonyList += $"                        <div class=\"accordion-item\" style=\"background-color: papayawhip;\">\r\n                            <div class=\"accordion-button\" style=\"background-color: wheat;\" type=\"button\" data-bs-toggle=\"collapse\" data-bs-target=\"#collapse{i}\" aria-expanded=\"{expanded}\" aria-controls=\"collapse{i}\">\r\n                                <h2 class=\"accordion-header\">{item.Title}\r\n                                </h2>\r\n                            </div>\r\n                            <div id=\"collapse{i}\" class=\"accordion-collapse collapse{show}\" data-bs-parent=\"#accordionExample\">\r\n                                <div class=\"accordion-body\">\r\n                                    <div class=\"row justify-content-center pt-3 pb-5\">\r\n                                        <img src=\"./Temples/SiteFile/ceremony/{item.Id}.{item.ImageFileType}\" /*class=\"w-50\"*/ alt=\"\" />\r\n                                    </div>\r\n                                    <div class=\"fs-5 fw-lighter lh-lg\">\r\n{item.Description.Replace("\n", "<br />")}\r\n                                    </div>\r\n                                </div>\r\n                            </div>\r\n                        </div>\r\n";
+        //    }
+
+        //    if (ceremonyList.Length > 0)
+        //        ceremonyList = sectionPrefix + ceremonyList + sectionSuffix;
+        //}
+        //protected void InitCeremonyList()
+        //{
+        //    ceremonyList = "";
+
+        //    if (FindSysSetting("home_show_ceremony") == "false") return;
+
+        //    string sectionPrefix = $"            <hr />\r\n            <div class=\"IndexCeremony\">\r\n                <div class=\"row justify-content-center py-5\">\r\n                    <img src=\"./Temples/images/roof.png\" class=\"pb-1\" style=\"width: 200px;\" alt=\"\" />\r\n                    <div class=\"CategoryTitle\">-&nbsp;法會介紹&nbsp;-</div>\r\n                    <hr class=\"Category\" />\r\n                </div>\r\n                <div class=\"row justify-content-center\">\r\n                    <div class=\"accordion CeremonyList\" id=\"accordionExample\">\r\n";
+        //    string sectionSuffix = $"                    </div>\r\n                </div>\r\n            </div>\r\n";
+
+        //    var list = CacheCeremony.GetList();
+
+        //    string expanded, show, button;
+
+        //    for (int i = 0; i < list.Count; i++)
+        //    {
+        //        var item = list[i];
+
+        //        expanded = i > 0 ? "false" : "true";
+        //        show = i > 0 ? "" : " show";
+        //        button = item.ButtonVisible == 0 || item.ButtonText.Length == 0 ? "" : $"                                    <a href=\"{item.ButtonLink}\">\r\n                                        <div class=\"btn btn-warning btn-lg\">{item.ButtonText}</div>\r\n                                    </a>\r\n";
+
+        //        ceremonyList += $"                        <div class=\"accordion-item\" style=\"background-color: papayawhip;\">\r\n                            <div class=\"accordion-button\" style=\"background-color: wheat;\" type=\"button\" data-bs-toggle=\"collapse\" data-bs-target=\"#collapse{i}\" aria-expanded=\"{expanded}\" aria-controls=\"collapse{i}\">\r\n                                <h2 class=\"accordion-header\">{item.Title}\r\n                                </h2>\r\n                            </div>\r\n                            <div id=\"collapse{i}\" class=\"accordion-collapse collapse{show}\" data-bs-parent=\"#accordionExample\">\r\n                                <div class=\"accordion-body\">\r\n                                    <div class=\"row justify-content-center pt-3 pb-5\">\r\n                                        <img src=\"./Temples/SiteFile/ceremony/{item.Id}.{item.ImageFileType}\" class=\"w-50\" alt=\"\" />\r\n                                    </div>\r\n                                    <div class=\"fs-5 fw-lighter lh-lg\">\r\n{item.Description.Replace("\n", "<br />")}\r\n                                    </div>\r\n{button}                                </div>\r\n                            </div>\r\n                        </div>\r\n";
+        //    }
+
+        //    if (ceremonyList.Length > 0)
+        //        ceremonyList = sectionPrefix + ceremonyList + sectionSuffix;
+        //}
+        //protected string FindSysSetting(string item)
+        //{
+        //    foreach (var it in sysSettings)
+        //    {
+        //        if (it.Item.Equals(item, StringComparison.OrdinalIgnoreCase))
+        //        {
+        //            if (it.Type == "text")
+        //                return it.Value.Replace("\n", "<br />");
+        //            else
+        //                return it.Value;
+        //        }
+        //    }
+        //    return "";
+        //}
     }
 }

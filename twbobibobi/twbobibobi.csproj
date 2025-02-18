@@ -57,9 +57,8 @@
       <HintPath>..\..\TempleAdmin\bin\LitJSON.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
-    <Reference Include="Newtonsoft.Json, Version=13.0.1.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\Temple\Temple\bin\Newtonsoft.Json.dll</HintPath>
+    <Reference Include="Newtonsoft.Json, Version=13.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.13.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="System.Runtime.Caching" />
     <Reference Include="System.Web.DynamicData" />
@@ -310,6 +309,7 @@
     <Content Include="images\temple.png" />
     <Content Include="images\titleBg.png" />
     <Content Include="index.aspx" />
+    <Content Include="PaymentCallback_Lights.aspx" />
     <Content Include="Product\css\fancybox.css" />
     <Content Include="Product\css\fonts\slick.svg" />
     <Content Include="Product\css\images\ajax-loader.gif" />
@@ -478,8 +478,12 @@
     <Content Include="Temples\css\slick-theme.css" />
     <Content Include="Temples\css\slick.css" />
     <Content Include="Temples\css\style.css" />
+    <Content Include="Temples\css\style_index.css" />
+    <Content Include="Temples\css\swiper-bundle.min.css" />
     <Content Include="Temples\css\take_draw.css" />
     <Content Include="Temples\css\_notes\dwsync.xml" />
+    <Content Include="Temples\EventTitbits.aspx" />
+    <Content Include="Temples\EventTitbitsCategory.aspx" />
     <Content Include="Temples\footer.ascx" />
     <Content Include="Temples\header.ascx" />
     <Content Include="Temples\images\970328.png" />
@@ -714,8 +718,23 @@
     <Content Include="Temples\js\jquery-3.2.1.min.js" />
     <Content Include="Temples\js\jquery-3.7.1.min.js" />
     <Content Include="Temples\js\jquery-ui.js" />
+    <Content Include="Temples\js\jquery.cookie.js" />
+    <Content Include="Temples\js\jquery.cookie.min.js" />
     <Content Include="Temples\js\jquery.twzipcode.min.js" />
     <Content Include="Temples\js\slick.min.js" />
+    <Content Include="Temples\js\swiper-bundle.min.js" />
+    <Content Include="Temples\Lights03.aspx" />
+    <Content Include="Temples\Lights04.aspx" />
+    <Content Include="Temples\Lights05.aspx" />
+    <Content Include="Temples\Lights06.aspx" />
+    <Content Include="Temples\Lights07.aspx" />
+    <Content Include="Temples\Lights08.aspx" />
+    <Content Include="Temples\Lights10.aspx" />
+    <Content Include="Temples\Lights11.aspx" />
+    <Content Include="Temples\Lights12.aspx" />
+    <Content Include="Temples\Lights13.aspx" />
+    <Content Include="Temples\Lights14.aspx" />
+    <Content Include="Temples\Lights24.aspx" />
     <Content Include="Temples\LightsGuide.aspx" />
     <Content Include="Temples\news.aspx" />
     <Content Include="Temples\newsContent_2022lights.aspx" />
@@ -732,6 +751,7 @@
     <Content Include="Temples\newsContent_2024lights_pet.aspx" />
     <Content Include="Temples\newsContent_2024lights_ty.aspx" />
     <Content Include="Temples\newsContent_2024lingbaolidou_ma.aspx" />
+    <Content Include="Temples\newsContent_2024lybc_dh.aspx" />
     <Content Include="Temples\newsContent_2024purdue.aspx" />
     <Content Include="Temples\newsContent_2024purdue_baby.aspx" />
     <Content Include="Temples\newsContent_2024purdue_pet.aspx" />
@@ -741,6 +761,16 @@
     <Content Include="Temples\newsContent_2024supplies_ty.aspx" />
     <Content Include="Temples\newsContent_2024taoistJiaoCeremony_da.aspx" />
     <Content Include="Temples\newsContent_2025lights.aspx" />
+    <Content Include="Temples\newsContent_2025supplies_Lk.aspx" />
+    <Content Include="Temples\newsContent_2025supplies_sx.aspx" />
+    <Content Include="Temples\NewYearNotes.aspx" />
+    <Content Include="Temples\NewYearNotes_01.aspx" />
+    <Content Include="Temples\NewYearNotes_02.aspx" />
+    <Content Include="Temples\NewYearNotes_03.aspx" />
+    <Content Include="Temples\NewYearNotes_04.aspx" />
+    <Content Include="Temples\NewYearNotes_05.aspx" />
+    <Content Include="Temples\NewYearNotes_06.aspx" />
+    <Content Include="Temples\NewYearNotes_07.aspx" />
     <Content Include="Temples\PrivacyIndex.aspx" />
     <Content Include="Temples\PrivacyPolicy.aspx" />
     <Content Include="Temples\service.aspx" />
@@ -815,6 +845,7 @@
     <Content Include="Temples\templeService_lingbaolidou_ma_fet.aspx" />
     <Content Include="Temples\templeService_lingbaolidou_ty.aspx" />
     <Content Include="Temples\templeService_lingbaolidou_ty_fet.aspx" />
+    <Content Include="Temples\templeService_lybc_dh.aspx" />
     <Content Include="Temples\templeService_marriagelights_Luer.aspx" />
     <Content Include="Temples\templeService_marriagelights_Luer_twm.aspx" />
     <Content Include="Temples\templeService_purdue_da.aspx" />
@@ -833,9 +864,25 @@
     <Content Include="Temples\templeService_supplies2.aspx" />
     <Content Include="Temples\templeService_supplies2_ty.aspx" />
     <Content Include="Temples\templeService_supplies3.aspx" />
+    <Content Include="Temples\templeService_supplies3_ty.aspx" />
     <Content Include="Temples\templeService_supplies_dh.aspx" />
+    <Content Include="Temples\templeService_supplies_Lk.aspx" />
+    <Content Include="Temples\templeService_supplies_sx.aspx" />
     <Content Include="Temples\templeService_supplies_ty.aspx" />
     <Content Include="Temples\templeService_TaoistJiaoCeremony_da.aspx" />
+    <Content Include="Temples\ZodiacFortune.aspx" />
+    <Content Include="Temples\Zodiac_Dog.aspx" />
+    <Content Include="Temples\Zodiac_Dragon.aspx" />
+    <Content Include="Temples\Zodiac_Goat.aspx" />
+    <Content Include="Temples\Zodiac_Horse.aspx" />
+    <Content Include="Temples\Zodiac_Monkey.aspx" />
+    <Content Include="Temples\Zodiac_Ox.aspx" />
+    <Content Include="Temples\Zodiac_Pig.aspx" />
+    <Content Include="Temples\Zodiac_Rabbit.aspx" />
+    <Content Include="Temples\Zodiac_Rat.aspx" />
+    <Content Include="Temples\Zodiac_Rooster.aspx" />
+    <Content Include="Temples\Zodiac_Snake.aspx" />
+    <Content Include="Temples\Zodiac_Tiger.aspx" />
     <Content Include="TWPaymentCallback_EmperorGuansheng_ty.aspx" />
     <Content Include="TWPaymentCallback_Lights.aspx" />
     <Content Include="TWPaymentCallback_Lights_da.aspx" />
@@ -851,6 +898,7 @@
     <Content Include="TWPaymentCallback_Lights_wu.aspx" />
     <Content Include="TWPaymentCallback_Lingbaolidou_ma.aspx" />
     <Content Include="TWPaymentCallback_Lingbaolidou_ty.aspx" />
+    <Content Include="TWPaymentCallback_Lybc_dh.aspx" />
     <Content Include="TWPaymentCallback_Moneymother.aspx" />
     <Content Include="TWPaymentCallback_Pilgrimage.aspx" />
     <Content Include="TWPaymentCallback_Product.aspx" />
@@ -868,7 +916,10 @@
     <Content Include="TWPaymentCallback_Purdue_ty.aspx" />
     <Content Include="TWPaymentCallback_Purdue_wu.aspx" />
     <Content Include="TWPaymentCallback_Supplies2_ty.aspx" />
+    <Content Include="TWPaymentCallback_Supplies3_ty.aspx" />
     <Content Include="TWPaymentCallback_Supplies_dh.aspx" />
+    <Content Include="TWPaymentCallback_Supplies_Lk.aspx" />
+    <Content Include="TWPaymentCallback_Supplies_sx.aspx" />
     <Content Include="TWPaymentCallback_Supplies_ty.aspx" />
     <Content Include="TWPaymentCallback_Supplies_wu.aspx" />
     <Content Include="TWPaymentCallback_Supplies_wu2.aspx" />
@@ -876,6 +927,7 @@
     <Content Include="TWPaymentCallback_TaoistJiaoCeremony_da.aspx" />
     <Content Include="Web.config" />
     <Content Include="WebForm1.aspx" />
+    <Content Include="WebForm2.aspx" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Controls\AjaxClientControl.ascx.cs">
@@ -903,6 +955,8 @@
     </Compile>
     <Compile Include="Data\CacheCarousel.cs" />
     <Compile Include="Data\CacheCeremony.cs" />
+    <Compile Include="Data\CacheEvent.cs" />
+    <Compile Include="Data\CacheEventTitbits.cs" />
     <Compile Include="Data\CacheLight.cs" />
     <Compile Include="Data\CacheSeoTag.cs" />
     <Compile Include="Data\CacheSysSetting.cs" />
@@ -910,9 +964,12 @@
     <Compile Include="Data\CeremonyDAC.cs" />
     <Compile Include="Data\DatabaseAdapter.cs" />
     <Compile Include="Data\DatabaseHelper.cs" />
+    <Compile Include="Data\EventDAC.cs" />
+    <Compile Include="Data\EventTitbitsDAC.cs" />
     <Compile Include="Data\ImagesDAC.cs" />
     <Compile Include="Data\JSonHelper.cs" />
     <Compile Include="Data\LightDAC.cs" />
+    <Compile Include="Data\LightsDAC.cs" />
     <Compile Include="Data\LunarSolarConverter.cs" />
     <Compile Include="Data\ProductDAC.cs" />
     <Compile Include="Data\QRCoderHelper.cs" />
@@ -926,6 +983,8 @@
     <Compile Include="Data\UtilDataMask.cs" />
     <Compile Include="Entities\Carousel.cs" />
     <Compile Include="Entities\Ceremony.cs" />
+    <Compile Include="Entities\Event.cs" />
+    <Compile Include="Entities\EventTitbits.cs" />
     <Compile Include="Entities\Light.cs" />
     <Compile Include="Entities\SysSetting.cs" />
     <Compile Include="FET\API\AESOrder.aspx.cs">
@@ -1025,6 +1084,13 @@
     <Compile Include="index.aspx.designer.cs">
       <DependentUpon>index.aspx</DependentUpon>
     </Compile>
+    <Compile Include="PaymentCallback_Lights.aspx.cs">
+      <DependentUpon>PaymentCallback_Lights.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="PaymentCallback_Lights.aspx.designer.cs">
+      <DependentUpon>PaymentCallback_Lights.aspx</DependentUpon>
+    </Compile>
     <Compile Include="Product\MoneymotherComplete.aspx.cs">
       <DependentUpon>MoneymotherComplete.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -1047,6 +1113,20 @@
     <Compile Include="SearchLog.aspx.designer.cs">
       <DependentUpon>SearchLog.aspx</DependentUpon>
     </Compile>
+    <Compile Include="Temples\EventTitbits.aspx.cs">
+      <DependentUpon>EventTitbits.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Temples\EventTitbits.aspx.designer.cs">
+      <DependentUpon>EventTitbits.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Temples\EventTitbitsCategory.aspx.cs">
+      <DependentUpon>EventTitbitsCategory.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Temples\EventTitbitsCategory.aspx.designer.cs">
+      <DependentUpon>EventTitbitsCategory.aspx</DependentUpon>
+    </Compile>
     <Compile Include="Temples\footer.ascx.cs">
       <DependentUpon>footer.ascx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -1060,6 +1140,90 @@
     </Compile>
     <Compile Include="Temples\header.ascx.designer.cs">
       <DependentUpon>header.ascx</DependentUpon>
+    </Compile>
+    <Compile Include="Temples\Lights03.aspx.cs">
+      <DependentUpon>Lights03.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Temples\Lights03.aspx.designer.cs">
+      <DependentUpon>Lights03.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Temples\Lights04.aspx.cs">
+      <DependentUpon>Lights04.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Temples\Lights04.aspx.designer.cs">
+      <DependentUpon>Lights04.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Temples\Lights05.aspx.cs">
+      <DependentUpon>Lights05.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Temples\Lights05.aspx.designer.cs">
+      <DependentUpon>Lights05.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Temples\Lights06.aspx.cs">
+      <DependentUpon>Lights06.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Temples\Lights06.aspx.designer.cs">
+      <DependentUpon>Lights06.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Temples\Lights07.aspx.cs">
+      <DependentUpon>Lights07.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Temples\Lights07.aspx.designer.cs">
+      <DependentUpon>Lights07.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Temples\Lights08.aspx.cs">
+      <DependentUpon>Lights08.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Temples\Lights08.aspx.designer.cs">
+      <DependentUpon>Lights08.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Temples\Lights10.aspx.cs">
+      <DependentUpon>Lights10.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Temples\Lights10.aspx.designer.cs">
+      <DependentUpon>Lights10.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Temples\Lights11.aspx.cs">
+      <DependentUpon>Lights11.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Temples\Lights11.aspx.designer.cs">
+      <DependentUpon>Lights11.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Temples\Lights12.aspx.cs">
+      <DependentUpon>Lights12.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Temples\Lights12.aspx.designer.cs">
+      <DependentUpon>Lights12.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Temples\Lights13.aspx.cs">
+      <DependentUpon>Lights13.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Temples\Lights13.aspx.designer.cs">
+      <DependentUpon>Lights13.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Temples\Lights14.aspx.cs">
+      <DependentUpon>Lights14.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Temples\Lights14.aspx.designer.cs">
+      <DependentUpon>Lights14.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Temples\Lights24.aspx.cs">
+      <DependentUpon>Lights24.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Temples\Lights24.aspx.designer.cs">
+      <DependentUpon>Lights24.aspx</DependentUpon>
     </Compile>
     <Compile Include="Temples\LightsGuide.aspx.cs">
       <DependentUpon>LightsGuide.aspx</DependentUpon>
@@ -1173,6 +1337,13 @@
     <Compile Include="Temples\newsContent_2024lingbaolidou_ma.aspx.designer.cs">
       <DependentUpon>newsContent_2024lingbaolidou_ma.aspx</DependentUpon>
     </Compile>
+    <Compile Include="Temples\newsContent_2024lybc_dh.aspx.cs">
+      <DependentUpon>newsContent_2024lybc_dh.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Temples\newsContent_2024lybc_dh.aspx.designer.cs">
+      <DependentUpon>newsContent_2024lybc_dh.aspx</DependentUpon>
+    </Compile>
     <Compile Include="Temples\newsContent_2024purdue.aspx.cs">
       <DependentUpon>newsContent_2024purdue.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -1235,6 +1406,76 @@
     </Compile>
     <Compile Include="Temples\newsContent_2025lights.aspx.designer.cs">
       <DependentUpon>newsContent_2025lights.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Temples\newsContent_2025supplies_Lk.aspx.cs">
+      <DependentUpon>newsContent_2025supplies_Lk.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Temples\newsContent_2025supplies_Lk.aspx.designer.cs">
+      <DependentUpon>newsContent_2025supplies_Lk.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Temples\newsContent_2025supplies_sx.aspx.cs">
+      <DependentUpon>newsContent_2025supplies_sx.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Temples\newsContent_2025supplies_sx.aspx.designer.cs">
+      <DependentUpon>newsContent_2025supplies_sx.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Temples\NewYearNotes.aspx.cs">
+      <DependentUpon>NewYearNotes.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Temples\NewYearNotes.aspx.designer.cs">
+      <DependentUpon>NewYearNotes.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Temples\NewYearNotes_01.aspx.cs">
+      <DependentUpon>NewYearNotes_01.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Temples\NewYearNotes_01.aspx.designer.cs">
+      <DependentUpon>NewYearNotes_01.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Temples\NewYearNotes_02.aspx.cs">
+      <DependentUpon>NewYearNotes_02.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Temples\NewYearNotes_02.aspx.designer.cs">
+      <DependentUpon>NewYearNotes_02.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Temples\NewYearNotes_03.aspx.cs">
+      <DependentUpon>NewYearNotes_03.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Temples\NewYearNotes_03.aspx.designer.cs">
+      <DependentUpon>NewYearNotes_03.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Temples\NewYearNotes_04.aspx.cs">
+      <DependentUpon>NewYearNotes_04.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Temples\NewYearNotes_04.aspx.designer.cs">
+      <DependentUpon>NewYearNotes_04.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Temples\NewYearNotes_05.aspx.cs">
+      <DependentUpon>NewYearNotes_05.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Temples\NewYearNotes_05.aspx.designer.cs">
+      <DependentUpon>NewYearNotes_05.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Temples\NewYearNotes_06.aspx.cs">
+      <DependentUpon>NewYearNotes_06.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Temples\NewYearNotes_06.aspx.designer.cs">
+      <DependentUpon>NewYearNotes_06.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Temples\NewYearNotes_07.aspx.cs">
+      <DependentUpon>NewYearNotes_07.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Temples\NewYearNotes_07.aspx.designer.cs">
+      <DependentUpon>NewYearNotes_07.aspx</DependentUpon>
     </Compile>
     <Compile Include="Temples\PrivacyIndex.aspx.cs">
       <DependentUpon>PrivacyIndex.aspx</DependentUpon>
@@ -1439,6 +1680,13 @@
     <Compile Include="Temples\templeService_lingbaolidou_ty_fet.aspx.designer.cs">
       <DependentUpon>templeService_lingbaolidou_ty_fet.aspx</DependentUpon>
     </Compile>
+    <Compile Include="Temples\templeService_lybc_dh.aspx.cs">
+      <DependentUpon>templeService_lybc_dh.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Temples\templeService_lybc_dh.aspx.designer.cs">
+      <DependentUpon>templeService_lybc_dh.aspx</DependentUpon>
+    </Compile>
     <Compile Include="Temples\templeService_marriagelights_Luer.aspx.cs">
       <DependentUpon>templeService_marriagelights_Luer.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -1565,12 +1813,33 @@
     <Compile Include="Temples\templeService_supplies3.aspx.designer.cs">
       <DependentUpon>templeService_supplies3.aspx</DependentUpon>
     </Compile>
+    <Compile Include="Temples\templeService_supplies3_ty.aspx.cs">
+      <DependentUpon>templeService_supplies3_ty.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Temples\templeService_supplies3_ty.aspx.designer.cs">
+      <DependentUpon>templeService_supplies3_ty.aspx</DependentUpon>
+    </Compile>
     <Compile Include="Temples\templeService_supplies_dh.aspx.cs">
       <DependentUpon>templeService_supplies_dh.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="Temples\templeService_supplies_dh.aspx.designer.cs">
       <DependentUpon>templeService_supplies_dh.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Temples\templeService_supplies_Lk.aspx.cs">
+      <DependentUpon>templeService_supplies_Lk.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Temples\templeService_supplies_Lk.aspx.designer.cs">
+      <DependentUpon>templeService_supplies_Lk.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Temples\templeService_supplies_sx.aspx.cs">
+      <DependentUpon>templeService_supplies_sx.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Temples\templeService_supplies_sx.aspx.designer.cs">
+      <DependentUpon>templeService_supplies_sx.aspx</DependentUpon>
     </Compile>
     <Compile Include="Temples\templeService_supplies_ty.aspx.cs">
       <DependentUpon>templeService_supplies_ty.aspx</DependentUpon>
@@ -1585,6 +1854,97 @@
     </Compile>
     <Compile Include="Temples\templeService_TaoistJiaoCeremony_da.aspx.designer.cs">
       <DependentUpon>templeService_TaoistJiaoCeremony_da.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Temples\ZodiacFortune.aspx.cs">
+      <DependentUpon>ZodiacFortune.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Temples\ZodiacFortune.aspx.designer.cs">
+      <DependentUpon>ZodiacFortune.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Temples\Zodiac_Dog.aspx.cs">
+      <DependentUpon>Zodiac_Dog.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Temples\Zodiac_Dog.aspx.designer.cs">
+      <DependentUpon>Zodiac_Dog.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Temples\Zodiac_Dragon.aspx.cs">
+      <DependentUpon>Zodiac_Dragon.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Temples\Zodiac_Dragon.aspx.designer.cs">
+      <DependentUpon>Zodiac_Dragon.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Temples\Zodiac_Goat.aspx.cs">
+      <DependentUpon>Zodiac_Goat.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Temples\Zodiac_Goat.aspx.designer.cs">
+      <DependentUpon>Zodiac_Goat.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Temples\Zodiac_Horse.aspx.cs">
+      <DependentUpon>Zodiac_Horse.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Temples\Zodiac_Horse.aspx.designer.cs">
+      <DependentUpon>Zodiac_Horse.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Temples\Zodiac_Monkey.aspx.cs">
+      <DependentUpon>Zodiac_Monkey.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Temples\Zodiac_Monkey.aspx.designer.cs">
+      <DependentUpon>Zodiac_Monkey.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Temples\Zodiac_Ox.aspx.cs">
+      <DependentUpon>Zodiac_Ox.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Temples\Zodiac_Ox.aspx.designer.cs">
+      <DependentUpon>Zodiac_Ox.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Temples\Zodiac_Pig.aspx.cs">
+      <DependentUpon>Zodiac_Pig.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Temples\Zodiac_Pig.aspx.designer.cs">
+      <DependentUpon>Zodiac_Pig.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Temples\Zodiac_Rabbit.aspx.cs">
+      <DependentUpon>Zodiac_Rabbit.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Temples\Zodiac_Rabbit.aspx.designer.cs">
+      <DependentUpon>Zodiac_Rabbit.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Temples\Zodiac_Rat.aspx.cs">
+      <DependentUpon>Zodiac_Rat.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Temples\Zodiac_Rat.aspx.designer.cs">
+      <DependentUpon>Zodiac_Rat.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Temples\Zodiac_Rooster.aspx.cs">
+      <DependentUpon>Zodiac_Rooster.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Temples\Zodiac_Rooster.aspx.designer.cs">
+      <DependentUpon>Zodiac_Rooster.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Temples\Zodiac_Snake.aspx.cs">
+      <DependentUpon>Zodiac_Snake.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Temples\Zodiac_Snake.aspx.designer.cs">
+      <DependentUpon>Zodiac_Snake.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Temples\Zodiac_Tiger.aspx.cs">
+      <DependentUpon>Zodiac_Tiger.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Temples\Zodiac_Tiger.aspx.designer.cs">
+      <DependentUpon>Zodiac_Tiger.aspx</DependentUpon>
     </Compile>
     <Compile Include="TWPaymentCallback_EmperorGuansheng_ty.aspx.cs">
       <DependentUpon>TWPaymentCallback_EmperorGuansheng_ty.aspx</DependentUpon>
@@ -1690,6 +2050,13 @@
     </Compile>
     <Compile Include="TWPaymentCallback_Lingbaolidou_ty.aspx.designer.cs">
       <DependentUpon>TWPaymentCallback_Lingbaolidou_ty.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="TWPaymentCallback_Lybc_dh.aspx.cs">
+      <DependentUpon>TWPaymentCallback_Lybc_dh.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="TWPaymentCallback_Lybc_dh.aspx.designer.cs">
+      <DependentUpon>TWPaymentCallback_Lybc_dh.aspx</DependentUpon>
     </Compile>
     <Compile Include="TWPaymentCallback_Moneymother.aspx.cs">
       <DependentUpon>TWPaymentCallback_Moneymother.aspx</DependentUpon>
@@ -1810,12 +2177,33 @@
     <Compile Include="TWPaymentCallback_Supplies2_ty.aspx.designer.cs">
       <DependentUpon>TWPaymentCallback_Supplies2_ty.aspx</DependentUpon>
     </Compile>
+    <Compile Include="TWPaymentCallback_Supplies3_ty.aspx.cs">
+      <DependentUpon>TWPaymentCallback_Supplies3_ty.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="TWPaymentCallback_Supplies3_ty.aspx.designer.cs">
+      <DependentUpon>TWPaymentCallback_Supplies3_ty.aspx</DependentUpon>
+    </Compile>
     <Compile Include="TWPaymentCallback_Supplies_dh.aspx.cs">
       <DependentUpon>TWPaymentCallback_Supplies_dh.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="TWPaymentCallback_Supplies_dh.aspx.designer.cs">
       <DependentUpon>TWPaymentCallback_Supplies_dh.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="TWPaymentCallback_Supplies_Lk.aspx.cs">
+      <DependentUpon>TWPaymentCallback_Supplies_Lk.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="TWPaymentCallback_Supplies_Lk.aspx.designer.cs">
+      <DependentUpon>TWPaymentCallback_Supplies_Lk.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="TWPaymentCallback_Supplies_sx.aspx.cs">
+      <DependentUpon>TWPaymentCallback_Supplies_sx.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="TWPaymentCallback_Supplies_sx.aspx.designer.cs">
+      <DependentUpon>TWPaymentCallback_Supplies_sx.aspx</DependentUpon>
     </Compile>
     <Compile Include="TWPaymentCallback_Supplies_ty.aspx.cs">
       <DependentUpon>TWPaymentCallback_Supplies_ty.aspx</DependentUpon>
@@ -1858,6 +2246,13 @@
     </Compile>
     <Compile Include="WebForm1.aspx.designer.cs">
       <DependentUpon>WebForm1.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="WebForm2.aspx.cs">
+      <DependentUpon>WebForm2.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="WebForm2.aspx.designer.cs">
+      <DependentUpon>WebForm2.aspx</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>

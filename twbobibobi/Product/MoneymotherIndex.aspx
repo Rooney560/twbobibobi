@@ -49,6 +49,19 @@
         .ProductLeft {
             margin-right: 18%;
         }
+        .web {
+            display: block;
+        }
+        .PayButton ul li.mobile {
+            display: none;
+        }
+        
+        .ytvideo {
+            max-width: 100%;
+            width: 100%;
+            height: 550px;
+            margin-bottom: -5px;
+        }
 
         /*手機板*/
         @media only screen and (max-width: 720px) {
@@ -69,6 +82,19 @@
                 .PayButton ul li:last-child {
                     margin-right: auto;
                 }
+            .web {
+                display: none;
+            }
+
+            .PayButton ul li.mobile {
+                display: block;
+            }
+        }
+    </style>
+
+    <style type="text/css">
+        .GiftW .GiftImgList li {
+            width: 48%;
         }
     </style>
 
@@ -81,14 +107,40 @@
 
         gtag('config', 'G-4YWFRTFCTT');
     </script>
-
-    <style type="text/css">
-        .GiftW .GiftImgList li {
-            width: 48%;
-        }
-    </style>
+    <!-- Google Tag Manager -->
+    <script>(function (w, d, s, l, i) {
+            w[l] = w[l] || []; w[l].push({
+                'gtm.start':
+                    new Date().getTime(), event: 'gtm.js'
+            }); var f = d.getElementsByTagName(s)[0],
+                j = d.createElement(s), dl = l != 'dataLayer' ? '&l=' + l : ''; j.async = true; j.src =
+                    'https://www.googletagmanager.com/gtm.js?id=' + i + dl; f.parentNode.insertBefore(j, f);
+        })(window, document, 'script', 'dataLayer', 'GTM-5L2H7Z3N');</script>
+    <!-- End Google Tag Manager -->
+    <!-- Google Tag Manager -->
+    <script>(function (w, d, s, l, i) {
+            w[l] = w[l] || []; w[l].push({
+                'gtm.start':
+                    new Date().getTime(), event: 'gtm.js'
+            }); var f = d.getElementsByTagName(s)[0],
+                j = d.createElement(s), dl = l != 'dataLayer' ? '&l=' + l : ''; j.async = true; j.src =
+                    'https://www.googletagmanager.com/gtm.js?id=' + i + dl; f.parentNode.insertBefore(j, f);
+        })(window, document, 'script', 'dataLayer', 'GTM-NGRZRR4V');</script>
+    <!-- End Google Tag Manager -->
 </head>
 <body>
+    <!-- Google Tag Manager (noscript) -->
+    <noscript>
+        <iframe src="https://www.googletagmanager.com/ns.html?id=GTM-NGRZRR4V"
+            height="0" width="0" style="display: none; visibility: hidden"></iframe>
+    </noscript>
+    <!-- End Google Tag Manager (noscript) -->
+    <!-- Google Tag Manager (noscript) -->
+    <noscript>
+        <iframe src="https://www.googletagmanager.com/ns.html?id=GTM-5L2H7Z3N"
+            height="0" width="0" style="display: none; visibility: hidden"></iframe>
+    </noscript>
+    <!-- End Google Tag Manager (noscript) -->
     <uc3:PopupMessageDialogControl ID="PopupMessageDialogControl1" runat="server" />
     <uc2:AjaxClientControl ID="AjaxClientControl1" runat="server" />
     <div id="wrap"><!--#warp //start-->
@@ -134,6 +186,14 @@
                     <div class="content TxtW">作品含『媽祖+虎爺錢母』各一枚，保庇平安的同時，也讓您財源滾滾來。 整體配色採金色，大氣外形，更象徵著開運、招財、金好額。 每件作品皆再新港奉天宮正殿過爐完成。安放明亮位置，增加正能量讓新港媽祖虎爺大二將軍天天給您賜福招財， 新港媽祖虎爺神威顯赫 保佑我們，繼承新生的氣運。</div>
                 </div>
             </section><!--第二區塊 //end-->
+        
+            <section id="Video"><!--影片區塊 //start-->
+                <div class="">
+                    <div class="">
+                        <iframe class="ytvideo" src="https://www.youtube.com/embed/8tdGf8JjhgY?si=IIrTlhH-xeTN6MTt" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+                    </div>
+                </div>
+            </section><!--影片區塊 //end-->
         
             <section id="Gift"><!--第三區塊 //start-->
             
@@ -210,15 +270,18 @@
                 <div class="ProductsList">
                     <div class="Products">
                         <ul class="ProductsImg">
+                            <%--<li><a href="https://bobibobi.tw/Product/images/products/products_A_10.jpg" data-fancybox><img src="https://bobibobi.tw/Product/images/products/products_A_10.jpg" width="1200" height="1200" alt="開運錢母擺件" title="開運錢母擺件"/></a></li>--%>
                             <li><a href="https://bobibobi.tw/Product/images/products/products_A_1.jpg" data-fancybox><img src="https://bobibobi.tw/Product/images/products/products_A_1.jpg" width="1200" height="1200" alt=""/></a></li>
                             <li><a href="https://bobibobi.tw/Product/images/products/products_A_7.jpg" data-fancybox><img src="https://bobibobi.tw/Product/images/products/products_A_7.jpg" width="1200" height="1200" alt=""/></a></li>
-                            <li><a href="https://bobibobi.tw/Product/images/products/products_A_3.jpg" data-fancybox><img src="https://bobibobi.tw/Product/images/products/products_A_3.jpg" width="1200" height="1200" alt=""/></a></li>
+                            <%--<li><a href="https://bobibobi.tw/Product/images/products/products_A_3.jpg" data-fancybox><img src="https://bobibobi.tw/Product/images/products/products_A_3.jpg" width="1200" height="1200" alt=""/></a></li>--%>
                             <li><a href="https://bobibobi.tw/Product/images/products/products_A_4.jpg" data-fancybox><img src="https://bobibobi.tw/Product/images/products/products_A_4.jpg" width="1200" height="1200" alt=""/></a></li>
-                            <li><a href="https://bobibobi.tw/Product/images/products/products_A_5.jpg" data-fancybox><img src="https://bobibobi.tw/Product/images/products/products_A_5.jpg" width="1200" height="1200" alt=""/></a></li>
-                            <li><a href="https://bobibobi.tw/Product/images/products/products_A_6.jpg" data-fancybox><img src="https://bobibobi.tw/Product/images/products/products_A_6.jpg" width="1200" height="1200" alt=""/></a></li>
+                            <%--<li><a href="https://bobibobi.tw/Product/images/products/products_A_5.jpg" data-fancybox><img src="https://bobibobi.tw/Product/images/products/products_A_5.jpg" width="1200" height="1200" alt=""/></a></li>
+                            <li><a href="https://bobibobi.tw/Product/images/products/products_A_6.jpg" data-fancybox><img src="https://bobibobi.tw/Product/images/products/products_A_6.jpg" width="1200" height="1200" alt=""/></a></li>--%>
+                            <li><a href="https://bobibobi.tw/Product/images/products/products_A_8.jpg" data-fancybox><img src="https://bobibobi.tw/Product/images/products/products_A_8.jpg" width="1200" height="1200" alt=""/></a></li>
+                            <li><a href="https://bobibobi.tw/Product/images/products/products_A_9.jpg" data-fancybox><img src="https://bobibobi.tw/Product/images/products/products_A_9.jpg" width="1200" height="1200" alt=""/></a></li>
                         </ul>
-                        <h5>鎮宅、開運錢母擺件 <span style="color: red; display: none;">( 已售完 )</span></h5>
-                        <div class="ProductsPrice">原價：2480 / 活動價：<span>1258</span></div>
+                        <h5>鎮宅、開運錢母擺件 <span id="type_1" runat="server" style="color: red;">( 已售完 )</span></h5>
+                        <div class="ProductsPrice">原價：2480 / 活動價：<span>1480</span></div>
                         <div class="ProductsContent content TxtW">新港奉天宮獨家授權富御琉金製作的錢母擺件產品，擺放家中財位可鎮宅、招財、避邪、保平安，數量有限、售完為止。商品尺寸：長18cm x 寬6cm x 高12cm。
                         <a id="Description" class="ProductsContent content TxtW" style="text-decoration:underline">詳細說明</a>
                         </div>
@@ -230,7 +293,7 @@
                         </div>-->
                     </div>
                                  
-                    <div class="Products">
+                    <%--<div class="Products">
                         <ul class="ProductsImg">
                             <li>
                                 <a href="https://bobibobi.tw/Product/images/products/products_D_1.png" data-fancybox>
@@ -243,7 +306,7 @@
                                 </a>
                             </li>
                         </ul>
-                        <h5>招財大嘴貓(白色) <span style="color: red; display: none;">( 已售完 )</span></h5>
+                        <h5>招財大嘴貓(白色) <span id="type_5" runat="server" style="color: red;">( 已售完 )</span></h5>
                         <div class="ProductsPrice">原價：799 / 活動價：<span>399</span></div>
                         <div class="ProductsContent content TxtW">大嘴招財貓, 能吃就是福. 笑口常開好運來。風水擺設.收銀櫃檯.家廳玄關迎賓納福。尺寸為高：24cm、長：15cm、寬：10cm。
                         </div>
@@ -268,7 +331,7 @@
                                 </a>
                             </li>
                         </ul>
-                        <h5>招財大嘴貓(藍色) <span style="color: red; display: none;">( 已售完 )</span></h5>
+                        <h5>招財大嘴貓(藍色) <span id="type_6" runat="server" style="color: red;">( 已售完 )</span></h5>
                         <div class="ProductsPrice">原價：799 / 活動價：<span>399</span></div>
                         <div class="ProductsContent content TxtW">大嘴招財貓, 能吃就是福. 笑口常開好運來。風水擺設.收銀櫃檯.家廳玄關迎賓納福。尺寸為高：30cm、長：20cm、寬：19cm。
                         </div>
@@ -278,9 +341,9 @@
                                 <img src="https://bobibobi.tw/Product/images/videoPlay.png" width="101" height="117" alt=""/>
                             </a>
                         </div>-->
-                    </div>
+                    </div>--%>
                     
-                    <div class="Products">
+                    <div class="Products bobi">
                         <ul class="ProductsImg">
                             <li>
                                 <a href="https://bobibobi.tw/Product/images/products/products_F_1.png" data-fancybox>
@@ -293,7 +356,7 @@
                                 </a>
                             </li>
                         </ul>
-                        <h5>招財大嘴貓(粉色) <span style="color: red; display: none;">( 已售完 )</span></h5>
+                        <h5>招財大嘴貓(粉色) <span id="type_7" runat="server" style="color: red;">( 已售完 )</span></h5>
                         <div class="ProductsPrice">原價：799 / 活動價：<span>399</span></div>
                         <div class="ProductsContent content TxtW">大嘴招財貓, 能吃就是福. 笑口常開好運來。風水擺設.收銀櫃檯.家廳玄關迎賓納福。尺寸為高：24cm、長：15cm、寬：10cm。
                         </div>
@@ -305,7 +368,7 @@
                         </div>-->
                     </div>
                     
-                    <div class="Products">
+                    <div class="Products bobi">
                         <ul class="ProductsImg">
                             <li>
                                 <a href="https://bobibobi.tw/Product/images/products/products_G_1.png" data-fancybox>
@@ -318,7 +381,7 @@
                                 </a>
                             </li>
                         </ul>
-                        <h5>招財大嘴貓(橘色) <span style="color: red; display: none;">( 已售完 )</span></h5>
+                        <h5>招財大嘴貓(橘色) <span id="type_8" runat="server" style="color: red;">( 已售完 )</span></h5>
                         <div class="ProductsPrice">原價：799 / 活動價：<span>399</span></div>
                         <div class="ProductsContent content TxtW">大嘴招財貓, 能吃就是福. 笑口常開好運來。風水擺設.收銀櫃檯.家廳玄關迎賓納福。尺寸為高：24cm、長：15cm、寬：10cm。
                         </div>
@@ -341,12 +404,12 @@
                     <div id="productItem_A">
                         <div class="shopProductsImg"><img src="https://bobibobi.tw/Product/images/products/products_A_1.jpg" width="1200" height="1200" alt=""/></div>
                         <div class="shopProductsInfo">
-                            <h5>鎮宅、開運錢母擺件 <span style="color: red; display: none;">( 已售完 )</span></h5>
+                            <h5>鎮宅、開運錢母擺件 <span id="product_1" runat="server" style="color: red;">( 已售完 )</span></h5>
                             <div class="ItemInfo">
                                 <label>金額</label>
-                                <div>1258</div>
+                                <div>1480</div>
                             </div>
-                            <div class="ItemInfo">
+                            <div class="ItemInfo" id="productCount_1" runat="server">
                                 <label>數量</label>
                                 <div>
                                     <input name="ItemLess_1" type="button" class="CountBtn" id="ItemLess_1" value="-" />
@@ -356,15 +419,15 @@
                             </div>
                         </div>
                     </div>
-                    <div id="productItem_D">
+                    <%--<div id="productItem_D">
                         <div class="shopProductsImg"><img src="https://bobibobi.tw/Product/images/products/products_D_1.png" width="1200" height="1200" alt=""/></div>
                         <div class="shopProductsInfo">
-                            <h5>招財大嘴貓(白色) <span style="color: red; display: none;">( 已售完 )</span></h5>
+                            <h5>招財大嘴貓(白色) <span id="product_5" runat="server" style="color: red;">( 已售完 )</span></h5>
                             <div class="ItemInfo">
                                 <label>金額</label>
                                 <div>399</div>
                             </div>
-                            <div class="ItemInfo">
+                            <div class="ItemInfo" id="productCount_5" runat="server">
                                 <label>數量</label>
                                 <div>
                                     <input name="ItemLess_4" type="button" class="CountBtn" id="ItemLess_4" value="-" />
@@ -377,12 +440,12 @@
                     <div id="productItem_E">
                         <div class="shopProductsImg"><img src="https://bobibobi.tw/Product/images/products/products_E_1.png" width="1200" height="1200" alt=""/></div>
                         <div class="shopProductsInfo">
-                            <h5>招財大嘴貓(藍色) <span style="color: red; display: none;">( 已售完 )</span></h5>
+                            <h5>招財大嘴貓(藍色) <span id="product_6" runat="server" style="color: red;">( 已售完 )</span></h5>
                             <div class="ItemInfo">
                                 <label>金額</label>
                                 <div>399</div>
                             </div>
-                            <div class="ItemInfo">
+                            <div class="ItemInfo" id="productCount_6" runat="server">
                                 <label>數量</label>
                                 <div>
                                     <input name="ItemLess_5" type="button" class="CountBtn" id="ItemLess_5" value="-" />
@@ -391,16 +454,16 @@
                                 </div>
                             </div>
                         </div>
-                    </div>
-                    <div id="productItem_F">
+                    </div>--%>
+                    <div id="productItem_F" class="bobi">
                         <div class="shopProductsImg"><img src="https://bobibobi.tw/Product/images/products/products_F_1.png" width="1200" height="1200" alt=""/></div>
                         <div class="shopProductsInfo">
-                            <h5>招財大嘴貓(粉色) <span style="color: red; display: none;">( 已售完 )</span></h5>
+                            <h5>招財大嘴貓(粉色) <span id="product_7" runat="server" style="color: red;">( 已售完 )</span></h5>
                             <div class="ItemInfo">
                                 <label>金額</label>
                                 <div>399</div>
                             </div>
-                            <div class="ItemInfo">
+                            <div class="ItemInfo" id="productCount_7" runat="server">
                                 <label>數量</label>
                                 <div>
                                     <input name="ItemLess_6" type="button" class="CountBtn" id="ItemLess_6" value="-" />
@@ -410,15 +473,15 @@
                             </div>
                         </div>
                     </div>
-                    <div id="productItem_G">
+                    <div id="productItem_G" class="bobi">
                         <div class="shopProductsImg"><img src="https://bobibobi.tw/Product/images/products/products_G_1.png" width="1200" height="1200" alt=""/></div>
                         <div class="shopProductsInfo">
-                            <h5>招財大嘴貓(橘色) <span style="color: red; display: none;">( 已售完 )</span></h5>
+                            <h5>招財大嘴貓(橘色) <span id="product_8" runat="server" style="color: red;">( 已售完 )</span></h5>
                             <div class="ItemInfo">
                                 <label>金額</label>
                                 <div>399</div>
                             </div>
-                            <div class="ItemInfo">
+                            <div class="ItemInfo" id="productCount_8" runat="server">
                                 <label>數量</label>
                                 <div>
                                     <input name="ItemLess_7" type="button" class="CountBtn" id="ItemLess_7" value="-" />
@@ -440,6 +503,12 @@
                 
                     <div><input id="CheckOrder" type="button" value="檢查資料及付款" /></div>
                 </div>
+                    <br />
+                <%--<div class="shopmemberInfo">
+                    <p style="color: red;">因應農曆春節連續假期及貨運公司配送問題，將於2025/1/21至2025/02/02暫停出貨作業。</p>
+                    <br />
+                    <p style="color: red;">2025/1/20至2025/02/02成立的訂單，將於2025/02/03起陸續出貨。 祝大家小龍年行大運!</p>
+                </div>--%>
             </section><!--第六區塊 //end-->
         
         </article><!--#內容區塊 //end-->
@@ -457,7 +526,7 @@
             <div class="footerinfo">保必保庇線上祈福平台</div>
             <div class="footerContact footerTxt">
                 <div><label>服務專線</label><a href="tel:0436092299">04-3609-2299</a></div>
-                <div><label>服務信箱</label><a href="mailto:alyssa@appssp.com">alyssa@appssp.com</a></div>
+                <div><label>服務信箱</label><a href="mailto:service@appssp.com">service@appssp.com</a></div>
             </div>
             <div class="serviceTime footerTxt"><label>服務時間</label><span>週一至週五11:00-20:00</span><span>週六9:00-18:00(國定假日休息)</span></div>
             <div class="copyright footerTxt">Copyright©2022-2025 保必保庇線上祈福平台 <span>All rights reserved.</span></div>
@@ -497,7 +566,7 @@
                         <h5>鎮宅、開運錢母擺件</h5>
                         <div class="ItemInfo">
                             <label>金額</label>
-                            <div>1258</div>
+                            <div>1480</div>
                         </div>
                         <div class="ItemInfo">
                             <label>數量</label>
@@ -538,7 +607,7 @@
                             <div><span id="OrderItemBcount">2</span>個</div>
                         </div>
                     </div>
-                </div>--%>
+                </div>
                 <div class="OrderproductItem OrderItemD">
                     <div class="shopProductsImg"><img src="https://bobibobi.tw/Product/images/products/products_D_1.png" width="1200" height="1200" alt=""/></div>
                     <div class="shopProductsInfo">
@@ -566,7 +635,7 @@
                             <div><span id="OrderItemEcount">0</span>個</div>
                         </div>
                     </div>
-                </div>
+                </div>--%>
                 <div class="OrderproductItem OrderItemF">
                     <div class="shopProductsImg"><img src="https://bobibobi.tw/Product/images/products/products_F_1.png" width="1200" height="1200" alt=""/></div>
                     <div class="shopProductsInfo">
@@ -609,6 +678,8 @@
             </div>
             <div class="PayButton">
                 <ul>
+                    <%--<li class="mobile" style="color: red;">因應農曆春節連續假期及貨運公司配送問題，將於2025/1/21至2025/02/02暫停出貨作業。</li>
+                    <li class="mobile" style="color: red;">2025/1/20至2025/02/02成立的訂單，將於2025/02/03起陸續出貨。 祝大家小龍年行大運!</li>--%>
                     <li><input name="EditOrder" type="button" id="EditOrder" value="修改" /></li>
                     <li><input name="mobile_pay" type="button" id="mobile_pay" value="遠傳門號付款" /></li>
                     <li><input name="card_pay" type="button" id="card_pay" value="信用卡付款" /></li>
@@ -621,6 +692,12 @@
                     <%--<li><input name="Google_pay" type="image" id="Google_pay" src="https://bobibobi.tw/Product/images/Google_Pay.png" /></li>--%>
                 </ul>
             </div>
+               <%--     <br />
+                <div class="web">
+                    <p style="color: red;">因應農曆春節連續假期及貨運公司配送問題，將於2025/1/21至2025/02/02暫停出貨作業。</p>
+                    <br />
+                    <p style="color: red;">2025/1/20至2025/02/02成立的訂單，將於2025/02/03起陸續出貨。 祝大家小龍年行大運!</p>
+                </div>--%>
         </div>
     
     </div>   
@@ -655,7 +732,250 @@
         at: "center top+50"
     };
 
+
+    function setURL(c, v, t) {
+        if (location.search.indexOf(c) >= 0) {
+            //alert($("title").html());
+            $(document).attr("title", "(" + t + ")" + $("title").html());
+            $.each($("a"), function (i, n) {
+                var $href = $(this).attr("href");
+                if (typeof ($href) != "undefined") {
+                    if ($href.indexOf('.aspx') > 0 && $href.indexOf(c) < 0) {
+                        if ($href.indexOf('?') > 0) {
+                            $(this).attr("href", $href + "&" + c + "=" + v);
+                        }
+                        else {
+                            $(this).attr("href", $href + "?" + c + "=" + v);
+                        }
+                    }
+                }
+            });
+        }
+    }
+
     $(document).ready(function () {
+        if (location.search.indexOf('ftg') >= 0) {
+            $(".bobi").hide();
+        }
+        else {
+            $(".bobi").show();
+        }
+
+        setURL("ftg", "2290", "奉天宮");
+        setURL("twm", "2290", "TWM");
+        setURL("line", "2290", "LINE");
+        setURL("jkos", "2290", "街口");
+        setURL("ig", "2290", "IG");
+        setURL("cht", "2290", "CHT");
+        setURL("fetsms", "2290", "fetSMS");
+        setURL("elv", "2290", "ELV");
+        setURL("gads", "2290", "GADS");
+        setURL("tads", "2290", "TADS");
+
+        //if (location.search.indexOf('twm') >= 0) {
+        //    //alert($("title").html());
+        //    $(document).attr("title", "(TWM)" + $("title").html());
+        //    $.each($("a"), function (i, n) {
+        //        var $href = $(this).attr("href");
+        //        if ($href.indexOf('.aspx') > 0 && $href.indexOf('twm') < 0) {
+        //            if ($href.indexOf('?') > 0) {
+        //                $(this).attr("href", $href + "&twm=1");
+        //            }
+        //            else {
+        //                $(this).attr("href", $href + "?twm=1");
+        //            }
+        //        }
+        //    });
+        //}
+
+        //if (location.search.indexOf('line') >= 0) {
+        //    $(document).attr("title", "(LINE)" + $("title").html());
+        //    //$(document).attr("title", "２０２４(LINE)中元普渡線上報名開始囉~|最新消息|【保必保庇】線上宮廟服務平台");
+
+        //    $.each($("a"), function (i, n) {
+        //        var $href = $(this).attr("href");
+        //        if ($href.indexOf('.aspx') > 0) {
+        //            if ($href.indexOf('?') > 0) {
+        //                $(this).attr("href", $href + "&line=1");
+        //            }
+        //            else {
+        //                $(this).attr("href", $href + "?line=1");
+        //            }
+        //        }
+        //    });
+        //}
+
+        if (location.search.indexOf('fb') >= 0) {
+
+
+            if (location.search.indexOf('fbad') >= 0) {
+                setURL("fbad", "2290", "FB廣告");
+                //$(document).attr("title", "(FB廣告)" + $("title").html());
+                ////$(document).attr("title", "２０２４(FB)中元普渡線上報名開始囉~|最新消息|【保必保庇】線上宮廟服務平台");
+                //$.each($("a"), function (i, n) {
+                //    var $href = $(this).attr("href");
+                //    if ($href.indexOf('.aspx') > 0) {
+                //        if ($href.indexOf('?') > 0) {
+                //            $(this).attr("href", $href + "&fbad=1");
+                //        }
+                //        else {
+                //            $(this).attr("href", $href + "?fbad=1");
+                //        }
+                //    }
+                //});
+            }
+            else if (location.search.indexOf('fbda') >= 0) {
+                setURL("fbda", "2290", "FBDA");
+                //$(document).attr("title", "(FBDA)" + $("title").html());
+                ////$(document).attr("title", "２０２４(FB)中元普渡線上報名開始囉~|最新消息|【保必保庇】線上宮廟服務平台");
+                //$.each($("a"), function (i, n) {
+                //    var $href = $(this).attr("href");
+                //    if ($href.indexOf('.aspx') > 0) {
+                //        if ($href.indexOf('?') > 0) {
+                //            $(this).attr("href", $href + "&fbda=1");
+                //        }
+                //        else {
+                //            $(this).attr("href", $href + "?fbda=1");
+                //        }
+                //    }
+                //});
+            }
+            else {
+                setURL("fb", "2290", "FB");
+                //$(document).attr("title", "(FB)" + $("title").html());
+                ////$(document).attr("title", "２０２４(FB)中元普渡線上報名開始囉~|最新消息|【保必保庇】線上宮廟服務平台");
+                //$.each($("a"), function (i, n) {
+                //    var $href = $(this).attr("href");
+                //    if ($href.indexOf('.aspx') > 0) {
+                //        if ($href.indexOf('?') > 0) {
+                //            $(this).attr("href", $href + "&fb=1");
+                //        }
+                //        else {
+                //            $(this).attr("href", $href + "?fb=1");
+                //        }
+                //    }
+                //});
+            }
+        }
+
+        //if (location.search.indexOf('ig') >= 0) {
+        //    $(document).attr("title", "(IG)" + $("title").html());
+        //    //$(document).attr("title", "２０２４(FB)中元普渡線上報名開始囉~|最新消息|【保必保庇】線上宮廟服務平台");
+        //    $.each($("a"), function (i, n) {
+        //        var $href = $(this).attr("href");
+        //        if ($href.indexOf('.aspx') > 0) {
+        //            if ($href.indexOf('?') > 0) {
+        //                $(this).attr("href", $href + "&ig=1");
+        //            }
+        //            else {
+        //                $(this).attr("href", $href + "?ig=1");
+        //            }
+        //        }
+        //    });
+        //}
+
+        //if (location.search.indexOf('cht') >= 0) {
+        //    $(document).attr("title", "(CHT)" + $("title").html());
+        //    //$(document).attr("title", "２０２４(LINE)中元普渡線上報名開始囉~|最新消息|【保必保庇】線上宮廟服務平台");
+
+        //    $.each($("a"), function (i, n) {
+        //        var $href = $(this).attr("href");
+        //        if ($href.indexOf('.aspx') > 0) {
+        //            if ($href.indexOf('?') > 0) {
+        //                $(this).attr("href", $href + "&cht=1");
+        //            }
+        //            else {
+        //                $(this).attr("href", $href + "?cht=1");
+        //            }
+        //        }
+        //    });
+        //}
+
+        //if (location.search.indexOf('fetsms') >= 0) {
+        //    $(document).attr("title", "(fetSMS)" + $("title").html());
+        //    //$(document).attr("title", "２０２４(LINE)中元普渡線上報名開始囉~|最新消息|【保必保庇】線上宮廟服務平台");
+
+        //    $.each($("a"), function (i, n) {
+        //        var $href = $(this).attr("href");
+        //        if ($href.indexOf('.aspx') > 0) {
+        //            if ($href.indexOf('?') > 0) {
+        //                $(this).attr("href", $href + "&fetsms=1");
+        //            }
+        //            else {
+        //                $(this).attr("href", $href + "?fetsms=1");
+        //            }
+        //        }
+        //    });
+        //}
+
+        //if (location.search.indexOf('jkos') >= 0) {
+        //    $(document).attr("title", "(街口)" + $("title").html());
+        //    //$(document).attr("title", "２０２４(LINE)中元普渡線上報名開始囉~|最新消息|【保必保庇】線上宮廟服務平台");
+
+        //    $.each($("a"), function (i, n) {
+        //        var $href = $(this).attr("href");
+        //        if ($href.indexOf('.aspx') > 0) {
+        //            if ($href.indexOf('?') > 0) {
+        //                $(this).attr("href", $href + "&jkos=1");
+        //            }
+        //            else {
+        //                $(this).attr("href", $href + "?jkos=1");
+        //            }
+        //        }
+        //    });
+        //}
+
+        ////大樓電梯
+        //if (location.search.indexOf('elv') >= 0) {
+        //    $(document).attr("title", "(ELV)" + $("title").html());
+
+        //    $.each($("a"), function (i, n) {
+        //        var $href = $(this).attr("href");
+        //        if ($href.indexOf('.aspx') > 0) {
+        //            if ($href.indexOf('?') > 0) {
+        //                $(this).attr("href", $href + "&elv=1");
+        //            }
+        //            else {
+        //                $(this).attr("href", $href + "?elv=1");
+        //            }
+        //        }
+        //    });
+        //}
+
+        //if (location.search.indexOf('gads') >= 0) {
+        //    $(document).attr("title", "(GADS)" + $("title").html());
+        //    //$(document).attr("title", "２０２４(LINE)中元普渡線上報名開始囉~|最新消息|【保必保庇】線上宮廟服務平台");
+
+        //    $.each($("a"), function (i, n) {
+        //        var $href = $(this).attr("href");
+        //        if ($href.indexOf('.aspx') > 0) {
+        //            if ($href.indexOf('?') > 0) {
+        //                $(this).attr("href", $href + "&gads=1");
+        //            }
+        //            else {
+        //                $(this).attr("href", $href + "?gads=1");
+        //            }
+        //        }
+        //    });
+        //}
+
+        //if (location.search.indexOf('tads') >= 0) {
+        //    $(document).attr("title", "(TADS)" + $("title").html());
+        //    //$(document).attr("title", "２０２４(LINE)中元普渡線上報名開始囉~|最新消息|【保必保庇】線上宮廟服務平台");
+
+        //    $.each($("a"), function (i, n) {
+        //        var $href = $(this).attr("href");
+        //        if ($href.indexOf('.aspx') > 0) {
+        //            if ($href.indexOf('?') > 0) {
+        //                $(this).attr("href", $href + "&tads=1");
+        //            }
+        //            else {
+        //                $(this).attr("href", $href + "?tads=1");
+        //            }
+        //        }
+        //    });
+        //}
+
         $("#dialog").dialog({
             autoOpen: false,
             show: {
@@ -769,17 +1089,21 @@ $(".CountBtn").on("click", function(){
 <!--訂單確認-->
 <script>
 $("#CheckOrder").on("click", function(){
-    pd_A = $("#Item_1").val();//產品1數量
+    //pd_A = $("#Item_1").val();//產品1數量
+    pd_A = typeof ($("#Item_1").val()) == "undefined" ? 0 : $("#Item_1").val();//產品1數量
     //pd_B = $("#Item_2").val();//產品2數量
     //pd_C = $("#Item_3").val();//產品3數量
-    pd_D = $("#Item_4").val();//產品4數量
-    pd_E = $("#Item_5").val();//產品5數量
-    pd_F = $("#Item_6").val();//產品6數量
-    pd_G = $("#Item_7").val();//產品7數量
+    pd_D = typeof ($("#Item_4").val()) == "undefined" ? 0 : $("#Item_4").val();//產品4數量
+    pd_E = typeof ($("#Item_5").val()) == "undefined" ? 0 : $("#Item_5").val();//產品5數量
+    pd_F = typeof ($("#Item_6").val()) == "undefined" ? 0 : $("#Item_6").val();//產品6數量
+    pd_G = typeof ($("#Item_7").val()) == "undefined" ? 0 : $("#Item_7").val();//產品7數量
+    //pd_E = $("#Item_5").val();//產品5數量
+    //pd_F = $("#Item_6").val();//產品6數量
+    //pd_G = $("#Item_7").val();//產品7數量
     cusName = $('#Name').val();//購買人姓名
     cusTel= $('#Tel').val();//購買人電話
     cusAdd = $("select[name='county']").val() + $("select[name='district']").val() + $('#Add').val();//購買人地址
-    Money = (pd_A * 1258) /*+ (pd_B * 499) + (pd_C * 2980)*/ + (pd_D * 399) + (pd_E * 399) + (pd_F * 399) + (pd_G * 399);   //購買總金額
+    Money = (pd_A * 1480) /*+ (pd_B * 499) + (pd_C * 2980)*/ + (pd_D * 399) + (pd_E * 399) + (pd_F * 399) + (pd_G * 399);   //購買總金額
     
     
     
@@ -922,13 +1246,13 @@ $("#EditOrder").on("click", function(){
 <script>
 //取得各欄位的值
 function formData(){
-    pd_A = $("#Item_1").val();//鎮宅、開運錢母擺件數量
+    pd_A = typeof ($("#Item_1").val()) == "undefined" ? 0 : $("#Item_1").val();//鎮宅、開運錢母擺件數量
     //pd_B = $("#Item_2").val();//開運隨身御守數量
     //pd_C = $("#Item_3").val();//2024新港奉天宮黃金符令手鍊
-    pd_D = $("#Item_4").val();//招財大嘴貓(白色)數量
-    pd_E = $("#Item_5").val();//招財大嘴貓(藍色)數量
-    pd_F = $("#Item_6").val();//招財大嘴貓(粉色)數量
-    pd_G = $("#Item_7").val();//招財大嘴貓(橘色)數量
+    pd_D = typeof ($("#Item_4").val()) == "undefined" ? 0 : $("#Item_4").val();//招財大嘴貓(白色)數量
+    pd_E = typeof ($("#Item_5").val()) == "undefined" ? 0 : $("#Item_5").val();//招財大嘴貓(藍色)數量
+    pd_F = typeof ($("#Item_6").val()) == "undefined" ? 0 : $("#Item_6").val();//招財大嘴貓(粉色)數量
+    pd_G = typeof ($("#Item_7").val()) == "undefined" ? 0 : $("#Item_7").val();//招財大嘴貓(橘色)數量
     cusName = $('#Name').val();//購買人姓名
     cusTel= $('#Tel').val();//購買人電話
     cusAdd = $("select[name='county']").val() + $("select[name='district']").val() + $('#Add').val();//購買人地址
@@ -936,7 +1260,7 @@ function formData(){
     cusDistrict = $("select[name='district']").val();
     cusAddr = $("#Add").val();
     cusZipCode = $("input[name='zipcode']").val();
-    Money = (pd_A * 1258) /*+ (pd_B * 499) + (pd_C * 2980)*/ + (pd_D * 399) + (pd_E * 399) + (pd_F * 399) + (pd_G * 399);   //購買總金額
+    Money = (pd_A * 1480) /*+ (pd_B * 499) + (pd_C * 2980)*/ + (pd_D * 399) + (pd_E * 399) + (pd_F * 399) + (pd_G * 399);   //購買總金額
     
     //下方取消註解後，可於console查看結果
     console.log("擺件數量：" + pd_A,

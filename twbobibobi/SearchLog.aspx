@@ -138,6 +138,13 @@
         $(window).on("load", function () {
             roundPlace();
 
+            $(document).keydown(function (event) {
+                if (event.keyCode == 27) {
+                    // 判断是否按下 ESC 键
+                    pupClose();
+                }
+            });
+
             //關閉按鈕
             $(".ClosePup a").on("click", function () {
                 pupClose();
@@ -147,7 +154,7 @@
             $("#DataSearch").on("click", function () {
                 /*ajax放這*/
                 data = {
-                     //申請人
+                     //購買人
                     m_Name: $("#m_Name").val(), // 姓名
                     m_Mobile: $("#m_Mobile").val() // 號碼
                     //m_Num2String: $("#m_Num2String").val() // 訂單編號
@@ -324,8 +331,40 @@
 
         gtag('config', 'G-4YWFRTFCTT');
     </script>
+    <!-- Google Tag Manager -->
+    <script>(function (w, d, s, l, i) {
+            w[l] = w[l] || []; w[l].push({
+                'gtm.start':
+                    new Date().getTime(), event: 'gtm.js'
+            }); var f = d.getElementsByTagName(s)[0],
+                j = d.createElement(s), dl = l != 'dataLayer' ? '&l=' + l : ''; j.async = true; j.src =
+                    'https://www.googletagmanager.com/gtm.js?id=' + i + dl; f.parentNode.insertBefore(j, f);
+        })(window, document, 'script', 'dataLayer', 'GTM-5L2H7Z3N');</script>
+    <!-- End Google Tag Manager -->
+    <!-- Google Tag Manager -->
+    <script>(function (w, d, s, l, i) {
+            w[l] = w[l] || []; w[l].push({
+                'gtm.start':
+                    new Date().getTime(), event: 'gtm.js'
+            }); var f = d.getElementsByTagName(s)[0],
+                j = d.createElement(s), dl = l != 'dataLayer' ? '&l=' + l : ''; j.async = true; j.src =
+                    'https://www.googletagmanager.com/gtm.js?id=' + i + dl; f.parentNode.insertBefore(j, f);
+        })(window, document, 'script', 'dataLayer', 'GTM-NGRZRR4V');</script>
+    <!-- End Google Tag Manager -->
 </head>
 <body>
+    <!-- Google Tag Manager (noscript) -->
+    <noscript>
+        <iframe src="https://www.googletagmanager.com/ns.html?id=GTM-NGRZRR4V"
+            height="0" width="0" style="display: none; visibility: hidden"></iframe>
+    </noscript>
+    <!-- End Google Tag Manager (noscript) -->
+    <!-- Google Tag Manager (noscript) -->
+    <noscript>
+        <iframe src="https://www.googletagmanager.com/ns.html?id=GTM-5L2H7Z3N"
+            height="0" width="0" style="display: none; visibility: hidden"></iframe>
+    </noscript>
+    <!-- End Google Tag Manager (noscript) -->
     <uc2:AjaxClientControl ID="AjaxClientControl1" runat="server" />
     <div id="wrap">    
         <!--表單 Start-->
@@ -336,9 +375,9 @@
             <div class="Form">
                 <!--to：工程師 搜尋表單 //start-->  
                 <form>
-                    <div class="infoTxt">請輸入申請人資料</div>
-                    <div class="inputTxt"><input type="text" id="m_Name" placeholder="請輸入申請人姓名" /></div>
-                    <div class="inputTxt"><input type="text" id="m_Mobile" placeholder="請輸入申請人手機" /></div>
+                    <div class="infoTxt">請輸入購買人資料</div>
+                    <div class="inputTxt"><input type="text" id="m_Name" placeholder="請輸入購買人姓名" /></div>
+                    <div class="inputTxt"><input type="text" id="m_Mobile" placeholder="請輸入購買人手機" /></div>
                     <%--<div class="inputTxt">
                         <select name="m_Year" class="" id="m_Year">
                             <option value="2023" selected="selected">2023</option>
@@ -409,11 +448,11 @@
                 <ul>          
                     <li >
                         <div>
-                            <div>申請人姓名</div>
+                            <div>購買人姓名</div>
                             <div>楊O興</div>
                         </div>
                         <div>
-                            <div>申請人手機</div>
+                            <div>購買人手機</div>
                             <div>0934***020</div>
                         </div>
                         <div>

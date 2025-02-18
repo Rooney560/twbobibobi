@@ -16,8 +16,12 @@ namespace Temple
 {
     public partial class TWPaymentCallback_Lights_da : BasePage
     {
+        private static object _thisLock = new object();
         protected void Page_Load(object sender, EventArgs e)
         {
+            //lock (_thisLock)
+            //{
+            //}
             TimeZoneInfo info = TimeZoneInfo.FindSystemTimeZoneById("Taipei Standard Time");
             DateTime dtNow = TimeZoneInfo.ConvertTime(DateTime.Now, info);
             if (Request["uid"] != null && Request["oid"] != null && Request["tid"] != null && Request["mac"] != null)
@@ -84,27 +88,15 @@ namespace Temple
 
                                 int adminID = 3;
 
+                                string msg = "感謝購買,已成功付款" + cost + "元,您的訂單編號 ";
+
                                 //更新普渡資料表並取得訂單編號
-                                objDatabaseHelper.UpdateLights_da_Info(aid, lightstype, Year, ref lightslist, ref Lightslist);
+                                objDatabaseHelper.UpdateLights_da_Info(aid, lightstype, Year, ref msg, ref lightslist, ref Lightslist);
                                 //取得申請人資料表
                                 //DataTable dtapplicantinfo = objDatabaseHelper.Getapplicantinfo_Lights_da(aid, adminID, Year);
                                 ////更新購買表內購買人狀態為已付款(Status=2)
                                 //int cost = dtapplicantinfo.Rows.Count > 0 ? int.Parse(dtapplicantinfo.Rows[0]["Cost"].ToString()) : 0;
                                 objDatabaseHelper.Updateapplicantinfo_Lights_da(aid, cost, 2, Year);
-
-                                string msg = "感謝購買,已成功付款" + cost + "元,您的訂單編號 ";
-
-                                for (int i = 0; i < lightslist.Length; i++)
-                                {
-                                    msg += lightslist[i];
-                                    if (i < lightslist.Length - 1)
-                                    {
-                                        msg += ",";
-                                    }
-                                }
-
-                                msg += "。客服電話：04-36092299。";
-
 
                                 //msg = "感謝大德參與線上點燈,茲收您1960元功德金,訂單編號 光明燈:T2204, 安太歲:25351, 文昌燈:六1214。";
                                 //mobile = "0903002568";
@@ -112,7 +104,7 @@ namespace Temple
                                 SMSHepler objSMSHepler = new SMSHepler();
                                 string ChargeType = string.Empty;
                                 //更新流水付費表資訊(付費成功)
-                                if (objDatabaseHelper.UpdateChargeLog_Lights_da(orderId, tid, msg, Request.UserHostAddress, CallbackLog, Year, ref ChargeType))
+                                if (objDatabaseHelper.UpdateChargeLog_Lights_da(orderId, tid, msg, Request.UserHostAddress, CallbackLog, Year, ref ChargeType, ref status))
                                 {
                                     if (objSMSHepler.SendMsg_SL(mobile, msg))
                                     {
@@ -134,7 +126,16 @@ namespace Temple
                                 }
                                 else
                                 {
-                                    Response.Write("<script>alert('付款過程失敗。請聯繫管理員。客服電話：04-36092299。');window.location.href='" + rebackURL + "'</script>");
+                                    if (status == 1)
+                                    {
+                                        //已經付費成功。
+                                        m2 = "https://bobibobi.tw/Temples/templeComplete.aspx?kind=1&a=3&aid=" + aid + (dtCharge.Rows[0]["ChargeType"].ToString() == "Twm" ? "&twm=1" : "");
+                                        Response.Redirect(m2, true);
+                                    }
+                                    else
+                                    {
+                                        Response.Write("<script>alert('付款過程失敗。請聯繫管理員。客服電話：04-36092299。');window.location.href='" + rebackURL + "'</script>");
+                                    }
                                 }
                             }
                             else
@@ -160,7 +161,7 @@ namespace Temple
                             }
                             else
                             {
-                                Response.Write("<script>alert('付款失敗，錯誤代碼：" + result[0] + "。客服電話：04-23582760。');window.location.href='" + rebackURL + "'</script>");
+                                Response.Write("<script>alert('付款失敗，錯誤代碼：" + result[0] + "。客服電話：04-36092299。');window.location.href='" + rebackURL + "'</script>");
                             }
                         }
                     }
@@ -173,7 +174,7 @@ namespace Temple
                     else
                     {
                         SaveErrorLog(resp + ", 此訂單已交易失敗!");
-                        Response.Write("<script>alert('此訂單已交易失敗，交易代碼：" + resp + "如有疑問。請洽客服電話：04-23582760。');window.location.href='https://bobibobi.tw/Temples/templeInfo.aspx?a=3'</script>");
+                        Response.Write("<script>alert('此訂單已交易失敗，交易代碼：" + resp + "如有疑問。請洽客服電話：04-36092299。');window.location.href='https://bobibobi.tw/Temples/templeInfo.aspx?a=3'</script>");
                     }
 
                 }
@@ -181,7 +182,7 @@ namespace Temple
                 {
                     //resp = "invalid_orderid";
                     SaveErrorLog(resp + ", 取得付款資料失敗!");
-                    Response.Write("<script>alert('取得付款資料失敗，錯誤代碼：" + resp + "。客服電話：04-23582760。');window.location.href='https://bobibobi.tw/Temples/templeInfo.aspx?a=3'</script>");
+                    Response.Write("<script>alert('取得付款資料失敗，錯誤代碼：" + resp + "。客服電話：04-36092299。');window.location.href='https://bobibobi.tw/Temples/templeInfo.aspx?a=3'</script>");
                 }
 
             }

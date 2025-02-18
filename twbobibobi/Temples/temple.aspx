@@ -13,9 +13,9 @@
     <!--標題-->
     <meta property="og:url" content="https://bobibobi.tw/Temples/temple.aspx" />
     <!--網址：請補上網址-->
-    <meta name="description" content="世代信仰，數位傳承 - 與全臺知名宮廟合作，提供宮廟服務線上報名，讓您在忙碌之餘也可以透過線上報名的方式,參與宮廟的服務。" />
+    <meta name="description" content="大甲鎮瀾宮 北港武德宮 西螺福興宮 新港奉天宮 桃園威天宮 台南正統鹿耳門聖母廟 台東東海龍門天聖宮 斗六五路財神廟 鹿港城隍廟 玉敕大樹朝天宮 台灣道教總廟無極三清總道院" />
     <!--簡介-->
-    <meta property="og:description" content="世代信仰，數位傳承 - 與全臺知名宮廟合作，提供宮廟服務線上報名，讓您在忙碌之餘也可以透過線上報名的方式,參與宮廟的服務。" />
+    <meta property="og:description" content="大甲鎮瀾宮 北港武德宮 西螺福興宮 新港奉天宮 桃園威天宮 台南正統鹿耳門聖母廟 台東東海龍門天聖宮 斗六五路財神廟 鹿港城隍廟 玉敕大樹朝天宮 台灣道教總廟無極三清總道院" />
     <!--簡介-->
     <meta property="og:site_name" content="合作宮廟|【保必保庇】線上宮廟服務平台" />
     <!--標題-->
@@ -64,8 +64,40 @@
 
         gtag('config', 'G-4YWFRTFCTT');
     </script>
+    <!-- Google Tag Manager -->
+    <script>(function (w, d, s, l, i) {
+            w[l] = w[l] || []; w[l].push({
+                'gtm.start':
+                    new Date().getTime(), event: 'gtm.js'
+            }); var f = d.getElementsByTagName(s)[0],
+                j = d.createElement(s), dl = l != 'dataLayer' ? '&l=' + l : ''; j.async = true; j.src =
+                    'https://www.googletagmanager.com/gtm.js?id=' + i + dl; f.parentNode.insertBefore(j, f);
+        })(window, document, 'script', 'dataLayer', 'GTM-5L2H7Z3N');</script>
+    <!-- End Google Tag Manager -->
+    <!-- Google Tag Manager -->
+    <script>(function (w, d, s, l, i) {
+            w[l] = w[l] || []; w[l].push({
+                'gtm.start':
+                    new Date().getTime(), event: 'gtm.js'
+            }); var f = d.getElementsByTagName(s)[0],
+                j = d.createElement(s), dl = l != 'dataLayer' ? '&l=' + l : ''; j.async = true; j.src =
+                    'https://www.googletagmanager.com/gtm.js?id=' + i + dl; f.parentNode.insertBefore(j, f);
+        })(window, document, 'script', 'dataLayer', 'GTM-NGRZRR4V');</script>
+    <!-- End Google Tag Manager -->
 </head>
 <body>
+    <!-- Google Tag Manager (noscript) -->
+    <noscript>
+        <iframe src="https://www.googletagmanager.com/ns.html?id=GTM-NGRZRR4V"
+            height="0" width="0" style="display: none; visibility: hidden"></iframe>
+    </noscript>
+    <!-- End Google Tag Manager (noscript) -->
+    <!-- Google Tag Manager (noscript) -->
+    <noscript>
+        <iframe src="https://www.googletagmanager.com/ns.html?id=GTM-5L2H7Z3N"
+            height="0" width="0" style="display: none; visibility: hidden"></iframe>
+    </noscript>
+    <!-- End Google Tag Manager (noscript) -->
     <div id="wrap">
         <!--#warp //start-->
 

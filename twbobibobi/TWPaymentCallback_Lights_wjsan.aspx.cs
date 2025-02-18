@@ -89,27 +89,15 @@ namespace twbobibobi
 
                                 int adminID = 31;
 
+                                string msg = "感謝購買,已成功付款" + cost + "元,您的訂單編號 ";
+
                                 //更新普渡資料表並取得訂單編號
-                                objDatabaseHelper.UpdateLights_wjsan_Info(aid, type, Year, ref lightslist, ref Lightslist);
+                                objDatabaseHelper.UpdateLights_wjsan_Info(aid, type, Year, ref msg, ref lightslist, ref Lightslist);
                                 //取得申請人資料表
                                 //DataTable dtapplicantinfo = objDatabaseHelper.Getapplicantinfo_Lights_wjsan(aid, adminID, Year);
                                 ////更新購買表內購買人狀態為已付款(Status=2)
                                 //int cost = dtapplicantinfo.Rows.Count > 0 ? int.Parse(dtapplicantinfo.Rows[0]["Cost"].ToString()) : 0;
                                 objDatabaseHelper.Updateapplicantinfo_Lights_wjsan(aid, cost, 2, Year);
-
-                                string msg = "感謝購買,已成功付款" + cost + "元,您的訂單編號 ";
-
-                                for (int i = 0; i < lightslist.Length; i++)
-                                {
-                                    msg += lightslist[i];
-                                    if (i < lightslist.Length - 1)
-                                    {
-                                        msg += ",";
-                                    }
-                                }
-
-                                msg += "。客服電話：04-36092299。";
-
 
                                 //msg = "感謝大德參與線上點燈,茲收您1960元功德金,訂單編號 光明燈:T2204, 安太歲:25351, 文昌燈:六1214。";
                                 //mobile = "0903002568";
@@ -161,7 +149,7 @@ namespace twbobibobi
                             }
                             else
                             {
-                                Response.Write("<script>alert('付款失敗，錯誤代碼：" + result[0] + "。客服電話：04-23582760。');window.location.href='" + rebackURL + "'</script>");
+                                Response.Write("<script>alert('付款失敗，錯誤代碼：" + result[0] + "。客服電話：04-36092299。');window.location.href='" + rebackURL + "'</script>");
                             }
                         }
                     }
@@ -175,14 +163,14 @@ namespace twbobibobi
                     }
                     else
                     {
-                        Response.Write("<script>alert('此訂單已交易失敗，交易代碼：" + resp + "如有疑問。請洽客服電話：04-23582760。');" +
+                        Response.Write("<script>alert('此訂單已交易失敗，交易代碼：" + resp + "如有疑問。請洽客服電話：04-36092299。');" +
                             "window.location.href='https://bobibobi.tw/Temples/templeInfo.aspx?a=31'</script>");
                     }
                 }
                 else
                 {
                     //resp = "invalid_orderid";
-                    Response.Write("<script>alert('取得付款資料失敗，錯誤代碼：" + resp + "。客服電話：04-23582760。');" +
+                    Response.Write("<script>alert('取得付款資料失敗，錯誤代碼：" + resp + "。客服電話：04-36092299。');" +
                         "window.location.href='https://bobibobi.tw/Temples/templeInfo.aspx?a=31'</script>");
                 }
 

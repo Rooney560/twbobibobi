@@ -107,3 +107,303 @@ http://localhost:56371/Temples/templeService_lights_wjsan.aspx?twm=1
    於 System.Web.UI.Control.OnLoad(EventArgs e)
    於 System.Web.UI.Control.LoadRecursive()
    於 System.Web.UI.Page.ProcessRequestMain(Boolean includeStagesBeforeAsyncPoint, Boolean includeStagesAfterAsyncPoint)
+2024/11/6 上午 11:59:36
+http://localhost:56371/Temples/templeService_lights_da.aspx
+無效的物件名稱 'Temple_2025..view_Lights_da_infowithAPPCharge'。
+   於 System.Data.SqlClient.SqlConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+   於 System.Data.SqlClient.TdsParser.ThrowExceptionAndWarning(TdsParserStateObject stateObj, Boolean callerHasConnectionLock, Boolean asyncClose)
+   於 System.Data.SqlClient.TdsParser.TryRun(RunBehavior runBehavior, SqlCommand cmdHandler, SqlDataReader dataStream, BulkCopySimpleResultSet bulkCopyHandler, TdsParserStateObject stateObj, Boolean& dataReady)
+   於 System.Data.SqlClient.SqlDataReader.TryConsumeMetaData()
+   於 System.Data.SqlClient.SqlDataReader.get_MetaData()
+   於 System.Data.SqlClient.SqlCommand.FinishExecuteReader(SqlDataReader ds, RunBehavior runBehavior, String resetOptionsString, Boolean isInternal, Boolean forDescribeParameterEncryption, Boolean shouldCacheForAlwaysEncrypted)
+   於 System.Data.SqlClient.SqlCommand.RunExecuteReaderTds(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, Boolean async, Int32 timeout, Task& task, Boolean asyncWrite, Boolean inRetry, SqlDataReader ds, Boolean describeParameterEncryptionRequest)
+   於 System.Data.SqlClient.SqlCommand.RunExecuteReader(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, String method, TaskCompletionSource`1 completion, Int32 timeout, Task& task, Boolean& usedCache, Boolean asyncWrite, Boolean inRetry)
+   於 System.Data.SqlClient.SqlCommand.RunExecuteReader(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, String method)
+   於 System.Data.SqlClient.SqlCommand.ExecuteReader(CommandBehavior behavior, String method)
+   於 System.Data.Common.DbDataAdapter.FillInternal(DataSet dataset, DataTable[] datatables, Int32 startRecord, Int32 maxRecords, String srcTable, IDbCommand command, CommandBehavior behavior)
+   於 System.Data.Common.DbDataAdapter.Fill(DataTable[] dataTables, Int32 startRecord, Int32 maxRecords, IDbCommand command, CommandBehavior behavior)
+   於 System.Data.Common.DbDataAdapter.Fill(DataTable dataTable)
+   於 MotoSystem.Data.DatabaseAdapter.Fill(DataTable dataTable) 於 C:\Users\app\Desktop\ROONEY\Temple\twbobibobi\twbobibobi\Data\DatabaseAdapter.cs: 行 24
+   於 Temple.data.LightDAC.checkedLightsNum(String LightsType, String AdminID, Int32 Count, Int32 type, String Year) 於 C:\Users\app\Desktop\ROONEY\Temple\twbobibobi\twbobibobi\Data\LightDAC.cs: 行 13247
+   於 Temple.Temples.templeService_lights_da.Page_Load(Object sender, EventArgs e) 於 C:\Users\app\Desktop\ROONEY\Temple\twbobibobi\twbobibobi\Temples\templeService_lights_da.aspx.cs: 行 51
+   於 System.Web.UI.Control.OnLoad(EventArgs e)
+   於 System.Web.UI.Control.LoadRecursive()
+   於 System.Web.UI.Page.ProcessRequestMain(Boolean includeStagesBeforeAsyncPoint, Boolean includeStagesAfterAsyncPoint)
+2024-11-13 16:10:07
+http://localhost:56371/Temples/templeCheck.aspx?kind=1&a=15&aid=7
+資料行 'Email' 不屬於資料表 。
+   於 System.Data.DataRow.GetDataColumn(String columnName)
+   於 System.Data.DataRow.get_Item(String columnName)
+   於 Temple.Temples.templeCheck.GetPurchaserlist_Fw_Lights(Int32 AdminID, Int32 ApplicantID, String Year) 於 C:\YANG\Temple\twbobibobi\twbobibobi\Temples\templeCheck.aspx.cs: 行 6262
+   於 Temple.Temples.templeCheck.Page_Load(Object sender, EventArgs e) 於 C:\YANG\Temple\twbobibobi\twbobibobi\Temples\templeCheck.aspx.cs: 行 137
+   於 System.Web.UI.Control.OnLoad(EventArgs e)
+   於 System.Web.UI.Control.LoadRecursive()
+   於 System.Web.UI.Page.ProcessRequestMain(Boolean includeStagesBeforeAsyncPoint, Boolean includeStagesAfterAsyncPoint)
+2024-11-13 16:18:03
+http://localhost:56371/Temples/templeCheck.aspx?kind=1&a=15&aid=7
+資料行 'Email' 不屬於資料表 。
+   於 System.Data.DataRow.GetDataColumn(String columnName)
+   於 System.Data.DataRow.get_Item(String columnName)
+   於 Temple.Temples.templeCheck.GetPurchaserlist_Fw_Lights(Int32 AdminID, Int32 ApplicantID, String Year) 於 C:\YANG\Temple\twbobibobi\twbobibobi\Temples\templeCheck.aspx.cs: 行 6262
+   於 Temple.Temples.templeCheck.Page_Load(Object sender, EventArgs e) 於 C:\YANG\Temple\twbobibobi\twbobibobi\Temples\templeCheck.aspx.cs: 行 137
+   於 System.Web.UI.Control.OnLoad(EventArgs e)
+   於 System.Web.UI.Control.LoadRecursive()
+   於 System.Web.UI.Page.ProcessRequestMain(Boolean includeStagesBeforeAsyncPoint, Boolean includeStagesAfterAsyncPoint)
+2024-11-19 15:25:16
+http://localhost:56371/FET/API/AESOrder.aspx
+輸入不是有效的 Base-64 字串，因為它含有非 Base-64 字元、兩個以上填補字元，或在填補字元中有不合法的字元。 
+   於 System.Convert.FromBase64_Decode(Char* startInputPtr, Int32 inputLength, Byte* startDestPtr, Int32 destLength)
+   於 System.Convert.FromBase64CharPtr(Char* inputPtr, Int32 inputLength)
+   於 System.Convert.FromBase64String(String s)
+   於 Temple.data.AESHelper.AesDecrypt(String str, String key) 於 C:\YANG\Temple\twbobibobi\twbobibobi\Data\AESHelper.cs: 行 139
+   於 Temple.FET.API.AESOrder.Button1_Click(Object sender, EventArgs e) 於 C:\YANG\Temple\twbobibobi\twbobibobi\FET\API\AESOrder.aspx.cs: 行 43
+   於 System.Web.UI.WebControls.Button.OnClick(EventArgs e)
+   於 System.Web.UI.WebControls.Button.RaisePostBackEvent(String eventArgument)
+   於 System.Web.UI.Page.ProcessRequestMain(Boolean includeStagesBeforeAsyncPoint, Boolean includeStagesAfterAsyncPoint)
+2024-12-12 15:31:43
+http://localhost:56371/Temples/templeCheck.aspx?kind=1&a=3&aid=1
+資料行 'Email' 不屬於資料表 。
+   於 System.Data.DataRow.GetDataColumn(String columnName)
+   於 System.Data.DataRow.get_Item(String columnName)
+   於 Temple.Temples.templeCheck.GetPurchaserlist_da_Lights(Int32 AdminID, Int32 ApplicantID, String Year) 於 C:\YANG\Temple\twbobibobi\twbobibobi\Temples\templeCheck.aspx.cs: 行 4248
+   於 Temple.Temples.templeCheck.Page_Load(Object sender, EventArgs e) 於 C:\YANG\Temple\twbobibobi\twbobibobi\Temples\templeCheck.aspx.cs: 行 75
+   於 System.Web.UI.Control.OnLoad(EventArgs e)
+   於 System.Web.UI.Control.LoadRecursive()
+   於 System.Web.UI.Page.ProcessRequestMain(Boolean includeStagesBeforeAsyncPoint, Boolean includeStagesAfterAsyncPoint)
+2024-12-13 13:13:28
+http://localhost:56371/Temples/templeCheck.aspx?kind=1&a=21&aid=7
+資料行 'AppSendback' 不屬於資料表 。
+   於 System.Data.DataRow.GetDataColumn(String columnName)
+   於 System.Data.DataRow.get_Item(String columnName)
+   於 Temple.Temples.templeCheck.GetPurchaserlist_Lk_Lights(Int32 AdminID, Int32 ApplicantID, String Year) 於 C:\YANG\Temple\twbobibobi\twbobibobi\Temples\templeCheck.aspx.cs: 行 6959
+   於 Temple.Temples.templeCheck.Page_Load(Object sender, EventArgs e) 於 C:\YANG\Temple\twbobibobi\twbobibobi\Temples\templeCheck.aspx.cs: 行 178
+   於 System.Web.UI.Control.OnLoad(EventArgs e)
+   於 System.Web.UI.Control.LoadRecursive()
+   於 System.Web.UI.Page.ProcessRequestMain(Boolean includeStagesBeforeAsyncPoint, Boolean includeStagesAfterAsyncPoint)
+2024-12-24 11:20:52
+http://localhost:56371/Temples/templeCheck.aspx?kind=16&a=21&aid=4
+資料行 'AppSendback' 不屬於資料表 。
+   於 System.Data.DataRow.GetDataColumn(String columnName)
+   於 System.Data.DataRow.get_Item(String columnName)
+   於 Temple.Temples.templeCheck.GetPurchaserlist_Lk_Supplies(Int32 AdminID, Int32 ApplicantID, String Year) 於 C:\YANG\Temple\twbobibobi\twbobibobi\Temples\templeCheck.aspx.cs: 行 7227
+   於 Temple.Temples.templeCheck.Page_Load(Object sender, EventArgs e) 於 C:\YANG\Temple\twbobibobi\twbobibobi\Temples\templeCheck.aspx.cs: 行 566
+   於 System.Web.UI.Control.OnLoad(EventArgs e)
+   於 System.Web.UI.Control.LoadRecursive()
+   於 System.Web.UI.Page.ProcessRequestMain(Boolean includeStagesBeforeAsyncPoint, Boolean includeStagesAfterAsyncPoint)
+2024-12-25 17:08:41
+http://localhost:56371/index.aspx
+無效的物件名稱 'SysSetting'。
+   於 System.Data.SqlClient.SqlConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+   於 System.Data.SqlClient.TdsParser.ThrowExceptionAndWarning(TdsParserStateObject stateObj, Boolean callerHasConnectionLock, Boolean asyncClose)
+   於 System.Data.SqlClient.TdsParser.TryRun(RunBehavior runBehavior, SqlCommand cmdHandler, SqlDataReader dataStream, BulkCopySimpleResultSet bulkCopyHandler, TdsParserStateObject stateObj, Boolean& dataReady)
+   於 System.Data.SqlClient.SqlDataReader.TryConsumeMetaData()
+   於 System.Data.SqlClient.SqlDataReader.get_MetaData()
+   於 System.Data.SqlClient.SqlCommand.FinishExecuteReader(SqlDataReader ds, RunBehavior runBehavior, String resetOptionsString, Boolean isInternal, Boolean forDescribeParameterEncryption, Boolean shouldCacheForAlwaysEncrypted)
+   於 System.Data.SqlClient.SqlCommand.RunExecuteReaderTds(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, Boolean async, Int32 timeout, Task& task, Boolean asyncWrite, Boolean inRetry, SqlDataReader ds, Boolean describeParameterEncryptionRequest)
+   於 System.Data.SqlClient.SqlCommand.RunExecuteReader(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, String method, TaskCompletionSource`1 completion, Int32 timeout, Task& task, Boolean& usedCache, Boolean asyncWrite, Boolean inRetry)
+   於 System.Data.SqlClient.SqlCommand.RunExecuteReader(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, String method)
+   於 System.Data.SqlClient.SqlCommand.ExecuteReader(CommandBehavior behavior, String method)
+   於 System.Data.SqlClient.SqlCommand.ExecuteReader()
+   於 twbobibobi.Data.SysSettingDAC.SelectByPK(String item) 於 C:\YANG\Temple\twbobibobi\twbobibobi\Data\SysSettingDAC.cs: 行 62
+   於 twbobibobi.Data.CacheSysSetting.GetCacheMinutes() 於 C:\YANG\Temple\twbobibobi\twbobibobi\Data\CacheSysSetting.cs: 行 30
+   於 twbobibobi.Data.CacheSeoTag.GetList(String page) 於 C:\YANG\Temple\twbobibobi\twbobibobi\Data\CacheSeoTag.cs: 行 14
+   於 twbobibobi.index.Page_Load(Object sender, EventArgs e) 於 C:\YANG\Temple\twbobibobi\twbobibobi\index.aspx.cs: 行 39
+   於 System.Web.UI.Control.OnLoad(EventArgs e)
+   於 System.Web.UI.Control.LoadRecursive()
+   於 System.Web.UI.Page.ProcessRequestMain(Boolean includeStagesBeforeAsyncPoint, Boolean includeStagesAfterAsyncPoint)
+2024-12-27 11:37:06
+http://localhost:56371/index.aspx
+無效的物件名稱 'SysSetting'。
+   於 System.Data.SqlClient.SqlConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+   於 System.Data.SqlClient.TdsParser.ThrowExceptionAndWarning(TdsParserStateObject stateObj, Boolean callerHasConnectionLock, Boolean asyncClose)
+   於 System.Data.SqlClient.TdsParser.TryRun(RunBehavior runBehavior, SqlCommand cmdHandler, SqlDataReader dataStream, BulkCopySimpleResultSet bulkCopyHandler, TdsParserStateObject stateObj, Boolean& dataReady)
+   於 System.Data.SqlClient.SqlDataReader.TryConsumeMetaData()
+   於 System.Data.SqlClient.SqlDataReader.get_MetaData()
+   於 System.Data.SqlClient.SqlCommand.FinishExecuteReader(SqlDataReader ds, RunBehavior runBehavior, String resetOptionsString, Boolean isInternal, Boolean forDescribeParameterEncryption, Boolean shouldCacheForAlwaysEncrypted)
+   於 System.Data.SqlClient.SqlCommand.RunExecuteReaderTds(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, Boolean async, Int32 timeout, Task& task, Boolean asyncWrite, Boolean inRetry, SqlDataReader ds, Boolean describeParameterEncryptionRequest)
+   於 System.Data.SqlClient.SqlCommand.RunExecuteReader(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, String method, TaskCompletionSource`1 completion, Int32 timeout, Task& task, Boolean& usedCache, Boolean asyncWrite, Boolean inRetry)
+   於 System.Data.SqlClient.SqlCommand.RunExecuteReader(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, String method)
+   於 System.Data.SqlClient.SqlCommand.ExecuteReader(CommandBehavior behavior, String method)
+   於 System.Data.SqlClient.SqlCommand.ExecuteReader()
+   於 twbobibobi.Data.SysSettingDAC.SelectByPK(String item) 於 C:\YANG\Temple\twbobibobi\twbobibobi\Data\SysSettingDAC.cs: 行 62
+   於 twbobibobi.Data.CacheSysSetting.GetCacheMinutes() 於 C:\YANG\Temple\twbobibobi\twbobibobi\Data\CacheSysSetting.cs: 行 30
+   於 twbobibobi.Data.CacheSeoTag.GetList(String page) 於 C:\YANG\Temple\twbobibobi\twbobibobi\Data\CacheSeoTag.cs: 行 14
+   於 twbobibobi.index.Page_Load(Object sender, EventArgs e) 於 C:\YANG\Temple\twbobibobi\twbobibobi\index.aspx.cs: 行 39
+   於 System.Web.UI.Control.OnLoad(EventArgs e)
+   於 System.Web.UI.Control.LoadRecursive()
+   於 System.Web.UI.Page.ProcessRequestMain(Boolean includeStagesBeforeAsyncPoint, Boolean includeStagesAfterAsyncPoint)
+2024-12-27 17:46:01
+http://localhost:56371/index.aspx
+無效的物件名稱 'SysSetting'。
+   於 System.Data.SqlClient.SqlConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+   於 System.Data.SqlClient.TdsParser.ThrowExceptionAndWarning(TdsParserStateObject stateObj, Boolean callerHasConnectionLock, Boolean asyncClose)
+   於 System.Data.SqlClient.TdsParser.TryRun(RunBehavior runBehavior, SqlCommand cmdHandler, SqlDataReader dataStream, BulkCopySimpleResultSet bulkCopyHandler, TdsParserStateObject stateObj, Boolean& dataReady)
+   於 System.Data.SqlClient.SqlDataReader.TryConsumeMetaData()
+   於 System.Data.SqlClient.SqlDataReader.get_MetaData()
+   於 System.Data.SqlClient.SqlCommand.FinishExecuteReader(SqlDataReader ds, RunBehavior runBehavior, String resetOptionsString, Boolean isInternal, Boolean forDescribeParameterEncryption, Boolean shouldCacheForAlwaysEncrypted)
+   於 System.Data.SqlClient.SqlCommand.RunExecuteReaderTds(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, Boolean async, Int32 timeout, Task& task, Boolean asyncWrite, Boolean inRetry, SqlDataReader ds, Boolean describeParameterEncryptionRequest)
+   於 System.Data.SqlClient.SqlCommand.RunExecuteReader(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, String method, TaskCompletionSource`1 completion, Int32 timeout, Task& task, Boolean& usedCache, Boolean asyncWrite, Boolean inRetry)
+   於 System.Data.SqlClient.SqlCommand.RunExecuteReader(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, String method)
+   於 System.Data.SqlClient.SqlCommand.ExecuteReader(CommandBehavior behavior, String method)
+   於 System.Data.SqlClient.SqlCommand.ExecuteReader()
+   於 twbobibobi.Data.SysSettingDAC.SelectByPK(String item) 於 C:\YANG\Temple\twbobibobi\twbobibobi\Data\SysSettingDAC.cs: 行 62
+   於 twbobibobi.Data.CacheSysSetting.GetCacheMinutes() 於 C:\YANG\Temple\twbobibobi\twbobibobi\Data\CacheSysSetting.cs: 行 30
+   於 twbobibobi.Data.CacheSeoTag.GetList(String page) 於 C:\YANG\Temple\twbobibobi\twbobibobi\Data\CacheSeoTag.cs: 行 14
+   於 twbobibobi.index.Page_Load(Object sender, EventArgs e) 於 C:\YANG\Temple\twbobibobi\twbobibobi\index.aspx.cs: 行 39
+   於 System.Web.UI.Control.OnLoad(EventArgs e)
+   於 System.Web.UI.Control.LoadRecursive()
+   於 System.Web.UI.Page.ProcessRequestMain(Boolean includeStagesBeforeAsyncPoint, Boolean includeStagesAfterAsyncPoint)
+2025-01-07 14:55:03
+http://localhost:56371/FET/API/AESOrder.aspx
+輸入不是有效的 Base-64 字串，因為它含有非 Base-64 字元、兩個以上填補字元，或在填補字元中有不合法的字元。 
+   於 System.Convert.FromBase64_Decode(Char* startInputPtr, Int32 inputLength, Byte* startDestPtr, Int32 destLength)
+   於 System.Convert.FromBase64CharPtr(Char* inputPtr, Int32 inputLength)
+   於 System.Convert.FromBase64String(String s)
+   於 Temple.data.AESHelper.AesDecrypt(String str, String key) 於 C:\YANG\Temple\twbobibobi\twbobibobi\Data\AESHelper.cs: 行 139
+   於 Temple.FET.API.AESOrder.Button1_Click(Object sender, EventArgs e) 於 C:\YANG\Temple\twbobibobi\twbobibobi\FET\API\AESOrder.aspx.cs: 行 43
+   於 System.Web.UI.WebControls.Button.OnClick(EventArgs e)
+   於 System.Web.UI.WebControls.Button.RaisePostBackEvent(String eventArgument)
+   於 System.Web.UI.Page.ProcessRequestMain(Boolean includeStagesBeforeAsyncPoint, Boolean includeStagesAfterAsyncPoint)
+2025-01-15 20:01:40
+http://localhost:56371/FET/API/AESOrder.aspx
+Base-64 字元陣列或字串的無效長度。
+   於 System.Convert.FromBase64_Decode(Char* startInputPtr, Int32 inputLength, Byte* startDestPtr, Int32 destLength)
+   於 System.Convert.FromBase64CharPtr(Char* inputPtr, Int32 inputLength)
+   於 System.Convert.FromBase64String(String s)
+   於 Temple.data.AESHelper.AesDecrypt(String str, String key) 於 C:\YANG\Temple\twbobibobi\twbobibobi\Data\AESHelper.cs: 行 139
+   於 Temple.FET.API.AESOrder.Button2_Click(Object sender, EventArgs e) 於 C:\YANG\Temple\twbobibobi\twbobibobi\FET\API\AESOrder.aspx.cs: 行 58
+   於 System.Web.UI.WebControls.Button.OnClick(EventArgs e)
+   於 System.Web.UI.WebControls.Button.RaisePostBackEvent(String eventArgument)
+   於 System.Web.UI.Page.ProcessRequestMain(Boolean includeStagesBeforeAsyncPoint, Boolean includeStagesAfterAsyncPoint)
+2025-01-17 10:46:24
+http://localhost:56371/FET/API/CreateOrder.aspx
+填補無效，而且無法移除。
+   於 System.Security.Cryptography.RijndaelManagedTransform.DecryptData(Byte[] inputBuffer, Int32 inputOffset, Int32 inputCount, Byte[]& outputBuffer, Int32 outputOffset, PaddingMode paddingMode, Boolean fLast)
+   於 System.Security.Cryptography.RijndaelManagedTransform.TransformFinalBlock(Byte[] inputBuffer, Int32 inputOffset, Int32 inputCount)
+   於 Temple.data.AESHelper.AesDecrypt(String str, String key) 於 C:\YANG\Temple\twbobibobi\twbobibobi\Data\AESHelper.cs: 行 161
+   於 Temple.FET.APITEST.CreateOrder.Page_Load(Object sender, EventArgs e) 於 C:\YANG\Temple\twbobibobi\twbobibobi\FET\API\CreateOrder.aspx.cs: 行 6113
+   於 System.Web.UI.Control.OnLoad(EventArgs e)
+   於 System.Web.UI.Control.LoadRecursive()
+   於 System.Web.UI.Page.ProcessRequestMain(Boolean includeStagesBeforeAsyncPoint, Boolean includeStagesAfterAsyncPoint)
+2025-01-23 10:13:55
+http://localhost:56371/FET/API/AESOrder.aspx
+輸入不是有效的 Base-64 字串，因為它含有非 Base-64 字元、兩個以上填補字元，或在填補字元中有不合法的字元。 
+   於 System.Convert.FromBase64_ComputeResultLength(Char* inputPtr, Int32 inputLength)
+   於 System.Convert.FromBase64CharPtr(Char* inputPtr, Int32 inputLength)
+   於 System.Convert.FromBase64String(String s)
+   於 Temple.data.AESHelper.AesDecrypt(String str, String key) 於 C:\YANG\Temple\twbobibobi\twbobibobi\Data\AESHelper.cs: 行 139
+   於 Temple.FET.API.AESOrder.Button2_Click(Object sender, EventArgs e) 於 C:\YANG\Temple\twbobibobi\twbobibobi\FET\API\AESOrder.aspx.cs: 行 58
+   於 System.Web.UI.WebControls.Button.OnClick(EventArgs e)
+   於 System.Web.UI.WebControls.Button.RaisePostBackEvent(String eventArgument)
+   於 System.Web.UI.Page.ProcessRequestMain(Boolean includeStagesBeforeAsyncPoint, Boolean includeStagesAfterAsyncPoint)
+2025-01-23 10:14:11
+http://localhost:56371/FET/API/AESOrder.aspx
+輸入不是有效的 Base-64 字串，因為它含有非 Base-64 字元、兩個以上填補字元，或在填補字元中有不合法的字元。 
+   於 System.Convert.FromBase64_ComputeResultLength(Char* inputPtr, Int32 inputLength)
+   於 System.Convert.FromBase64CharPtr(Char* inputPtr, Int32 inputLength)
+   於 System.Convert.FromBase64String(String s)
+   於 Temple.data.AESHelper.AesDecrypt(String str, String key) 於 C:\YANG\Temple\twbobibobi\twbobibobi\Data\AESHelper.cs: 行 139
+   於 Temple.FET.API.AESOrder.Button2_Click(Object sender, EventArgs e) 於 C:\YANG\Temple\twbobibobi\twbobibobi\FET\API\AESOrder.aspx.cs: 行 58
+   於 System.Web.UI.WebControls.Button.OnClick(EventArgs e)
+   於 System.Web.UI.WebControls.Button.RaisePostBackEvent(String eventArgument)
+   於 System.Web.UI.Page.ProcessRequestMain(Boolean includeStagesBeforeAsyncPoint, Boolean includeStagesAfterAsyncPoint)
+2025-02-03 15:50:15
+http://localhost:56371/FET/API/AESOrder.aspx
+填補無效，而且無法移除。
+   於 System.Security.Cryptography.RijndaelManagedTransform.DecryptData(Byte[] inputBuffer, Int32 inputOffset, Int32 inputCount, Byte[]& outputBuffer, Int32 outputOffset, PaddingMode paddingMode, Boolean fLast)
+   於 System.Security.Cryptography.RijndaelManagedTransform.TransformFinalBlock(Byte[] inputBuffer, Int32 inputOffset, Int32 inputCount)
+   於 Temple.data.AESHelper.AesDecrypt(String str, String key) 於 C:\YANG\Temple\twbobibobi\twbobibobi\Data\AESHelper.cs: 行 161
+   於 Temple.FET.API.AESOrder.Button2_Click(Object sender, EventArgs e) 於 C:\YANG\Temple\twbobibobi\twbobibobi\FET\API\AESOrder.aspx.cs: 行 58
+   於 System.Web.UI.WebControls.Button.OnClick(EventArgs e)
+   於 System.Web.UI.WebControls.Button.RaisePostBackEvent(String eventArgument)
+   於 System.Web.UI.Page.ProcessRequestMain(Boolean includeStagesBeforeAsyncPoint, Boolean includeStagesAfterAsyncPoint)
+2025-02-10 11:08:59
+http://localhost:56371/FET/API/AESOrder.aspx
+Base-64 字元陣列或字串的無效長度。
+   於 System.Convert.FromBase64_Decode(Char* startInputPtr, Int32 inputLength, Byte* startDestPtr, Int32 destLength)
+   於 System.Convert.FromBase64CharPtr(Char* inputPtr, Int32 inputLength)
+   於 System.Convert.FromBase64String(String s)
+   於 Temple.data.AESHelper.AesDecrypt(String str, String key) 於 C:\YANG\Temple\twbobibobi\twbobibobi\Data\AESHelper.cs: 行 139
+   於 Temple.FET.API.AESOrder.Button2_Click(Object sender, EventArgs e) 於 C:\YANG\Temple\twbobibobi\twbobibobi\FET\API\AESOrder.aspx.cs: 行 58
+   於 System.Web.UI.WebControls.Button.OnClick(EventArgs e)
+   於 System.Web.UI.WebControls.Button.RaisePostBackEvent(String eventArgument)
+   於 System.Web.UI.Page.ProcessRequestMain(Boolean includeStagesBeforeAsyncPoint, Boolean includeStagesAfterAsyncPoint)
+2025-02-10 11:44:23
+http://localhost:56371/FET/API/CreateOrder.aspx
+並未將物件參考設定為物件的執行個體。
+   於 Temple.FET.APITEST.CreateOrder.Page_Load(Object sender, EventArgs e) 於 C:\YANG\Temple\twbobibobi\twbobibobi\FET\API\CreateOrder.aspx.cs: 行 6249
+   於 System.Web.UI.Control.OnLoad(EventArgs e)
+   於 System.Web.UI.Control.LoadRecursive()
+   於 System.Web.UI.Page.ProcessRequestMain(Boolean includeStagesBeforeAsyncPoint, Boolean includeStagesAfterAsyncPoint)
+2025-02-10 11:44:46
+http://localhost:56371/FET/API/CreateOrder.aspx
+並未將物件參考設定為物件的執行個體。
+   於 Temple.FET.APITEST.CreateOrder.Page_Load(Object sender, EventArgs e) 於 C:\YANG\Temple\twbobibobi\twbobibobi\FET\API\CreateOrder.aspx.cs: 行 6249
+   於 System.Web.UI.Control.OnLoad(EventArgs e)
+   於 System.Web.UI.Control.LoadRecursive()
+   於 System.Web.UI.Page.ProcessRequestMain(Boolean includeStagesBeforeAsyncPoint, Boolean includeStagesAfterAsyncPoint)
+2025-02-10 12:16:17
+http://localhost:56371/FET/API/AESOrder.aspx
+輸入不是有效的 Base-64 字串，因為它含有非 Base-64 字元、兩個以上填補字元，或在填補字元中有不合法的字元。 
+   於 System.Convert.FromBase64_Decode(Char* startInputPtr, Int32 inputLength, Byte* startDestPtr, Int32 destLength)
+   於 System.Convert.FromBase64CharPtr(Char* inputPtr, Int32 inputLength)
+   於 System.Convert.FromBase64String(String s)
+   於 Temple.data.AESHelper.AesDecrypt(String str, String key) 於 C:\YANG\Temple\twbobibobi\twbobibobi\Data\AESHelper.cs: 行 139
+   於 Temple.FET.API.AESOrder.Button2_Click(Object sender, EventArgs e) 於 C:\YANG\Temple\twbobibobi\twbobibobi\FET\API\AESOrder.aspx.cs: 行 58
+   於 System.Web.UI.WebControls.Button.OnClick(EventArgs e)
+   於 System.Web.UI.WebControls.Button.RaisePostBackEvent(String eventArgument)
+   於 System.Web.UI.Page.ProcessRequestMain(Boolean includeStagesBeforeAsyncPoint, Boolean includeStagesAfterAsyncPoint)
+2025-02-10 15:45:08
+http://localhost:56371/FET/API/CreateOrder.aspx
+值不能為 null。
+參數名稱: value
+   於 Newtonsoft.Json.JsonConvert.DeserializeObject(String value, Type type, JsonSerializerSettings settings)
+   於 Newtonsoft.Json.JsonConvert.DeserializeObject[T](String value, JsonSerializerSettings settings)
+   於 Temple.FET.APITEST.CreateOrder.Page_Load(Object sender, EventArgs e) 於 C:\YANG\Temple\twbobibobi\twbobibobi\FET\API\CreateOrder.aspx.cs: 行 6108
+   於 System.Web.UI.Control.OnLoad(EventArgs e)
+   於 System.Web.UI.Control.LoadRecursive()
+   於 System.Web.UI.Page.ProcessRequestMain(Boolean includeStagesBeforeAsyncPoint, Boolean includeStagesAfterAsyncPoint)
+2025-02-10 15:45:35
+http://localhost:56371/FET/API/CreateOrder.aspx
+值不能為 null。
+參數名稱: value
+   於 Newtonsoft.Json.JsonConvert.DeserializeObject(String value, Type type, JsonSerializerSettings settings)
+   於 Newtonsoft.Json.JsonConvert.DeserializeObject[T](String value, JsonSerializerSettings settings)
+   於 Temple.FET.APITEST.CreateOrder.Page_Load(Object sender, EventArgs e) 於 C:\YANG\Temple\twbobibobi\twbobibobi\FET\API\CreateOrder.aspx.cs: 行 6108
+   於 System.Web.UI.Control.OnLoad(EventArgs e)
+   於 System.Web.UI.Control.LoadRecursive()
+   於 System.Web.UI.Page.ProcessRequestMain(Boolean includeStagesBeforeAsyncPoint, Boolean includeStagesAfterAsyncPoint)
+2025-02-10 15:47:22
+http://localhost:56371/FET/API/CreateOrder.aspx
+值不能為 null。
+參數名稱: value
+   於 Newtonsoft.Json.JsonConvert.DeserializeObject(String value, Type type, JsonSerializerSettings settings)
+   於 Newtonsoft.Json.JsonConvert.DeserializeObject[T](String value, JsonSerializerSettings settings)
+   於 Temple.FET.APITEST.CreateOrder.Page_Load(Object sender, EventArgs e) 於 C:\YANG\Temple\twbobibobi\twbobibobi\FET\API\CreateOrder.aspx.cs: 行 6108
+   於 System.Web.UI.Control.OnLoad(EventArgs e)
+   於 System.Web.UI.Control.LoadRecursive()
+   於 System.Web.UI.Page.ProcessRequestMain(Boolean includeStagesBeforeAsyncPoint, Boolean includeStagesAfterAsyncPoint)
+2025-02-10 15:58:57
+http://localhost:56371/FET/API/CreateOrder.aspx
+填補無效，而且無法移除。
+   於 System.Security.Cryptography.RijndaelManagedTransform.DecryptData(Byte[] inputBuffer, Int32 inputOffset, Int32 inputCount, Byte[]& outputBuffer, Int32 outputOffset, PaddingMode paddingMode, Boolean fLast)
+   於 System.Security.Cryptography.RijndaelManagedTransform.TransformFinalBlock(Byte[] inputBuffer, Int32 inputOffset, Int32 inputCount)
+   於 Temple.data.AESHelper.AesDecrypt(String str, String key) 於 C:\YANG\Temple\twbobibobi\twbobibobi\Data\AESHelper.cs: 行 161
+   於 Temple.FET.APITEST.CreateOrder.Page_Load(Object sender, EventArgs e) 於 C:\YANG\Temple\twbobibobi\twbobibobi\FET\API\CreateOrder.aspx.cs: 行 6107
+   於 System.Web.UI.Control.OnLoad(EventArgs e)
+   於 System.Web.UI.Control.LoadRecursive()
+   於 System.Web.UI.Page.ProcessRequestMain(Boolean includeStagesBeforeAsyncPoint, Boolean includeStagesAfterAsyncPoint)
+2025-02-10 15:59:16
+http://localhost:56371/FET/API/CreateOrder.aspx
+並未將物件參考設定為物件的執行個體。
+   於 Temple.FET.APITEST.CreateOrder.Page_Load(Object sender, EventArgs e) 於 C:\YANG\Temple\twbobibobi\twbobibobi\FET\API\CreateOrder.aspx.cs: 行 6157
+   於 System.Web.UI.Control.OnLoad(EventArgs e)
+   於 System.Web.UI.Control.LoadRecursive()
+   於 System.Web.UI.Page.ProcessRequestMain(Boolean includeStagesBeforeAsyncPoint, Boolean includeStagesAfterAsyncPoint)
+2025-02-10 16:17:21
+http://localhost:56371/FET/API/CreateOrder.aspx
+並未將物件參考設定為物件的執行個體。
+   於 Temple.FET.APITEST.CreateOrder.Page_Load(Object sender, EventArgs e) 於 C:\YANG\Temple\twbobibobi\twbobibobi\FET\API\CreateOrder.aspx.cs: 行 6157
+   於 System.Web.UI.Control.OnLoad(EventArgs e)
+   於 System.Web.UI.Control.LoadRecursive()
+   於 System.Web.UI.Page.ProcessRequestMain(Boolean includeStagesBeforeAsyncPoint, Boolean includeStagesAfterAsyncPoint)

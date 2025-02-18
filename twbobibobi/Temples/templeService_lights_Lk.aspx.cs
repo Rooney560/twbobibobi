@@ -61,6 +61,14 @@ namespace Temple.Temples
                 string AppName = basePage.Request["Appname"];                                       //購買人姓名
                 string AppMobile = basePage.Request["Appmobile"];                                   //購買人電話
 
+                string AppSendback = basePage.Request["sendback_Tag"];                              //寄送方式 N-不寄回(會轉送給弱勢團體) Y-寄回(加收運費120元)
+                string Apprname = basePage.Request["rname_Tag"];                                    //收件人姓名
+                string Apprmobile = basePage.Request["rmobile_Tag"];                                //收件人電話
+                string ApprzipCode = basePage.Request["rzipCode_Tag"];                              //收件人郵政區號
+                string Apprcounty = basePage.Request["rcounty_Tag"];                                //收件人縣市
+                string Apprdist = basePage.Request["rdist_Tag"];                                    //收件人區域
+                string Appraddr = basePage.Request["raddr_Tag"];                                    //收件人部分地址
+
                 string name_Tag = basePage.Request["name_Tag"];                                     //祈福人姓名
                 string mobile_Tag = basePage.Request["mobile_Tag"];                                 //祈福人電話
                 string sex_Tag = basePage.Request["sex_Tag"];                                       //祈福人性別
@@ -70,19 +78,21 @@ namespace Temple.Temples
                 string sbirth_Tag = basePage.Request["sbirth_Tag"];                                 //祈福人國曆生日
                 string email_Tag = basePage.Request["email_Tag"];                                   //祈福人信箱
                 string homenum_Tag = basePage.Request["homenum_Tag"];                               //祈福人市話
+                string oversea_Tag = basePage.Request["oversea_Tag"];                               //國內-1 國外-2
                 string zipCode_Tag = basePage.Request["zipCode_Tag"];                               //祈福人郵遞區號
                 string county_Tag = basePage.Request["county_Tag"];                                 //祈福人縣市
                 string dist_Tag = basePage.Request["dist_Tag"];                                     //祈福人區域
                 string addr_Tag = basePage.Request["addr_Tag"];                                     //祈福人部分地址
                 string LightsString_Tag = basePage.Request["LightsString_Tag"];                     //服務項目
 
-                string sendback_Tag = basePage.Request["sendback_Tag"];                             //寄送方式 N-不寄回(會轉送給弱勢團體) Y-寄回(加收運費120元)
-                string rname_Tag = basePage.Request["rname_Tag"];                                   //收件人姓名
-                string rmobile_Tag = basePage.Request["rmobile_Tag"];                               //收件人電話
-                string rzipCode_Tag = basePage.Request["rzipCode_Tag"];                             //收件人郵政區號
-                string rcounty_Tag = basePage.Request["rcounty_Tag"];                               //收件人縣市
-                string rdist_Tag = basePage.Request["rdist_Tag"];                                   //收件人區域
-                string raddr_Tag = basePage.Request["raddr_Tag"];                                   //收件人部分地址
+                //string sendback_Tag = basePage.Request["sendback_Tag"];                             //寄送方式 N-不寄回(會轉送給弱勢團體) Y-寄回(加收運費120元)
+                //string rname_Tag = basePage.Request["rname_Tag"];                                   //收件人姓名
+                //string rmobile_Tag = basePage.Request["rmobile_Tag"];                               //收件人電話
+                //string rzipCode_Tag = basePage.Request["rzipCode_Tag"];                             //收件人郵政區號
+                //string rcounty_Tag = basePage.Request["rcounty_Tag"];                               //收件人縣市
+                //string rdist_Tag = basePage.Request["rdist_Tag"];                                   //收件人區域
+                //string raddr_Tag = basePage.Request["raddr_Tag"];                                   //收件人部分地址
+
 
                 int listcount = int.Parse(basePage.Request["listcount"]);                           //祈福人數量
 
@@ -99,6 +109,7 @@ namespace Temple.Temples
                 JArray Jbirthtime = JArray.Parse(birthtime_Tag);
                 JArray Jsbirth = JArray.Parse(sbirth_Tag);
                 JArray Jemail = JArray.Parse(email_Tag);
+                JArray Joversea = JArray.Parse(oversea_Tag);
                 JArray JzipCode = JArray.Parse(zipCode_Tag);
                 JArray Jcounty = JArray.Parse(county_Tag);
                 JArray Jdist = JArray.Parse(dist_Tag);
@@ -108,21 +119,20 @@ namespace Temple.Temples
                 JArray Jhomenum = new JArray();
                 nullChecked(homenum_Tag, ref Jhomenum);
 
-                JArray Jsendback = new JArray();
-                JArray Jrname = new JArray();
-                JArray Jrmobile = new JArray();
-                JArray JrzipCode = new JArray();
-                JArray Jrcounty = new JArray();
-                JArray Jrdist = new JArray();
-                JArray Jraddr = new JArray();
+                //JArray Jsendback = JArray.();
+                //JArray Jrname = new JArray();
+                //JArray Jrmobile = new JArray();
+                //JArray JrzipCode = new JArray();
+                //JArray Jrcounty = new JArray();
+                //JArray Jrdist = new JArray();
+                //JArray Jraddr = new JArray();
 
-                nullChecked(sendback_Tag, ref Jsendback);
-                nullChecked(rname_Tag, ref Jrname);
-                nullChecked(rmobile_Tag, ref Jrmobile);
-                nullChecked(rzipCode_Tag, ref JrzipCode);
-                nullChecked(rcounty_Tag, ref Jrcounty);
-                nullChecked(rdist_Tag, ref Jrdist);
-                nullChecked(raddr_Tag, ref Jraddr);
+                //nullChecked(rname_Tag, ref Jrname);
+                //nullChecked(rmobile_Tag, ref Jrmobile);
+                //nullChecked(rzipCode_Tag, ref JrzipCode);
+                //nullChecked(rcounty_Tag, ref Jrcounty);
+                //nullChecked(rdist_Tag, ref Jrdist);
+                //nullChecked(raddr_Tag, ref Jraddr);
 
                 string postURL = "Lights_Lk_Index";
 
@@ -134,11 +144,15 @@ namespace Temple.Temples
 
                 postURL += basePage.Request["fb"] != null ? "_FB" : "";
 
+                postURL += basePage.Request["fbLk"] != null ? "_FBLK" : "";
+
                 postURL += basePage.Request["ig"] != null ? "_IG" : "";
 
                 postURL += basePage.Request["fetsms"] != null ? "_fetSMS" : "";
 
                 postURL += basePage.Request["jkos"] != null ? "_JKOS" : "";
+
+                postURL += basePage.Request["pxpayplues"] != null ? "_PXPAY" : "";
 
                 postURL += basePage.Request["gads"] != null ? "_GADS" : "";
 
@@ -146,7 +160,8 @@ namespace Temple.Temples
 
                 postURL += basePage.Request["elv"] != null ? "_ELV" : "";
 
-                ApplicantID = objLightDAC.addapplicantinfo_lights_Lk(AppName, AppMobile, "0", "", "", "", "0", "N", "", "", 0, AdminID, postURL, Year);
+                ApplicantID = objLightDAC.addapplicantinfo_lights_Lk(AppName, AppMobile, "0", Apprcounty, Apprdist, Appraddr, ApprzipCode, AppSendback, Apprname, Apprmobile
+                    , 0, AdminID, postURL, Year);
                 bool lightsinfo = false;
 
                 if (ApplicantID > 0)
@@ -171,13 +186,22 @@ namespace Temple.Temples
                         string county = Jcounty[i].ToString();
                         string dist = Jdist[i].ToString();
                         string zipCode = JzipCode[i].ToString();
-                        string sendback = Jsendback[i].ToString();
-                        string rname = Jrname.Count > 0 ? Jrname[i].ToString() : "";
-                        string rmobile = Jrmobile.Count > 0 ? Jrmobile[i].ToString() : "";
-                        string raddr = Jraddr.Count > 0 ? Jraddr[i].ToString() : "";
-                        string rcounty = Jrcounty.Count > 0 ? Jrcounty[i].ToString() : "";
-                        string rdist = Jrdist.Count > 0 ? Jrdist[i].ToString() : "";
-                        string rzipCode = JrzipCode.Count > 0 ? JrzipCode[i].ToString() : "0";
+                        string oversea = Joversea[i].ToString();
+                        //string oversea = "1";
+                        //string sendback = Jsendback[i].ToString();
+                        //string rname = Jrname.Count > 0 ? Jrname[i].ToString() : "";
+                        //string rmobile = Jrmobile.Count > 0 ? Jrmobile[i].ToString() : "";
+                        //string raddr = Jraddr.Count > 0 ? Jraddr[i].ToString() : "";
+                        //string rcounty = Jrcounty.Count > 0 ? Jrcounty[i].ToString() : "";
+                        //string rdist = Jrdist.Count > 0 ? Jrdist[i].ToString() : "";
+                        //string rzipCode = JrzipCode.Count > 0 ? JrzipCode[i].ToString() : "0";
+                        string sendback = "N";
+                        string rname = "";
+                        string rmobile = "";
+                        string raddr = "";
+                        string rcounty = "";
+                        string rdist = "";
+                        string rzipCode = "0";
                         string birthMonth = "0";
                         string age = "0";
                         string Zodiac = string.Empty;
@@ -283,7 +307,7 @@ namespace Temple.Temples
                         {
                             lightsinfo = true;
                             LightsID = objLightDAC.addLights_Lk(ApplicantID, name, mobile, sex, lightsType, lightsString,
-                                "1", Birth, leapMonth, birthTime, birthMonth, age, Zodiac, sBirth, email, homenum, 1, addr, county, dist, zipCode, sendback, rname, rmobile, 
+                                oversea, Birth, leapMonth, birthTime, birthMonth, age, Zodiac, sBirth, email, homenum, 1, addr, county, dist, zipCode, sendback, rname, rmobile, 
                                 rcounty + rdist + raddr, raddr, rcounty, rdist, rzipCode ,Year);
                         }
 
@@ -296,6 +320,7 @@ namespace Temple.Temples
                     basePage.mJSonHelper.AddContent("redirect", "templeCheck.aspx?kind=1&a=" + AdminID + "&aid=" + ApplicantID +
                         (basePage.Request["ad"] != null ? "&ad=" + basePage.Request["ad"] : "") +
                         (basePage.Request["jkos"] != null ? "&jkos=1" : "") +
+                            (basePage.Request["pxpayplues"] != null ? "&pxpayplues=1" : "") +
                         (basePage.Request["twm"] != null ? "&twm=1" : ""));
 
                     basePage.Session["ApplicantID"] = ApplicantID;

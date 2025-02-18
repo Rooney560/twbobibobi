@@ -18,7 +18,7 @@ namespace twbobibobi.Temples
     {
         public int aid = 0;
         public int a = 0;
-        public string EndDate = "2024/12/26 23:59";
+        public string EndDate = "2024/12/01 23:59";
         protected static string Year = "2024";
 
         protected override void InitAjaxHandler()
@@ -54,6 +54,15 @@ namespace twbobibobi.Temples
                 {
                     this.taoistJiaoCeremony2.Visible = true;
                     this.taoistJiaoCeremony3.Visible = true;
+                }
+
+                endTime = new DateTime(2024, 11, 26);
+                end = DateTime.Compare(dtNow, endTime);
+                if (end > 0)
+                {
+                    this.taoistJiaoCeremony5.Visible = true;
+                    this.taoistJiaoCeremony6.Visible = true;
+                    this.taoistJiaoCeremony7.Visible = true;
                 }
 
 
@@ -252,7 +261,8 @@ namespace twbobibobi.Temples
                         basePage.mJSonHelper.AddContent("redirect", "templeCheck.aspx?kind=13&a=" + AdminID + "&aid=" + ApplicantID + 
                             (basePage.Request["ad"] != null ? "&ad=1" : "") +
                             (basePage.Request["jkos"] != null ? "&jkos=1" : "") +
-                            (basePage.Request["twm"] != null ? "&twm=1" : ""));
+                            (basePage.Request["twm"] != null ? "&twm=1" : "") +
+                            (basePage.Request["fetsms"] != null ? "&fetsms=1" : ""));
 
                         basePage.Session["ApplicantID"] = ApplicantID;
                     }

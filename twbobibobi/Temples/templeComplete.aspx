@@ -63,10 +63,32 @@
             }); var f = d.getElementsByTagName(s)[0],
                 j = d.createElement(s), dl = l != 'dataLayer' ? '&l=' + l : ''; j.async = true; j.src =
                     'https://www.googletagmanager.com/gtm.js?id=' + i + dl; f.parentNode.insertBefore(j, f);
+        })(window, document, 'script', 'dataLayer', 'GTM-5L2H7Z3N');</script>
+    <!-- End Google Tag Manager -->
+    <!-- Google Tag Manager -->
+    <script>(function (w, d, s, l, i) {
+            w[l] = w[l] || []; w[l].push({
+                'gtm.start':
+                    new Date().getTime(), event: 'gtm.js'
+            }); var f = d.getElementsByTagName(s)[0],
+                j = d.createElement(s), dl = l != 'dataLayer' ? '&l=' + l : ''; j.async = true; j.src =
+                    'https://www.googletagmanager.com/gtm.js?id=' + i + dl; f.parentNode.insertBefore(j, f);
         })(window, document, 'script', 'dataLayer', 'GTM-NGRZRR4V');</script>
     <!-- End Google Tag Manager -->
-</head>	
+</head>
 <body>
+    <!-- Google Tag Manager (noscript) -->
+    <noscript>
+        <iframe src="https://www.googletagmanager.com/ns.html?id=GTM-NGRZRR4V"
+            height="0" width="0" style="display: none; visibility: hidden"></iframe>
+    </noscript>
+    <!-- End Google Tag Manager (noscript) -->
+    <!-- Google Tag Manager (noscript) -->
+    <noscript>
+        <iframe src="https://www.googletagmanager.com/ns.html?id=GTM-5L2H7Z3N"
+            height="0" width="0" style="display: none; visibility: hidden"></iframe>
+    </noscript>
+    <!-- End Google Tag Manager (noscript) -->
     <div id="wrap">
         <!--#warp //start-->
 
@@ -155,13 +177,16 @@
                         <div class="TotalCost">總計金額： $<span id="Cost" class="Cost"><%=Total %></span>元</div>
                         <div class="BackLink"><a href="../index.aspx" title="回首頁">回首頁</a></div><br />
                         <div class="QRLink">
-                            <a href="https://yun30.pse.is/6eabyl" target="_blank">FB粉絲募集中！現在只要在保必保庇粉絲團按讚+分享，截圖並私訊小編，就可獲得錢母小紅包！
-                                按此加入粉絲團<img src="https://bobibobi.tw/Temples/images/community_icon_01.png" style="width: 36px; display:inline;" width="45" height="45" alt="" /></a>
                             <br />
-                            <a href="line://ti/p/@bobibobi.tw" runat="server" id="lineurl" target="_blank">LINE好友募集中！<br />
-現在只要加入保必保庇LINE好友並填寫註冊資料，就送錢母小紅包！<br /><span id="purdue" runat="server">參加普度項目，可參加LINE POINTS抽獎。<br />一個門號僅限參加一次活動。</span><span id="purdue2" runat="server" style="color: red;">中獎率百分百！</span>
-數量有限，敬請把握喔！      <asp:Image ID="Qrcodeimg" runat="server" />
-                            <%--<img src="images/QRCODE.png" runat="server" id="Qrcodeimg" /><--%></a>
+                            <a href="https://yun30.pse.is/6eabyl" target="_blank">FB粉絲募集中！現在只要在保必保庇粉絲團按讚+分享，截圖並私訊小編，就可獲得錢母小紅包！點此跳轉
+                                <img src="https://bobibobi.tw/Temples/images/community_icon_01.png" style="width: 36px; display: inline;" width="45" height="45" alt="" /></a>
+                            <br />
+                            <a href="line://ti/p/@bobibobi.tw" target="_blank">另外加碼！加入LINE好友並填寫註冊資料，即可獲得錢母小紅包！
+                                數量有限，送完為止喔！點此跳轉<img src="https://bobibobi.tw/Temples/images/community_icon_02.png" style="width: 36px; display: inline;" width="45" height="45" alt="" />
+                            </a>
+                            <%--<a href="line://ti/p/@bobibobi.tw" runat="server" id="lineurl" target="_blank">LINE好友募集中！<br />
+現在只要加入保必保庇LINE好友並填寫註冊資料，就送錢母小紅包！<br /><span id="purdue" runat="server">參加普度項目，可參加錢母小紅包抽獎。<br />一個門號僅限參加一次活動。</span><span id="purdue2" runat="server" style="color: red;">中獎率百分百！</span>
+數量有限，敬請把握喔！      <asp:Image ID="Qrcodeimg" runat="server" /></a>--%>
                         </div>
                     </div>
                 </div>

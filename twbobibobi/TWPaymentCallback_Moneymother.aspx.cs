@@ -69,6 +69,11 @@ namespace Temple
                         rebackURL = rebackURL.IndexOf("?") > 0 ? rebackURL + "&twm=1" : rebackURL + "?twm=1";
                     }
 
+                    if (dtCharge.Rows[0]["PayChannelLog"].ToString().IndexOf("ftg") >= 0)
+                    {
+                        rebackURL = rebackURL.IndexOf("?") > 0 ? rebackURL + "&ftg=2290" : rebackURL + "?ftg=2290";
+                    }
+
                     int cost = 0;
                     int.TryParse(dtCharge.Rows[0]["Amount"].ToString(), out cost);
                     int.TryParse(dtCharge.Rows[0]["Status"].ToString(), out status);
@@ -87,6 +92,8 @@ namespace Temple
                             //int cost = int.Parse(dtapplicantinfo.Rows[0]["Cost"].ToString());
                             objDatabaseHelper.Updateapplicantinfo_Moneymother(aid, cost, 2, Year);
 
+                            objDatabaseHelper.UpdateMontherCount2Product(aid, Year); //更新購買數量至商品表or商品類別表
+
                             //string productName = string.Empty;
                             //if (objDatabaseHelper.CheckedProduct(aid, adminID, 1))
                             //{
@@ -104,7 +111,7 @@ namespace Temple
                                 }
                             }
 
-                            //msg += "。客服電話：04-23582760。商品將於5/1後陸續寄出";
+                            //msg += "。客服電話：04-36092299。商品將於5/1後陸續寄出";
                             msg += "。客服電話：04-36092299。";
 
 
@@ -121,6 +128,10 @@ namespace Temple
                                     m2 = "https://bobibobi.tw/Product/MoneymotherComplete.aspx?a=11&aid=" + aid + "&kind=3" +
                                         (dtCharge.Rows[0]["ChargeType"].ToString() == "Twm" ? "&twm=1" : "");
 
+                                    if (dtCharge.Rows[0]["PayChannelLog"].ToString().IndexOf("ftg") >= 0)
+                                    {
+                                        m2 = m2 + "&ftg=2290";
+                                    }
                                     //string code = "";
                                     //int CodeID = objDatabaseHelper.GetDiscountCode_Moneymother(adminID, aid, ref code);
                                     //if (CodeID > 0 && code != "")
@@ -171,13 +182,18 @@ namespace Temple
                     else if (status == 1)
                     {
                         //已經付費成功。
-                        m2 = "https://bobibobi.tw/Temples/templeComplete.aspx?kind=3&a=" + adminID + "&aid=" + aid +
+                        m2 = "https://bobibobi.tw/Product/MoneymotherComplete.aspx?a=11&aid=" + aid + "&kind=3" +
                             (dtCharge.Rows[0]["ChargeType"].ToString() == "Twm" ? "&twm=1" : "");
+
+                        if (dtCharge.Rows[0]["PayChannelLog"].ToString().IndexOf("ftg") >= 0)
+                        {
+                            m2 = m2 + "&ftg=2290";
+                        }
                         Response.Redirect(m2, true);
                     }
                     else
                     {
-                        Response.Write("<script>alert('此訂單已交易失敗，交易代碼：" + resp + "如有疑問。請洽客服電話：04-23582760。');" +
+                        Response.Write("<script>alert('此訂單已交易失敗，交易代碼：" + resp + "如有疑問。請洽客服電話：04-36092299。');" +
                             "window.location.href='https://bobibobi.tw/Product/MoneymotherIndex.aspx'</script>");
                     }
 
@@ -185,11 +201,11 @@ namespace Temple
                 else
                 {
                     //resp = "invalid_orderid";
-                    Response.Write("<script>alert('取得付款資料失敗，錯誤代碼：" + resp + "。客服電話：04-23582760。');" +
+                    Response.Write("<script>alert('取得付款資料失敗，錯誤代碼：" + resp + "。客服電話：04-36092299。');" +
                             "window.location.href='https://bobibobi.tw/Product/MoneymotherIndex.aspx'</script>");
                 }
 
-                //Response.Write("<script>alert('取得付款資料失敗，錯誤代碼：" + resp + "。客服電話：04-23582760。');window.location.href='https://bobibobi.tw/Product/MoneymotherIndex.aspx'</script>");
+                //Response.Write("<script>alert('取得付款資料失敗，錯誤代碼：" + resp + "。客服電話：04-36092299。');window.location.href='https://bobibobi.tw/Product/MoneymotherIndex.aspx'</script>");
             }
             else
             {

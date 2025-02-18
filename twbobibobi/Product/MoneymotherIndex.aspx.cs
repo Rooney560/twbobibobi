@@ -21,9 +21,89 @@ namespace twbobibobi.Product
             AddAjaxHandler(typeof(AjaxPageHandler), "gotopay");
         }
 
+        protected void productInit()
+        {
+            this.type_1.Visible = false;
+            //this.type_5.Visible = false;
+            //this.type_6.Visible = false;
+            this.type_7.Visible = false;
+            this.type_8.Visible = false;
+
+            this.product_1.Visible = false;
+            //this.product_5.Visible = false;
+            //this.product_6.Visible = false;
+            this.product_7.Visible = false;
+            this.product_8.Visible = false;
+
+            this.productCount_1.Visible = true;
+            //this.productCount_5.Visible = true;
+            //this.productCount_6.Visible = true;
+            this.productCount_7.Visible = true;
+            this.productCount_8.Visible = true;
+        }
+
         protected void Page_Load(object sender, EventArgs e)
         {
+            string Year = "2025";
+            int overStatus = 0;
+            LightDAC objLightDAC = new LightDAC(this);
 
+            productInit();
+            if (objLightDAC.CheckedProductstock(1, "19", out overStatus, Year))
+            {
+                if (overStatus == -1)
+                {
+                    this.type_1.Visible = true;
+                    this.product_1.Visible = true;
+                    this.productCount_1.Visible = false;
+                }
+            }
+            //else if (objLightDAC.CheckedProductstock_Moneymother(pd_3, 3, out overStatus, Year))
+            //{
+            //    basePage.mJSonHelper.AddContent("Stock", 3);
+            //    basePage.mJSonHelper.AddContent("overStatus", overStatus);
+            //}
+            //else if (objLightDAC.CheckedProductstock_Moneymother(pd_4, 4, out overStatus, Year))
+            //{
+            //    basePage.mJSonHelper.AddContent("Stock", 4);
+            //    basePage.mJSonHelper.AddContent("overStatus", overStatus);
+            //}
+            //else if (objLightDAC.CheckedProductstock(1, "72", out overStatus, Year))
+            //{
+            //    if (overStatus == -1)
+            //    {
+            //        this.type_5.Visible = true;
+            //        this.product_5.Visible = true;
+            //        this.productCount_5.Visible = false;
+            //    }
+            //}
+            //else if (objLightDAC.CheckedProductstock(1, "70", out overStatus, Year))
+            //{
+            //    if (overStatus == -1)
+            //    {
+            //        this.type_6.Visible = true;
+            //        this.product_6.Visible = true;
+            //        this.productCount_6.Visible = false;
+            //    }
+            //}
+            else if (objLightDAC.CheckedProductstock(1, "73", out overStatus, Year))
+            {
+                if (overStatus == -1)
+                {
+                    this.type_7.Visible = true;
+                    this.product_7.Visible = true;
+                    this.productCount_7.Visible = false;
+                }
+            }
+            else if (objLightDAC.CheckedProductstock(1, "71", out overStatus, Year))
+            {
+                if (overStatus == -1)
+                {
+                    this.type_8.Visible = true;
+                    this.product_8.Visible = true;
+                    this.productCount_8.Visible = false;
+                }
+            }
         }
 
         public class AjaxPageHandler
@@ -75,7 +155,7 @@ namespace twbobibobi.Product
                 int overStatus = 0; //超過數量的狀態 -1-已額滿 -2-數量不足
 
                 LightDAC objLightDAC = new LightDAC(basePage);
-                if (objLightDAC.CheckedProductstock_Moneymother(pd_1, 1, out overStatus, Year))
+                if (objLightDAC.CheckedProductstock(pd_1, "19", out overStatus, Year))
                 {
                     basePage.mJSonHelper.AddContent("Stock", 1);
                     basePage.mJSonHelper.AddContent("overStatus", overStatus);
@@ -90,22 +170,22 @@ namespace twbobibobi.Product
                 //    basePage.mJSonHelper.AddContent("Stock", 4);
                 //    basePage.mJSonHelper.AddContent("overStatus", overStatus);
                 //}
-                else if (objLightDAC.CheckedProductstock_Moneymother(pd_5, 5, out overStatus, Year))
+                else if (objLightDAC.CheckedProductstock(pd_5, "72", out overStatus, Year))
                 {
                     basePage.mJSonHelper.AddContent("Stock", 5);
                     basePage.mJSonHelper.AddContent("overStatus", overStatus);
                 }
-                else if (objLightDAC.CheckedProductstock_Moneymother(pd_6, 6, out overStatus, Year))
+                else if (objLightDAC.CheckedProductstock(pd_6, "70", out overStatus, Year))
                 {
                     basePage.mJSonHelper.AddContent("Stock", 6);
                     basePage.mJSonHelper.AddContent("overStatus", overStatus);
                 }
-                else if (objLightDAC.CheckedProductstock_Moneymother(pd_7, 7, out overStatus, Year))
+                else if (objLightDAC.CheckedProductstock(pd_7, "73", out overStatus, Year))
                 {
                     basePage.mJSonHelper.AddContent("Stock", 7);
                     basePage.mJSonHelper.AddContent("overStatus", overStatus);
                 }
-                else if (objLightDAC.CheckedProductstock_Moneymother(pd_8, 8, out overStatus, Year))
+                else if (objLightDAC.CheckedProductstock(pd_8, "71", out overStatus, Year))
                 {
                     basePage.mJSonHelper.AddContent("Stock", 8);
                     basePage.mJSonHelper.AddContent("overStatus", overStatus);
@@ -117,7 +197,7 @@ namespace twbobibobi.Product
 
                     if (pd_1 > 0)
                     {
-                        Cost = pd_1 * 1258;
+                        Cost = pd_1 * 1480;
                         buyID = InsertProductInfo(basePage, applicantID, "鎮宅、開運錢母擺件", 1, Cost, pd_1, Year);
                     }
 
@@ -187,32 +267,32 @@ namespace twbobibobi.Product
                             {
                                 case "LinePay":
                                     link = TWWebPay(basePage, orderId, applicantID, "LINEPAY", "", cost, cusTel, "a=" + AdminID + "&aid=" + applicantID + "&kind=" + kind + 
-                                        (basePage.Request["twm"] != null ? "&twm=1" : ""), Year);
+                                        (basePage.Request["twm"] != null ? "&twm=1" : "") + (basePage.Request["ftg"] != null ? "&ftg=" + basePage.Request["ftg"].ToString() : ""), Year);
                                     //link = "https://bobibobi.tw/Admin/line/LinePay.aspx?a=" + AdminID + "&aid=" + ApplicantID + "&Total=" + cost + "&kind=" + kind +
-                                    //(basePage.Request["twm"] != null ? "&twm=1" : "") + "&name=新港奉天宮錢母擺件&orderId=" + orderId;
+                                    //(basePage.Request["twm"] != null ? "&twm=1" : "") + (basePage.Request["ftg"] != null ? "&ftg=" + basePage.Request["ftg"].ToString() : "") + "&name=新港奉天宮錢母擺件&orderId=" + orderId;
                                     break;
                                 case "JkosPay":
-                                    if (basePage.Request["ad"] != null)
-                                    {
-                                        if (basePage.Request["ad"] == "55688")
-                                        {
-                                            cost = 10;
-                                        }
-                                    }
+                                    //if (basePage.Request["ad"] != null)
+                                    //{
+                                    //    if (basePage.Request["ad"] == "55688")
+                                    //    {
+                                    //        cost = 10;
+                                    //    }
+                                    //}
                                     link = "https://bobibobi.tw/Admin/jkos/jkosPay.aspx?a=" + AdminID + "&aid=" + applicantID + "&Total=" + cost + "&kind=" + kind + 
-                                        (basePage.Request["twm"] != null ? "&twm=1" : "") + "&name=新港奉天宮錢母擺件&orderId=" + orderId;
+                                        (basePage.Request["twm"] != null ? "&twm=1" : "") + (basePage.Request["ftg"] != null ? "&ftg=" + basePage.Request["ftg"].ToString() : "") + "&name=新港奉天宮錢母擺件&orderId=" + orderId;
                                     break;
                                 case "ChtCSP":
                                     link = TWWebPay(basePage, orderId, applicantID, "TELEPAY", "", cost, cusTel, "a=" + AdminID + "&aid=" + applicantID + "&kind=" + kind + 
-                                        (basePage.Request["twm"] != null ? "&twm=1" : ""), Year);
+                                        (basePage.Request["twm"] != null ? "&twm=1" : "") + (basePage.Request["ftg"] != null ? "&ftg=" + basePage.Request["ftg"].ToString() : ""), Year);
                                     break;
                                 case "TwmCSP":
                                     link = TWWebPay(basePage, orderId, applicantID, "TELEPAY", "twm", cost, cusTel, "a=" + AdminID + "&aid=" + applicantID + "&kind=" + kind + 
-                                        (basePage.Request["twm"] != null ? "&twm=1" : ""), Year);
+                                        (basePage.Request["twm"] != null ? "&twm=1" : "") + (basePage.Request["ftg"] != null ? "&ftg=" + basePage.Request["ftg"].ToString() : ""), Year);
                                     break;
                                 default:
                                     link = TWWebPay(basePage, orderId, applicantID, ChargeType, "", cost, cusTel, "a=" + AdminID + "&aid=" + applicantID + "&kind=" + kind + 
-                                        (basePage.Request["twm"] != null ? "&twm=1" : ""), Year);
+                                        (basePage.Request["twm"] != null ? "&twm=1" : "") + (basePage.Request["ftg"] != null ? "&ftg=" + basePage.Request["ftg"].ToString() : ""), Year);
                                     break;
                             }
 
@@ -289,7 +369,7 @@ namespace twbobibobi.Product
                 BCFBaseLibrary.Web.BasePage basePage = new BCFBaseLibrary.Web.BasePage();
                 string oid = orderid;
                 string uid = "Temple";
-                string Sid = "Temple-Donation";    //廟宇拜拜添油錢功德金 PR00004021
+                string Sid = "Temple-Products";    //廟宇拜拜添油錢功德金 PR00004021
                 string item = "新港奉天宮授權開運商品";
                 string ValidationKey = "Ov7BmaT5l1C89t5FNj0cEsR";
                 string link = "https://tw.mktwservice.com/atPay/pay.aspx?uid=";
@@ -366,6 +446,10 @@ namespace twbobibobi.Product
                 postURL += basePage.Request["jkos"] != null ? "_JKOS" : "";
 
                 postURL += basePage.Request["gads"] != null ? "_GADS" : "";
+
+                postURL += basePage.Request["tads"] != null ? "_TADS" : "";
+
+                postURL += basePage.Request["ftg"] != null ? "_FTG" : "";
 
                 int ApplicantID = objLightDAC.addapplicantinfo_Moneymother(AppName, AppMobile, AdminID, County, Dist, Address, ZipCode, postURL, Year);
 

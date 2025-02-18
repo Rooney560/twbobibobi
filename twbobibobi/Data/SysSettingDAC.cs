@@ -41,5 +41,39 @@ namespace twbobibobi.Data
             }
             return result;
         }
+        public SysSetting SelectByPK(string item)
+        {
+            SysSetting result = null;
+            using (SqlConnection conn = new SqlConnection(ConnString))
+            {
+                if (conn.State != ConnectionState.Open)
+                    conn.Open();
+
+                string sql = "SELECT Item,Type,Value FROM SysSetting WHERE item=@item";
+                SqlParameter[] parms = new SqlParameter[]{
+                    new SqlParameter("@item", SqlDbType.VarChar, 100)
+                };
+                parms[0].Value = item;
+
+                using (SqlCommand command = new SqlCommand(sql, conn))
+                {
+                    foreach (SqlParameter parm in parms)
+                        command.Parameters.Add(parm);
+                    using (SqlDataReader dr = command.ExecuteReader())
+                    {
+                        if (dr.Read())
+                        {
+                            result = new SysSetting()
+                            {
+                                Item = dr.GetString(0),
+                                Type = dr.GetString(1),
+                                Value = dr.GetString(2),
+                            };
+                        }
+                    }
+                }
+            }
+            return result;
+        }
     }
 }

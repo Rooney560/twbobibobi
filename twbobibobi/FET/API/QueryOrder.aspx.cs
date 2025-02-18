@@ -16,14 +16,17 @@ using System.Web.UI;
 using System.Web.UI.WebControls;
 using Temple.data;
 using LitJson;
+using System.Xml.Linq;
+using System.Runtime.InteropServices.ComTypes;
 
 namespace Temple.FET.APITEST
 {
     public partial class QueryOrder : AjaxBasePage
     {
-        public string key;
         public string checkedkey;
-        public string Year = "2024";
+        public string key;
+        public string Year = "2025";
+        public string[] adminlist = { "3", "4", "6", "8", "10", "14", "15", "16", "21", "23", "29", "31", "32" };
 
         protected void Page_Load(object sender, EventArgs e)
         {
@@ -39,6 +42,7 @@ namespace Temple.FET.APITEST
             string URL = Request.Url.Authority;
             TimeZoneInfo info = TimeZoneInfo.FindSystemTimeZoneById("Taipei Standard Time");
             DateTime dtNow = TimeZoneInfo.ConvertTime(DateTime.Now, info);
+            Year = dtNow.Year.ToString();
 
             //channel = "FETnet";
             //clientOrderNumber = "CMPO20231019000076";
@@ -133,272 +137,103 @@ namespace Temple.FET.APITEST
                     //}
 
                     DataTable dtData = new DataTable();
+                    DataTable dtAdmin = new DataTable();
                     string AdminID = string.Empty;
-                    string type = string.Empty;
+                    string kind = string.Empty;
+                    string Description = string.Empty;
+                    string OrderID = string.Empty;
+                    string[] LightsList = new string[0];
+                    string[] clist = { "CMPO20241119001243", "CMPO20241119001241", "CMPO20250115015318" };
 
-                    DataTable dtAdmin = objAdminDAC.GetAdminList(9);
-                    for (int i = 0; i < dtAdmin.Rows.Count; i++)
+                    //DataTable dtAdmin = objAdminDAC.GetAdminList(9);
+                    for (int j = 1; j <= 18; j++)
                     {
-                        string adminID = dtAdmin.Rows[i]["AdminID"].ToString();
-
-                        for (int j = 1; j <= 12; j++)
+                        for (int i = 0; i < adminlist.Length; i++)
                         {
+                            string adminID = adminlist[i].ToString();
+
                             dtData = objLightDAC.Getappcharge(clientOrderNumber, adminID, j.ToString(), Year);
 
-                            if (dtData.Rows.Count > 0)
+                            for (int k = 0; k < dtData.Rows.Count; k++)
                             {
-                                type = j.ToString();
-                                break;
+                                var tempList_lights = LightsList.ToList();
+
+                                string NumString = dtData.Rows[k]["Num2String"].ToString();
+
+                                tempList_lights.Add(NumString);
+
+                                LightsList = tempList_lights.ToArray();
+
+                                if (Description == string.Empty)
+                                {
+                                    Description = dtData.Rows[0]["Description"].ToString().Replace("\r\n", "");
+                                }
+
+                                if (OrderID == string.Empty)
+                                {
+                                    OrderID = dtData.Rows[0]["OrderID"].ToString();
+                                }
                             }
                         }
 
-                        if (dtData.Rows.Count > 0)
+                        if (LightsList.Length > 0)
                         {
+                            kind = j.ToString();
                             break;
                         }
                     }
 
-                    if (dtData.Rows.Count == 0)
+                    if (LightsList.Length == 0)
                     {
                         dtAdmin = objAdminDAC.GetAdminList(8);
                         for (int i = 0; i < dtAdmin.Rows.Count; i++)
                         {
                             string adminID = dtAdmin.Rows[i]["AdminID"].ToString();
 
-                            for (int j = 1; j <= 6; j++)
-                            {
-                                dtData = objLightDAC.Getappcharge(clientOrderNumber, adminID, j.ToString(), dtNow.Year.ToString());
-                                if (dtData.Rows.Count > 0)
-                                {
-                                    type = j.ToString();
-                                    break;
-                                }
-                            }
-
+                            dtData = objLightDAC.GetappchargeNum2String(clientOrderNumber, adminID, "3", dtNow.Year.ToString());
                             if (dtData.Rows.Count > 0)
                             {
+                                kind = "3";
+
+                                if (Description == string.Empty)
+                                {
+                                    Description = dtData.Rows[0]["Description"].ToString().Replace("\r\n", "");
+                                }
+
+                                if (OrderID == string.Empty)
+                                {
+                                    OrderID = dtData.Rows[0]["OrderID"].ToString();
+                                }
                                 break;
                             }
                         }
                     }
 
-                    if (dtData.Rows.Count > 0)
+                    if (dtData.Rows.Count > 0 || LightsList.Length > 0)
                     {
-                        string adminID = dtData.Rows[0]["AdminID"].ToString();
-                        string OrderID = dtData.Rows[0]["OrderID"].ToString();
-                        string Description = dtData.Rows[0]["Description"].ToString().Replace("\r\n","");
-
-                        //JSON寫入到檔案
-                        using (StringWriter sw = new StringWriter())
+                        //Description = dtData.Rows[0]["Description"].ToString().Replace("\r\n","");
+                        if (Description != string.Empty && OrderID != string.Empty)
                         {
-                            using (JsonTextWriter writer = new JsonTextWriter(sw))
-                            {
-                                //建立物件
-                                writer.WriteStartObject();
+                            JArray itemsInfo = JsonConvert.DeserializeObject<JArray>(Description);
 
-                                //物件名稱
-                                writer.WritePropertyName("detail");
-
-                                using (StringWriter sw2 = new StringWriter())
-                                {
-                                    using (JsonTextWriter writer2 = new JsonTextWriter(sw2))
-                                    {
-                                        //建立物件
-                                        writer2.WriteStartObject();
-
-                                        writer2.WritePropertyName(string.Format("clientOrderNumber", clientOrderNumber));
-                                        writer2.WriteValue(clientOrderNumber);
-
-                                        writer2.WritePropertyName("partnerOrderNumber");
-                                        writer2.WriteValue(OrderID);
-
-                                        writer2.WritePropertyName("orderMsg");
-                                        writer2.WriteValue("success");
-
-                                        writer2.WritePropertyName("orderStatus");
-                                        writer2.WriteValue("0000");
-
-                                        writer2.WritePropertyName("items");
-                                        //建立陣列
-                                        writer2.WriteStartArray();
-
-                                        string[] Lightslist = new string[dtData.Rows.Count];
-                                        for (int i = 0; i < dtData.Rows.Count; i++)
-                                        {
-                                            Lightslist[i] = dtData.Rows[i]["Num2String"].ToString();
-                                        }
-
-                                        JArray itemsInfo = JsonConvert.DeserializeObject<JArray>(Description);
-                                        int j = 0;
-                                        foreach (var item in itemsInfo)
-                                        {
-                                            //建立物件
-                                            writer2.WriteStartObject();
-
-                                            //物件名稱
-                                            writer2.WritePropertyName("productCode");
-                                            writer2.WriteValue(item["productCode"]);
-
-                                            if (type != "3")
-                                            {
-                                                writer2.WritePropertyName("prayedPerson");
-                                                //建立陣列
-                                                writer2.WriteStartArray();
-
-                                                JArray prayedPerson = (JArray)item["prayedPerson"];
-                                                foreach (var item2 in prayedPerson)
-                                                {
-                                                    //建立物件
-                                                    writer2.WriteStartObject();
-                                                    writer2.WritePropertyName("prayedPersonSeq"); writer2.WriteValue(item2["prayedPersonSeq"]);
-                                                    writer2.WritePropertyName("prayedPersonOrderNumber"); writer2.WriteValue(Lightslist[j]);
-                                                    writer2.WriteEndObject();
-                                                    j++;
-                                                }
-                                                writer2.WriteEndArray();
-                                            }
-
-                                            writer2.WriteEndObject();
-                                        }
-                                        writer2.WriteEndArray();
-
-                                        writer2.WriteEndObject();
-
-                                        encrypt = AESHelper.AesEncrypt(sw2.ToString(), checkedkey);
-                                    }
-                                }
-
-                                writer.WriteValue(encrypt);
-
-                                writer.WritePropertyName("resultCode"); writer.WriteValue("0000");
-
-                                writer.WriteEndObject();
-
-                                writer.Flush();
-                                writer.Close();
-                                sw.Flush();
-                                sw.Close();
-
-                                //輸出結果
-                                Response.Write(sw.ToString());
-
-                                SaveRequestLog(Request.Url + sw.ToString());
-                            }
+                            JSONStringOrder(checkedkey, clientOrderNumber, OrderID, encrypt, kind, LightsList, itemsInfo);
+                        }
+                        else
+                        {
+                            JSONCancelOrder(checkedkey, clientOrderNumber, clist, encrypt);
                         }
                     }
                     else
                     {
-                        //JSON寫入到檔案
-                        using (StringWriter sw = new StringWriter())
-                        {
-                            using (JsonTextWriter writer = new JsonTextWriter(sw))
-                            {
-                                //建立物件
-                                writer.WriteStartObject();
-
-                                //物件名稱
-                                writer.WritePropertyName("detail");
-
-                                using (StringWriter sw2 = new StringWriter())
-                                {
-                                    using (JsonTextWriter writer2 = new JsonTextWriter(sw2))
-                                    {
-                                        //建立物件
-                                        writer2.WriteStartObject();
-
-                                        writer2.WritePropertyName("orderMsg");
-                                        writer2.WriteValue("fail");
-
-                                        writer2.WritePropertyName("orderStatus");
-                                        if (clientOrderNumber == "CMPO20240923001105")
-                                        {
-                                            writer2.WriteValue("1001");
-                                        }
-                                        else if (clientOrderNumber == "CMPO20240919001087")
-                                        {
-                                            writer2.WriteValue("1001");
-                                        }
-                                        else
-                                        {
-                                            writer2.WriteValue("1002");
-                                        }
-
-                                        writer2.WriteEndObject();
-
-                                        encrypt = AESHelper.AesEncrypt(sw2.ToString(), checkedkey);
-                                    }
-                                }
-
-                                writer.WriteValue(encrypt);
-
-                                writer.WritePropertyName("resultCode"); writer.WriteValue("0000");
-
-                                writer.WriteEndObject();
-
-                                writer.Flush();
-                                writer.Close();
-                                sw.Flush();
-                                sw.Close();
-
-                                //輸出結果
-                                Response.Write(sw.ToString());
-
-                                SaveRequestLog(Request.Url + sw.ToString());
-                            }
-                        }
+                        JSONCancelOrder(checkedkey, clientOrderNumber, clist, encrypt);
                     }
                 }
             }
             catch (Exception ex)
             {
-                //JSON寫入到檔案
-                using (StringWriter sw = new StringWriter())
-                {
-                    using (JsonTextWriter writer = new JsonTextWriter(sw))
-                    {
-                        //建立物件
-                        writer.WriteStartObject();
-
-                        //物件名稱
-                        writer.WritePropertyName("detail");
-
-                        using (StringWriter sw2 = new StringWriter())
-                        {
-                            using (JsonTextWriter writer2 = new JsonTextWriter(sw2))
-                            {
-                                //建立物件
-                                writer2.WriteStartObject();
-
-                                writer2.WritePropertyName("orderMsg");
-                                writer2.WriteValue("fail");
-
-                                writer2.WritePropertyName("orderStatus");
-                                writer2.WriteValue("1003");
-
-                                writer2.WriteEndObject();
-
-                                encrypt = AESHelper.AesEncrypt(sw2.ToString(), checkedkey);
-                            }
-                        }
-
-                        writer.WriteValue(encrypt);
-
-                        writer.WritePropertyName("resultCode"); writer.WriteValue("0000");
-
-                        writer.WriteEndObject();
-
-                        writer.Flush();
-                        writer.Close();
-                        sw.Flush();
-                        sw.Close();
-
-                        //輸出結果
-                        Response.Write(sw.ToString());
-
-                        SaveRequestLog(Request.Url + sw.ToString());
-                    }
-                }
+                JSONErrorOrder(checkedkey, encrypt, "1003", "0000", ex.Message);
             }
         }
+
     }
 }

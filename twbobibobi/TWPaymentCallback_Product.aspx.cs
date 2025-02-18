@@ -156,7 +156,7 @@ namespace Temple
                             }
                             else
                             {
-                                Response.Write("<script>alert('付款失敗，錯誤代碼：" + result[0] + "。客服電話：04-23582760。');window.location.href='" + rebackURL + "'</script>");
+                                Response.Write("<script>alert('付款失敗，錯誤代碼：" + result[0] + "。客服電話：04-36092299。');window.location.href='" + rebackURL + "'</script>");
                             }
                         }
                     }
@@ -169,13 +169,13 @@ namespace Temple
                     }
                     else
                     {
-                        Response.Write("<script>alert('此訂單已交易失敗，交易代碼：" + resp + "如有疑問。請洽客服電話：04-23582760。');window.location.href='https://bobibobi.tw/Templeproduct.aspx?a=5'</script>");
+                        Response.Write("<script>alert('此訂單已交易失敗，交易代碼：" + resp + "如有疑問。請洽客服電話：04-36092299。');window.location.href='https://bobibobi.tw/Templeproduct.aspx?a=5'</script>");
                     }
                 }
                 else
                 {
                     //resp = "invalid_orderid";
-                    Response.Write("<script>alert('取得付款資料失敗，錯誤代碼：" + resp + "。客服電話：04-23582760。');window.location.href='https://bobibobi.tw/Templeproduct.aspx?a=5'</script>");
+                    Response.Write("<script>alert('取得付款資料失敗，錯誤代碼：" + resp + "。客服電話：04-36092299。');window.location.href='https://bobibobi.tw/Templeproduct.aspx?a=5'</script>");
                 }
 
             }

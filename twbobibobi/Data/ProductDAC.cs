@@ -779,6 +779,28 @@ namespace Temple.data
         }
 
         /// <summary>
+        /// 取得商品資訊
+        /// <param name="AdminID">AdminID=商家編號</param>
+        /// </summary>
+        public DataTable GetProductInfo(int ProductID, int TypeID, string Year)
+        {
+            string sql = "Select * from Temple_" + Year + "..view_ProductInfolistwithAPPCharge Where ProductID = @ProductID";
+
+            if (TypeID > 0)
+            {
+                sql += " and TypeID = " + TypeID;
+            }
+
+            sql += " and Status = 0 and AppStatus = 2 and AppcStatus = 1 and Num > 0";
+
+            DatabaseAdapter objDatabaseAdapter = new DatabaseAdapter(sql, this.DBSource);
+            objDatabaseAdapter.AddParameterToSelectCommand("ProductID", ProductID);
+            DataTable dtGetData = new DataTable();
+            objDatabaseAdapter.Fill(dtGetData);
+            return dtGetData;
+        }
+
+        /// <summary>
         /// 取得商品列表
         /// <param name="AdminID">AdminID=商家編號</param>
         /// </summary>
@@ -968,6 +990,46 @@ namespace Temple.data
             string result = string.Empty;
 
             string sql = "Select * from Productimages Where ProductID = @ProductID and Status = 0 Order By Sort";
+
+            DataTable dtGetData = new DataTable();
+            DatabaseAdapter Adapter = new DatabaseAdapter(sql, this.DBSource);
+            Adapter.AddParameterToSelectCommand("@ProductID", ProductID);
+            Adapter.SetSqlCommandBuilder();
+            Adapter.Fill(dtGetData);
+
+            for (int i = 0; i < dtGetData.Rows.Count; i++)
+            {
+                //判斷圖片位址開頭是否為http
+                if (dtGetData.Rows[i]["OriginalImageAddress"].ToString() != "")
+                {
+                    int checkedHTTP = dtGetData.Rows[i]["OriginalImageAddress"].ToString().IndexOf("http");
+
+                    //如果ImageAddress開頭不是http
+                    if (checkedHTTP == -1)
+                    {
+                        dtGetData.Rows[i]["OriginalImageAddress"] = GetConfigValue("ImageWebHome") + dtGetData.Rows[i]["OriginalImageAddress"];
+                    }
+                    dtGetData.Rows[i]["OriginalImageAddress"] = dtGetData.Rows[i]["OriginalImageAddress"].ToString().Replace(@"\", "/");
+                }
+            }
+
+            if (dtGetData.Rows.Count > 0)
+            {
+                result = dtGetData.Rows[0]["OriginalImageAddress"].ToString();
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        /// 取得商品圖片
+        /// <param name="ProductID">ProductID=商品編號</param>
+        /// </summary>
+        public string GetProductImgages(int ProductID, string Year)
+        {
+            string result = string.Empty;
+
+            string sql = "Select * from Temple_" + Year + "..Productimages Where ProductID = @ProductID and Status = 0 Order By Sort";
 
             DataTable dtGetData = new DataTable();
             DatabaseAdapter Adapter = new DatabaseAdapter(sql, this.DBSource);

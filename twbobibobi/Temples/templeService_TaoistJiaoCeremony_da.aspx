@@ -111,10 +111,32 @@
             }); var f = d.getElementsByTagName(s)[0],
                 j = d.createElement(s), dl = l != 'dataLayer' ? '&l=' + l : ''; j.async = true; j.src =
                     'https://www.googletagmanager.com/gtm.js?id=' + i + dl; f.parentNode.insertBefore(j, f);
+        })(window, document, 'script', 'dataLayer', 'GTM-5L2H7Z3N');</script>
+    <!-- End Google Tag Manager -->
+    <!-- Google Tag Manager -->
+    <script>(function (w, d, s, l, i) {
+            w[l] = w[l] || []; w[l].push({
+                'gtm.start':
+                    new Date().getTime(), event: 'gtm.js'
+            }); var f = d.getElementsByTagName(s)[0],
+                j = d.createElement(s), dl = l != 'dataLayer' ? '&l=' + l : ''; j.async = true; j.src =
+                    'https://www.googletagmanager.com/gtm.js?id=' + i + dl; f.parentNode.insertBefore(j, f);
         })(window, document, 'script', 'dataLayer', 'GTM-NGRZRR4V');</script>
     <!-- End Google Tag Manager -->
 </head>
 <body>
+    <!-- Google Tag Manager (noscript) -->
+    <noscript>
+        <iframe src="https://www.googletagmanager.com/ns.html?id=GTM-NGRZRR4V"
+            height="0" width="0" style="display: none; visibility: hidden"></iframe>
+    </noscript>
+    <!-- End Google Tag Manager (noscript) -->
+    <!-- Google Tag Manager (noscript) -->
+    <noscript>
+        <iframe src="https://www.googletagmanager.com/ns.html?id=GTM-5L2H7Z3N"
+            height="0" width="0" style="display: none; visibility: hidden"></iframe>
+    </noscript>
+    <!-- End Google Tag Manager (noscript) -->
     <uc4:AjaxClientControl ID="AjaxClientControl1" runat="server" />
     <div id="wrap">
         <!--#warp //start-->
@@ -154,26 +176,26 @@
                         <div id="startTime">2024/09/23 00:00</div>
                             <br />
                             <div>活動截止日期：</div>
-                            <div id="endTime">2024/11/30 23:59</div>
+                            <div id="endTime">2024/12/01 23:59</div>
                         </div>
                         <div class="EventServiceContent">
                             <div>
                                 <h2>普渡施食 $1000元 <span style="color: red;">(最多可填兩位祈福人姓名)</span>
                                 <span id="taoistJiaoCeremony1" style="color:red" class="content_a" runat="server">(已額滿)</span></h2>
-                                <h2>王船添載(天錢天庫) $600元 <span style="color: red;">(只能填一位祈福人姓名)</span>
+                                <h2>王船添載(天錢天庫) $600元 <span style="color: red;">(只能填一位祈福人姓名；活動截止日期：2024/11/15 23:59)</span>
                                 <span id="taoistJiaoCeremony2" style="color:red" class="content_a" runat="server">(已額滿)</span></h2>
-                                <h2>王船添載(添載物資) $600元 <span style="color: red;">(只能填一位祈福人姓名)</span>
+                                <h2>王船添載(添載物資) $600元 <span style="color: red;">(只能填一位祈福人姓名；活動截止日期：2024/11/15 23:59)</span>
                                 <span id="taoistJiaoCeremony3" style="color:red" class="content_a" runat="server">(已額滿)</span></h2>
                                 <h2>公斗 $1000元 <span style="color: red;">(最多可填六位祈福人姓名)</span>
                                 <span id="taoistJiaoCeremony4" style="color:red" class="content_a" runat="server">(已額滿)</span></h2>
                                 <br />
-                                <h2>燃放水燈(大) $2200元 <span style="color: red;">(最多可填兩位祈福人姓名)</span>
+                                <h2>燃放水燈(大) $2200元 <span style="color: red;">(最多可填兩位祈福人姓名；活動截止日期：2024/11/25 23:59)</span>
                                 <span id="taoistJiaoCeremony5" style="color:red" class="content_a" runat="server">(已額滿)</span></h2><h5>(高3尺/面寬2尺2/深度1尺2)</h5>
                                 <br />
-                                <h2>燃放水燈(中) $1000元 <span style="color: red;">(最多可填兩位祈福人姓名)</span>
+                                <h2>燃放水燈(中) $1000元 <span style="color: red;">(最多可填兩位祈福人姓名；活動截止日期：2024/11/25 23:59)</span>
                                 <span id="taoistJiaoCeremony6" style="color:red" class="content_a" runat="server">(已額滿)</span></h2><h5>(高2尺/面寬1尺3/深度8吋)</h5>
                                 <br />
-                                <h2>燃放水燈(小) $600元 <span style="color: red;">(最多可填兩位祈福人姓名)</span>
+                                <h2>燃放水燈(小) $600元 <span style="color: red;">(最多可填兩位祈福人姓名；活動截止日期：2024/11/25 23:59)</span>
                                 <span id="taoistJiaoCeremony7" style="color:red" class="content_a" runat="server">(已額滿)</span></h2><h5>(高1尺2/面寬1尺/深度5吋)</h5>
                                 <br />
                                 <div class="track-temple">
@@ -220,11 +242,12 @@
                                 </video>
                             </div>    
                             <br />
-                            <a href="https://yun30.pse.is/6eabyl" target="_blank">FB粉絲募集中！現在只要在保必保庇粉絲團按讚+分享，截圖並私訊小編，就可獲得錢母小紅包！
-                                <img src="https://bobibobi.tw/Temples/images/community_icon_01.png" style="width: 36px; display:inline;" width="45" height="45" alt="" /></a>
+                            <a href="https://yun30.pse.is/6eabyl" target="_blank">FB粉絲募集中！現在只要在保必保庇粉絲團按讚+分享，截圖並私訊小編，就可獲得錢母小紅包！點此跳轉
+                                <img src="https://bobibobi.tw/Temples/images/community_icon_01.png" style="width: 36px; display: inline;" width="45" height="45" alt="" /></a>
                             <br />
-                            <a href="line://ti/p/@bobibobi.tw" target="_blank">另外加碼！加入LINE好友並填寫註冊資料，即可獲得LINE POINTS！
-                                數量有限，送完為止喔！<img src="https://bobibobi.tw/Temples/images/community_icon_02.png" style="width: 36px; display:inline;" width="45" height="45" alt="" /></a></p>
+                            <a href="line://ti/p/@bobibobi.tw" target="_blank">另外加碼！加入LINE好友並填寫註冊資料，即可獲得錢母小紅包！
+                                數量有限，送完為止喔！點此跳轉<img src="https://bobibobi.tw/Temples/images/community_icon_02.png" style="width: 36px; display: inline;" width="45" height="45" alt="" /></a>
+                        </p>
                     </div>
                 </div>
 
@@ -232,13 +255,13 @@
                     <form>
                         <div class="FormTitle_A">購買人資料<span>（資料務必填寫正確，日後查詢訂單使用。聯絡電話請填09開頭號碼，例：0912345678。）</span></div>
                         <div class="FormInput text_s">
-                            <label>申請人姓名</label><input name="member_name" type="text" class="required" id="member_name" placeholder="請輸入申請人姓名"/>
+                            <label>購買人姓名</label><input name="member_name" type="text" class="required" id="member_name" placeholder="請輸入購買人姓名"/>
                         </div>
                         <div class="FormInput tel">
-                            <label>申請人電話</label><input name="member_tel" type="tel" class="required" id="member_tel" placeholder="請輸入聯絡電話"/>
+                            <label>購買人電話</label><input name="member_tel" type="tel" class="required" id="member_tel" placeholder="請輸入聯絡電話"/>
                         </div>
                         <div class="FormInput mail">
-                            <label>申請人Email</label><input name="member_mail" type="text" class="" id="member_mail" placeholder="請輸入Email(選填)"/>
+                            <label>購買人Email</label><input name="member_mail" type="text" class="" id="member_mail" placeholder="請輸入Email(選填)"/>
                         </div>
                         <div class="FormInput address">
                             <label>地址</label>
@@ -409,6 +432,12 @@
             $("#bless_service_1 option[value='3']").remove();
         }
 
+        if (!checkedTime('2024-11-25 23:59:59')) {
+            $("#bless_service_1 option[value='5']").remove();
+            $("#bless_service_1 option[value='6']").remove();
+            $("#bless_service_1 option[value='7']").remove();
+        }
+
         $("input[type='tel']").on("keypress keyup blur", function (event) {
             $(this).val($(this).val().replace(/[^\d].+/, ""));
             if ((event.which < 48 || event.which > 57)) {
@@ -543,12 +572,22 @@
                 $(this).attr('id', newId);
                 $(this).attr('name', newId);
 
+                if (newId.indexOf('sendback') >= 0) {
+                    $("#" + newId).val('N');
+                }
+
                 if (newId.indexOf('service') >= 0) {
                     $("#" + newId).val('1');
 
                     if (!checkedTime('2024-11-15 23:59:59')) {
                         $("#" + newId + " option[value='2']").remove();
                         $("#" + newId + " option[value='3']").remove();
+                    }
+
+                    if (!checkedTime('2024-11-25 23:59:59')) {
+                        $("#" + newId + " option[value='5']").remove();
+                        $("#" + newId + " option[value='6']").remove();
+                        $("#" + newId + " option[value='7']").remove();
                     }
 
                     $("#" + newId).on("change", function () {
@@ -567,6 +606,20 @@
                                         $("#zampname6_" + id).hide();
                                         $(".Zamp #bless_zamp_" + id).show();
                                         $(".Zamp #bless_rec_" + id).hide();
+
+                                        $("#bless_sendback_" + id).on("change", function () {
+                                            var value = $(this).val();
+                                            switch (value) {
+                                                case "Y":
+                                                    //寄回
+                                                    $(".Zamp #bless_rec_" + id).show();
+                                                    break;
+                                                default:
+                                                    //不寄回
+                                                    $(".Zamp #bless_rec_" + id).hide();
+                                                    break;
+                                            }
+                                        });
                                         break;
                                     case "2":
                                         //祈安七朝清醮-王船添載(天錢天庫)"
@@ -639,19 +692,6 @@
                                         break;
                                 }
 
-                                $("#bless_sendback_" + id).on("change", function () {
-                                    var value = $(this).val();
-                                    switch (value) {
-                                        case "Y":
-                                            //寄回
-                                            $(".Zamp #bless_rec_" + id).show();
-                                            break;
-                                        default:
-                                            //不寄回
-                                            $(".Zamp #bless_rec_" + id).hide();
-                                            break;
-                                    }
-                                });
                             }
                             else {
                                 $("#zampname2_" + id).show();
@@ -666,9 +706,6 @@
                     });
                 }
 
-                if (newId.indexOf('sendback') >= 0) {
-                    $("#" + newId).val('N');
-                }
             });
 
             $('.InputGroup > li:last .CusAddress').find('div[data-role]').each(function (index) {
@@ -731,6 +768,7 @@
     $("#subBtn").on("click", function () {
         var listcount = $('.InputGroup > li').last().attr('bless-id');
         var isValid = true;
+        var isValid2 = true;
 
         // 遍歷每個必填欄位
         $('.required').each(function () {
@@ -745,20 +783,33 @@
 
         for (var i = 1; i <= listcount; i++) {
 
-            if ($("#bless_sendback_" + i).val() == 1) {
-                // 遍歷每個必填欄位-有條件 (寄回欄位=1)
-                var reslist = ["bless_rec_name_" + i, "bless_rec_tel_" + i, "bless_rec_county_" + i, "bless_rec_district_" + i, "bless_rec_address_" + i];
+            if ($("#bless_service_" + i).val() == "1") {
+                if ($("#bless_sendback_" + i).val() == "Y") {
+                    // 遍歷每個必填欄位-有條件 (寄回欄位=1)
+                    var reslist = ["bless_rec_name_" + i, "bless_rec_tel_" + i, "bless_rec_county_" + i, "bless_rec_district_" + i, "bless_rec_address_" + i];
 
-                reslist.forEach(function (value) {
-                    if ($("#" + value).val() == '') {
-                        isValid = false;
-                        $(this).addClass('unfilled');
-                    } else if (value != '' && $(this).hasClass('unfilled')) {
-                        $(this).removeClass('unfilled');
-                    }
-                });
+                    reslist.forEach(function (value) {
+                        if ($("#" + value).val() == '') {
+                            isValid = false;
+                            $(this).addClass('unfilled');
+                        } else if (value != '' && $(this).hasClass('unfilled')) {
+                            $(this).removeClass('unfilled');
+                        }
+                    });
+                }
+            }
+            else {
+                $("#bless_sendback_" + i).val("N");
             }
 
+            if (!checkedTime('2024-11-25 23:59:59')) {
+                if ($("#bless_service_" + i).val() != 1) {
+                    if ($("#bless_service_" + i).val() != 4) {
+                        isValid = false;
+                        isValid2 = false
+                    }
+                }
+            }
         }
 
         if (isValid) {
@@ -771,17 +822,23 @@
                     gotoChecked_da();
                 }
                 else {
-                    alert('親愛的大德您好\n大甲鎮瀾宮 2024關聖帝君聖誕活動已截止！！\n感謝您的支持, 謝謝!'); location = 'https://bobibobi.tw/Temples/temple.aspx'
+                    alert('親愛的大德您好\n大甲鎮瀾宮 2024重修慶成祈安七朝清醮活動已截止！！\n感謝您的支持, 謝謝!'); location = 'https://bobibobi.tw/Temples/temple.aspx'
                 }
             }
             else {
-                alert('親愛的大德您好\n大甲鎮瀾宮 2024關聖帝君聖誕活動尚未開始！！\n感謝您的支持, 謝謝!'); location = 'https://bobibobi.tw/Temples/temple.aspx'
+                alert('親愛的大德您好\n大甲鎮瀾宮 2024重修慶成祈安七朝清醮活動尚未開始！！\n感謝您的支持, 謝謝!'); location = 'https://bobibobi.tw/Temples/temple.aspx'
             }
         } else {
             // 在這裡可以進行表單提交或其他相關處理
             // 有欄位未填寫
-            $(".Notice").text("請檢查上方欄位是否都已填寫。");
-            $(".Notice").addClass("active");
+            if (isValid2) {
+                $(".Notice").text("請檢查上方欄位是否都已填寫。");
+                $(".Notice").addClass("active");
+            }
+            else {
+                $(".Notice").text("您選得服務項目已截止，請重新選擇。");
+                $(".Notice").addClass("active");
+            }
         }
     })
 
@@ -819,6 +876,9 @@
                     $("#bless_district_" + index).val(item.dist).trigger("change");
                     $("#bless_address_" + index).val(item.Addr);
                     $("#bless_service_" + index).val(item.TaoistJiaoCeremonyType);
+
+                    $(".Zamp #bless_zamp_" + index).hide();
+                    $(".Zamp #bless_rec_" + index).hide();
 
                     var value = item.TaoistJiaoCeremonyType;
                     var id = index;
@@ -923,13 +983,13 @@
     function gotoChecked_da() {
         var listcount = $('.InputGroup > li').last().attr('bless-id');
 
-        Appname = $("#member_name").val();                      //申請人姓名
-        Appmobile = $("#member_tel").val();                     //申請人電話
-        Appemail = $("#member_mail").val();                     //申請人Email
-        AppzipCode = $("#member_zipcode").val();                //申請人郵遞區號
-        Appcounty = $("select[name='member_county']").val();    //申請人縣市
-        Appdist = $("select[name='member_district']").val();    //申請人區域
-        Appaddr = $("#member_address").val();                   //申請人部分地址
+        Appname = $("#member_name").val();                      //購買人姓名
+        Appmobile = $("#member_tel").val();                     //購買人電話
+        Appemail = $("#member_mail").val();                     //購買人Email
+        AppzipCode = $("#member_zipcode").val();                //購買人郵遞區號
+        Appcounty = $("select[name='member_county']").val();    //購買人縣市
+        Appdist = $("select[name='member_district']").val();    //購買人區域
+        Appaddr = $("#member_address").val();                   //購買人部分地址
 
         name_Tag = [];
         name2_Tag = [];
@@ -966,8 +1026,13 @@
             dist_Tag.push($("select[name='bless_district_" + i + "']").val());                  //祈福人區域
             addr_Tag.push($("#bless_address_" + i).val());                                      //祈福人部分地址
             TaoistJiaoCeremonyType_Tag.push($("#bless_service_" + i).val());                    //服務項目
-            var sendback = $("select[name='bless_sendback_" + i + "']").val();
-            sendback_Tag.push(sendback);                                                        //寄送方式 N-不寄回(會轉送給弱勢團體) Y-寄回(加收運費250元)
+            if ($("#bless_service_" + i).val() == "1") {
+                var sendback = $("select[name='bless_sendback_" + i + "']").val();
+                sendback_Tag.push(sendback);                                                        //寄送方式 N-不寄回(會轉送給弱勢團體) Y-寄回(加收運費250元)
+            }
+            else {
+                sendback_Tag.push('N');                                                        //寄送方式 N-不寄回(會轉送給弱勢團體) Y-寄回(加收運費250元)
+            }
             rname_Tag.push($("#bless_rec_name_" + i).val());                                    //收件人姓名
             rmobile_Tag.push($("#bless_rec_tel_" + i).val());                                   //收件人電話
             rzipCode_Tag.push($("#bless_rec_zipcode_" + i).val());                              //收件人郵政區號
@@ -1053,6 +1118,20 @@
                     $("#zampname6_1").hide();
                     $(".Zamp #bless_zamp_1").show();
                     $(".Zamp #bless_rec_1").hide();
+
+                    $("#bless_sendback_1").on("change", function () {
+                        var value = $(this).val();
+                        switch (value) {
+                            case "Y":
+                                //寄回
+                                $(".Zamp #bless_rec_1").show();
+                                break;
+                            default:
+                                //不寄回
+                                $(".Zamp #bless_rec_1").hide();
+                                break;
+                        }
+                    });
                     break;
                 case "2":
                     //祈安七朝清醮-王船添載(天錢天庫)"
@@ -1124,20 +1203,6 @@
                     $(".Zamp #bless_rec_1").hide();
                     break;
             }
-
-            $("#bless_sendback_1").on("change", function () {
-                var value = $(this).val();
-                switch (value) {
-                    case "Y":
-                        //寄回
-                        $(".Zamp #bless_rec_1").show();
-                        break;
-                    default:
-                        //不寄回
-                        $(".Zamp #bless_rec_1").hide();
-                        break;
-                }
-            });
         }
         else {
             $("#zampname2_1").show();

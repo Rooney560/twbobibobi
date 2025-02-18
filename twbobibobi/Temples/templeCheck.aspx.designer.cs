@@ -33,42 +33,6 @@ namespace Temple.Temples
         protected global::Temple.Temples.header header;
 
         /// <summary>
-        /// fetPay 控制項。
-        /// </summary>
-        /// <remarks>
-        /// 自動產生的欄位。
-        /// 若要修改，請將欄位宣告從設計工具檔案移到程式碼後置檔案。
-        /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl fetPay;
-
-        /// <summary>
-        /// mobile_fet_pay 控制項。
-        /// </summary>
-        /// <remarks>
-        /// 自動產生的欄位。
-        /// 若要修改，請將欄位宣告從設計工具檔案移到程式碼後置檔案。
-        /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlInputButton mobile_fet_pay;
-
-        /// <summary>
-        /// cardPay 控制項。
-        /// </summary>
-        /// <remarks>
-        /// 自動產生的欄位。
-        /// 若要修改，請將欄位宣告從設計工具檔案移到程式碼後置檔案。
-        /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl cardPay;
-
-        /// <summary>
-        /// card_pay 控制項。
-        /// </summary>
-        /// <remarks>
-        /// 自動產生的欄位。
-        /// 若要修改，請將欄位宣告從設計工具檔案移到程式碼後置檔案。
-        /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlInputButton card_pay;
-
-        /// <summary>
         /// LinePay 控制項。
         /// </summary>
         /// <remarks>
@@ -84,7 +48,7 @@ namespace Temple.Temples
         /// 自動產生的欄位。
         /// 若要修改，請將欄位宣告從設計工具檔案移到程式碼後置檔案。
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlInputButton Line_pay;
+        protected global::System.Web.UI.HtmlControls.HtmlInputRadioButton Line_pay;
 
         /// <summary>
         /// JkosPay 控制項。
@@ -102,25 +66,61 @@ namespace Temple.Temples
         /// 自動產生的欄位。
         /// 若要修改，請將欄位宣告從設計工具檔案移到程式碼後置檔案。
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlInputButton Jkos_pay;
+        protected global::System.Web.UI.HtmlControls.HtmlInputRadioButton Jkos_pay;
 
         /// <summary>
-        /// chtPay 控制項。
+        /// PXPayPlusPay 控制項。
         /// </summary>
         /// <remarks>
         /// 自動產生的欄位。
         /// 若要修改，請將欄位宣告從設計工具檔案移到程式碼後置檔案。
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl chtPay;
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl PXPayPlusPay;
 
         /// <summary>
-        /// mobile_cht_pay 控制項。
+        /// pxpayplus_pay 控制項。
         /// </summary>
         /// <remarks>
         /// 自動產生的欄位。
         /// 若要修改，請將欄位宣告從設計工具檔案移到程式碼後置檔案。
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlInputButton mobile_cht_pay;
+        protected global::System.Web.UI.HtmlControls.HtmlInputRadioButton pxpayplus_pay;
+
+        /// <summary>
+        /// cardPay 控制項。
+        /// </summary>
+        /// <remarks>
+        /// 自動產生的欄位。
+        /// 若要修改，請將欄位宣告從設計工具檔案移到程式碼後置檔案。
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl cardPay;
+
+        /// <summary>
+        /// card_pay 控制項。
+        /// </summary>
+        /// <remarks>
+        /// 自動產生的欄位。
+        /// 若要修改，請將欄位宣告從設計工具檔案移到程式碼後置檔案。
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlInputRadioButton card_pay;
+
+        /// <summary>
+        /// fetPay 控制項。
+        /// </summary>
+        /// <remarks>
+        /// 自動產生的欄位。
+        /// 若要修改，請將欄位宣告從設計工具檔案移到程式碼後置檔案。
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl fetPay;
+
+        /// <summary>
+        /// mobile_fet_pay 控制項。
+        /// </summary>
+        /// <remarks>
+        /// 自動產生的欄位。
+        /// 若要修改，請將欄位宣告從設計工具檔案移到程式碼後置檔案。
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlInputRadioButton mobile_fet_pay;
 
         /// <summary>
         /// twmPay 控制項。
@@ -138,7 +138,43 @@ namespace Temple.Temples
         /// 自動產生的欄位。
         /// 若要修改，請將欄位宣告從設計工具檔案移到程式碼後置檔案。
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlInputButton mobile_twm_pay;
+        protected global::System.Web.UI.HtmlControls.HtmlInputRadioButton mobile_twm_pay;
+
+        /// <summary>
+        /// chtPay 控制項。
+        /// </summary>
+        /// <remarks>
+        /// 自動產生的欄位。
+        /// 若要修改，請將欄位宣告從設計工具檔案移到程式碼後置檔案。
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl chtPay;
+
+        /// <summary>
+        /// mobile_cht_pay 控制項。
+        /// </summary>
+        /// <remarks>
+        /// 自動產生的欄位。
+        /// 若要修改，請將欄位宣告從設計工具檔案移到程式碼後置檔案。
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlInputRadioButton mobile_cht_pay;
+
+        /// <summary>
+        /// unionPay 控制項。
+        /// </summary>
+        /// <remarks>
+        /// 自動產生的欄位。
+        /// 若要修改，請將欄位宣告從設計工具檔案移到程式碼後置檔案。
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl unionPay;
+
+        /// <summary>
+        /// union_pay 控制項。
+        /// </summary>
+        /// <remarks>
+        /// 自動產生的欄位。
+        /// 若要修改，請將欄位宣告從設計工具檔案移到程式碼後置檔案。
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlInputRadioButton union_pay;
 
         /// <summary>
         /// footer 控制項。

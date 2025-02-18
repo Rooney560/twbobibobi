@@ -15,7 +15,7 @@ namespace twbobibobi.Data
                 if (conn.State != ConnectionState.Open)
                     conn.Open();
 
-                string sql = "SELECT Id, Title, Description, ImageFileType FROM Ceremony WHERE Status=1 ORDER BY Seq";
+                string sql = "SELECT Id, Title, Description, ImageFileType, ButtonVisible, ButtonText, ButtonLink FROM Ceremony WHERE Status=1 ORDER BY Seq";
 
                 using (SqlCommand command = new SqlCommand(sql, conn))
                 {
@@ -28,7 +28,10 @@ namespace twbobibobi.Data
                                 Id = dr.GetInt32(0),
                                 Title = dr.GetString(1),
                                 Description = dr.GetString(2),
-                                ImageFileType = dr.GetString(3)
+                                ImageFileType = dr.GetString(3),
+                                ButtonVisible = dr.GetInt16(4),
+                                ButtonText = dr.GetString(5),
+                                ButtonLink = dr.GetString(6)
                             });
                         }
                     }

@@ -8,10 +8,11 @@ namespace twbobibobi.Data
     public class CacheCeremony
     {
         private const string _key = "Ceremony";
-        private const int _cacheMinutes = 10; //緩存有效時長（分鐘）
+        //private const int _cacheMinutes = 10; //緩存有效時長（分鐘）
         protected static readonly object _locker = new object();
         public static List<Ceremony> GetList()
         {
+            int cacheMinutes = CacheSysSetting.GetCacheMinutes();
             lock (_locker)
             {
                 var result = new List<Ceremony>();
@@ -23,7 +24,7 @@ namespace twbobibobi.Data
                     if (obj == null)
                     {
                         obj = new CeremonyDAC().SelectActive();
-                        cache.Set(_key, obj, new CacheItemPolicy() { AbsoluteExpiration = DateTime.Now.AddMinutes(_cacheMinutes) });
+                        cache.Set(_key, obj, new CacheItemPolicy() { AbsoluteExpiration = DateTime.Now.AddMinutes(cacheMinutes) });
                     }
 
                     result = obj;

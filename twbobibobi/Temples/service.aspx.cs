@@ -39,22 +39,23 @@ namespace Temple.Temples
             string[] purdue_ma = { "玉敕大樹朝天宮", "2024/06/24 00:00", "2024/08/04 23:59", "templeService_purdue_ma.aspx" };
             string[] purdue_wjsan = { "台灣道教總廟無極三清總道院", "2024/06/24 00:00", "2024/08/04 23:59", "templeService_purdue_wjsan.aspx" };
 
-            string[] lights_da = { "大甲鎮瀾宮", "2024/11/01 00:00", "2024/06/30 23:59", "templeService_lights_da.aspx" };
-            string[] lights_h = { "新港奉天宮", "2023/12/22 00:00", "2024/10/31 23:59", "templeService_lights_h.aspx" };
-            string[] lights_wu = { "北港武德宮", "2024/11/01 00:00", "2024/02/04 23:59", "templeService_lights_wu.aspx" };
-            string[] lights_Fu = { "西螺福興宮", "2023/12/22 00:00", "2024/10/31 23:59", "templeService_lights_Fu.aspx" };
-            string[] lights_Luer = { "台南正統鹿耳門聖母廟", "2023/12/22 00:00", "2024/10/31 23:59", "templeService_lights_Luer.aspx" };
-            string[] lights_ty = { "桃園威天宮", "2024/11/01 00:00", "2024/10/17 23:59", "templeService_lights_ty.aspx" };
-            string[] lights_Fw = { "斗六五路財神宮", "2023/12/22 00:00", "2024/10/31 23:59", "templeService_lights_Fw.aspx" };
-            string[] lights_dh = { "台東東海龍門天聖宮", "2024/11/01 00:00", "2024/10/17 23:59", "templeService_lights_dh.aspx" };
-            string[] lights_Lk = { "鹿港城隍廟", "2023/12/22 00:00", "2024/10/31 23:59", "templeService_lights_Lk.aspx" };
-            string[] lights_ma = { "玉敕大樹朝天宮", "2024/11/01 00:00", "2025/02/01 23:59", "templeService_lights_ma.aspx" };
+            string[] lights_da = { "大甲鎮瀾宮", "2024/11/01 00:00", "2025/06/30 23:59", "templeService_lights_da.aspx" };
+            string[] lights_h = { "新港奉天宮", "2024/11/01 00:00", "2025/10/31 23:59", "templeService_lights_h.aspx" };
+            string[] lights_wu = { "北港武德宮", "2024/11/01 00:00", "2025/01/19 23:59", "templeService_lights_wu.aspx" };
+            string[] lights_Fu = { "西螺福興宮", "2024/11/01 00:00", "2025/10/31 23:59", "templeService_lights_Fu.aspx" };
+            string[] lights_Luer = { "台南正統鹿耳門聖母廟", "2024/11/01 00:00", "2025/10/31 23:59", "templeService_lights_Luer.aspx" };
+            string[] lights_ty = { "桃園威天宮", "2024/11/01 00:00", "2025/10/17 23:59", "templeService_lights_ty.aspx" };
+            string[] lights_Fw = { "斗六五路財神宮", "2024/11/01 00:00", "2025/10/31 23:59", "templeService_lights_Fw.aspx" };
+            string[] lights_dh = { "台東東海龍門天聖宮", "2024/11/01 00:00", "2025/08/15 23:59", "templeService_lights_dh.aspx" };
+            string[] lights_Lk = { "鹿港城隍廟", "2024/11/01 00:00", "2025/10/31 23:59", "templeService_lights_Lk.aspx" };
+            string[] lights_ma = { "玉敕大樹朝天宮", "2024/11/01 00:00", "2025/06/30 23:59", "templeService_lights_ma.aspx" };
             string[] lights_wjsan = { "台灣道教總廟無極三清總道院", "2024/11/01 00:00", "2025/03/15 23:59", "templeService_lights_wjsan.aspx" };
 
             string[] supplies_wu = { "北港武德宮", "2023/10/15 00:00", "2023/11/21 23:59", "templeService_supplies.aspx" };
             string[] supplies_wu2 = { "北港武德宮", "2024/03/12 00:00", "2024/04/17 23:59", "templeService_supplies2.aspx" };
             string[] supplies_wu3 = { "北港武德宮", "0", "0", "templeService_supplies3.aspx" };
             string[] supplies_ty = { "桃園威天宮", "2024/05/18 00:00", "2024/05/28 23:59", "templeService_supplies_ty.aspx" };
+            string[] supplies_Lk = { "鹿港城隍廟", "2024/12/28 00:00", "2025/01/23 23:59", "templeService_supplies_Lk.aspx" };
 
             public void getActivityTime(BasePage basePage)
             {
@@ -139,6 +140,20 @@ namespace Temple.Temples
                                     startDate = lights_Lk[1];
                                     endDate = lights_Lk[2];
                                     Url = lights_Lk[3];
+                                    break;
+                                case "23":
+                                    //玉敕大樹朝天宮
+                                    name = lights_ma[0];
+                                    startDate = lights_ma[1];
+                                    endDate = lights_ma[2];
+                                    Url = lights_ma[3];
+                                    break;
+                                case "31":
+                                    //台灣道教總廟無極三清總道院
+                                    name = lights_wjsan[0];
+                                    startDate = lights_wjsan[1];
+                                    endDate = lights_wjsan[2];
+                                    Url = lights_wjsan[3];
                                     break;
                             }
                             break;
@@ -297,6 +312,20 @@ namespace Temple.Temples
                                     startDate = "2024/09/23 00:00";
                                     endDate = "2024/11/30 23:59";
                                     Url = "templeService_TaoistJiaoCeremony_da.aspx";
+                                    break;
+                            }
+                            break;
+                        case "16":
+                            //補財庫
+                            service = "補財庫";
+                            switch (adminID)
+                            {
+                                case "21":
+                                    //鹿港城隍廟
+                                    name = supplies_Lk[0];
+                                    startDate = supplies_Lk[1];
+                                    endDate = supplies_Lk[2];
+                                    Url = supplies_Lk[3];
                                     break;
                             }
                             break;

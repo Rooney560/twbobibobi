@@ -499,5 +499,60 @@
         button.removeAttr("disabled");
     } 
 
- 
+    //數字格式檢查，如不符條件返回false值
+    function isNum(isNum) {
+        var reg = /^[0-9]*$/;
+        if (!reg.test(isNum) || isNum == '') {
+            return false;
+        } else {
+            return true;
+        }
+    }
+
+
+    //手機格式檢查-台灣手機格式09xx-xxx-xxx，如不符條件返回false值
+
+    function Isphone(phone) {
+        var regex = /^09\d{8}$/;
+        if (!regex.test(phone)) {
+            return false;
+        } else {
+            return true;
+        }
+    }
+
+
+    //E-MAIL格式檢查，如不符條件返回false值
+
+    function IsEmail(email) {
+        var regex = /^([a-zA-Z0-9_\.\-\+])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/;
+        if (!regex.test(email)) {
+            return false;
+        } else {
+            return true;
+        }
+    }
+
+
+    //網址url格式檢查，如不符條件返回false值
+
+    function isURL(str) {
+        return !!str.match(/(((^https?:(?:\/\/)?)(?:[-;:&=\+\$,\w]+@)?[A-Za-z0-9.-]+|(?:www.|[-;:&=\+\$,\w]+@)[A-Za-z0-9.-]+)((?:\/[\+~%\/.\w-_]*)?\??(?:[-\+=&;%@.\w_]*)#?(?:[\w]*))?)$/g);
+
+    }
+
+    //HTML格式檢查，如不符條件返回false值
+
+    function strip_tags(str) {
+        str = str.toString();
+        return str.replace(/<\/?[^>]+>/gi, '');
+    }
+
+
+    //驗證中文名稱，如不符條件返回false值
+
+    function isChinaName(name) {
+        var pattern = /^[\u4E00-\u9FA5]{1,6}$/;
+        return pattern.test(name);
+    }
 </script>

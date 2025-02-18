@@ -1683,6 +1683,26 @@ namespace MotoSystem.Data
                             view = "Temple_" + Year + "..APPCharge_Lk_Lights";
                             sql = "Select * from Temple_" + Year + "..APPCharge_Lk_Lights Where Status = 1 and UniqueID = @UniqueID";
                             break;
+                        case "23":
+                            //玉敕大樹朝天宮
+                            view = "Temple_" + Year + "..APPCharge_ma_Lights";
+                            sql = "Select * from Temple_" + Year + "..APPCharge_ma_Lights Where Status = 1 and UniqueID = @UniqueID";
+                            break;
+                        case "29":
+                            //進寶財神廟
+                            view = "Temple_" + Year + "..APPCharge_jb_Lights";
+                            sql = "Select * from Temple_" + Year + "..APPCharge_jb_Lights Where Status = 1 and UniqueID = @UniqueID";
+                            break;
+                        case "31":
+                            //台灣道教總廟無極三清總道院
+                            view = "Temple_" + Year + "..APPCharge_wjsan_Lights";
+                            sql = "Select * from Temple_" + Year + "..APPCharge_wjsan_Lights Where Status = 1 and UniqueID = @UniqueID";
+                            break;
+                        case "32":
+                            //桃園龍德宮
+                            view = "Temple_" + Year + "..APPCharge_ld_Lights";
+                            sql = "Select * from Temple_" + Year + "..APPCharge_ld_Lights Where Status = 1 and UniqueID = @UniqueID";
+                            break;
                     }
                     break;
                 case "2":
@@ -1830,6 +1850,11 @@ namespace MotoSystem.Data
                             view = "Temple_" + Year + "..APPCharge_ty_Supplies";
                             sql = "Select * from Temple_" + Year + "..APPCharge_ty_Supplies Where Status = 1 and UniqueID = @UniqueID";
                             break;
+                        case "23":
+                            //桃園威天宮
+                            view = "Temple_" + Year + "..APPCharge_ma_Supplies";
+                            sql = "Select * from Temple_" + Year + "..APPCharge_ma_Supplies Where Status = 1 and UniqueID = @UniqueID";
+                            break;
                     }
                     break;
                 case "8":
@@ -1873,6 +1898,39 @@ namespace MotoSystem.Data
                             //大甲鎮瀾宮
                             view = "Temple_" + Year + "..APPCharge_da_TaoistJiaoCeremony";
                             sql = "Select * from Temple_" + Year + "..APPCharge_da_TaoistJiaoCeremony Where Status = 1 and UniqueID = @UniqueID";
+                            break;
+                    }
+                    break;
+                case "16":
+                    //補財庫
+                    switch (AdminID)
+                    {
+                        case "21":
+                            //鹿港城隍廟
+                            view = "Temple_" + Year + "..APPCharge_Lk_Supplies";
+                            sql = "Select * from Temple_" + Year + "..APPCharge_Lk_Supplies Where Status = 1 and UniqueID = @UniqueID";
+                            break;
+                    }
+                    break;
+                case "17":
+                    //赦罪補庫
+                    switch (AdminID)
+                    {
+                        case "33":
+                            //神霄玉府財神會館
+                            view = "Temple_" + Year + "..APPCharge_sx_Supplies";
+                            sql = "Select * from Temple_" + Year + "..APPCharge_sx_Supplies Where Status = 1 and UniqueID = @UniqueID";
+                            break;
+                    }
+                    break;
+                case "18":
+                    //招財補運
+                    switch (AdminID)
+                    {
+                        case "14":
+                            //桃園威天宮
+                            view = "Temple_" + Year + "..APPCharge_ty_Supplies3";
+                            sql = "Select * from Temple_" + Year + "..APPCharge_ty_Supplies3 Where Status = 1 and UniqueID = @UniqueID";
                             break;
                     }
                     break;
@@ -1976,6 +2034,20 @@ namespace MotoSystem.Data
                                             bResult = true;
                                         }
                                         break;
+                                    case "16":
+                                        //補財庫
+                                        if (DeleteSuppliesNum(int.Parse(dtDataList.Rows[0]["ApplicantID"].ToString()), AdminID, 9, Year))
+                                        {
+                                            bResult = true;
+                                        }
+                                        break;
+                                    case "18":
+                                        //招財補運
+                                        if (DeleteSuppliesNum(int.Parse(dtDataList.Rows[0]["ApplicantID"].ToString()), AdminID, 18, Year))
+                                        {
+                                            bResult = true;
+                                        }
+                                        break;
                                 }
                             }
                         }
@@ -2070,6 +2142,26 @@ namespace MotoSystem.Data
                             //鹿港城隍廟
                             view = "Temple_" + Year + "..ApplicantInfo_Lk_Lights";
                             sql = "Select * from Temple_" + Year + "..ApplicantInfo_Lk_Lights Where Status = 2 and ApplicantID = @ApplicantID";
+                            break;
+                        case "23":
+                            //玉敕大樹朝天宮
+                            view = "Temple_" + Year + "..ApplicantInfo_ma_Lights";
+                            sql = "Select * from Temple_" + Year + "..ApplicantInfo_ma_Lights Where Status = 2 and ApplicantID = @ApplicantID";
+                            break;
+                        case "29":
+                            //進寶財神廟
+                            view = "Temple_" + Year + "..ApplicantInfo_jb_Lights";
+                            sql = "Select * from Temple_" + Year + "..ApplicantInfo_jb_Lights Where Status = 2 and ApplicantID = @ApplicantID";
+                            break;
+                        case "31":
+                            //台灣道教總廟無極三清總道院
+                            view = "Temple_" + Year + "..ApplicantInfo_wjsan_Lights";
+                            sql = "Select * from Temple_" + Year + "..ApplicantInfo_wjsan_Lights Where Status = 2 and ApplicantID = @ApplicantID";
+                            break;
+                        case "32":
+                            //桃園龍德宮
+                            view = "Temple_" + Year + "..ApplicantInfo_ld_Lights";
+                            sql = "Select * from Temple_" + Year + "..ApplicantInfo_ld_Lights Where Status = 2 and ApplicantID = @ApplicantID";
                             break;
                     }
                     break;
@@ -2222,6 +2314,11 @@ namespace MotoSystem.Data
                             view = "Temple_" + Year + "..ApplicantInfo_ty_Supplies";
                             sql = "Select * from Temple_" + Year + "..ApplicantInfo_ty_Supplies Where Status = 2 and ApplicantID = @ApplicantID";
                             break;
+                        case "23":
+                            //桃園威天宮
+                            view = "Temple_" + Year + "..ApplicantInfo_ma_Supplies";
+                            sql = "Select * from Temple_" + Year + "..ApplicantInfo_ma_Supplies Where Status = 2 and ApplicantID = @ApplicantID";
+                            break;
                     }
                     break;
                 case "8":
@@ -2265,6 +2362,39 @@ namespace MotoSystem.Data
                             //大甲鎮瀾宮
                             view = "Temple_" + Year + "..ApplicantInfo_da_TaoistJiaoCeremony";
                             sql = "Select * from Temple_" + Year + "..ApplicantInfo_da_TaoistJiaoCeremony Where Status = 2 and ApplicantID = @ApplicantID";
+                            break;
+                    }
+                    break;
+                case "16":
+                    //補財庫
+                    switch (AdminID)
+                    {
+                        case "21":
+                            //鹿港城隍廟
+                            view = "Temple_" + Year + "..ApplicantInfo_Lk_Supplies";
+                            sql = "Select * from Temple_" + Year + "..ApplicantInfo_Lk_Supplies Where Status = 2 and ApplicantID = @ApplicantID";
+                            break;
+                    }
+                    break;
+                case "17":
+                    //赦罪補庫
+                    switch (AdminID)
+                    {
+                        case "33":
+                            //神霄玉府財神會館
+                            view = "Temple_" + Year + "..ApplicantInfo_sx_Supplies";
+                            sql = "Select * from Temple_" + Year + "..ApplicantInfo_sx_Supplies Where Status = 2 and ApplicantID = @ApplicantID";
+                            break;
+                    }
+                    break;
+                case "18":
+                    //招財補運
+                    switch (AdminID)
+                    {
+                        case "14":
+                            //桃園威天宮
+                            view = "Temple_" + Year + "..ApplicantInfo_ty_Supplies3";
+                            sql = "Select * from Temple_" + Year + "..ApplicantInfo_ty_Supplies3 Where Status = 2 and ApplicantID = @ApplicantID";
                             break;
                     }
                     break;
@@ -2370,6 +2500,26 @@ namespace MotoSystem.Data
                     //鹿港城隍廟
                     view = "Temple_" + Year + "..Lights_Lk_info";
                     sql = "Select * from Temple_" + Year + "..Lights_Lk_info Where ApplicantID = @ApplicantID and Status = 0";
+                    break;
+                case "23":
+                    //玉敕大樹朝天宮
+                    view = "Temple_" + Year + "..Lights_ma_info";
+                    sql = "Select * from Temple_" + Year + "..Lights_ma_info Where ApplicantID = @ApplicantID and Status = 0";
+                    break;
+                case "29":
+                    //進寶財神廟
+                    view = "Temple_" + Year + "..Lights_jb_info";
+                    sql = "Select * from Temple_" + Year + "..Lights_jb_info Where ApplicantID = @ApplicantID and Status = 0";
+                    break;
+                case "31":
+                    //台灣道教總廟無極三清總道院
+                    view = "Temple_" + Year + "..Lights_wjsan_info";
+                    sql = "Select * from Temple_" + Year + "..Lights_wjsan_info Where ApplicantID = @ApplicantID and Status = 0";
+                    break;
+                case "32":
+                    //桃園龍德宮
+                    view = "Temple_" + Year + "..Lights_ld_info";
+                    sql = "Select * from Temple_" + Year + "..Lights_ld_info Where ApplicantID = @ApplicantID and Status = 0";
                     break;
             }
 
@@ -2869,6 +3019,30 @@ namespace MotoSystem.Data
                         view = "Temple_" + Year + "..Supplies_ty_info";
                         sql = "Select * from Temple_" + Year + "..Supplies_ty_info Where Status = 0 and ApplicantID = @ApplicantID";
                     }
+                    else if (Suppliestype == 18)
+                    {
+                        //天赦日補運
+                        view = "Temple_" + Year + "..Supplies3_ty_info";
+                        sql = "Select * from Temple_" + Year + "..Supplies3_ty_info Where Status = 0 and ApplicantID = @ApplicantID";
+                    }
+                    break;
+                case "21":
+                    //鹿港城隍廟
+                    if (Suppliestype == 9)
+                    {
+                        //補財庫
+                        view = "Temple_" + Year + "..Supplies_Lk_info";
+                        sql = "Select * from Temple_" + Year + "..Supplies_Lk_info Where Status = 0 and ApplicantID = @ApplicantID";
+                    }
+                    break;
+                case "23":
+                    //桃園威天宮
+                    if (Suppliestype == 4)
+                    {
+                        //天赦日補運
+                        view = "Temple_" + Year + "..Supplies_ma_info";
+                        sql = "Select * from Temple_" + Year + "..Supplies_ma_info Where Status = 0 and ApplicantID = @ApplicantID";
+                    }
                     break;
                 case "29":
                     //進寶財神廟
@@ -2877,6 +3051,15 @@ namespace MotoSystem.Data
                         //天赦日祭改
                         view = "Temple_" + Year + "..Supplies_jb_info";
                         sql = "Select * from Temple_" + Year + "..Supplies_jb_info Where Status = 0 and ApplicantID = @ApplicantID";
+                    }
+                    break;
+                case "33":
+                    //神霄玉府財神會館
+                    if (Suppliestype == 11)
+                    {
+                        //赦罪補庫
+                        view = "Temple_" + Year + "..Supplies_sx_info";
+                        sql = "Select * from Temple_" + Year + "..Supplies_sx_info Where Status = 0 and ApplicantID = @ApplicantID";
                     }
                     break;
             }

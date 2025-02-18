@@ -11,6 +11,8 @@ using System.IO;
 using System.Net.Security;
 using System.Net;
 using System.Security.Cryptography.X509Certificates;
+using Newtonsoft.Json.Linq;
+using Newtonsoft.Json;
 
 namespace MotoSystem.Data
 {
@@ -39,7 +41,7 @@ namespace MotoSystem.Data
                 }
                 catch (Exception error)
                 {
-                    SaveErrorLog(error);
+                    SaveErrorLog(error + ", " + error.InnerException);
                     this.mJSonHelper.AddContent("StatusCode", -1);
                 }
                 ResponseJSonString();
@@ -411,7 +413,9 @@ namespace MotoSystem.Data
         }
 
 
-        //燈種 3-光明燈 4-安太歲 5-文昌燈 6-財神燈 7-姻緣燈 8-藥師燈 9-財利燈 10-貴人燈 11-福祿(壽)燈 12-寵物平安燈 13-龍王燈 14-虎爺燈 15-轉運納福燈 16-光明燈上層 17-偏財旺旺燈 18-廣進安財庫 19-財庫燈 20-月老姻緣燈 21-孝親祈福燈
+        /// <param name="LightsString">LightsString=燈種 3-光明燈 4-安太歲 5-文昌燈 6-財神燈 7-姻緣燈 8-藥師燈 9-財利燈 10-貴人燈 11-福祿(壽)燈 12-寵物平安燈 13-龍王燈 14-虎爺燈 15-轉運納福燈 
+        /// 16-光明燈上層 17-偏財旺旺燈 18-廣進安財庫 19-財庫燈 20-月老姻緣燈 21-孝親祈福燈 22-事業燈 23-全家光明燈 24-觀音佛祖燈 25-財神斗 26-事業斗 27-平安斗 28-文昌斗 29-藥師斗 
+        /// 30-元神斗 31-福祿壽斗 32-觀音斗 33-明心智慧燈(智慧燈) 34-元辰斗燈</param>
         public static string GetLightsType(string LightsString, string adminID)
         {
             string result = "-1";
@@ -466,6 +470,9 @@ namespace MotoSystem.Data
                     result = "8";
                     break;
                 case "藥師佛燈":
+                    result = "8";
+                    break;
+                case "消災延壽燈":
                     result = "8";
                     break;
                 case "財利燈":
@@ -526,6 +533,9 @@ namespace MotoSystem.Data
                 case "財神斗":
                     result = "25";
                     break;
+                case "財神斗/一個月":
+                    result = "25";
+                    break;
                 case "事業斗":
                     result = "26";
                     break;
@@ -546,6 +556,39 @@ namespace MotoSystem.Data
                     break;
                 case "觀音斗":
                     result = "32";
+                    break;
+                case "智慧燈":
+                    result = "33";
+                    break;
+                case "明心智慧燈":
+                    result = "33";
+                    break;
+                case "發財斗/一個月":
+                    result = "34";
+                    break;
+                case "姻緣斗/一個月":
+                    result = "35";
+                    break;
+                case "貴人斗/一個月":
+                    result = "36";
+                    break;
+                case "消災延壽斗/一個月":
+                    result = "37";
+                    break;
+                case "財神斗/三個月":
+                    result = "38";
+                    break;
+                case "發財斗/三個月":
+                    result = "39";
+                    break;
+                case "姻緣斗/三個月":
+                    result = "40";
+                    break;
+                case "貴人斗/三個月":
+                    result = "41";
+                    break;
+                case "消災延壽斗/三個月":
+                    result = "42";
                     break;
             }
 
@@ -630,7 +673,9 @@ namespace MotoSystem.Data
         /// <summary>
         /// 轉換點燈項目
         /// </summary>
-        /// <param name="lightstype">lightstype=燈種 3-光明燈 4-安太歲 5-文昌燈 6-財神燈 7-姻緣燈 8-藥師燈 9-財利燈 10-貴人燈 11-福祿(壽)燈 12-寵物平安燈 13-龍王燈 14-虎爺燈 15-轉運納福燈 16-光明燈上層 17-偏財旺旺燈 18-廣進安財庫 19-財庫燈 20-月老姻緣燈 21-孝親祈福燈</param>
+        /// <param name="lightstype">lightstype=燈種 3-光明燈 4-安太歲 5-文昌燈 6-財神燈 7-姻緣燈 8-藥師燈 9-財利燈 10-貴人燈 11-福祿(壽)燈 12-寵物平安燈 13-龍王燈 14-虎爺燈 
+        /// 15-轉運納福燈 16-光明燈上層 17-偏財旺旺燈 18-廣進安財庫 19-財庫燈 20-月老姻緣燈 21-孝親祈福燈 22-事業燈 23-全家光明燈 24-觀音佛祖燈 25-財神斗 26-事業斗 27-平安斗 
+        /// 28-文昌斗 29-藥師斗 30-元神斗 31-福祿壽斗 32-觀音斗 33-明心智慧燈</param>
         /// <returns></returns>
         public static string LightsType2String(string lightstype, string adminID)
         {
@@ -645,6 +690,9 @@ namespace MotoSystem.Data
                             break;
                         case "21":
                             result = "元神光明燈";
+                            break;
+                        case "32":
+                            result = "元辰光明燈";
                             break;
                         default:
                             result = "光明燈";
@@ -664,6 +712,9 @@ namespace MotoSystem.Data
                         case "23":
                             result = "太歲燈";
                             break;
+                        case "32":
+                            result = "太歲燈";
+                            break;
                         default:
                             result = "安太歲";
                             break;
@@ -678,6 +729,9 @@ namespace MotoSystem.Data
                         case "23":
                             result = "五文昌燈";
                             break;
+                        case "32":
+                            result = "文昌功名燈";
+                            break;
                         default:
                             result = "文昌燈";
                             break;
@@ -691,6 +745,9 @@ namespace MotoSystem.Data
                             break;
                         case "21":
                             result = "正財福報燈";
+                            break;
+                        case "32":
+                            result = "五路財神燈";
                             break;
                         default:
                             result = "財神燈";
@@ -714,8 +771,14 @@ namespace MotoSystem.Data
                         case "14":
                             result = "藥師燈";
                             break;
+                        case "15":
+                            result = "消災延壽燈";
+                            break;
                         case "31":
                             result = "藥師燈";
+                            break;
+                        case "32":
+                            result = "健康延壽燈";
                             break;
                         default:
                             result = "藥師佛燈";
@@ -856,6 +919,9 @@ namespace MotoSystem.Data
                 case "25":
                     switch (adminID)
                     {
+                        case "15":
+                            result = "財神斗/一個月";
+                            break;
                         default:
                             result = "財神斗";
                             break;
@@ -914,6 +980,86 @@ namespace MotoSystem.Data
                     {
                         default:
                             result = "觀音斗";
+                            break;
+                    }
+                    break;
+                case "33":
+                    switch (adminID)
+                    {
+                        default:
+                            result = "明心智慧燈";
+                            break;
+                    }
+                    break;
+                case "34":
+                    switch (adminID)
+                    {
+                        default:
+                            result = "發財斗/一個月";
+                            break;
+                    }
+                    break;
+                case "35":
+                    switch (adminID)
+                    {
+                        default:
+                            result = "姻緣斗/一個月";
+                            break;
+                    }
+                    break;
+                case "36":
+                    switch (adminID)
+                    {
+                        default:
+                            result = "貴人斗/一個月";
+                            break;
+                    }
+                    break;
+                case "37":
+                    switch (adminID)
+                    {
+                        default:
+                            result = "消災延壽斗/一個月";
+                            break;
+                    }
+                    break;
+                case "38":
+                    switch (adminID)
+                    {
+                        default:
+                            result = "財神斗/三個月";
+                            break;
+                    }
+                    break;
+                case "39":
+                    switch (adminID)
+                    {
+                        default:
+                            result = "發財斗/三個月";
+                            break;
+                    }
+                    break;
+                case "40":
+                    switch (adminID)
+                    {
+                        default:
+                            result = "姻緣斗/三個月";
+                            break;
+                    }
+                    break;
+                case "41":
+                    switch (adminID)
+                    {
+                        default:
+                            result = "貴人斗/三個月";
+                            break;
+                    }
+                    break;
+                case "42":
+                    switch (adminID)
+                    {
+                        default:
+                            result = "消災延壽斗/三個月";
                             break;
                     }
                     break;
@@ -1133,10 +1279,39 @@ namespace MotoSystem.Data
             return result;
         }
 
+        //護國息災梁皇大法會項目 1-財寶袋 2-普度供桌 3-福慧水晶燈 4-重建募款伍佰元 5-重建募款壹仟元 6-重建募款貳仟元
+        public static string GetLybcType2String(string LybcType, string adminID)
+        {
+            string result = "";
+            switch (LybcType)
+            {
+                case "1":
+                    result = "財寶袋";
+                    break;
+                case "2":
+                    result = "普度供桌";
+                    break;
+                case "3":
+                    result = "福慧水晶燈";
+                    break;
+                case "4":
+                    result = "重建募款伍佰元";
+                    break;
+                case "5":
+                    result = "重建募款壹仟元";
+                    break;
+                case "6":
+                    result = "重建募款貳仟元";
+                    break;
+            }
 
-        ///燈種 3-光明燈 4-安太歲 5-文昌燈 6-財神燈 7-姻緣燈 8-藥師燈 9-財利燈 10-貴人燈 11-福祿(壽)燈 12-寵物平安燈 13-龍王燈 14-虎爺燈 15-轉運納福燈 16-光明燈上層 17-偏財旺旺燈
-        ///18-廣進安財庫 19-財庫燈 20-月老姻緣燈 21-孝親祈福燈 22-事業登 23-全家光明燈 24-觀音佛祖燈 25-財神斗 26-事業斗 27-平安斗 28-文昌斗 29-藥師斗 30-元神斗 31-福祿壽斗 
-        ///32-觀音斗
+            return result;
+        }
+
+
+        ///燈種 3-光明燈 4-安太歲 5-文昌燈 6-財神燈 7-姻緣燈 8-藥師燈 9-財利燈 10-貴人燈 11-福祿(壽)燈 12-寵物平安燈 13-龍王燈 14-虎爺燈 15-轉運納福燈 
+        /// 16-光明燈上層 17-偏財旺旺燈 18-廣進安財庫 19-財庫燈 20-月老姻緣燈 21-孝親祈福燈 22-事業燈 23-全家光明燈 24-觀音佛祖燈 25-財神斗 26-事業斗 27-平安斗 28-文昌斗 29-藥師斗 
+        /// 30-元神斗 31-福祿壽斗 32-觀音斗 33-明心智慧燈(智慧燈) 34-元辰斗燈
         public static int GetLightsCost(int AdminID, string LightsType)
         {
             int result = 0;
@@ -1273,6 +1448,10 @@ namespace MotoSystem.Data
                             //太歲燈
                             result = 300;
                             break;
+                        case "33":
+                            //智慧燈
+                            result = 300;
+                            break;
                         case "6":
                             //財神燈
                             result = 600;
@@ -1315,6 +1494,10 @@ namespace MotoSystem.Data
                             //月老桃花燈
                             result = 500;
                             break;
+                        case "8":
+                            //消災延壽燈
+                            result = 500;
+                            break;
                         case "12":
                             //寵物平安燈
                             result = 500;
@@ -1322,6 +1505,46 @@ namespace MotoSystem.Data
                         case "19":
                             //財庫燈
                             result = 500;
+                            break;
+                        case "25":
+                            //財神斗/一個月
+                            result = 1200;
+                            break;
+                        case "34":
+                            //發財斗/一個月
+                            result = 1200;
+                            break;
+                        case "35":
+                            //姻緣斗/一個月
+                            result = 1200;
+                            break;
+                        case "36":
+                            //貴人斗/一個月
+                            result = 1200;
+                            break;
+                        case "37":
+                            //消災延壽斗/一個月
+                            result = 1200;
+                            break;
+                        case "38":
+                            //財神斗/三個月
+                            result = 3000;
+                            break;
+                        case "39":
+                            //發財斗/三個月
+                            result = 3000;
+                            break;
+                        case "40":
+                            //姻緣斗/三個月
+                            result = 3000;
+                            break;
+                        case "41":
+                            //貴人斗/三個月
+                            result = 3000;
+                            break;
+                        case "42":
+                            //消災延壽斗/三個月
+                            result = 3000;
                             break;
                     }
                     break;
@@ -1503,6 +1726,15 @@ namespace MotoSystem.Data
                             break;
                     }
                     break;
+                case 32:
+                    //桃園龍德宮
+                    switch (LightsType)
+                    {
+                        default:
+                            result = 560;
+                            break;
+                    }
+                    break;
             }
 
             return result;
@@ -1681,7 +1913,9 @@ namespace MotoSystem.Data
             return result;
         }
 
-        //補庫項目 1-下元補庫 2-呈疏補庫 3-企業補財庫 4-天赦日補運 5-天赦日祭改 6-天貺納福添運法會 7-招財補運 8-招財補運九九重陽升級版
+        //補庫項目 1-下元補庫 2-呈疏補庫 3-企業補財庫 4-天赦日補運 5-天赦日祭改 6-代燒金紙 7-招財補運 8-招財補運九九重陽升級版 9-補財庫 10-財神賜福-消災補庫法會 11-地母廟-赦罪解業
+        //          12-地母廟-補財庫 13-地母廟-赦罪解業+補財庫 14-草屯敦和宮-赦罪解業 15-草屯敦和宮-補財庫 16-草屯敦和宮-赦罪解業+補財庫 17-紫南宮-赦罪解業 18-紫南宮-補財庫
+        //          19-紫南宮-赦罪解業+補財庫 20-天公生招財補運
         public static int GetSuppliesCost(int AdminID, string SuppliesType)
         {
             int result = 0;
@@ -1721,6 +1955,55 @@ namespace MotoSystem.Data
                         case "8":
                             //招財補運九九重陽升級版
                             result = 5880;
+                            break;
+                        case "20":
+                            //天公生招財補運
+                            result = 1680;
+                            break;
+                    }
+                    break;
+                case 21:
+                    //鹿港城隍廟
+                    switch (SuppliesType)
+                    {
+                        case "9":
+                            //補財庫
+                            result = 1600;
+                            break;
+                    }
+                    break;
+                case 29:
+                    //進寶財神廟
+                    switch (SuppliesType)
+                    {
+                        case "5":
+                            //天赦日祭改
+                            result = 2180;
+                            break;
+                        case "10":
+                            //財神賜福-消災補庫法會
+                            result = 2180;
+                            break;
+                    }
+                    break;
+                case 33:
+                    //神霄玉府財神會館
+                    switch (SuppliesType)
+                    {
+                        case "13":
+                            //地母廟-赦罪解業+補財庫
+                            result = 2800;
+                            break;
+                        case "16":
+                            //草屯敦和宮-赦罪解業+補財庫
+                            result = 2800;
+                            break;
+                        case "19":
+                            //紫南宮-赦罪解業+補財庫
+                            result = 2800;
+                            break;
+                        default:
+                            result = 1500;
                             break;
                     }
                     break;
@@ -1839,6 +2122,48 @@ namespace MotoSystem.Data
             return result;
         }
 
+        //護國息災梁皇大法會項目 1-財寶袋 2-普度供桌 3-福慧水晶燈 4-重建募款$500 5-重建募款$1000 6-重建募款$2000
+        public static int GetLybcCost(string LybcType, int AdminID)
+        {
+            int result = 0;
+
+            switch (AdminID)
+            {
+                case 16:
+                    //台東東海龍門天聖宮
+                    switch (LybcType)
+                    {
+                        case "1":
+                            //財寶袋
+                            result = 300;
+                            break;
+                        case "2":
+                            //普度供桌
+                            result = 1500;
+                            break;
+                        case "3":
+                            //福慧水晶燈
+                            result = 500;
+                            break;
+                        case "4":
+                            //重建募款
+                            result = 500;
+                            break;
+                        case "5":
+                            //重建募款
+                            result = 1000;
+                            break;
+                        case "6":
+                            //重建募款
+                            result = 2000;
+                            break;
+                    }
+                    break;
+            }
+
+            return result;
+        }
+
         public bool HttpPost(string url, string strPostData, ref string resp, string contentType = "application/x-www-form-urlencoded", Dictionary<string, string> headers = null)
         {
             bool result = true;
@@ -1895,5 +2220,240 @@ namespace MotoSystem.Data
             return true;
         }
 
+
+        protected void JSONStringOrder(string checkedkey, string clientOrderNumber, string OrderID, string encrypt, string kind, string[] Lightslist, JArray itemsInfo)
+        {
+
+            //JSON寫入到檔案
+            using (StringWriter sw = new StringWriter())
+            {
+                using (JsonTextWriter writer = new JsonTextWriter(sw))
+                {
+                    //建立物件
+                    writer.WriteStartObject();
+
+                    //物件名稱
+                    writer.WritePropertyName("detail");
+
+                    using (StringWriter sw2 = new StringWriter())
+                    {
+                        using (JsonTextWriter writer2 = new JsonTextWriter(sw2))
+                        {
+                            //建立物件
+                            writer2.WriteStartObject();
+
+                            writer2.WritePropertyName(string.Format("clientOrderNumber", clientOrderNumber));
+                            writer2.WriteValue(clientOrderNumber);
+
+                            writer2.WritePropertyName("partnerOrderNumber");
+                            writer2.WriteValue(OrderID);
+
+                            writer2.WritePropertyName("orderMsg");
+                            writer2.WriteValue("success");
+
+                            writer2.WritePropertyName("orderStatus");
+                            writer2.WriteValue("0000");
+
+                            writer2.WritePropertyName("items");
+                            //建立陣列
+                            writer2.WriteStartArray();
+
+                            //string[] Lightslist = new string[dtData.Rows.Count];
+                            //for (int i = 0; i < dtData.Rows.Count; i++)
+                            //{
+                            //    Lightslist[i] = dtData.Rows[i]["Num2String"].ToString();
+                            //}
+
+                            int j = 0;
+                            foreach (var item in itemsInfo)
+                            {
+                                //建立物件
+                                writer2.WriteStartObject();
+
+                                //物件名稱
+                                writer2.WritePropertyName("productCode");
+                                writer2.WriteValue(item["productCode"]);
+
+                                if (kind != "3")
+                                {
+                                    writer2.WritePropertyName("prayedPerson");
+                                    //建立陣列
+                                    writer2.WriteStartArray();
+
+                                    JArray prayedPerson = (JArray)item["prayedPerson"];
+                                    foreach (var item2 in prayedPerson)
+                                    {
+                                        //建立物件
+                                        writer2.WriteStartObject();
+                                        writer2.WritePropertyName("prayedPersonSeq"); writer2.WriteValue(item2["prayedPersonSeq"]);
+                                        writer2.WritePropertyName("prayedPersonOrderNumber"); writer2.WriteValue(Lightslist[j]);
+                                        writer2.WriteEndObject();
+                                        j++;
+                                    }
+                                    writer2.WriteEndArray();
+                                }
+
+                                writer2.WriteEndObject();
+                            }
+                            writer2.WriteEndArray();
+
+                            writer2.WriteEndObject();
+
+                            encrypt = AESHelper.AesEncrypt(sw2.ToString(), checkedkey);
+                        }
+                    }
+
+                    writer.WriteValue(encrypt);
+
+                    writer.WritePropertyName("resultCode"); writer.WriteValue("0000");
+
+                    writer.WriteEndObject();
+
+                    writer.Flush();
+                    writer.Close();
+                    sw.Flush();
+                    sw.Close();
+
+                    //輸出結果
+                    Response.Write(sw.ToString());
+
+                    SaveRequestLog(Request.Url + sw.ToString());
+                }
+            }
+        }
+
+        protected void JSONCancelOrder(string checkedkey, string clientOrderNumber, string[] clientOrderNumberlist, string encrypt)
+        {
+            //JSON寫入到檔案
+            using (StringWriter sw = new StringWriter())
+            {
+                using (JsonTextWriter writer = new JsonTextWriter(sw))
+                {
+                    //建立物件
+                    writer.WriteStartObject();
+
+                    //物件名稱
+                    writer.WritePropertyName("detail");
+
+                    using (StringWriter sw2 = new StringWriter())
+                    {
+                        using (JsonTextWriter writer2 = new JsonTextWriter(sw2))
+                        {
+                            //建立物件
+                            writer2.WriteStartObject();
+
+                            writer2.WritePropertyName("orderMsg");
+                            writer2.WriteValue("fail");
+
+                            writer2.WritePropertyName("orderStatus");
+                            string err = "1002";
+                            for (int i = 0; i < clientOrderNumberlist.Length; i++)
+                            {
+                                if (clientOrderNumber == clientOrderNumberlist[i])
+                                {
+                                    err = "1001";
+                                    //writer2.WriteValue("1001");
+                                }
+                                else
+                                {
+                                    err = "1002";
+                                    //writer2.WriteValue("1002");
+                                }
+
+                                //if (clientOrderNumber == "CMPO20241119001243")
+                                //{
+                                //    writer2.WriteValue("1001");
+                                //}
+                                //else if (clientOrderNumber == "CMPO20241119001241")
+                                //{
+                                //    writer2.WriteValue("1001");
+                                //}
+                                //else if (clientOrderNumber == "CMPO20250115015318")
+                                //{
+                                //    writer2.WriteValue("1001");
+                                //}
+                                //else
+                                //{
+                                //    writer2.WriteValue("1002");
+                                //}
+                            }
+
+                            writer2.WriteValue(err);
+
+                            writer2.WriteEndObject();
+
+                            encrypt = AESHelper.AesEncrypt(sw2.ToString(), checkedkey);
+                        }
+                    }
+
+                    writer.WriteValue(encrypt);
+
+                    writer.WritePropertyName("resultCode"); writer.WriteValue("0000");
+
+                    writer.WriteEndObject();
+
+                    writer.Flush();
+                    writer.Close();
+                    sw.Flush();
+                    sw.Close();
+
+                    //輸出結果
+                    Response.Write(sw.ToString());
+
+                    SaveRequestLog(Request.Url + sw.ToString());
+                }
+            }
+        }
+
+        protected void JSONErrorOrder(string checkedkey,  string encrypt, string orderStatus, string resultCode, string errorMsg)
+        {
+            //JSON寫入到檔案
+            using (StringWriter sw = new StringWriter())
+            {
+                using (JsonTextWriter writer = new JsonTextWriter(sw))
+                {
+                    //建立物件
+                    writer.WriteStartObject();
+
+                    //物件名稱
+                    writer.WritePropertyName("detail");
+
+                    using (StringWriter sw2 = new StringWriter())
+                    {
+                        using (JsonTextWriter writer2 = new JsonTextWriter(sw2))
+                        {
+                            //建立物件
+                            writer2.WriteStartObject();
+
+                            writer2.WritePropertyName("orderMsg");
+                            writer2.WriteValue("fail");
+
+                            writer2.WritePropertyName("orderStatus");
+                            writer2.WriteValue(orderStatus);
+
+                            writer2.WriteEndObject();
+
+                            encrypt = AESHelper.AesEncrypt(sw2.ToString(), checkedkey);
+                        }
+                    }
+
+                    writer.WriteValue(encrypt);
+
+                    writer.WritePropertyName("resultCode"); writer.WriteValue(resultCode);
+
+                    writer.WriteEndObject();
+
+                    writer.Flush();
+                    writer.Close();
+                    sw.Flush();
+                    sw.Close();
+
+                    //輸出結果
+                    Response.Write(sw.ToString());
+
+                    SaveRequestLog(Request.Url + sw.ToString() + errorMsg);
+                }
+            }
+        }
     }
 }

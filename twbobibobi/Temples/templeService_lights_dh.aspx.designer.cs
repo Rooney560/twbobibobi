@@ -33,6 +33,15 @@ namespace Temple.Temples
         protected global::Temple.Temples.header header;
 
         /// <summary>
+        /// Span1 控制項。
+        /// </summary>
+        /// <remarks>
+        /// 自動產生的欄位。
+        /// 若要修改，請將欄位宣告從設計工具檔案移到程式碼後置檔案。
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl Span1;
+
+        /// <summary>
         /// light3 控制項。
         /// </summary>
         /// <remarks>
@@ -40,6 +49,15 @@ namespace Temple.Temples
         /// 若要修改，請將欄位宣告從設計工具檔案移到程式碼後置檔案。
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlGenericControl light3;
+
+        /// <summary>
+        /// light4 控制項。
+        /// </summary>
+        /// <remarks>
+        /// 自動產生的欄位。
+        /// 若要修改，請將欄位宣告從設計工具檔案移到程式碼後置檔案。
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl light4;
 
         /// <summary>
         /// footer 控制項。

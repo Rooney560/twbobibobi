@@ -24,7 +24,7 @@ namespace Temple.FET.APITEST
     {
         public string key;
         public string checkedkey;
-        public string Year = "2024";
+        public string Year = "2025";
 
         protected void Page_Load(object sender, EventArgs e)
         {
@@ -150,8 +150,21 @@ namespace Temple.FET.APITEST
                         {
                             string adminID = dtAdmin.Rows[i]["AdminID"].ToString();
 
-                            for (int j = 1; j <= 14; j++)
+                            for (int j = 1; j <= 18; j++)
                             {
+                                //if (j == 1 || j == 16)
+                                //{
+                                //}
+                                //else
+                                //{
+                                //    Year = "2024";
+                                //}
+
+                                if (URL.IndexOf("132.148.2.191") >= 0)
+                                {
+                                    Year = "TEST";
+                                }
+
                                 dtData = objLightDAC.Getappcharge(clientOrderNumber, adminID, j.ToString(), Year);
 
                                 if (dtData.Rows.Count > 0)
@@ -175,6 +188,11 @@ namespace Temple.FET.APITEST
                                 string adminID = dtAdmin.Rows[i]["AdminID"].ToString();
 
                                 Year = dtNow.Year.ToString();
+
+                                if (URL.IndexOf("132.148.2.191") >= 0)
+                                {
+                                    Year = "TEST";
+                                }
                                 dtData = objLightDAC.Getappcharge(clientOrderNumber, adminID, "3", Year);
 
                                 if (dtData.Rows.Count > 0)
@@ -189,9 +207,19 @@ namespace Temple.FET.APITEST
                         {
                             string adminID = dtData.Rows[0]["AdminID"].ToString();
 
-                            if (kind == "3")
+                            //if (kind == "3")
+                            //{
+                            //    Year = dtNow.Year.ToString();
+                            //}
+
+                            //if (kind == "1")
+                            //{
+                            //    Year = "2025";
+                            //}
+
+                            if (URL.IndexOf("132.148.2.191") >= 0)
                             {
-                                Year = dtNow.Year.ToString();
+                                Year = "TEST";
                             }
 
                             if (dtData.Rows[0]["AppcStatus"].ToString() == "-2")

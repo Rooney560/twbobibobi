@@ -22,6 +22,8 @@ using Read.data;
 using System.EnterpriseServices;
 using System.Reflection;
 using System.Runtime.Remoting.Metadata.W3cXsd2001;
+using twbobibobi;
+using static ZXing.QrCode.Internal.Mode;
 
 namespace Temple.FET.APITEST
 {
@@ -169,8 +171,10 @@ namespace Temple.FET.APITEST
             //FETVALUE = "9834f17bdeff4ad8d84c18d89c669017dd5a1b97797f82a90e948284a6ac1c7b";
 
             string key = "g%Qx7h_eOg";
-            if (URL.IndexOf("132.148.2.191") >= 0 )
+            Session["DEV"] = "PROD";
+            if (URL.IndexOf("132.148.2.191") >= 0 || URL.IndexOf("localhost:1") >= 0)
             {
+                Session["DEV"] = "UAT";
                 key = "koB#pPv2%t";
             }
 
@@ -214,7 +218,7 @@ namespace Temple.FET.APITEST
 
             checkedkey = "shh#upsu6lyoeBkx";
 
-            if (URL.IndexOf("132.148.2.191") >= 0)
+            if (URL.IndexOf("132.148.2.191") >= 0 || URL.IndexOf("localhost:1") >= 0)
             {
                 checkedkey = "lvrd5bidxr^dqlwX";
             }
@@ -238,53 +242,7 @@ namespace Temple.FET.APITEST
 
                 if (F != FETVALUE && decrypt != "")
                 {
-                    //JSON寫入到檔案
-                    using (StringWriter sw = new StringWriter())
-                    {
-                        using (JsonTextWriter writer = new JsonTextWriter(sw))
-                        {
-                            //建立物件
-                            writer.WriteStartObject();
-
-                            //物件名稱
-                            writer.WritePropertyName("detail");
-
-                            using (StringWriter sw2 = new StringWriter())
-                            {
-                                using (JsonTextWriter writer2 = new JsonTextWriter(sw2))
-                                {
-                                    //建立物件
-                                    writer2.WriteStartObject();
-
-                                    writer2.WritePropertyName("orderMsg");
-                                    writer2.WriteValue("fail");
-
-                                    writer2.WritePropertyName("orderStatus");
-                                    writer2.WriteValue("1003");
-
-                                    writer2.WriteEndObject();
-
-                                    encrypt = AESHelper.AesEncrypt(sw2.ToString(), checkedkey);
-                                }
-                            }
-
-                            writer.WriteValue(encrypt);
-
-                            writer.WritePropertyName("resultCode"); writer.WriteValue("9999");
-
-                            writer.WriteEndObject();
-
-                            writer.Flush();
-                            writer.Close();
-                            sw.Flush();
-                            sw.Close();
-
-                            //輸出結果
-                            Response.Write(sw.ToString());
-
-                            SaveRequestLog(Request.Url + sw.ToString());
-                        }
-                    }
+                    JSONErrorOrder(checkedkey, decrypt, "1003", "9999", "解密失敗!");
                 }
                 else
                 {
@@ -296,11 +254,11 @@ namespace Temple.FET.APITEST
                     string total = obj["totalAmount"].ToString();
                     string fetOrderNumber = obj["fetOrderNumber"] != null ? obj["fetOrderNumber"].ToString() : "";                          //遠傳訂單編號
 
-                    string appName = applicantInfo["name"].ToString();                                                                      //申請人姓名
-                    string appMobile = applicantInfo["mobile"].ToString();                                                                  //申請人電話
-                    string appemail = applicantInfo["email"] != null ? applicantInfo["email"].ToString() : "";                              //申請人 email
-                    string appBirth = applicantInfo["birthday"] != null ? applicantInfo["birthday"].ToString() : "";                        //申請人國曆生日 YYYMMDD (民國年/國曆月/國曆日)
-                    string applunarBirthday = applicantInfo["lunarBirthday"] != null ? applicantInfo["lunarBirthday"].ToString() : "";      //申請人農曆生日 YYYMMDD (民國年/農曆月/農曆日)
+                    string appName = applicantInfo["name"].ToString();                                                                      //購買人姓名
+                    string appMobile = applicantInfo["mobile"].ToString();                                                                  //購買人電話
+                    string appemail = applicantInfo["email"] != null ? applicantInfo["email"].ToString() : "";                              //購買人 email
+                    string appBirth = applicantInfo["birthday"] != null ? applicantInfo["birthday"].ToString() : "";                        //購買人國曆生日 YYYMMDD (民國年/國曆月/國曆日)
+                    string applunarBirthday = applicantInfo["lunarBirthday"] != null ? applicantInfo["lunarBirthday"].ToString() : "";      //購買人農曆生日 YYYMMDD (民國年/農曆月/農曆日)
                     string appleapMonth = applicantInfo["lunarLeap"] != null ? applicantInfo["lunarLeap"].ToString() : "";                  //是否為閏月 Y: 是 N: 否
                     string applunarBirthTime = applicantInfo["lunarBirthTime"] != null ? applicantInfo["lunarBirthTime"].ToString() : "";   //農曆時辰 未確認時辰用戶可選吉時
                     string appremark = applicantInfo["remark"] != null ? applicantInfo["remark"].ToString() : "";                           //備註
@@ -315,6 +273,9 @@ namespace Temple.FET.APITEST
                     string shippingFee = applicantInfo["shippingFee"] != null ? applicantInfo["shippingFee"].ToString() : "";               //運費
                     string productCode = itemsInfo[0]["productCode"].ToString();                                                            //產品編號(業者提供)
 
+                    TimeZoneInfo info = TimeZoneInfo.FindSystemTimeZoneById("Taipei Standard Time");
+                    DateTime dtNow = TimeZoneInfo.ConvertTime(DateTime.Now, info);
+
                     DataTable dtTempleCodeInfo = objLightDAC.GetTempleCodeInfo(productCode);
                     if (dtTempleCodeInfo.Rows.Count > 0)
                     {
@@ -327,14 +288,16 @@ namespace Temple.FET.APITEST
                         {
                             case 1:
                                 //點燈
-                                TimeZoneInfo info = TimeZoneInfo.FindSystemTimeZoneById("Taipei Standard Time");
-                                DateTime dtNow = TimeZoneInfo.ConvertTime(DateTime.Now, info);
-
                                 string startDate = "2024/11/01 00:00:00";
                                 int ijj = DateTime.Compare(DateTime.Parse(startDate), dtNow);
                                 if (DateTime.Compare(DateTime.Parse(startDate), dtNow) < 0 || Request["ad"] == "2")
                                 {
                                     Year = "2025";
+                                }
+
+                                if (URL.IndexOf("132.148.2.191") >= 0)
+                                {
+                                    Year = "TEST";
                                 }
 
                                 int count = 0;
@@ -347,83 +310,549 @@ namespace Temple.FET.APITEST
                                 tempList_lid = LightsID_Array.ToList();
                                 tempList_oid = OrderID_Array.ToList();
 
-                                foreach (var item in itemsInfo)
+                                bool checkednum_da = true;
+                                bool checkednum_wu = true;
+                                bool checkednum_ty = true;
+                                bool checkednum_dh = true;
+
+                                int count_da = 0;
+                                int index = 0;
+                                int[] count_da_lights = new int[3];
+                                string[] lightstypelist = new string[0];
+
+
+                                int count_wu = 0;
+                                index = 0;
+                                int[] count_wu_lights = new int[3];
+                                lightstypelist = new string[0];
+
+                                int count_ty = 0;
+                                index = 0;
+                                int[] count_ty_lights = new int[6];
+
+
+                                int count_dh = 0;
+                                index = 0;
+                                int[] count_dh_lights = new int[6];
+                                lightstypelist = new string[0];
+
+                                //// 創建一個 List 來存放 productCode 欄位
+                                //List<string> productCodelist = new List<string>();
+                                //// 創建一個 List 來存放 adminID 欄位
+                                //List<string> adminIDlist = new List<string>();
+                                //// 創建一個 List 來存放 Kind 欄位
+                                //List<string> kindlist = new List<string>();
+                                //// 創建一個 List 來存放 qty 欄位 (數量)
+                                //List<int> qtylist = new List<int>();
+
+                                //foreach (var item in itemsInfo)
+                                //{
+                                //    string productCodeString = item["productCode"]?.ToString();
+                                //    if (productCodeString != null)
+                                //    {
+                                //        productCodelist.Add(productCodeString);
+
+                                //        dtTempleCodeInfo = objLightDAC.GetTempleCodeInfo(productCodeString);
+                                //        if (dtTempleCodeInfo.Rows.Count > 0)
+                                //        {
+                                //            string adminIDString = dtTempleCodeInfo.Rows[0]["AdminID"]?.ToString();
+                                //            if (adminIDString != null)
+                                //            {
+                                //                adminIDlist.Add(adminIDString);
+                                //            }
+                                //        }
+                                //    }
+
+                                //    int qtyInt = 0;
+                                //    if (int.TryParse(item["qty"].ToString(), out qtyInt))
+                                //    {
+                                //        qtylist.Add(qtyInt);
+                                //    }
+
+                                //    // 改用明確檢查是否為 null
+                                //    //if (item["productCode"] != null)
+                                //    //{
+                                //    //    string productCodeString = item["productCode"].ToString();
+                                //    //    productCodelist.Add(productCodeString);
+                                //    //}
+                                //}
+
+
+                                foreach (var item2 in itemsInfo)
                                 {
-                                    productCode = item["productCode"].ToString();
-                                    dtTempleCodeInfo = objLightDAC.GetTempleCodeInfo(productCode);
+                                    //int.TryParse(item["unitPrice"].ToString(), out cost);
+                                    string productCode2 = item2["productCode"].ToString();
+
+                                    dtTempleCodeInfo = objLightDAC.GetTempleCodeInfo(productCode2);
                                     if (dtTempleCodeInfo.Rows.Count > 0)
                                     {
                                         int.TryParse(dtTempleCodeInfo.Rows[0]["AdminID"].ToString(), out AdminID);
                                         int.TryParse(dtTempleCodeInfo.Rows[0]["ServiceID"].ToString(), out service);
-                                        //int.TryParse(item["qty"].ToString(), out count);                                                                                        //數量/普品數量
-                                        count = 1;
-                                        int.TryParse(item["unitPrice"].ToString(), out cost);
+                                        string LightsString = dtTempleCodeInfo.Rows[0]["TypeString"].ToString();
+                                        string LightsType = dtTempleCodeInfo.Rows[0]["TypeID"].ToString();
+
                                         switch (AdminID)
                                         {
                                             case 3:
-                                                //大甲鎮瀾宮
+                                                lightstypelist = new string[0];
+                                                int.TryParse(item2["qty"].ToString(), out count_da);
+                                                var Ists = lightstypelist.ToList();
+                                                lightstypelist = Ists.Append(LightsType).ToArray();
 
-                                                int count_da = 0;
-                                                int index = 0;
-                                                int[] count_da_lights = new int[3];
-                                                string[] lightstypelist = new string[0];
-
-                                                bool checkednum_da = true;
-                                                foreach (var item2 in itemsInfo)
+                                                switch (LightsType)
                                                 {
-                                                    int.TryParse(item2["qty"].ToString(), out count_da);
-                                                    //int.TryParse(item["unitPrice"].ToString(), out cost);
-                                                    string productCode2 = item2["productCode"].ToString();
+                                                    case "3":
+                                                        //光明燈
+                                                        count_da_lights[0] += count_da;
+                                                        break;
+                                                    case "4":
+                                                        //安太歲
+                                                        count_da_lights[1] += count_da;
+                                                        break;
+                                                    case "5":
+                                                        //文昌燈
+                                                        count_da_lights[2] += count_da;
+                                                        break;
+                                                }
+                                                break;
+                                            case 6:
+                                                lightstypelist = new string[0];
+                                                int.TryParse(item2["qty"].ToString(), out count_wu);
+                                                Ists = lightstypelist.ToList();
+                                                lightstypelist = Ists.Append(LightsType).ToArray();
 
-                                                    dtTempleCodeInfo = objLightDAC.GetTempleCodeInfo(productCode2);
-                                                    if (dtTempleCodeInfo.Rows.Count > 0)
+                                                switch (LightsType)
+                                                {
+                                                    case "3":
+                                                        //光明燈
+                                                        count_wu_lights[0]++;
+                                                        break;
+                                                    case "4":
+                                                        //安太歲
+                                                        count_wu_lights[1]++;
+                                                        break;
+                                                    case "6":
+                                                        //財神燈
+                                                        count_wu_lights[2]++;
+                                                        break;
+                                                }
+                                                break;
+                                            case 14:
+                                                lightstypelist = new string[0];
+                                                int.TryParse(item2["qty"].ToString(), out count_ty);
+                                                Ists = lightstypelist.ToList();
+                                                lightstypelist = Ists.Append(LightsType).ToArray();
+
+                                                switch (LightsType)
+                                                {
+                                                    case "3":
+                                                        //光明燈
+                                                        count_ty_lights[0] += count_ty;
+                                                        break;
+                                                    case "4":
+                                                        //安太歲
+                                                        count_ty_lights[1] += count_ty;
+                                                        break;
+                                                    case "6":
+                                                        //財神燈
+                                                        count_ty_lights[2] += count_ty;
+                                                        break;
+                                                    case "8":
+                                                        //藥師燈
+                                                        count_ty_lights[3] += count_ty;
+                                                        break;
+                                                    case "10":
+                                                        //貴人燈
+                                                        count_ty_lights[4] += count_ty;
+                                                        checkednum_ty = false;
+                                                        break;
+                                                    case "11":
+                                                        //福祿燈
+                                                        count_ty_lights[5] += count_ty;
+                                                        break;
+                                                    case "33":
+                                                        //智慧燈
+                                                        count_ty_lights[5] += count_ty;
+                                                        break;
+                                                }
+                                                break;
+                                            case 16:
+                                                lightstypelist = new string[0];
+                                                int.TryParse(item2["qty"].ToString(), out count_dh);
+                                                Ists = lightstypelist.ToList();
+                                                lightstypelist = Ists.Append(LightsType).ToArray();
+
+                                                switch (LightsType)
+                                                {
+                                                    case "3":
+                                                        //光明燈
+                                                        count_dh_lights[0] += count_dh;
+                                                        break;
+                                                    case "4":
+                                                        //安太歲
+                                                        count_dh_lights[1] += count_dh;
+                                                        break;
+                                                    case "5":
+                                                        //文昌燈
+                                                        count_dh_lights[2] += count_dh;
+                                                        checkednum_dh = false;
+                                                        break;
+                                                    case "9":
+                                                        //財利燈
+                                                        count_dh_lights[3] += count_dh;
+                                                        break;
+                                                    case "13":
+                                                        //龍王燈
+                                                        count_dh_lights[4] += count_dh;
+                                                        checkednum_dh = false;
+                                                        break;
+                                                    case "14":
+                                                        //虎爺燈
+                                                        count_dh_lights[6] += count_dh;
+                                                        checkednum_dh = false;
+                                                        break;
+                                                }
+                                                break;
+
+                                        }
+                                    }
+                                    index++;
+                                }
+
+                                if (count_da > 0)
+                                {
+                                    //string[] Lightstypelist = new string[] { "3", "4", "5" };
+                                    for (int i = 0; i < lightstypelist.Length; i++)
+                                    {
+                                        int c = 0;
+
+                                        c += lightstypelist[i] == "3" ? count_da_lights[0] : 0;
+                                        c += lightstypelist[i] == "4" ? count_da_lights[1] : 0;
+                                        c += lightstypelist[i] == "5" ? count_da_lights[2] : 0;
+
+                                        if (objLightDAC.checkedLightsNum(lightstypelist[i], AdminID.ToString(), c, -1, Year))
+                                        {
+                                            checkednum_da = false; break;
+                                        }
+                                    }
+                                }
+                                
+                                if (count_wu > 0)
+                                {
+                                    //Lightstypelist = new string[] { "3", "4", "6" };
+                                    for (int i = 0; i < lightstypelist.Length; i++)
+                                    {
+                                        int c = 0;
+
+                                        c += lightstypelist[i] == "3" ? count_wu_lights[0] : 0;
+                                        c += lightstypelist[i] == "4" ? count_wu_lights[1] : 0;
+                                        c += lightstypelist[i] == "6" ? count_wu_lights[2] : 0;
+
+                                        if (objLightDAC.checkedLightsNum(lightstypelist[i], AdminID.ToString(), c, -1, Year))
+                                        {
+                                            checkednum_wu = false; break;
+                                        }
+                                    }
+                                }
+                                
+                                if (count_ty > 0)
+                                {
+                                    //Lightstypelist = new string[] { "3", "4", "6", "8", "10", "11", "33" };
+                                    for (int i = 0; i < lightstypelist.Length; i++)
+                                    {
+                                        int c = 0;
+
+                                        c += lightstypelist[i] == "3" ? count_ty_lights[0] : 0;
+                                        c += lightstypelist[i] == "4" ? count_ty_lights[1] : 0;
+                                        c += lightstypelist[i] == "6" ? count_ty_lights[2] : 0;
+                                        c += lightstypelist[i] == "8" ? count_ty_lights[3] : 0;
+                                        c += lightstypelist[i] == "10" ? count_ty_lights[4] : 0;
+                                        c += lightstypelist[i] == "11" ? count_ty_lights[5] : 0;
+                                        c += lightstypelist[i] == "33" ? count_ty_lights[6] : 0;
+
+                                        if (objLightDAC.checkedLightsNum(lightstypelist[i], AdminID.ToString(), c, 1, Year))
+                                        {
+                                            checkednum_ty = false; break;
+                                        }
+                                    }
+                                }
+                                
+                                //if (count_dh > 0)
+                                //{
+                                //    //Lightstypelist = new string[] { "3", "4", "6", "8", "10", "11" };
+                                //    for (int i = 0; i < lightstypelist.Length; i++)
+                                //    {
+                                //        int c = 0;
+
+                                //        c += lightstypelist[i] == "3" ? count_dh_lights[0] : 0;
+                                //        c += lightstypelist[i] == "4" ? count_dh_lights[1] : 0;
+                                //        c += lightstypelist[i] == "6" ? count_dh_lights[2] : 0;
+                                //        c += lightstypelist[i] == "8" ? count_dh_lights[3] : 0;
+                                //        c += lightstypelist[i] == "10" ? count_dh_lights[4] : 0;
+                                //        c += lightstypelist[i] == "11" ? count_dh_lights[5] : 0;
+
+                                //        if (objLightDAC.checkedLightsNum(lightstypelist[i], AdminID.ToString(), c, 1, Year))
+                                //        {
+                                //            checkednum_dh = false; break;
+                                //        }
+                                //    }
+                                //}
+
+                                if (checkednum_da && checkednum_wu && checkednum_ty && checkednum_dh)
+                                {
+                                    foreach (var item in itemsInfo)
+                                    {
+                                        productCode = item["productCode"].ToString();
+                                        dtTempleCodeInfo = objLightDAC.GetTempleCodeInfo(productCode);
+                                        if (dtTempleCodeInfo.Rows.Count > 0)
+                                        {
+                                            int.TryParse(dtTempleCodeInfo.Rows[0]["AdminID"].ToString(), out AdminID);
+                                            int.TryParse(dtTempleCodeInfo.Rows[0]["ServiceID"].ToString(), out service);
+                                            //int.TryParse(item["qty"].ToString(), out count);                                                                                        //數量/普品數量
+                                            count = 1;
+                                            int.TryParse(item["unitPrice"].ToString(), out cost);
+                                            switch (AdminID)
+                                            {
+                                                case 3:
+                                                    //大甲鎮瀾宮
+                                                    if (checkednum_da)
                                                     {
-                                                        string LightsString = dtTempleCodeInfo.Rows[0]["TypeString"].ToString();
-                                                        string LightsType = dtTempleCodeInfo.Rows[0]["TypeID"].ToString();
+                                                        ApplicantID = addapplicantID_da_Lights(appName, appMobile, total, appCity, appRegion, appAddr, appzipCode, sendback, reName,
+                                                            reMobile, itemsInfo, productCode, clientOrderNumber, fetOrderNumber, Year, ref Lightslist, ref LightsID, ref OrderID);
 
-                                                        var Ists = lightstypelist.ToList();
-                                                        lightstypelist = Ists.Append(LightsType).ToArray();
+                                                        Applicant.Set(3, 1, ApplicantID);
 
-                                                        switch (LightsType)
+                                                        tempList_aid.Add(ApplicantID);
+                                                        tempList_lid.Add(LightsID);
+                                                        tempList_oid.Add(OrderID);
+
+                                                        ApplicantID_Array = tempList_aid.ToArray();
+                                                        LightsID_Array = tempList_lid.ToArray();
+                                                        OrderID_Array = tempList_oid.ToArray();
+
+                                                        //if (ApplicantID > 0 && LightsID > 0 && OrderID != "0" && Lightslist.Length > 0)
+                                                        //{
+                                                        //    //JSON寫入到檔案
+                                                        //    using (StringWriter sw = new StringWriter())
+                                                        //    {
+                                                        //        using (JsonTextWriter writer = new JsonTextWriter(sw))
+                                                        //        {
+                                                        //            //建立物件
+                                                        //            writer.WriteStartObject();
+
+                                                        //            //物件名稱
+                                                        //            writer.WritePropertyName("detail");
+
+                                                        //            using (StringWriter sw2 = new StringWriter())
+                                                        //            {
+                                                        //                using (JsonTextWriter writer2 = new JsonTextWriter(sw2))
+                                                        //                {
+                                                        //                    //建立物件
+                                                        //                    writer2.WriteStartObject();
+
+                                                        //                    writer2.WritePropertyName(string.Format("clientOrderNumber", clientOrderNumber, fetOrderNumber));
+                                                        //                    writer2.WriteValue(clientOrderNumber);
+
+                                                        //                    writer2.WritePropertyName("partnerOrderNumber");
+                                                        //                    writer2.WriteValue(OrderID);
+
+                                                        //                    writer2.WritePropertyName("orderMsg");
+                                                        //                    writer2.WriteValue("success");
+
+                                                        //                    writer2.WritePropertyName("orderStatus");
+                                                        //                    writer2.WriteValue("0000");
+
+                                                        //                    writer2.WritePropertyName("items");
+                                                        //                    //建立陣列
+                                                        //                    writer2.WriteStartArray();
+                                                        //                    int i = 0;
+                                                        //                    foreach (var item in itemsInfo)
+                                                        //                    {
+                                                        //                        //建立物件
+                                                        //                        writer2.WriteStartObject();
+
+                                                        //                        //物件名稱
+                                                        //                        writer2.WritePropertyName("productCode");
+                                                        //                        writer2.WriteValue(item["productCode"]);
+
+                                                        //                        writer2.WritePropertyName("prayedPerson");
+                                                        //                        //建立陣列
+                                                        //                        writer2.WriteStartArray();
+
+                                                        //                        JArray prayedPerson = (JArray)item["prayedPerson"];
+                                                        //                        foreach (var item2 in prayedPerson)
+                                                        //                        {
+                                                        //                            //建立物件
+                                                        //                            writer2.WriteStartObject();
+                                                        //                            writer2.WritePropertyName("prayedPersonSeq"); writer2.WriteValue(item2["prayedPersonSeq"]);
+                                                        //                            writer2.WritePropertyName("prayedPersonOrderNumber"); writer2.WriteValue(Lightslist[i]);
+                                                        //                            writer2.WritePropertyName("sessionSeq"); writer2.WriteValue("");
+                                                        //                            writer2.WritePropertyName("sessionName"); writer2.WriteValue("");
+                                                        //                            writer2.WriteEndObject();
+                                                        //                            i++;
+                                                        //                        }
+                                                        //                        writer2.WriteEndArray();
+
+                                                        //                        writer2.WriteEndObject();
+                                                        //                    }
+                                                        //                    writer2.WriteEndArray();
+
+                                                        //                    writer2.WriteEndObject();
+
+                                                        //                    encrypt = AESHelper.AesEncrypt(sw2.ToString(), checkedkey);
+                                                        //                }
+                                                        //            }
+
+                                                        //            writer.WriteValue(encrypt);
+
+                                                        //            writer.WritePropertyName("resultCode"); writer.WriteValue("0000");
+
+                                                        //            writer.WriteEndObject();
+
+                                                        //            //建立陣列
+                                                        //            //writer.WriteStartArray();
+                                                        //            //for (int index = 1; index <= 10; index++)
+                                                        //            //{
+                                                        //            //    //建立物件
+                                                        //            //    writer.WriteStartObject();
+                                                        //            //    //設定屬性名稱
+                                                        //            //    writer.WritePropertyName(String.Format("number", index));
+                                                        //            //    //設定值
+                                                        //            //    writer.WriteValue(index);
+                                                        //            //    writer.WriteEndObject();
+                                                        //            //}
+                                                        //            //writer.WriteEndArray();
+
+                                                        //            writer.Flush();
+                                                        //            writer.Close();
+                                                        //            sw.Flush();
+                                                        //            sw.Close();
+
+                                                        //            //輸出結果
+                                                        //            Response.Write(sw.ToString());
+
+                                                        //            SaveRequestLog(Request.Url + sw.ToString());
+                                                        //        }
+                                                        //    }
+                                                        //}
+                                                        //else
+                                                        //{
+                                                        //    //JSON寫入到檔案
+                                                        //    using (StringWriter sw = new StringWriter())
+                                                        //    {
+                                                        //        using (JsonTextWriter writer = new JsonTextWriter(sw))
+                                                        //        {
+                                                        //            //建立物件
+                                                        //            writer.WriteStartObject();
+
+                                                        //            //物件名稱
+                                                        //            writer.WritePropertyName("detail");
+
+                                                        //            using (StringWriter sw2 = new StringWriter())
+                                                        //            {
+                                                        //                using (JsonTextWriter writer2 = new JsonTextWriter(sw2))
+                                                        //                {
+                                                        //                    //建立物件
+                                                        //                    writer2.WriteStartObject();
+
+                                                        //                    writer2.WritePropertyName(string.Format("clientOrderNumber", clientOrderNumber, fetOrderNumber));
+                                                        //                    writer2.WriteValue(clientOrderNumber);
+
+                                                        //                    writer2.WritePropertyName("partnerOrderNumber");
+                                                        //                    writer2.WriteValue(OrderID);
+
+                                                        //                    writer2.WritePropertyName("orderMsg");
+                                                        //                    writer2.WriteValue("fail");
+
+                                                        //                    writer2.WritePropertyName("orderStatus");
+                                                        //                    writer2.WriteValue("1003");
+
+                                                        //                    writer2.WriteEndObject();
+
+                                                        //                    encrypt = AESHelper.AesEncrypt(sw2.ToString(), checkedkey);
+                                                        //                }
+                                                        //            }
+
+                                                        //            writer.WriteValue(encrypt);
+
+                                                        //            writer.WritePropertyName("resultCode"); writer.WriteValue("9999");
+
+                                                        //            writer.WriteEndObject();
+
+                                                        //            writer.Flush();
+                                                        //            writer.Close();
+                                                        //            sw.Flush();
+                                                        //            sw.Close();
+
+                                                        //            //輸出結果
+                                                        //            Response.Write(sw.ToString());
+
+                                                        //            SaveRequestLog(Request.Url + sw.ToString());
+                                                        //        }
+                                                        //    }
+                                                        //}
+                                                    }
+                                                    else
+                                                    {
+                                                        //JSON寫入到檔案
+                                                        using (StringWriter sw = new StringWriter())
                                                         {
-                                                            case "3":
-                                                                //光明燈
-                                                                count_da_lights[0]++;
-                                                                break;
-                                                            case "4":
-                                                                //安太歲
-                                                                count_da_lights[1]++; ;
-                                                                break;
-                                                            case "5":
-                                                                //文昌燈
-                                                                count_da_lights[2]++;
-                                                                break;
+                                                            using (JsonTextWriter writer = new JsonTextWriter(sw))
+                                                            {
+                                                                //建立物件
+                                                                writer.WriteStartObject();
+
+                                                                //物件名稱
+                                                                writer.WritePropertyName("detail");
+
+                                                                using (StringWriter sw2 = new StringWriter())
+                                                                {
+                                                                    using (JsonTextWriter writer2 = new JsonTextWriter(sw2))
+                                                                    {
+                                                                        //建立物件
+                                                                        writer2.WriteStartObject();
+
+                                                                        writer2.WritePropertyName(string.Format("clientOrderNumber", clientOrderNumber));
+                                                                        writer2.WriteValue(clientOrderNumber);
+
+                                                                        writer2.WritePropertyName("partnerOrderNumber");
+                                                                        writer2.WriteValue(OrderID);
+
+                                                                        writer2.WritePropertyName("orderMsg");
+                                                                        writer2.WriteValue("fail");
+
+                                                                        writer2.WritePropertyName("orderStatus");
+                                                                        writer2.WriteValue("1001");
+
+                                                                        writer2.WriteEndObject();
+
+                                                                        encrypt = AESHelper.AesEncrypt(sw2.ToString(), checkedkey);
+                                                                    }
+                                                                }
+
+                                                                writer.WriteValue(encrypt);
+
+                                                                writer.WritePropertyName("resultCode"); writer.WriteValue("9999");
+
+                                                                writer.WriteEndObject();
+
+                                                                writer.Flush();
+                                                                writer.Close();
+                                                                sw.Flush();
+                                                                sw.Close();
+
+                                                                //輸出結果
+                                                                Response.Write(sw.ToString());
+
+                                                                SaveRequestLog(Request.Url + sw.ToString());
+                                                            }
                                                         }
                                                     }
-                                                    index++;
-                                                }
-
-                                                //string[] Lightstypelist = new string[] { "3", "4", "5" };
-                                                for (int i = 0; i < lightstypelist.Length; i++)
-                                                {
-                                                    int c = 0;
-
-                                                    c += lightstypelist[i] == "3" ? count_da_lights[0] : 0;
-                                                    c += lightstypelist[i] == "4" ? count_da_lights[1] : 0;
-                                                    c += lightstypelist[i] == "5" ? count_da_lights[2] : 0;
-
-                                                    if (objLightDAC.checkedLightsNum(lightstypelist[i], AdminID.ToString(), c, -1, Year))
-                                                    {
-                                                        checkednum_da = false; break;
-                                                    }
-                                                }
-
-                                                if (checkednum_da)
-                                                {
-                                                    ApplicantID = addapplicantID_da_Lights(appName, appMobile, total, appCity, appRegion, appAddr, appzipCode, sendback, reName, 
-                                                        reMobile, itemsInfo, productCode, clientOrderNumber, fetOrderNumber, Year, ref Lightslist, ref LightsID, ref OrderID);
-
-                                                    Applicant.Set(3, 1, ApplicantID);
+                                                    break;
+                                                case 4:
+                                                    //新港奉天宮
+                                                    ApplicantID = addapplicantID_h_Lights(appName, appMobile, total, appCity, appRegion, appAddr, appzipCode, sendback, reName, reMobile,
+                                                        itemsInfo, productCode, clientOrderNumber, fetOrderNumber, Year, ref Lightslist, ref LightsID, ref OrderID);
 
                                                     tempList_aid.Add(ApplicantID);
                                                     tempList_lid.Add(LightsID);
@@ -433,263 +862,296 @@ namespace Temple.FET.APITEST
                                                     LightsID_Array = tempList_lid.ToArray();
                                                     OrderID_Array = tempList_oid.ToArray();
 
-                                                    //if (ApplicantID > 0 && LightsID > 0 && OrderID != "0" && Lightslist.Length > 0)
-                                                    //{
-                                                    //    //JSON寫入到檔案
-                                                    //    using (StringWriter sw = new StringWriter())
-                                                    //    {
-                                                    //        using (JsonTextWriter writer = new JsonTextWriter(sw))
-                                                    //        {
-                                                    //            //建立物件
-                                                    //            writer.WriteStartObject();
-
-                                                    //            //物件名稱
-                                                    //            writer.WritePropertyName("detail");
-
-                                                    //            using (StringWriter sw2 = new StringWriter())
-                                                    //            {
-                                                    //                using (JsonTextWriter writer2 = new JsonTextWriter(sw2))
-                                                    //                {
-                                                    //                    //建立物件
-                                                    //                    writer2.WriteStartObject();
-
-                                                    //                    writer2.WritePropertyName(string.Format("clientOrderNumber", clientOrderNumber, fetOrderNumber));
-                                                    //                    writer2.WriteValue(clientOrderNumber);
-
-                                                    //                    writer2.WritePropertyName("partnerOrderNumber");
-                                                    //                    writer2.WriteValue(OrderID);
-
-                                                    //                    writer2.WritePropertyName("orderMsg");
-                                                    //                    writer2.WriteValue("success");
-
-                                                    //                    writer2.WritePropertyName("orderStatus");
-                                                    //                    writer2.WriteValue("0000");
-
-                                                    //                    writer2.WritePropertyName("items");
-                                                    //                    //建立陣列
-                                                    //                    writer2.WriteStartArray();
-                                                    //                    int i = 0;
-                                                    //                    foreach (var item in itemsInfo)
-                                                    //                    {
-                                                    //                        //建立物件
-                                                    //                        writer2.WriteStartObject();
-
-                                                    //                        //物件名稱
-                                                    //                        writer2.WritePropertyName("productCode");
-                                                    //                        writer2.WriteValue(item["productCode"]);
-
-                                                    //                        writer2.WritePropertyName("prayedPerson");
-                                                    //                        //建立陣列
-                                                    //                        writer2.WriteStartArray();
-
-                                                    //                        JArray prayedPerson = (JArray)item["prayedPerson"];
-                                                    //                        foreach (var item2 in prayedPerson)
-                                                    //                        {
-                                                    //                            //建立物件
-                                                    //                            writer2.WriteStartObject();
-                                                    //                            writer2.WritePropertyName("prayedPersonSeq"); writer2.WriteValue(item2["prayedPersonSeq"]);
-                                                    //                            writer2.WritePropertyName("prayedPersonOrderNumber"); writer2.WriteValue(Lightslist[i]);
-                                                    //                            writer2.WritePropertyName("sessionSeq"); writer2.WriteValue("");
-                                                    //                            writer2.WritePropertyName("sessionName"); writer2.WriteValue("");
-                                                    //                            writer2.WriteEndObject();
-                                                    //                            i++;
-                                                    //                        }
-                                                    //                        writer2.WriteEndArray();
-
-                                                    //                        writer2.WriteEndObject();
-                                                    //                    }
-                                                    //                    writer2.WriteEndArray();
-
-                                                    //                    writer2.WriteEndObject();
-
-                                                    //                    encrypt = AESHelper.AesEncrypt(sw2.ToString(), checkedkey);
-                                                    //                }
-                                                    //            }
-
-                                                    //            writer.WriteValue(encrypt);
-
-                                                    //            writer.WritePropertyName("resultCode"); writer.WriteValue("0000");
-
-                                                    //            writer.WriteEndObject();
-
-                                                    //            //建立陣列
-                                                    //            //writer.WriteStartArray();
-                                                    //            //for (int index = 1; index <= 10; index++)
-                                                    //            //{
-                                                    //            //    //建立物件
-                                                    //            //    writer.WriteStartObject();
-                                                    //            //    //設定屬性名稱
-                                                    //            //    writer.WritePropertyName(String.Format("number", index));
-                                                    //            //    //設定值
-                                                    //            //    writer.WriteValue(index);
-                                                    //            //    writer.WriteEndObject();
-                                                    //            //}
-                                                    //            //writer.WriteEndArray();
-
-                                                    //            writer.Flush();
-                                                    //            writer.Close();
-                                                    //            sw.Flush();
-                                                    //            sw.Close();
-
-                                                    //            //輸出結果
-                                                    //            Response.Write(sw.ToString());
-
-                                                    //            SaveRequestLog(Request.Url + sw.ToString());
-                                                    //        }
-                                                    //    }
-                                                    //}
-                                                    //else
-                                                    //{
-                                                    //    //JSON寫入到檔案
-                                                    //    using (StringWriter sw = new StringWriter())
-                                                    //    {
-                                                    //        using (JsonTextWriter writer = new JsonTextWriter(sw))
-                                                    //        {
-                                                    //            //建立物件
-                                                    //            writer.WriteStartObject();
-
-                                                    //            //物件名稱
-                                                    //            writer.WritePropertyName("detail");
-
-                                                    //            using (StringWriter sw2 = new StringWriter())
-                                                    //            {
-                                                    //                using (JsonTextWriter writer2 = new JsonTextWriter(sw2))
-                                                    //                {
-                                                    //                    //建立物件
-                                                    //                    writer2.WriteStartObject();
-
-                                                    //                    writer2.WritePropertyName(string.Format("clientOrderNumber", clientOrderNumber, fetOrderNumber));
-                                                    //                    writer2.WriteValue(clientOrderNumber);
-
-                                                    //                    writer2.WritePropertyName("partnerOrderNumber");
-                                                    //                    writer2.WriteValue(OrderID);
-
-                                                    //                    writer2.WritePropertyName("orderMsg");
-                                                    //                    writer2.WriteValue("fail");
-
-                                                    //                    writer2.WritePropertyName("orderStatus");
-                                                    //                    writer2.WriteValue("1003");
-
-                                                    //                    writer2.WriteEndObject();
-
-                                                    //                    encrypt = AESHelper.AesEncrypt(sw2.ToString(), checkedkey);
-                                                    //                }
-                                                    //            }
-
-                                                    //            writer.WriteValue(encrypt);
-
-                                                    //            writer.WritePropertyName("resultCode"); writer.WriteValue("9999");
-
-                                                    //            writer.WriteEndObject();
-
-                                                    //            writer.Flush();
-                                                    //            writer.Close();
-                                                    //            sw.Flush();
-                                                    //            sw.Close();
-
-                                                    //            //輸出結果
-                                                    //            Response.Write(sw.ToString());
-
-                                                    //            SaveRequestLog(Request.Url + sw.ToString());
-                                                    //        }
-                                                    //    }
-                                                    //}
-                                                }
-                                                else
-                                                {
-                                                    //JSON寫入到檔案
-                                                    using (StringWriter sw = new StringWriter())
+                                                    break;
+                                                case 6:
+                                                    //北港武德宮
+                                                    if (checkednum_wu)
                                                     {
-                                                        using (JsonTextWriter writer = new JsonTextWriter(sw))
+                                                        ApplicantID = addapplicantID_wu_Lights(appName, appMobile, total, appCity, appRegion, appAddr, appzipCode, sendback, reName,
+                                                            reMobile, itemsInfo, productCode, clientOrderNumber, fetOrderNumber, Year, ref Lightslist, ref LightsID, ref OrderID);
+
+                                                        tempList_aid.Add(ApplicantID);
+                                                        tempList_lid.Add(LightsID);
+                                                        tempList_oid.Add(OrderID);
+
+                                                        ApplicantID_Array = tempList_aid.ToArray();
+                                                        LightsID_Array = tempList_lid.ToArray();
+                                                        OrderID_Array = tempList_oid.ToArray();
+                                                    }
+                                                    else
+                                                    {
+                                                        //JSON寫入到檔案
+                                                        using (StringWriter sw = new StringWriter())
                                                         {
-                                                            //建立物件
-                                                            writer.WriteStartObject();
-
-                                                            //物件名稱
-                                                            writer.WritePropertyName("detail");
-
-                                                            using (StringWriter sw2 = new StringWriter())
+                                                            using (JsonTextWriter writer = new JsonTextWriter(sw))
                                                             {
-                                                                using (JsonTextWriter writer2 = new JsonTextWriter(sw2))
+                                                                //建立物件
+                                                                writer.WriteStartObject();
+
+                                                                //物件名稱
+                                                                writer.WritePropertyName("detail");
+
+                                                                using (StringWriter sw2 = new StringWriter())
                                                                 {
-                                                                    //建立物件
-                                                                    writer2.WriteStartObject();
+                                                                    using (JsonTextWriter writer2 = new JsonTextWriter(sw2))
+                                                                    {
+                                                                        //建立物件
+                                                                        writer2.WriteStartObject();
 
-                                                                    writer2.WritePropertyName(string.Format("clientOrderNumber", clientOrderNumber));
-                                                                    writer2.WriteValue(clientOrderNumber);
+                                                                        writer2.WritePropertyName(string.Format("clientOrderNumber", clientOrderNumber));
+                                                                        writer2.WriteValue(clientOrderNumber);
 
-                                                                    writer2.WritePropertyName("partnerOrderNumber");
-                                                                    writer2.WriteValue(OrderID);
+                                                                        writer2.WritePropertyName("partnerOrderNumber");
+                                                                        writer2.WriteValue(OrderID);
 
-                                                                    writer2.WritePropertyName("orderMsg");
-                                                                    writer2.WriteValue("fail");
+                                                                        writer2.WritePropertyName("orderMsg");
+                                                                        writer2.WriteValue("fail");
 
-                                                                    writer2.WritePropertyName("orderStatus");
-                                                                    writer2.WriteValue("1001");
+                                                                        writer2.WritePropertyName("orderStatus");
+                                                                        writer2.WriteValue("1001");
 
-                                                                    writer2.WriteEndObject();
+                                                                        writer2.WriteEndObject();
 
-                                                                    encrypt = AESHelper.AesEncrypt(sw2.ToString(), checkedkey);
+                                                                        encrypt = AESHelper.AesEncrypt(sw2.ToString(), checkedkey);
+                                                                    }
                                                                 }
+
+                                                                writer.WriteValue(encrypt);
+
+                                                                writer.WritePropertyName("resultCode"); writer.WriteValue("9999");
+
+                                                                writer.WriteEndObject();
+
+                                                                writer.Flush();
+                                                                writer.Close();
+                                                                sw.Flush();
+                                                                sw.Close();
+
+                                                                //輸出結果
+                                                                Response.Write(sw.ToString());
+
+                                                                SaveRequestLog(Request.Url + sw.ToString());
                                                             }
-
-                                                            writer.WriteValue(encrypt);
-
-                                                            writer.WritePropertyName("resultCode"); writer.WriteValue("9999");
-
-                                                            writer.WriteEndObject();
-
-                                                            writer.Flush();
-                                                            writer.Close();
-                                                            sw.Flush();
-                                                            sw.Close();
-
-                                                            //輸出結果
-                                                            Response.Write(sw.ToString());
-
-                                                            SaveRequestLog(Request.Url + sw.ToString());
                                                         }
                                                     }
-                                                }
-                                                break;
-                                            case 4:
-                                                //新港奉天宮
-                                                ApplicantID = addapplicantID_h_Lights(appName, appMobile, total, appCity, appRegion, appAddr, appzipCode, sendback, reName, reMobile, 
-                                                    itemsInfo, productCode, clientOrderNumber, fetOrderNumber, Year, ref Lightslist, ref LightsID, ref OrderID);
+                                                    break;
+                                                case 8:
+                                                    //西螺福興宮
+                                                    ApplicantID = addapplicantID_Fu_Lights(appName, appMobile, total, appCity, appRegion, appAddr, appzipCode, sendback, reName, reMobile,
+                                                        itemsInfo, productCode, clientOrderNumber, fetOrderNumber, Year, ref Lightslist, ref LightsID, ref OrderID);
 
-                                                tempList_aid.Add(ApplicantID);
-                                                tempList_lid.Add(LightsID);
-                                                tempList_oid.Add(OrderID);
+                                                    tempList_aid.Add(ApplicantID);
+                                                    tempList_lid.Add(LightsID);
+                                                    tempList_oid.Add(OrderID);
 
-                                                ApplicantID_Array = tempList_aid.ToArray();
-                                                LightsID_Array = tempList_lid.ToArray();
-                                                OrderID_Array = tempList_oid.ToArray();
+                                                    ApplicantID_Array = tempList_aid.ToArray();
+                                                    LightsID_Array = tempList_lid.ToArray();
+                                                    OrderID_Array = tempList_oid.ToArray();
+                                                    break;
+                                                case 10:
+                                                    //台南正統鹿耳門聖母廟
+                                                    ApplicantID = addapplicantID_Luer_Lights(appName, appMobile, total, appCity, appRegion, appAddr, appzipCode, sendback, reName, reMobile,
+                                                        itemsInfo, productCode, clientOrderNumber, fetOrderNumber, Year, ref Lightslist, ref LightsID, ref OrderID);
 
-                                                break;
-                                            case 6:
-                                                //北港武德宮
+                                                    tempList_aid.Add(ApplicantID);
+                                                    tempList_lid.Add(LightsID);
+                                                    tempList_oid.Add(OrderID);
 
-                                                int count_wu = 0;
-                                                index = 0;
-                                                int[] count_wu_lights = new int[3];
-                                                lightstypelist = new string[0];
-
-                                                bool checkednum_wu = true;
-                                                foreach (var item2 in itemsInfo)
-                                                {
-                                                    int.TryParse(item2["qty"].ToString(), out count_wu);
-                                                    //int.TryParse(item["unitPrice"].ToString(), out cost);
-                                                    string productCode2 = item2["productCode"].ToString();
-
-                                                    dtTempleCodeInfo = objLightDAC.GetTempleCodeInfo(productCode2);
-                                                    if (dtTempleCodeInfo.Rows.Count > 0)
+                                                    ApplicantID_Array = tempList_aid.ToArray();
+                                                    LightsID_Array = tempList_lid.ToArray();
+                                                    OrderID_Array = tempList_oid.ToArray();
+                                                    break;
+                                                case 14:
+                                                    //桃園威天宮
+                                                    if (checkednum_ty)
                                                     {
-                                                        string LightsString = dtTempleCodeInfo.Rows[0]["TypeString"].ToString();
-                                                        string LightsType = dtTempleCodeInfo.Rows[0]["TypeID"].ToString();
-                                                        string adminID = dtTempleCodeInfo.Rows[0]["AdminID"].ToString();
+                                                        ApplicantID = addapplicantID_ty_Lights(appName, appMobile, total, appCity, appRegion, appAddr, appzipCode, sendback, reName,
+                                                            reMobile, itemsInfo, productCode, clientOrderNumber, fetOrderNumber, Year, ref Lightslist, ref LightsID, ref OrderID);
 
-                                                        if (adminID == "6")
+                                                        tempList_aid.Add(ApplicantID);
+                                                        tempList_lid.Add(LightsID);
+                                                        tempList_oid.Add(OrderID);
+
+                                                        ApplicantID_Array = tempList_aid.ToArray();
+                                                        LightsID_Array = tempList_lid.ToArray();
+                                                        OrderID_Array = tempList_oid.ToArray();
+                                                    }
+                                                    else
+                                                    {
+                                                        //JSON寫入到檔案
+                                                        using (StringWriter sw = new StringWriter())
                                                         {
+                                                            using (JsonTextWriter writer = new JsonTextWriter(sw))
+                                                            {
+                                                                //建立物件
+                                                                writer.WriteStartObject();
+
+                                                                //物件名稱
+                                                                writer.WritePropertyName("detail");
+
+                                                                using (StringWriter sw2 = new StringWriter())
+                                                                {
+                                                                    using (JsonTextWriter writer2 = new JsonTextWriter(sw2))
+                                                                    {
+                                                                        //建立物件
+                                                                        writer2.WriteStartObject();
+
+                                                                        writer2.WritePropertyName(string.Format("clientOrderNumber", clientOrderNumber));
+                                                                        writer2.WriteValue(clientOrderNumber);
+
+                                                                        writer2.WritePropertyName("partnerOrderNumber");
+                                                                        writer2.WriteValue(OrderID);
+
+                                                                        writer2.WritePropertyName("orderMsg");
+                                                                        writer2.WriteValue("fail");
+
+                                                                        writer2.WritePropertyName("orderStatus");
+                                                                        writer2.WriteValue("1001");
+
+                                                                        writer2.WriteEndObject();
+
+                                                                        encrypt = AESHelper.AesEncrypt(sw2.ToString(), checkedkey);
+                                                                    }
+                                                                }
+
+                                                                writer.WriteValue(encrypt);
+
+                                                                writer.WritePropertyName("resultCode"); writer.WriteValue("9999");
+
+                                                                writer.WriteEndObject();
+
+                                                                writer.Flush();
+                                                                writer.Close();
+                                                                sw.Flush();
+                                                                sw.Close();
+
+                                                                //輸出結果
+                                                                Response.Write(sw.ToString());
+
+                                                                SaveRequestLog(Request.Url + sw.ToString());
+                                                            }
+                                                        }
+                                                    }
+                                                    break;
+                                                case 15:
+                                                    //斗六五路財神宮
+                                                    ApplicantID = addapplicantID_Fw_Lights(appName, appMobile, total, appCity, appRegion, appAddr, appzipCode, sendback, reName, reMobile,
+                                                        itemsInfo, productCode, clientOrderNumber, fetOrderNumber, Year, ref Lightslist, ref LightsID, ref OrderID);
+
+                                                    tempList_aid.Add(ApplicantID);
+                                                    tempList_lid.Add(LightsID);
+                                                    tempList_oid.Add(OrderID);
+
+                                                    ApplicantID_Array = tempList_aid.ToArray();
+                                                    LightsID_Array = tempList_lid.ToArray();
+                                                    OrderID_Array = tempList_oid.ToArray();
+                                                    break;
+                                                case 16:
+                                                    //台東東海龍門天聖宮
+                                                    if (checkednum_dh)
+                                                    {
+                                                        ApplicantID = addapplicantID_dh_Lights(appName, appMobile, total, appCity, appRegion, appAddr, appzipCode, sendback, reName,
+                                                            reMobile, itemsInfo, productCode, clientOrderNumber, fetOrderNumber, Year, ref Lightslist, ref LightsID, ref OrderID);
+
+                                                        tempList_aid.Add(ApplicantID);
+                                                        tempList_lid.Add(LightsID);
+                                                        tempList_oid.Add(OrderID);
+
+                                                        ApplicantID_Array = tempList_aid.ToArray();
+                                                        LightsID_Array = tempList_lid.ToArray();
+                                                        OrderID_Array = tempList_oid.ToArray();
+                                                    }
+                                                    else
+                                                    {
+                                                        //JSON寫入到檔案
+                                                        using (StringWriter sw = new StringWriter())
+                                                        {
+                                                            using (JsonTextWriter writer = new JsonTextWriter(sw))
+                                                            {
+                                                                //建立物件
+                                                                writer.WriteStartObject();
+
+                                                                //物件名稱
+                                                                writer.WritePropertyName("detail");
+
+                                                                using (StringWriter sw2 = new StringWriter())
+                                                                {
+                                                                    using (JsonTextWriter writer2 = new JsonTextWriter(sw2))
+                                                                    {
+                                                                        //建立物件
+                                                                        writer2.WriteStartObject();
+
+                                                                        writer2.WritePropertyName(string.Format("clientOrderNumber", clientOrderNumber));
+                                                                        writer2.WriteValue(clientOrderNumber);
+
+                                                                        writer2.WritePropertyName("partnerOrderNumber");
+                                                                        writer2.WriteValue(OrderID);
+
+                                                                        writer2.WritePropertyName("orderMsg");
+                                                                        writer2.WriteValue("fail");
+
+                                                                        writer2.WritePropertyName("orderStatus");
+                                                                        writer2.WriteValue("1001");
+
+                                                                        writer2.WriteEndObject();
+
+                                                                        encrypt = AESHelper.AesEncrypt(sw2.ToString(), checkedkey);
+                                                                    }
+                                                                }
+
+                                                                writer.WriteValue(encrypt);
+
+                                                                writer.WritePropertyName("resultCode"); writer.WriteValue("9999");
+
+                                                                writer.WriteEndObject();
+
+                                                                writer.Flush();
+                                                                writer.Close();
+                                                                sw.Flush();
+                                                                sw.Close();
+
+                                                                //輸出結果
+                                                                Response.Write(sw.ToString());
+
+                                                                SaveRequestLog(Request.Url + sw.ToString());
+                                                            }
+                                                        }
+                                                    }
+                                                    break;
+                                                case 21:
+                                                    //鹿港城隍廟
+                                                    ApplicantID = addapplicantID_Lk_Lights(appName, appMobile, total, appCity, appRegion, appAddr, appzipCode, sendback, reName,
+                                                        reMobile, itemsInfo, productCode, clientOrderNumber, fetOrderNumber, Year, ref Lightslist, ref LightsID, ref OrderID);
+
+                                                    tempList_aid.Add(ApplicantID);
+                                                    tempList_lid.Add(LightsID);
+                                                    tempList_oid.Add(OrderID);
+
+                                                    ApplicantID_Array = tempList_aid.ToArray();
+                                                    LightsID_Array = tempList_lid.ToArray();
+                                                    OrderID_Array = tempList_oid.ToArray();
+                                                    break;
+                                                case 23:
+                                                    //玉敕大樹朝天宮
+
+                                                    int count_ma = 0;
+                                                    index = 0;
+                                                    int[] count_ma_lights = new int[6];
+                                                    lightstypelist = new string[0];
+
+                                                    bool checkednum_ma = true;
+                                                    foreach (var item2 in itemsInfo)
+                                                    {
+                                                        int.TryParse(item2["qty"].ToString(), out count_ma);
+                                                        //int.TryParse(item["unitPrice"].ToString(), out cost);
+                                                        string productCode2 = item2["productCode"].ToString();
+
+                                                        dtTempleCodeInfo = objLightDAC.GetTempleCodeInfo(productCode2);
+                                                        if (dtTempleCodeInfo.Rows.Count > 0)
+                                                        {
+                                                            string LightsString = dtTempleCodeInfo.Rows[0]["TypeString"].ToString();
+                                                            string LightsType = dtTempleCodeInfo.Rows[0]["TypeID"].ToString();
+
                                                             var Ists = lightstypelist.ToList();
                                                             lightstypelist = Ists.Append(LightsType).ToArray();
 
@@ -697,42 +1159,124 @@ namespace Temple.FET.APITEST
                                                             {
                                                                 case "3":
                                                                     //光明燈
-                                                                    count_wu_lights[0]++;
+                                                                    count_ma_lights[0]++;
                                                                     break;
                                                                 case "4":
                                                                     //安太歲
-                                                                    count_wu_lights[1]++;
+                                                                    count_ma_lights[1]++;
                                                                     break;
                                                                 case "6":
                                                                     //財神燈
-                                                                    count_wu_lights[2]++;
+                                                                    count_ma_lights[2]++;
+                                                                    break;
+                                                                case "8":
+                                                                    //藥師燈
+                                                                    count_ma_lights[3]++;
+                                                                    break;
+                                                                case "10":
+                                                                    //貴人燈
+                                                                    count_ma_lights[4]++;
+                                                                    break;
+                                                                case "11":
+                                                                    //福祿燈
+                                                                    count_ma_lights[5]++;
                                                                     break;
                                                             }
                                                         }
+                                                        index++;
                                                     }
-                                                    index++;
-                                                }
 
-                                                //Lightstypelist = new string[] { "3", "4", "6" };
-                                                for (int i = 0; i < lightstypelist.Length; i++)
-                                                {
-                                                    int c = 0;
-
-                                                    c += lightstypelist[i] == "3" ? count_wu_lights[0] : 0;
-                                                    c += lightstypelist[i] == "4" ? count_wu_lights[1] : 0;
-                                                    c += lightstypelist[i] == "6" ? count_wu_lights[2] : 0;
-
-                                                    if (objLightDAC.checkedLightsNum(lightstypelist[i], AdminID.ToString(), c, -1, Year))
+                                                    //Lightstypelist = new string[] { "3", "4", "6", "8", "10", "11" };
+                                                    for (int i = 0; i < lightstypelist.Length; i++)
                                                     {
-                                                        checkednum_wu = false; break;
+                                                        int c = 0;
+
+                                                        c += lightstypelist[i] == "3" ? count_ma_lights[0] : 0;
+                                                        c += lightstypelist[i] == "4" ? count_ma_lights[1] : 0;
+                                                        c += lightstypelist[i] == "6" ? count_ma_lights[2] : 0;
+                                                        c += lightstypelist[i] == "8" ? count_ma_lights[3] : 0;
+                                                        c += lightstypelist[i] == "10" ? count_ma_lights[4] : 0;
+                                                        c += lightstypelist[i] == "11" ? count_ma_lights[5] : 0;
+
+                                                        if (objLightDAC.checkedLightsNum(lightstypelist[i], AdminID.ToString(), c, 1, Year))
+                                                        {
+                                                            checkednum_ma = false; break;
+                                                        }
                                                     }
-                                                }
 
-                                                //checkednum_wu = false;
+                                                    if (checkednum_ma)
+                                                    {
+                                                        ApplicantID = addapplicantID_ma_Lights(appName, appMobile, total, appCity, appRegion, appAddr, appzipCode, sendback, reName,
+                                                            reMobile, itemsInfo, productCode, clientOrderNumber, fetOrderNumber, Year, ref Lightslist, ref LightsID, ref OrderID);
 
-                                                if (checkednum_wu)
-                                                {
-                                                    ApplicantID = addapplicantID_wu_Lights(appName, appMobile, total, appCity, appRegion, appAddr, appzipCode, sendback, reName, 
+                                                        tempList_aid.Add(ApplicantID);
+                                                        tempList_lid.Add(LightsID);
+                                                        tempList_oid.Add(OrderID);
+
+                                                        ApplicantID_Array = tempList_aid.ToArray();
+                                                        LightsID_Array = tempList_lid.ToArray();
+                                                        OrderID_Array = tempList_oid.ToArray();
+                                                    }
+                                                    else
+                                                    {
+                                                        //JSON寫入到檔案
+                                                        using (StringWriter sw = new StringWriter())
+                                                        {
+                                                            using (JsonTextWriter writer = new JsonTextWriter(sw))
+                                                            {
+                                                                //建立物件
+                                                                writer.WriteStartObject();
+
+                                                                //物件名稱
+                                                                writer.WritePropertyName("detail");
+
+                                                                using (StringWriter sw2 = new StringWriter())
+                                                                {
+                                                                    using (JsonTextWriter writer2 = new JsonTextWriter(sw2))
+                                                                    {
+                                                                        //建立物件
+                                                                        writer2.WriteStartObject();
+
+                                                                        writer2.WritePropertyName(string.Format("clientOrderNumber", clientOrderNumber));
+                                                                        writer2.WriteValue(clientOrderNumber);
+
+                                                                        writer2.WritePropertyName("partnerOrderNumber");
+                                                                        writer2.WriteValue(OrderID);
+
+                                                                        writer2.WritePropertyName("orderMsg");
+                                                                        writer2.WriteValue("fail");
+
+                                                                        writer2.WritePropertyName("orderStatus");
+                                                                        writer2.WriteValue("1001");
+
+                                                                        writer2.WriteEndObject();
+
+                                                                        encrypt = AESHelper.AesEncrypt(sw2.ToString(), checkedkey);
+                                                                    }
+                                                                }
+
+                                                                writer.WriteValue(encrypt);
+
+                                                                writer.WritePropertyName("resultCode"); writer.WriteValue("9999");
+
+                                                                writer.WriteEndObject();
+
+                                                                writer.Flush();
+                                                                writer.Close();
+                                                                sw.Flush();
+                                                                sw.Close();
+
+                                                                //輸出結果
+                                                                Response.Write(sw.ToString());
+
+                                                                SaveRequestLog(Request.Url + sw.ToString());
+                                                            }
+                                                        }
+                                                    }
+                                                    break;
+                                                case 29:
+                                                    //進寶財神廟
+                                                    ApplicantID = addapplicantID_jb_Lights(appName, appMobile, total, appCity, appRegion, appAddr, appzipCode, sendback, reName,
                                                         reMobile, itemsInfo, productCode, clientOrderNumber, fetOrderNumber, Year, ref Lightslist, ref LightsID, ref OrderID);
 
                                                     tempList_aid.Add(ApplicantID);
@@ -742,166 +1286,10 @@ namespace Temple.FET.APITEST
                                                     ApplicantID_Array = tempList_aid.ToArray();
                                                     LightsID_Array = tempList_lid.ToArray();
                                                     OrderID_Array = tempList_oid.ToArray();
-                                                }
-                                                else
-                                                {
-                                                    //JSON寫入到檔案
-                                                    using (StringWriter sw = new StringWriter())
-                                                    {
-                                                        using (JsonTextWriter writer = new JsonTextWriter(sw))
-                                                        {
-                                                            //建立物件
-                                                            writer.WriteStartObject();
-
-                                                            //物件名稱
-                                                            writer.WritePropertyName("detail");
-
-                                                            using (StringWriter sw2 = new StringWriter())
-                                                            {
-                                                                using (JsonTextWriter writer2 = new JsonTextWriter(sw2))
-                                                                {
-                                                                    //建立物件
-                                                                    writer2.WriteStartObject();
-
-                                                                    writer2.WritePropertyName(string.Format("clientOrderNumber", clientOrderNumber));
-                                                                    writer2.WriteValue(clientOrderNumber);
-
-                                                                    writer2.WritePropertyName("partnerOrderNumber");
-                                                                    writer2.WriteValue(OrderID);
-
-                                                                    writer2.WritePropertyName("orderMsg");
-                                                                    writer2.WriteValue("fail");
-
-                                                                    writer2.WritePropertyName("orderStatus");
-                                                                    writer2.WriteValue("1001");
-
-                                                                    writer2.WriteEndObject();
-
-                                                                    encrypt = AESHelper.AesEncrypt(sw2.ToString(), checkedkey);
-                                                                }
-                                                            }
-
-                                                            writer.WriteValue(encrypt);
-
-                                                            writer.WritePropertyName("resultCode"); writer.WriteValue("9999");
-
-                                                            writer.WriteEndObject();
-
-                                                            writer.Flush();
-                                                            writer.Close();
-                                                            sw.Flush();
-                                                            sw.Close();
-
-                                                            //輸出結果
-                                                            Response.Write(sw.ToString());
-
-                                                            SaveRequestLog(Request.Url + sw.ToString());
-                                                        }
-                                                    }
-                                                }
-                                                break;
-                                            case 8:
-                                                //西螺福興宮
-                                                ApplicantID = addapplicantID_Fu_Lights(appName, appMobile, total, appCity, appRegion, appAddr, appzipCode, sendback, reName, reMobile, 
-                                                    itemsInfo, productCode, clientOrderNumber, fetOrderNumber, Year, ref Lightslist, ref LightsID, ref OrderID);
-
-                                                tempList_aid.Add(ApplicantID);
-                                                tempList_lid.Add(LightsID);
-                                                tempList_oid.Add(OrderID);
-
-                                                ApplicantID_Array = tempList_aid.ToArray();
-                                                LightsID_Array = tempList_lid.ToArray();
-                                                OrderID_Array = tempList_oid.ToArray();
-                                                break;
-                                            case 10:
-                                                //台南正統鹿耳門聖母廟
-                                                ApplicantID = addapplicantID_Luer_Lights(appName, appMobile, total, appCity, appRegion, appAddr, appzipCode, sendback, reName, reMobile, 
-                                                    itemsInfo, productCode, clientOrderNumber, fetOrderNumber, Year, ref Lightslist, ref LightsID, ref OrderID);
-
-                                                tempList_aid.Add(ApplicantID);
-                                                tempList_lid.Add(LightsID);
-                                                tempList_oid.Add(OrderID);
-
-                                                ApplicantID_Array = tempList_aid.ToArray();
-                                                LightsID_Array = tempList_lid.ToArray();
-                                                OrderID_Array = tempList_oid.ToArray();
-                                                break;
-                                            case 14:
-                                                //桃園威天宮
-
-                                                int count_ty = 0;
-                                                index = 0;
-                                                int[] count_ty_lights = new int[6];
-                                                lightstypelist = new string[0];
-
-                                                bool checkednum_ty = true;
-                                                foreach (var item2 in itemsInfo)
-                                                {
-                                                    int.TryParse(item2["qty"].ToString(), out count_ty);
-                                                    //int.TryParse(item["unitPrice"].ToString(), out cost);
-                                                    string productCode2 = item2["productCode"].ToString();
-
-                                                    dtTempleCodeInfo = objLightDAC.GetTempleCodeInfo(productCode2);
-                                                    if (dtTempleCodeInfo.Rows.Count > 0)
-                                                    {
-                                                        string LightsString = dtTempleCodeInfo.Rows[0]["TypeString"].ToString();
-                                                        string LightsType = dtTempleCodeInfo.Rows[0]["TypeID"].ToString();
-
-                                                        var Ists = lightstypelist.ToList();
-                                                        lightstypelist = Ists.Append(LightsType).ToArray();
-
-                                                        switch (LightsType)
-                                                        {
-                                                            case "3":
-                                                                //光明燈
-                                                                count_ty_lights[0]++;
-                                                                break;
-                                                            case "4":
-                                                                //安太歲
-                                                                count_ty_lights[1]++;
-                                                                break;
-                                                            case "6":
-                                                                //財神燈
-                                                                count_ty_lights[2]++;
-                                                                break;
-                                                            case "8":
-                                                                //藥師燈
-                                                                count_ty_lights[3]++;
-                                                                break;
-                                                            case "10":
-                                                                //貴人燈
-                                                                count_ty_lights[4]++;
-                                                                break;
-                                                            case "11":
-                                                                //福祿燈
-                                                                count_ty_lights[5]++;
-                                                                break;
-                                                        }
-                                                    }
-                                                    index++;
-                                                }
-
-                                                //Lightstypelist = new string[] { "3", "4", "6", "8", "10", "11" };
-                                                for (int i = 0; i < lightstypelist.Length; i++)
-                                                {
-                                                    int c = 0;
-
-                                                    c += lightstypelist[i] == "3" ? count_ty_lights[0] : 0;
-                                                    c += lightstypelist[i] == "4" ? count_ty_lights[1] : 0;
-                                                    c += lightstypelist[i] == "6" ? count_ty_lights[2] : 0;
-                                                    c += lightstypelist[i] == "8" ? count_ty_lights[3] : 0;
-                                                    c += lightstypelist[i] == "10" ? count_ty_lights[4] : 0;
-                                                    c += lightstypelist[i] == "11" ? count_ty_lights[5] : 0;
-
-                                                    if (objLightDAC.checkedLightsNum(lightstypelist[i], AdminID.ToString(), c, 1, Year))
-                                                    {
-                                                        checkednum_ty = false; break;
-                                                    }
-                                                }
-
-                                                if (checkednum_ty)
-                                                {
-                                                    ApplicantID = addapplicantID_ty_Lights(appName, appMobile, total, appCity, appRegion, appAddr, appzipCode, sendback, reName, 
+                                                    break;
+                                                case 31:
+                                                    //台灣道教總廟無極三清總道院
+                                                    ApplicantID = addapplicantID_wjsan_Lights(appName, appMobile, total, appCity, appRegion, appAddr, appzipCode, sendback, reName,
                                                         reMobile, itemsInfo, productCode, clientOrderNumber, fetOrderNumber, Year, ref Lightslist, ref LightsID, ref OrderID);
 
                                                     tempList_aid.Add(ApplicantID);
@@ -911,125 +1299,10 @@ namespace Temple.FET.APITEST
                                                     ApplicantID_Array = tempList_aid.ToArray();
                                                     LightsID_Array = tempList_lid.ToArray();
                                                     OrderID_Array = tempList_oid.ToArray();
-                                                }
-                                                else
-                                                {
-                                                    //JSON寫入到檔案
-                                                    using (StringWriter sw = new StringWriter())
-                                                    {
-                                                        using (JsonTextWriter writer = new JsonTextWriter(sw))
-                                                        {
-                                                            //建立物件
-                                                            writer.WriteStartObject();
-
-                                                            //物件名稱
-                                                            writer.WritePropertyName("detail");
-
-                                                            using (StringWriter sw2 = new StringWriter())
-                                                            {
-                                                                using (JsonTextWriter writer2 = new JsonTextWriter(sw2))
-                                                                {
-                                                                    //建立物件
-                                                                    writer2.WriteStartObject();
-
-                                                                    writer2.WritePropertyName(string.Format("clientOrderNumber", clientOrderNumber));
-                                                                    writer2.WriteValue(clientOrderNumber);
-
-                                                                    writer2.WritePropertyName("partnerOrderNumber");
-                                                                    writer2.WriteValue(OrderID);
-
-                                                                    writer2.WritePropertyName("orderMsg");
-                                                                    writer2.WriteValue("fail");
-
-                                                                    writer2.WritePropertyName("orderStatus");
-                                                                    writer2.WriteValue("1001");
-
-                                                                    writer2.WriteEndObject();
-
-                                                                    encrypt = AESHelper.AesEncrypt(sw2.ToString(), checkedkey);
-                                                                }
-                                                            }
-
-                                                            writer.WriteValue(encrypt);
-
-                                                            writer.WritePropertyName("resultCode"); writer.WriteValue("9999");
-
-                                                            writer.WriteEndObject();
-
-                                                            writer.Flush();
-                                                            writer.Close();
-                                                            sw.Flush();
-                                                            sw.Close();
-
-                                                            //輸出結果
-                                                            Response.Write(sw.ToString());
-
-                                                            SaveRequestLog(Request.Url + sw.ToString());
-                                                        }
-                                                    }
-                                                }
-                                                break;
-                                            case 15:
-                                                //斗六五路財神宮
-                                                ApplicantID = addapplicantID_Fw_Lights(appName, appMobile, total, appCity, appRegion, appAddr, appzipCode, sendback, reName, reMobile, 
-                                                    itemsInfo, productCode, clientOrderNumber, fetOrderNumber, Year, ref Lightslist, ref LightsID, ref OrderID);
-
-                                                tempList_aid.Add(ApplicantID);
-                                                tempList_lid.Add(LightsID);
-                                                tempList_oid.Add(OrderID);
-
-                                                ApplicantID_Array = tempList_aid.ToArray();
-                                                LightsID_Array = tempList_lid.ToArray();
-                                                OrderID_Array = tempList_oid.ToArray();
-                                                break;
-                                            case 16:
-                                                //台東東海龍門天聖宮
-
-                                                int count_dh = 0;
-                                                index = 0;
-
-                                                bool checkednum_dh = true;
-                                                foreach (var item2 in itemsInfo)
-                                                {
-                                                    int.TryParse(item2["qty"].ToString(), out count_dh);
-                                                    //int.TryParse(item["unitPrice"].ToString(), out cost);
-                                                    productCode = item2["productCode"].ToString();
-
-                                                    dtTempleCodeInfo = objLightDAC.GetTempleCodeInfo(productCode);
-                                                    if (dtTempleCodeInfo.Rows.Count > 0)
-                                                    {
-                                                        string LightsString = dtTempleCodeInfo.Rows[0]["TypeString"].ToString();
-                                                        string LightsType = dtTempleCodeInfo.Rows[0]["TypeID"].ToString();
-
-                                                        switch (LightsType)
-                                                        {
-                                                            case "3":
-                                                                //光明燈
-                                                                break;
-                                                            case "4":
-                                                                //安太歲
-                                                                break;
-                                                            case "5":
-                                                                //文昌燈
-                                                                break;
-                                                            case "9":
-                                                                //財利燈
-                                                                break;
-                                                            case "13":
-                                                                //龍王燈
-                                                                checkednum_dh = false;
-                                                                break;
-                                                            case "14":
-                                                                //虎爺燈
-                                                                break;
-                                                        }
-                                                    }
-                                                    index++;
-                                                }
-
-                                                if (checkednum_dh)
-                                                {
-                                                    ApplicantID = addapplicantID_dh_Lights(appName, appMobile, total, appCity, appRegion, appAddr, appzipCode, sendback, reName, 
+                                                    break;
+                                                case 32:
+                                                    //桃園龍德宮
+                                                    ApplicantID = addapplicantID_ld_Lights(appName, appMobile, total, appCity, appRegion, appAddr, appzipCode, sendback, reName,
                                                         reMobile, itemsInfo, productCode, clientOrderNumber, fetOrderNumber, Year, ref Lightslist, ref LightsID, ref OrderID);
 
                                                     tempList_aid.Add(ApplicantID);
@@ -1039,414 +1312,154 @@ namespace Temple.FET.APITEST
                                                     ApplicantID_Array = tempList_aid.ToArray();
                                                     LightsID_Array = tempList_lid.ToArray();
                                                     OrderID_Array = tempList_oid.ToArray();
-                                                }
-                                                else
-                                                {
-                                                    //JSON寫入到檔案
-                                                    using (StringWriter sw = new StringWriter())
-                                                    {
-                                                        using (JsonTextWriter writer = new JsonTextWriter(sw))
-                                                        {
-                                                            //建立物件
-                                                            writer.WriteStartObject();
-
-                                                            //物件名稱
-                                                            writer.WritePropertyName("detail");
-
-                                                            using (StringWriter sw2 = new StringWriter())
-                                                            {
-                                                                using (JsonTextWriter writer2 = new JsonTextWriter(sw2))
-                                                                {
-                                                                    //建立物件
-                                                                    writer2.WriteStartObject();
-
-                                                                    writer2.WritePropertyName(string.Format("clientOrderNumber", clientOrderNumber));
-                                                                    writer2.WriteValue(clientOrderNumber);
-
-                                                                    writer2.WritePropertyName("partnerOrderNumber");
-                                                                    writer2.WriteValue(OrderID);
-
-                                                                    writer2.WritePropertyName("orderMsg");
-                                                                    writer2.WriteValue("fail");
-
-                                                                    writer2.WritePropertyName("orderStatus");
-                                                                    writer2.WriteValue("1001");
-
-                                                                    writer2.WriteEndObject();
-
-                                                                    encrypt = AESHelper.AesEncrypt(sw2.ToString(), checkedkey);
-                                                                }
-                                                            }
-
-                                                            writer.WriteValue(encrypt);
-
-                                                            writer.WritePropertyName("resultCode"); writer.WriteValue("9999");
-
-                                                            writer.WriteEndObject();
-
-                                                            writer.Flush();
-                                                            writer.Close();
-                                                            sw.Flush();
-                                                            sw.Close();
-
-                                                            //輸出結果
-                                                            Response.Write(sw.ToString());
-
-                                                            SaveRequestLog(Request.Url + sw.ToString());
-                                                        }
-                                                    }
-                                                }
-                                                break;
-                                            case 21:
-                                                //鹿港城隍廟
-                                                ApplicantID = addapplicantID_Lk_Lights(appName, appMobile, total, appCity, appRegion, appAddr, appzipCode, sendback, reName, 
-                                                    reMobile, itemsInfo, productCode, clientOrderNumber, fetOrderNumber, Year, ref Lightslist, ref LightsID, ref OrderID);
-
-                                                tempList_aid.Add(ApplicantID);
-                                                tempList_lid.Add(LightsID);
-                                                tempList_oid.Add(OrderID);
-
-                                                ApplicantID_Array = tempList_aid.ToArray();
-                                                LightsID_Array = tempList_lid.ToArray();
-                                                OrderID_Array = tempList_oid.ToArray();
-                                                break;
-                                            case 23:
-                                                //玉敕大樹朝天宮
-
-                                                int count_ma = 0;
-                                                index = 0;
-                                                int[] count_ma_lights = new int[6];
-                                                lightstypelist = new string[0];
-
-                                                bool checkednum_ma = true;
-                                                foreach (var item2 in itemsInfo)
-                                                {
-                                                    int.TryParse(item2["qty"].ToString(), out count_ma);
-                                                    //int.TryParse(item["unitPrice"].ToString(), out cost);
-                                                    string productCode2 = item2["productCode"].ToString();
-
-                                                    dtTempleCodeInfo = objLightDAC.GetTempleCodeInfo(productCode2);
-                                                    if (dtTempleCodeInfo.Rows.Count > 0)
-                                                    {
-                                                        string LightsString = dtTempleCodeInfo.Rows[0]["TypeString"].ToString();
-                                                        string LightsType = dtTempleCodeInfo.Rows[0]["TypeID"].ToString();
-
-                                                        var Ists = lightstypelist.ToList();
-                                                        lightstypelist = Ists.Append(LightsType).ToArray();
-
-                                                        switch (LightsType)
-                                                        {
-                                                            case "3":
-                                                                //光明燈
-                                                                count_ma_lights[0]++;
-                                                                break;
-                                                            case "4":
-                                                                //安太歲
-                                                                count_ma_lights[1]++;
-                                                                break;
-                                                            case "6":
-                                                                //財神燈
-                                                                count_ma_lights[2]++;
-                                                                break;
-                                                            case "8":
-                                                                //藥師燈
-                                                                count_ma_lights[3]++;
-                                                                break;
-                                                            case "10":
-                                                                //貴人燈
-                                                                count_ma_lights[4]++;
-                                                                break;
-                                                            case "11":
-                                                                //福祿燈
-                                                                count_ma_lights[5]++;
-                                                                break;
-                                                        }
-                                                    }
-                                                    index++;
-                                                }
-
-                                                //Lightstypelist = new string[] { "3", "4", "6", "8", "10", "11" };
-                                                for (int i = 0; i < lightstypelist.Length; i++)
-                                                {
-                                                    int c = 0;
-
-                                                    c += lightstypelist[i] == "3" ? count_ma_lights[0] : 0;
-                                                    c += lightstypelist[i] == "4" ? count_ma_lights[1] : 0;
-                                                    c += lightstypelist[i] == "6" ? count_ma_lights[2] : 0;
-                                                    c += lightstypelist[i] == "8" ? count_ma_lights[3] : 0;
-                                                    c += lightstypelist[i] == "10" ? count_ma_lights[4] : 0;
-                                                    c += lightstypelist[i] == "11" ? count_ma_lights[5] : 0;
-
-                                                    if (objLightDAC.checkedLightsNum(lightstypelist[i], AdminID.ToString(), c, 1, Year))
-                                                    {
-                                                        checkednum_ma = false; break;
-                                                    }
-                                                }
-
-                                                if (checkednum_ma)
-                                                {
-                                                    ApplicantID = addapplicantID_ma_Lights(appName, appMobile, total, appCity, appRegion, appAddr, appzipCode, sendback, reName,
-                                                        reMobile, itemsInfo, productCode, clientOrderNumber, fetOrderNumber, Year, ref Lightslist, ref LightsID, ref OrderID);
-
-                                                    tempList_aid.Add(ApplicantID);
-                                                    tempList_lid.Add(LightsID);
-                                                    tempList_oid.Add(OrderID);
-
-                                                    ApplicantID_Array = tempList_aid.ToArray();
-                                                    LightsID_Array = tempList_lid.ToArray();
-                                                    OrderID_Array = tempList_oid.ToArray();
-                                                }
-                                                else
-                                                {
-                                                    //JSON寫入到檔案
-                                                    using (StringWriter sw = new StringWriter())
-                                                    {
-                                                        using (JsonTextWriter writer = new JsonTextWriter(sw))
-                                                        {
-                                                            //建立物件
-                                                            writer.WriteStartObject();
-
-                                                            //物件名稱
-                                                            writer.WritePropertyName("detail");
-
-                                                            using (StringWriter sw2 = new StringWriter())
-                                                            {
-                                                                using (JsonTextWriter writer2 = new JsonTextWriter(sw2))
-                                                                {
-                                                                    //建立物件
-                                                                    writer2.WriteStartObject();
-
-                                                                    writer2.WritePropertyName(string.Format("clientOrderNumber", clientOrderNumber));
-                                                                    writer2.WriteValue(clientOrderNumber);
-
-                                                                    writer2.WritePropertyName("partnerOrderNumber");
-                                                                    writer2.WriteValue(OrderID);
-
-                                                                    writer2.WritePropertyName("orderMsg");
-                                                                    writer2.WriteValue("fail");
-
-                                                                    writer2.WritePropertyName("orderStatus");
-                                                                    writer2.WriteValue("1001");
-
-                                                                    writer2.WriteEndObject();
-
-                                                                    encrypt = AESHelper.AesEncrypt(sw2.ToString(), checkedkey);
-                                                                }
-                                                            }
-
-                                                            writer.WriteValue(encrypt);
-
-                                                            writer.WritePropertyName("resultCode"); writer.WriteValue("9999");
-
-                                                            writer.WriteEndObject();
-
-                                                            writer.Flush();
-                                                            writer.Close();
-                                                            sw.Flush();
-                                                            sw.Close();
-
-                                                            //輸出結果
-                                                            Response.Write(sw.ToString());
-
-                                                            SaveRequestLog(Request.Url + sw.ToString());
-                                                        }
-                                                    }
-                                                }
-                                                break;
-                                            case 29:
-                                                //進寶財神廟
-                                                ApplicantID = addapplicantID_jb_Lights(appName, appMobile, total, appCity, appRegion, appAddr, appzipCode, sendback, reName, 
-                                                    reMobile, itemsInfo, productCode, clientOrderNumber, fetOrderNumber, Year, ref Lightslist, ref LightsID, ref OrderID);
-
-                                                tempList_aid.Add(ApplicantID);
-                                                tempList_lid.Add(LightsID);
-                                                tempList_oid.Add(OrderID);
-
-                                                ApplicantID_Array = tempList_aid.ToArray();
-                                                LightsID_Array = tempList_lid.ToArray();
-                                                OrderID_Array = tempList_oid.ToArray();
-                                                break;
-                                            case 31:
-                                                //台灣道教總廟無極三清總道院
-                                                ApplicantID = addapplicantID_wjsan_Lights(appName, appMobile, total, appCity, appRegion, appAddr, appzipCode, sendback, reName,
-                                                    reMobile, itemsInfo, productCode, clientOrderNumber, fetOrderNumber, Year, ref Lightslist, ref LightsID, ref OrderID);
-
-                                                tempList_aid.Add(ApplicantID);
-                                                tempList_lid.Add(LightsID);
-                                                tempList_oid.Add(OrderID);
-
-                                                ApplicantID_Array = tempList_aid.ToArray();
-                                                LightsID_Array = tempList_lid.ToArray();
-                                                OrderID_Array = tempList_oid.ToArray();
-                                                break;
+                                                    break;
+                                            }
                                         }
                                     }
-                                }
 
-                                if (ApplicantID_Array.Length > 0 && LightsID_Array.Length > 0 && OrderID_Array.Length > 0 && Lightslist.Length > 0)
-                                {
-                                    //JSON寫入到檔案
-                                    using (StringWriter sw = new StringWriter())
+                                    if (ApplicantID_Array.Length > 0 && LightsID_Array.Length > 0 && OrderID_Array.Length > 0 && Lightslist.Length > 0)
                                     {
-                                        using (JsonTextWriter writer = new JsonTextWriter(sw))
+                                        //JSON寫入到檔案
+                                        using (StringWriter sw = new StringWriter())
                                         {
-                                            //建立物件
-                                            writer.WriteStartObject();
-
-                                            //物件名稱
-                                            writer.WritePropertyName("detail");
-
-                                            using (StringWriter sw2 = new StringWriter())
+                                            using (JsonTextWriter writer = new JsonTextWriter(sw))
                                             {
-                                                using (JsonTextWriter writer2 = new JsonTextWriter(sw2))
+                                                //建立物件
+                                                writer.WriteStartObject();
+
+                                                //物件名稱
+                                                writer.WritePropertyName("detail");
+
+                                                using (StringWriter sw2 = new StringWriter())
                                                 {
-                                                    //建立物件
-                                                    writer2.WriteStartObject();
-
-                                                    writer2.WritePropertyName(string.Format("clientOrderNumber", clientOrderNumber));
-                                                    writer2.WriteValue(clientOrderNumber);
-
-                                                    writer2.WritePropertyName("partnerOrderNumber");
-                                                    writer2.WriteValue(OrderID);
-
-                                                    writer2.WritePropertyName("orderMsg");
-                                                    writer2.WriteValue("success");
-
-                                                    writer2.WritePropertyName("orderStatus");
-                                                    writer2.WriteValue("0000");
-
-                                                    writer2.WritePropertyName("items");
-                                                    //建立陣列
-                                                    writer2.WriteStartArray();
-                                                    int i = 0;
-                                                    foreach (var item in itemsInfo)
+                                                    using (JsonTextWriter writer2 = new JsonTextWriter(sw2))
                                                     {
                                                         //建立物件
                                                         writer2.WriteStartObject();
 
-                                                        //物件名稱
-                                                        writer2.WritePropertyName("productCode");
-                                                        writer2.WriteValue(item["productCode"]);
+                                                        writer2.WritePropertyName(string.Format("clientOrderNumber", clientOrderNumber));
+                                                        writer2.WriteValue(clientOrderNumber);
 
-                                                        writer2.WritePropertyName("prayedPerson");
+                                                        writer2.WritePropertyName("partnerOrderNumber");
+                                                        writer2.WriteValue(OrderID);
+
+                                                        writer2.WritePropertyName("orderMsg");
+                                                        writer2.WriteValue("success");
+
+                                                        writer2.WritePropertyName("orderStatus");
+                                                        writer2.WriteValue("0000");
+
+                                                        writer2.WritePropertyName("items");
                                                         //建立陣列
                                                         writer2.WriteStartArray();
-
-                                                        JArray prayedPerson = (JArray)item["prayedPerson"];
-                                                        foreach (var item2 in prayedPerson)
+                                                        int i = 0;
+                                                        foreach (var item in itemsInfo)
                                                         {
                                                             //建立物件
                                                             writer2.WriteStartObject();
-                                                            writer2.WritePropertyName("prayedPersonSeq"); writer2.WriteValue(item2["prayedPersonSeq"]);
-                                                            writer2.WritePropertyName("prayedPersonOrderNumber"); writer2.WriteValue(Lightslist[i]);
-                                                            writer2.WritePropertyName("sessionSeq"); writer2.WriteValue("");
-                                                            writer2.WritePropertyName("sessionName"); writer2.WriteValue("");
+
+                                                            //物件名稱
+                                                            writer2.WritePropertyName("productCode");
+                                                            writer2.WriteValue(item["productCode"]);
+
+                                                            writer2.WritePropertyName("prayedPerson");
+                                                            //建立陣列
+                                                            writer2.WriteStartArray();
+
+                                                            JArray prayedPerson = (JArray)item["prayedPerson"];
+                                                            foreach (var item2 in prayedPerson)
+                                                            {
+                                                                //建立物件
+                                                                writer2.WriteStartObject();
+                                                                writer2.WritePropertyName("prayedPersonSeq"); writer2.WriteValue(item2["prayedPersonSeq"]);
+                                                                writer2.WritePropertyName("prayedPersonOrderNumber"); writer2.WriteValue(Lightslist[i]);
+                                                                writer2.WritePropertyName("sessionSeq"); writer2.WriteValue("");
+                                                                writer2.WritePropertyName("sessionName"); writer2.WriteValue("");
+                                                                writer2.WriteEndObject();
+                                                                i++;
+                                                            }
+                                                            writer2.WriteEndArray();
+
                                                             writer2.WriteEndObject();
-                                                            i++;
                                                         }
                                                         writer2.WriteEndArray();
 
                                                         writer2.WriteEndObject();
+
+                                                        encrypt = AESHelper.AesEncrypt(sw2.ToString(), checkedkey);
                                                     }
-                                                    writer2.WriteEndArray();
-
-                                                    writer2.WriteEndObject();
-
-                                                    encrypt = AESHelper.AesEncrypt(sw2.ToString(), checkedkey);
                                                 }
+
+                                                writer.WriteValue(encrypt);
+
+                                                writer.WritePropertyName("resultCode"); writer.WriteValue("0000");
+
+                                                writer.WriteEndObject();
+
+                                                //建立陣列
+                                                //writer.WriteStartArray();
+                                                //for (int index = 1; index <= 10; index++)
+                                                //{
+                                                //    //建立物件
+                                                //    writer.WriteStartObject();
+                                                //    //設定屬性名稱
+                                                //    writer.WritePropertyName(String.Format("number", index));
+                                                //    //設定值
+                                                //    writer.WriteValue(index);
+                                                //    writer.WriteEndObject();
+                                                //}
+                                                //writer.WriteEndArray();
+
+                                                writer.Flush();
+                                                writer.Close();
+                                                sw.Flush();
+                                                sw.Close();
+
+                                                //輸出結果
+                                                Response.Write(sw.ToString());
+
+                                                SaveRequestLog(Request.Url + sw.ToString());
                                             }
-
-                                            writer.WriteValue(encrypt);
-
-                                            writer.WritePropertyName("resultCode"); writer.WriteValue("0000");
-
-                                            writer.WriteEndObject();
-
-                                            //建立陣列
-                                            //writer.WriteStartArray();
-                                            //for (int index = 1; index <= 10; index++)
-                                            //{
-                                            //    //建立物件
-                                            //    writer.WriteStartObject();
-                                            //    //設定屬性名稱
-                                            //    writer.WritePropertyName(String.Format("number", index));
-                                            //    //設定值
-                                            //    writer.WriteValue(index);
-                                            //    writer.WriteEndObject();
-                                            //}
-                                            //writer.WriteEndArray();
-
-                                            writer.Flush();
-                                            writer.Close();
-                                            sw.Flush();
-                                            sw.Close();
-
-                                            //輸出結果
-                                            Response.Write(sw.ToString());
-
-                                            SaveRequestLog(Request.Url + sw.ToString());
                                         }
+                                    }
+                                    else
+                                    {
+                                        JSONErrorOrder(checkedkey, encrypt, "1003", "9999", "建立點燈訂單失敗！");
                                     }
                                 }
                                 else
                                 {
-                                    //JSON寫入到檔案
-                                    using (StringWriter sw = new StringWriter())
+                                    string errommsg = string.Empty;
+                                    if(!checkednum_da)
                                     {
-                                        using (JsonTextWriter writer = new JsonTextWriter(sw))
-                                        {
-                                            //建立物件
-                                            writer.WriteStartObject();
-
-                                            //物件名稱
-                                            writer.WritePropertyName("detail");
-
-                                            using (StringWriter sw2 = new StringWriter())
-                                            {
-                                                using (JsonTextWriter writer2 = new JsonTextWriter(sw2))
-                                                {
-                                                    //建立物件
-                                                    writer2.WriteStartObject();
-
-                                                    writer2.WritePropertyName(string.Format("clientOrderNumber", clientOrderNumber));
-                                                    writer2.WriteValue(clientOrderNumber);
-
-                                                    writer2.WritePropertyName("partnerOrderNumber");
-                                                    writer2.WriteValue(OrderID);
-
-                                                    writer2.WritePropertyName("orderMsg");
-                                                    writer2.WriteValue("fail");
-
-                                                    writer2.WritePropertyName("orderStatus");
-                                                    writer2.WriteValue("1003");
-
-                                                    writer2.WriteEndObject();
-
-                                                    encrypt = AESHelper.AesEncrypt(sw2.ToString(), checkedkey);
-                                                }
-                                            }
-
-                                            writer.WriteValue(encrypt);
-
-                                            writer.WritePropertyName("resultCode"); writer.WriteValue("9999");
-
-                                            writer.WriteEndObject();
-
-                                            writer.Flush();
-                                            writer.Close();
-                                            sw.Flush();
-                                            sw.Close();
-
-                                            //輸出結果
-                                            Response.Write(sw.ToString());
-
-                                            SaveRequestLog(Request.Url + sw.ToString());
-                                        }
+                                        errommsg = "大甲鎮瀾宮";
                                     }
+                                    else if (!checkednum_wu)
+                                    {
+                                        errommsg = "北港武德宮";
+                                    }
+                                    else if (!checkednum_ty)
+                                    {
+                                        errommsg = "桃園威天宮";
+                                    }
+                                    else if (!checkednum_dh)
+                                    {
+                                        errommsg = "台東東海龍門天聖宮";
+                                    }
+
+
+                                    JSONErrorOrder(checkedkey, encrypt, "1003", "9999",  errommsg + " 燈種已額滿！");
                                 }
+
                                 break;
                             case 2:
                                 //普度
+                                Year = dtNow.Year.ToString();
+                                if (URL.IndexOf("132.148.2.191") >= 0)
+                                {
+                                    Year = "TEST";
+                                }
+
                                 switch (AdminID)
                                 {
                                     case 3:
@@ -3282,8 +3295,16 @@ namespace Temple.FET.APITEST
                                 break;
                             case 3:
                                 //商品文創小販部
+                                Year = dtNow.Year.ToString();
+                                if (URL.IndexOf("132.148.2.191") >= 0)
+                                {
+                                    Year = "TEST";
+                                }
+
+                                bool checkedproductstock = true;
                                 count = 0;
                                 cost = 0;
+                                int overStatus = 0;
                                 ApplicantID_Array = new int[0];
                                 ProductID_Array = new int[0];
                                 OrderID_Array = new string[0];
@@ -3299,134 +3320,214 @@ namespace Temple.FET.APITEST
                                     if (dtTempleCodeInfo.Rows.Count > 0)
                                     {
                                         int.TryParse(dtTempleCodeInfo.Rows[0]["AdminID"].ToString(), out AdminID);
-                                        int.TryParse(dtTempleCodeInfo.Rows[0]["ServiceID"].ToString(), out service);
+                                        int.TryParse(dtTempleCodeInfo.Rows[0]["TypeID"].ToString(), out service);
+                                        string type = dtTempleCodeInfo.Rows[0]["TypeID"].ToString();
                                         int.TryParse(item["qty"].ToString(), out count);                                                                                        //數量/普品數量
                                         //count = 1;
                                         int.TryParse(item["unitPrice"].ToString(), out cost);
 
-                                        switch (AdminID)
+
+                                        if (objLightDAC.CheckedProductstock(count, type, out overStatus, Year))
                                         {
-                                            case 5:
-                                                //新港奉天宮商品販賣小舖
-                                                ApplicantID = addapplicantID_h_Product(appName, appMobile, total, appCity, appRegion, appAddr, appzipCode, sendback, reName, reMobile,
-                                                    itemsInfo, count.ToString(), cost.ToString(), productCode, clientOrderNumber, fetOrderNumber, Year, ref Productlist, ref ProductID, ref OrderID);
-                                                tempList_aid.Add(ApplicantID);
-                                                tempList_pid.Add(ProductID);
-                                                tempList_oid.Add(OrderID);
-
-                                                ApplicantID_Array = tempList_aid.ToArray();
-                                                ProductID_Array = tempList_pid.ToArray();
-                                                OrderID_Array = tempList_oid.ToArray();
-                                                break;
-                                            case 20:
-                                                //西螺福興宮商品販賣小舖
-                                                ApplicantID = addapplicantID_Fu_Product(appName, appMobile, total, appCity, appRegion, appAddr, appzipCode, sendback, reName, reMobile,
-                                                    itemsInfo, count.ToString(), cost.ToString(), productCode, clientOrderNumber, fetOrderNumber, Year, ref Productlist, ref ProductID, ref OrderID);
-                                                tempList_aid.Add(ApplicantID);
-                                                tempList_pid.Add(ProductID);
-                                                tempList_oid.Add(OrderID);
-
-                                                ApplicantID_Array = tempList_aid.ToArray();
-                                                ProductID_Array = tempList_pid.ToArray();
-                                                OrderID_Array = tempList_oid.ToArray();
-                                                break;
-                                            case 22:
-                                                //流金富貴商品販賣小舖
-                                                ApplicantID = addapplicantID_Fg_Product(appName, appMobile, total, appCity, appRegion, appAddr, appzipCode, sendback, reName, reMobile,
-                                                    itemsInfo, count.ToString(), cost.ToString(), productCode, clientOrderNumber, fetOrderNumber, Year, ref Productlist, ref ProductID, ref OrderID);
-                                                tempList_aid.Add(ApplicantID);
-                                                tempList_pid.Add(ProductID);
-                                                tempList_oid.Add(OrderID);
-
-                                                ApplicantID_Array = tempList_aid.ToArray();
-                                                ProductID_Array = tempList_pid.ToArray();
-                                                OrderID_Array = tempList_oid.ToArray();
-                                                break;
-                                            case 28:
-                                                //財神小舖商品販賣小舖
-                                                ApplicantID = addapplicantID_god_Product(appName, appMobile, total, appCity, appRegion, appAddr, appzipCode, sendback, reName, reMobile,
-                                                    itemsInfo, count.ToString(), cost.ToString(), productCode, clientOrderNumber, fetOrderNumber, Year, ref Productlist, ref ProductID, ref OrderID);
-                                                tempList_aid.Add(ApplicantID);
-                                                tempList_pid.Add(ProductID);
-                                                tempList_oid.Add(OrderID);
-
-                                                ApplicantID_Array = tempList_aid.ToArray();
-                                                ProductID_Array = tempList_pid.ToArray();
-                                                OrderID_Array = tempList_oid.ToArray();
-                                                break;
+                                            checkedproductstock = false;
                                         }
                                     }
                                 }
 
-                                if (ApplicantID_Array.Length > 0 && ProductID_Array.Length > 0 && OrderID_Array.Length > 0 && Productlist.Length > 0)
+                                if (checkedproductstock)
                                 {
-                                    //JSON寫入到檔案
-                                    using (StringWriter sw = new StringWriter())
+                                    foreach (var item in itemsInfo)
                                     {
-                                        using (JsonTextWriter writer = new JsonTextWriter(sw))
+                                        productCode = item["productCode"].ToString();
+                                        dtTempleCodeInfo = objLightDAC.GetTempleCodeInfo(productCode);
+                                        if (dtTempleCodeInfo.Rows.Count > 0)
                                         {
-                                            //建立物件
-                                            writer.WriteStartObject();
+                                            int.TryParse(dtTempleCodeInfo.Rows[0]["AdminID"].ToString(), out AdminID);
+                                            int.TryParse(dtTempleCodeInfo.Rows[0]["ServiceID"].ToString(), out service);
+                                            int.TryParse(item["qty"].ToString(), out count);                                                                                        //數量/普品數量
+                                                                                                                                                                                    //count = 1;
+                                            int.TryParse(item["unitPrice"].ToString(), out cost);
 
-                                            //物件名稱
-                                            writer.WritePropertyName("detail");
-
-                                            using (StringWriter sw2 = new StringWriter())
+                                            switch (AdminID)
                                             {
-                                                using (JsonTextWriter writer2 = new JsonTextWriter(sw2))
+                                                case 5:
+                                                    //新港奉天宮商品販賣小舖
+                                                    ApplicantID = addapplicantID_h_Product(appName, appMobile, total, appCity, appRegion, appAddr, appzipCode, sendback, reName, reMobile,
+                                                        itemsInfo, count.ToString(), cost.ToString(), productCode, clientOrderNumber, fetOrderNumber, Year, ref Productlist, ref ProductID, ref OrderID);
+                                                    tempList_aid.Add(ApplicantID);
+                                                    tempList_pid.Add(ProductID);
+                                                    tempList_oid.Add(OrderID);
+
+                                                    ApplicantID_Array = tempList_aid.ToArray();
+                                                    ProductID_Array = tempList_pid.ToArray();
+                                                    OrderID_Array = tempList_oid.ToArray();
+                                                    break;
+                                                case 20:
+                                                    //西螺福興宮商品販賣小舖
+                                                    ApplicantID = addapplicantID_Fu_Product(appName, appMobile, total, appCity, appRegion, appAddr, appzipCode, sendback, reName, reMobile,
+                                                        itemsInfo, count.ToString(), cost.ToString(), productCode, clientOrderNumber, fetOrderNumber, Year, ref Productlist, ref ProductID, ref OrderID);
+                                                    tempList_aid.Add(ApplicantID);
+                                                    tempList_pid.Add(ProductID);
+                                                    tempList_oid.Add(OrderID);
+
+                                                    ApplicantID_Array = tempList_aid.ToArray();
+                                                    ProductID_Array = tempList_pid.ToArray();
+                                                    OrderID_Array = tempList_oid.ToArray();
+                                                    break;
+                                                case 22:
+                                                    //流金富貴商品販賣小舖
+                                                    ApplicantID = addapplicantID_Fg_Product(appName, appMobile, total, appCity, appRegion, appAddr, appzipCode, sendback, reName, reMobile,
+                                                        itemsInfo, count.ToString(), cost.ToString(), productCode, clientOrderNumber, fetOrderNumber, Year, ref Productlist, ref ProductID, ref OrderID);
+                                                    tempList_aid.Add(ApplicantID);
+                                                    tempList_pid.Add(ProductID);
+                                                    tempList_oid.Add(OrderID);
+
+                                                    ApplicantID_Array = tempList_aid.ToArray();
+                                                    ProductID_Array = tempList_pid.ToArray();
+                                                    OrderID_Array = tempList_oid.ToArray();
+                                                    break;
+                                                case 28:
+                                                    //財神小舖商品販賣小舖
+                                                    ApplicantID = addapplicantID_god_Product(appName, appMobile, total, appCity, appRegion, appAddr, appzipCode, sendback, reName, reMobile,
+                                                        itemsInfo, count.ToString(), cost.ToString(), productCode, clientOrderNumber, fetOrderNumber, Year, ref Productlist, ref ProductID, ref OrderID);
+                                                    tempList_aid.Add(ApplicantID);
+                                                    tempList_pid.Add(ProductID);
+                                                    tempList_oid.Add(OrderID);
+
+                                                    ApplicantID_Array = tempList_aid.ToArray();
+                                                    ProductID_Array = tempList_pid.ToArray();
+                                                    OrderID_Array = tempList_oid.ToArray();
+                                                    break;
+                                            }
+                                        }
+                                    }
+
+                                    if (ApplicantID_Array.Length > 0 && ProductID_Array.Length > 0 && OrderID_Array.Length > 0 && Productlist.Length > 0)
+                                    {
+                                        //JSON寫入到檔案
+                                        using (StringWriter sw = new StringWriter())
+                                        {
+                                            using (JsonTextWriter writer = new JsonTextWriter(sw))
+                                            {
+                                                //建立物件
+                                                writer.WriteStartObject();
+
+                                                //物件名稱
+                                                writer.WritePropertyName("detail");
+
+                                                using (StringWriter sw2 = new StringWriter())
                                                 {
-                                                    //建立物件
-                                                    writer2.WriteStartObject();
-
-                                                    writer2.WritePropertyName(string.Format("clientOrderNumber", clientOrderNumber));
-                                                    writer2.WriteValue(clientOrderNumber);
-
-                                                    writer2.WritePropertyName("partnerOrderNumber");
-                                                    writer2.WriteValue(OrderID);
-
-                                                    writer2.WritePropertyName("orderMsg");
-                                                    writer2.WriteValue("success");
-
-                                                    writer2.WritePropertyName("orderStatus");
-                                                    writer2.WriteValue("0000");
-
-                                                    writer2.WritePropertyName("items");
-                                                    //建立陣列
-                                                    writer2.WriteStartArray();
-                                                    foreach (var item2 in itemsInfo)
+                                                    using (JsonTextWriter writer2 = new JsonTextWriter(sw2))
                                                     {
                                                         //建立物件
                                                         writer2.WriteStartObject();
 
-                                                        //物件名稱
-                                                        writer2.WritePropertyName("productCode");
-                                                        writer2.WriteValue(item2["productCode"]);
+                                                        writer2.WritePropertyName(string.Format("clientOrderNumber", clientOrderNumber));
+                                                        writer2.WriteValue(clientOrderNumber);
+
+                                                        writer2.WritePropertyName("partnerOrderNumber");
+                                                        writer2.WriteValue(OrderID);
+
+                                                        writer2.WritePropertyName("orderMsg");
+                                                        writer2.WriteValue("success");
+
+                                                        writer2.WritePropertyName("orderStatus");
+                                                        writer2.WriteValue("0000");
+
+                                                        writer2.WritePropertyName("items");
+                                                        //建立陣列
+                                                        writer2.WriteStartArray();
+                                                        foreach (var item2 in itemsInfo)
+                                                        {
+                                                            //建立物件
+                                                            writer2.WriteStartObject();
+
+                                                            //物件名稱
+                                                            writer2.WritePropertyName("productCode");
+                                                            writer2.WriteValue(item2["productCode"]);
+
+                                                            writer2.WriteEndObject();
+                                                        }
+                                                        writer2.WriteEndArray();
 
                                                         writer2.WriteEndObject();
+
+                                                        encrypt = AESHelper.AesEncrypt(sw2.ToString(), checkedkey);
                                                     }
-                                                    writer2.WriteEndArray();
-
-                                                    writer2.WriteEndObject();
-
-                                                    encrypt = AESHelper.AesEncrypt(sw2.ToString(), checkedkey);
                                                 }
+
+                                                writer.WriteValue(encrypt);
+
+                                                writer.WritePropertyName("resultCode"); writer.WriteValue("0000");
+
+                                                writer.WriteEndObject();
+
+                                                writer.Flush();
+                                                writer.Close();
+                                                sw.Flush();
+                                                sw.Close();
+
+                                                //輸出結果
+                                                Response.Write(sw.ToString());
+
+                                                SaveRequestLog(Request.Url + sw.ToString());
                                             }
+                                        }
+                                    }
+                                    else
+                                    {
+                                        //JSON寫入到檔案
+                                        using (StringWriter sw = new StringWriter())
+                                        {
+                                            using (JsonTextWriter writer = new JsonTextWriter(sw))
+                                            {
+                                                //建立物件
+                                                writer.WriteStartObject();
 
-                                            writer.WriteValue(encrypt);
+                                                //物件名稱
+                                                writer.WritePropertyName("detail");
 
-                                            writer.WritePropertyName("resultCode"); writer.WriteValue("0000");
+                                                using (StringWriter sw2 = new StringWriter())
+                                                {
+                                                    using (JsonTextWriter writer2 = new JsonTextWriter(sw2))
+                                                    {
+                                                        //建立物件
+                                                        writer2.WriteStartObject();
 
-                                            writer.WriteEndObject();
+                                                        writer2.WritePropertyName(string.Format("clientOrderNumber", clientOrderNumber));
+                                                        writer2.WriteValue(clientOrderNumber);
 
-                                            writer.Flush();
-                                            writer.Close();
-                                            sw.Flush();
-                                            sw.Close();
+                                                        writer2.WritePropertyName("partnerOrderNumber");
+                                                        writer2.WriteValue(OrderID);
 
-                                            //輸出結果
-                                            Response.Write(sw.ToString());
+                                                        writer2.WritePropertyName("orderMsg");
+                                                        writer2.WriteValue("fail");
 
-                                            SaveRequestLog(Request.Url + sw.ToString());
+                                                        writer2.WritePropertyName("orderStatus");
+                                                        writer2.WriteValue("1003");
+
+                                                        writer2.WriteEndObject();
+
+                                                        encrypt = AESHelper.AesEncrypt(sw2.ToString(), checkedkey);
+                                                    }
+                                                }
+
+                                                writer.WriteValue(encrypt);
+
+                                                writer.WritePropertyName("resultCode"); writer.WriteValue("9999");
+
+                                                writer.WriteEndObject();
+
+                                                writer.Flush();
+                                                writer.Close();
+                                                sw.Flush();
+                                                sw.Close();
+
+                                                //輸出結果
+                                                Response.Write(sw.ToString());
+
+                                                SaveRequestLog(Request.Url + sw.ToString());
+                                            }
                                         }
                                     }
                                 }
@@ -3460,7 +3561,7 @@ namespace Temple.FET.APITEST
                                                     writer2.WriteValue("fail");
 
                                                     writer2.WritePropertyName("orderStatus");
-                                                    writer2.WriteValue("1003");
+                                                    writer2.WriteValue("1001");
 
                                                     writer2.WriteEndObject();
 
@@ -4083,11 +4184,17 @@ namespace Temple.FET.APITEST
                                 break;
                             case 4:
                                 //下元補庫
+                                Year = dtNow.Year.ToString();
+                                if (URL.IndexOf("132.148.2.191") >= 0)
+                                {
+                                    Year = "TEST";
+                                }
+
                                 switch (AdminID)
                                 {
                                     case 6:
                                         //北港武德宮
-                                        bool checkednum_wu = true;
+                                        checkednum_wu = true;
                                         //checkednum_wu = false;
 
                                         if (checkednum_wu)
@@ -4317,6 +4424,12 @@ namespace Temple.FET.APITEST
                                 break;
                             case 5:
                                 //呈疏補庫
+                                Year = dtNow.Year.ToString();
+                                if (URL.IndexOf("132.148.2.191") >= 0)
+                                {
+                                    Year = "TEST";
+                                }
+
                                 switch (AdminID)
                                 {
                                     case 6:
@@ -4326,7 +4439,7 @@ namespace Temple.FET.APITEST
                                         //int[] count_wu_supplies = new int[3];
                                         //string[] suppliestypelist = new string[0];
 
-                                        bool checkednum_wu = true;
+                                        checkednum_wu = true;
                                         //foreach (var item in itemsInfo)
                                         //{
                                         //    int.TryParse(item["qty"].ToString(), out count_wu);
@@ -4599,6 +4712,12 @@ namespace Temple.FET.APITEST
                                 break;
                             case 6:
                                 //企業補財庫
+                                Year = dtNow.Year.ToString();
+                                if (URL.IndexOf("132.148.2.191") >= 0)
+                                {
+                                    Year = "TEST";
+                                }
+
                                 switch (AdminID)
                                 {
                                     case 6:
@@ -4608,7 +4727,7 @@ namespace Temple.FET.APITEST
                                         //int[] count_wu_supplies = new int[3];
                                         //string[] suppliestypelist = new string[0];
 
-                                        bool checkednum_wu = true;
+                                        checkednum_wu = true;
                                         //foreach (var item in itemsInfo)
                                         //{
                                         //    int.TryParse(item["qty"].ToString(), out count_wu);
@@ -4881,9 +5000,134 @@ namespace Temple.FET.APITEST
                                 break;
                             case 7:
                                 //天赦日補運
+                                Year = dtNow.Year.ToString();
+                                if (URL.IndexOf("132.148.2.191") >= 0 || URL.IndexOf("localhost:56371") >= 0)
+                                {
+                                    Year = "TEST";
+                                }
+
+                                switch (AdminID)
+                                {
+                                    case 23:
+                                        //玉敕大樹朝天宮
+                                        ApplicantID = addapplicantID_ma_Supplies(appName, appMobile, total, appCity, appRegion, appAddr, appzipCode, sendback, reName, reMobile,
+                                            itemsInfo, clientOrderNumber, fetOrderNumber, Year, ref Supplieslist, ref SuppliesID, ref OrderID);
+                                        if (ApplicantID > 0 && SuppliesID > 0 && OrderID != "0" && Supplieslist.Length > 0)
+                                        {
+                                            //JSON寫入到檔案
+                                            using (StringWriter sw = new StringWriter())
+                                            {
+                                                using (JsonTextWriter writer = new JsonTextWriter(sw))
+                                                {
+                                                    //建立物件
+                                                    writer.WriteStartObject();
+
+                                                    //物件名稱
+                                                    writer.WritePropertyName("detail");
+
+                                                    using (StringWriter sw2 = new StringWriter())
+                                                    {
+                                                        using (JsonTextWriter writer2 = new JsonTextWriter(sw2))
+                                                        {
+                                                            //建立物件
+                                                            writer2.WriteStartObject();
+
+                                                            writer2.WritePropertyName(string.Format("clientOrderNumber", clientOrderNumber));
+                                                            writer2.WriteValue(clientOrderNumber);
+
+                                                            writer2.WritePropertyName("partnerOrderNumber");
+                                                            writer2.WriteValue(OrderID);
+
+                                                            writer2.WritePropertyName("orderMsg");
+                                                            writer2.WriteValue("success");
+
+                                                            writer2.WritePropertyName("orderStatus");
+                                                            writer2.WriteValue("0000");
+
+                                                            writer2.WritePropertyName("items");
+                                                            //建立陣列
+                                                            writer2.WriteStartArray();
+                                                            int i = 0;
+                                                            foreach (var item in itemsInfo)
+                                                            {
+                                                                //建立物件
+                                                                writer2.WriteStartObject();
+
+                                                                //物件名稱
+                                                                writer2.WritePropertyName("productCode");
+                                                                writer2.WriteValue(item["productCode"]);
+
+                                                                writer2.WritePropertyName("prayedPerson");
+                                                                //建立陣列
+                                                                writer2.WriteStartArray();
+
+                                                                JArray prayedPerson = (JArray)item["prayedPerson"];
+                                                                foreach (var item2 in prayedPerson)
+                                                                {
+                                                                    //建立物件
+                                                                    writer2.WriteStartObject();
+                                                                    writer2.WritePropertyName("prayedPersonSeq"); writer2.WriteValue(item2["prayedPersonSeq"]);
+                                                                    writer2.WritePropertyName("prayedPersonOrderNumber"); writer2.WriteValue(Supplieslist[i]);
+                                                                    writer2.WritePropertyName("sessionSeq"); writer2.WriteValue("");
+                                                                    writer2.WritePropertyName("sessionName"); writer2.WriteValue("");
+                                                                    writer2.WriteEndObject();
+                                                                    i++;
+                                                                }
+                                                                writer2.WriteEndArray();
+
+                                                                writer2.WriteEndObject();
+                                                            }
+                                                            writer2.WriteEndArray();
+
+                                                            writer2.WriteEndObject();
+
+                                                            encrypt = AESHelper.AesEncrypt(sw2.ToString(), checkedkey);
+                                                        }
+                                                    }
+
+                                                    writer.WriteValue(encrypt);
+
+                                                    writer.WritePropertyName("resultCode"); writer.WriteValue("0000");
+
+                                                    writer.WriteEndObject();
+
+                                                    //建立陣列
+                                                    //writer.WriteStartArray();
+                                                    //for (int index = 1; index <= 10; index++)
+                                                    //{
+                                                    //    //建立物件
+                                                    //    writer.WriteStartObject();
+                                                    //    //設定屬性名稱
+                                                    //    writer.WritePropertyName(String.Format("number", index));
+                                                    //    //設定值
+                                                    //    writer.WriteValue(index);
+                                                    //    writer.WriteEndObject();
+                                                    //}
+                                                    //writer.WriteEndArray();
+
+                                                    writer.Flush();
+                                                    writer.Close();
+                                                    sw.Flush();
+                                                    sw.Close();
+
+                                                    //輸出結果
+                                                    Response.Write(sw.ToString());
+
+                                                    SaveRequestLog(Request.Url + sw.ToString());
+                                                }
+                                            }
+                                        }
+                                        break; 
+                                }
                                 break;
                             case 8:
                                 //天赦日祭改
+                                Year = dtNow.Year.ToString();
+                                if (URL.IndexOf("132.148.2.191") >= 0 || URL.IndexOf("localhost:56371") >= 0)
+                                {
+                                    Year = "TEST";
+                                }
+
                                 switch (AdminID)
                                 {
                                     case 29:
@@ -5056,6 +5300,12 @@ namespace Temple.FET.APITEST
                                 break;
                             case 10:
                                 //代燒金紙
+                                Year = dtNow.Year.ToString();
+                                if (URL.IndexOf("132.148.2.191") >= 0)
+                                {
+                                    Year = "TEST";
+                                }
+
                                 switch (AdminID)
                                 {
                                     case 29:
@@ -5228,6 +5478,12 @@ namespace Temple.FET.APITEST
                                 break;
                             case 12:
                                 //靈寶禮斗
+                                Year = dtNow.Year.ToString();
+                                if (URL.IndexOf("132.148.2.191") >= 0)
+                                {
+                                    Year = "TEST";
+                                }
+
                                 switch (AdminID)
                                 {
                                     case 23:
@@ -5400,6 +5656,12 @@ namespace Temple.FET.APITEST
                                 break;                                
                             case 13:
                                 //七朝清醮
+                                Year = dtNow.Year.ToString();
+                                if (URL.IndexOf("132.148.2.191") >= 0)
+                                {
+                                    Year = "TEST";
+                                }
+
                                 switch (AdminID)
                                 {
                                     case 3:
@@ -5570,57 +5832,371 @@ namespace Temple.FET.APITEST
                                         break;
                                 }
                                 break;
+                            case 16:
+                                //補財庫-鹿港城隍廟
+                                Year = "2025";
+                                if (URL.IndexOf("132.148.2.191") >= 0 || URL.IndexOf("localhost:56371") >= 0)
+                                {
+                                    Year = "TEST";
+                                }
+
+                                switch (AdminID)
+                                {
+                                    case 21:
+                                        //鹿港城隍廟
+                                        ApplicantID = addapplicantID_Lk_Supplies(appName, appMobile, total, appCity, appRegion, appAddr, appzipCode, sendback,
+                                            reName, reMobile, itemsInfo, clientOrderNumber, fetOrderNumber, Year, ref Supplieslist, ref SuppliesID, ref OrderID);
+                                        if (ApplicantID > 0 && SuppliesID > 0 && OrderID != "0" && Supplieslist.Length > 0)
+                                        {
+                                            //JSON寫入到檔案
+                                            using (StringWriter sw = new StringWriter())
+                                            {
+                                                using (JsonTextWriter writer = new JsonTextWriter(sw))
+                                                {
+                                                    //建立物件
+                                                    writer.WriteStartObject();
+
+                                                    //物件名稱
+                                                    writer.WritePropertyName("detail");
+
+                                                    using (StringWriter sw2 = new StringWriter())
+                                                    {
+                                                        using (JsonTextWriter writer2 = new JsonTextWriter(sw2))
+                                                        {
+                                                            //建立物件
+                                                            writer2.WriteStartObject();
+
+                                                            writer2.WritePropertyName(string.Format("clientOrderNumber", clientOrderNumber));
+                                                            writer2.WriteValue(clientOrderNumber);
+
+                                                            writer2.WritePropertyName("partnerOrderNumber");
+                                                            writer2.WriteValue(OrderID);
+
+                                                            writer2.WritePropertyName("orderMsg");
+                                                            writer2.WriteValue("success");
+
+                                                            writer2.WritePropertyName("orderStatus");
+                                                            writer2.WriteValue("0000");
+
+                                                            writer2.WritePropertyName("items");
+                                                            //建立陣列
+                                                            writer2.WriteStartArray();
+                                                            int i = 0;
+                                                            foreach (var item in itemsInfo)
+                                                            {
+                                                                //建立物件
+                                                                writer2.WriteStartObject();
+
+                                                                //物件名稱
+                                                                writer2.WritePropertyName("productCode");
+                                                                writer2.WriteValue(item["productCode"]);
+
+                                                                writer2.WritePropertyName("prayedPerson");
+                                                                //建立陣列
+                                                                writer2.WriteStartArray();
+
+                                                                JArray prayedPerson = (JArray)item["prayedPerson"];
+                                                                foreach (var item2 in prayedPerson)
+                                                                {
+                                                                    //建立物件
+                                                                    writer2.WriteStartObject();
+                                                                    writer2.WritePropertyName("prayedPersonSeq"); writer2.WriteValue(item2["prayedPersonSeq"]);
+                                                                    writer2.WritePropertyName("prayedPersonOrderNumber"); writer2.WriteValue(Supplieslist[i]);
+                                                                    writer2.WritePropertyName("sessionSeq"); writer2.WriteValue("");
+                                                                    writer2.WritePropertyName("sessionName"); writer2.WriteValue("");
+                                                                    writer2.WriteEndObject();
+                                                                    i++;
+                                                                }
+                                                                writer2.WriteEndArray();
+
+                                                                writer2.WriteEndObject();
+                                                            }
+                                                            writer2.WriteEndArray();
+
+                                                            writer2.WriteEndObject();
+
+                                                            encrypt = AESHelper.AesEncrypt(sw2.ToString(), checkedkey);
+                                                        }
+                                                    }
+
+                                                    writer.WriteValue(encrypt);
+
+                                                    writer.WritePropertyName("resultCode"); writer.WriteValue("0000");
+
+                                                    writer.WriteEndObject();
+
+                                                    //建立陣列
+                                                    //writer.WriteStartArray();
+                                                    //for (int index = 1; index <= 10; index++)
+                                                    //{
+                                                    //    //建立物件
+                                                    //    writer.WriteStartObject();
+                                                    //    //設定屬性名稱
+                                                    //    writer.WritePropertyName(String.Format("number", index));
+                                                    //    //設定值
+                                                    //    writer.WriteValue(index);
+                                                    //    writer.WriteEndObject();
+                                                    //}
+                                                    //writer.WriteEndArray();
+
+                                                    writer.Flush();
+                                                    writer.Close();
+                                                    sw.Flush();
+                                                    sw.Close();
+
+                                                    //輸出結果
+                                                    Response.Write(sw.ToString());
+
+                                                    SaveRequestLog(Request.Url + sw.ToString());
+                                                }
+                                            }
+                                        }
+                                        else
+                                        {
+                                            //JSON寫入到檔案
+                                            using (StringWriter sw = new StringWriter())
+                                            {
+                                                using (JsonTextWriter writer = new JsonTextWriter(sw))
+                                                {
+                                                    //建立物件
+                                                    writer.WriteStartObject();
+
+                                                    //物件名稱
+                                                    writer.WritePropertyName("detail");
+
+                                                    using (StringWriter sw2 = new StringWriter())
+                                                    {
+                                                        using (JsonTextWriter writer2 = new JsonTextWriter(sw2))
+                                                        {
+                                                            //建立物件
+                                                            writer2.WriteStartObject();
+
+                                                            writer2.WritePropertyName(string.Format("clientOrderNumber", clientOrderNumber));
+                                                            writer2.WriteValue(clientOrderNumber);
+
+                                                            writer2.WritePropertyName("partnerOrderNumber");
+                                                            writer2.WriteValue(OrderID);
+
+                                                            writer2.WritePropertyName("orderMsg");
+                                                            writer2.WriteValue("fail");
+
+                                                            writer2.WritePropertyName("orderStatus");
+                                                            writer2.WriteValue("1003");
+
+                                                            writer2.WriteEndObject();
+
+                                                            encrypt = AESHelper.AesEncrypt(sw2.ToString(), checkedkey);
+                                                        }
+                                                    }
+
+                                                    writer.WriteValue(encrypt);
+
+                                                    writer.WritePropertyName("resultCode"); writer.WriteValue("9999");
+
+                                                    writer.WriteEndObject();
+
+                                                    writer.Flush();
+                                                    writer.Close();
+                                                    sw.Flush();
+                                                    sw.Close();
+
+                                                    //輸出結果
+                                                    Response.Write(sw.ToString());
+
+                                                    SaveRequestLog(Request.Url + sw.ToString());
+                                                }
+                                            }
+                                        }
+                                        break;
+                                }
+                                break;
+                            case 17:
+                                //赦罪補庫
+                                break;
+                            case 18:
+                                //天公生招財補運-桃園威天宮
+                                Year = "2025";
+                                if (URL.IndexOf("132.148.2.191") >= 0 || URL.IndexOf("localhost:56371") >= 0)
+                                {
+                                    Year = "TEST";
+                                }
+
+                                switch (AdminID)
+                                {
+                                    case 14:
+                                        //桃園威天宮
+                                        ApplicantID = addapplicantID_ty_Supplies3(appName, appMobile, applunarBirthday, appleapMonth, applunarBirthTime, appBirth, appemail, total, 
+                                            appCity, appRegion, appAddr, appzipCode, sendback, reName, reMobile, itemsInfo, clientOrderNumber, fetOrderNumber, Year, ref Supplieslist, 
+                                            ref SuppliesID, ref OrderID);
+                                        if (ApplicantID > 0 && SuppliesID > 0 && OrderID != "0" && Supplieslist.Length > 0)
+                                        {
+                                            //JSON寫入到檔案
+                                            using (StringWriter sw = new StringWriter())
+                                            {
+                                                using (JsonTextWriter writer = new JsonTextWriter(sw))
+                                                {
+                                                    //建立物件
+                                                    writer.WriteStartObject();
+
+                                                    //物件名稱
+                                                    writer.WritePropertyName("detail");
+
+                                                    using (StringWriter sw2 = new StringWriter())
+                                                    {
+                                                        using (JsonTextWriter writer2 = new JsonTextWriter(sw2))
+                                                        {
+                                                            //建立物件
+                                                            writer2.WriteStartObject();
+
+                                                            writer2.WritePropertyName(string.Format("clientOrderNumber", clientOrderNumber));
+                                                            writer2.WriteValue(clientOrderNumber);
+
+                                                            writer2.WritePropertyName("partnerOrderNumber");
+                                                            writer2.WriteValue(OrderID);
+
+                                                            writer2.WritePropertyName("orderMsg");
+                                                            writer2.WriteValue("success");
+
+                                                            writer2.WritePropertyName("orderStatus");
+                                                            writer2.WriteValue("0000");
+
+                                                            writer2.WritePropertyName("items");
+                                                            //建立陣列
+                                                            writer2.WriteStartArray();
+                                                            int i = 0;
+                                                            foreach (var item in itemsInfo)
+                                                            {
+                                                                //建立物件
+                                                                writer2.WriteStartObject();
+
+                                                                //物件名稱
+                                                                writer2.WritePropertyName("productCode");
+                                                                writer2.WriteValue(item["productCode"]);
+
+                                                                writer2.WritePropertyName("prayedPerson");
+                                                                //建立陣列
+                                                                writer2.WriteStartArray();
+
+                                                                JArray prayedPerson = (JArray)item["prayedPerson"];
+                                                                foreach (var item2 in prayedPerson)
+                                                                {
+                                                                    //建立物件
+                                                                    writer2.WriteStartObject();
+                                                                    writer2.WritePropertyName("prayedPersonSeq"); writer2.WriteValue(item2["prayedPersonSeq"]);
+                                                                    writer2.WritePropertyName("prayedPersonOrderNumber"); writer2.WriteValue(Supplieslist[i]);
+                                                                    writer2.WritePropertyName("sessionSeq"); writer2.WriteValue("");
+                                                                    writer2.WritePropertyName("sessionName"); writer2.WriteValue("");
+                                                                    writer2.WriteEndObject();
+                                                                    i++;
+                                                                }
+                                                                writer2.WriteEndArray();
+
+                                                                writer2.WriteEndObject();
+                                                            }
+                                                            writer2.WriteEndArray();
+
+                                                            writer2.WriteEndObject();
+
+                                                            encrypt = AESHelper.AesEncrypt(sw2.ToString(), checkedkey);
+                                                        }
+                                                    }
+
+                                                    writer.WriteValue(encrypt);
+
+                                                    writer.WritePropertyName("resultCode"); writer.WriteValue("0000");
+
+                                                    writer.WriteEndObject();
+
+                                                    //建立陣列
+                                                    //writer.WriteStartArray();
+                                                    //for (int index = 1; index <= 10; index++)
+                                                    //{
+                                                    //    //建立物件
+                                                    //    writer.WriteStartObject();
+                                                    //    //設定屬性名稱
+                                                    //    writer.WritePropertyName(String.Format("number", index));
+                                                    //    //設定值
+                                                    //    writer.WriteValue(index);
+                                                    //    writer.WriteEndObject();
+                                                    //}
+                                                    //writer.WriteEndArray();
+
+                                                    writer.Flush();
+                                                    writer.Close();
+                                                    sw.Flush();
+                                                    sw.Close();
+
+                                                    //輸出結果
+                                                    Response.Write(sw.ToString());
+
+                                                    SaveRequestLog(Request.Url + sw.ToString());
+                                                }
+                                            }
+                                        }
+                                        else
+                                        {
+                                            //JSON寫入到檔案
+                                            using (StringWriter sw = new StringWriter())
+                                            {
+                                                using (JsonTextWriter writer = new JsonTextWriter(sw))
+                                                {
+                                                    //建立物件
+                                                    writer.WriteStartObject();
+
+                                                    //物件名稱
+                                                    writer.WritePropertyName("detail");
+
+                                                    using (StringWriter sw2 = new StringWriter())
+                                                    {
+                                                        using (JsonTextWriter writer2 = new JsonTextWriter(sw2))
+                                                        {
+                                                            //建立物件
+                                                            writer2.WriteStartObject();
+
+                                                            writer2.WritePropertyName(string.Format("clientOrderNumber", clientOrderNumber));
+                                                            writer2.WriteValue(clientOrderNumber);
+
+                                                            writer2.WritePropertyName("partnerOrderNumber");
+                                                            writer2.WriteValue(OrderID);
+
+                                                            writer2.WritePropertyName("orderMsg");
+                                                            writer2.WriteValue("fail");
+
+                                                            writer2.WritePropertyName("orderStatus");
+                                                            writer2.WriteValue("1003");
+
+                                                            writer2.WriteEndObject();
+
+                                                            encrypt = AESHelper.AesEncrypt(sw2.ToString(), checkedkey);
+                                                        }
+                                                    }
+
+                                                    writer.WriteValue(encrypt);
+
+                                                    writer.WritePropertyName("resultCode"); writer.WriteValue("9999");
+
+                                                    writer.WriteEndObject();
+
+                                                    writer.Flush();
+                                                    writer.Close();
+                                                    sw.Flush();
+                                                    sw.Close();
+
+                                                    //輸出結果
+                                                    Response.Write(sw.ToString());
+
+                                                    SaveRequestLog(Request.Url + sw.ToString());
+                                                }
+                                            }
+                                        }
+                                        break;
+                                }
+                                break;
                         }
                     }
                     else
                     {
-                        //JSON寫入到檔案
-                        using (StringWriter sw = new StringWriter())
-                        {
-                            using (JsonTextWriter writer = new JsonTextWriter(sw))
-                            {
-                                //建立物件
-                                writer.WriteStartObject();
-
-                                //物件名稱
-                                writer.WritePropertyName("detail");
-
-                                using (StringWriter sw2 = new StringWriter())
-                                {
-                                    using (JsonTextWriter writer2 = new JsonTextWriter(sw2))
-                                    {
-                                        //建立物件
-                                        writer2.WriteStartObject();
-
-                                        writer2.WritePropertyName("orderMsg");
-                                        writer2.WriteValue("fail");
-
-                                        writer2.WritePropertyName("orderStatus");
-                                        writer2.WriteValue("1003");
-
-                                        writer2.WriteEndObject();
-
-                                        encrypt = AESHelper.AesEncrypt(sw2.ToString(), checkedkey);
-                                    }
-                                }
-
-                                writer.WriteValue(encrypt);
-
-                                writer.WritePropertyName("resultCode"); writer.WriteValue("9999");
-
-                                writer.WriteEndObject();
-
-                                writer.Flush();
-                                writer.Close();
-                                sw.Flush();
-                                sw.Close();
-
-                                //輸出結果
-                                Response.Write(sw.ToString());
-
-                                SaveRequestLog(Request.Url + sw.ToString());
-                            }
-                        }
+                        JSONErrorOrder(checkedkey, encrypt, "1003", "9999", "商品代碼不存在!");
                     }
                 }
             }
@@ -5672,9 +6248,6 @@ namespace Temple.FET.APITEST
                         sw.Flush();
                         sw.Close();
 
-                        //輸出結果
-                        Response.Write(sw.ToString());
-
                         LightDAC objLightDAC = new LightDAC(this);
                         decrypt = AESHelper.AesDecrypt(encryptText, checkedkey);
                         JObject obj = JsonConvert.DeserializeObject<JObject>(decrypt);
@@ -5724,9 +6297,12 @@ namespace Temple.FET.APITEST
                                 }
 
                             }
-
-                            SaveRequestLog(Request.Url + sw.ToString());
                         }
+
+                        SaveRequestLog(Request.Url + sw.ToString() + (ex.InnerException == null ? ex.Message : ex.InnerException.Message));
+
+                        //輸出結果
+                        Response.Write(sw.ToString());
                     }
                 }
             }
@@ -6016,25 +6592,15 @@ namespace Temple.FET.APITEST
                     DataTable dtCharge = objDatabaseHelper.GetChargeLog_Lights_da(OrderID, Year);
                     if (dtCharge.Rows.Count > 0)
                     {
-                        if ((int)dtCharge.Rows[0]["Status"] == 0)
+                        int status = (int)dtCharge.Rows[0]["Status"];
+                        if (status == 0)
                         {
                             int LightsType = objDatabaseHelper.GetLightsType_da(aid, Year);
 
-                            //更新點燈資料表並取得訂單編號
-                            objDatabaseHelper.UpdateLights_da_Info(aid, LightsType, Year, ref lightslist, ref Lightslist);
-
                             string msg = "感謝購買,已成功付款" + cost + "元,您的訂單編號 ";
 
-                            for (int i = 0; i < lightslist.Length; i++)
-                            {
-                                msg += lightslist[i];
-                                if (i < lightslist.Length - 1)
-                                {
-                                    msg += ",";
-                                }
-                            }
-
-                            msg += "。客服電話：04-36092299。";
+                            //更新點燈資料表並取得訂單編號
+                            objDatabaseHelper.UpdateLights_da_Info(aid, LightsType, Year, ref msg, ref lightslist, ref Lightslist);
 
 
                             //msg = "感謝大德參與線上點燈,茲收您1960元功德金,訂單編號 光明燈:T2204, 安太歲:25351, 文昌燈:六1214。";
@@ -6043,7 +6609,7 @@ namespace Temple.FET.APITEST
                             SMSHepler objSMSHepler = new SMSHepler();
                             string ChargeType = string.Empty;
                             //更新流水付費表資訊(付費成功)
-                            if (objDatabaseHelper.UpdateChargeLog_Lights_da(OrderID, Tid, msg, Request.UserHostAddress, CallbackLog, Year, ref ChargeType))
+                            if (objDatabaseHelper.UpdateChargeLog_Lights_da(OrderID, Tid, msg, Request.UserHostAddress, CallbackLog, Year, ref ChargeType, ref status))
                             {
                                 //if (objSMSHepler.SendMsg_SL(mobile, msg))
                                 //{
@@ -6054,7 +6620,7 @@ namespace Temple.FET.APITEST
                                 //}
                                 //else
                                 //{
-                                //    Response.Write("<script>alert('傳送簡訊失敗。請聯繫管理員。客服電話：04-23582760。');window.location.href='" + rebackURL + "'</script>");
+                                //    Response.Write("<script>alert('傳送簡訊失敗。請聯繫管理員。客服電話：04-36092299。');window.location.href='" + rebackURL + "'</script>");
                                 //}
                             }
                             else
@@ -6288,22 +6854,10 @@ namespace Temple.FET.APITEST
                         {
                             int LightsType = objDatabaseHelper.GetLightsType_h(aid, Year);
 
-                            //更新點燈資料表並取得訂單編號
-                            objDatabaseHelper.UpdateLights_h_Info(aid, LightsType, Year, ref lightslist, ref Lightslist);
-
                             string msg = "感謝購買,已成功付款" + cost + "元,您的訂單編號 ";
 
-                            for (int i = 0; i < lightslist.Length; i++)
-                            {
-                                msg += lightslist[i];
-                                if (i < lightslist.Length - 1)
-                                {
-                                    msg += ",";
-                                }
-                            }
-
-                            msg += "。客服電話：04-36092299。";
-
+                            //更新點燈資料表並取得訂單編號
+                            objDatabaseHelper.UpdateLights_h_Info(aid, LightsType, Year, ref msg, ref lightslist, ref Lightslist);
 
                             //msg = "感謝大德參與線上點燈,茲收您1960元功德金,訂單編號 光明燈:T2204, 安太歲:25351, 文昌燈:六1214。";
                             //mobile = "0903002568";
@@ -6322,7 +6876,7 @@ namespace Temple.FET.APITEST
                                 //}
                                 //else
                                 //{
-                                //    Response.Write("<script>alert('傳送簡訊失敗。請聯繫管理員。客服電話：04-23582760。');window.location.href='" + rebackURL + "'</script>");
+                                //    Response.Write("<script>alert('傳送簡訊失敗。請聯繫管理員。客服電話：04-36092299。');window.location.href='" + rebackURL + "'</script>");
                                 //}
                             }
                             else
@@ -6556,22 +7110,10 @@ namespace Temple.FET.APITEST
                         {
                             int LightsType = objDatabaseHelper.GetLightsType_wu(aid, Year);
 
-                            //更新點燈資料表並取得訂單編號
-                            objDatabaseHelper.UpdateLights_wu_Info(aid, LightsType, Year, ref lightslist, ref Lightslist);
-
                             string msg = "感謝購買,已成功付款" + cost + "元,您的訂單編號 ";
 
-                            for (int i = 0; i < lightslist.Length; i++)
-                            {
-                                msg += lightslist[i];
-                                if (i < lightslist.Length - 1)
-                                {
-                                    msg += ",";
-                                }
-                            }
-
-                            msg += "。客服電話：04-36092299。";
-
+                            //更新點燈資料表並取得訂單編號
+                            objDatabaseHelper.UpdateLights_wu_Info(aid, LightsType, Year, ref msg, ref lightslist, ref Lightslist);
 
                             //msg = "感謝大德參與線上點燈,茲收您1960元功德金,訂單編號 光明燈:T2204, 安太歲:25351, 文昌燈:六1214。";
                             //mobile = "0903002568";
@@ -6590,7 +7132,7 @@ namespace Temple.FET.APITEST
                                 //}
                                 //else
                                 //{
-                                //    Response.Write("<script>alert('傳送簡訊失敗。請聯繫管理員。客服電話：04-23582760。');window.location.href='" + rebackURL + "'</script>");
+                                //    Response.Write("<script>alert('傳送簡訊失敗。請聯繫管理員。客服電話：04-36092299。');window.location.href='" + rebackURL + "'</script>");
                                 //}
                             }
                             else
@@ -6824,22 +7366,10 @@ namespace Temple.FET.APITEST
                         {
                             int LightsType = objDatabaseHelper.GetLightsType_Fu(aid, Year);
 
-                            //更新點燈資料表並取得訂單編號
-                            objDatabaseHelper.UpdateLights_Fu_Info(aid, LightsType, Year, ref lightslist, ref Lightslist);
-
                             string msg = "感謝購買,已成功付款" + cost + "元,您的訂單編號 ";
 
-                            for (int i = 0; i < lightslist.Length; i++)
-                            {
-                                msg += lightslist[i];
-                                if (i < lightslist.Length - 1)
-                                {
-                                    msg += ",";
-                                }
-                            }
-
-                            msg += "。客服電話：04-36092299。";
-
+                            //更新點燈資料表並取得訂單編號
+                            objDatabaseHelper.UpdateLights_Fu_Info(aid, LightsType, Year, ref msg, ref lightslist, ref Lightslist);
 
                             //msg = "感謝大德參與線上點燈,茲收您1960元功德金,訂單編號 光明燈:T2204, 安太歲:25351, 文昌燈:六1214。";
                             //mobile = "0903002568";
@@ -6858,7 +7388,7 @@ namespace Temple.FET.APITEST
                                 //}
                                 //else
                                 //{
-                                //    Response.Write("<script>alert('傳送簡訊失敗。請聯繫管理員。客服電話：04-23582760。');window.location.href='" + rebackURL + "'</script>");
+                                //    Response.Write("<script>alert('傳送簡訊失敗。請聯繫管理員。客服電話：04-36092299。');window.location.href='" + rebackURL + "'</script>");
                                 //}
                             }
                             else
@@ -7094,22 +7624,10 @@ namespace Temple.FET.APITEST
                         {
                             int LightsType = objDatabaseHelper.GetLightsType_Luer(aid, Year);
 
-                            //更新點燈資料表並取得訂單編號
-                            objDatabaseHelper.UpdateLights_Luer_Info(aid, LightsType, Year, ref lightslist, ref Lightslist);
-
                             string msg = "感謝購買,已成功付款" + cost + "元,您的訂單編號 ";
 
-                            for (int i = 0; i < lightslist.Length; i++)
-                            {
-                                msg += lightslist[i];
-                                if (i < lightslist.Length - 1)
-                                {
-                                    msg += ",";
-                                }
-                            }
-
-                            msg += "。客服電話：04-36092299。";
-
+                            //更新點燈資料表並取得訂單編號
+                            objDatabaseHelper.UpdateLights_Luer_Info(aid, LightsType, Year, ref msg, ref lightslist, ref Lightslist);
 
                             //msg = "感謝大德參與線上點燈,茲收您1960元功德金,訂單編號 光明燈:T2204, 安太歲:25351, 文昌燈:六1214。";
                             //mobile = "0903002568";
@@ -7128,7 +7646,7 @@ namespace Temple.FET.APITEST
                                 //}
                                 //else
                                 //{
-                                //    Response.Write("<script>alert('傳送簡訊失敗。請聯繫管理員。客服電話：04-23582760。');window.location.href='" + rebackURL + "'</script>");
+                                //    Response.Write("<script>alert('傳送簡訊失敗。請聯繫管理員。客服電話：04-36092299。');window.location.href='" + rebackURL + "'</script>");
                                 //}
                             }
                             else
@@ -7362,23 +7880,12 @@ namespace Temple.FET.APITEST
                         {
                             int LightsType = objDatabaseHelper.GetLightsType_ty(aid, Year);
 
-                            //更新點燈資料表並取得訂單編號
-                            objDatabaseHelper.UpdateLights_ty_Info(aid, LightsType, Year, ref lightslist, ref Lightslist);
-
                             string msg = "感謝購買,已成功付款" + cost + "元,您的訂單編號 ";
 
-                            for (int i = 0; i < lightslist.Length; i++)
-                            {
-                                msg += lightslist[i];
-                                if (i < lightslist.Length - 1)
-                                {
-                                    msg += ",";
-                                }
-                            }
+                            //更新點燈資料表並取得訂單編號
+                            objDatabaseHelper.UpdateLights_ty_Info(aid, LightsType, Year, ref msg, ref lightslist, ref Lightslist);
 
-                            msg += "。客服電話：04-36092299。";
-
-                            msg = lightslist.Length > 10 ? "" : msg;
+                            //msg = lightslist.Length > 10 ? "" : msg;
 
                             //msg = "感謝大德參與線上點燈,茲收您1960元功德金,訂單編號 光明燈:T2204, 安太歲:25351, 文昌燈:六1214。";
                             //mobile = "0903002568";
@@ -7397,7 +7904,7 @@ namespace Temple.FET.APITEST
                                 //}
                                 //else
                                 //{
-                                //    Response.Write("<script>alert('傳送簡訊失敗。請聯繫管理員。客服電話：04-23582760。');window.location.href='" + rebackURL + "'</script>");
+                                //    Response.Write("<script>alert('傳送簡訊失敗。請聯繫管理員。客服電話：04-36092299。');window.location.href='" + rebackURL + "'</script>");
                                 //}
                             }
                             else
@@ -7633,22 +8140,10 @@ namespace Temple.FET.APITEST
                         {
                             int LightsType = objDatabaseHelper.GetLightsType_Fw(aid, Year);
 
-                            //更新點燈資料表並取得訂單編號
-                            objDatabaseHelper.UpdateLights_Fw_Info(aid, LightsType, Year, ref lightslist, ref Lightslist);
-
                             string msg = "感謝購買,已成功付款" + cost + "元,您的訂單編號 ";
 
-                            for (int i = 0; i < lightslist.Length; i++)
-                            {
-                                msg += lightslist[i];
-                                if (i < lightslist.Length - 1)
-                                {
-                                    msg += ",";
-                                }
-                            }
-
-                            msg += "。客服電話：04-36092299。";
-
+                            //更新點燈資料表並取得訂單編號
+                            objDatabaseHelper.UpdateLights_Fw_Info(aid, LightsType, Year, ref msg, ref lightslist, ref Lightslist);
 
                             //msg = "感謝大德參與線上點燈,茲收您1960元功德金,訂單編號 光明燈:T2204, 安太歲:25351, 文昌燈:六1214。";
                             //mobile = "0903002568";
@@ -7667,7 +8162,7 @@ namespace Temple.FET.APITEST
                                 //}
                                 //else
                                 //{
-                                //    Response.Write("<script>alert('傳送簡訊失敗。請聯繫管理員。客服電話：04-23582760。');window.location.href='" + rebackURL + "'</script>");
+                                //    Response.Write("<script>alert('傳送簡訊失敗。請聯繫管理員。客服電話：04-36092299。');window.location.href='" + rebackURL + "'</script>");
                                 //}
                             }
                             else
@@ -7901,22 +8396,10 @@ namespace Temple.FET.APITEST
                         {
                             int LightsType = objDatabaseHelper.GetLightsType_dh(aid, Year);
 
-                            //更新點燈資料表並取得訂單編號
-                            objDatabaseHelper.UpdateLights_dh_Info(aid, LightsType, Year, ref lightslist, ref Lightslist);
-
                             string msg = "感謝購買,已成功付款" + cost + "元,您的訂單編號 ";
 
-                            for (int i = 0; i < lightslist.Length; i++)
-                            {
-                                msg += lightslist[i];
-                                if (i < lightslist.Length - 1)
-                                {
-                                    msg += ",";
-                                }
-                            }
-
-                            msg += "。客服電話：04-36092299。";
-
+                            //更新點燈資料表並取得訂單編號
+                            objDatabaseHelper.UpdateLights_dh_Info(aid, LightsType, Year, ref msg, ref lightslist, ref Lightslist);
 
                             //msg = "感謝大德參與線上點燈,茲收您1960元功德金,訂單編號 光明燈:T2204, 安太歲:25351, 文昌燈:六1214。";
                             //mobile = "0903002568";
@@ -7935,7 +8418,7 @@ namespace Temple.FET.APITEST
                                 //}
                                 //else
                                 //{
-                                //    Response.Write("<script>alert('傳送簡訊失敗。請聯繫管理員。客服電話：04-23582760。');window.location.href='" + rebackURL + "'</script>");
+                                //    Response.Write("<script>alert('傳送簡訊失敗。請聯繫管理員。客服電話：04-36092299。');window.location.href='" + rebackURL + "'</script>");
                                 //}
                             }
                             else
@@ -8169,22 +8652,10 @@ namespace Temple.FET.APITEST
                         {
                             int LightsType = objDatabaseHelper.GetLightsType_Lk(aid, Year);
 
-                            //更新點燈資料表並取得訂單編號
-                            objDatabaseHelper.UpdateLights_Lk_Info(aid, LightsType, Year, ref lightslist, ref Lightslist);
-
                             string msg = "感謝購買,已成功付款" + cost + "元,您的訂單編號 ";
 
-                            for (int i = 0; i < lightslist.Length; i++)
-                            {
-                                msg += lightslist[i];
-                                if (i < lightslist.Length - 1)
-                                {
-                                    msg += ",";
-                                }
-                            }
-
-                            msg += "。客服電話：04-36092299。";
-
+                            //更新點燈資料表並取得訂單編號
+                            objDatabaseHelper.UpdateLights_Lk_Info(aid, LightsType, Year, ref msg, ref lightslist, ref Lightslist);
 
                             //msg = "感謝大德參與線上點燈,茲收您1960元功德金,訂單編號 光明燈:T2204, 安太歲:25351, 文昌燈:六1214。";
                             //mobile = "0903002568";
@@ -8203,7 +8674,7 @@ namespace Temple.FET.APITEST
                                 //}
                                 //else
                                 //{
-                                //    Response.Write("<script>alert('傳送簡訊失敗。請聯繫管理員。客服電話：04-23582760。');window.location.href='" + rebackURL + "'</script>");
+                                //    Response.Write("<script>alert('傳送簡訊失敗。請聯繫管理員。客服電話：04-36092299。');window.location.href='" + rebackURL + "'</script>");
                                 //}
                             }
                             else
@@ -8468,22 +8939,10 @@ namespace Temple.FET.APITEST
                         {
                             int LightsType = objDatabaseHelper.GetLightsType_ma(aid, Year);
 
-                            //更新點燈資料表並取得訂單編號
-                            objDatabaseHelper.UpdateLights_ma_Info(aid, LightsType, Year, ref lightslist, ref Lightslist);
-
                             string msg = "感謝購買,已成功付款" + cost + "元,您的訂單編號 ";
 
-                            for (int i = 0; i < lightslist.Length; i++)
-                            {
-                                msg += lightslist[i];
-                                if (i < lightslist.Length - 1)
-                                {
-                                    msg += ",";
-                                }
-                            }
-
-                            msg += "。客服電話：04-36092299。";
-
+                            //更新點燈資料表並取得訂單編號
+                            objDatabaseHelper.UpdateLights_ma_Info(aid, LightsType, Year, ref msg, ref lightslist, ref Lightslist);
 
                             //msg = "感謝大德參與線上點燈,茲收您1960元功德金,訂單編號 光明燈:T2204, 安太歲:25351, 文昌燈:六1214。";
                             //mobile = "0903002568";
@@ -8502,7 +8961,7 @@ namespace Temple.FET.APITEST
                                 //}
                                 //else
                                 //{
-                                //    Response.Write("<script>alert('傳送簡訊失敗。請聯繫管理員。客服電話：04-23582760。');window.location.href='" + rebackURL + "'</script>");
+                                //    Response.Write("<script>alert('傳送簡訊失敗。請聯繫管理員。客服電話：04-36092299。');window.location.href='" + rebackURL + "'</script>");
                                 //}
                             }
                             else
@@ -8658,6 +9117,12 @@ namespace Temple.FET.APITEST
 
                                 string remark = item2["remark"] != null ? item2["remark"].ToString() : "";                                                      //備註
 
+                                string petName = item2["petName"] != null ? item2["petName"].ToString() : "";                                                   //寵物姓名
+                                string petType = item2["petBreed"] != null ? item2["petBreed"].ToString() : "無";                                               //寵物品種
+                                string petSex = item2["petGender"] != null ? item2["petGender"].ToString() : "";                                                //寵物性別
+                                string petDate = item2["petDate"] != null ? item2["petDate"].ToString() : "";                                                   //寵物生日
+
+
                                 string Birth = string.Empty;
                                 string birthMonth = string.Empty;
                                 string age = string.Empty;
@@ -8671,6 +9136,11 @@ namespace Temple.FET.APITEST
                                 string syear = string.Empty;
                                 string smonth = string.Empty;
                                 string sday = string.Empty;
+
+                                string petBirth = string.Empty;
+                                string petyear = string.Empty;
+                                string petmonth = string.Empty;
+                                string petday = string.Empty;
 
                                 string birth = lunarBirthday;
                                 if (birth.Length == 7)
@@ -8729,9 +9199,28 @@ namespace Temple.FET.APITEST
                                     //}
                                 }
 
-                                int l = 0, s = 0;
+                                string petbirth = petDate;
+                                if (petbirth.Length == 7)
+                                {
+                                    petyear = petbirth.Substring(0, 3);
+                                    year = (int.Parse(petbirth.Substring(0, 3)) + 1911).ToString();
+                                    petmonth = petbirth.Substring(3, 2);
+                                    petday = petbirth.Substring(5, 2);
+
+                                    //b = year + "-" + smonth + "-" + sday;
+                                    //if (DateTime.TryParse(b, out solorBirth))
+                                    //{
+                                    //    //age = GetAge(DateTime.Parse(b), dtNow);
+
+                                    //    age = GetAge(int.Parse(year), int.Parse(smonth), int.Parse(sday)).ToString();
+                                    //}
+                                }
+
+
+                                int l = 0, s = 0, p = 0;
                                 int.TryParse(lyear, out l);
                                 int.TryParse(syear, out s);
+                                int.TryParse(petyear, out p);
 
                                 if (lyear != "" && month != "" && day != "")
                                 {
@@ -8741,9 +9230,13 @@ namespace Temple.FET.APITEST
                                 {
                                     sBirth = "民國" + (s > 0 ? s.ToString() : syear) + "年" + smonth + "月" + sday + "日";
                                 }
+                                if (petyear != "" && petmonth != "" && petday != "")
+                                {
+                                    petBirth = "民國" + (p > 0 ? p.ToString() : petyear) + "年" + petmonth + "月" + petday + "日";
+                                }
 
                                 LightsID = objLightDAC.addLights_jb(aid, name, mobile, gender, LightsType, LightsString, oversea, Birth, leapMonth, birthTime, birthMonth, age,
-                                    Zodiac, sBirth, "", count, addr, city, region, zipCode, Year);
+                                    Zodiac, sBirth, "", count, addr, city, region, zipCode, petName, petType, petSex, petBirth, Year);
                             }
                         }
                     }
@@ -8767,22 +9260,10 @@ namespace Temple.FET.APITEST
                         {
                             int LightsType = objDatabaseHelper.GetLightsType_jb(aid, Year);
 
-                            //更新點燈資料表並取得訂單編號
-                            objDatabaseHelper.UpdateLights_jb_Info(aid, LightsType, Year, ref lightslist, ref Lightslist);
-
                             string msg = "感謝購買,已成功付款" + cost + "元,您的訂單編號 ";
 
-                            for (int i = 0; i < lightslist.Length; i++)
-                            {
-                                msg += lightslist[i];
-                                if (i < lightslist.Length - 1)
-                                {
-                                    msg += ",";
-                                }
-                            }
-
-                            msg += "。客服電話：04-36092299。";
-
+                            //更新點燈資料表並取得訂單編號
+                            objDatabaseHelper.UpdateLights_jb_Info(aid, LightsType, Year, ref msg, ref lightslist, ref Lightslist);
 
                             //msg = "感謝大德參與線上點燈,茲收您1960元功德金,訂單編號 光明燈:T2204, 安太歲:25351, 文昌燈:六1214。";
                             //mobile = "0903002568";
@@ -8801,7 +9282,7 @@ namespace Temple.FET.APITEST
                                 //}
                                 //else
                                 //{
-                                //    Response.Write("<script>alert('傳送簡訊失敗。請聯繫管理員。客服電話：04-23582760。');window.location.href='" + rebackURL + "'</script>");
+                                //    Response.Write("<script>alert('傳送簡訊失敗。請聯繫管理員。客服電話：04-36092299。');window.location.href='" + rebackURL + "'</script>");
                                 //}
                             }
                             else
@@ -9066,22 +9547,10 @@ namespace Temple.FET.APITEST
                         {
                             int LightsType = objDatabaseHelper.GetLightsType_wjsan(aid, Year);
 
-                            //更新點燈資料表並取得訂單編號
-                            objDatabaseHelper.UpdateLights_wjsan_Info(aid, LightsType, Year, ref lightslist, ref Lightslist);
-
                             string msg = "感謝購買,已成功付款" + cost + "元,您的訂單編號 ";
 
-                            for (int i = 0; i < lightslist.Length; i++)
-                            {
-                                msg += lightslist[i];
-                                if (i < lightslist.Length - 1)
-                                {
-                                    msg += ",";
-                                }
-                            }
-
-                            msg += "。客服電話：04-36092299。";
-
+                            //更新點燈資料表並取得訂單編號
+                            objDatabaseHelper.UpdateLights_wjsan_Info(aid, LightsType, Year, ref msg, ref lightslist, ref Lightslist);
 
                             //msg = "感謝大德參與線上點燈,茲收您1960元功德金,訂單編號 光明燈:T2204, 安太歲:25351, 文昌燈:六1214。";
                             //mobile = "0903002568";
@@ -9100,7 +9569,294 @@ namespace Temple.FET.APITEST
                                 //}
                                 //else
                                 //{
-                                //    Response.Write("<script>alert('傳送簡訊失敗。請聯繫管理員。客服電話：04-23582760。');window.location.href='" + rebackURL + "'</script>");
+                                //    Response.Write("<script>alert('傳送簡訊失敗。請聯繫管理員。客服電話：04-36092299。');window.location.href='" + rebackURL + "'</script>");
+                                //}
+                            }
+                            else
+                            {
+                                string encrypt = string.Empty;
+
+                                //JSON寫入到檔案
+                                using (StringWriter sw = new StringWriter())
+                                {
+                                    using (JsonTextWriter writer = new JsonTextWriter(sw))
+                                    {
+                                        //建立物件
+                                        writer.WriteStartObject();
+
+                                        //物件名稱
+                                        writer.WritePropertyName("detail");
+
+                                        using (StringWriter sw2 = new StringWriter())
+                                        {
+                                            using (JsonTextWriter writer2 = new JsonTextWriter(sw2))
+                                            {
+                                                //建立物件
+                                                writer2.WriteStartObject();
+
+                                                writer2.WritePropertyName("orderMsg");
+                                                writer2.WriteValue("fail");
+
+                                                writer2.WritePropertyName("orderStatus");
+                                                writer2.WriteValue("1003");
+
+                                                writer2.WriteEndObject();
+
+                                                encrypt = AESHelper.AesEncrypt(sw2.ToString(), checkedkey);
+                                            }
+                                        }
+
+                                        writer.WriteValue(encrypt);
+
+                                        writer.WritePropertyName("resultCode"); writer.WriteValue("9999");
+
+                                        writer.WriteEndObject();
+
+                                        writer.Flush();
+                                        writer.Close();
+                                        sw.Flush();
+                                        sw.Close();
+
+                                        //輸出結果
+                                        Response.Write(sw.ToString());
+
+                                        SaveRequestLog(Request.Url + sw.ToString());
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+
+            return aid;
+        }
+
+        //桃園龍德宮
+        protected int addapplicantID_ld_Lights(string appName, string appMobile, string total, string appCity, string appRegion, string appAddr, string appZipCode, string sendback,
+            string reName, string reMobile, JArray itemsInfo, string productCode, string Tid, string fetOrderNumber, string Year, ref string[] Lightslist, ref int LightsID,
+            ref string OrderID)
+        {
+            int aid = 0;
+            int adminID = 32;
+            LightDAC objLightDAC = new LightDAC(this);
+            string postURL = "Lights_ld_Index_FETAPI";
+            TimeZoneInfo info = TimeZoneInfo.FindSystemTimeZoneById("Taipei Standard Time");
+            DateTime dtNow = TimeZoneInfo.ConvertTime(DateTime.Now, info);
+
+            aid = objLightDAC.addapplicantinfo_lights_ld(appName, appMobile, total, appCity, appRegion, appAddr, appZipCode, sendback, reName, reMobile, 2, adminID.ToString(),
+                postURL, Year);
+            if (aid > 0)
+            {
+                int count = 0;
+                int cost = 0;
+
+                foreach (var item in itemsInfo)
+                {
+                    if (productCode == item["productCode"].ToString())
+                    {
+                        //int.TryParse(item["qty"].ToString(), out count);
+                        count = 1;
+                        int.TryParse(item["unitPrice"].ToString(), out cost);
+
+                        DataTable dtTempleCodeInfo = objLightDAC.GetTempleCodeInfo(productCode);
+                        if (dtTempleCodeInfo.Rows.Count > 0)
+                        {
+                            string LightsString = dtTempleCodeInfo.Rows[0]["TypeString"].ToString();
+                            string LightsType = dtTempleCodeInfo.Rows[0]["TypeID"].ToString();
+
+                            JArray prayedPerson = (JArray)item["prayedPerson"];
+                            foreach (var item2 in prayedPerson)
+                            {
+                                string name = item2["name"].ToString();                                                                                         //被祈福者姓名 / 飼主姓名
+                                                                                                                                                                //string mobile = appMobile;
+                                string mobile = item2["msisdn"] != null ? item2["msisdn"].ToString() : appMobile;                                               //祈福者電話                                                                                     //祈福者電話
+                                string gender = item2["gender"] != null ? (item2["gender"].ToString() == "F" ? "信女" : "善男") : "善男";                       //性別 M: 男 F: 女
+                                string birthday = item2["birthday"] != null ? item2["birthday"].ToString() : "";                                                //國曆生日 YYYMMDD (民國年/國曆月/國曆日)
+                                string lunarBirthday = item2["lunarBirthday"] != null ? item2["lunarBirthday"].ToString() : "";                                 //農曆生日 YYYMMDD (民國年/農曆月/農曆日)
+                                string leapMonth = item2["leapMonth"] != null ? item2["leapMonth"].ToString() : "N";                                            //是否為閏月 Y: 是 N: 否
+                                string birthTime = item2["lunarBirthTime"] != null ? item2["lunarBirthTime"].ToString() : "吉";                                 //農曆時辰 子、丑、寅…亥 未確認時辰用戶可選吉時
+                                string oversea = item2["oversea"] != null ? item2["oversea"].ToString() : "1";                                                  //1: 國內 2: 國外
+                                string city = string.Empty;                                                                                                     //縣/市, 國內地址必填
+                                string region = string.Empty;                                                                                                   //地區, 國內地址必填
+                                string addr = item2["address"].ToString();                                                                                      //部分地址
+                                string zipCode = item2["zipCode"] != null ? item2["zipCode"].ToString() : "0";                                                  //郵遞區號, 國內地址必填
+                                if (oversea == "1")
+                                {
+                                    city = item2["city"].ToString();
+                                    region = item2["region"].ToString();
+                                }
+                                else
+                                {
+                                    if (item2["city"] != null)
+                                    {
+                                        city = item2["city"].ToString();
+                                    }
+                                    if (item2["region"] != null)
+                                    {
+                                        region = item2["region"].ToString();
+                                    }
+                                }
+
+                                string name2 = item2["additionalName"] != null ? item2["additionalName"].ToString() : "";                                       //附加祈福人姓名（祈福者 2）
+                                string homeNum = item2["phone"] != null ? item2["phone"].ToString() : "";                                                       //市話
+                                string email = item2["email"] != null ? item2["email"].ToString() : "";                                                         //Email
+                                string companyName = item2["companyName"] != null ? item2["companyName"].ToString() : "";                                       //公司行號名稱
+                                string dName = item2["deceasedName"] != null ? item2["deceasedName"].ToString() : "";                                           //祖先姓氏/亡者姓名 (超拔法會類型時必填)
+                                string dBirthType = item2["deceasedBirthRocEra"] != null ? item2["deceasedBirthRocEra"].ToString() : "";                        //祖先/亡者民國生日紀元 0：民國前 1：民國  001MMDD 1912 為民國 1 年 或 1910 為民國前 1 年
+                                string dBirthday = item2["deceasedBirthday"] != null ? item2["deceasedBirthday"].ToString() : "";                               //祖先/亡者國曆生日 YYYMMDD (民國年/國曆月/國曆日)
+                                string dLunarBirthday = item2["deceasedLunarBirthday"] != null ? item2["deceasedLunarBirthday"].ToString() : "";                //祖先/亡者農曆生日 YYYMMDD (民國年/農曆月/農曆日)
+                                string dLeapMonth = item2["deceasedBirthdayLeapMonth"] != null ? item2["deceasedBirthdayLeapMonth"].ToString() : "N";           //祖先/亡者農曆生日是否為閏月 Y: 是 N: 否
+                                string dBirthTime = item2["deceasedLunarBirthTime"] != null ? item2["deceasedLunarBirthTime"].ToString() : "吉";                //祖先/亡者農曆時辰 子、丑、寅…亥 未確認時辰用戶可選吉時
+                                string dDoDType = item2["deceasedDoDRocEra"] != null ? item2["deceasedDoDRocEra"].ToString() : "";                               //祖先/亡者死亡日期紀元 0：民國前 1：民國  001MMDD 1912 為民國 1 年 或 1910 為民國前 1 年
+                                string dDoD = item2["deceasedDoD"] != null ? item2["deceasedDoD"].ToString() : "";                                              //祖先/亡者死亡日期 YYYMMDD (民國年/國曆月/國曆日)
+                                string dLunarDoD = item2["deceasedLunarDoD"] != null ? item2["deceasedLunarDoD"].ToString() : "";                               //祖先/亡者死亡農曆日期 YYYMMDD (民國年/農曆月/農曆日)
+                                string dDoDLeapMonth = item2["deceasedDoDLeepMonth"] != null ? item2["deceasedDoDLeepMonth"].ToString() : "N";                  //祖先/亡者死亡農曆日期是否為閏月 Y: 是 N: 否
+                                string dZipCode = item2["deceasedZipCode"] != null ? item2["deceasedZipCode"].ToString() : "0";                                 //祖先/亡者/牌位 郵遞區號
+                                string dCity = item2["deceasedCity"] != null ? item2["deceasedCity"].ToString() : "";                                           //祖先/亡者/牌位 縣/市
+                                string dRegion = item2["deceasedRegion"] != null ? item2["deceasedRegion"].ToString() : "";                                     //祖先/亡者/牌位 地區
+                                string dAddr = item2["deceasedAddress"] != null ? item2["deceasedAddress"].ToString() : "";                                     //祖先/亡者/牌位 部分地址
+
+                                string additionalOffering = item2["additionalOffering"] != null ? item2["additionalOffering"].ToString() : "N";                 //加購普品 Y: 是 N: 否
+                                string offeringQty = item2["offeringQty"] != null ? item2["offeringQty"].ToString() : "0";                                      //加購普品數量
+                                string additionalOfferingCost = item2["additionalOfferingPrice"] != null ? item2["additionalOfferingPrice"].ToString() : "0";   //加購普品單價
+                                string jossMoneyQty = item2["jossMoneyQty"] != null ? item2["jossMoneyQty"].ToString() : "0";                                   //加購金紙數量
+                                string jossMoneyPrice = item2["jossMoneyPrice"] != null ? item2["jossMoneyPrice"].ToString() : "0";                             //加購金紙單價
+
+                                string remark = item2["remark"] != null ? item2["remark"].ToString() : "";                                                      //備註
+
+                                string Birth = string.Empty;
+                                string birthMonth = string.Empty;
+                                string age = string.Empty;
+                                string Zodiac = string.Empty;
+                                string lyear = string.Empty;
+                                string year = string.Empty;
+                                string month = string.Empty;
+                                string day = string.Empty;
+
+                                string sBirth = string.Empty;
+                                string syear = string.Empty;
+                                string smonth = string.Empty;
+                                string sday = string.Empty;
+
+                                string birth = lunarBirthday;
+                                if (birth.Length == 7)
+                                {
+                                    lyear = birth.Substring(0, 3);
+                                    year = (int.Parse(birth.Substring(0, 3)) + 1911).ToString();
+                                    month = birthMonth = birth.Substring(3, 2);
+                                    day = birth.Substring(5, 2);
+
+                                    string b = year + "-" + month + "-" + day;
+                                    LunarSolarConverter.shuxiang(int.Parse(year), ref Zodiac);
+                                    DateTime lunarBirth;
+                                    DateTime solorBirth;
+                                    if (DateTime.TryParse(b, out lunarBirth))
+                                    {
+                                        //age = GetAge(DateTime.Parse(b), dtNow);
+
+                                        age = GetAge(int.Parse(year), int.Parse(month), int.Parse(day)).ToString();
+                                    }
+                                    else
+                                    {
+                                        birth = birthday;
+                                        if (birth.Length == 7)
+                                        {
+                                            syear = birth.Substring(0, 3);
+                                            year = (int.Parse(birth.Substring(0, 3)) + 1911).ToString();
+                                            smonth = birthMonth = birth.Substring(3, 2);
+                                            sday = birth.Substring(5, 2);
+
+                                            b = year + "-" + smonth + "-" + sday;
+                                            LunarSolarConverter.shuxiang(int.Parse(year), ref Zodiac);
+                                            if (DateTime.TryParse(b, out solorBirth))
+                                            {
+                                                //age = GetAge(DateTime.Parse(b), dtNow);
+
+                                                age = GetAge(int.Parse(year), int.Parse(smonth), int.Parse(sday)).ToString();
+                                            }
+                                        }
+                                    }
+                                }
+
+                                string sbirth = birthday;
+                                if (sbirth.Length == 7)
+                                {
+                                    syear = sbirth.Substring(0, 3);
+                                    year = (int.Parse(sbirth.Substring(0, 3)) + 1911).ToString();
+                                    smonth = sbirth.Substring(3, 2);
+                                    sday = sbirth.Substring(5, 2);
+
+                                    //b = year + "-" + smonth + "-" + sday;
+                                    //if (DateTime.TryParse(b, out solorBirth))
+                                    //{
+                                    //    //age = GetAge(DateTime.Parse(b), dtNow);
+
+                                    //    age = GetAge(int.Parse(year), int.Parse(smonth), int.Parse(sday)).ToString();
+                                    //}
+                                }
+
+                                int l = 0, s = 0;
+                                int.TryParse(lyear, out l);
+                                int.TryParse(syear, out s);
+
+                                if (lyear != "" && month != "" && day != "")
+                                {
+                                    Birth = "民國" + (l > 0 ? l.ToString() : lyear) + "年" + month + "月" + day + "日";
+                                }
+                                if (syear != "" && smonth != "" && sday != "")
+                                {
+                                    sBirth = "民國" + (s > 0 ? s.ToString() : syear) + "年" + smonth + "月" + sday + "日";
+                                }
+
+                                LightsID = objLightDAC.addLights_ld(aid, name, mobile, gender, LightsType, LightsString, oversea, Birth, leapMonth, birthTime, birthMonth, age,
+                                    Zodiac, sBirth, "", count, addr, city, region, zipCode, Year);
+                            }
+                        }
+                    }
+                }
+
+                if (LightsID > 0)
+                {
+                    BCFBaseLibrary.Web.BasePage basePage = new BCFBaseLibrary.Web.BasePage();
+                    DatabaseHelper objDatabaseHelper = new DatabaseHelper(basePage);
+                    OrderID = dtNow.ToString("yyyyMMddHHmmssfff");
+                    string CallbackLog = Tid + "," + fetOrderNumber;
+                    string[] lightslist = new string[0];
+
+                    long id = objDatabaseHelper.AddChargeLog_Lights_ld(OrderID, aid, int.Parse(total), "FETAPI", 0, itemsInfo.ToString(), "", fetOrderNumber,
+                        Request.UserHostAddress, Year);
+
+                    DataTable dtCharge = objDatabaseHelper.GetChargeLog_Lights_ld(OrderID, Year);
+                    if (dtCharge.Rows.Count > 0)
+                    {
+                        if ((int)dtCharge.Rows[0]["Status"] == 0)
+                        {
+                            int LightsType = objDatabaseHelper.GetLightsType_ld(aid, Year);
+
+                            string msg = "感謝購買,已成功付款" + cost + "元,您的訂單編號 ";
+
+                            //更新點燈資料表並取得訂單編號
+                            objDatabaseHelper.UpdateLights_ld_Info(aid, LightsType, Year, ref msg, ref lightslist, ref Lightslist);
+
+                            //msg = "感謝大德參與線上點燈,茲收您1960元功德金,訂單編號 光明燈:T2204, 安太歲:25351, 文昌燈:六1214。";
+                            //mobile = "0903002568";
+
+                            SMSHepler objSMSHepler = new SMSHepler();
+                            string ChargeType = string.Empty;
+                            //更新流水付費表資訊(付費成功)
+                            if (objDatabaseHelper.UpdateChargeLog_Lights_ld(OrderID, Tid, msg, Request.UserHostAddress, CallbackLog, Year, ref ChargeType))
+                            {
+                                //if (objSMSHepler.SendMsg_SL(mobile, msg))
+                                //{
+
+                                //    //m2 = m2.IndexOf("aid=") > 0 ? m2 : (m2.IndexOf("?") > 0 ? m2 + "&aid=" + m1 : m2 + "?aid=" + m1 + "&a=" + adminID);
+                                //    m2 = "https://bobibobi.tw/Temples/templeComplete.aspx?kind=1&a=" + adminID + "&aid=" + aid;
+                                //    Response.Redirect(m2, true);
+                                //}
+                                //else
+                                //{
+                                //    Response.Write("<script>alert('傳送簡訊失敗。請聯繫管理員。客服電話：04-36092299。');window.location.href='" + rebackURL + "'</script>");
                                 //}
                             }
                             else
@@ -9470,7 +10226,7 @@ namespace Temple.FET.APITEST
                                 //}
                                 //else
                                 //{
-                                //    Response.Write("<script>alert('傳送簡訊失敗。請聯繫管理員。客服電話：04-23582760。');window.location.href='" + rebackURL + "'</script>");
+                                //    Response.Write("<script>alert('傳送簡訊失敗。請聯繫管理員。客服電話：04-36092299。');window.location.href='" + rebackURL + "'</script>");
                                 //}
                             }
                             else
@@ -9856,7 +10612,7 @@ namespace Temple.FET.APITEST
                                 //}
                                 //else
                                 //{
-                                //    Response.Write("<script>alert('傳送簡訊失敗。請聯繫管理員。客服電話：04-23582760。');window.location.href='" + rebackURL + "'</script>");
+                                //    Response.Write("<script>alert('傳送簡訊失敗。請聯繫管理員。客服電話：04-36092299。');window.location.href='" + rebackURL + "'</script>");
                                 //}
                             }
                             else
@@ -10116,7 +10872,7 @@ namespace Temple.FET.APITEST
                                 //}
                                 //else
                                 //{
-                                //    Response.Write("<script>alert('傳送簡訊失敗。請聯繫管理員。客服電話：04-23582760。');window.location.href='" + rebackURL + "'</script>");
+                                //    Response.Write("<script>alert('傳送簡訊失敗。請聯繫管理員。客服電話：04-36092299。');window.location.href='" + rebackURL + "'</script>");
                                 //}
                             }
                             else
@@ -10422,7 +11178,7 @@ namespace Temple.FET.APITEST
                                 //}
                                 //else
                                 //{
-                                //    Response.Write("<script>alert('傳送簡訊失敗。請聯繫管理員。客服電話：04-23582760。');window.location.href='" + rebackURL + "'</script>");
+                                //    Response.Write("<script>alert('傳送簡訊失敗。請聯繫管理員。客服電話：04-36092299。');window.location.href='" + rebackURL + "'</script>");
                                 //}
                             }
                             else
@@ -10682,7 +11438,7 @@ namespace Temple.FET.APITEST
                                 //}
                                 //else
                                 //{
-                                //    Response.Write("<script>alert('傳送簡訊失敗。請聯繫管理員。客服電話：04-23582760。');window.location.href='" + rebackURL + "'</script>");
+                                //    Response.Write("<script>alert('傳送簡訊失敗。請聯繫管理員。客服電話：04-36092299。');window.location.href='" + rebackURL + "'</script>");
                                 //}
                             }
                             else
@@ -11014,7 +11770,7 @@ namespace Temple.FET.APITEST
                                 //}
                                 //else
                                 //{
-                                //    Response.Write("<script>alert('傳送簡訊失敗。請聯繫管理員。客服電話：04-23582760。');window.location.href='" + rebackURL + "'</script>");
+                                //    Response.Write("<script>alert('傳送簡訊失敗。請聯繫管理員。客服電話：04-36092299。');window.location.href='" + rebackURL + "'</script>");
                                 //}
                             }
                             else
@@ -11274,7 +12030,7 @@ namespace Temple.FET.APITEST
                                 //}
                                 //else
                                 //{
-                                //    Response.Write("<script>alert('傳送簡訊失敗。請聯繫管理員。客服電話：04-23582760。');window.location.href='" + rebackURL + "'</script>");
+                                //    Response.Write("<script>alert('傳送簡訊失敗。請聯繫管理員。客服電話：04-36092299。');window.location.href='" + rebackURL + "'</script>");
                                 //}
                             }
                             else
@@ -11628,7 +12384,7 @@ namespace Temple.FET.APITEST
                                 //}
                                 //else
                                 //{
-                                //    Response.Write("<script>alert('傳送簡訊失敗。請聯繫管理員。客服電話：04-23582760。');window.location.href='" + rebackURL + "'</script>");
+                                //    Response.Write("<script>alert('傳送簡訊失敗。請聯繫管理員。客服電話：04-36092299。');window.location.href='" + rebackURL + "'</script>");
                                 //}
                             }
                             else
@@ -11888,7 +12644,7 @@ namespace Temple.FET.APITEST
                                 //}
                                 //else
                                 //{
-                                //    Response.Write("<script>alert('傳送簡訊失敗。請聯繫管理員。客服電話：04-23582760。');window.location.href='" + rebackURL + "'</script>");
+                                //    Response.Write("<script>alert('傳送簡訊失敗。請聯繫管理員。客服電話：04-36092299。');window.location.href='" + rebackURL + "'</script>");
                                 //}
                             }
                             else
@@ -12150,7 +12906,7 @@ namespace Temple.FET.APITEST
                                 //}
                                 //else
                                 //{
-                                //    Response.Write("<script>alert('傳送簡訊失敗。請聯繫管理員。客服電話：04-23582760。');window.location.href='" + rebackURL + "'</script>");
+                                //    Response.Write("<script>alert('傳送簡訊失敗。請聯繫管理員。客服電話：04-36092299。');window.location.href='" + rebackURL + "'</script>");
                                 //}
                             }
                             else
@@ -12423,7 +13179,7 @@ namespace Temple.FET.APITEST
                                 //}
                                 //else
                                 //{
-                                //    Response.Write("<script>alert('傳送簡訊失敗。請聯繫管理員。客服電話：04-23582760。');window.location.href='" + rebackURL + "'</script>");
+                                //    Response.Write("<script>alert('傳送簡訊失敗。請聯繫管理員。客服電話：04-36092299。');window.location.href='" + rebackURL + "'</script>");
                                 //}
                             }
                             else
@@ -13788,7 +14544,7 @@ namespace Temple.FET.APITEST
                                 //}
                                 //else
                                 //{
-                                //    Response.Write("<script>alert('傳送簡訊失敗。請聯繫管理員。客服電話：04-23582760。');window.location.href='" + rebackURL + "'</script>");
+                                //    Response.Write("<script>alert('傳送簡訊失敗。請聯繫管理員。客服電話：04-36092299。');window.location.href='" + rebackURL + "'</script>");
                                 //}
                             }
                             else
@@ -14018,7 +14774,7 @@ namespace Temple.FET.APITEST
                                 //}
                                 //else
                                 //{
-                                //    Response.Write("<script>alert('傳送簡訊失敗。請聯繫管理員。客服電話：04-23582760。');window.location.href='" + rebackURL + "'</script>");
+                                //    Response.Write("<script>alert('傳送簡訊失敗。請聯繫管理員。客服電話：04-36092299。');window.location.href='" + rebackURL + "'</script>");
                                 //}
                             }
                             else
@@ -14248,7 +15004,320 @@ namespace Temple.FET.APITEST
                                 //}
                                 //else
                                 //{
-                                //    Response.Write("<script>alert('傳送簡訊失敗。請聯繫管理員。客服電話：04-23582760。');window.location.href='" + rebackURL + "'</script>");
+                                //    Response.Write("<script>alert('傳送簡訊失敗。請聯繫管理員。客服電話：04-36092299。');window.location.href='" + rebackURL + "'</script>");
+                                //}
+                            }
+                            else
+                            {
+                                string encrypt = string.Empty;
+
+                                //JSON寫入到檔案
+                                using (StringWriter sw = new StringWriter())
+                                {
+                                    using (JsonTextWriter writer = new JsonTextWriter(sw))
+                                    {
+                                        //建立物件
+                                        writer.WriteStartObject();
+
+                                        //物件名稱
+                                        writer.WritePropertyName("detail");
+
+                                        using (StringWriter sw2 = new StringWriter())
+                                        {
+                                            using (JsonTextWriter writer2 = new JsonTextWriter(sw2))
+                                            {
+                                                //建立物件
+                                                writer2.WriteStartObject();
+
+                                                writer2.WritePropertyName("orderMsg");
+                                                writer2.WriteValue("fail");
+
+                                                writer2.WritePropertyName("orderStatus");
+                                                writer2.WriteValue("1003");
+
+                                                writer2.WriteEndObject();
+
+                                                encrypt = AESHelper.AesEncrypt(sw2.ToString(), checkedkey);
+                                            }
+                                        }
+
+                                        writer.WriteValue(encrypt);
+
+                                        writer.WritePropertyName("resultCode"); writer.WriteValue("9999");
+
+                                        writer.WriteEndObject();
+
+                                        writer.Flush();
+                                        writer.Close();
+                                        sw.Flush();
+                                        sw.Close();
+
+                                        //輸出結果
+                                        Response.Write(sw.ToString());
+
+                                        SaveRequestLog(Request.Url + sw.ToString());
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+
+            return aid;
+        }
+
+        //玉敕大樹朝天宮-天赦日招財補運
+        protected int addapplicantID_ma_Supplies(string appName, string appMobile, string total, string appCity, string appRegion, string appAddr, string appZipCode, string sendback,
+            string reName, string reMobile, JArray itemsInfo, string Tid, string fetOrderNumber, string Year, ref string[] Supplieslist, ref int SuppliesID, ref string OrderID)
+        {
+            int aid = 0;
+            int adminID = 23;
+            LightDAC objLightDAC = new LightDAC(this);
+            string postURL = "Supplies_ma_Index_FETAPI";
+            TimeZoneInfo info = TimeZoneInfo.FindSystemTimeZoneById("Taipei Standard Time");
+            DateTime dtNow = TimeZoneInfo.ConvertTime(DateTime.Now, info);
+
+            aid = objLightDAC.addapplicantinfo_Supplies_ma(appName, appMobile, total, appCity, appRegion, appAddr, appZipCode, sendback, reName, reMobile, 2, adminID.ToString(), postURL, Year);
+            if (aid > 0)
+            {
+                int count = 0;
+                int cost = 0;
+
+                foreach (var item in itemsInfo)
+                {
+                    //int.TryParse(item["qty"].ToString(), out count);                                                                                        //數量/普品數量
+                    count = 1;
+                    int.TryParse(item["unitPrice"].ToString(), out cost);
+                    string productCode = item["productCode"].ToString();
+
+                    DataTable dtTempleCodeInfo = objLightDAC.GetTempleCodeInfo(productCode);
+                    if (dtTempleCodeInfo.Rows.Count > 0)
+                    {
+                        string SuppliesString = dtTempleCodeInfo.Rows[0]["TypeString"].ToString();
+                        string SuppliesType = dtTempleCodeInfo.Rows[0]["TypeID"].ToString();
+
+                        JArray prayedPerson = (JArray)item["prayedPerson"];
+                        foreach (var item2 in prayedPerson)
+                        {
+                            string name = item2["name"].ToString();                                                                                         //被祈福者姓名 / 飼主姓名
+                            //string mobile = appMobile;
+                            string mobile = item2["msisdn"] != null ? item2["msisdn"].ToString() : appMobile;                                               //祈福者電話                                                                                     //祈福者電話
+                            string gender = item2["gender"] != null ? (item2["gender"].ToString() == "F" ? "信女" : "善男") : "善男";                       //性別 M: 男 F: 女
+                            string birthday = item2["birthday"] != null ? item2["birthday"].ToString() : "";                                                //國曆生日 YYYMMDD (民國年/國曆月/國曆日)
+                            string lunarBirthday = item2["lunarBirthday"] != null ? item2["lunarBirthday"].ToString() : "";                                 //農曆生日 YYYMMDD (民國年/農曆月/農曆日)
+                            string leapMonth = item2["leapMonth"] != null ? item2["leapMonth"].ToString() : "N";                                            //是否為閏月 Y: 是 N: 否
+                            string birthTime = item2["lunarBirthTime"] != null ? item2["lunarBirthTime"].ToString() : "吉";                                 //農曆時辰 子、丑、寅…亥 未確認時辰用戶可選吉時
+                            string oversea = item2["oversea"] != null ? item2["oversea"].ToString() : "1";                                                  //1: 國內 2: 國外
+                            string city = string.Empty;                                                                                                     //縣/市, 國內地址必填
+                            string region = string.Empty;                                                                                                   //地區, 國內地址必填
+                            string addr = item2["address"].ToString();                                                                                      //部分地址
+                            string zipCode = item2["zipCode"] != null ? item2["zipCode"].ToString() : "0";                                                  //郵遞區號, 國內地址必填
+                            if (oversea == "1")
+                            {
+                                city = item2["city"].ToString();
+                                region = item2["region"].ToString();
+                            }
+                            else
+                            {
+                                if (item2["city"] != null)
+                                {
+                                    city = item2["city"].ToString();
+                                }
+                                if (item2["region"] != null)
+                                {
+                                    region = item2["region"].ToString();
+                                }
+                            }
+
+                            //string Birth = string.Empty;
+                            //string birthMonth = string.Empty;
+                            //string age = string.Empty;
+                            //string Zodiac = string.Empty;
+                            //string sBirth = string.Empty;
+
+                            //string year = string.Empty;
+                            //string month = string.Empty;
+                            //string day = string.Empty;
+                            //string syear = string.Empty;
+                            //string smonth = string.Empty;
+                            //string sday = string.Empty;
+
+                            //string birth = lunarBirthday;
+                            //string sbirth = birthday;
+                            //if (birth.Length == 7 && birth != "")
+                            //{
+                            //    string lyear = birth.Substring(0, 3);
+                            //    year = (int.Parse(birth.Substring(0, 3)) + 1911).ToString();
+                            //    month = birthMonth = CheckedDateZero(birth.Substring(3, 2), 1);
+                            //    day = CheckedDateZero(birth.Substring(5, 2), 1);
+
+                            //    Lunar lunar = new Lunar();
+                            //    int.TryParse(year, out lunar.lunarYear);
+                            //    int.TryParse(month, out lunar.lunarMonth);
+                            //    int.TryParse(day, out lunar.lunarDay);
+
+                            //    string b = year + "-" + month + "-" + day;
+                            //    LunarSolarConverter.shuxiang(int.Parse(year), ref Zodiac);
+                            //    DateTime dlBirth;
+                            //    if (DateTime.TryParse(b, out dlBirth))
+                            //    {
+                            //        age = GetAge(int.Parse(year), int.Parse(month), int.Parse(day)).ToString();
+                            //    }
+
+                            //    if (sbirth == "")
+                            //    {
+                            //        //國曆生日=空白
+                            //        Solar solor = new Solar();
+                            //        solor = LunarSolarConverter.LunarToSolar(lunar);
+
+                            //        string sROC = solor.solarYear > 1911 ? "民國" + (solor.solarYear - 1911) + "年" : "民國" + (solor.solarYear) + "年";
+                            //        sBirth = sROC + CheckedDateZero(solor.solarMonth.ToString(), 1) + "月" + CheckedDateZero(solor.solarDay.ToString(), 1) + "日";
+
+                            //        string ROC = lunar.lunarYear > 1911 ? "民國" + (lunar.lunarYear - 1911) + "年" : "民國" + (lunar.lunarYear) + "年";
+                            //        Birth = ROC + CheckedDateZero(lunar.lunarMonth.ToString(), 1) + "月" + CheckedDateZero(lunar.lunarDay.ToString(), 1) + "日";
+                            //    }
+                            //    else
+                            //    {
+                            //        //國曆生日!=空白
+                            //        string ssyear = sbirth.Substring(0, 3);
+                            //        syear = (int.Parse(sbirth.Substring(0, 3)) + 1911).ToString();
+                            //        smonth = CheckedDateZero(sbirth.Substring(3, 2), 1);
+                            //        sday = CheckedDateZero(sbirth.Substring(5, 2), 1);
+
+                            //        sBirth = "民國" + ssyear + "年" + smonth + "月" + sday + "日";
+
+                            //        string ROC = lunar.lunarYear > 1911 ? "民國" + (lunar.lunarYear - 1911) + "年" : "民國" + (lunar.lunarYear) + "年";
+                            //        Birth = ROC + CheckedDateZero(lunar.lunarMonth.ToString(), 1) + "月" + CheckedDateZero(lunar.lunarDay.ToString(), 1) + "日";
+                            //    }
+                            //    else
+                            //    {
+                            //        birth = birthday;
+                            //        if (birth.Length == 7)
+                            //        {
+                            //            lyear = birth.Substring(0, 3);
+                            //            year = (int.Parse(birth.Substring(0, 3)) + 1911).ToString();
+                            //            month = birthMonth = birth.Substring(3, 2);
+                            //            day = birth.Substring(5, 2);
+
+                            //            Birth = year + "-" + month + "-" + day;
+                            //            if (DateTime.TryParse(Birth, out sBirth))
+                            //            {
+                            //                //age = GetAge(DateTime.Parse(Birth), dtNow);
+
+                            //                age = GetAge(int.Parse(year), int.Parse(month), int.Parse(day)).ToString();
+                            //            }
+                            //        }
+                            //    }
+
+                            //    birth = "民國" + lyear + "年" + month + "月" + day + "日";
+                            //}
+
+                            string Birth = string.Empty;
+                            string birthMonth = string.Empty;
+                            string age = string.Empty;
+                            string Zodiac = string.Empty;
+
+                            string year = string.Empty;
+                            string month = string.Empty;
+                            string day = string.Empty;
+
+                            string birth = lunarBirthday;
+                            if (birth.Length == 7)
+                            {
+                                string lyear = birth.Substring(0, 3);
+                                year = (int.Parse(birth.Substring(0, 3)) + 1911).ToString();
+                                month = birthMonth = birth.Substring(3, 2);
+                                day = birth.Substring(5, 2);
+
+                                Birth = year + "-" + month + "-" + day;
+                                LunarSolarConverter.shuxiang(int.Parse(year), ref Zodiac);
+                                DateTime lBirth;
+                                DateTime sBirth;
+                                if (DateTime.TryParse(Birth, out lBirth))
+                                {
+                                    //age = GetAge(DateTime.Parse(Birth), dtNow);
+
+                                    age = GetAge(int.Parse(year), int.Parse(month), int.Parse(day)).ToString();
+                                }
+                                else
+                                {
+                                    birth = birthday;
+                                    if (birth.Length == 7)
+                                    {
+                                        lyear = birth.Substring(0, 3);
+                                        year = (int.Parse(birth.Substring(0, 3)) + 1911).ToString();
+                                        month = birthMonth = birth.Substring(3, 2);
+                                        day = birth.Substring(5, 2);
+
+                                        Birth = year + "-" + month + "-" + day;
+                                        if (DateTime.TryParse(Birth, out sBirth))
+                                        {
+                                            //age = GetAge(DateTime.Parse(Birth), dtNow);
+
+                                            age = GetAge(int.Parse(year), int.Parse(month), int.Parse(day)).ToString();
+                                        }
+                                    }
+                                }
+
+                                birth = "民國" + lyear + "年" + month + "月" + day + "日";
+                            }
+
+                            SuppliesID = objLightDAC.addSupplies_ma(aid, name, mobile, gender, SuppliesType, SuppliesString, oversea, birth, leapMonth, birthTime, birthMonth,
+                                age, Zodiac, birthday, 1, addr, city, region, zipCode, Year);
+                        }
+                    }
+                }
+
+                if (SuppliesID > 0)
+                {
+                    BCFBaseLibrary.Web.BasePage basePage = new BCFBaseLibrary.Web.BasePage();
+                    DatabaseHelper objDatabaseHelper = new DatabaseHelper(basePage);
+                    OrderID = dtNow.ToString("yyyyMMddHHmmssfff");
+                    string CallbackLog = Tid + "," + fetOrderNumber;
+
+                    long id = objDatabaseHelper.AddChargeLog_Supplies_ma(OrderID, aid, int.Parse(total), "FETAPI", 0, itemsInfo.ToString(), "", fetOrderNumber, Request.UserHostAddress, Year);
+
+                    DataTable dtCharge = objDatabaseHelper.GetChargeLog_Supplies_ma(OrderID, Year);
+                    if (dtCharge.Rows.Count > 0)
+                    {
+                        if ((int)dtCharge.Rows[0]["Status"] == 0)
+                        {
+                            //更新點燈資料表並取得訂單編號
+                            objDatabaseHelper.UpdateSupplies_ma_Info(aid, Year, ref Supplieslist);
+
+                            string msg = "感謝購買,已成功付款" + cost + "元,您的訂單編號 ";
+
+                            for (int i = 0; i < Supplieslist.Length; i++)
+                            {
+                                msg += Supplieslist[i];
+                                if (i < Supplieslist.Length - 1)
+                                {
+                                    msg += ",";
+                                }
+                            }
+
+                            msg += "。客服電話：04-36092299。";
+
+
+                            //msg = "感謝大德參與線上點燈,茲收您1960元功德金,訂單編號 光明燈:T2204, 安太歲:25351, 文昌燈:六1214。";
+                            //mobile = "0903002568";
+
+                            SMSHepler objSMSHepler = new SMSHepler();
+                            string ChargeType = string.Empty;
+                            //更新流水付費表資訊(付費成功)
+                            if (objDatabaseHelper.UpdateChargeLog_Supplies_ma(OrderID, Tid, msg, Request.UserHostAddress, CallbackLog, Year, ref ChargeType))
+                            {
+                                //if (objSMSHepler.SendMsg_SL(mobile, msg))
+                                //{
+
+                                //    //m2 = m2.IndexOf("aid=") > 0 ? m2 : (m2.IndexOf("?") > 0 ? m2 + "&aid=" + m1 : m2 + "?aid=" + m1 + "&a=" + adminID);
+                                //    m2 = "https://bobibobi.tw/Temples/templeComplete.aspx?kind=1&a=" + adminID + "&aid=" + aid;
+                                //    Response.Redirect(m2, true);
+                                //}
+                                //else
+                                //{
+                                //    Response.Write("<script>alert('傳送簡訊失敗。請聯繫管理員。客服電話：04-36092299。');window.location.href='" + rebackURL + "'</script>");
                                 //}
                             }
                             else
@@ -14316,7 +15385,7 @@ namespace Temple.FET.APITEST
             string reName, string reMobile, JArray itemsInfo, string Tid, string fetOrderNumber, string Year, ref string[] Supplieslist, ref int SuppliesID, ref string OrderID)
         {
             int aid = 0;
-            int adminID = 6;
+            int adminID = 29;
             LightDAC objLightDAC = new LightDAC(this);
             string postURL = "Supplies_jb_Index_FETAPI";
             TimeZoneInfo info = TimeZoneInfo.FindSystemTimeZoneById("Taipei Standard Time");
@@ -14478,7 +15547,7 @@ namespace Temple.FET.APITEST
                                 //}
                                 //else
                                 //{
-                                //    Response.Write("<script>alert('傳送簡訊失敗。請聯繫管理員。客服電話：04-23582760。');window.location.href='" + rebackURL + "'</script>");
+                                //    Response.Write("<script>alert('傳送簡訊失敗。請聯繫管理員。客服電話：04-36092299。');window.location.href='" + rebackURL + "'</script>");
                                 //}
                             }
                             else
@@ -14738,7 +15807,7 @@ namespace Temple.FET.APITEST
                                 //}
                                 //else
                                 //{
-                                //    Response.Write("<script>alert('傳送簡訊失敗。請聯繫管理員。客服電話：04-23582760。');window.location.href='" + rebackURL + "'</script>");
+                                //    Response.Write("<script>alert('傳送簡訊失敗。請聯繫管理員。客服電話：04-36092299。');window.location.href='" + rebackURL + "'</script>");
                                 //}
                             }
                             else
@@ -15031,7 +16100,7 @@ namespace Temple.FET.APITEST
                                 //}
                                 //else
                                 //{
-                                //    Response.Write("<script>alert('傳送簡訊失敗。請聯繫管理員。客服電話：04-23582760。');window.location.href='" + rebackURL + "'</script>");
+                                //    Response.Write("<script>alert('傳送簡訊失敗。請聯繫管理員。客服電話：04-36092299。');window.location.href='" + rebackURL + "'</script>");
                                 //}
                             }
                             else
@@ -15328,7 +16397,661 @@ namespace Temple.FET.APITEST
                                 //}
                                 //else
                                 //{
-                                //    Response.Write("<script>alert('傳送簡訊失敗。請聯繫管理員。客服電話：04-23582760。');window.location.href='" + rebackURL + "'</script>");
+                                //    Response.Write("<script>alert('傳送簡訊失敗。請聯繫管理員。客服電話：04-36092299。');window.location.href='" + rebackURL + "'</script>");
+                                //}
+                            }
+                            else
+                            {
+                                string encrypt = string.Empty;
+
+                                //JSON寫入到檔案
+                                using (StringWriter sw = new StringWriter())
+                                {
+                                    using (JsonTextWriter writer = new JsonTextWriter(sw))
+                                    {
+                                        //建立物件
+                                        writer.WriteStartObject();
+
+                                        //物件名稱
+                                        writer.WritePropertyName("detail");
+
+                                        using (StringWriter sw2 = new StringWriter())
+                                        {
+                                            using (JsonTextWriter writer2 = new JsonTextWriter(sw2))
+                                            {
+                                                //建立物件
+                                                writer2.WriteStartObject();
+
+                                                writer2.WritePropertyName("orderMsg");
+                                                writer2.WriteValue("fail");
+
+                                                writer2.WritePropertyName("orderStatus");
+                                                writer2.WriteValue("1003");
+
+                                                writer2.WriteEndObject();
+
+                                                encrypt = AESHelper.AesEncrypt(sw2.ToString(), checkedkey);
+                                            }
+                                        }
+
+                                        writer.WriteValue(encrypt);
+
+                                        writer.WritePropertyName("resultCode"); writer.WriteValue("9999");
+
+                                        writer.WriteEndObject();
+
+                                        writer.Flush();
+                                        writer.Close();
+                                        sw.Flush();
+                                        sw.Close();
+
+                                        //輸出結果
+                                        Response.Write(sw.ToString());
+
+                                        SaveRequestLog(Request.Url + sw.ToString());
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+
+            return aid;
+        }
+
+        //補財庫-鹿港城隍廟
+        protected int addapplicantID_Lk_Supplies(string appName, string appMobile, string total, string appCity, string appRegion, string appAddr, string appZipCode, string sendback,
+            string reName, string reMobile, JArray itemsInfo, string Tid, string fetOrderNumber, string Year, ref string[] Supplieslist, ref int SuppliesID, ref string OrderID)
+        {
+            int aid = 0;
+            int adminID = 21;
+            LightDAC objLightDAC = new LightDAC(this);
+            string postURL = "Supplies_Lk_Index_FETAPI";
+            TimeZoneInfo info = TimeZoneInfo.FindSystemTimeZoneById("Taipei Standard Time");
+            DateTime dtNow = TimeZoneInfo.ConvertTime(DateTime.Now, info);
+
+            aid = objLightDAC.addapplicantinfo_Supplies_Lk(appName, appMobile, total, appCity, appRegion, appAddr, appZipCode, sendback, reName, reMobile, 2, adminID.ToString(), 
+                postURL, Year);
+            if (aid > 0)
+            {
+                int count = 0;
+                int cost = 0;
+
+                foreach (var item in itemsInfo)
+                {
+                    //int.TryParse(item["qty"].ToString(), out count);                                                                                        //數量/普品數量
+                    count = 1;
+                    int.TryParse(item["unitPrice"].ToString(), out cost);
+                    string productCode = item["productCode"].ToString();
+
+                    DataTable dtTempleCodeInfo = objLightDAC.GetTempleCodeInfo(productCode);
+                    if (dtTempleCodeInfo.Rows.Count > 0)
+                    {
+                        string SuppliesString = dtTempleCodeInfo.Rows[0]["TypeString"].ToString();
+                        string SuppliesType = dtTempleCodeInfo.Rows[0]["TypeID"].ToString();
+
+                        JArray prayedPerson = (JArray)item["prayedPerson"];
+                        foreach (var item2 in prayedPerson)
+                        {
+                            //string name = item2["name"].ToString();                                                                                         //被祈福者姓名 / 飼主姓名
+                            ////string mobile = appMobile;
+                            //string mobile = item2["msisdn"] != null ? item2["msisdn"].ToString() : appMobile;                                               //祈福者電話                                                                                     //祈福者電話
+                            //string gender = item2["gender"] != null ? (item2["gender"].ToString() == "F" ? "信女" : "善男") : "善男";                       //性別 M: 男 F: 女
+                            //string birthday = item2["birthday"] != null ? item2["birthday"].ToString() : "";                                                //國曆生日 YYYMMDD (民國年/國曆月/國曆日)
+                            //string lunarBirthday = item2["lunarBirthday"] != null ? item2["lunarBirthday"].ToString() : "";                                 //農曆生日 YYYMMDD (民國年/農曆月/農曆日)
+                            //string leapMonth = item2["leapMonth"] != null ? item2["leapMonth"].ToString() : "N";                                            //是否為閏月 Y: 是 N: 否
+                            //string birthTime = item2["lunarBirthTime"] != null ? item2["lunarBirthTime"].ToString() : "吉";                                 //農曆時辰 子、丑、寅…亥 未確認時辰用戶可選吉時
+                            //string oversea = item2["oversea"] != null ? item2["oversea"].ToString() : "1";                                                  //1: 國內 2: 國外
+                            //string city = string.Empty;                                                                                                     //縣/市, 國內地址必填
+                            //string region = string.Empty;                                                                                                   //地區, 國內地址必填
+                            //string addr = item2["address"].ToString();                                                                                      //部分地址
+                            //string zipCode = item2["zipCode"] != null ? item2["zipCode"].ToString() : "0";                                                  //郵遞區號, 國內地址必填
+                            //if (oversea == "1")
+                            //{
+                            //    city = item2["city"].ToString();
+                            //    region = item2["region"].ToString();
+                            //}
+                            //else
+                            //{
+                            //    if (item2["city"] != null)
+                            //    {
+                            //        city = item2["city"].ToString();
+                            //    }
+                            //    if (item2["region"] != null)
+                            //    {
+                            //        region = item2["region"].ToString();
+                            //    }
+                            //}
+
+                            //string Birth = string.Empty;
+                            //string birthMonth = string.Empty;
+                            //string age = string.Empty;
+                            //string Zodiac = string.Empty;
+
+                            //string year = string.Empty;
+                            //string month = string.Empty;
+                            //string day = string.Empty;
+
+                            //string birth = lunarBirthday;
+                            //if (birth.Length == 7)
+                            //{
+                            //    string lyear = birth.Substring(0, 3);
+                            //    year = (int.Parse(birth.Substring(0, 3)) + 1911).ToString();
+                            //    month = birthMonth = birth.Substring(3, 2);
+                            //    day = birth.Substring(5, 2);
+
+                            //    Birth = year + "-" + month + "-" + day;
+                            //    LunarSolarConverter.shuxiang(int.Parse(year), ref Zodiac);
+                            //    DateTime lBirth;
+                            //    DateTime sBirth;
+                            //    if (DateTime.TryParse(Birth, out lBirth))
+                            //    {
+                            //        //age = GetAge(DateTime.Parse(Birth), dtNow);
+
+                            //        age = GetAge(int.Parse(year), int.Parse(month), int.Parse(day)).ToString();
+                            //    }
+                            //    else
+                            //    {
+                            //        birth = birthday;
+                            //        if (birth.Length == 7)
+                            //        {
+                            //            lyear = birth.Substring(0, 3);
+                            //            year = (int.Parse(birth.Substring(0, 3)) + 1911).ToString();
+                            //            month = birthMonth = birth.Substring(3, 2);
+                            //            day = birth.Substring(5, 2);
+
+                            //            Birth = year + "-" + month + "-" + day;
+                            //            if (DateTime.TryParse(Birth, out sBirth))
+                            //            {
+                            //                //age = GetAge(DateTime.Parse(Birth), dtNow);
+
+                            //                age = GetAge(int.Parse(year), int.Parse(month), int.Parse(day)).ToString();
+                            //            }
+                            //        }
+                            //    }
+
+                            //    birth = "民國" + lyear + "年" + month + "月" + day + "日";
+                            //}
+                            string name = item2["name"].ToString();                                                                                         //被祈福者姓名 / 飼主姓名
+                                                                                                                                                            //string mobile = appMobile;
+                            string mobile = item2["msisdn"] != null ? item2["msisdn"].ToString() : appMobile;                                               //祈福者電話                                                                                     //祈福者電話
+                            string gender = item2["gender"] != null ? (item2["gender"].ToString() == "F" ? "信女" : "善男") : "善男";                       //性別 M: 男 F: 女
+                            string birthday = item2["birthday"] != null ? item2["birthday"].ToString() : "";                                                //國曆生日 YYYMMDD (民國年/國曆月/國曆日)
+                            string lunarBirthday = item2["lunarBirthday"] != null ? item2["lunarBirthday"].ToString() : "";                                 //農曆生日 YYYMMDD (民國年/農曆月/農曆日)
+                            string leapMonth = item2["leapMonth"] != null ? item2["leapMonth"].ToString() : "N";                                            //是否為閏月 Y: 是 N: 否
+                            string birthTime = item2["lunarBirthTime"] != null ? item2["lunarBirthTime"].ToString() : "吉";                                 //農曆時辰 子、丑、寅…亥 未確認時辰用戶可選吉時
+                            string oversea = item2["oversea"] != null ? item2["oversea"].ToString() : "1";                                                  //1: 國內 2: 國外
+                            string city = string.Empty;                                                                                                     //縣/市, 國內地址必填
+                            string region = string.Empty;                                                                                                   //地區, 國內地址必填
+                            string addr = item2["address"].ToString();                                                                                      //部分地址
+                            string zipCode = item2["zipCode"] != null ? item2["zipCode"].ToString() : "0";                                                  //郵遞區號, 國內地址必填
+                            if (oversea == "1")
+                            {
+                                city = item2["city"].ToString();
+                                region = item2["region"].ToString();
+                            }
+                            else
+                            {
+                                if (item2["city"] != null)
+                                {
+                                    city = item2["city"].ToString();
+                                }
+                                if (item2["region"] != null)
+                                {
+                                    region = item2["region"].ToString();
+                                }
+                            }
+
+                            string name2 = item2["additionalName"] != null ? item2["additionalName"].ToString() : "";                                       //附加祈福人姓名（祈福者 2）
+                            string homeNum = item2["phone"] != null ? item2["phone"].ToString() : "";                                                       //市話
+                            string email = item2["email"] != null ? item2["email"].ToString() : "";                                                         //Email
+                            string companyName = item2["companyName"] != null ? item2["companyName"].ToString() : "";                                       //公司行號名稱
+                            string dName = item2["deceasedName"] != null ? item2["deceasedName"].ToString() : "";                                           //祖先姓氏/亡者姓名 (超拔法會類型時必填)
+                            string dBirthType = item2["deceasedBirthRocEra"] != null ? item2["deceasedBirthRocEra"].ToString() : "";                        //祖先/亡者民國生日紀元 0：民國前 1：民國  001MMDD 1912 為民國 1 年 或 1910 為民國前 1 年
+                            string dBirthday = item2["deceasedBirthday"] != null ? item2["deceasedBirthday"].ToString() : "";                               //祖先/亡者國曆生日 YYYMMDD (民國年/國曆月/國曆日)
+                            string dLunarBirthday = item2["deceasedLunarBirthday"] != null ? item2["deceasedLunarBirthday"].ToString() : "";                //祖先/亡者農曆生日 YYYMMDD (民國年/農曆月/農曆日)
+                            string dLeapMonth = item2["deceasedBirthdayLeapMonth"] != null ? item2["deceasedBirthdayLeapMonth"].ToString() : "N";           //祖先/亡者農曆生日是否為閏月 Y: 是 N: 否
+                            string dBirthTime = item2["deceasedLunarBirthTime"] != null ? item2["deceasedLunarBirthTime"].ToString() : "吉";                //祖先/亡者農曆時辰 子、丑、寅…亥 未確認時辰用戶可選吉時
+                            string dDoDType = item2["deceasedDoDRocEra"] != null ? item2["deceasedDoDRocEra"].ToString() : "";                               //祖先/亡者死亡日期紀元 0：民國前 1：民國  001MMDD 1912 為民國 1 年 或 1910 為民國前 1 年
+                            string dDoD = item2["deceasedDoD"] != null ? item2["deceasedDoD"].ToString() : "";                                              //祖先/亡者死亡日期 YYYMMDD (民國年/國曆月/國曆日)
+                            string dLunarDoD = item2["deceasedLunarDoD"] != null ? item2["deceasedLunarDoD"].ToString() : "";                               //祖先/亡者死亡農曆日期 YYYMMDD (民國年/農曆月/農曆日)
+                            string dDoDLeapMonth = item2["deceasedDoDLeepMonth"] != null ? item2["deceasedDoDLeepMonth"].ToString() : "N";                  //祖先/亡者死亡農曆日期是否為閏月 Y: 是 N: 否
+                            string dZipCode = item2["deceasedZipCode"] != null ? item2["deceasedZipCode"].ToString() : "0";                                 //祖先/亡者/牌位 郵遞區號
+                            string dCity = item2["deceasedCity"] != null ? item2["deceasedCity"].ToString() : "";                                           //祖先/亡者/牌位 縣/市
+                            string dRegion = item2["deceasedRegion"] != null ? item2["deceasedRegion"].ToString() : "";                                     //祖先/亡者/牌位 地區
+                            string dAddr = item2["deceasedAddress"] != null ? item2["deceasedAddress"].ToString() : "";                                     //祖先/亡者/牌位 部分地址
+
+                            string additionalOffering = item2["additionalOffering"] != null ? item2["additionalOffering"].ToString() : "N";                 //加購普品 Y: 是 N: 否
+                            string offeringQty = item2["offeringQty"] != null ? item2["offeringQty"].ToString() : "0";                                      //加購普品數量
+                            string additionalOfferingCost = item2["additionalOfferingPrice"] != null ? item2["additionalOfferingPrice"].ToString() : "0";   //加購普品單價
+                            string jossMoneyQty = item2["jossMoneyQty"] != null ? item2["jossMoneyQty"].ToString() : "0";                                   //加購金紙數量
+                            string jossMoneyPrice = item2["jossMoneyPrice"] != null ? item2["jossMoneyPrice"].ToString() : "0";                             //加購金紙單價
+
+                            string remark = item2["remark"] != null ? item2["remark"].ToString() : "";                                                      //備註
+
+                            string Birth = string.Empty;
+                            string birthMonth = string.Empty;
+                            string age = string.Empty;
+                            string Zodiac = string.Empty;
+                            string lyear = string.Empty;
+                            string year = string.Empty;
+                            string month = string.Empty;
+                            string day = string.Empty;
+
+                            string sBirth = string.Empty;
+                            string syear = string.Empty;
+                            string smonth = string.Empty;
+                            string sday = string.Empty;
+
+                            string birth = lunarBirthday;
+                            if (birth.Length == 7)
+                            {
+                                lyear = birth.Substring(0, 3);
+                                year = (int.Parse(birth.Substring(0, 3)) + 1911).ToString();
+                                month = birthMonth = birth.Substring(3, 2);
+                                day = birth.Substring(5, 2);
+
+                                string b = year + "-" + month + "-" + day;
+                                LunarSolarConverter.shuxiang(int.Parse(year), ref Zodiac);
+                                DateTime lunarBirth;
+                                DateTime solorBirth;
+                                if (DateTime.TryParse(b, out lunarBirth))
+                                {
+                                    //age = GetAge(DateTime.Parse(b), dtNow);
+
+                                    age = GetAge(int.Parse(year), int.Parse(month), int.Parse(day)).ToString();
+                                }
+                                else
+                                {
+                                    birth = birthday;
+                                    if (birth.Length == 7)
+                                    {
+                                        syear = birth.Substring(0, 3);
+                                        year = (int.Parse(birth.Substring(0, 3)) + 1911).ToString();
+                                        smonth = birthMonth = birth.Substring(3, 2);
+                                        sday = birth.Substring(5, 2);
+
+                                        b = year + "-" + smonth + "-" + sday;
+                                        LunarSolarConverter.shuxiang(int.Parse(year), ref Zodiac);
+                                        if (DateTime.TryParse(b, out solorBirth))
+                                        {
+                                            //age = GetAge(DateTime.Parse(b), dtNow);
+
+                                            age = GetAge(int.Parse(year), int.Parse(smonth), int.Parse(sday)).ToString();
+                                        }
+                                    }
+                                }
+                            }
+
+                            string sbirth = birthday;
+                            if (sbirth.Length == 7)
+                            {
+                                syear = sbirth.Substring(0, 3);
+                                year = (int.Parse(sbirth.Substring(0, 3)) + 1911).ToString();
+                                smonth = sbirth.Substring(3, 2);
+                                sday = sbirth.Substring(5, 2);
+
+                                //b = year + "-" + smonth + "-" + sday;
+                                //if (DateTime.TryParse(b, out solorBirth))
+                                //{
+                                //    //age = GetAge(DateTime.Parse(b), dtNow);
+
+                                //    age = GetAge(int.Parse(year), int.Parse(smonth), int.Parse(sday)).ToString();
+                                //}
+                            }
+
+                            int l = 0, s = 0;
+                            int.TryParse(lyear, out l);
+                            int.TryParse(syear, out s);
+
+                            if (lyear != "" && month != "" && day != "")
+                            {
+                                Birth = "民國" + (l > 0 ? l.ToString() : lyear) + "年" + month + "月" + day + "日";
+                            }
+                            if (syear != "" && smonth != "" && sday != "")
+                            {
+                                sBirth = "民國" + (s > 0 ? s.ToString() : syear) + "年" + smonth + "月" + sday + "日";
+                            }
+
+
+                            SuppliesID = objLightDAC.addSupplies_Lk(aid, name, mobile, gender, SuppliesType, SuppliesString, oversea, Birth, leapMonth, birthTime, birthMonth,
+                                age, Zodiac, sBirth, email, homeNum, 1, addr, city, region, zipCode, Year);
+                        }
+                    }
+                }
+
+                if (SuppliesID > 0)
+                {
+                    BCFBaseLibrary.Web.BasePage basePage = new BCFBaseLibrary.Web.BasePage();
+                    DatabaseHelper objDatabaseHelper = new DatabaseHelper(basePage);
+                    OrderID = dtNow.ToString("yyyyMMddHHmmssfff");
+                    string CallbackLog = Tid + "," + fetOrderNumber;
+
+                    long id = objDatabaseHelper.AddChargeLog_Supplies_Lk(OrderID, aid, int.Parse(total), "FETAPI", 0, itemsInfo.ToString(), "", fetOrderNumber, Request.UserHostAddress, Year);
+
+                    DataTable dtCharge = objDatabaseHelper.GetChargeLog_Supplies_Lk(OrderID, Year);
+                    if (dtCharge.Rows.Count > 0)
+                    {
+                        if ((int)dtCharge.Rows[0]["Status"] == 0)
+                        {
+                            //更新點燈資料表並取得訂單編號
+                            objDatabaseHelper.UpdateSupplies_Lk_Info(aid, Year, ref Supplieslist);
+
+                            string msg = "感謝購買,已成功付款" + cost + "元,您的訂單編號 ";
+
+                            for (int i = 0; i < Supplieslist.Length; i++)
+                            {
+                                msg += Supplieslist[i];
+                                if (i < Supplieslist.Length - 1)
+                                {
+                                    msg += ",";
+                                }
+                            }
+
+                            msg += "。客服電話：04-36092299。";
+
+
+                            //msg = "感謝大德參與線上點燈,茲收您1960元功德金,訂單編號 光明燈:T2204, 安太歲:25351, 文昌燈:六1214。";
+                            //mobile = "0903002568";
+
+                            SMSHepler objSMSHepler = new SMSHepler();
+                            string ChargeType = string.Empty;
+                            //更新流水付費表資訊(付費成功)
+                            if (objDatabaseHelper.UpdateChargeLog_Supplies_Lk(OrderID, Tid, msg, Request.UserHostAddress, CallbackLog, Year, ref ChargeType))
+                            {
+                                //if (objSMSHepler.SendMsg_SL(mobile, msg))
+                                //{
+
+                                //    //m2 = m2.IndexOf("aid=") > 0 ? m2 : (m2.IndexOf("?") > 0 ? m2 + "&aid=" + m1 : m2 + "?aid=" + m1 + "&a=" + adminID);
+                                //    m2 = "https://bobibobi.tw/Temples/templeComplete.aspx?kind=1&a=" + adminID + "&aid=" + aid;
+                                //    Response.Redirect(m2, true);
+                                //}
+                                //else
+                                //{
+                                //    Response.Write("<script>alert('傳送簡訊失敗。請聯繫管理員。客服電話：04-36092299。');window.location.href='" + rebackURL + "'</script>");
+                                //}
+                            }
+                            else
+                            {
+                                string encrypt = string.Empty;
+
+                                //JSON寫入到檔案
+                                using (StringWriter sw = new StringWriter())
+                                {
+                                    using (JsonTextWriter writer = new JsonTextWriter(sw))
+                                    {
+                                        //建立物件
+                                        writer.WriteStartObject();
+
+                                        //物件名稱
+                                        writer.WritePropertyName("detail");
+
+                                        using (StringWriter sw2 = new StringWriter())
+                                        {
+                                            using (JsonTextWriter writer2 = new JsonTextWriter(sw2))
+                                            {
+                                                //建立物件
+                                                writer2.WriteStartObject();
+
+                                                writer2.WritePropertyName("orderMsg");
+                                                writer2.WriteValue("fail");
+
+                                                writer2.WritePropertyName("orderStatus");
+                                                writer2.WriteValue("1003");
+
+                                                writer2.WriteEndObject();
+
+                                                encrypt = AESHelper.AesEncrypt(sw2.ToString(), checkedkey);
+                                            }
+                                        }
+
+                                        writer.WriteValue(encrypt);
+
+                                        writer.WritePropertyName("resultCode"); writer.WriteValue("9999");
+
+                                        writer.WriteEndObject();
+
+                                        writer.Flush();
+                                        writer.Close();
+                                        sw.Flush();
+                                        sw.Close();
+
+                                        //輸出結果
+                                        Response.Write(sw.ToString());
+
+                                        SaveRequestLog(Request.Url + sw.ToString());
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+
+            return aid;
+        }
+
+        //天公生招財補運-桃園威天宮
+        protected int addapplicantID_ty_Supplies3(string appName, string appMobile, string appBirth, string appLeapMonth, string appBirthTime, string appsBirth, string appEmail, 
+            string total, string appCity, string appRegion, string appAddr, string appZipCode, string sendback, string reName, string reMobile, JArray itemsInfo, string Tid, 
+            string fetOrderNumber, string Year, ref string[] Supplieslist, ref int SuppliesID, ref string OrderID)
+        {
+            int aid = 0;
+            int adminID = 14;
+            LightDAC objLightDAC = new LightDAC(this);
+            string postURL = "Supplies3_ty_Index_FETAPI";
+            TimeZoneInfo info = TimeZoneInfo.FindSystemTimeZoneById("Taipei Standard Time");
+            DateTime dtNow = TimeZoneInfo.ConvertTime(DateTime.Now, info);
+
+            aid = objLightDAC.addapplicantinfo_Supplies3_ty(appName, appMobile, appBirth, appLeapMonth, appBirthTime, "", "0", "", appsBirth, appEmail, total, appZipCode, appCity, 
+                appRegion, appAddr, sendback, reName, reMobile, 2, adminID.ToString(),
+                postURL, Year);
+            if (aid > 0)
+            {
+                int count = 0;
+                int cost = 0;
+
+                foreach (var item in itemsInfo)
+                {
+                    //int.TryParse(item["qty"].ToString(), out count);                                                                                        //數量/普品數量
+                    count = 1;
+                    int.TryParse(item["unitPrice"].ToString(), out cost);
+                    string productCode = item["productCode"].ToString();
+
+                    DataTable dtTempleCodeInfo = objLightDAC.GetTempleCodeInfo(productCode);
+                    if (dtTempleCodeInfo.Rows.Count > 0)
+                    {
+                        string SuppliesString = dtTempleCodeInfo.Rows[0]["TypeString"].ToString();
+                        string SuppliesType = dtTempleCodeInfo.Rows[0]["TypeID"].ToString();
+
+                        JArray prayedPerson = (JArray)item["prayedPerson"];
+                        foreach (var item2 in prayedPerson)
+                        {
+                            string name = item2["name"].ToString();                                                                                         //被祈福者姓名 / 飼主姓名
+                            string mobile = item2["msisdn"] != null ? item2["msisdn"].ToString() : appMobile;                                               //祈福者電話                                                                                     //祈福者電話
+                            string gender = item2["gender"] != null ? (item2["gender"].ToString() == "F" ? "信女" : "善男") : "善男";                       //性別 M: 男 F: 女
+                            string birthday = item2["birthday"] != null ? item2["birthday"].ToString() : "";                                                //國曆生日 YYYMMDD (民國年/國曆月/國曆日)
+                            string lunarBirthday = item2["lunarBirthday"] != null ? item2["lunarBirthday"].ToString() : "";                                 //農曆生日 YYYMMDD (民國年/農曆月/農曆日)
+                            string leapMonth = item2["leapMonth"] != null ? item2["leapMonth"].ToString() : "N";                                            //是否為閏月 Y: 是 N: 否
+                            string birthTime = item2["lunarBirthTime"] != null ? item2["lunarBirthTime"].ToString() : "吉";                                 //農曆時辰 子、丑、寅…亥 未確認時辰用戶可選吉時
+                            string oversea = item2["oversea"] != null ? item2["oversea"].ToString() : "1";                                                  //1: 國內 2: 國外
+                            string city = string.Empty;                                                                                                     //縣/市, 國內地址必填
+                            string region = string.Empty;                                                                                                   //地區, 國內地址必填
+                            string addr = item2["address"].ToString();                                                                                      //部分地址
+                            string zipCode = item2["zipCode"] != null ? item2["zipCode"].ToString() : "0";                                                  //郵遞區號, 國內地址必填
+                            if (oversea == "1")
+                            {
+                                city = item2["city"].ToString();
+                                region = item2["region"].ToString();
+                            }
+                            else
+                            {
+                                if (item2["city"] != null)
+                                {
+                                    city = item2["city"].ToString();
+                                }
+                                if (item2["region"] != null)
+                                {
+                                    region = item2["region"].ToString();
+                                }
+                            }
+
+                            string name2 = item2["additionalName"] != null ? item2["additionalName"].ToString() : "";                                       //附加祈福人姓名（祈福者 2）
+                            string homeNum = item2["phone"] != null ? item2["phone"].ToString() : "";                                                       //市話
+                            string email = item2["email"] != null ? item2["email"].ToString() : "";                                                         //Email
+                            string companyName = item2["companyName"] != null ? item2["companyName"].ToString() : "";                                       //公司行號名稱
+                            string dName = item2["deceasedName"] != null ? item2["deceasedName"].ToString() : "";                                           //祖先姓氏/亡者姓名 (超拔法會類型時必填)
+                            string dBirthType = item2["deceasedBirthRocEra"] != null ? item2["deceasedBirthRocEra"].ToString() : "";                        //祖先/亡者民國生日紀元 0：民國前 1：民國  001MMDD 1912 為民國 1 年 或 1910 為民國前 1 年
+                            string dBirthday = item2["deceasedBirthday"] != null ? item2["deceasedBirthday"].ToString() : "";                               //祖先/亡者國曆生日 YYYMMDD (民國年/國曆月/國曆日)
+                            string dLunarBirthday = item2["deceasedLunarBirthday"] != null ? item2["deceasedLunarBirthday"].ToString() : "";                //祖先/亡者農曆生日 YYYMMDD (民國年/農曆月/農曆日)
+                            string dLeapMonth = item2["deceasedBirthdayLeapMonth"] != null ? item2["deceasedBirthdayLeapMonth"].ToString() : "N";           //祖先/亡者農曆生日是否為閏月 Y: 是 N: 否
+                            string dBirthTime = item2["deceasedLunarBirthTime"] != null ? item2["deceasedLunarBirthTime"].ToString() : "吉";                //祖先/亡者農曆時辰 子、丑、寅…亥 未確認時辰用戶可選吉時
+                            string dDoDType = item2["deceasedDoDRocEra"] != null ? item2["deceasedDoDRocEra"].ToString() : "";                               //祖先/亡者死亡日期紀元 0：民國前 1：民國  001MMDD 1912 為民國 1 年 或 1910 為民國前 1 年
+                            string dDoD = item2["deceasedDoD"] != null ? item2["deceasedDoD"].ToString() : "";                                              //祖先/亡者死亡日期 YYYMMDD (民國年/國曆月/國曆日)
+                            string dLunarDoD = item2["deceasedLunarDoD"] != null ? item2["deceasedLunarDoD"].ToString() : "";                               //祖先/亡者死亡農曆日期 YYYMMDD (民國年/農曆月/農曆日)
+                            string dDoDLeapMonth = item2["deceasedDoDLeepMonth"] != null ? item2["deceasedDoDLeepMonth"].ToString() : "N";                  //祖先/亡者死亡農曆日期是否為閏月 Y: 是 N: 否
+                            string dZipCode = item2["deceasedZipCode"] != null ? item2["deceasedZipCode"].ToString() : "0";                                 //祖先/亡者/牌位 郵遞區號
+                            string dCity = item2["deceasedCity"] != null ? item2["deceasedCity"].ToString() : "";                                           //祖先/亡者/牌位 縣/市
+                            string dRegion = item2["deceasedRegion"] != null ? item2["deceasedRegion"].ToString() : "";                                     //祖先/亡者/牌位 地區
+                            string dAddr = item2["deceasedAddress"] != null ? item2["deceasedAddress"].ToString() : "";                                     //祖先/亡者/牌位 部分地址
+
+                            string additionalOffering = item2["additionalOffering"] != null ? item2["additionalOffering"].ToString() : "N";                 //加購普品 Y: 是 N: 否
+                            string offeringQty = item2["offeringQty"] != null ? item2["offeringQty"].ToString() : "0";                                      //加購普品數量
+                            string additionalOfferingCost = item2["additionalOfferingPrice"] != null ? item2["additionalOfferingPrice"].ToString() : "0";   //加購普品單價
+                            string jossMoneyQty = item2["jossMoneyQty"] != null ? item2["jossMoneyQty"].ToString() : "0";                                   //加購金紙數量
+                            string jossMoneyPrice = item2["jossMoneyPrice"] != null ? item2["jossMoneyPrice"].ToString() : "0";                             //加購金紙單價
+
+                            string remark = item2["remark"] != null ? item2["remark"].ToString() : "";                                                      //備註
+
+                            string Birth = string.Empty;
+                            string birthMonth = string.Empty;
+                            string age = string.Empty;
+                            string Zodiac = string.Empty;
+                            string lyear = string.Empty;
+                            string year = string.Empty;
+                            string month = string.Empty;
+                            string day = string.Empty;
+
+                            string sBirth = string.Empty;
+                            string syear = string.Empty;
+                            string smonth = string.Empty;
+                            string sday = string.Empty;
+
+                            string birth = lunarBirthday;
+                            if (birth.Length == 7)
+                            {
+                                lyear = birth.Substring(0, 3);
+                                year = (int.Parse(birth.Substring(0, 3)) + 1911).ToString();
+                                month = birthMonth = birth.Substring(3, 2);
+                                day = birth.Substring(5, 2);
+
+                                string b = year + "-" + month + "-" + day;
+                                LunarSolarConverter.shuxiang(int.Parse(year), ref Zodiac);
+                                DateTime lunarBirth;
+                                DateTime solorBirth;
+                                if (DateTime.TryParse(b, out lunarBirth))
+                                {
+                                    //age = GetAge(DateTime.Parse(b), dtNow);
+
+                                    age = GetAge(int.Parse(year), int.Parse(month), int.Parse(day)).ToString();
+                                }
+                                else
+                                {
+                                    birth = birthday;
+                                    if (birth.Length == 7)
+                                    {
+                                        syear = birth.Substring(0, 3);
+                                        year = (int.Parse(birth.Substring(0, 3)) + 1911).ToString();
+                                        smonth = birthMonth = birth.Substring(3, 2);
+                                        sday = birth.Substring(5, 2);
+
+                                        b = year + "-" + smonth + "-" + sday;
+                                        LunarSolarConverter.shuxiang(int.Parse(year), ref Zodiac);
+                                        if (DateTime.TryParse(b, out solorBirth))
+                                        {
+                                            //age = GetAge(DateTime.Parse(b), dtNow);
+
+                                            age = GetAge(int.Parse(year), int.Parse(smonth), int.Parse(sday)).ToString();
+                                        }
+                                    }
+                                }
+                            }
+
+                            string sbirth = birthday;
+                            if (sbirth.Length == 7)
+                            {
+                                syear = sbirth.Substring(0, 3);
+                                year = (int.Parse(sbirth.Substring(0, 3)) + 1911).ToString();
+                                smonth = sbirth.Substring(3, 2);
+                                sday = sbirth.Substring(5, 2);
+
+                                //b = year + "-" + smonth + "-" + sday;
+                                //if (DateTime.TryParse(b, out solorBirth))
+                                //{
+                                //    //age = GetAge(DateTime.Parse(b), dtNow);
+
+                                //    age = GetAge(int.Parse(year), int.Parse(smonth), int.Parse(sday)).ToString();
+                                //}
+                            }
+
+                            int l = 0, s = 0;
+                            int.TryParse(lyear, out l);
+                            int.TryParse(syear, out s);
+
+                            if (lyear != "" && month != "" && day != "")
+                            {
+                                Birth = "民國" + (l > 0 ? l.ToString() : lyear) + "年" + month + "月" + day + "日";
+                            }
+                            if (syear != "" && smonth != "" && sday != "")
+                            {
+                                sBirth = "民國" + (s > 0 ? s.ToString() : syear) + "年" + smonth + "月" + sday + "日";
+                            }
+
+
+                            SuppliesID = objLightDAC.addSupplies3_ty(aid, name, mobile, gender, SuppliesType, SuppliesString, oversea, Birth, leapMonth, birthTime, birthMonth,
+                                age, Zodiac, sBirth, 1, remark, addr, city, region, zipCode, Year);
+                        }
+                    }
+                }
+
+                if (SuppliesID > 0)
+                {
+                    BCFBaseLibrary.Web.BasePage basePage = new BCFBaseLibrary.Web.BasePage();
+                    DatabaseHelper objDatabaseHelper = new DatabaseHelper(basePage);
+                    OrderID = dtNow.ToString("yyyyMMddHHmmssfff");
+                    string CallbackLog = Tid + "," + fetOrderNumber;
+
+                    long id = objDatabaseHelper.AddChargeLog_Supplies3_ty(OrderID, aid, int.Parse(total), "FETAPI", 0, itemsInfo.ToString(), "", fetOrderNumber, Request.UserHostAddress, Year);
+
+                    DataTable dtCharge = objDatabaseHelper.GetChargeLog_Supplies3_ty(OrderID, Year);
+                    if (dtCharge.Rows.Count > 0)
+                    {
+                        if ((int)dtCharge.Rows[0]["Status"] == 0)
+                        {
+                            //更新點燈資料表並取得訂單編號
+                            string msg = "感謝購買,已成功付款" + cost + "元,您的訂單編號 ";
+
+                            objDatabaseHelper.UpdateSupplies3_ty_Info(aid, Year, ref msg, ref Supplieslist);
+
+                            //msg = "感謝大德參與線上點燈,茲收您1960元功德金,訂單編號 光明燈:T2204, 安太歲:25351, 文昌燈:六1214。";
+                            //mobile = "0903002568";
+
+                            SMSHepler objSMSHepler = new SMSHepler();
+                            string ChargeType = string.Empty;
+                            //更新流水付費表資訊(付費成功)
+                            if (objDatabaseHelper.UpdateChargeLog_Supplies3_ty(OrderID, Tid, msg, Request.UserHostAddress, CallbackLog, Year, ref ChargeType))
+                            {
+                                //if (objSMSHepler.SendMsg_SL(mobile, msg))
+                                //{
+
+                                //    //m2 = m2.IndexOf("aid=") > 0 ? m2 : (m2.IndexOf("?") > 0 ? m2 + "&aid=" + m1 : m2 + "?aid=" + m1 + "&a=" + adminID);
+                                //    m2 = "https://bobibobi.tw/Temples/templeComplete.aspx?kind=1&a=" + adminID + "&aid=" + aid;
+                                //    Response.Redirect(m2, true);
+                                //}
+                                //else
+                                //{
+                                //    Response.Write("<script>alert('傳送簡訊失敗。請聯繫管理員。客服電話：04-36092299。');window.location.href='" + rebackURL + "'</script>");
                                 //}
                             }
                             else

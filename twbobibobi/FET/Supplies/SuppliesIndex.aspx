@@ -490,7 +490,7 @@
               <div class="form-group">
                 <label for="input-buyer" class="">購買者</label>
                 <div class="text-input">
-                  <input id="member_name" name="member_name" type="text" placeholder="請輸入姓名" aria-label="請輸入姓名" maxlength="200" value="" />
+                  <input id="member_name" name="member_name" type="text" placeholder="請輸入姓名" class="required" aria-label="請輸入姓名" maxlength="200" value="" />
                 </div>
               </div>
             </div>
@@ -498,7 +498,7 @@
               <div class="form-group">
                 <label for="input-buyer-mobile" class="">購買者手機門號</label>
                 <div class="text-input">
-                  <input id="member_tel" name="member_tel" type="text" placeholder="請輸入手機號碼" aria-label="請輸入手機號碼" maxlength="200" value="" />
+                  <input id="member_tel" name="member_tel" type="text" placeholder="請輸入手機號碼" class="required" aria-label="請輸入手機號碼" maxlength="200" value="" />
                 </div>
               </div>
             </div>
@@ -704,6 +704,7 @@
                     <label for="input-name" class="">被祈福者Email</label>
                     <div class="text-input">
                       <input id="bless_email_1" name="bless_email_1" type="text" placeholder="請輸入祈福人Email" class="required" aria-label="請輸入姓名" maxlength="200" value="" />
+                        <span style="color: red;">注意事項: 北港武德宮 推行"無紙功德"環保理念" 原紙本感謝狀之提供改為 Email提供電子感謝狀。</span>
                     </div>
                   </div>
                 </div>
@@ -808,7 +809,7 @@
 
         // 遍歷每個必填欄位
         $('.required').each(function () {
-            var value = $(this).val();
+            var value = $.trim($(this).val());
             var text = this;
             if (value === '' || value === null) {
                 isValid = false;
@@ -819,7 +820,7 @@
         });
 
         var today = new Date();
-        var ss = $("#input-birthday-year").val();
+        var ss = $("#input-birthday-year").val().trim();
         var lyear = (today.getFullYear() - 1911)
         if ($("#input-birthday-year").val() == "" || ss > lyear) {
             isValid = false;
@@ -834,6 +835,7 @@
         if (isValid) {
             // 所有欄位都已填寫
             console.log('所有欄位都已填寫');
+            $(".Notice").removeClass("active");
 
             gotoChecked_wu();
         } else {
@@ -913,7 +915,7 @@
     }
 
     $(".OrderForm").on("change", ".unfilled", function () {
-        var value = $(this).val();
+        var value = $(this).val().trim();
         if (value != '') {
             $(this).removeClass('unfilled');
         }
@@ -922,7 +924,7 @@
     function gotoChecked_wu() {
         var listcount = 1;
 
-        Appname = $("#member_name").val();      //申請人姓名
+        Appname = $("#member_name").val().trim();      //申請人姓名
         Appmobile = $("#member_tel").val()      //申請人電話
 
         name_Tag = [];
@@ -984,7 +986,7 @@
     }
 
     function checkEndTime() {
-        //var startTime = $("#startTime").val();
+        //var startTime = $("#startTime").val().trim();
         var startTime = new Date();
         var endTime = $("#endTime").text();
         if (Date.parse(endTime).valueOf() < Date.parse(startTime).valueOf()) {
@@ -994,7 +996,7 @@
     }
 
     function checkedStartTime() {
-        //var startTime = $("#startTime").val();
+        //var startTime = $("#startTime").val().trim();
         var endTime = new Date();
         var startTime = $("#startTime").text();
         if (Date.parse(endTime).valueOf() >= Date.parse(startTime).valueOf()) {

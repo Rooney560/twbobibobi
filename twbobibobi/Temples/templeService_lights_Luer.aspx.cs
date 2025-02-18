@@ -72,6 +72,7 @@ namespace Temple.Temples
                 string birthtime_Tag = basePage.Request["birthtime_Tag"];                           //祈福人農曆時辰
                 string sbirth_Tag = basePage.Request["sbirth_Tag"];                                 //祈福人國曆生日
                 string email_Tag = basePage.Request["email_Tag"];                                   //祈福人信箱
+                string oversea_Tag = basePage.Request["oversea_Tag"];                               //國內-1 國外-2
                 string zipCode_Tag = basePage.Request["zipCode_Tag"];                               //祈福人郵遞區號
                 string county_Tag = basePage.Request["county_Tag"];                                 //祈福人縣市
                 string dist_Tag = basePage.Request["dist_Tag"];                                     //祈福人區域
@@ -95,6 +96,7 @@ namespace Temple.Temples
                 JArray Jbirthtime = JArray.Parse(birthtime_Tag);
                 JArray Jsbirth = JArray.Parse(sbirth_Tag);
                 JArray Jemail = JArray.Parse(email_Tag);
+                JArray Joversea = JArray.Parse(oversea_Tag);
                 JArray JzipCode = JArray.Parse(zipCode_Tag);
                 JArray Jcounty = JArray.Parse(county_Tag);
                 JArray Jdist = JArray.Parse(dist_Tag);
@@ -117,11 +119,15 @@ namespace Temple.Temples
 
                 postURL += basePage.Request["fb"] != null ? "_FB" : "";
 
+                postURL += basePage.Request["fbLuer"] != null ? "_FBLUER" : "";
+
                 postURL += basePage.Request["ig"] != null ? "_IG" : "";
 
                 postURL += basePage.Request["fetsms"] != null ? "_fetSMS" : "";
 
                 postURL += basePage.Request["jkos"] != null ? "_JKOS" : "";
+
+                postURL += basePage.Request["pxpayplues"] != null ? "_PXPAY" : "";
 
                 postURL += basePage.Request["gads"] != null ? "_GADS" : "";
 
@@ -153,6 +159,8 @@ namespace Temple.Temples
                         string county = Jcounty[i].ToString();
                         string dist = Jdist[i].ToString();
                         string zipCode = JzipCode[i].ToString();
+                        string oversea = Joversea[i].ToString();
+                        //string oversea = "1";
                         string birthMonth = "0";
                         string age = "0";
                         string Zodiac = string.Empty;
@@ -262,7 +270,7 @@ namespace Temple.Temples
                         {
                             lightsinfo = true;
                             LightsID = objLightDAC.addLights_Luer(ApplicantID, name, mobile, sex, lightsType, lightsString,
-                                "1", Birth, leapMonth, birthTime, birthMonth, age, Zodiac, sBirth, email, 1, addr, county, dist, zipCode, "", PetName, PetType, Year);
+                                oversea, Birth, leapMonth, birthTime, birthMonth, age, Zodiac, sBirth, email, 1, addr, county, dist, zipCode, "", PetName, PetType, Year);
                         }
                     }
                 }
@@ -273,6 +281,7 @@ namespace Temple.Temples
                     basePage.mJSonHelper.AddContent("redirect", "templeCheck.aspx?kind=1&a=" + AdminID + "&aid=" + ApplicantID +
                         (basePage.Request["ad"] != null ? "&ad=" + basePage.Request["ad"] : "") +
                         (basePage.Request["jkos"] != null ? "&jkos=1" : "") +
+                            (basePage.Request["pxpayplues"] != null ? "&pxpayplues=1" : "") +
                         (basePage.Request["twm"] != null ? "&twm=1" : ""));
 
                     basePage.Session["ApplicantID"] = ApplicantID;

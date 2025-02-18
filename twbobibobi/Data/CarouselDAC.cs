@@ -15,7 +15,7 @@ namespace twbobibobi.Data
                 if (conn.State != ConnectionState.Open)
                     conn.Open();
 
-                string sql = "SELECT Id, Title, Description, ImageFileType, ButtonText, ButtonLink FROM Carousel WHERE Status=1 AND groupName=@groupName ORDER BY Seq";
+                string sql = "SELECT Id, Title, Description, ImageFileType, ButtonVisible, ButtonText, ButtonLink FROM Carousel WHERE Status=1 AND groupName=@groupName ORDER BY Seq";
                 SqlParameter[] parms = new SqlParameter[]{
                     new SqlParameter("@groupName", SqlDbType.VarChar, 32)
                 };
@@ -35,8 +35,9 @@ namespace twbobibobi.Data
                                 Title = dr.GetString(1),
                                 Description = dr.GetString(2),
                                 ImageFileType = dr.GetString(3),
-                                ButtonText = dr.GetString(4),
-                                ButtonLink = dr.GetString(5),
+                                ButtonVisible = dr.GetInt16(4),
+                                ButtonText = dr.GetString(5),
+                                ButtonLink = dr.GetString(6),
                             });
                         }
                     }

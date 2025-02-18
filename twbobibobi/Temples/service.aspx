@@ -67,8 +67,40 @@
 
         gtag('config', 'G-4YWFRTFCTT');
     </script>
+    <!-- Google Tag Manager -->
+    <script>(function (w, d, s, l, i) {
+            w[l] = w[l] || []; w[l].push({
+                'gtm.start':
+                    new Date().getTime(), event: 'gtm.js'
+            }); var f = d.getElementsByTagName(s)[0],
+                j = d.createElement(s), dl = l != 'dataLayer' ? '&l=' + l : ''; j.async = true; j.src =
+                    'https://www.googletagmanager.com/gtm.js?id=' + i + dl; f.parentNode.insertBefore(j, f);
+        })(window, document, 'script', 'dataLayer', 'GTM-5L2H7Z3N');</script>
+    <!-- End Google Tag Manager -->
+    <!-- Google Tag Manager -->
+    <script>(function (w, d, s, l, i) {
+            w[l] = w[l] || []; w[l].push({
+                'gtm.start':
+                    new Date().getTime(), event: 'gtm.js'
+            }); var f = d.getElementsByTagName(s)[0],
+                j = d.createElement(s), dl = l != 'dataLayer' ? '&l=' + l : ''; j.async = true; j.src =
+                    'https://www.googletagmanager.com/gtm.js?id=' + i + dl; f.parentNode.insertBefore(j, f);
+        })(window, document, 'script', 'dataLayer', 'GTM-NGRZRR4V');</script>
+    <!-- End Google Tag Manager -->
 </head>
 <body>
+    <!-- Google Tag Manager (noscript) -->
+    <noscript>
+        <iframe src="https://www.googletagmanager.com/ns.html?id=GTM-NGRZRR4V"
+            height="0" width="0" style="display: none; visibility: hidden"></iframe>
+    </noscript>
+    <!-- End Google Tag Manager (noscript) -->
+    <!-- Google Tag Manager (noscript) -->
+    <noscript>
+        <iframe src="https://www.googletagmanager.com/ns.html?id=GTM-5L2H7Z3N"
+            height="0" width="0" style="display: none; visibility: hidden"></iframe>
+    </noscript>
+    <!-- End Google Tag Manager (noscript) -->
     <uc4:AjaxClientControl ID="AjaxClientControl1" runat="server" />
     <div id="wrap">
         <!--#warp //start-->
@@ -89,40 +121,6 @@
             <!--本頁內容-->
             <section>
                 
-                <div class="ServiceBk">
-                    <div class="ServiceTitle"><span>中元普渡</span></div>
-                    <ul class="ServiceList">
-                        <li>
-                            <div class="ServiceType">
-                                <div>
-                                    <img src="images/icon_06.png" width="50" height="50" alt="" /></div>
-                                <div>中元普渡</div>
-                            </div>
-                            <div class="ServiceTempleList">
-                                <ul>
-                                    <%--<li><a href="templeService_purdue_da.aspx" title="大甲鎮瀾宮">大甲鎮瀾宮</a></li>
-                                    <li><a href="templeService_purdue_h.aspx" title="新港奉天宮">新港奉天宮</a></li>
-                                    <li><a href="templeService_purdue_wu.aspx" title="北港武德宮">北港武德宮</a></li>
-                                    <li><a href="templeService_purdue_Fu.aspx" title="西螺福興宮">西螺福興宮</a></li>
-                                    <li><a href="templeService_purdue_Jing.aspx" title="桃園大廟景福宮">桃園大廟景福宮</a></li>
-                                    <li><a href="templeService_purdue_Luer.aspx" title="台南正統鹿耳門聖母廟">台南正統鹿耳門聖母廟</a></li>--%>
-                                    
-                                    <li><a onclick="ActivityTime(2, 3)" href="javascript: void(0)" title="大甲鎮瀾宮">大甲鎮瀾宮</a></li>
-                                    <li><a onclick="ActivityTime(2, 4)" href="javascript: void(0)" title="新港奉天宮">新港奉天宮</a></li>
-                                    <li><a onclick="ActivityTime(2, 6)" href="javascript: void(0)" title="北港武德宮">北港武德宮</a></li>
-                                    <li><a onclick="ActivityTime(2, 8)" href="javascript: void(0)" title="西螺福興宮">西螺福興宮</a></li>
-                                    <li><a onclick="ActivityTime(2, 10)" href="javascript: void(0)" title="台南正統鹿耳門聖母廟">台南正統鹿耳門聖母廟</a></li>
-                                    <li><a onclick="ActivityTime(2, 14)" href="javascript: void(0)" title="桃園威天宮">桃園威天宮</a></li>
-                                    <li><a onclick="ActivityTime(2, 15)" href="javascript: void(0)" title="斗六五路財神宮">斗六五路財神宮</a></li>
-                                    <li><a onclick="ActivityTime(2, 16)" href="javascript: void(0)" title="台東東海龍門天聖宮">台東東海龍門天聖宮</a></li>
-                                    <li><a onclick="ActivityTime(2, 21)" href="javascript: void(0)" title="鹿港城隍廟">鹿港城隍廟</a></li>
-                                    <li><a onclick="ActivityTime(2, 23)" href="javascript: void(0)" title="玉敕大樹朝天宮">玉敕大樹朝天宮</a></li>
-                                </ul>
-                            </div>
-                        </li>
-                    </ul>
-                </div>
-
                 <!--↓↓範例 /Start↓↓-->
                 <div class="ServiceBk">
                     <div class="ServiceTitle"><span>祈福點燈</span></div>
@@ -396,7 +394,39 @@
                 </div>
                 <!--↑↑範例 /End↑↑-->
 
-
+                <div class="ServiceBk">
+                    <div class="ServiceTitle"><span>中元普渡</span></div>
+                    <ul class="ServiceList">
+                        <li>
+                            <div class="ServiceType">
+                                <div>
+                                    <img src="images/icon_06.png" width="50" height="50" alt="" /></div>
+                                <div>中元普渡</div>
+                            </div>
+                            <div class="ServiceTempleList">
+                                <ul>
+                                    <%--<li><a href="templeService_purdue_da.aspx" title="大甲鎮瀾宮">大甲鎮瀾宮</a></li>
+                                    <li><a href="templeService_purdue_h.aspx" title="新港奉天宮">新港奉天宮</a></li>
+                                    <li><a href="templeService_purdue_wu.aspx" title="北港武德宮">北港武德宮</a></li>
+                                    <li><a href="templeService_purdue_Fu.aspx" title="西螺福興宮">西螺福興宮</a></li>
+                                    <li><a href="templeService_purdue_Jing.aspx" title="桃園大廟景福宮">桃園大廟景福宮</a></li>
+                                    <li><a href="templeService_purdue_Luer.aspx" title="台南正統鹿耳門聖母廟">台南正統鹿耳門聖母廟</a></li>--%>
+                                    
+                                    <li><a onclick="ActivityTime(2, 3)" href="javascript: void(0)" title="大甲鎮瀾宮">大甲鎮瀾宮</a></li>
+                                    <li><a onclick="ActivityTime(2, 4)" href="javascript: void(0)" title="新港奉天宮">新港奉天宮</a></li>
+                                    <li><a onclick="ActivityTime(2, 6)" href="javascript: void(0)" title="北港武德宮">北港武德宮</a></li>
+                                    <li><a onclick="ActivityTime(2, 8)" href="javascript: void(0)" title="西螺福興宮">西螺福興宮</a></li>
+                                    <li><a onclick="ActivityTime(2, 10)" href="javascript: void(0)" title="台南正統鹿耳門聖母廟">台南正統鹿耳門聖母廟</a></li>
+                                    <li><a onclick="ActivityTime(2, 14)" href="javascript: void(0)" title="桃園威天宮">桃園威天宮</a></li>
+                                    <li><a onclick="ActivityTime(2, 15)" href="javascript: void(0)" title="斗六五路財神宮">斗六五路財神宮</a></li>
+                                    <li><a onclick="ActivityTime(2, 16)" href="javascript: void(0)" title="台東東海龍門天聖宮">台東東海龍門天聖宮</a></li>
+                                    <li><a onclick="ActivityTime(2, 21)" href="javascript: void(0)" title="鹿港城隍廟">鹿港城隍廟</a></li>
+                                    <li><a onclick="ActivityTime(2, 23)" href="javascript: void(0)" title="玉敕大樹朝天宮">玉敕大樹朝天宮</a></li>
+                                </ul>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
 
                 <div class="ServiceBk">
                     <div class="ServiceTitle"><span>補財庫</span></div>
@@ -454,6 +484,20 @@
                                     <%--<li><a href="templeService_supplies_ty.aspx" title="桃園威天宮">桃園威天宮</a></li>--%>
 
                                     <li><a onclick="ActivityTime(7, 14)" href="javascript: void(0)" title="桃園威天宮">桃園威天宮</a></li>
+                                </ul>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="ServiceType">
+                                <div>
+                                    <img src="images/icon_05.png" width="50" height="50" alt="" /></div>
+                                <div>補財庫</div>
+                            </div>
+                            <div class="ServiceTempleList">
+                                <ul>
+                                    <%--<li><a href="templeService_supplies_ty.aspx" title="桃園威天宮">桃園威天宮</a></li>--%>
+
+                                    <li><a onclick="ActivityTime(16, 21)" href="javascript: void(0)" title="鹿港城隍廟">鹿港城隍廟</a></li>
                                 </ul>
                             </div>
                         </li>

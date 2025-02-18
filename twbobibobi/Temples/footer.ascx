@@ -8,27 +8,28 @@
                 $("#cht").hide();
                 $("#twm").show();
 
-                if (location.search.indexOf('twm') >= 0) {
-                    //alert($("title").html());
-                    $(document).attr("title", "(TWM)" + $("title").html());
-                    $.each($("a"), function (i, n) {
-                        var $href = $(this).attr("href");
-                        if ($href.indexOf('.aspx') > 0 && $href.indexOf('twm') < 0) {
-                            if ($href.indexOf('?') > 0) {
-                                $(this).attr("href", $href + "&twm=1");
-                            }
-                            else {
-                                $(this).attr("href", $href + "?twm=1");
-                            }
-                        }
-                    });
-                }
             }
             else {
                 $("#fet").show();
                 $("#Fet").show();
                 $("#cht").show();
                 $("#cht").show();
+            }
+
+            if (location.search.indexOf('twm') >= 0) {
+                //alert($("title").html());
+                $(document).attr("title", "(TWM)" + $("title").html());
+                $.each($("a"), function (i, n) {
+                    var $href = $(this).attr("href");
+                    if ($href.indexOf('.aspx') > 0 && $href.indexOf('twm') < 0) {
+                        if ($href.indexOf('?') > 0) {
+                            $(this).attr("href", $href + "&twm=1");
+                        }
+                        else {
+                            $(this).attr("href", $href + "?twm=1");
+                        }
+                    }
+                });
             }
 
             if (location.search.indexOf('line') >= 0) {
@@ -67,7 +68,7 @@
                 }
                 else if (location.search.indexOf('fbda') >= 0) {
                     $(document).attr("title", "(FBDA)" + $("title").html());
-                    //$(document).attr("title", "２０２４(FB)中元普渡線上報名開始囉~|最新消息|【保必保庇】線上宮廟服務平台");
+                    $("#shop").hide();
                     $.each($("a"), function (i, n) {
                         var $href = $(this).attr("href");
                         if ($href.indexOf('.aspx') > 0) {
@@ -164,6 +165,22 @@
                 });
             }
 
+            if (location.search.indexOf('pxpayplues') >= 0) {
+                $(document).attr("title", "(全支付)" + $("title").html());
+
+                $.each($("a"), function (i, n) {
+                    var $href = $(this).attr("href");
+                    if ($href.indexOf('.aspx') > 0) {
+                        if ($href.indexOf('?') > 0) {
+                            $(this).attr("href", $href + "&pxpayplues=1");
+                        }
+                        else {
+                            $(this).attr("href", $href + "?pxpayplues=1");
+                        }
+                    }
+                });
+            }
+
             //大樓電梯
             if (location.search.indexOf('elv') >= 0) {
                 $(document).attr("title", "(ELV)" + $("title").html());
@@ -193,6 +210,23 @@
                         }
                         else {
                             $(this).attr("href", $href + "?gads=1");
+                        }
+                    }
+                });
+            }
+
+            if (location.search.indexOf('tads') >= 0) {
+                $(document).attr("title", "(TADS)" + $("title").html());
+                //$(document).attr("title", "２０２４(LINE)中元普渡線上報名開始囉~|最新消息|【保必保庇】線上宮廟服務平台");
+
+                $.each($("a"), function (i, n) {
+                    var $href = $(this).attr("href");
+                    if ($href.indexOf('.aspx') > 0) {
+                        if ($href.indexOf('?') > 0) {
+                            $(this).attr("href", $href + "&tads=1");
+                        }
+                        else {
+                            $(this).attr("href", $href + "?tads=1");
                         }
                     }
                 });
@@ -252,6 +286,9 @@
                             <li><a href="https://bobibobi.tw/Temples/ShoppingGuide.aspx">購物說明</a></li>
                             <li><a href="https://bobibobi.tw/Temples/PrivacyPolicy.aspx">隱私權政策</a></li>
                             <li><a href="https://bobibobi.tw/Temples/LightsGuide.aspx">燈種說明</a></li>
+                            <li><a href="https://bobibobi.tw/Temples/ZodiacFortune.aspx">生肖運勢</a></li>
+                            <li><a href="https://bobibobi.tw/Temples/NewYearNotes.aspx">過年注意事項</a></li>
+                            <li></li>
                         </ul>
                     </div>
                 </div>
@@ -263,8 +300,8 @@
                                 <img src="https://bobibobi.tw/Temples/images/foot_icon_01.png" width="28" height="30" alt="" /><span>04-3609-2299</span></a></li>
                             <%--<li><a href="tel:0436092299">
                                 <img src="https://bobibobi.tw/Temples/images/foot_icon_02.png" width="28" height="30" alt="" /><span>04-3609-2299</span></a></li>--%>
-                            <li><a href="mailto:alyssa@appssp.com">
-                                <img src="https://bobibobi.tw/Temples/images/foot_icon_03.png" width="28" height="30" alt="" /><span>alyssa@appssp.com</span></a></li>
+                            <li><a href="mailto:service@appssp.com">
+                                <img src="https://bobibobi.tw/Temples/images/foot_icon_03.png" width="28" height="30" alt="" /><span>service@appssp.com</span></a></li>
                         </ul>
                     </div>
                 </div>

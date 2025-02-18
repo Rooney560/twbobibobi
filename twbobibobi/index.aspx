@@ -54,7 +54,7 @@
     <script src="./Temples/Bootstrap/js/bootstrap.bundle.min.js"></script>
     <!--資源項目-->
     <link href="./Temples/css/reset.css" rel="stylesheet" type="text/css" />
-    <link rel="stylesheet" type="text/css" href="./Temples/css/style.css" />
+    <link rel="stylesheet" type="text/css" href="./Temples/css/style_index.css" />
 
     <%-- <style>
         .SiteName {
@@ -90,9 +90,40 @@
 
         gtag('config', 'G-4YWFRTFCTT');
     </script>
-
+    <!-- Google Tag Manager -->
+    <script>(function (w, d, s, l, i) {
+            w[l] = w[l] || []; w[l].push({
+                'gtm.start':
+                    new Date().getTime(), event: 'gtm.js'
+            }); var f = d.getElementsByTagName(s)[0],
+                j = d.createElement(s), dl = l != 'dataLayer' ? '&l=' + l : ''; j.async = true; j.src =
+                    'https://www.googletagmanager.com/gtm.js?id=' + i + dl; f.parentNode.insertBefore(j, f);
+        })(window, document, 'script', 'dataLayer', 'GTM-5L2H7Z3N');</script>
+    <!-- End Google Tag Manager -->
+    <!-- Google Tag Manager -->
+    <script>(function (w, d, s, l, i) {
+            w[l] = w[l] || []; w[l].push({
+                'gtm.start':
+                    new Date().getTime(), event: 'gtm.js'
+            }); var f = d.getElementsByTagName(s)[0],
+                j = d.createElement(s), dl = l != 'dataLayer' ? '&l=' + l : ''; j.async = true; j.src =
+                    'https://www.googletagmanager.com/gtm.js?id=' + i + dl; f.parentNode.insertBefore(j, f);
+        })(window, document, 'script', 'dataLayer', 'GTM-NGRZRR4V');</script>
+    <!-- End Google Tag Manager -->
 </head>
 <body>
+    <!-- Google Tag Manager (noscript) -->
+    <noscript>
+        <iframe src="https://www.googletagmanager.com/ns.html?id=GTM-NGRZRR4V"
+            height="0" width="0" style="display: none; visibility: hidden"></iframe>
+    </noscript>
+    <!-- End Google Tag Manager (noscript) -->
+    <!-- Google Tag Manager (noscript) -->
+    <noscript>
+        <iframe src="https://www.googletagmanager.com/ns.html?id=GTM-5L2H7Z3N"
+            height="0" width="0" style="display: none; visibility: hidden"></iframe>
+    </noscript>
+    <!-- End Google Tag Manager (noscript) -->
     <%--<div id="wrap">--%>
         <!--#warp //start-->
 
@@ -146,7 +177,7 @@
                                         <div>訂單查詢</div>
                                     </a>
                                 </li>
-                                <li>
+                                <li id="shop2">
                                     <a href="https://shop.bobibobi.tw/" target="_blank" title="開運商品">
                                         <div>
                                             <img src="https://bobibobi.tw/Temples/images/menu_05.png" width="75" height="75" alt="" />
@@ -325,19 +356,36 @@
                     <div class="container px-4 ">
                         <div class="row justify-content-center py-5">
                             <img src="./Temples/images/roof.png" class="pb-1" style="width: 200px;" alt="" />
-                            <div class="CategoryTitle">-&nbsp;最新消息&nbsp;-</div>
+                            <div class="CategoryTitle">-&nbsp;當前活動&nbsp;-</div>
                             <hr class="Category" />
                         </div>
                         <div class="row gx-5">
                             <div class="col-lg-4 col-sm-12 py-3">
                                 <a href="https://bobibobi.tw/Temples/newsContent_2025lights.aspx">
                                     <div class="card shadow h-100" style="background-color: white; color: #707070;">
+                                    <%--<div class="Newsimg">--%>
+                                        <img src="https://bobibobi.tw/Temples/SiteFile/News/20241029_NewsImg_s.jpg" class="card-img-top p-3" alt="保必保庇２０２５乙巳蛇年新春線上點燈" title="保必保庇２０２５乙巳蛇年新春線上點燈" />
+                                    <%--</div>--%>
+                                        <div class="card-body">
+                                    <div class="fs-3">２０２５乙巳蛇年新春線上點燈報名開始囉~</div>
+                                    <div class="fs-5">『保必保庇』今年與11家全台知名宮廟配合線上點燈服務，提供信眾更多元化的選擇，讓您在忙碌之餘也可以輕鬆完成點燈保平安，為自己與家人祈福。</div>
+                               
+                                        </div>
+                                        <div class="card-footer pb-3" style="border-top: none; background-color: transparent;">
+                                            <div class="ReadMoreBtn"><span>&nbsp;詳情&nbsp;</span></div>
+                                        </div>
+                                    </div>
+                                </a>
+                            </div>
+                            <div class="col-lg-4 col-sm-12 py-3">
+                                <a href="https://bobibobi.tw/Temples/templeService_supplies3_ty.aspx">
+                                    <div class="card shadow h-100" style="background-color: white; color: #707070;">
                                         <%--<div class="Newsimg">--%>
-                                        <img src="https://bobibobi.tw/Temples/SiteFile/News/20241029_NewsImg_s.jpg" class="card-img-top p-3" alt="" />
+                                        <img src="https://bobibobi.tw/Temples/SiteFile/News/20250121_NewsImg_s.jpg?t=666168" class="card-img-top p-3" alt="桃園威天宮正月初九天公生招財補運" title="桃園威天宮正月初九天公生招財補運" />
                                         <%--</div>--%>
                                         <div class="card-body">
-                                            <div class="fs-3">２０２５乙巳蛇年新春點燈線上報名開始囉~</div>
-                                            <div class="fs-5">『保必保庇』今年與11家全台知名宮廟配合線上報名點燈服務，提供信眾更多元化的選擇，讓您在忙碌之餘也可以輕鬆完成點燈保平安，為自己與家人祈福。</div>
+                                            <div class="fs-3">桃園威天宮正月初九天公生招財補運</div>
+                                            <div class="fs-5">正月初九是玉皇大帝的聖誕，也稱為【天公生】覺得自己運氣不順，財庫不足，在新的一年向玉皇上帝祝壽、祈福補運補財庫，讓您事業興旺、財運順遂。</div>
 
                                         </div>
                                         <div class="card-footer pb-3" style="border-top: none; background-color: transparent;">
@@ -347,30 +395,15 @@
                                 </a>
                             </div>
                             <div class="col-lg-4 col-sm-12 py-3">
-                                <a href="https://bobibobi.tw/Temples/newsContent_2024supplies.aspx">
+                                <a href="https://bobibobi.tw/Temples/templeService_supplies_sx.aspx">
                                     <div class="card shadow h-100" style="background-color: white; color: #707070;">
                                         <%--<div class="Newsimg">--%>
-                                        <img src="https://bobibobi.tw/Temples/SiteFile/News/20241001_NewsImg_s.jpg" class="card-img-top p-3" alt="" />
+                                        <img src="https://bobibobi.tw/Temples/SiteFile/News/20250110_NewsImg_s.jpg?t=666168" class="card-img-top p-3" alt="小龍蛇年旺財氣，赦罪補庫好運到" title="小龍蛇年旺財氣，赦罪補庫好運到" />
                                         <%--</div>--%>
                                         <div class="card-body">
-                                            <div class="fs-3">２０２４北港武德宮下元補庫活動</div>
-                                            <div class="fs-5">財是流量，庫則是存量，有財無庫，財來則財去，累積不了多少，總是剩餘不多。也因此十方善信來到財神祖廟，最嚮往的一個法門，就是“補財庫”。</div>
-                                        </div>
-                                        <div class="card-footer pb-3" style="border-top: none; background-color: transparent;">
-                                            <div class="ReadMoreBtn"><span>&nbsp;詳情&nbsp;</span></div>
-                                        </div>
-                                    </div>
-                                </a>
-                            </div>
-                            <div class="col-lg-4 col-sm-12 py-3">
-                                <a href="https://bobibobi.tw/Temples/newsContent_2024taoistJiaoCeremony_da.aspx">
-                                    <div class="card shadow h-100" style="background-color: white; color: #707070;">
-                                        <%--<div class="Newsimg">--%>
-                                        <img src="https://bobibobi.tw/Temples/SiteFile/News/20240923_NewsImg_s.jpg" class="card-img-top p-3" alt="" />
-                                        <%--</div>--%>
-                                        <div class="card-body">
-                                            <div class="fs-3">２０２４大甲鎮瀾宮重修慶成祈安七朝清醮活動</div>
-                                            <div class="fs-5">甲辰龍年，大甲鎮瀾宮重修慶成，舉行祈安七朝清醮盛典酎謝神恩，期望各界共襄盛舉，踴躍協助，同心付出，再現風華。祈佑風調雨順、國泰民安,邀請各界善信大德共襄盛舉。</div>
+                                            <div class="fs-3">小龍蛇年旺財氣，赦罪補庫好運到</div>
+                                            <div class="fs-5">赦罪解業在於懺悔改過與累積正能量。透過宗教儀式、行善積德、真誠懺悔等方式，去消除過往的負面影響，使內心得到寧靜與解脫，也為未來的人生奠下美好的基礎。</div>
+
                                         </div>
                                         <div class="card-footer pb-3" style="border-top: none; background-color: transparent;">
                                             <div class="ReadMoreBtn"><span>&nbsp;詳情&nbsp;</span></div>
@@ -391,7 +424,7 @@
             <div class="IndexLightList">
                 <div class="row justify-content-center pt-5 pb-4">
                     <img src="./Temples/images/roof.png" class="pb-1" style="width: 200px;" alt="" />
-                    <div class="CategoryTitle">-&nbsp;燈種介紹&nbsp;-</div>
+                    <div class="CategoryTitle">-&nbsp;資訊專區&nbsp;-</div>
                     <hr class="Category" />
                 </div>
                 <div class="row justify-content-center LightList-Content">
@@ -757,6 +790,67 @@
                 </div>
                 <br />
             </div>
+            <%=eventTitbitsList %>
+            <%--         <div class="IndexEventTitbits">
+             <div class="row justify-content-center py-5">
+                 <img src="./Temples/images/roof.png" class="pb-1" style="width: 200px;" alt="" />
+                 <div class="CategoryTitle">-&nbsp;活動花絮&nbsp;-</div>
+                 <hr class="Category" />
+             </div>
+             <div class="EventTitbitsList">
+
+                 <div>
+                     <a href="./Temples/EventTitbits.aspx?a=3">
+                         <div class="IndexEventTitbitsImg">
+                             <img src="./Temples/SiteFile/EventTitbits/nature-1.jpg" alt="" />
+                         </div>
+                     </a>
+                 </div>
+
+                 <div>
+                     <a href="./Temples/EventTitbits.aspx?a=4">
+                         <div class="IndexEventTitbitsImg">
+                             <img src="./Temples/SiteFile/EventTitbits/nature-2.jpg" alt="" />
+                         </div>
+                     </a>
+                 </div>
+
+                 <div>
+                     <a href="./Temples/EventTitbits.aspx?a=6">
+                         <div class="IndexEventTitbitsImg">
+                             <img src="./Temples/SiteFile/EventTitbits/nature-3.jpg" alt="" />
+                         </div>
+                     </a>
+                 </div>
+
+                 <div>
+                     <a href="./Temples/EventTitbits.aspx?a=8">
+                         <div class="IndexEventTitbitsImg">
+                             <img src="./Temples/SiteFile/EventTitbits/nature-4.jpg" alt="" />
+                         </div>
+                     </a>
+                 </div>
+
+                 <div>
+                     <a href="./Temples/EventTitbits.aspx?a=9">
+                         <div class="IndexEventTitbitsImg">
+                             <img src="./Temples/SiteFile/EventTitbits/nature-5.jpg" alt="" />
+                         </div>
+                     </a>
+                 </div>
+
+                 <div>
+                     <a href="./Temples/EventTitbits.aspx?a=10">
+                         <div class="IndexEventTitbitsImg">
+                             <img src="./Temples/SiteFile/EventTitbits/nature-6.jpg" alt="" />
+                         </div>
+                     </a>
+                 </div>
+             </div>
+             <br />
+         </div>
+    
+            --%>
 
 
             <!--Section 3:照片區域-->
@@ -817,7 +911,9 @@
 <script type="text/javascript" src="./Temples/slick/slick.min.js"></script>
 <script>
     $(document).ready(function () { 
-
+        if (location.search.indexOf('fbda') >= 0) {
+            $("#shop2").hide();
+        }
         $('.TempleList').slick({
             dots: false,
             arrows: true,
@@ -890,6 +986,43 @@
                 }
             ]
         });
+
+        $('.EventTitbitsList').slick({
+            dots: false,
+            arrows: true,
+            //infinite: true,
+            //centerMode: true,
+            centerPadding: '10vw',
+            slidesToShow: 5,
+            autoplay: true,
+            autoplaySpeed: 3000,
+            responsive: [
+                {
+                    breakpoint: 1190,
+                    settings: {
+                        centerPadding: '20vw',
+                        slidesToShow: 3
+                    }
+                },
+                {
+                    breakpoint: 920,
+                    settings: {
+                        centerPadding: '20vw',
+                        slidesToShow: 2
+                    }
+                },
+                {
+                    breakpoint: 480,
+                    settings: {
+                        arrows: true,
+                        centerMode: true,
+                        centerPadding: '40px',
+                        slidesToShow: 1
+                    }
+                }
+            ]
+        });
+
     });
 </script>
 

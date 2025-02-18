@@ -22,6 +22,7 @@ namespace MotoSystem.Data
         public static string CONST_CONFIG_ERROR_LOG_PATH = "ErrorLogPath";
         public static string CONST_CONFIG_REQUEST_LOG_PATH = "RequestLogPath";
         public static string CONST_CONFIG_REQUEST_PAY_LOG_PATH = "RequestPayLogPath";
+        public static string CONST_CONFIG_REQUEST_CAPTCHACode_LOG_PATH = "RequestCAPTCHACodeLogPath";
         public static string CONST_CONFIG_REQUEST_LOG_SAVE = "RequestLogSave";
         public static string CONST_CONFIG_REQUEST_JSON_LOG_SAVE = "RequestJsonLogSave";
 
@@ -546,7 +547,7 @@ namespace MotoSystem.Data
             }
             try
             {
-                Response.End();
+                //Response.End();
             }
             catch (Exception error)
             {
@@ -633,6 +634,30 @@ namespace MotoSystem.Data
         }
 
         public void SavePayLog(string log)
+        {
+            Application.Lock();
+            string logPath = GetConfigValue(CONST_CONFIG_REQUEST_PAY_LOG_PATH);
+
+            if (logPath == string.Empty)
+                logPath = @"\request";
+
+
+            System.IO.StreamWriter sw = new System.IO.StreamWriter(Server.MapPath(Request.ApplicationPath) + logPath + "_" + System.DateTime.Now.ToString("yyyyMMdd") + ".txt", true);
+            sw.WriteLine(System.DateTime.Now.ToString());
+
+            //if (mSupportSaveRequestURL)
+            //{
+            //    sw.WriteLine(Request.Url.ToString());
+            //}
+            if (log != string.Empty)
+            {
+                sw.WriteLine(log);
+            }
+            sw.Close();
+            Application.UnLock();
+        }
+
+        public void SaveCAPTCHACodeLog(string log)
         {
             Application.Lock();
             string logPath = GetConfigValue(CONST_CONFIG_REQUEST_PAY_LOG_PATH);

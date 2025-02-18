@@ -10,19 +10,15 @@
 <head runat="server">
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
     <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport" />
-    <meta property="og:title" content="祈福點燈|台南正統鹿耳門聖母廟|合作宮廟|【保必保庇】線上宮廟服務平臺" />
+    <meta property="og:title" content="台南正統鹿耳門聖母廟|線上點燈|2025犯太歲光明燈【保必保庇】線上宮廟服務平臺" />
     <!--標題-->
     <meta property="og:url" content="https://bobibobi.tw/Temples/templeService_lights_Luer.aspx" />
     <!--網址：請補上網址-->
-    <meta name="description" content="世代信仰，數位傳承 - 與全臺知名宮廟合作，提供宮廟服務線上報名，讓您在忙碌之餘也可以透過線上報名的方式,參與宮廟的服務。
-        線上光明燈,線上點燈,線上宮廟服務,線上即可點燈,多家知名宮廟可選,光明燈,太歲燈,安太歲,財神燈,財利燈,藥師佛燈,觀音燈,貴人燈,事業燈,文昌燈,姻緣燈,寵物平安燈,
-        福壽燈,虎爺燈,補財庫,蛇年點燈,114年點燈,2025點燈,新春點燈,錢母,發財金" />
+    <meta name="description" content="保必保庇提供台南正統鹿耳門聖母廟安太歲 光明燈線上點燈，犯太歲生肖 蛇 豬 虎 猴" />
     <!--簡介-->
-    <meta property="og:description" content="世代信仰，數位傳承 - 與全臺知名宮廟合作，提供宮廟服務線上報名，讓您在忙碌之餘也可以透過線上報名的方式,參與宮廟的服務。
-        線上光明燈,線上點燈,線上宮廟服務,線上即可點燈,多家知名宮廟可選,光明燈,太歲燈,安太歲,財神燈,財利燈,藥師佛燈,觀音燈,貴人燈,事業燈,文昌燈,姻緣燈,寵物平安燈,
-        福壽燈,虎爺燈,補財庫,蛇年點燈,114年點燈,2025點燈,新春點燈,錢母,發財金" />
+    <meta property="og:description" content="保必保庇提供台南正統鹿耳門聖母廟安太歲 光明燈線上點燈，犯太歲生肖 蛇 豬 虎 猴" />
     <!--簡介-->
-    <meta property="og:site_name" content="祈福點燈|台南正統鹿耳門聖母廟|合作宮廟|【保必保庇】線上宮廟服務平臺" />
+    <meta property="og:site_name" content="台南正統鹿耳門聖母廟|線上點燈|2025犯太歲光明燈【保必保庇】線上宮廟服務平臺" />
     <!--標題-->
     <meta property="og:type" content="website" />
 
@@ -36,7 +32,7 @@
     <link href="images/favicon.png" rel="apple-touch-icon" sizes="192x192" />
 
 
-    <title>祈福點燈|台南正統鹿耳門聖母廟|合作宮廟|【保必保庇】線上宮廟服務平臺</title>
+    <title>台南正統鹿耳門聖母廟|線上點燈|2025犯太歲光明燈【保必保庇】線上宮廟服務平臺</title>
     <!--標題-->
 
     <!--資源項目-->
@@ -56,6 +52,28 @@
         }
         .content_a {
             font-size: 1.2vw;
+        }
+
+        .checkedbox {
+            vertical-align: middle;
+            -webkit-transform: scale(1.2);
+            -moz-transform: scale(1.2);
+            -ms-transform: scale(1.2);
+            transform: scale(1.2);
+            -webkit-transform-origin: right;
+            -moz-transform-origin: right;
+            -ms-tranform-origin: right;
+            transform-origin: right;
+            height: 12px;
+            width: 12px;
+            margin-bottom: 4px;
+            position: relative;
+            border-radius: 2px;
+        }
+        
+        .text_s input.checkedbox, .tel input.checkedbox {
+            width: 12px;
+            margin-left: 5px;
         }
         @media only screen and (max-width: 720px) {
             .content_a {
@@ -83,8 +101,40 @@
 
         gtag('config', 'G-4YWFRTFCTT');
     </script>
+    <!-- Google Tag Manager -->
+    <script>(function (w, d, s, l, i) {
+            w[l] = w[l] || []; w[l].push({
+                'gtm.start':
+                    new Date().getTime(), event: 'gtm.js'
+            }); var f = d.getElementsByTagName(s)[0],
+                j = d.createElement(s), dl = l != 'dataLayer' ? '&l=' + l : ''; j.async = true; j.src =
+                    'https://www.googletagmanager.com/gtm.js?id=' + i + dl; f.parentNode.insertBefore(j, f);
+        })(window, document, 'script', 'dataLayer', 'GTM-5L2H7Z3N');</script>
+    <!-- End Google Tag Manager -->
+    <!-- Google Tag Manager -->
+    <script>(function (w, d, s, l, i) {
+            w[l] = w[l] || []; w[l].push({
+                'gtm.start':
+                    new Date().getTime(), event: 'gtm.js'
+            }); var f = d.getElementsByTagName(s)[0],
+                j = d.createElement(s), dl = l != 'dataLayer' ? '&l=' + l : ''; j.async = true; j.src =
+                    'https://www.googletagmanager.com/gtm.js?id=' + i + dl; f.parentNode.insertBefore(j, f);
+        })(window, document, 'script', 'dataLayer', 'GTM-NGRZRR4V');</script>
+    <!-- End Google Tag Manager -->
 </head>
 <body>
+    <!-- Google Tag Manager (noscript) -->
+    <noscript>
+        <iframe src="https://www.googletagmanager.com/ns.html?id=GTM-NGRZRR4V"
+            height="0" width="0" style="display: none; visibility: hidden"></iframe>
+    </noscript>
+    <!-- End Google Tag Manager (noscript) -->
+    <!-- Google Tag Manager (noscript) -->
+    <noscript>
+        <iframe src="https://www.googletagmanager.com/ns.html?id=GTM-5L2H7Z3N"
+            height="0" width="0" style="display: none; visibility: hidden"></iframe>
+    </noscript>
+    <!-- End Google Tag Manager (noscript) -->
     <uc4:AjaxClientControl ID="AjaxClientControl1" runat="server" />
     <div id="wrap">
         <!--#warp //start-->
@@ -107,7 +157,8 @@
             <!--本頁內容-->
             <section>
                 <div class="TempleImg">
-                    <img src="images/temple/lights_Luer_2025.jpg" width="1160" height="550" alt="" />
+                    <img src="images/temple/lights_Luer_2025.jpg" width="1160" height="550" alt="保必保庇提供台南正統鹿耳門聖母廟安太歲光明燈線上點燈，犯太歲生肖 蛇 豬 虎 猴" 
+                        title="台南正統鹿耳門聖母廟線上點燈２０２５犯太歲光明燈" />
                 </div>
                 <h1 class="TempleName">歡迎使用《台南正統鹿耳門聖母廟》線上點燈服務</h1>
                 <div class="TempleServiceInfo">
@@ -144,6 +195,15 @@
                             <h2>姻緣燈 <a target="_blank" class="content_a" href="https://bobibobi.tw/Temples/images/temple/product/Luer/1_1.jpg">(看圖)</a></h2>
                             <p>全台唯一雷雕姻緣燈，霞光煥彩、靈驗無比，點燈求好緣、專司好姻緣、貴人緣、事業緣、夫妻和睦，讓感情、事業都能突飛猛進！費用999元。</p>
                         </div>
+                        <p>
+                            <br />
+                            <a href="https://yun30.pse.is/6eabyl" target="_blank">FB粉絲募集中！現在只要在保必保庇粉絲團按讚+分享，截圖並私訊小編，就可獲得錢母小紅包！點此跳轉
+                                <img src="https://bobibobi.tw/Temples/images/community_icon_01.png" style="width: 36px; display: inline;" width="45" height="45" alt="" /></a>
+                            <br />
+                            <a href="line://ti/p/@bobibobi.tw" target="_blank">另外加碼！加入LINE好友並填寫註冊資料，即可獲得錢母小紅包！
+                                數量有限，送完為止喔！點此跳轉<img src="https://bobibobi.tw/Temples/images/community_icon_02.png" style="width: 36px; display: inline;" width="45" height="45" alt="" />
+                            </a>
+                        </p>
                     </div>
                 </div>
 
@@ -173,11 +233,16 @@
                                 <div class="DeletData"><a href="javascript:;" class="deletList" title="刪除">
                                     <img src="images/deletData.svg" alt="" /></a></div>
                                 <div class="FormTitle_B">祈福人<span></span></div>
+                                <div>（祈福人限填一位，每種點燈項目對應一位祈福人。如需多位，請點選增加祈福人。）</div>
                                 <div class="FormInput text_s">
                                     <label class="label" id="label_name_1">祈福人姓名</label><input name="bless_name_1" type="text" class="required" maxlength="5" id="bless_name_1" placeholder="請輸入祈福人姓名"/>
+                                    <input type="checkbox" class="checkedbox" id="bless_copy_name_1" />
+                                    <label for="bless_copy_name_1" id="bless_checkednamelabel_1" style="width: auto;">同購買人姓名</label>
                                 </div>
                                 <div class="FormInput tel">
                                     <label class="label" id="label_tel_1">祈福人電話</label><input name="bless_tel_1" type="tel" class="required" id="bless_tel_1" placeholder="請輸入祈福人聯絡電話"/>
+                                    <input type="checkbox" class="checkedbox" id="bless_copy_tel_1" />
+                                    <label for="bless_copy_tel_1" id="bless_checkedtellabel_1" style="width: auto;">同購買人聯絡電話</label>
                                 </div>
                                 <div class="FormInput select">
                                     <label>性別</label>
@@ -234,12 +299,20 @@
                                 <div class="FormInput email mail">
                                     <label>祈福人信箱</label><input name="bless_email_1" type="text" class="" id="bless_email_1" placeholder="請輸入祈福人Email(選填)"/>
                                 </div>
+                                <div class="FormInput select">
+                                    <label>祈福人地址</label>
+                                    <select name="bless_oversea_1" class="" id="bless_oversea_1">
+                                        <option value="1">國內</option>
+
+                                        <option value="2">國外</option>
+                                    </select>
+                                </div>
                                 <div class="FormInput address">
-                                    <label class="label" id="label_address_1">地址</label>
-                                    <div class="CusAddress">
+                                    <label></label>
+                                    <div class="CusAddress" id="bless_cusaddress_1">
                                         <div data-role="zipcode" data-style="addr-zip" data-placeholder="" data-name="bless_zipcode_1" data-id="bless_zipcode_1"></div>
-                                        <div data-role="county" data-style="addr-county required" data-name="bless_county_1" data-id="bless_county_1"></div>
-                                        <div data-role="district" data-style="addr-district required" data-name="bless_district_1" data-id="bless_district_1"></div>
+                                        <div data-role="county" data-style="addr-county required4" data-name="bless_county_1" data-id="bless_county_1"></div>
+                                        <div data-role="district" data-style="addr-district required4" data-name="bless_district_1" data-id="bless_district_1"></div>
                                     </div>
                                     <input name="bless_address_1" type="text" class="required" id="bless_address_1" placeholder="請輸入地址"/>
                                 </div>
@@ -307,6 +380,41 @@
             $(this).val($(this).val().replace(/[^\d].+/, ""));
             if ((event.which < 48 || event.which > 57)) {
                 event.preventDefault();
+            }
+        });
+
+        $("#bless_oversea_1").change(function () {
+            if ($("#bless_oversea_1").val() == 1) {
+                //alert("國內");
+                $("#bless_cusaddress_1").show();
+            }
+            else {
+                //alert("國外");
+                $("#bless_cusaddress_1").hide();
+            }
+        });
+
+        $("#bless_copy_name_1").change(function () {
+            if ($("#bless_copy_name_1").is(':checked')) {
+                //alert("選中同購買人姓名");
+                var name = $("#member_name").val().trim();
+                $("#bless_name_1").val(name);
+            }
+            else {
+                //alert("取消同購買人姓名");
+                $("#bless_name_1").val('');
+            }
+        });
+
+        $("#bless_copy_tel_1").change(function () {
+            if ($("#bless_copy_tel_1").is(':checked')) {
+                //alert("選中同購買人電話");
+                var name = $("#member_tel").val().trim();
+                $("#bless_tel_1").val(name);
+            }
+            else {
+                //alert("取消同購買人電話");
+                $("#bless_tel_1").val('');
             }
         });
 
@@ -394,17 +502,68 @@
             $(this).attr('name', newId);
             $(this).hide();
         });
-        $('.InputGroup > li:last').find('.label').each(function (index) {
+
+        //更新所有動態產生的ID編號  
+        $('.InputGroup > li:last').find('div').each(function (index) {
             var originalId = $(this).attr('id');
-            var newId = originalId.slice(0, -1) + lastblessNum;
-            $(this).attr('id', newId);
-            $(this).attr('name', newId);
+            if (originalId != null) {
+                var newId = originalId.slice(0, -1) + lastblessNum;
+                $(this).attr('id', newId);
+                $(this).attr('name', newId);
+
+            }
         });
+        $('.InputGroup > li:last').find('label').each(function (index) {
+            var originalId = $(this).attr('id');
+            if (originalId != null) {
+                var newId = originalId.slice(0, -1) + lastblessNum;
+                $(this).attr('id', newId);
+                $(this).attr('name', newId);
+
+                if (newId.indexOf('checkednamelabel') >= 0) {
+                    $(this).attr('for', 'bless_copy_name_' + lastblessNum);
+                }
+
+                if (newId.indexOf('checkedtellabel') >= 0) {
+                    $(this).attr('for', 'bless_copy_tel_' + lastblessNum);
+                }
+
+            }
+        });
+
         $('.InputGroup > li:last').find('input').each(function (index) {
             var originalId = $(this).attr('id');
             var newId = originalId.slice(0, -1) + lastblessNum;
             $(this).attr('id', newId);
             $(this).attr('name', newId);
+
+            if (newId.indexOf('copy_name') >= 0) {
+                $("#" + newId).change(function () {
+                    if ($("#bless_copy_name_" + lastblessNum).is(':checked')) {
+                        //alert("選中同購買人姓名");
+                        var name = $("#member_name").val().trim();
+                        $("#bless_name_" + lastblessNum).val(name);
+                    }
+                    else {
+                        //alert("取消同購買人姓名");
+                        $("#bless_name_" + lastblessNum).val('');
+                    }
+                });
+            }
+
+            if (newId.indexOf('copy_tel') >= 0) {
+                $("#" + newId).change(function () {
+                    if ($("#bless_copy_tel_" + lastblessNum).is(':checked')) {
+                        //alert("選中同購買人電話");
+                        var name = $("#member_tel").val().trim();
+                        $("#bless_tel_" + lastblessNum).val(name);
+                    }
+                    else {
+                        //alert("取消同購買人電話");
+                        $("#bless_tel_" + lastblessNum).val('');
+                    }
+                });
+            }
 
             $("input[type='tel']").on("keypress keyup blur", function (event) {
                 $(this).val($(this).val().replace(/[^\d].+/, ""));
@@ -426,6 +585,22 @@
 
             if (newId.indexOf('birthtime') >= 0) {
                 $("#" + newId).val('吉');
+            }
+
+            if (newId.indexOf('oversea') >= 0) {
+                $("#" + newId).val('1');
+
+                $("#" + newId).change(function () {
+                    var oversea = $(this).val();
+                    if (oversea == 1) {
+                        //alert("國內");
+                        $("#bless_cusaddress_" + lastblessNum).show();
+                    }
+                    else {
+                        //alert("國外");
+                        $("#bless_cusaddress_" + lastblessNum).hide();
+                    }
+                });
             }
         });
         $('.InputGroup > li:last .CusAddress').find('div[data-role]').each(function (index) {
@@ -459,26 +634,29 @@
 <script>
     $("#subBtn").on("click", function () {
         var isValid = true;
+        var isValid2 = true;
+        var isValid3 = true;
         var isCheckedValid = $("#checkedprivate").is(":checked");
 
         var listcount = $('.InputGroup > li').last().attr('bless-id');
 
         // 遍歷每個必填欄位
         $('.required').each(function () {
-            var value = $(this).val();
-            if (value === '') {
-                isValid = false;
-                $(this).addClass('unfilled');
-            } else if (value != '' && $(this).hasClass('unfilled')) {
-                $(this).removeClass('unfilled');
+            if ($(this).val() != null) {
+                var value = $(this).val().trim();
+                if (value === '') {
+                    isValid = false;
+                    $(this).addClass('unfilled');
+                } else if (value != '' && $(this).hasClass('unfilled')) {
+                    $(this).removeClass('unfilled');
+                }
             }
-
         });
 
         // 遍歷每個必填欄位
         for (var i = 1; i <= listcount; i++) {
-            var value_birth = $("#bless_birthday_" + i).val();
-            var value_sbirth = $("#bless_sbirth_" + i).val();
+            var value_birth = $("#bless_birthday_" + i).val().trim();
+            var value_sbirth = $("#bless_sbirth_" + i).val().trim();
 
             if (value_birth == '' && value_sbirth == '') {
                 isValid = false;
@@ -488,33 +666,130 @@
             }
         }
 
-        if (isValid) {
-            if (!isCheckedValid) {
-                $(".Notice").text("請勾選同意隱私權政策使用。");
-                $(".Notice").addClass("active");
+        var value = $("#member_tel").val().trim();
+        if (value == "") {
+            $(".Notice").text("購買人電話不能為空。");
+            $(".Notice").addClass("active");
+            $("#member_tel").addClass('unfilled');
+        }
+        else if (!Isphone(value)) {
+            $(".Notice").text("購買人電話格式錯誤。");
+            $(".Notice").addClass("active");
+            $("#member_tel").addClass('unfilled');
+        }
+        else {
+            if (value != '' && $("#member_tel").hasClass('unfilled')) {
+                $("#member_tel").removeClass('unfilled');
             }
-            else {
-                // 所有欄位都已填寫
-                console.log('所有欄位都已填寫');
-                //alert("活動尚未開始!");
 
-                if (location.search.indexOf('ad') >= 0 || checkedStartTime()) {
-                    if (checkEndTime()) {
-                        gotoChecked_Luer();
-                    }
-                    else {
-                        alert('親愛的大德您好\n台南正統鹿耳門聖母廟 2025點燈活動已截止！！\n感謝您的支持, 謝謝!'); location = 'https://bobibobi.tw/Temples/temple.aspx'
-                    }
+            for (var i = 1; i <= listcount; i++) {
+
+                //if ($("#bless_sendback_" + i).val() == 1) {
+                //    // 遍歷每個必填欄位-有條件 (寄回欄位=1)
+                //    var reslist = ["bless_rec_name_" + i, "bless_rec_tel_" + i, "bless_rec_county_" + i, "bless_rec_district_" + i, "bless_rec_address_" + i];
+
+                //    reslist.forEach(function (value) {
+                //        if ($("#" + value).val() == '') {
+                //            isValid = false;
+                //            $(this).addClass('unfilled');
+                //        } else if (value != '' && $(this).hasClass('unfilled')) {
+                //            $(this).removeClass('unfilled');
+                //        }
+                //    });
+                //}
+
+                value = $("#bless_tel_" + i).val().trim();
+                if (value == "") {
+                    $(".Notice").text("祈福人電話不能為空。");
+                    $(".Notice").addClass("active");
+                    $("#bless_tel_" + i).addClass('unfilled');
+
+                    isValid = false;
+                    isValid2 = false;
+                    break;
+                }
+                else if (!Isphone(value)) {
+                    $(".Notice").text("祈福人電話格式錯誤。");
+                    $(".Notice").addClass("active");
+                    $("#bless_tel_" + i).addClass('unfilled');
+
+                    isValid = false;
+                    isValid2 = false;
+                    break;
                 }
                 else {
-                    alert('親愛的大德您好\n台南正統鹿耳門聖母廟 2025點燈活動尚未開始！！\n感謝您的支持, 謝謝!'); location = 'https://bobibobi.tw/Temples/temple.aspx'
+                    if (value != '' && $("#bless_tel_" + i).hasClass('unfilled')) {
+                        $("#bless_tel_" + i).removeClass('unfilled');
+                    }
+                }
+
+                if ($("#bless_oversea_" + i).val() == "1") {
+                    value = $("#bless_county_" + i).val();
+                    if (value == '' || value == null) {
+                        $(".Notice").text("祈福人地址 縣市為空，請重新選擇縣市。");
+                        $(".Notice").addClass("active");
+                        $("#bless_county_" + i).addClass('unfilled');
+
+                        isValid = false;
+                        isValid3 = false;
+                        break;
+                    }
+                    else {
+                        if (value != '' && $("#bless_county_" + i).hasClass('unfilled')) {
+                            $("#bless_county_" + i).removeClass('unfilled');
+                        }
+                    }
+
+                    value = $("#bless_district_" + i).val();
+                    if (value == '' || value == null) {
+                        $(".Notice").text("祈福人地址 區域為空，請重新選擇區域。");
+                        $(".Notice").addClass("active");
+                        $("#bless_district_" + i).addClass('unfilled');
+
+                        isValid = false;
+                        isValid3 = false;
+                        break;
+                    }
+                    else {
+                        if (value != '' && $("#bless_district_" + i).hasClass('unfilled')) {
+                            $("#bless_district_" + i).removeClass('unfilled');
+                        }
+                    }
                 }
             }
-        } else {
-            // 在這裡可以進行表單提交或其他相關處理
-            // 有欄位未填寫
-            $(".Notice").text("請檢查上方欄位是否都已填寫。");
-            $(".Notice").addClass("active");
+
+            if (isValid) {
+                if (!isCheckedValid) {
+                    $(".Notice").text("請勾選同意隱私權政策使用。");
+                    $(".Notice").addClass("active");
+                }
+                else {
+                    // 所有欄位都已填寫
+                    console.log('所有欄位都已填寫');
+                    //alert("活動尚未開始!");
+
+                    if (location.search.indexOf('ad') >= 0 || checkedStartTime()) {
+                        if (checkEndTime()) {
+                            gotoChecked_Luer();
+                        }
+                        else {
+                            alert('親愛的大德您好\n台南正統鹿耳門聖母廟 2025點燈活動已截止！！\n感謝您的支持, 謝謝!'); location = 'https://bobibobi.tw/Temples/temple.aspx'
+                        }
+                    }
+                    else {
+                        alert('親愛的大德您好\n台南正統鹿耳門聖母廟 2025點燈活動尚未開始！！\n感謝您的支持, 謝謝!'); location = 'https://bobibobi.tw/Temples/temple.aspx'
+                    }
+                }
+            } else {
+                // 在這裡可以進行表單提交或其他相關處理
+                // 有欄位未填寫
+                if (!isValid) {
+                    if (isValid2 && isValid3) {
+                        $(".Notice").text("請檢查上方欄位是否都已填寫。");
+                        $(".Notice").addClass("active");
+                    }
+                }
+            }
         }
     })
 
@@ -551,8 +826,15 @@
                     $("#bless_birthtime_" + index).val(item.BirthTime);
                     //$("#bless_sBirth_" + index).val(item.sBirth);
                     $("#bless_email_" + index).val(item.Email);
-                    $("#bless_county_" + index).val(item.County).trigger("change");
-                    $("#bless_district_" + index).val(item.dist).trigger("change");
+                    $("#bless_oversea_" + index).val(item.oversea).trigger("change");
+                    if (item.oversea == 1) {
+                        $("#bless_cusaddress_" + index).show();
+                        $("#bless_county_" + index).val(item.County).trigger("change");
+                        $("#bless_district_" + index).val(item.dist).trigger("change");
+                    }
+                    else {
+                        $("#bless_cusaddress_" + index).hide();
+                    }
                     $("#bless_address_" + index).val(item.Addr);
                     $("#bless_service_" + index).val(item.LightsString).trigger("change");
 
@@ -564,7 +846,7 @@
     }
 
     $(".OrderForm").on("change", ".unfilled", function () {
-        var value = $(this).val();
+        var value = $(this).val().trim();
         if (value != '') {
             $(this).removeClass('unfilled');
         }
@@ -573,7 +855,7 @@
     function gotoChecked_Luer() {
         var listcount = $('.InputGroup > li').last().attr('bless-id');
 
-        Appname = $("#member_name").val();      //購買人姓名
+        Appname = $("#member_name").val().trim();      //購買人姓名
         Appmobile = $("#member_tel").val()      //購買人電話
 
         name_Tag = [];
@@ -584,6 +866,7 @@
         birthtime_Tag = [];
         sbirth_Tag = [];
         email_Tag = [];
+        oversea_Tag = [];
         zipCode_Tag = [];
         county_Tag = [];
         dist_Tag = [];
@@ -591,19 +874,28 @@
         LightsString_Tag = [];
 
         for (var i = 1; i <= listcount; i++) {
-            name_Tag.push($("#bless_name_" + i).val());                                         //祈福人姓名
-            mobile_Tag.push($("#bless_tel_" + i).val());                                        //祈福人電話
-            sex_Tag.push($("#bless_sex_" + i).val());                                           //祈福人性別 善男 信女
-            birth_Tag.push($("#bless_birthday_" + i).val());                                    //祈福人農曆生日
-            leapMonth_Tag.push($("#bless_leapMonth_" + i).val());                               //閏月 Y-是 N-否
-            birthtime_Tag.push($("#bless_birthtime_" + i).val());                               //祈福人農曆時辰
-            sbirth_Tag.push($("#bless_sbirth_" + i).val());                                     //祈福人國曆生日
-            email_Tag.push($("#bless_email_" + i).val());                                       //祈福人信箱
-            zipCode_Tag.push($("#bless_zipcode_" + i).val());                                   //祈福人郵遞區號
-            county_Tag.push($("select[name='bless_county_" + i + "']").val());                  //祈福人縣市
-            dist_Tag.push($("select[name='bless_district_" + i + "']").val());                  //祈福人區域
-            addr_Tag.push($("#bless_address_" + i).val());                                      //祈福人部分地址
-            LightsString_Tag.push($("#bless_service_" + i).val());                              //服務項目
+            name_Tag.push($("#bless_name_" + i).val().trim());                                         //祈福人姓名
+            mobile_Tag.push($("#bless_tel_" + i).val().trim());                                        //祈福人電話
+            sex_Tag.push($("#bless_sex_" + i).val().trim());                                           //祈福人性別 善男 信女
+            birth_Tag.push($("#bless_birthday_" + i).val().trim());                                    //祈福人農曆生日
+            leapMonth_Tag.push($("#bless_leapMonth_" + i).val().trim());                               //閏月 Y-是 N-否
+            birthtime_Tag.push($("#bless_birthtime_" + i).val().trim());                               //祈福人農曆時辰
+            sbirth_Tag.push($("#bless_sbirth_" + i).val().trim());                                     //祈福人國曆生日
+            email_Tag.push($("#bless_email_" + i).val().trim());                                       //祈福人信箱
+            oversea_Tag.push($("#bless_oversea_" + i).val());                                          //國內-1 國外-2
+
+            if ($("#bless_oversea_" + i).val() == "1") {
+                zipCode_Tag.push($("#bless_zipcode_" + i).val().trim());                                   //祈福人郵遞區號
+                county_Tag.push($("select[name='bless_county_" + i + "']").val().trim());                  //祈福人縣市
+                dist_Tag.push($("select[name='bless_district_" + i + "']").val().trim());                  //祈福人區域
+            }
+            else {
+                zipCode_Tag.push("0");
+                county_Tag.push("");
+                dist_Tag.push("");
+            }
+            addr_Tag.push($("#bless_address_" + i).val().trim());                                      //祈福人部分地址
+            LightsString_Tag.push($("#bless_service_" + i).val().trim());                              //服務項目
         }
 
         data = {
@@ -617,6 +909,7 @@
             birthtime_Tag: JSON.stringify(birthtime_Tag),
             sbirth_Tag: JSON.stringify(sbirth_Tag),
             email_Tag: JSON.stringify(email_Tag),
+            oversea_Tag: JSON.stringify(oversea_Tag),
             zipCode_Tag: JSON.stringify(zipCode_Tag),
             county_Tag: JSON.stringify(county_Tag),
             dist_Tag: JSON.stringify(dist_Tag),
@@ -630,7 +923,7 @@
     }
 
     function checkEndTime() {
-        //var startTime = $("#startTime").val();
+        //var startTime = $("#startTime").val().trim();
         var startTime = new Date();
         var endTime = $("#endTime").text();
         if (Date.parse(endTime).valueOf() < Date.parse(startTime).valueOf()) {
@@ -640,7 +933,7 @@
     }
 
     function checkedStartTime() {
-        //var startTime = $("#startTime").val();
+        //var startTime = $("#startTime").val().trim();
         var endTime = new Date();
         var startTime = $("#startTime").text();
         if (Date.parse(endTime).valueOf() >= Date.parse(startTime).valueOf()) {

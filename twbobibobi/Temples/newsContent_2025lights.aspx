@@ -9,7 +9,7 @@
 <head runat="server">
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport" />
-    <meta property="og:title" content="２０２５乙巳龍年新春點燈線上報名開始囉~|最新消息|【保必保庇】線上宮廟服務平台" />
+    <meta property="og:title" content="２０２５乙巳蛇年新春線上點燈報名開始囉~|最新消息|【保必保庇】線上宮廟服務平台" />
     <!--標題-->
     <meta property="og:url" content="https://bobibobi.tw/Temples/newsContent_2025lights.aspx" />
     <!--網址：請補上網址-->
@@ -21,7 +21,7 @@
         線上光明燈,線上點燈,線上宮廟服務,線上即可點燈,多家知名宮廟可選,光明燈,太歲燈,安太歲,財神燈,財利燈,藥師佛燈,觀音燈,貴人燈,事業燈,文昌燈,姻緣燈,寵物平安燈,
         福壽燈,虎爺燈,補財庫,蛇年點燈,114年點燈,2025點燈,新春點燈,錢母,發財金" />
     <!--簡介-->
-    <meta property="og:site_name" content="２０２５乙巳龍年新春點燈線上報名開始囉~|最新消息|【保必保庇】線上宮廟服務平台" />
+    <meta property="og:site_name" content="２０２５乙巳蛇年新春點燈線上報名開始囉~|最新消息|【保必保庇】線上宮廟服務平台" />
     <!--標題-->
     <meta property="og:type" content="website" />
 
@@ -35,7 +35,7 @@
     <link href="images/favicon.png" rel="apple-touch-icon" sizes="192x192" />
 
 
-    <title>２０２５乙巳龍年新春點燈線上報名開始囉~|最新消息|【保必保庇】線上宮廟服務平台</title>
+    <title>２０２５乙巳蛇年新春點燈線上報名開始囉~|最新消息|【保必保庇】線上宮廟服務平台</title>
     <!--標題-->
 
     <!--資源項目-->
@@ -70,6 +70,12 @@
 
         .Content p, .Content h2 {
             margin-bottom: 1vw;
+        }
+        
+        .ytvideo {
+            max-width: 100%;
+            width: 100%;
+            height: 550px;
         }
 
         @media only screen and (max-width: 720px) {
@@ -123,8 +129,40 @@
 
         gtag('config', 'G-4YWFRTFCTT');
     </script>
+    <!-- Google Tag Manager -->
+    <script>(function (w, d, s, l, i) {
+            w[l] = w[l] || []; w[l].push({
+                'gtm.start':
+                    new Date().getTime(), event: 'gtm.js'
+            }); var f = d.getElementsByTagName(s)[0],
+                j = d.createElement(s), dl = l != 'dataLayer' ? '&l=' + l : ''; j.async = true; j.src =
+                    'https://www.googletagmanager.com/gtm.js?id=' + i + dl; f.parentNode.insertBefore(j, f);
+        })(window, document, 'script', 'dataLayer', 'GTM-5L2H7Z3N');</script>
+    <!-- End Google Tag Manager -->
+    <!-- Google Tag Manager -->
+    <script>(function (w, d, s, l, i) {
+            w[l] = w[l] || []; w[l].push({
+                'gtm.start':
+                    new Date().getTime(), event: 'gtm.js'
+            }); var f = d.getElementsByTagName(s)[0],
+                j = d.createElement(s), dl = l != 'dataLayer' ? '&l=' + l : ''; j.async = true; j.src =
+                    'https://www.googletagmanager.com/gtm.js?id=' + i + dl; f.parentNode.insertBefore(j, f);
+        })(window, document, 'script', 'dataLayer', 'GTM-NGRZRR4V');</script>
+    <!-- End Google Tag Manager -->
 </head>
 <body>
+    <!-- Google Tag Manager (noscript) -->
+    <noscript>
+        <iframe src="https://www.googletagmanager.com/ns.html?id=GTM-NGRZRR4V"
+            height="0" width="0" style="display: none; visibility: hidden"></iframe>
+    </noscript>
+    <!-- End Google Tag Manager (noscript) -->
+    <!-- Google Tag Manager (noscript) -->
+    <noscript>
+        <iframe src="https://www.googletagmanager.com/ns.html?id=GTM-5L2H7Z3N"
+            height="0" width="0" style="display: none; visibility: hidden"></iframe>
+    </noscript>
+    <!-- End Google Tag Manager (noscript) -->
     <div id="wrap">
         <!--#warp //start-->
 
@@ -138,20 +176,20 @@
                 <ul>
                     <li><a href="../index.aspx" title="首頁">首頁</a></li>
                     <li><a href="news.aspx" title="最新消息">最新消息</a></li>
-                    <li>２０２５乙巳龍年新春點燈線上報名開始囉~</li>
+                    <li>２０２５乙巳蛇年新春線上點燈報名開始囉~</li>
                 </ul>
             </nav>
 
             <!--本頁內容-->
             <section>
                 <div class="NewsImg">
-                    <img src="SiteFile/News/20241029_NewsImg.jpg?t=7852145996" width="1160" height="550" alt="" /></div>
+                    <img src="SiteFile/News/20241029_NewsImg.jpg?t=98089899" width="1160" height="550" alt="保必保庇２０２５乙巳蛇年新春線上點燈" title="保必保庇２０２５乙巳蛇年新春線上點燈" /></div>
                 <div class="NewsBk">
-                    <h1>歡迎使用2025乙巳蛇年新春點燈~所有線上申請的點燈皆會於廟裡實際安奉</h1>
+                    <h1>歡迎使用2025乙巳蛇年新春點燈~所有線上點燈皆會於廟裡實際安奉</h1>
                     <%--<div class="NewsDate">發布日期：2023-10-12</div>--%>
                     <div class="NewsContent Content">
                         <!--內容放這裡 //Start-->
-                        <p>『保必保庇』今年與11家全台知名宮廟配合線上報名點燈服務，提供信眾更多元化的選擇，讓您在忙碌之餘也可以輕鬆完成點燈保平安，為自己與家人祈福。</p>
+                        <p>『保必保庇』今年與11家全台知名宮廟配合線上點燈服務，提供信眾更多元化的選擇，讓您在忙碌之餘也可以輕鬆完成點燈保平安，為自己與家人祈福。</p>
                         <h2 style="color:peru; padding-bottom:5px;">2025乙巳蛇年犯太歲生肖如下：</h2>
                         <h2 style="color:peru; padding-bottom:5px;">蛇 | 值太歲：運程阻礙、人際孤立，易有病痛、不利遠行、防爛桃花。</h2>
                         <h2 style="color:peru; padding-bottom:5px;">豬 | 沖太歲：情緒抑鬱，工作吃力、少貴人、易破財，需主動求變。</h2>
@@ -230,6 +268,21 @@
                                 </div>
                             </li>
                         </ul>
+                        <br />
+                        <div class="IndexVideo">
+                            <h1 class="TempleName">商品介紹</h1>
+                            <iframe class="ytvideo" src="https://www.youtube.com/embed/8tdGf8JjhgY?si=IIrTlhH-xeTN6MTt" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+                        </div>
+                        <br />
+                        <p>
+                            <br />
+                            <a href="https://yun30.pse.is/6eabyl" target="_blank">FB粉絲募集中！現在只要在保必保庇粉絲團按讚+分享，截圖並私訊小編，就可獲得錢母小紅包！點此跳轉
+                                <img src="https://bobibobi.tw/Temples/images/community_icon_01.png" style="width: 36px; display: inline;" width="45" height="45" alt="" /></a>
+                            <br />
+                            <a href="line://ti/p/@bobibobi.tw" target="_blank">另外加碼！加入LINE好友並填寫註冊資料，即可獲得錢母小紅包！
+                                數量有限，送完為止喔！點此跳轉<img src="https://bobibobi.tw/Temples/images/community_icon_02.png" style="width: 36px; display: inline;" width="45" height="45" alt="" />
+                            </a>
+                        </p>
                     </div>
                 </div>
 

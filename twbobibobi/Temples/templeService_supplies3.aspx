@@ -120,23 +120,17 @@
                         </div>
                         <div>
                             <h2>▌參加辦法：</h2>
-                            <p>只要在下方填好公司資料 or 負責人資料，完成線上報名，我方會將報名資料傳給北港武德宮，廟方將會在每月初一與十五幫貴公司補財庫，並將寄出感謝狀給予貴公司。(補財庫費用每月1300元）</p>
-                        </div>
-                        <div>
-                            <h2>▌首次訂閱加贈『己亥一卡通』</h2>
-                            <img src="images/temple/All-purposecard.jpg" class="icon" />
-                            <p>一卡在手．萬事亨通</p>
-                            <p>傳統信仰與電子票證結合的武財神一卡通，貼身為民眾招財祈福保平安。</p>
+                            <p>只要在下方填好公司資料 or 負責人資料，完成線上報名，我方會將報名資料傳給北港武德宮，廟方將會在每月初一與十五幫貴公司補財庫。(補財庫費用每月1300元）</p>
                         </div>
                         <div>
                             <h2>▌注意事項</h2>
                             <p>1.	付費只能使用遠傳電信帳單，費用為每月1300元</p>
                             <p>2.	此服務為訂閱式服務，訂閱後將每個月從遠傳電信帳單中收取費用</p>
-                            <p>3.	如欲取消請提早一個月來電取消，客服電話：04-23585300</p>
+                            <p>3.	如欲取消請提早一個月來電取消，客服電話：04-36092299</p>
                             <p>4.	每月26號(農曆)前報名，補財庫於次月農曆初一開始第一次，十五第二次</p>
                             <p>5.	訂閱後每月26號(農曆)收費，收費成功才會將資料給予北港武德宮進行次月的補財庫服務</p>
                             <p>6.	收費失敗將有專人撥打聯繫電話聯絡，如聯繫不上將視為取消服務</p>
-                            <p>7.	通訊地址請留可收信地址，每月完成補財庫將會寄送感謝狀</p>
+                            <p>7.	北港武德宮 推行"無紙功德"環保理念" 原紙本感謝狀之提供改為 Email提供電子感謝狀。</p>
                         </div>
                         <%--<div>
                             <h2>▌降文開示-庚寅年</h2>
@@ -157,10 +151,10 @@
                     <form>
                         <div class="FormTitle_A">購買人資料<span>（資料務必填寫正確，日後查詢訂單使用。聯絡電話請填09開頭號碼，例：0912345678。）</span></div>
                         <div class="FormInput text_s">
-                            <label>申請人姓名</label><input name="member_name" type="text" class="required" id="member_name" placeholder="請輸入申請人姓名"/>
+                            <label>購買人姓名</label><input name="member_name" type="text" class="required" id="member_name" placeholder="請輸入購買人姓名"/>
                         </div>
                         <div class="FormInput tel">
-                            <label>申請人電話</label><input name="member_tel" type="tel" class="required" id="member_tel" placeholder="請輸入聯絡電話"/>
+                            <label>購買人電話</label><input name="member_tel" type="tel" class="required" id="member_tel" placeholder="請輸入聯絡電話"/>
                         </div>
 
                         <!--可複製的區塊 //start-->
@@ -226,10 +220,14 @@
                                     </select>
                                 </div>
                                 <div class="FormInput tel">
-                                    <label>市話</label><input name="bless_homenum_1" type="tel" class="" id="bless_homenum_1" placeholder="請輸入市話"/>
+                                    <label>市話</label><input name="bless_homenum_1" type="tel" class="" id="bless_homenum_1" placeholder="請輸入市話(選填)"/>
                                 </div>
                                 <div class="FormInput email mail">
                                     <label>Email</label><input name="bless_email_1" type="text" class="required" id="bless_email_1" placeholder="請輸入Email"/>
+                                </div>
+                                <div class="FormInput">
+                                    <label></label>
+                                    <span style="color: red;">注意事項: 北港武德宮 推行"無紙功德"環保理念" 原紙本感謝狀之提供改為 Email提供電子感謝狀。</span>
                                 </div>
                                 <div class="FormInput address">
                                     <label>地址</label>
@@ -441,7 +439,7 @@
 
         // 遍歷每個必填欄位
         $('.required').each(function () {
-            var value = $(this).val();
+            var value = $(this).val().trim();
             var text = this;
             if (value === '' || value === null) {
                 isValid = false;
@@ -473,8 +471,8 @@
             // 所有欄位都已填寫
             console.log('所有欄位都已填寫');
 
-            //gotoChecked_wu();
-                alert('親愛的大德您好\n北港武德宮 企業補財庫活動已截止！！\n感謝您的支持, 謝謝!'); location = 'https://bobibobi.tw/Temples/temple.aspx'
+            gotoChecked_wu();
+                //alert('親愛的大德您好\n北港武德宮 企業補財庫活動已截止！！\n感謝您的支持, 謝謝!'); location = 'https://bobibobi.tw/Temples/temple.aspx'
             //if (checkEndTime()) {
             //}
             //else {
@@ -504,7 +502,7 @@
             }
         } else {
             if (res.OldUser == 1) {
-                alert("此申請人電話已註冊過，將會每個月進行扣款。如果有疑問，請洽客服。");
+                alert("此購買人電話已註冊過，將會每個月進行扣款。如果有疑問，請洽客服。");
             }
             else {
                 alert("資料錯誤！請重新再試一次，若還是不行，請洽客服。");
@@ -557,8 +555,8 @@
     function gotoChecked_wu() {
         var listcount = $('.InputGroup > li').last().attr('bless-id');
 
-        Appname = $("#member_name").val();      //申請人姓名
-        Appmobile = $("#member_tel").val()      //申請人電話
+        Appname = $("#member_name").val();      //購買人姓名
+        Appmobile = $("#member_tel").val()      //購買人電話
 
         name_Tag = [];
         mobile_Tag = [];

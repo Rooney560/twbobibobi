@@ -40,9 +40,11 @@ namespace Temple.Temples
                             string suppliesService = dtTempleInfo.Rows[0]["SuppliesService"].ToString();
                             string supplies2Service = dtTempleInfo.Rows[0]["Supplies2Service"].ToString();
                             string supplies3Service = dtTempleInfo.Rows[0]["Supplies3Service"].ToString();
+                            string Supplies4Service = dtTempleInfo.Rows[0]["Supplies4Service"].ToString();
                             string lights2Service = dtTempleInfo.Rows[0]["Lights2Service"].ToString();
                             if(adminID != "30")
-                                TempleList += InitTemplelist(adminID, title, img, lightsService, purdueService, suppliesService, supplies2Service, lights2Service, supplies3Service);
+                                TempleList += InitTemplelist(adminID, title, img, lightsService, purdueService, suppliesService, supplies2Service, lights2Service, supplies3Service,
+                                    Supplies4Service);
                         }
                     }
                 }
@@ -97,7 +99,7 @@ namespace Temple.Temples
         //}
 
         protected string InitTemplelist(string adminID, string title, string img, string lightsService, string purdueService, string suppliesService, string supplies2Service,
-            string lights2Service, string supplies3Service)
+            string lights2Service, string supplies3Service, string Supplies4Service)
         {
             string result = string.Empty;
 
@@ -132,6 +134,11 @@ namespace Temple.Temples
             if (supplies3Service == "1")
             {
                 result += "<li class=\"Tag_05\">企業補財庫</li>";
+            }
+
+            if (Supplies4Service == "1")
+            {
+                result += "<li class=\"Tag_05\">補財庫</li>";
             }
 
             if (lights2Service == "1")

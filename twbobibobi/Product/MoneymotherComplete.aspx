@@ -24,8 +24,74 @@
     <link href="css/reset.css" rel="stylesheet" type="text/css" />
     <link rel="stylesheet" type="text/css" href="css/style.css" />
     <script type="text/javascript" src="js/jquery-3.2.1.min.js"></script>
+    <script type="text/javascript">
+        function setURL(c, v, t) {
+            if (location.search.indexOf(c) >= 0) {
+                //alert($("title").html());
+                $(document).attr("title", "(" + t + ")" + $("title").html());
+                $.each($("a"), function (i, n) {
+                    var $href = $(this).attr("href");
+                    if (typeof ($href) != "undefined") {
+                        if ($href.indexOf('.aspx') > 0 && $href.indexOf(c) < 0) {
+                            if ($href.indexOf('?') > 0) {
+                                $(this).attr("href", $href + "&" + c + "=" + v);
+                            }
+                            else {
+                                $(this).attr("href", $href + "?" + c + "=" + v);
+                            }
+                        }
+                    }
+                });
+            }
+        }
+
+        $(document).ready(function () {
+            setURL("ftg", "2290", "奉天宮");
+        });
+    </script>
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-4YWFRTFCTT"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
+
+        gtag('config', 'G-4YWFRTFCTT');
+    </script>
+    <!-- Google Tag Manager -->
+    <script>(function (w, d, s, l, i) {
+            w[l] = w[l] || []; w[l].push({
+                'gtm.start':
+                    new Date().getTime(), event: 'gtm.js'
+            }); var f = d.getElementsByTagName(s)[0],
+                j = d.createElement(s), dl = l != 'dataLayer' ? '&l=' + l : ''; j.async = true; j.src =
+                    'https://www.googletagmanager.com/gtm.js?id=' + i + dl; f.parentNode.insertBefore(j, f);
+        })(window, document, 'script', 'dataLayer', 'GTM-5L2H7Z3N');</script>
+    <!-- End Google Tag Manager -->
+    <!-- Google Tag Manager -->
+    <script>(function (w, d, s, l, i) {
+            w[l] = w[l] || []; w[l].push({
+                'gtm.start':
+                    new Date().getTime(), event: 'gtm.js'
+            }); var f = d.getElementsByTagName(s)[0],
+                j = d.createElement(s), dl = l != 'dataLayer' ? '&l=' + l : ''; j.async = true; j.src =
+                    'https://www.googletagmanager.com/gtm.js?id=' + i + dl; f.parentNode.insertBefore(j, f);
+        })(window, document, 'script', 'dataLayer', 'GTM-NGRZRR4V');</script>
+    <!-- End Google Tag Manager -->
 </head>
 <body>
+    <!-- Google Tag Manager (noscript) -->
+    <noscript>
+        <iframe src="https://www.googletagmanager.com/ns.html?id=GTM-NGRZRR4V"
+            height="0" width="0" style="display: none; visibility: hidden"></iframe>
+    </noscript>
+    <!-- End Google Tag Manager (noscript) -->
+    <!-- Google Tag Manager (noscript) -->
+    <noscript>
+        <iframe src="https://www.googletagmanager.com/ns.html?id=GTM-5L2H7Z3N"
+            height="0" width="0" style="display: none; visibility: hidden"></iframe>
+    </noscript>
+    <!-- End Google Tag Manager (noscript) -->
 <div id="wrap"><!--#warp //start-->
     
     <div id="OrderComplete" class="OrderPupBox">
@@ -39,7 +105,7 @@
                         <h5>鎮宅、開運錢母擺件</h5>
                         <div class="ItemInfo">
                             <label>金額</label>
-                            <div>1680</div>
+                            <div>1480</div>
                         </div>
                         <div class="ItemInfo">
                             <label>數量</label>
@@ -153,6 +219,21 @@
 
                 <div class="OrderSum">購買總金額：<span><%=OrderTotal %>&nbsp; </span>元</div>
             </div>
+                        <p>
+                            <br />
+                            <a href="https://yun30.pse.is/6eabyl" target="_blank">FB粉絲募集中！現在只要在保必保庇粉絲團按讚+分享，截圖並私訊小編，就可獲得錢母小紅包！點此跳轉
+                                <img src="https://bobibobi.tw/Temples/images/community_icon_01.png" style="width: 36px; display: inline;" width="45" height="45" alt="" /></a>
+                            <br />
+                            <a href="line://ti/p/@bobibobi.tw" target="_blank">另外加碼！加入LINE好友並填寫註冊資料，即可獲得錢母小紅包！
+                                數量有限，送完為止喔！點此跳轉<img src="https://bobibobi.tw/Temples/images/community_icon_02.png" style="width: 36px; display: inline;" width="45" height="45" alt="" />
+                            </a>
+                        </p>
+                    <br />
+                <%--<div class="shopmemberInfo">
+                    <p style="color: red;">因應農曆春節連續假期及貨運公司配送問題，將於2025/1/21至2025/02/02暫停出貨作業。</p>
+                    <br />
+                    <p style="color: red;">2025/1/20至2025/02/02成立的訂單，將於2025/02/03起陸續出貨。 祝大家小龍年行大運!</p>
+                </div>--%>
             <div class="PayButton">
                 <a href="https://bobibobi.tw/Product/MoneymotherIndex.aspx" title="回活動頁面">回活動頁面</a>
             </div>

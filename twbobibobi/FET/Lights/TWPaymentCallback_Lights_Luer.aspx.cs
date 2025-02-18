@@ -59,6 +59,9 @@ namespace Temple.FET.Lights
 
                 DataTable dtCharge = objDatabaseHelper.GetChargeLog_Lights_Luer(orderId, Year);
 
+                int cost = 0;
+                int.TryParse(dtCharge.Rows[0]["Amount"].ToString(), out cost);
+                //int.TryParse(dtCharge.Rows[0]["Status"].ToString(), out status);
                 if (dtCharge.Rows.Count > 0)
                 {
                     if ((int)dtCharge.Rows[0]["Status"] == 0)
@@ -74,24 +77,12 @@ namespace Temple.FET.Lights
 
                             int adminID = 10;
 
-                            objDatabaseHelper.UpdateLights_Luer_Info(aid, type, Year, ref lightslist, ref Lightslist);
-                            DataTable dtapplicantinfo = objDatabaseHelper.Getapplicantinfo_Lights_Luer(aid, adminID, Year);
-                            int cost = int.Parse(dtapplicantinfo.Rows[0]["Cost"].ToString());
+                            string msg = "感謝購買,已成功付款" + cost + "元,您的訂單編號 ";
+
+                            objDatabaseHelper.UpdateLights_Luer_Info(aid, type, Year, ref msg, ref lightslist, ref Lightslist);
+                            //DataTable dtapplicantinfo = objDatabaseHelper.Getapplicantinfo_Lights_Luer(aid, adminID, Year);
+                            //int cost = int.Parse(dtapplicantinfo.Rows[0]["Cost"].ToString());
                             objDatabaseHelper.Updateapplicantinfo_Lights_Luer(aid, cost, 2, Year); //更新購買表內購買人狀態為已付款(Status=2)
-
-                            string msg = "感謝購買,已成功付款" + dtapplicantinfo.Rows[0]["Cost"].ToString() + "元,您的訂單編號 ";
-
-                            for (int i = 0; i < Lightslist.Length; i++)
-                            {
-                                msg += Lightslist[i];
-                                if (i < Lightslist.Length - 1)
-                                {
-                                    msg += ",";
-                                }
-                            }
-
-                            msg += "。客服電話：04-36092299。";
-
 
                             //msg = "感謝大德參與線上點燈,茲收您1960元功德金,訂單編號 光明燈:T2204, 安太歲:25351, 文昌燈:六1214。";
                             //mobile = "0903002568";

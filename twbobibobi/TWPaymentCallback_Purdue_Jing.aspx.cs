@@ -125,7 +125,7 @@ namespace Temple
                             }
                             else
                             {
-                                Response.Write("<script>alert('付款失敗，錯誤代碼：" + result[0] + "。客服電話：04-23582760。');window.location.href='https://bobibobi.tw/Temples/templeService_purdue.aspx?a=9'</script>");
+                                Response.Write("<script>alert('付款失敗，錯誤代碼：" + result[0] + "。客服電話：04-36092299。');window.location.href='https://bobibobi.tw/Temples/templeService_purdue.aspx?a=9'</script>");
                             }
                         }
                     }
@@ -136,7 +136,7 @@ namespace Temple
                     resp = "invalid_orderid";
                 }
 
-                Response.Write("<script>alert('取得付款資料失敗，錯誤代碼：" + resp + "。客服電話：04-23582760。');window.location.href='https://bobibobi.tw/Temples/templeService_purdue.aspx?a=9'</script>");
+                Response.Write("<script>alert('取得付款資料失敗，錯誤代碼：" + resp + "。客服電話：04-36092299。');window.location.href='https://bobibobi.tw/Temples/templeService_purdue.aspx?a=9'</script>");
             }
             else
             {
