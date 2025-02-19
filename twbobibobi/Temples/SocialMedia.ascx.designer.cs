@@ -11,7 +11,7 @@ namespace twbobibobi.Temples
 {
 
 
-    public partial class templeComplete_in
+    public partial class SocialMedia
     {
     }
 }

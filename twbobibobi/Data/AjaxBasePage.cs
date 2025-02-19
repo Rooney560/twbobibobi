@@ -13,6 +13,8 @@ using System.Net;
 using System.Security.Cryptography.X509Certificates;
 using Newtonsoft.Json.Linq;
 using Newtonsoft.Json;
+using System.Web.UI;
+using System.Drawing;
 
 namespace MotoSystem.Data
 {
@@ -323,6 +325,105 @@ namespace MotoSystem.Data
             }
         }
 
+        public static void GetBirthInfo_FET(string birth, string sbirth, ref string Birth, ref string sBirth, ref string birthMonth, ref string age, ref string Zodiac)
+        {
+            string year = string.Empty;
+            string month = string.Empty;
+            string day = string.Empty;
+            string syear = string.Empty;
+            string smonth = string.Empty;
+            string sday = string.Empty;
+
+            if (birth.Length == 7)
+            {
+                //農曆生日!=空白
+                GetBirthDetail(birth, ref birthMonth, ref Birth, ref age, ref Zodiac);
+
+                birth = Birth;
+                if (birth.IndexOf("民國") >= 0 && birth.IndexOf("年") > 0 && birth.IndexOf("月") > 0 && birth.IndexOf("日") > 0)
+                {
+                    int birth_roc_index = birth.IndexOf("民國");
+                    int birth_year_index = birth.IndexOf("年");
+                    int birth_month_index = birth.IndexOf("月");
+                    int birth_day_index = birth.IndexOf("日");
+                    year = (int.Parse(birth.Substring(2, birth_year_index - 2)) + 1911).ToString();
+                    month = birthMonth = CheckedDateZero(birth.Substring(birth_year_index + 1, birth_month_index - birth_year_index - 1), 1);
+                    day = CheckedDateZero(birth.Substring(birth_month_index + 1, birth.Length - birth_month_index - 2), 1);
+
+                    Lunar lunar = new Lunar();
+                    int.TryParse(year, out lunar.lunarYear);
+                    int.TryParse(month, out lunar.lunarMonth);
+                    int.TryParse(day, out lunar.lunarDay);
+
+                    if (sbirth == "")
+                    {
+                        //國曆生日=空白
+                        Solar solor = new Solar();
+                        solor = LunarSolarConverter.LunarToSolar(lunar);
+
+                        string sROC = solor.solarYear > 1911 ? "民國" + (solor.solarYear - 1911) + "年" : "民國" + (solor.solarYear) + "年";
+                        sBirth = sROC + CheckedDateZero(solor.solarMonth.ToString(), 1) + "月" + CheckedDateZero(solor.solarDay.ToString(), 1) + "日";
+
+                        string ROC = lunar.lunarYear > 1911 ? "民國" + (lunar.lunarYear - 1911) + "年" : "民國" + (lunar.lunarYear) + "年";
+                        Birth = ROC + CheckedDateZero(lunar.lunarMonth.ToString(), 1) + "月" + CheckedDateZero(lunar.lunarDay.ToString(), 1) + "日";
+                    }
+                    else
+                    {
+                        //國曆生日!=空白
+                        if (sbirth.Length == 7)
+                        {
+                            syear = (int.Parse(sbirth.Substring(0, 3))).ToString();
+                            smonth = CheckedDateZero(sbirth.Substring(3, 2), 1);
+                            sday = CheckedDateZero(sbirth.Substring(5, 2), 1);
+
+                            sBirth = "民國" + syear + "年" + smonth + "月" + sday + "日";
+
+                            string ROC = lunar.lunarYear > 1911 ? "民國" + (lunar.lunarYear - 1911) + "年" : "民國" + (lunar.lunarYear) + "年";
+                            Birth = ROC + CheckedDateZero(lunar.lunarMonth.ToString(), 1) + "月" + CheckedDateZero(lunar.lunarDay.ToString(), 1) + "日";
+                        }
+                        else
+                        {
+                            Birth = birth;
+                            sBirth = sbirth;
+                        }
+                    }
+                }
+            }
+            else
+            {
+                //農曆生日=空白
+                if (sbirth.Length == 7)
+                {
+                    syear = (int.Parse(sbirth.Substring(0, 3)) + 1911).ToString();
+                    smonth = CheckedDateZero(sbirth.Substring(3, 2), 1);
+                    sday = CheckedDateZero(sbirth.Substring(5, 2), 1);
+
+                    Solar solor = new Solar();
+                    int.TryParse(syear, out solor.solarYear);
+                    int.TryParse(smonth, out solor.solarMonth);
+                    int.TryParse(sday, out solor.solarDay);
+
+                    Lunar lunar = new Lunar();
+                    lunar = LunarSolarConverter.SolarToLunar(solor);
+
+                    LunarSolarConverter.shuxiang(lunar.lunarYear, ref Zodiac);
+                    age = GetAge(lunar.lunarYear, lunar.lunarMonth, lunar.lunarDay).ToString();
+                    birthMonth = CheckedDateZero(lunar.lunarMonth.ToString(), 1);
+
+                    string ROC = lunar.lunarYear > 1911 ? "民國" + (lunar.lunarYear - 1911) + "年" : "民國" + (lunar.lunarYear) + "年";
+                    Birth = ROC + CheckedDateZero(lunar.lunarMonth.ToString(), 1) + "月" + CheckedDateZero(lunar.lunarDay.ToString(), 1) + "日";
+
+                    string sROC = solor.solarYear > 1911 ? "民國" + (solor.solarYear - 1911) + "年" : "民國" + (solor.solarYear) + "年";
+                    sBirth = sROC + smonth + "月" + sday + "日";
+                }
+                else
+                {
+                    Birth = birth;
+                    sBirth = sbirth;
+                }
+            }
+        }
+
         /// <summary>
         /// 取得生日的月份、年齡及生肖
         /// </summary>
@@ -353,6 +454,38 @@ namespace MotoSystem.Data
                 Birth = year + "-" + month + "-" + day;
                 LunarSolarConverter.shuxiang(int.Parse(year), ref Zodiac);
                 Age = GetAge(int.Parse(year), int.Parse(month), int.Parse(day)).ToString();
+            }
+
+            BirthMonth = BirthMonth.Length < 2 ? "0" + BirthMonth : BirthMonth;
+        }
+
+        /// <summary>
+        /// 取得生日的月份、年齡及生肖
+        /// </summary>
+        /// <param name="b"></param>
+        /// <param name="BirthMonth"></param>
+        /// <param name="Age"></param>
+        /// <param name="Zodiac"></param>
+        public static void GetBirthDetail(string b, ref string BirthMonth, ref string B, ref string Age, ref string Zodiac)
+        {
+            string Birth = string.Empty;
+            string year = string.Empty;
+            string month = string.Empty;
+            string day = string.Empty;
+
+            string birth = b;
+            if (birth.Length == 7)
+            {
+                string lyear = birth.Substring(0, 3);
+                year = (int.Parse(birth.Substring(0, 3)) + 1911).ToString();
+                month = BirthMonth = birth.Substring(3, 2);
+                day = birth.Substring(5, 2);
+
+                Birth = year + "-" + month + "-" + day;
+                LunarSolarConverter.shuxiang(int.Parse(year), ref Zodiac);
+                Age = GetAge(int.Parse(year), int.Parse(month), int.Parse(day)).ToString();
+
+                B = "民國" + lyear + "年" + month + "月" + day + "日";
             }
 
             BirthMonth = BirthMonth.Length < 2 ? "0" + BirthMonth : BirthMonth;

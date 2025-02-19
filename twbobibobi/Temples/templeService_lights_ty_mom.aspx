@@ -2,6 +2,7 @@
 
 <%@ Register src="~/Temples/footer.ascx" tagprefix="uc1" tagname="footer" %>
 <%@ Register src="~/Temples/header.ascx" tagprefix="uc2" tagname="header" %>
+<%@ Register src="~/Temples/SocialMedia.ascx" tagprefix="uc3" tagname="SocialMedia" %>
 <%@ Register src="~/Controls/AjaxClientControl.ascx" tagname="AjaxClientControl" tagprefix="uc4" %>
 
 <!DOCTYPE html>
@@ -146,8 +147,8 @@
                         <div>
                             <img src="images/temple/lights_ty_mom_gift.jpg" class="icon" />
                         </div>
-                        <p><a href="line://ti/p/@bobibobi.tw" target="_blank">line好友募集中！
-現在只要加入保必保庇line好友並填寫註冊資料，就送錢母小紅包！數量有限，敬請把握喔！<img src="https://bobibobi.tw/Temples/images/community_icon_02.png" style="width: 36px; display:inline;" width="45" height="45" alt="" /></a></p>
+
+                        <uc3:SocialMedia runat="server" id="SocialMedia" />
                     </div>
                 </div>
 

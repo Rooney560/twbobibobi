@@ -12552,7 +12552,7 @@ namespace Read.data
                 lastnum = 1001;
             }
             DataTable dtDataList = new DataTable();
-            string sql = "Select * From Temple_" + Year + "..Supplies_ty_info Where ApplicantID=@ApplicantID and Status = 0";
+            string sql = "Select * From Temple_" + Year + "..Supplies_ty_info Where ApplicantID=@ApplicantID and Status = 0 and Num = 0";
 
             DatabaseAdapter AdapterObj = new DatabaseAdapter(sql, this.DBSource);
             AdapterObj.SetSqlCommandBuilder();

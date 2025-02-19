@@ -1,4 +1,5 @@
 ﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="MoneymotherComplete.aspx.cs" Inherits="twbobibobi.Product.MoneymotherComplete" %>
+<%@ Register src="~/Temples/SocialMedia.ascx" tagprefix="uc3" tagname="SocialMedia" %>
 
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head runat="server">
@@ -219,15 +220,8 @@
 
                 <div class="OrderSum">購買總金額：<span><%=OrderTotal %>&nbsp; </span>元</div>
             </div>
-                        <p>
-                            <br />
-                            <a href="https://yun30.pse.is/6eabyl" target="_blank">FB粉絲募集中！現在只要在保必保庇粉絲團按讚+分享，截圖並私訊小編，就可獲得錢母小紅包！點此跳轉
-                                <img src="https://bobibobi.tw/Temples/images/community_icon_01.png" style="width: 36px; display: inline;" width="45" height="45" alt="" /></a>
-                            <br />
-                            <a href="line://ti/p/@bobibobi.tw" target="_blank">另外加碼！加入LINE好友並填寫註冊資料，即可獲得錢母小紅包！
-                                數量有限，送完為止喔！點此跳轉<img src="https://bobibobi.tw/Temples/images/community_icon_02.png" style="width: 36px; display: inline;" width="45" height="45" alt="" />
-                            </a>
-                        </p>
+
+                        <uc3:SocialMedia runat="server" id="SocialMedia" />
                     <br />
                 <%--<div class="shopmemberInfo">
                     <p style="color: red;">因應農曆春節連續假期及貨運公司配送問題，將於2025/1/21至2025/02/02暫停出貨作業。</p>

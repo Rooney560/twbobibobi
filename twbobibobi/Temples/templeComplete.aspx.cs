@@ -59,7 +59,7 @@ namespace Temple.Temples
                     bool ExpirationDate = true;
                     //this.purdue.Visible = false;
                     //this.purdue2.Visible = false;
-                    //this.lineurl.HRef = "line://ti/p/@bobibobi.tw";
+                    //this.lineurl.HRef = "https://page.line.me/bobibobi.tw";
                     //this.Qrcodeimg.ImageUrl = "https://bobibobi.tw/Temples/images/QRCODE.png";
 
                     switch (kind)
@@ -220,7 +220,7 @@ namespace Temple.Temples
                                     {
                                         //this.purdue.Visible = false;
                                         //this.purdue2.Visible = false;
-                                        //this.lineurl.HRef = "line://ti/p/@bobibobi.tw";
+                                        //this.lineurl.HRef = "https://page.line.me/bobibobi.tw";
                                         //this.Qrcodeimg.ImageUrl = "https://bobibobi.tw/Temples/images/QRCODE.png";
                                     }
                                 }
@@ -228,7 +228,7 @@ namespace Temple.Temples
                                 {
                                     //this.purdue.Visible = false;
                                     //this.purdue2.Visible = false;
-                                    //this.lineurl.HRef = "line://ti/p/@bobibobi.tw";
+                                    //this.lineurl.HRef = "https://page.line.me/bobibobi.tw";
                                     //this.Qrcodeimg.ImageUrl = "https://bobibobi.tw/Temples/images/QRCODE.png";
                                 }
                             }

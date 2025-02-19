@@ -311,7 +311,7 @@
                         <ul>
                             <li><a href="https://www.facebook.com/profile.php?id=100086934594859" target="_blank">
                                 <img src="https://bobibobi.tw/Temples/images/community_icon_01.png" width="45" height="45" alt="" /></a></li>
-                            <li><a href="line://ti/p/@bobibobi.tw" target="_blank">
+                            <li><a href="https://page.line.me/bobibobi.tw" target="_blank">
                                 <img src="https://bobibobi.tw/Temples/images/community_icon_02.png" width="45" height="45" alt="" /></a></li>
                             <li><a href="https://www.youtube.com/@bobibobi.tw1" target="_blank">
                                 <img src="https://bobibobi.tw/Temples/images/community_icon_03.png" width="45" height="45" alt="" /></a></li>
