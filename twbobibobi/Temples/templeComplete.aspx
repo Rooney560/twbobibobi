@@ -2,6 +2,7 @@
 
 <%@ Register src="~/Temples/footer.ascx" tagprefix="uc1" tagname="footer" %>
 <%@ Register src="~/Temples/header.ascx" tagprefix="uc2" tagname="header" %>
+<%@ Register src="~/Temples/SocialMedia.ascx" tagprefix="uc3" tagname="SocialMedia" %>
 
 <!DOCTYPE html>
 
@@ -178,13 +179,8 @@
                         <div class="BackLink"><a href="../index.aspx" title="回首頁">回首頁</a></div><br />
                         <div class="QRLink">
                             <br />
-                            <a href="https://yun30.pse.is/6eabyl" target="_blank">FB粉絲募集中！現在只要在保必保庇粉絲團按讚+分享，截圖並私訊小編，就可獲得錢母小紅包！點此跳轉
-                                <img src="https://bobibobi.tw/Temples/images/community_icon_01.png" style="width: 36px; display: inline;" width="45" height="45" alt="" /></a>
-                            <br />
-                            <a href="line://ti/p/@bobibobi.tw" target="_blank">另外加碼！加入LINE好友並填寫註冊資料，即可獲得錢母小紅包！
-                                數量有限，送完為止喔！點此跳轉<img src="https://bobibobi.tw/Temples/images/community_icon_02.png" style="width: 36px; display: inline;" width="45" height="45" alt="" />
-                            </a>
-                            <%--<a href="line://ti/p/@bobibobi.tw" runat="server" id="lineurl" target="_blank">LINE好友募集中！<br />
+                            <uc3:SocialMedia runat="server" id="SocialMedia" />
+                            <%--<a href="https://page.line.me/bobibobi.tw" runat="server" id="lineurl" target="_blank">LINE好友募集中！<br />
 現在只要加入保必保庇LINE好友並填寫註冊資料，就送錢母小紅包！<br /><span id="purdue" runat="server">參加普度項目，可參加錢母小紅包抽獎。<br />一個門號僅限參加一次活動。</span><span id="purdue2" runat="server" style="color: red;">中獎率百分百！</span>
 數量有限，敬請把握喔！      <asp:Image ID="Qrcodeimg" runat="server" /></a>--%>
                         </div>

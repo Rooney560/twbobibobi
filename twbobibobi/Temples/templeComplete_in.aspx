@@ -142,11 +142,11 @@
                         </div>
                         <div class="TotalCost">總計金額： $<span id="Cost" class="Cost"><%=Total %></span>元</div>
                         <div class="BackLink"><a href="../index.aspx" title="回首頁">回首頁</a></div><br />
-                        <div class="QRLink"><a href="line://ti/p/@bobibobi.tw" runat="server" id="lineurl" target="_blank">LINE好友募集中！<br />
+                        <%--<div class="QRLink"><a href="https://page.line.me/bobibobi.tw" runat="server" id="lineurl" target="_blank">LINE好友募集中！<br />
 現在只要加入保必保庇LINE好友並填寫註冊資料，就送錢母小紅包！<br /><span id="purdue" runat="server">參加普度項目，可參加錢母小紅包抽獎。<br />一個門號僅限參加一次活動。</span><span id="purdue2" runat="server" style="color: red;">中獎率百分百！</span>
 數量有限，敬請把握喔！      <asp:Image ID="Qrcodeimg" runat="server" />
-                            <%--<img src="images/QRCODE.png" runat="server" id="Qrcodeimg" /><--%></a>
-                        </div>
+                            <%--<img src="images/QRCODE.png" runat="server" id="Qrcodeimg" /></a>
+                        </div>--%>
                     </div>
                 </div>
 

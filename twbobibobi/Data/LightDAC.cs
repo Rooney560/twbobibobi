@@ -3007,6 +3007,70 @@ namespace Temple.data
         }
 
         /// <summary>
+        /// 建立桃園威天宮補運資料
+        /// <param name="applicantID">applicantID=購買人編號</param>
+        /// <param name="Name">Name=姓名</param>
+        /// <param name="Mobile">Mobile=手機號碼</param>
+        /// <param name="Sex">Sex=性別</param>
+        /// <param name="SuppliesType">SuppliesType=補庫項目 1-下元補庫 2-呈疏補庫 3-企業補財庫 4-天赦日補運 5-天赦日祭改 6-天貺納福添運法會 7-招財補運 8-招財補運九九重陽升級版</param>
+        /// <param name="oversea">oversea=1-國內 2-國外</param>
+        /// <param name="Birth">Birth=農曆生日</param>
+        /// <param name="BirthTime">BirthTime=農曆時辰</param>
+        /// <param name="LeapMonth">LeapMonth=閏月 Y-是 N-否</param>
+        /// <param name="Zodiac">Zodiac=生肖</param>
+        /// <param name="County">County=縣市</param>
+        /// <param name="dist">dist=區域</param>
+        /// <param name="Addr">Addr=部分地址</param>
+        /// <param name="ZipCode">ZipCode=郵遞區號</param>
+        /// </summary>
+        public int addSupplies_ty(int applicantID, string Name, string Mobile, string Sex, string SuppliesType, string SuppliesString, string oversea, string Birth, string LeapMonth, 
+            string BirthTime, string BirthMonth, string Age, string Zodiac, string sBirth, string Email, int Count, string Addr, string County, string Dist, string ZipCode, string Year)
+        {
+            TimeZoneInfo info = TimeZoneInfo.FindSystemTimeZoneById("Taipei Standard Time");
+            DateTime dtNow = TimeZoneInfo.ConvertTime(DateTime.Now, info);
+
+            string sql = "Insert into Temple_" + Year + "..Supplies_ty_info(ApplicantID, AdminID, Name, Mobile, Cost, Sex, SuppliesType, SuppliesString, oversea, Birth, LeapMonth, " +
+                "BirthTime, BirthMonth, Age, Zodiac, sBirth, Email, Count, Address, Addr, County, dist, ZipCode, CreateDate) " +
+                "values(@ApplicantID, @AdminID, @Name, @Mobile, @Cost, @Sex, @SuppliesType, @SuppliesString, @oversea, @Birth, @LeapMonth, @BirthTime, @BirthMonth, @Age, @Zodiac, @sBirth, " +
+                "@Email, @Count, @Address, @Addr, @County, @dist, @ZipCode, @CreateDate)";
+
+            int Cost = 0;
+            Cost = GetSuppliesCost(SuppliesType, 14);
+
+            DatabaseAdapter Adapter = new DatabaseAdapter(sql, this.DBSource);
+            DataTable dtdata = new DataTable();
+            Adapter.AddParameterToSelectCommand("@ApplicantID", applicantID);
+            Adapter.AddParameterToSelectCommand("@AdminID", 14);
+            Adapter.AddParameterToSelectCommand("@Name", Name);
+            Adapter.AddParameterToSelectCommand("@Mobile", Mobile);
+            Adapter.AddParameterToSelectCommand("@Cost", Cost);
+            Adapter.AddParameterToSelectCommand("@Sex", Sex);
+            Adapter.AddParameterToSelectCommand("@SuppliesType", SuppliesType);
+            Adapter.AddParameterToSelectCommand("@SuppliesString", SuppliesString);
+            Adapter.AddParameterToSelectCommand("@oversea", oversea);
+            Adapter.AddParameterToSelectCommand("@Birth", Birth);
+            Adapter.AddParameterToSelectCommand("@LeapMonth", LeapMonth);
+            Adapter.AddParameterToSelectCommand("@BirthTime", BirthTime);
+            Adapter.AddParameterToSelectCommand("@BirthMonth", BirthMonth);
+            Adapter.AddParameterToSelectCommand("@Age", Age);
+            Adapter.AddParameterToSelectCommand("@Zodiac", Zodiac);
+            Adapter.AddParameterToSelectCommand("@sBirth", sBirth);
+            Adapter.AddParameterToSelectCommand("@Email", Email);
+            Adapter.AddParameterToSelectCommand("@Count", Count);
+            Adapter.AddParameterToSelectCommand("@Address", County + (Dist == "*" ? "" : Dist) + Addr);
+            Adapter.AddParameterToSelectCommand("@Addr", Addr);
+            Adapter.AddParameterToSelectCommand("@County", County);
+            Adapter.AddParameterToSelectCommand("@dist", Dist);
+            Adapter.AddParameterToSelectCommand("@ZipCode", ZipCode);
+            Adapter.AddParameterToSelectCommand("@CreateDate", dtNow.ToString("yyyy-MM-dd HH:mm:ss"));
+            Adapter.SetSqlCommandBuilder();
+            Adapter.Fill(dtdata);
+            Adapter.Update(dtdata);
+
+            return this.GetIdentity();
+        }
+
+        /// <summary>
         /// 建立桃園威天宮九九重陽天赦日補運資料
         /// <param name="applicantID">applicantID=購買人編號</param>
         /// <param name="Name">Name=姓名</param>
@@ -7187,6 +7251,57 @@ namespace Temple.data
             Adapter.AddParameterToSelectCommand("@Sendback", Sendback);
             Adapter.AddParameterToSelectCommand("@ReceiptName", ReceiptName);
             Adapter.AddParameterToSelectCommand("@ReceiptMobile", ReceiptMobile);
+            Adapter.AddParameterToSelectCommand("@Status", Status);
+            Adapter.AddParameterToSelectCommand("@CreateDate", dtNow.ToString("yyyy-MM-dd HH:mm:ss"));
+            Adapter.AddParameterToSelectCommand("@CreateDateString", dtNow.ToString("yyyy-MM-dd"));
+            Adapter.AddParameterToSelectCommand("@PostURL", postURL);
+            Adapter.SetSqlCommandBuilder();
+            Adapter.Fill(dtdata);
+            Adapter.Update(dtdata);
+
+            return this.GetIdentity();
+        }
+
+        /// <summary>
+        /// 建立桃園威天宮天赦日補運購買人資料
+        /// </summary>
+        /// <param name="Name"></param>
+        /// <param name="Phone"></param>
+        /// <returns></returns>
+        public int addapplicantinfo_Supplies_ty(string Name, string Mobile, string Birth, string LeapMonth, string BirthTime, string BirthMonth, string Age, string Zodiac, string sBirth, 
+            string Cost, string Email, string ZipCode, string County, string dist, string Addr, string Sendback, string ReceiptName, string ReceiptMobile, int Status, string adminID, 
+            string postURL, string Year)
+        {
+            TimeZoneInfo info = TimeZoneInfo.FindSystemTimeZoneById("Taipei Standard Time");
+            DateTime dtNow = TimeZoneInfo.ConvertTime(DateTime.Now, info);
+
+            string sql = "Insert into Temple_" + Year + "..ApplicantInfo_ty_Supplies(Name, Mobile, Birth, LeapMonth, BirthTime, BirthMonth, Age, Zodiac, sBirth, Cost, ZipCode, County, " +
+                "dist, Addr, Address, Sendback, ReceiptName, ReceiptMobile, Email, PostURL, AdminID, Status, CreateDate, CreateDateString) " +
+                "       values(@Name, @Mobile, @Birth, @LeapMonth, @BirthTime, @BirthMonth, @Age, @Zodiac, @sBirth, @Cost, @ZipCode, @County, @dist, @Addr, @Address, @Sendback, " +
+                "@ReceiptName, @ReceiptMobile, @Email, @PostURL, @AdminID, @Status, @CreateDate, @CreateDateString)";
+
+            DatabaseAdapter Adapter = new DatabaseAdapter(sql, this.DBSource);
+            DataTable dtdata = new DataTable(); ;
+            Adapter.AddParameterToSelectCommand("@AdminID", adminID);
+            Adapter.AddParameterToSelectCommand("@Name", Name);
+            Adapter.AddParameterToSelectCommand("@Mobile", Mobile);
+            Adapter.AddParameterToSelectCommand("@Birth", Birth);
+            Adapter.AddParameterToSelectCommand("@LeapMonth", LeapMonth);
+            Adapter.AddParameterToSelectCommand("@BirthTime", BirthTime);
+            Adapter.AddParameterToSelectCommand("@BirthMonth", BirthMonth);
+            Adapter.AddParameterToSelectCommand("@Age", Age);
+            Adapter.AddParameterToSelectCommand("@Zodiac", Zodiac);
+            Adapter.AddParameterToSelectCommand("@sBirth", sBirth);
+            Adapter.AddParameterToSelectCommand("@Cost", Cost);
+            Adapter.AddParameterToSelectCommand("@ZipCode", ZipCode);
+            Adapter.AddParameterToSelectCommand("@County", County);
+            Adapter.AddParameterToSelectCommand("@dist", dist);
+            Adapter.AddParameterToSelectCommand("@Addr", Addr);
+            Adapter.AddParameterToSelectCommand("@Address", County + dist + Addr);
+            Adapter.AddParameterToSelectCommand("@Sendback", Sendback);
+            Adapter.AddParameterToSelectCommand("@ReceiptName", ReceiptName);
+            Adapter.AddParameterToSelectCommand("@ReceiptMobile", ReceiptMobile);
+            Adapter.AddParameterToSelectCommand("@Email", Email);
             Adapter.AddParameterToSelectCommand("@Status", Status);
             Adapter.AddParameterToSelectCommand("@CreateDate", dtNow.ToString("yyyy-MM-dd HH:mm:ss"));
             Adapter.AddParameterToSelectCommand("@CreateDateString", dtNow.ToString("yyyy-MM-dd"));
@@ -15106,7 +15221,7 @@ namespace Temple.data
                             break;
                         case "4":
                             //安太歲
-                            if (dtGetData.Rows.Count >= 4000 || dtGetData.Rows.Count + Count > 4000)
+                            if (dtGetData.Rows.Count >= 5000 || dtGetData.Rows.Count + Count > 5000)
                             {
                                 result = true;
                             }

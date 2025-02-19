@@ -56,10 +56,10 @@ namespace twbobibobi.Temples
                     int kind = int.Parse(Request["kind"]);
                     string Year = "2024";
                     bool ExpirationDate = true;
-                    this.purdue.Visible = false;
-                    this.purdue2.Visible = false;
-                    this.lineurl.HRef = "line://ti/p/@bobibobi.tw";
-                    this.Qrcodeimg.ImageUrl = "https://bobibobi.tw/Temples/images/QRCODE.png";
+                    //this.purdue.Visible = false;
+                    //this.purdue2.Visible = false;
+                    //this.lineurl.HRef = "https://page.line.me/bobibobi.tw";
+                    //this.Qrcodeimg.ImageUrl = "https://bobibobi.tw/Temples/images/QRCODE.png";
 
                     switch (kind)
                     {
@@ -183,8 +183,8 @@ namespace twbobibobi.Temples
                                 {
                                     if (AppTag != "")
                                     {
-                                        this.purdue.Visible = true;
-                                        this.purdue2.Visible = true;
+                                        //this.purdue.Visible = true;
+                                        //this.purdue2.Visible = true;
                                         string url = "https://bobibobi.tw/CheckedCode.aspx?id=" + AppTag + "&a=" + adminID + "&aid=" + ApplicantID + "&kind=" + kind;
 
 
@@ -211,23 +211,23 @@ namespace twbobibobi.Temples
                                                 fs.Write(bytes, 0, bytes.Length);
                                             }
                                         }
-                                        this.lineurl.HRef = url;
-                                        this.Qrcodeimg.ImageUrl = rePath;
+                                        //this.lineurl.HRef = url;
+                                        //this.Qrcodeimg.ImageUrl = rePath;
                                     }
                                     else
                                     {
-                                        this.purdue.Visible = false;
-                                        this.purdue2.Visible = false;
-                                        this.lineurl.HRef = "line://ti/p/@bobibobi.tw";
-                                        this.Qrcodeimg.ImageUrl = "https://bobibobi.tw/Temples/images/QRCODE.png";
+                                        //this.purdue.Visible = false;
+                                        //this.purdue2.Visible = false;
+                                        //this.lineurl.HRef = "https://page.line.me/bobibobi.tw";
+                                        //this.Qrcodeimg.ImageUrl = "https://bobibobi.tw/Temples/images/QRCODE.png";
                                     }
                                 }
                                 else
                                 {
-                                    this.purdue.Visible = false;
-                                    this.purdue2.Visible = false;
-                                    this.lineurl.HRef = "line://ti/p/@bobibobi.tw";
-                                    this.Qrcodeimg.ImageUrl = "https://bobibobi.tw/Temples/images/QRCODE.png";
+                                    //this.purdue.Visible = false;
+                                    //this.purdue2.Visible = false;
+                                    //this.lineurl.HRef = "https://page.line.me/bobibobi.tw";
+                                    //this.Qrcodeimg.ImageUrl = "https://bobibobi.tw/Temples/images/QRCODE.png";
                                 }
                             }
                             typeString = " 2024普度";

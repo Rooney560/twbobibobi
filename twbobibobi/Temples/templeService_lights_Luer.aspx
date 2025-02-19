@@ -2,6 +2,7 @@
 
 <%@ Register src="~/Temples/footer.ascx" tagprefix="uc1" tagname="footer" %>
 <%@ Register src="~/Temples/header.ascx" tagprefix="uc2" tagname="header" %>
+<%@ Register src="~/Temples/SocialMedia.ascx" tagprefix="uc3" tagname="SocialMedia" %>
 <%@ Register src="~/Controls/AjaxClientControl.ascx" tagname="AjaxClientControl" tagprefix="uc4" %>
 
 <!DOCTYPE html>
@@ -195,15 +196,8 @@
                             <h2>姻緣燈 <a target="_blank" class="content_a" href="https://bobibobi.tw/Temples/images/temple/product/Luer/1_1.jpg">(看圖)</a></h2>
                             <p>全台唯一雷雕姻緣燈，霞光煥彩、靈驗無比，點燈求好緣、專司好姻緣、貴人緣、事業緣、夫妻和睦，讓感情、事業都能突飛猛進！費用999元。</p>
                         </div>
-                        <p>
-                            <br />
-                            <a href="https://yun30.pse.is/6eabyl" target="_blank">FB粉絲募集中！現在只要在保必保庇粉絲團按讚+分享，截圖並私訊小編，就可獲得錢母小紅包！點此跳轉
-                                <img src="https://bobibobi.tw/Temples/images/community_icon_01.png" style="width: 36px; display: inline;" width="45" height="45" alt="" /></a>
-                            <br />
-                            <a href="line://ti/p/@bobibobi.tw" target="_blank">另外加碼！加入LINE好友並填寫註冊資料，即可獲得錢母小紅包！
-                                數量有限，送完為止喔！點此跳轉<img src="https://bobibobi.tw/Temples/images/community_icon_02.png" style="width: 36px; display: inline;" width="45" height="45" alt="" />
-                            </a>
-                        </p>
+
+                        <uc3:SocialMedia runat="server" id="SocialMedia" />
                     </div>
                 </div>
 
