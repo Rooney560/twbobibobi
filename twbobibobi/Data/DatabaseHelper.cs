@@ -12523,6 +12523,96 @@ namespace Read.data
             return bResult;
         }
 
+        public bool UpdateSupplies_ty_Info(int applicantID, string Year, ref string msg, ref string[] Supplieslist)
+        {
+            lock (_thisLock)
+            {
+                TimeZoneInfo info = TimeZoneInfo.FindSystemTimeZoneById("Taipei Standard Time");
+                DateTime dt = TimeZoneInfo.ConvertTime(DateTime.Now, info);
+                bool bResult = false;
+                int lastnum = GetListNum_ty_Supplies(applicantID, Year);
+                if (lastnum > 0)
+                {
+                    bool dhavenum = true;
+                    for (int i = 1001; i < lastnum; i++)
+                    {
+                        if (CheckedNum_ty_Supplies(i, Year))
+                        {
+                            lastnum = i;
+                            dhavenum = false;
+                            break;
+                        }
+                    }
+
+                    if (dhavenum)
+                    {
+                        ++lastnum;
+                    }
+                }
+                else
+                {
+                    lastnum = 1001;
+                }
+                DataTable dtDataList = new DataTable();
+                string sql = "Select * From Temple_" + Year + "..Supplies_ty_info Where ApplicantID=@ApplicantID and Status = 0 and Num = 0";
+
+                DatabaseAdapter AdapterObj = new DatabaseAdapter(sql, this.DBSource);
+                AdapterObj.SetSqlCommandBuilder();
+                AdapterObj.AddParameterToSelectCommand("@ApplicantID", applicantID);
+                AdapterObj.Fill(dtDataList);
+
+                Supplieslist = new string[dtDataList.Rows.Count];
+                for (int i = 0; i < dtDataList.Rows.Count; i++)
+                {
+                    string sid = dtDataList.Rows[i]["SuppliesID"].ToString();
+                    string Num2String = "TYSU" + lastnum;
+
+                    int res = ExecuteSql("Update Temple_" + Year + "..Supplies_ty_info Set Num2String = '" + Num2String + "', Num = " + lastnum + " Where SuppliesID=" + sid);
+
+                    if (res > 0)
+                    {
+                        bResult = true;
+                    }
+
+                    Supplieslist[i] = Num2String;
+
+                    msg += Supplieslist[i];
+                    if (i < Supplieslist.Length - 1)
+                    {
+                        msg += ",";
+                    }
+
+                    lastnum = GetListNum_ty_Supplies(applicantID, Year);
+                    if (lastnum > 0)
+                    {
+                        bool dhavenum = true;
+                        for (int j = 1001; j < lastnum; j++)
+                        {
+                            if (CheckedNum_ty_Supplies(j, Year))
+                            {
+                                lastnum = j;
+                                dhavenum = false;
+                                break;
+                            }
+                        }
+
+                        if (dhavenum)
+                        {
+                            lastnum++;
+                        }
+                    }
+                    else
+                    {
+                        lastnum = 1001;
+                    }
+                }
+
+                msg += "。客服電話：04-36092299。";
+
+                return bResult;
+            }
+        }
+
         public bool UpdateSupplies_ty_Info(int applicantID, string Year, ref string[] Supplieslist)
         {
             TimeZoneInfo info = TimeZoneInfo.FindSystemTimeZoneById("Taipei Standard Time");

@@ -3024,15 +3024,16 @@ namespace Temple.data
         /// <param name="ZipCode">ZipCode=郵遞區號</param>
         /// </summary>
         public int addSupplies_ty(int applicantID, string Name, string Mobile, string Sex, string SuppliesType, string SuppliesString, string oversea, string Birth, string LeapMonth, 
-            string BirthTime, string BirthMonth, string Age, string Zodiac, string sBirth, string Email, int Count, string Addr, string County, string Dist, string ZipCode, string Year)
+            string BirthTime, string BirthMonth, string Age, string Zodiac, string sBirth, string Email, int Count, string Remark, string Addr, string County, string Dist, 
+            string ZipCode, string Year)
         {
             TimeZoneInfo info = TimeZoneInfo.FindSystemTimeZoneById("Taipei Standard Time");
             DateTime dtNow = TimeZoneInfo.ConvertTime(DateTime.Now, info);
 
             string sql = "Insert into Temple_" + Year + "..Supplies_ty_info(ApplicantID, AdminID, Name, Mobile, Cost, Sex, SuppliesType, SuppliesString, oversea, Birth, LeapMonth, " +
-                "BirthTime, BirthMonth, Age, Zodiac, sBirth, Email, Count, Address, Addr, County, dist, ZipCode, CreateDate) " +
+                "BirthTime, BirthMonth, Age, Zodiac, sBirth, Email, Count, Remark, Address, Addr, County, dist, ZipCode, CreateDate) " +
                 "values(@ApplicantID, @AdminID, @Name, @Mobile, @Cost, @Sex, @SuppliesType, @SuppliesString, @oversea, @Birth, @LeapMonth, @BirthTime, @BirthMonth, @Age, @Zodiac, @sBirth, " +
-                "@Email, @Count, @Address, @Addr, @County, @dist, @ZipCode, @CreateDate)";
+                "@Email, @Count, @Remark, @Address, @Addr, @County, @dist, @ZipCode, @CreateDate)";
 
             int Cost = 0;
             Cost = GetSuppliesCost(SuppliesType, 14);
@@ -3057,6 +3058,7 @@ namespace Temple.data
             Adapter.AddParameterToSelectCommand("@sBirth", sBirth);
             Adapter.AddParameterToSelectCommand("@Email", Email);
             Adapter.AddParameterToSelectCommand("@Count", Count);
+            Adapter.AddParameterToSelectCommand("@Remark", Remark);
             Adapter.AddParameterToSelectCommand("@Address", County + (Dist == "*" ? "" : Dist) + Addr);
             Adapter.AddParameterToSelectCommand("@Addr", Addr);
             Adapter.AddParameterToSelectCommand("@County", County);

@@ -761,6 +761,7 @@
     <Content Include="Temples\newsContent_2024supplies_ty.aspx" />
     <Content Include="Temples\newsContent_2024taoistJiaoCeremony_da.aspx" />
     <Content Include="Temples\newsContent_2025lights.aspx" />
+    <Content Include="Temples\newsContent_2025suppliesBF.aspx" />
     <Content Include="Temples\newsContent_2025supplies_Lk.aspx" />
     <Content Include="Temples\newsContent_2025supplies_sx.aspx" />
     <Content Include="Temples\NewYearNotes.aspx" />
@@ -1407,6 +1408,13 @@
     </Compile>
     <Compile Include="Temples\newsContent_2025lights.aspx.designer.cs">
       <DependentUpon>newsContent_2025lights.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Temples\newsContent_2025suppliesBF.aspx.cs">
+      <DependentUpon>newsContent_2025suppliesBF.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Temples\newsContent_2025suppliesBF.aspx.designer.cs">
+      <DependentUpon>newsContent_2025suppliesBF.aspx</DependentUpon>
     </Compile>
     <Compile Include="Temples\newsContent_2025supplies_Lk.aspx.cs">
       <DependentUpon>newsContent_2025supplies_Lk.aspx</DependentUpon>

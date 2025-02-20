@@ -34,6 +34,7 @@ namespace Temple
 
                 string mac = MD5.Encode(uid + tid + oid + Timestamp + ValidationKey).Replace("-", "");
 
+                string[] supplieslist = new string[0];
                 string[] Supplieslist = new string[0];
 
                 //mac = MD5.Encode(uid + tid + Timestamp + ValidationKey).Replace("-", "");
@@ -77,50 +78,47 @@ namespace Temple
                         string[] result = resp.Split("|".ToCharArray());
                         if (result[0] == "1" || result[0] == "2")
                         {
-                            string mobile = result[5];
-
-                            objDatabaseHelper.UpdateSupplies_ty_Info(aid, Year, ref Supplieslist);
-                            //DataTable dtapplicantinfo = objDatabaseHelper.Getapplicantinfo_Supplies_ty(aid, adminID, Year);
-                            //int cost = dtapplicantinfo.Rows.Count > 0 ? int.Parse(dtapplicantinfo.Rows[0]["Cost"].ToString()) : 0;
-                            objDatabaseHelper.Updateapplicantinfo_Supplies_ty(aid, cost, 2, Year); //更新購買表內購買人狀態為已付款(Status=2)
-
-                            string msg = "感謝購買,已成功付款" + cost + "元,您的訂單編號 ";
-
-                            for (int i = 0; i < Supplieslist.Length; i++)
+                            if (result.Length > 1)
                             {
-                                msg += Supplieslist[i];
-                                if (i < Supplieslist.Length - 1)
+                                string mobile = result[5];
+
+                                string msg = "感謝購買,已成功付款" + cost + "元,您的訂單編號 ";
+
+                                objDatabaseHelper.UpdateSupplies_ty_Info(aid, Year, ref msg, ref supplieslist);
+                                //objDatabaseHelper.UpdateSupplies_ty_Info(aid, Year, ref Supplieslist);
+                                //DataTable dtapplicantinfo = objDatabaseHelper.Getapplicantinfo_Supplies_ty(aid, adminID, Year);
+                                //int cost = dtapplicantinfo.Rows.Count > 0 ? int.Parse(dtapplicantinfo.Rows[0]["Cost"].ToString()) : 0;
+                                objDatabaseHelper.Updateapplicantinfo_Supplies_ty(aid, cost, 2, Year); //更新購買表內購買人狀態為已付款(Status=2)
+
+                                //msg = "感謝大德參與線上點燈,茲收您1960元功德金,訂單編號 光明燈:T2204, 安太歲:25351, 文昌燈:六1214。";
+                                //mobile = "0903002568";
+
+                                SMSHepler objSMSHepler = new SMSHepler();
+                                string ChargeType = string.Empty;
+
+                                //更新流水付費表資訊(付費成功)
+                                if (objDatabaseHelper.UpdateChargeLog_Supplies_ty(orderId, tid, msg, Request.UserHostAddress, CallbackLog, Year, ref ChargeType))
                                 {
-                                    msg += ",";
-                                }
-                            }
-
-                            msg += "。客服電話：04-36092299。";
-
-
-                            //msg = "感謝大德參與線上點燈,茲收您1960元功德金,訂單編號 光明燈:T2204, 安太歲:25351, 文昌燈:六1214。";
-                            //mobile = "0903002568";
-
-                            SMSHepler objSMSHepler = new SMSHepler();
-                            string ChargeType = string.Empty;
-
-                            //更新流水付費表資訊(付費成功)
-                            if (objDatabaseHelper.UpdateChargeLog_Supplies_ty(orderId, tid, msg, Request.UserHostAddress, CallbackLog, Year, ref ChargeType))
-                            {
-                                if (objSMSHepler.SendMsg_SL(mobile, msg))
-                                {
-                                    //m2 = m2.IndexOf("aid=") > 0 ? m2 : (m2.IndexOf("?") > 0 ? m2 + "&aid=" + m1 : m2 + "?aid=" + m1 + "&a=" + adminID);
-                                    m2 = "https://bobibobi.tw/Temples/templeComplete.aspx?a=" + adminID + "&aid=" + aid + "&kind=7" + (ChargeType == "Twm" ? "&twm=1" : "");
-                                    Response.Redirect(m2, true);
+                                    if (objSMSHepler.SendMsg_SL(mobile, msg))
+                                    {
+                                        //m2 = m2.IndexOf("aid=") > 0 ? m2 : (m2.IndexOf("?") > 0 ? m2 + "&aid=" + m1 : m2 + "?aid=" + m1 + "&a=" + adminID);
+                                        m2 = "https://bobibobi.tw/Temples/templeComplete.aspx?a=" + adminID + "&aid=" + aid + "&kind=7" + (ChargeType == "Twm" ? "&twm=1" : "");
+                                        Response.Redirect(m2, true);
+                                    }
+                                    else
+                                    {
+                                        Response.Write("<script>alert('傳送簡訊失敗。請聯繫管理員。客服電話：04-36092299。');window.location.href='" + rebackURL + "'</script>");
+                                    }
                                 }
                                 else
                                 {
-                                    Response.Write("<script>alert('傳送簡訊失敗。請聯繫管理員。客服電話：04-36092299。');window.location.href='" + rebackURL + "'</script>");
+                                    Response.Write("<script>alert('付款過程失敗。請聯繫管理員。錯誤代碼：109');window.location.href='" + rebackURL + "'</script>");
                                 }
                             }
                             else
                             {
-                                Response.Write("<script>alert('付款過程失敗。請聯繫管理員。錯誤代碼：109');window.location.href='" + rebackURL + "'</script>");
+                                SaveErrorLog(resp + ", 回傳值 錯誤!");
+                                Response.Write("<script>window.location.href='" + rebackURL + "'</script>");
                             }
                         }
                         else if (result[0] == "4")

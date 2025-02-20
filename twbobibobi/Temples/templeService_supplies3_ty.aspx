@@ -864,24 +864,24 @@
         remark_Tag = [];
 
         for (var i = 1; i <= listcount; i++) {
-            name_Tag.push($("#bless_name_" + i).val());                                         //祈福人姓名
-            mobile_Tag.push($("#bless_tel_" + i).val());                                        //祈福人電話
-            birth_Tag.push($("#bless_birthday_" + i).val());                                    //祈福人國曆生日
-            oversea_Tag.push($("#bless_oversea_" + i).val());                                          //國內-1 國外-2
+            name_Tag.push($("#bless_name_" + i).val());                                                     //祈福人姓名
+            mobile_Tag.push($("#bless_tel_" + i).val());                                                    //祈福人電話
+            birth_Tag.push($("#bless_birthday_" + i).val());                                                //祈福人國曆生日
+            oversea_Tag.push($("#bless_oversea_" + i).val());                                               //國內-1 國外-2
 
             if ($("#bless_oversea_" + i).val() == "1") {
-                zipCode_Tag.push($("#bless_zipcode_" + i).val().trim());                                   //祈福人郵遞區號
-                county_Tag.push($("select[name='bless_county_" + i + "']").val().trim());                  //祈福人縣市
-                dist_Tag.push($("select[name='bless_district_" + i + "']").val().trim());                  //祈福人區域
+                zipCode_Tag.push($("#bless_zipcode_" + i).val().trim());                                    //祈福人郵遞區號
+                county_Tag.push($("select[name='bless_county_" + i + "']").val().trim());                   //祈福人縣市
+                dist_Tag.push($("select[name='bless_district_" + i + "']").val().trim());                   //祈福人區域
             }
             else {
                 zipCode_Tag.push("0");
                 county_Tag.push("");
                 dist_Tag.push("");
             }
-            addr_Tag.push($("#bless_address_" + i).val().trim());                                      //祈福人部分地址
-            remark_Tag.push($("#bless_remark_" + i).val());                                     //備註
-            SuppliesType_Tag.push($("#bless_service_" + i).val());                            //服務項目
+            addr_Tag.push($("#bless_address_" + i).val().trim());                                           //祈福人部分地址
+            remark_Tag.push($("#bless_remark_" + i).val());                                                 //備註
+            SuppliesType_Tag.push($("#bless_service_" + i).val());                                          //服務項目
         }
 
         data = {

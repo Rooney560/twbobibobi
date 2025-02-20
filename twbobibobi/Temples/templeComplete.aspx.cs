@@ -55,7 +55,7 @@ namespace Temple.Temples
                     int adminID = int.Parse(Request["a"]);
                     int ApplicantID = int.Parse(Request["aid"]);
                     int kind = int.Parse(Request["kind"]);
-                    string Year = "2024";
+                    string Year = "2025";
                     bool ExpirationDate = true;
                     //this.purdue.Visible = false;
                     //this.purdue2.Visible = false;
@@ -359,10 +359,10 @@ namespace Temple.Temples
                             break;
                         case 7:
                             // 桃園威天宮天赦日補運
-                            typeString = " 2024天赦日補運";
+                            typeString = " 2025天赦日招財補運";
                             title = " 桃園威天宮";
                             GetStateContentlist_ty(adminID, ApplicantID, kind, Year);           //購買人資料列表
-                            EndDate = "2024/05/28 23:59";
+                            EndDate = "2025/03/06 23:59";
                             break;
                         case 8:
                             //進寶財神廟天赦日祭改
@@ -1806,8 +1806,8 @@ namespace Temple.Temples
 
                         OrderPurchaser = OrderData("購買人姓名", dtData.Rows[0]["AppName"].ToString());
                         OrderPurchaser += OrderData("購買人電話", dtData.Rows[0]["AppMobile"].ToString());
-                        OrderPurchaser += OrderData("國曆生日", dtData.Rows[0]["AppBirth"].ToString() + (dtData.Rows[0]["AppLeapMonth"].ToString() == "Y" ? " 閏月" : ""));
-                        OrderPurchaser += OrderData("購買人地址", (dtData.Rows[0]["AppZipCode"].ToString() != "" ? dtData.Rows[0]["AppZipCode"].ToString() + " " : "") + dtData.Rows[0]["AppAddress"].ToString());
+                        OrderPurchaser += OrderData("國曆生日", dtData.Rows[0]["AppsBirth"].ToString());
+                        OrderPurchaser += OrderData("購買人地址", dtData.Rows[0]["AppAddress"].ToString());
 
                         OrderInfo = string.Empty;
 
@@ -1828,7 +1828,7 @@ namespace Temple.Temples
                             OrderInfo += OrderData("訂單編號", dtData.Rows[i]["Num2String"].ToString());
                             OrderInfo += OrderData("祈福人姓名", dtData.Rows[i]["Name"].ToString());
                             OrderInfo += OrderData("祈福人電話", dtData.Rows[i]["Mobile"].ToString());
-                            OrderInfo += OrderData("國曆生日", dtData.Rows[i]["Birth"].ToString() + (dtData.Rows[i]["LeapMonth"].ToString() == "Y" ? " 閏月" : ""));
+                            OrderInfo += OrderData("國曆生日", dtData.Rows[i]["sBirth"].ToString());
                             OrderInfo += OrderData("祈福人地址", dtData.Rows[i]["Address"].ToString());
 
                             OrderInfo += "</div></div>";
