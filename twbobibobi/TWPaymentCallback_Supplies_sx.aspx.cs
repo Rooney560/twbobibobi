@@ -43,7 +43,7 @@ namespace twbobibobi
                 if (!BCFBaseLibrary.Net.HTTPClient.Get(url, string.Empty, ref resp))
                 {
                     //resp = "交易網址連結失敗";
-                    SaveErrorLog(resp);
+                    SaveErrorLog(resp + ", 取得API錯誤。");
                 }
 
                 if (Request["ad"] != null)
@@ -85,7 +85,7 @@ namespace twbobibobi
                                 string msg = "感謝購買,已成功付款" + cost + "元,您的訂單編號 ";
 
                                 //更新普渡資料表並取得訂單編號
-                                objDatabaseHelper.UpdateSupplies_sx_Info(aid, Year,ref msg, ref supplieslist);
+                                objDatabaseHelper.UpdateSupplies_sx_Info(aid, Year, ref msg, ref supplieslist);
                                 //取得申請人資料表
                                 //DataTable dtapplicantinfo = objDatabaseHelper.Getapplicantinfo_Supplies_sx(aid, adminID, Year);
                                 ////更新購買表內購買人狀態為已付款(Status=2)

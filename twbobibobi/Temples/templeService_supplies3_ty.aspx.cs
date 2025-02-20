@@ -98,7 +98,7 @@ namespace twbobibobi.Temples
 
                 postURL += basePage.Request["fb"] != null ? "_FB" : "";
 
-                postURL += basePage.Request["fbda"] != null ? "_FBDA" : "";
+                postURL += basePage.Request["fbty"] != null ? "_FBTY" : "";
 
                 postURL += basePage.Request["ig"] != null ? "_IG" : "";
 
@@ -108,7 +108,7 @@ namespace twbobibobi.Temples
 
                 postURL += basePage.Request["gads"] != null ? "_GADS" : "";
 
-                postURL += basePage.Request["inda"] != null ? "_INDA" : "";
+                postURL += basePage.Request["inty"] != null ? "_INTY" : "";
 
                 postURL += basePage.Request["elv"] != null ? "_ELV" : "";
 

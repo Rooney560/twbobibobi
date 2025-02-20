@@ -27,7 +27,7 @@ namespace Temple.Temples
         public string OrderPurchaser = string.Empty;
         public string OrderInfo = string.Empty;
         public string EndDate = "2023/07/09 23:59";
-        public static string Year = "2024";
+        public static string Year = "2025";
 
         public int Total = 0;
 
@@ -394,9 +394,9 @@ namespace Temple.Temples
                                     break;
                             }
                             break;
-                        //天赦日補運
+                        //天赦日招財補運
                         case 7:
-                            typeString = " 2024天赦日補運";
+                            typeString = " 2025天赦日招財補運";
 
                             switch (adminID)
                             {
@@ -405,8 +405,8 @@ namespace Temple.Temples
                                     title = "桃園威天宮";
                                     GetPurchaserlist_ty_Supplies(adminID, ApplicantID, Year);          //購買人資料列表
                                     Checkedtemple_ty(adminID, ApplicantID, kind, 1, Year);
-                                    EndDate = "2024/05/28 23:59";
-                                    bindPayButton(true, true, true, false, true, false, false, false);
+                                    EndDate = "2025/03/06 23:59";
+                                    bindPayButton(true, true, true, true, true, true, true, true);
                                     break;
                             }
                             break;
@@ -753,7 +753,7 @@ namespace Temple.Temples
                     //        //企業補財庫
                     //        break;
                     //    case 7:
-                    //        //天赦日補運
+                    //        //天赦日招財補運
                     //        break;
                     //    case 8:
                     //        //天赦日祭改
@@ -2166,7 +2166,7 @@ namespace Temple.Temples
                                     }
                                     break;
                                 case 7:
-                                    //桃園威天宮天赦日補運
+                                    //桃園威天宮天赦日招財補運
 
                                     dtLASTTIME = objLightDAC.GetInfoLastDate(ApplicantID, AdminID, 7, type, Year);
                                     if (dtLASTTIME.AddMinutes(20) < dtNow)
@@ -2182,10 +2182,15 @@ namespace Temple.Temples
                                         {
                                             case "LinePay":
                                                 link = TWWebPay_supplies_ty(basePage, orderId, ApplicantID, "LINEPAY", "", cost, AppMobile, "a=" + AdminID + "&aid=" + ApplicantID + "&kind=" + kind + (basePage.Request["twm"] != null ? "&twm=1" : ""), Year);
-                                                //link = "https://bobibobi.tw/Admin/line/LinePay.aspx?a=" + AdminID + "&aid=" + ApplicantID + "&Total=" + cost + "&kind=" + kind + (basePage.Request["twm"] != null ? "&twm=1" : "") + "&name=桃園威天宮天赦日補運&orderId=" + orderId;
+                                                //link = "https://bobibobi.tw/Admin/line/LinePay.aspx?a=" + AdminID + "&aid=" + ApplicantID + "&Total=" + cost + "&kind=" + kind + (basePage.Request["twm"] != null ? "&twm=1" : "") + "&name=桃園威天宮天赦日招財補運&orderId=" + orderId;
                                                 break;
                                             case "JkosPay":
-                                                link = "https://bobibobi.tw/Admin/jkos/jkosPay.aspx?a=" + AdminID + "&aid=" + ApplicantID + "&Total=" + cost + "&kind=" + kind + (basePage.Request["twm"] != null ? "&twm=1" : "") + "&name=桃園威天宮天赦日補運&orderId=" + orderId;
+                                                if (basePage.Request["ad"] == "2299")
+                                                {
+                                                    cost = 10;
+                                                }
+                                                link = "https://bobibobi.tw/Admin/jkos/jkosPay.aspx?a=" + AdminID + "&aid=" + ApplicantID + "&Total=" + cost + "&kind=" + kind + (basePage.Request["twm"] != null ? "&twm=1" : "") + "&name=桃園威天宮天赦日招財補運&orderId=" + orderId;
+                                                //link = "https://localhost:56437/Admin/jkos/jkosPay.aspx?a=" + AdminID + "&aid=" + ApplicantID + "&Total=" + cost + "&kind=" + kind + (basePage.Request["twm"] != null ? "&twm=1" : "") + "&name=桃園威天宮天赦日招財補運&orderId=" + orderId;
                                                 break;
                                             case "ChtCSP":
                                                 link = TWWebPay_supplies_ty(basePage, orderId, ApplicantID, "TELEPAY", "", cost, AppMobile, "a=" + AdminID + "&aid=" + ApplicantID + "&kind=" + kind + (basePage.Request["twm"] != null ? "&twm=1" : ""), Year);
@@ -2226,10 +2231,10 @@ namespace Temple.Temples
                                         //{
                                         //    case "LinePay":
                                         //        link = TWWebPay_supplies_jb(basePage, orderId, ApplicantID, "LINEPAY", "", cost, AppMobile, "a=" + AdminID + "&aid=" + ApplicantID + "&kind=" + kind + (basePage.Request["twm"] != null ? "&twm=1" : ""), Year);
-                                        //        //link = "https://bobibobi.tw/Admin/line/LinePay.aspx?a=" + AdminID + "&aid=" + ApplicantID + "&Total=" + cost + "&kind=" + kind + (basePage.Request["twm"] != null ? "&twm=1" : "") + "&name=桃園威天宮天赦日補運&orderId=" + orderId;
+                                        //        //link = "https://bobibobi.tw/Admin/line/LinePay.aspx?a=" + AdminID + "&aid=" + ApplicantID + "&Total=" + cost + "&kind=" + kind + (basePage.Request["twm"] != null ? "&twm=1" : "") + "&name=桃園威天宮天赦日招財補運&orderId=" + orderId;
                                         //        break;
                                         //    case "JkosPay":
-                                        //        link = "https://bobibobi.tw/Admin/jkos/jkosPay.aspx?a=" + AdminID + "&aid=" + ApplicantID + "&Total=" + cost + "&kind=" + kind + (basePage.Request["twm"] != null ? "&twm=1" : "") + "&name=桃園威天宮天赦日補運&orderId=" + orderId;
+                                        //        link = "https://bobibobi.tw/Admin/jkos/jkosPay.aspx?a=" + AdminID + "&aid=" + ApplicantID + "&Total=" + cost + "&kind=" + kind + (basePage.Request["twm"] != null ? "&twm=1" : "") + "&name=桃園威天宮天赦日招財補運&orderId=" + orderId;
                                         //        break;
                                         //    case "ChtCSP":
                                         //        link = TWWebPay_supplies_jb(basePage, orderId, ApplicantID, "TELEPAY", "", cost, AppMobile, "a=" + AdminID + "&aid=" + ApplicantID + "&kind=" + kind + (basePage.Request["twm"] != null ? "&twm=1" : ""), Year);
@@ -2270,7 +2275,7 @@ namespace Temple.Temples
                                         {
                                             case "LinePay":
                                                 link = TWWebPay_emperorGuansheng_ty(basePage, orderId, ApplicantID, "LINEPAY", "", cost, AppMobile, "a=" + AdminID + "&aid=" + ApplicantID + "&kind=" + kind + (basePage.Request["twm"] != null ? "&twm=1" : "") + (basePage.Request["bobi"] != null ? "&bobi=1" : ""), Year);
-                                                //link = "https://bobibobi.tw/Admin/line/LinePay.aspx?a=" + AdminID + "&aid=" + ApplicantID + "&Total=" + cost + "&kind=" + kind + (basePage.Request["twm"] != null ? "&twm=1" : "") + (basePage.Request["bobi"] != null ? "&bobi=1" : "") + "&name=桃園威天宮天赦日補運&orderId=" + orderId;
+                                                //link = "https://bobibobi.tw/Admin/line/LinePay.aspx?a=" + AdminID + "&aid=" + ApplicantID + "&Total=" + cost + "&kind=" + kind + (basePage.Request["twm"] != null ? "&twm=1" : "") + (basePage.Request["bobi"] != null ? "&bobi=1" : "") + "&name=桃園威天宮天赦日招財補運&orderId=" + orderId;
                                                 break;
                                             case "JkosPay":
                                                 link = "https://bobibobi.tw/Admin/jkos/jkosPay.aspx?a=" + AdminID + "&aid=" + ApplicantID + "&Total=" + cost + "&kind=" + kind + (basePage.Request["twm"] != null ? "&twm=1" : "") + (basePage.Request["bobi"] != null ? "&bobi=1" : "") + "&name=桃園威天宮關聖帝君聖誕&orderId=" + orderId;
@@ -2420,7 +2425,7 @@ namespace Temple.Temples
                                                 link = TWWebPay_taoistJiaoCeremony_da(basePage, orderId, ApplicantID, "LINEPAY", "", cost, AppMobile, "a=" + AdminID + "&aid=" +
                                                     ApplicantID + "&kind=" + kind + (basePage.Request["twm"] != null ? "&twm=1" : "") +
                                                     (basePage.Request["bobi"] != null ? "&bobi=1" : ""), Year);
-                                                //link = "https://bobibobi.tw/Admin/line/LinePay.aspx?a=" + AdminID + "&aid=" + ApplicantID + "&Total=" + cost + "&kind=" + kind + (basePage.Request["twm"] != null ? "&twm=1" : "") + (basePage.Request["bobi"] != null ? "&bobi=1" : "") + "&name=桃園威天宮天赦日補運&orderId=" + orderId;
+                                                //link = "https://bobibobi.tw/Admin/line/LinePay.aspx?a=" + AdminID + "&aid=" + ApplicantID + "&Total=" + cost + "&kind=" + kind + (basePage.Request["twm"] != null ? "&twm=1" : "") + (basePage.Request["bobi"] != null ? "&bobi=1" : "") + "&name=桃園威天宮天赦日招財補運&orderId=" + orderId;
                                                 break;
                                             case "JkosPay":
                                                 //if (basePage.Request["ad"] != null)
@@ -2478,7 +2483,7 @@ namespace Temple.Temples
                                             case "LinePay":
                                                 link = TWWebPay_supplies2_ty(basePage, orderId, ApplicantID, "LINEPAY", "", cost, AppMobile, "a=" + AdminID + "&aid=" + ApplicantID +
                                                     "&kind=" + kind + (basePage.Request["twm"] != null ? "&twm=1" : "") + (basePage.Request["bobi"] != null ? "&bobi=1" : ""), Year);
-                                                //link = "https://bobibobi.tw/Admin/line/LinePay.aspx?a=" + AdminID + "&aid=" + ApplicantID + "&Total=" + cost + "&kind=" + kind + (basePage.Request["twm"] != null ? "&twm=1" : "") + (basePage.Request["bobi"] != null ? "&bobi=1" : "") + "&name=桃園威天宮天赦日補運&orderId=" + orderId;
+                                                //link = "https://bobibobi.tw/Admin/line/LinePay.aspx?a=" + AdminID + "&aid=" + ApplicantID + "&Total=" + cost + "&kind=" + kind + (basePage.Request["twm"] != null ? "&twm=1" : "") + (basePage.Request["bobi"] != null ? "&bobi=1" : "") + "&name=桃園威天宮天赦日招財補運&orderId=" + orderId;
                                                 break;
                                             case "JkosPay":
                                                 //if (basePage.Request["ad"] != null)
@@ -2534,7 +2539,7 @@ namespace Temple.Temples
                                                 link = TWWebPay_lybc_dh(basePage, orderId, ApplicantID, "LINEPAY", "", cost, AppMobile, "a=" + AdminID + "&aid=" +
                                                     ApplicantID + "&kind=" + kind + (basePage.Request["twm"] != null ? "&twm=1" : "") +
                                                     (basePage.Request["bobi"] != null ? "&bobi=1" : ""), Year);
-                                                //link = "https://bobibobi.tw/Admin/line/LinePay.aspx?a=" + AdminID + "&aid=" + ApplicantID + "&Total=" + cost + "&kind=" + kind + (basePage.Request["twm"] != null ? "&twm=1" : "") + (basePage.Request["bobi"] != null ? "&bobi=1" : "") + "&name=桃園威天宮天赦日補運&orderId=" + orderId;
+                                                //link = "https://bobibobi.tw/Admin/line/LinePay.aspx?a=" + AdminID + "&aid=" + ApplicantID + "&Total=" + cost + "&kind=" + kind + (basePage.Request["twm"] != null ? "&twm=1" : "") + (basePage.Request["bobi"] != null ? "&bobi=1" : "") + "&name=桃園威天宮天赦日招財補運&orderId=" + orderId;
                                                 break;
                                             case "JkosPay":
                                                 //if (basePage.Request["ad"] != null)
@@ -2596,7 +2601,7 @@ namespace Temple.Temples
                                                         link = TWWebPay_supplies_Lk(basePage, orderId, ApplicantID, "LINEPAY", "", cost, AppMobile, "a=" + AdminID + "&aid=" +
                                                             ApplicantID + "&kind=" + kind + (basePage.Request["twm"] != null ? "&twm=1" : "") +
                                                             (basePage.Request["bobi"] != null ? "&bobi=1" : ""), Year);
-                                                        //link = "https://bobibobi.tw/Admin/line/LinePay.aspx?a=" + AdminID + "&aid=" + ApplicantID + "&Total=" + cost + "&kind=" + kind + (basePage.Request["twm"] != null ? "&twm=1" : "") + (basePage.Request["bobi"] != null ? "&bobi=1" : "") + "&name=桃園威天宮天赦日補運&orderId=" + orderId;
+                                                        //link = "https://bobibobi.tw/Admin/line/LinePay.aspx?a=" + AdminID + "&aid=" + ApplicantID + "&Total=" + cost + "&kind=" + kind + (basePage.Request["twm"] != null ? "&twm=1" : "") + (basePage.Request["bobi"] != null ? "&bobi=1" : "") + "&name=桃園威天宮天赦日招財補運&orderId=" + orderId;
                                                         break;
                                                     case "JkosPay":
                                                         //if (basePage.Request["ad"] != null)
@@ -2660,7 +2665,7 @@ namespace Temple.Temples
                                                         link = TWWebPay_supplies_sx(basePage, orderId, ApplicantID, "LINEPAY", "", cost, AppMobile, "a=" + AdminID + "&aid=" +
                                                             ApplicantID + "&kind=" + kind + (basePage.Request["twm"] != null ? "&twm=1" : "") +
                                                             (basePage.Request["bobi"] != null ? "&bobi=1" : ""), Year);
-                                                        //link = "https://bobibobi.tw/Admin/line/LinePay.aspx?a=" + AdminID + "&aid=" + ApplicantID + "&Total=" + cost + "&kind=" + kind + (basePage.Request["twm"] != null ? "&twm=1" : "") + (basePage.Request["bobi"] != null ? "&bobi=1" : "") + "&name=桃園威天宮天赦日補運&orderId=" + orderId;
+                                                        //link = "https://bobibobi.tw/Admin/line/LinePay.aspx?a=" + AdminID + "&aid=" + ApplicantID + "&Total=" + cost + "&kind=" + kind + (basePage.Request["twm"] != null ? "&twm=1" : "") + (basePage.Request["bobi"] != null ? "&bobi=1" : "") + "&name=桃園威天宮天赦日招財補運&orderId=" + orderId;
                                                         break;
                                                     case "JkosPay":
                                                         //if (basePage.Request["ad"] != null)
@@ -2720,7 +2725,7 @@ namespace Temple.Temples
                                             case "LinePay":
                                                 link = TWWebPay_supplies3_ty(basePage, orderId, ApplicantID, "LINEPAY", "", cost, AppMobile, "a=" + AdminID + "&aid=" + ApplicantID +
                                                     "&kind=" + kind + (basePage.Request["twm"] != null ? "&twm=1" : "") + (basePage.Request["bobi"] != null ? "&bobi=1" : ""), Year);
-                                                //link = "https://bobibobi.tw/Admin/line/LinePay.aspx?a=" + AdminID + "&aid=" + ApplicantID + "&Total=" + cost + "&kind=" + kind + (basePage.Request["twm"] != null ? "&twm=1" : "") + (basePage.Request["bobi"] != null ? "&bobi=1" : "") + "&name=桃園威天宮天赦日補運&orderId=" + orderId;
+                                                //link = "https://bobibobi.tw/Admin/line/LinePay.aspx?a=" + AdminID + "&aid=" + ApplicantID + "&Total=" + cost + "&kind=" + kind + (basePage.Request["twm"] != null ? "&twm=1" : "") + (basePage.Request["bobi"] != null ? "&bobi=1" : "") + "&name=桃園威天宮天赦日招財補運&orderId=" + orderId;
                                                 break;
                                             case "JkosPay":
                                                 //if (basePage.Request["ad"] != null)
@@ -2791,7 +2796,7 @@ namespace Temple.Temples
                         TimeZoneInfo info = TimeZoneInfo.FindSystemTimeZoneById("Taipei Standard Time");
                         DateTime dtNow = TimeZoneInfo.ConvertTime(DateTime.Now, info);
                         string orderId = dtNow.ToString("yyyyMMddHHmmssfff");
-                        string Year = "2024";
+                        string Year = "2025";
                         string Codeerror = "0";
 
                         string code = CreateRandomWord(6);
@@ -3268,48 +3273,32 @@ namespace Temple.Temples
                                 }
                                 break;
                             case 7:
-                                //桃園威天宮天赦日補運
+                                //桃園威天宮天赦日招財補運
+                                switch (AdminID)
+                                {
+                                    case 14:
+                                        if (objLightDAC.CheckedCAPTCHACodeCount(ApplicantID, AdminID, kind, AppMobile, Year, ref Codeerror))
+                                        {
+                                            if (objLightDAC.addCAPTCHACode(ApplicantID, AdminID, kind, code, AppMobile, Year))
+                                            {
+                                                if (objSMSHepler.SendMsg_SL(AppMobile, msg))
+                                                {
+                                                    string log = String.Format("aid={0}&a={1}&kind={2}&Year={3}&code={4}", ApplicantID, AdminID, kind, Year, code);
+                                                    basePage.SaveCAPTCHACodeLog(log);
 
-                                //dtLASTTIME = objLightDAC.GetInfoLastDate(ApplicantID, AdminID, 7, type, Year);
-                                //if (dtLASTTIME.AddMinutes(20) < dtNow)
-                                //{
-                                //    basePage.mJSonHelper.AddContent("Timeover", 1);
-                                //}
-                                //else
-                                //{
-                                //    int cost = Total;
-                                //    string link = string.Empty;
+                                                    basePage.mJSonHelper.AddContent("StatusCode", 1);
 
-                                //    switch (ChargeType)
-                                //    {
-                                //        case "LinePay":
-                                //            link = TWWebPay_supplies_ty(basePage, orderId, ApplicantID, "LINEPAY", "", cost, AppMobile, "a=" + AdminID + "&aid=" + ApplicantID + "&kind=" + kind + (basePage.Request["twm"] != null ? "&twm=1" : ""), Year);
-                                //            //link = "https://bobibobi.tw/Admin/line/LinePay.aspx?a=" + AdminID + "&aid=" + ApplicantID + "&Total=" + cost + "&kind=" + kind + (basePage.Request["twm"] != null ? "&twm=1" : "") + "&name=桃園威天宮天赦日補運&orderId=" + orderId;
-                                //            break;
-                                //        case "JkosPay":
-                                //            link = "https://bobibobi.tw/Admin/jkos/jkosPay.aspx?a=" + AdminID + "&aid=" + ApplicantID + "&Total=" + cost + "&kind=" + kind + (basePage.Request["twm"] != null ? "&twm=1" : "") + "&name=桃園威天宮天赦日補運&orderId=" + orderId;
-                                //            break;
-                                //        case "ChtCSP":
-                                //            link = TWWebPay_supplies_ty(basePage, orderId, ApplicantID, "TELEPAY", "", cost, AppMobile, "a=" + AdminID + "&aid=" + ApplicantID + "&kind=" + kind + (basePage.Request["twm"] != null ? "&twm=1" : ""), Year);
-                                //            break;
-                                //        case "TwmCSP":
-                                //            link = TWWebPay_supplies_ty(basePage, orderId, ApplicantID, "TELEPAY", "twm", cost, AppMobile, "a=" + AdminID + "&aid=" + ApplicantID + "&kind=" + kind + (basePage.Request["twm"] != null ? "&twm=1" : ""), Year);
-                                //            break;
-                                //        default:
-                                //            link = TWWebPay_supplies_ty(basePage, orderId, ApplicantID, ChargeType, "", cost, AppMobile, "a=" + AdminID + "&aid=" + ApplicantID + "&kind=" + kind + (basePage.Request["twm"] != null ? "&twm=1" : ""), Year);
-                                //            break;
-                                //    }
-
-                                //    if (link != "")
-                                //    {
-                                //        basePage.SavePayLog(link);
-
-                                //        basePage.mJSonHelper.AddContent("StatusCode", 1);
-                                //        basePage.mJSonHelper.AddContent("redirect", link);
-
-                                //        basePage.Session["ApplicantID"] = ApplicantID;
-                                //    }
-                                //}
+                                                    basePage.Session["ApplicantID"] = ApplicantID;
+                                                }
+                                            }
+                                        }
+                                        else
+                                        {
+                                            basePage.mJSonHelper.AddContent("StatusCode", 0);
+                                            basePage.mJSonHelper.AddContent("CodeError", Codeerror);
+                                        }
+                                        break;
+                                }
                                 break;
                             case 8:
                                 //進寶財神廟天赦日祭改
@@ -3328,10 +3317,10 @@ namespace Temple.Temples
                                 //    //{
                                 //    //    case "LinePay":
                                 //    //        link = TWWebPay_supplies_jb(basePage, orderId, ApplicantID, "LINEPAY", "", cost, AppMobile, "a=" + AdminID + "&aid=" + ApplicantID + "&kind=" + kind + (basePage.Request["twm"] != null ? "&twm=1" : ""), Year);
-                                //    //        //link = "https://bobibobi.tw/Admin/line/LinePay.aspx?a=" + AdminID + "&aid=" + ApplicantID + "&Total=" + cost + "&kind=" + kind + (basePage.Request["twm"] != null ? "&twm=1" : "") + "&name=桃園威天宮天赦日補運&orderId=" + orderId;
+                                //    //        //link = "https://bobibobi.tw/Admin/line/LinePay.aspx?a=" + AdminID + "&aid=" + ApplicantID + "&Total=" + cost + "&kind=" + kind + (basePage.Request["twm"] != null ? "&twm=1" : "") + "&name=桃園威天宮天赦日招財補運&orderId=" + orderId;
                                 //    //        break;
                                 //    //    case "JkosPay":
-                                //    //        link = "https://bobibobi.tw/Admin/jkos/jkosPay.aspx?a=" + AdminID + "&aid=" + ApplicantID + "&Total=" + cost + "&kind=" + kind + (basePage.Request["twm"] != null ? "&twm=1" : "") + "&name=桃園威天宮天赦日補運&orderId=" + orderId;
+                                //    //        link = "https://bobibobi.tw/Admin/jkos/jkosPay.aspx?a=" + AdminID + "&aid=" + ApplicantID + "&Total=" + cost + "&kind=" + kind + (basePage.Request["twm"] != null ? "&twm=1" : "") + "&name=桃園威天宮天赦日招財補運&orderId=" + orderId;
                                 //    //        break;
                                 //    //    case "ChtCSP":
                                 //    //        link = TWWebPay_supplies_jb(basePage, orderId, ApplicantID, "TELEPAY", "", cost, AppMobile, "a=" + AdminID + "&aid=" + ApplicantID + "&kind=" + kind + (basePage.Request["twm"] != null ? "&twm=1" : ""), Year);
@@ -3372,7 +3361,7 @@ namespace Temple.Temples
                                 //    {
                                 //        case "LinePay":
                                 //            link = TWWebPay_emperorGuansheng_ty(basePage, orderId, ApplicantID, "LINEPAY", "", cost, AppMobile, "a=" + AdminID + "&aid=" + ApplicantID + "&kind=" + kind + (basePage.Request["twm"] != null ? "&twm=1" : "") + (basePage.Request["bobi"] != null ? "&bobi=1" : ""), Year);
-                                //            //link = "https://bobibobi.tw/Admin/line/LinePay.aspx?a=" + AdminID + "&aid=" + ApplicantID + "&Total=" + cost + "&kind=" + kind + (basePage.Request["twm"] != null ? "&twm=1" : "") + (basePage.Request["bobi"] != null ? "&bobi=1" : "") + "&name=桃園威天宮天赦日補運&orderId=" + orderId;
+                                //            //link = "https://bobibobi.tw/Admin/line/LinePay.aspx?a=" + AdminID + "&aid=" + ApplicantID + "&Total=" + cost + "&kind=" + kind + (basePage.Request["twm"] != null ? "&twm=1" : "") + (basePage.Request["bobi"] != null ? "&bobi=1" : "") + "&name=桃園威天宮天赦日招財補運&orderId=" + orderId;
                                 //            break;
                                 //        case "JkosPay":
                                 //            link = "https://bobibobi.tw/Admin/jkos/jkosPay.aspx?a=" + AdminID + "&aid=" + ApplicantID + "&Total=" + cost + "&kind=" + kind + (basePage.Request["twm"] != null ? "&twm=1" : "") + (basePage.Request["bobi"] != null ? "&bobi=1" : "") + "&name=桃園威天宮關聖帝君聖誕&orderId=" + orderId;
@@ -3522,7 +3511,7 @@ namespace Temple.Temples
                                 //            link = TWWebPay_taoistJiaoCeremony_da(basePage, orderId, ApplicantID, "LINEPAY", "", cost, AppMobile, "a=" + AdminID + "&aid=" +
                                 //                ApplicantID + "&kind=" + kind + (basePage.Request["twm"] != null ? "&twm=1" : "") +
                                 //                (basePage.Request["bobi"] != null ? "&bobi=1" : ""), Year);
-                                //            //link = "https://bobibobi.tw/Admin/line/LinePay.aspx?a=" + AdminID + "&aid=" + ApplicantID + "&Total=" + cost + "&kind=" + kind + (basePage.Request["twm"] != null ? "&twm=1" : "") + (basePage.Request["bobi"] != null ? "&bobi=1" : "") + "&name=桃園威天宮天赦日補運&orderId=" + orderId;
+                                //            //link = "https://bobibobi.tw/Admin/line/LinePay.aspx?a=" + AdminID + "&aid=" + ApplicantID + "&Total=" + cost + "&kind=" + kind + (basePage.Request["twm"] != null ? "&twm=1" : "") + (basePage.Request["bobi"] != null ? "&bobi=1" : "") + "&name=桃園威天宮天赦日招財補運&orderId=" + orderId;
                                 //            break;
                                 //        case "JkosPay":
                                 //            //if (basePage.Request["ad"] != null)
@@ -3563,7 +3552,7 @@ namespace Temple.Temples
                                 //}
                                 break;
                             case 14:
-                                //桃園威天宮九九重陽天赦日補運
+                                //桃園威天宮九九重陽天赦日招財補運
 
                                 //dtLASTTIME = objLightDAC.GetInfoLastDate(ApplicantID, AdminID, 14, type, Year);
                                 //if (dtLASTTIME.AddMinutes(20) < dtNow)
@@ -3580,7 +3569,7 @@ namespace Temple.Temples
                                 //        case "LinePay":
                                 //            link = TWWebPay_supplies2_ty(basePage, orderId, ApplicantID, "LINEPAY", "", cost, AppMobile, "a=" + AdminID + "&aid=" + ApplicantID +
                                 //                "&kind=" + kind + (basePage.Request["twm"] != null ? "&twm=1" : "") + (basePage.Request["bobi"] != null ? "&bobi=1" : ""), Year);
-                                //            //link = "https://bobibobi.tw/Admin/line/LinePay.aspx?a=" + AdminID + "&aid=" + ApplicantID + "&Total=" + cost + "&kind=" + kind + (basePage.Request["twm"] != null ? "&twm=1" : "") + (basePage.Request["bobi"] != null ? "&bobi=1" : "") + "&name=桃園威天宮天赦日補運&orderId=" + orderId;
+                                //            //link = "https://bobibobi.tw/Admin/line/LinePay.aspx?a=" + AdminID + "&aid=" + ApplicantID + "&Total=" + cost + "&kind=" + kind + (basePage.Request["twm"] != null ? "&twm=1" : "") + (basePage.Request["bobi"] != null ? "&bobi=1" : "") + "&name=桃園威天宮天赦日招財補運&orderId=" + orderId;
                                 //            break;
                                 //        case "JkosPay":
                                 //            //if (basePage.Request["ad"] != null)
@@ -3636,7 +3625,7 @@ namespace Temple.Temples
                                 //            link = TWWebPay_lybc_dh(basePage, orderId, ApplicantID, "LINEPAY", "", cost, AppMobile, "a=" + AdminID + "&aid=" +
                                 //                ApplicantID + "&kind=" + kind + (basePage.Request["twm"] != null ? "&twm=1" : "") +
                                 //                (basePage.Request["bobi"] != null ? "&bobi=1" : ""), Year);
-                                //            //link = "https://bobibobi.tw/Admin/line/LinePay.aspx?a=" + AdminID + "&aid=" + ApplicantID + "&Total=" + cost + "&kind=" + kind + (basePage.Request["twm"] != null ? "&twm=1" : "") + (basePage.Request["bobi"] != null ? "&bobi=1" : "") + "&name=桃園威天宮天赦日補運&orderId=" + orderId;
+                                //            //link = "https://bobibobi.tw/Admin/line/LinePay.aspx?a=" + AdminID + "&aid=" + ApplicantID + "&Total=" + cost + "&kind=" + kind + (basePage.Request["twm"] != null ? "&twm=1" : "") + (basePage.Request["bobi"] != null ? "&bobi=1" : "") + "&name=桃園威天宮天赦日招財補運&orderId=" + orderId;
                                 //            break;
                                 //        case "JkosPay":
                                 //            //if (basePage.Request["ad"] != null)
@@ -5817,7 +5806,7 @@ namespace Temple.Temples
                 string oid = orderid;
                 string uid = "Temple";
                 string Sid = "Temple-TaoyuanWeitian";    //桃園威天宮_宮廟服務(PR00004719)
-                string item = "桃園威天宮天赦日補運";
+                string item = "桃園威天宮天赦日招財補運";
                 string ValidationKey = "Ov7BmaT5l1C89t5FNj0cEsR";
                 string link = "https://tw.mktwservice.com/atPay/pay.aspx?uid=";
                 string PaymentReceiveURL = basePag.GetConfigValue("PaymentSupplies_ty_ReceiveURL");
@@ -7970,8 +7959,9 @@ namespace Temple.Temples
 
                 AppMobile = dtData.Rows[0]["AppMobile"].ToString();
                 OrderPurchaser += String.Format(result, "購買人電話", dtData.Rows[0]["AppMobile"].ToString());
-                OrderPurchaser += OrderData("國歷生日", dtData.Rows[0]["AppBirth"].ToString() + (dtData.Rows[0]["AppLeapMonth"].ToString() == "Y" ? " 閏月" : ""));
-                OrderPurchaser += OrderData("購買人地址", (dtData.Rows[0]["AppZipCode"].ToString() != "" ? dtData.Rows[0]["AppZipCode"].ToString() + " " : "") + dtData.Rows[0]["AppAddress"].ToString());
+                OrderPurchaser += OrderData("國歷生日", dtData.Rows[0]["AppsBirth"].ToString());
+                OrderPurchaser += String.Format(result, "購買人Email", dtData.Rows[0]["AppEmail"].ToString());
+                OrderPurchaser += OrderData("購買人地址", dtData.Rows[0]["AppAddress"].ToString());
 
                 OrderInfo = string.Empty;
 
@@ -7989,8 +7979,9 @@ namespace Temple.Temples
 
                     OrderInfo += OrderData("祈福人姓名", dtData.Rows[i]["Name"].ToString());
                     OrderInfo += OrderData("祈福人電話", dtData.Rows[i]["Mobile"].ToString());
-                    OrderInfo += OrderData("國歷生日", dtData.Rows[i]["Birth"].ToString() + (dtData.Rows[i]["LeapMonth"].ToString() == "Y" ? " 閏月" : ""));
+                    OrderInfo += OrderData("國歷生日", dtData.Rows[i]["sBirth"].ToString());
                     OrderInfo += OrderData("祈福人地址", dtData.Rows[i]["Address"].ToString());
+                    OrderInfo += OrderData("備註", TextToHtml(dtData.Rows[i]["Remark"].ToString()));
 
                     OrderInfo += "</div></div>";
 
@@ -8141,6 +8132,7 @@ namespace Temple.Temples
                     OrderInfo += OrderData("祈福人電話", dtData.Rows[i]["Mobile"].ToString());
                     OrderInfo += OrderData("國歷生日", dtData.Rows[i]["sBirth"].ToString());
                     OrderInfo += OrderData("祈福人地址", dtData.Rows[i]["Address"].ToString());
+                    OrderInfo += OrderData("備註", TextToHtml(dtData.Rows[i]["Remark"].ToString()));
 
                     OrderInfo += "</div></div>";
 
@@ -8239,8 +8231,11 @@ namespace Temple.Temples
                     }
                     break;
                 case 7:
-                    //天赦日補運
-                    reback = "https://bobibobi.tw/Temples/templeService_supplies_ty.aspx" + (Request["twm"] != null ? "?twm=1" : "");
+                    //天赦日招財補運
+                    reback = "https://bobibobi.tw/Temples/templeService_supplies_ty.aspx" +
+                        (Request["ad"] != null ? "&ad=" + Request["ad"] : "") +
+                        (Request["jkos"] != null ? "&jkos=1" : "") +
+                        (Request["twm"] != null ? "&twm=1" : "");
                     if (objLightDAC.checkedappcharge_Supplies_ty(ApplicantID, AdminID, Year))
                     {
                         if (OrderPurchaser == "")

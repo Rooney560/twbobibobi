@@ -15274,7 +15274,7 @@ namespace Temple.FET.APITEST
                             birthMonth = CheckedDateZero(birthMonth, 1);
 
                             SuppliesID = objLightDAC.addSupplies_ty(aid, name, mobile, gender, SuppliesType, SuppliesString, oversea, Birth, leapMonth, birthTime, birthMonth,
-                                age, Zodiac, sBirth, email, 1, addr, city, region, zipCode, Year);
+                                age, Zodiac, sBirth, email, 1, "", addr, city, region, zipCode, Year);
                         }
                     }
                 }
