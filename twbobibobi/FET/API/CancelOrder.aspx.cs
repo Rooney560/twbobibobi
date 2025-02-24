@@ -47,7 +47,7 @@ namespace Temple.FET.APITEST
 
             //key = "koB#pPv2%t";
             key = "g%Qx7h_eOg";
-            if (URL.IndexOf("132.148.2.191") >= 0)
+            if (URL.IndexOf("20.6.8.46") >= 0 || URL.IndexOf("fettest") >= 0)
             {
                 key = "koB#pPv2%t";
             }
@@ -56,7 +56,7 @@ namespace Temple.FET.APITEST
 
             //checkedkey = "lvrd5bidxr^dqlwX";
             checkedkey = "shh#upsu6lyoeBkx";
-            if (URL.IndexOf("132.148.2.191") >= 0)
+            if (URL.IndexOf("20.6.8.46") >= 0 || URL.IndexOf("fettest") >= 0)
             {
                 checkedkey = "lvrd5bidxr^dqlwX";
             }
@@ -160,7 +160,7 @@ namespace Temple.FET.APITEST
                                 //    Year = "2024";
                                 //}
 
-                                if (URL.IndexOf("132.148.2.191") >= 0)
+                                if (URL.IndexOf("20.6.8.46") >= 0 || URL.IndexOf("fettest") >= 0)
                                 {
                                     Year = "TEST";
                                 }
@@ -189,7 +189,7 @@ namespace Temple.FET.APITEST
 
                                 Year = dtNow.Year.ToString();
 
-                                if (URL.IndexOf("132.148.2.191") >= 0)
+                                if (URL.IndexOf("20.6.8.46") >= 0 || URL.IndexOf("fettest") >= 0)
                                 {
                                     Year = "TEST";
                                 }
@@ -217,7 +217,7 @@ namespace Temple.FET.APITEST
                             //    Year = "2025";
                             //}
 
-                            if (URL.IndexOf("132.148.2.191") >= 0)
+                            if (URL.IndexOf("20.6.8.46") >= 0 || URL.IndexOf("fettest") >= 0)
                             {
                                 Year = "TEST";
                             }

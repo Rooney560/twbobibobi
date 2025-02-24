@@ -22,9 +22,9 @@
     <meta property="og:type" content="website" />
 
     <!--抓取圖片-->
-    <meta property="og:image" content="https://bobibobi.tw/Temples/SiteFile/News/20250219_NewsImg.jpg?t=666168" />
-    <meta name="twitter:image:src" content="https://bobibobi.tw/Temples/SiteFile/News/20250219_NewsImg.jpg?t=666168" />
-    <link rel="image_src" href="https://bobibobi.tw/Temples/SiteFile/News/20250219_NewsImg.jpg?t=666168" />
+    <meta property="og:image" content="https://bobibobi.tw/Temples/SiteFile/News/20250221_NewsImg_s.jpg?t=666168" />
+    <meta name="twitter:image:src" content="https://bobibobi.tw/Temples/SiteFile/News/20250221_NewsImg_s.jpg?t=666168" />
+    <link rel="image_src" href="https://bobibobi.tw/Temples/SiteFile/News/20250221_NewsImg_s.jpg?t=666168" />
 
 
     <link rel="shortcut icon" href="images/favicon.png" />
@@ -173,7 +173,7 @@
             <!--本頁內容-->
             <section>
                 <div class="NewsImg">
-                    <img src="SiteFile/News/20250219_NewsImg.jpg?t=666168" width="1160" height="550" alt="天赦日招財補運" title="天赦日招財補運" /></div>
+                    <img src="SiteFile/News/20250221_NewsImg.jpg?t=666168" width="1160" height="550" alt="天赦日招財補運" title="天赦日招財補運" /></div>
                 <div class="NewsBk">
                     <div class="NewsDate">發布日期：2025-02-19</div>
                     <br />
@@ -200,6 +200,7 @@
                                 <div class="ServiceTempleList">
                                     <ul>
                                         <li><a href="templeService_supplies_ty.aspx" target="_blank" title="桃園威天宮">桃園威天宮</a></li>
+                                        <li><a href="templeService_supplies_ma.aspx" target="_blank" title="玉敕大樹朝天宮">玉敕大樹朝天宮</a></li>
                                     </ul>
                                 </div>
                             </li>

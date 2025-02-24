@@ -358,11 +358,23 @@ namespace Temple.Temples
                             //EndDate = "2023/11/20 23:59";
                             break;
                         case 7:
-                            // 桃園威天宮天赦日補運
-                            typeString = " 2025天赦日招財補運";
-                            title = " 桃園威天宮";
-                            GetStateContentlist_ty(adminID, ApplicantID, kind, Year);           //購買人資料列表
-                            EndDate = "2025/03/06 23:59";
+                            switch (adminID)
+                            {
+                                case 14:
+                                    // 桃園威天宮天赦日補運
+                                    typeString = " 2025天赦日招財補運";
+                                    title = " 桃園威天宮";
+                                    GetStateContentlist_ty(adminID, ApplicantID, kind, Year);           //購買人資料列表
+                                    EndDate = "2025/03/06 23:59";
+                                    break;
+                                case 23:
+                                    // 玉敕大樹朝天宮天赦日招財補運
+                                    typeString = " 2025天赦日招財補運";
+                                    title = " 玉敕大樹朝天宮";
+                                    GetStateContentlist_ma(adminID, ApplicantID, kind, Year);           //購買人資料列表
+                                    EndDate = "2025/03/06 23:59";
+                                    break;
+                            }
                             break;
                         case 8:
                             //進寶財神廟天赦日祭改
@@ -2837,6 +2849,55 @@ namespace Temple.Temples
 
                             //普度項目金額
                             int cost = int.Parse(dtData.Rows[i]["Count"].ToString()) * GetPurdueCost(AdminID, purdueType);
+                            OrderInfo += "<div>$ " + cost + "元</div>";
+                            Total += cost;
+
+                            OrderInfo += "</li>";
+                        }
+                    }
+                    break;
+                case 7:
+                    //天赦日招財補運
+                    dtData = objLightDAC.GetAPPCharge_ma_Supplies(ApplicantID, Year);
+                    if (dtData.Rows.Count > 0)
+                    {
+                        OrderStateContent = OrderState("付款時間", DateTime.Parse(dtData.Rows[0]["ChargeDate"].ToString()).ToString("yyyy-MM-dd HH:mm:ss"));
+
+                        OrderPurchaser = OrderData("購買人姓名", dtData.Rows[0]["AppName"].ToString());
+                        OrderPurchaser += OrderData("購買人電話", dtData.Rows[0]["AppMobile"].ToString());
+
+                        OrderInfo = string.Empty;
+
+                        for (int i = 0; i < dtData.Rows.Count; i++)
+                        {
+                            OrderInfo += "<li><div>";
+
+                            string suppliesString = dtData.Rows[i]["SuppliesString"].ToString();
+                            string suppliesType = dtData.Rows[i]["SuppliesType"].ToString();
+
+                            ////服務項目
+                            OrderInfo += String.Format("<div class=\"ProductsName\">{0}</div>", suppliesString);
+
+                            //祈福人內容列表
+                            OrderInfo += "<div class=\"ProductsInfo\">";
+
+                            OrderInfo += OrderData("宮廟名稱", "玉敕大樹朝天宮");
+                            OrderInfo += OrderData("訂單編號", dtData.Rows[i]["Num2String"].ToString());
+                            OrderInfo += OrderData("祈福人姓名", dtData.Rows[i]["Name"].ToString());
+                            OrderInfo += OrderData("祈福人電話", dtData.Rows[i]["Mobile"].ToString());
+                            OrderInfo += OrderData("祈福人性別", dtData.Rows[i]["Sex"].ToString());
+                            OrderInfo += OrderData("祈福人農曆生日", dtData.Rows[i]["Birth"].ToString() + (dtData.Rows[i]["LeapMonth"].ToString() == "Y" ? " 閏月" : ""));
+                            OrderInfo += OrderData("祈福人農曆時辰", dtData.Rows[i]["BirthTime"].ToString());
+                            OrderInfo += OrderData("祈福人國曆生日", dtData.Rows[i]["sBirth"].ToString());
+                            OrderInfo += OrderData("祈福人信箱", dtData.Rows[i]["Email"].ToString());
+                            OrderInfo += OrderData("祈福人市話", dtData.Rows[i]["HomeNum"].ToString());
+                            OrderInfo += OrderData("祈福人地址", dtData.Rows[i]["Address"].ToString());
+                            OrderInfo += OrderData("備註", TextToHtml(dtData.Rows[i]["Remark"].ToString()));
+
+                            OrderInfo += "</div></div>";
+
+                            //服務項目金額
+                            int cost = GetSuppliesCost(AdminID, suppliesType);
                             OrderInfo += "<div>$ " + cost + "元</div>";
                             Total += cost;
 

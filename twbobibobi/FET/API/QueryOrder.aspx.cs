@@ -49,7 +49,7 @@ namespace Temple.FET.APITEST
             //FETVALUE = "79896cad0402d66d7912c492a5d98c6d25d7c0178c282e6ee48cd9a6dca70c39";
 
             key = "g%Qx7h_eOg";
-            if (URL.IndexOf("132.148.2.191") >= 0)
+            if (URL.IndexOf("20.6.8.46") >= 0 || URL.IndexOf("fettest") >= 0)
             {
                 key = "koB#pPv2%t";
             }
@@ -59,7 +59,7 @@ namespace Temple.FET.APITEST
 
             checkedkey = "shh#upsu6lyoeBkx";
 
-            if (URL.IndexOf("132.148.2.191") >= 0)
+            if (URL.IndexOf("20.6.8.46") >= 0 || URL.IndexOf("fettest") >= 0)
             {
                 checkedkey = "lvrd5bidxr^dqlwX";
             }
