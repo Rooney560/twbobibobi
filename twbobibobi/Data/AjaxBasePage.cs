@@ -2105,6 +2105,16 @@ namespace MotoSystem.Data
                             break;
                     }
                     break;
+                case 23:
+                    //玉敕大樹朝天宮
+                    switch (SuppliesType)
+                    {
+                        case "4":
+                            //天赦日招財補運
+                            result = 500;
+                            break;
+                    }
+                    break;
                 case 29:
                     //進寶財神廟
                     switch (SuppliesType)

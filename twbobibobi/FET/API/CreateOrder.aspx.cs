@@ -172,7 +172,7 @@ namespace Temple.FET.APITEST
 
             string key = "g%Qx7h_eOg";
             Session["DEV"] = "PROD";
-            if (URL.IndexOf("132.148.2.191") >= 0 || URL.IndexOf("localhost:1") >= 0)
+            if (URL.IndexOf("20.6.8.46") >= 0 || URL.IndexOf("fettest") >= 0 || URL.IndexOf("localhost:1") >= 0)
             {
                 Session["DEV"] = "UAT";
                 key = "koB#pPv2%t";
@@ -218,7 +218,7 @@ namespace Temple.FET.APITEST
 
             checkedkey = "shh#upsu6lyoeBkx";
 
-            if (URL.IndexOf("132.148.2.191") >= 0 || URL.IndexOf("localhost:1") >= 0)
+            if (URL.IndexOf("20.6.8.46") >= 0 || URL.IndexOf("fettest") >= 0 || URL.IndexOf("localhost:1") >= 0)
             {
                 checkedkey = "lvrd5bidxr^dqlwX";
             }
@@ -295,7 +295,7 @@ namespace Temple.FET.APITEST
                                     Year = "2025";
                                 }
 
-                                if (URL.IndexOf("132.148.2.191") >= 0)
+                                if (URL.IndexOf("20.6.8.46") >= 0 || URL.IndexOf("fettest") >= 0)
                                 {
                                     Year = "TEST";
                                 }
@@ -1455,7 +1455,7 @@ namespace Temple.FET.APITEST
                             case 2:
                                 //普度
                                 Year = dtNow.Year.ToString();
-                                if (URL.IndexOf("132.148.2.191") >= 0)
+                                if (URL.IndexOf("20.6.8.46") >= 0 || URL.IndexOf("fettest") >= 0)
                                 {
                                     Year = "TEST";
                                 }
@@ -3296,7 +3296,7 @@ namespace Temple.FET.APITEST
                             case 3:
                                 //商品文創小販部
                                 Year = dtNow.Year.ToString();
-                                if (URL.IndexOf("132.148.2.191") >= 0)
+                                if (URL.IndexOf("20.6.8.46") >= 0 || URL.IndexOf("fettest") >= 0)
                                 {
                                     Year = "TEST";
                                 }
@@ -4185,7 +4185,7 @@ namespace Temple.FET.APITEST
                             case 4:
                                 //下元補庫
                                 Year = dtNow.Year.ToString();
-                                if (URL.IndexOf("132.148.2.191") >= 0)
+                                if (URL.IndexOf("20.6.8.46") >= 0 || URL.IndexOf("fettest") >= 0)
                                 {
                                     Year = "TEST";
                                 }
@@ -4425,7 +4425,7 @@ namespace Temple.FET.APITEST
                             case 5:
                                 //呈疏補庫
                                 Year = dtNow.Year.ToString();
-                                if (URL.IndexOf("132.148.2.191") >= 0)
+                                if (URL.IndexOf("20.6.8.46") >= 0 || URL.IndexOf("fettest") >= 0)
                                 {
                                     Year = "TEST";
                                 }
@@ -4713,7 +4713,7 @@ namespace Temple.FET.APITEST
                             case 6:
                                 //企業補財庫
                                 Year = dtNow.Year.ToString();
-                                if (URL.IndexOf("132.148.2.191") >= 0)
+                                if (URL.IndexOf("20.6.8.46") >= 0 || URL.IndexOf("fettest") >= 0)
                                 {
                                     Year = "TEST";
                                 }
@@ -5001,7 +5001,7 @@ namespace Temple.FET.APITEST
                             case 7:
                                 //天赦日補運
                                 Year = dtNow.Year.ToString();
-                                if (URL.IndexOf("132.148.2.191") >= 0 || URL.IndexOf("localhost:56371") >= 0)
+                                if (URL.IndexOf("20.6.8.46") >= 0 || URL.IndexOf("fettest") >= 0 || URL.IndexOf("localhost:56371") >= 0)
                                 {
                                     Year = "TEST";
                                 }
@@ -5234,7 +5234,7 @@ namespace Temple.FET.APITEST
                             case 8:
                                 //天赦日祭改
                                 Year = dtNow.Year.ToString();
-                                if (URL.IndexOf("132.148.2.191") >= 0 || URL.IndexOf("localhost:56371") >= 0)
+                                if (URL.IndexOf("20.6.8.46") >= 0 || URL.IndexOf("fettest") >= 0 || URL.IndexOf("localhost:56371") >= 0)
                                 {
                                     Year = "TEST";
                                 }
@@ -5412,7 +5412,7 @@ namespace Temple.FET.APITEST
                             case 10:
                                 //代燒金紙
                                 Year = dtNow.Year.ToString();
-                                if (URL.IndexOf("132.148.2.191") >= 0)
+                                if (URL.IndexOf("20.6.8.46") >= 0 || URL.IndexOf("fettest") >= 0)
                                 {
                                     Year = "TEST";
                                 }
@@ -5590,7 +5590,7 @@ namespace Temple.FET.APITEST
                             case 12:
                                 //靈寶禮斗
                                 Year = dtNow.Year.ToString();
-                                if (URL.IndexOf("132.148.2.191") >= 0)
+                                if (URL.IndexOf("20.6.8.46") >= 0 || URL.IndexOf("fettest") >= 0)
                                 {
                                     Year = "TEST";
                                 }
@@ -5768,7 +5768,7 @@ namespace Temple.FET.APITEST
                             case 13:
                                 //七朝清醮
                                 Year = dtNow.Year.ToString();
-                                if (URL.IndexOf("132.148.2.191") >= 0)
+                                if (URL.IndexOf("20.6.8.46") >= 0 || URL.IndexOf("fettest") >= 0)
                                 {
                                     Year = "TEST";
                                 }
@@ -5946,7 +5946,7 @@ namespace Temple.FET.APITEST
                             case 16:
                                 //補財庫-鹿港城隍廟
                                 Year = "2025";
-                                if (URL.IndexOf("132.148.2.191") >= 0 || URL.IndexOf("localhost:56371") >= 0)
+                                if (URL.IndexOf("20.6.8.46") >= 0 || URL.IndexOf("fettest") >= 0 || URL.IndexOf("localhost:56371") >= 0)
                                 {
                                     Year = "TEST";
                                 }
@@ -6127,7 +6127,7 @@ namespace Temple.FET.APITEST
                             case 18:
                                 //天公生招財補運-桃園威天宮
                                 Year = "2025";
-                                if (URL.IndexOf("132.148.2.191") >= 0 || URL.IndexOf("localhost:56371") >= 0)
+                                if (URL.IndexOf("20.6.8.46") >= 0 || URL.IndexOf("fettest") >= 0 || URL.IndexOf("localhost:56371") >= 0)
                                 {
                                     Year = "TEST";
                                 }
@@ -15293,22 +15293,11 @@ namespace Temple.FET.APITEST
                     {
                         if ((int)dtCharge.Rows[0]["Status"] == 0)
                         {
-                            //更新點燈資料表並取得訂單編號
-                            objDatabaseHelper.UpdateSupplies_ty_Info(aid, Year, ref Supplieslist);
 
                             string msg = "感謝購買,已成功付款" + cost + "元,您的訂單編號 ";
 
-                            for (int i = 0; i < Supplieslist.Length; i++)
-                            {
-                                msg += Supplieslist[i];
-                                if (i < Supplieslist.Length - 1)
-                                {
-                                    msg += ",";
-                                }
-                            }
-
-                            msg += "。客服電話：04-36092299。";
-
+                            //更新點燈資料表並取得訂單編號
+                            objDatabaseHelper.UpdateSupplies_ty_Info(aid, Year, ref msg, ref Supplieslist);
 
                             //msg = "感謝大德參與線上點燈,茲收您1960元功德金,訂單編號 光明燈:T2204, 安太歲:25351, 文昌燈:六1214。";
                             //mobile = "0903002568";
@@ -15453,141 +15442,25 @@ namespace Temple.FET.APITEST
                                 }
                             }
 
-                            //string Birth = string.Empty;
-                            //string birthMonth = string.Empty;
-                            //string age = string.Empty;
-                            //string Zodiac = string.Empty;
-                            //string sBirth = string.Empty;
-
-                            //string year = string.Empty;
-                            //string month = string.Empty;
-                            //string day = string.Empty;
-                            //string syear = string.Empty;
-                            //string smonth = string.Empty;
-                            //string sday = string.Empty;
-
-                            //string birth = lunarBirthday;
-                            //string sbirth = birthday;
-                            //if (birth.Length == 7 && birth != "")
-                            //{
-                            //    string lyear = birth.Substring(0, 3);
-                            //    year = (int.Parse(birth.Substring(0, 3)) + 1911).ToString();
-                            //    month = birthMonth = CheckedDateZero(birth.Substring(3, 2), 1);
-                            //    day = CheckedDateZero(birth.Substring(5, 2), 1);
-
-                            //    Lunar lunar = new Lunar();
-                            //    int.TryParse(year, out lunar.lunarYear);
-                            //    int.TryParse(month, out lunar.lunarMonth);
-                            //    int.TryParse(day, out lunar.lunarDay);
-
-                            //    string b = year + "-" + month + "-" + day;
-                            //    LunarSolarConverter.shuxiang(int.Parse(year), ref Zodiac);
-                            //    DateTime dlBirth;
-                            //    if (DateTime.TryParse(b, out dlBirth))
-                            //    {
-                            //        age = GetAge(int.Parse(year), int.Parse(month), int.Parse(day)).ToString();
-                            //    }
-
-                            //    if (sbirth == "")
-                            //    {
-                            //        //國曆生日=空白
-                            //        Solar solor = new Solar();
-                            //        solor = LunarSolarConverter.LunarToSolar(lunar);
-
-                            //        string sROC = solor.solarYear > 1911 ? "民國" + (solor.solarYear - 1911) + "年" : "民國" + (solor.solarYear) + "年";
-                            //        sBirth = sROC + CheckedDateZero(solor.solarMonth.ToString(), 1) + "月" + CheckedDateZero(solor.solarDay.ToString(), 1) + "日";
-
-                            //        string ROC = lunar.lunarYear > 1911 ? "民國" + (lunar.lunarYear - 1911) + "年" : "民國" + (lunar.lunarYear) + "年";
-                            //        Birth = ROC + CheckedDateZero(lunar.lunarMonth.ToString(), 1) + "月" + CheckedDateZero(lunar.lunarDay.ToString(), 1) + "日";
-                            //    }
-                            //    else
-                            //    {
-                            //        //國曆生日!=空白
-                            //        string ssyear = sbirth.Substring(0, 3);
-                            //        syear = (int.Parse(sbirth.Substring(0, 3)) + 1911).ToString();
-                            //        smonth = CheckedDateZero(sbirth.Substring(3, 2), 1);
-                            //        sday = CheckedDateZero(sbirth.Substring(5, 2), 1);
-
-                            //        sBirth = "民國" + ssyear + "年" + smonth + "月" + sday + "日";
-
-                            //        string ROC = lunar.lunarYear > 1911 ? "民國" + (lunar.lunarYear - 1911) + "年" : "民國" + (lunar.lunarYear) + "年";
-                            //        Birth = ROC + CheckedDateZero(lunar.lunarMonth.ToString(), 1) + "月" + CheckedDateZero(lunar.lunarDay.ToString(), 1) + "日";
-                            //    }
-                            //    else
-                            //    {
-                            //        birth = birthday;
-                            //        if (birth.Length == 7)
-                            //        {
-                            //            lyear = birth.Substring(0, 3);
-                            //            year = (int.Parse(birth.Substring(0, 3)) + 1911).ToString();
-                            //            month = birthMonth = birth.Substring(3, 2);
-                            //            day = birth.Substring(5, 2);
-
-                            //            Birth = year + "-" + month + "-" + day;
-                            //            if (DateTime.TryParse(Birth, out sBirth))
-                            //            {
-                            //                //age = GetAge(DateTime.Parse(Birth), dtNow);
-
-                            //                age = GetAge(int.Parse(year), int.Parse(month), int.Parse(day)).ToString();
-                            //            }
-                            //        }
-                            //    }
-
-                            //    birth = "民國" + lyear + "年" + month + "月" + day + "日";
-                            //}
+                            string name2 = item2["additionalName"] != null ? item2["additionalName"].ToString() : "";                                       //附加祈福人姓名（祈福者 2）
+                            string homeNum = item2["phone"] != null ? item2["phone"].ToString() : "";                                                       //市話
+                            string email = item2["email"] != null ? item2["email"].ToString() : "";                                                         //Email
+                            string companyName = item2["companyName"] != null ? item2["companyName"].ToString() : "";                                       //公司行號名稱
 
                             string Birth = string.Empty;
-                            string birthMonth = string.Empty;
-                            string age = string.Empty;
+                            string sBirth = string.Empty;
+                            string birth = lunarBirthday;
+                            string sbirth = birthday;
+                            string birthMonth = "0";
+                            string age = "0";
                             string Zodiac = string.Empty;
 
-                            string year = string.Empty;
-                            string month = string.Empty;
-                            string day = string.Empty;
+                            GetBirthInfo_FET(birth, sbirth, ref Birth, ref sBirth, ref birthMonth, ref age, ref Zodiac);
 
-                            string birth = lunarBirthday;
-                            if (birth.Length == 7)
-                            {
-                                string lyear = birth.Substring(0, 3);
-                                year = (int.Parse(birth.Substring(0, 3)) + 1911).ToString();
-                                month = birthMonth = birth.Substring(3, 2);
-                                day = birth.Substring(5, 2);
+                            birthMonth = CheckedDateZero(birthMonth, 1);
 
-                                Birth = year + "-" + month + "-" + day;
-                                LunarSolarConverter.shuxiang(int.Parse(year), ref Zodiac);
-                                DateTime lBirth;
-                                DateTime sBirth;
-                                if (DateTime.TryParse(Birth, out lBirth))
-                                {
-                                    //age = GetAge(DateTime.Parse(Birth), dtNow);
-
-                                    age = GetAge(int.Parse(year), int.Parse(month), int.Parse(day)).ToString();
-                                }
-                                else
-                                {
-                                    birth = birthday;
-                                    if (birth.Length == 7)
-                                    {
-                                        lyear = birth.Substring(0, 3);
-                                        year = (int.Parse(birth.Substring(0, 3)) + 1911).ToString();
-                                        month = birthMonth = birth.Substring(3, 2);
-                                        day = birth.Substring(5, 2);
-
-                                        Birth = year + "-" + month + "-" + day;
-                                        if (DateTime.TryParse(Birth, out sBirth))
-                                        {
-                                            //age = GetAge(DateTime.Parse(Birth), dtNow);
-
-                                            age = GetAge(int.Parse(year), int.Parse(month), int.Parse(day)).ToString();
-                                        }
-                                    }
-                                }
-
-                                birth = "民國" + lyear + "年" + month + "月" + day + "日";
-                            }
-
-                            SuppliesID = objLightDAC.addSupplies_ma(aid, name, mobile, gender, SuppliesType, SuppliesString, oversea, birth, leapMonth, birthTime, birthMonth,
-                                age, Zodiac, birthday, 1, addr, city, region, zipCode, Year);
+                            SuppliesID = objLightDAC.addSupplies_ma(aid, name, mobile, gender, SuppliesType, SuppliesString, oversea, Birth, leapMonth, birthTime, birthMonth,
+                                age, Zodiac, sBirth, email, homeNum, 1, "", addr, city, region, zipCode, Year);
                         }
                     }
                 }

@@ -12523,6 +12523,96 @@ namespace Read.data
             return bResult;
         }
 
+        public bool UpdateSupplies_ma_Info(int applicantID, string Year, ref string msg, ref string[] Supplieslist)
+        {
+            lock (_thisLock)
+            {
+                TimeZoneInfo info = TimeZoneInfo.FindSystemTimeZoneById("Taipei Standard Time");
+                DateTime dt = TimeZoneInfo.ConvertTime(DateTime.Now, info);
+                bool bResult = false;
+                int lastnum = GetListNum_ma_Supplies(applicantID, Year);
+                if (lastnum > 0)
+                {
+                    bool dhavenum = true;
+                    for (int i = 1001; i < lastnum; i++)
+                    {
+                        if (CheckedNum_ma_Supplies(i, Year))
+                        {
+                            lastnum = i;
+                            dhavenum = false;
+                            break;
+                        }
+                    }
+
+                    if (dhavenum)
+                    {
+                        ++lastnum;
+                    }
+                }
+                else
+                {
+                    lastnum = 1001;
+                }
+                DataTable dtDataList = new DataTable();
+                string sql = "Select * From Temple_" + Year + "..Supplies_ma_info Where ApplicantID=@ApplicantID and Status = 0 and Num = 0";
+
+                DatabaseAdapter AdapterObj = new DatabaseAdapter(sql, this.DBSource);
+                AdapterObj.SetSqlCommandBuilder();
+                AdapterObj.AddParameterToSelectCommand("@ApplicantID", applicantID);
+                AdapterObj.Fill(dtDataList);
+
+                Supplieslist = new string[dtDataList.Rows.Count];
+                for (int i = 0; i < dtDataList.Rows.Count; i++)
+                {
+                    string sid = dtDataList.Rows[i]["SuppliesID"].ToString();
+                    string Num2String = "MASU" + lastnum;
+
+                    int res = ExecuteSql("Update Temple_" + Year + "..Supplies_ma_info Set Num2String = '" + Num2String + "', Num = " + lastnum + " Where SuppliesID=" + sid);
+
+                    if (res > 0)
+                    {
+                        bResult = true;
+                    }
+
+                    Supplieslist[i] = Num2String;
+
+                    msg += Supplieslist[i];
+                    if (i < Supplieslist.Length - 1)
+                    {
+                        msg += ",";
+                    }
+
+                    lastnum = GetListNum_ma_Supplies(applicantID, Year);
+                    if (lastnum > 0)
+                    {
+                        bool dhavenum = true;
+                        for (int j = 1001; j < lastnum; j++)
+                        {
+                            if (CheckedNum_ma_Supplies(j, Year))
+                            {
+                                lastnum = j;
+                                dhavenum = false;
+                                break;
+                            }
+                        }
+
+                        if (dhavenum)
+                        {
+                            lastnum++;
+                        }
+                    }
+                    else
+                    {
+                        lastnum = 1001;
+                    }
+                }
+
+                msg += "。客服電話：04-36092299。";
+
+                return bResult;
+            }
+        }
+
         public bool UpdateSupplies_ty_Info(int applicantID, string Year, ref string msg, ref string[] Supplieslist)
         {
             lock (_thisLock)
@@ -14372,6 +14462,20 @@ namespace Read.data
         {
             bool bResult = false;
             int res = ExecuteSql("Update Temple_" + Year + "..ApplicantInfo_dh_Lybc Set Status= " + Status + ", Cost= " + Cost + " Where ApplicantID=" + applicantID);
+
+            if (res > 0)
+            {
+                bResult = true;
+            }
+
+            return bResult;
+
+        }
+
+        public bool Updateapplicantinfo_Supplies_ma(int applicantID, int Cost, int Status, string Year)
+        {
+            bool bResult = false;
+            int res = ExecuteSql("Update Temple_" + Year + "..ApplicantInfo_ma_Supplies Set Status= " + Status + ", Cost= " + Cost + " Where ApplicantID=" + applicantID);
 
             if (res > 0)
             {
@@ -19819,6 +19923,34 @@ namespace Read.data
             {
                 int res = ExecuteSql("Update Temple_" + Year + "..APPCharge_dh_Lybc Set Status = " + Status + ", BillIP = '" + BillIP + "', CallbackLog = '" + CallbackLog +
                     "', ChargeDate = '" + dt.ToString("yyyy-MM-dd HH:mm:ss") + "', ChargeDateString = '" + dt.ToString("yyyy-MM-dd") + "' Where OrderID='" + OrderID + "'");
+                if (res > 0)
+                {
+                    bResult = true;
+                }
+            }
+
+
+            return bResult;
+        }
+
+        public bool UpdateChargeStatus_Supplies_ma(string OrderID, int Status, string BillIP, string CallbackLog, string Year)
+        {
+            TimeZoneInfo info = TimeZoneInfo.FindSystemTimeZoneById("Taipei Standard Time");
+            DateTime dt = TimeZoneInfo.ConvertTime(DateTime.Now, info);
+            bool bResult = false;
+            DataTable dtDataList = new DataTable();
+            string sql = "Select Top 1 * From Temple_" + Year + "..APPCharge_ma_Supplies Where OrderID=@OrderID";
+
+            DatabaseAdapter AdapterObj = new DatabaseAdapter(sql, this.DBSource);
+            AdapterObj.SetSqlCommandBuilder();
+            AdapterObj.AddParameterToSelectCommand("@OrderID", OrderID);
+            AdapterObj.Fill(dtDataList);
+
+            if ((int)dtDataList.Rows[0]["Status"] == 0)
+            {
+                int res = ExecuteSql("Update Temple_" + Year + "..APPCharge_ma_Supplies Set Status = " + Status + ", BillIP = '" + BillIP + "', CallbackLog = '" + CallbackLog +
+                    "', ChargeDate = '" + dt.ToString("yyyy-MM-dd HH:mm:ss") + "', ChargeDateString = '" + dt.ToString("yyyy-MM-dd") + "' Where OrderID='" + OrderID + "'");
+
                 if (res > 0)
                 {
                     bResult = true;

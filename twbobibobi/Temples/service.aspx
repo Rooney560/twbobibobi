@@ -484,6 +484,7 @@
                                     <%--<li><a href="templeService_supplies_ty.aspx" title="桃園威天宮">桃園威天宮</a></li>--%>
 
                                     <li><a onclick="ActivityTime(7, 14)" href="javascript: void(0)" title="桃園威天宮">桃園威天宮</a></li>
+                                    <li><a onclick="ActivityTime(7, 23)" href="javascript: void(0)" title="玉敕大樹朝天宮">玉敕大樹朝天宮</a></li>
                                 </ul>
                             </div>
                         </li>

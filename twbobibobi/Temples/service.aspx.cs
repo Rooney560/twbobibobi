@@ -54,8 +54,9 @@ namespace Temple.Temples
             string[] supplies_wu = { "北港武德宮", "2023/10/15 00:00", "2023/11/21 23:59", "templeService_supplies.aspx" };
             string[] supplies_wu2 = { "北港武德宮", "2024/03/12 00:00", "2024/04/17 23:59", "templeService_supplies2.aspx" };
             string[] supplies_wu3 = { "北港武德宮", "0", "0", "templeService_supplies3.aspx" };
-            string[] supplies_ty = { "桃園威天宮", "2024/05/18 00:00", "2024/05/28 23:59", "templeService_supplies_ty.aspx" };
+            string[] supplies_ty = { "桃園威天宮", "2025/02/18 00:00", "2025/03/06 23:59", "templeService_supplies_ty.aspx" };
             string[] supplies_Lk = { "鹿港城隍廟", "2024/12/28 00:00", "2025/01/23 23:59", "templeService_supplies_Lk.aspx" };
+            string[] supplies_ma = { "玉敕大樹朝天宮", "2025/002/18 00:00", "2025/03/06 23:59", "templeService_supplies_ma.aspx" };
 
             public void getActivityTime(BasePage basePage)
             {
@@ -289,7 +290,7 @@ namespace Temple.Temples
                             break;
                         case "7":
                             //天赦日補運
-                            service = "天赦日補運";
+                            service = "天赦日招財補運";
                             switch (adminID)
                             {
                                 case "14":
@@ -298,6 +299,13 @@ namespace Temple.Temples
                                     startDate = supplies_ty[1];
                                     endDate = supplies_ty[2];
                                     Url = supplies_ty[3];
+                                    break;
+                                case "23":
+                                    //玉敕大樹朝天宮
+                                    name = supplies_ma[0];
+                                    startDate = supplies_ma[1];
+                                    endDate = supplies_ma[2];
+                                    Url = supplies_ma[3];
                                     break;
                             }
                             break;

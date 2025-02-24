@@ -2902,15 +2902,16 @@ namespace Temple.data
         /// <param name="ZipCode">ZipCode=郵遞區號</param>
         /// </summary>
         public int addSupplies_ma(int applicantID, string Name, string Mobile, string Sex, string SuppliesType, string SuppliesString, string oversea, string Birth, string LeapMonth, 
-            string BirthTime, string BirthMonth, string Age, string Zodiac, string sBirth, int Count, string Addr, string County, string Dist, string ZipCode, string Year)
+            string BirthTime, string BirthMonth, string Age, string Zodiac, string sBirth, string Email, string HomeNum, int Count, string Remark, string Addr, string County, 
+            string Dist, string ZipCode, string Year)
         {
             TimeZoneInfo info = TimeZoneInfo.FindSystemTimeZoneById("Taipei Standard Time");
             DateTime dtNow = TimeZoneInfo.ConvertTime(DateTime.Now, info);
 
             string sql = "Insert into Temple_" + Year + "..Supplies_ma_info(ApplicantID, AdminID, Name, Mobile, Cost, Sex, SuppliesType, SuppliesString, oversea, Birth, LeapMonth, " +
-                "BirthTime, BirthMonth, Age, Zodiac, sBirth, Count, Address, Addr, County, dist, ZipCode, CreateDate) " +
+                "BirthTime, BirthMonth, Age, Zodiac, sBirth, Email, HomeNum, Count, Remark, Address, Addr, County, dist, ZipCode, CreateDate) " +
                 "values(@ApplicantID, @AdminID, @Name, @Mobile, @Cost, @Sex, @SuppliesType, @SuppliesString, @oversea, @Birth, @LeapMonth, @BirthTime, @BirthMonth, @Age, @Zodiac, " +
-                "@sBirth, @Count, @Address, @Addr, @County, @dist, @ZipCode, @CreateDate)";
+                "@sBirth, @Email, @HomeNum, @Count, @Remark, @Address, @Addr, @County, @dist, @ZipCode, @CreateDate)";
 
             int Cost = 0;
             Cost = GetSuppliesCost(SuppliesType, 23);
@@ -2918,7 +2919,7 @@ namespace Temple.data
             DatabaseAdapter Adapter = new DatabaseAdapter(sql, this.DBSource);
             DataTable dtdata = new DataTable();
             Adapter.AddParameterToSelectCommand("@ApplicantID", applicantID);
-            Adapter.AddParameterToSelectCommand("@AdminID", 29);
+            Adapter.AddParameterToSelectCommand("@AdminID", 23);
             Adapter.AddParameterToSelectCommand("@Name", Name);
             Adapter.AddParameterToSelectCommand("@Mobile", Mobile);
             Adapter.AddParameterToSelectCommand("@Cost", Cost);
@@ -2933,7 +2934,10 @@ namespace Temple.data
             Adapter.AddParameterToSelectCommand("@Age", Age);
             Adapter.AddParameterToSelectCommand("@Zodiac", Zodiac);
             Adapter.AddParameterToSelectCommand("@sBirth", sBirth);
+            Adapter.AddParameterToSelectCommand("@Email", Email);
+            Adapter.AddParameterToSelectCommand("@HomeNum", HomeNum);
             Adapter.AddParameterToSelectCommand("@Count", Count);
+            Adapter.AddParameterToSelectCommand("@Remark", Remark);
             Adapter.AddParameterToSelectCommand("@Address", County + (Dist == "*" ? "" : Dist) + Addr);
             Adapter.AddParameterToSelectCommand("@Addr", Addr);
             Adapter.AddParameterToSelectCommand("@County", County);
@@ -8823,8 +8827,18 @@ namespace Temple.data
                     sql = "Select * from Temple_" + Year + "..view_Supplies_wu_InfowithAPPCharge3 Where Num > 0 and AppStatus = 2 and Status = 0 and AdminID = @AdminID and (AppName = @Name and AppMobile = @Mobile)";
                     break;
                 case 4:
-                    //天赦日補運-桃園威天宮
-                    sql = "Select * from Temple_" + Year + "..view_Supplies_ty_InfowithAPPCharge Where Num > 0 and AppStatus = 2 and Status = 0 and AdminID = @AdminID and (AppName = @Name and AppMobile = @Mobile)";
+                    //天赦日招財補運
+                    switch (adminID)
+                    {
+                        case 14:
+                            //桃園威天宮
+                            sql = "Select * from Temple_" + Year + "..view_Supplies_ty_InfowithAPPCharge Where Num > 0 and AppStatus = 2 and Status = 0 and AdminID = @AdminID and (AppName = @Name and AppMobile = @Mobile)";
+                            break;
+                        case 23:
+                            //桃園威天宮
+                            sql = "Select * from Temple_" + Year + "..view_Supplies_ma_InfowithAPPCharge Where Num > 0 and AppStatus = 2 and Status = 0 and AdminID = @AdminID and (AppName = @Name and AppMobile = @Mobile)";
+                            break;
+                    }
                     break;
                 case 5:
                     //天赦日祭改-進寶財神廟
@@ -10304,6 +10318,22 @@ namespace Temple.data
         }
 
         /// <summary>
+        /// 取得玉敕大樹朝天宮天赦日補運資料
+        /// <param name="applecantID">applecantID=購買人編號</param>
+        /// </summary>
+        public DataTable Getsupplies_ma_info(int applicantID, string Year)
+        {
+            string sql = "Select * from Temple_" + Year + "..view_Supplies_ma_info Where Status = 0 and ApplicantID = @ApplicantID";
+
+            DatabaseAdapter objDatabaseAdapter = new DatabaseAdapter(sql, this.DBSource);
+            objDatabaseAdapter.AddParameterToSelectCommand("ApplicantID", applicantID);
+            DataTable dtGetData = new DataTable();
+            objDatabaseAdapter.Fill(dtGetData);
+
+            return dtGetData;
+        }
+
+        /// <summary>
         /// 取得桃園威天宮天赦日補運資料
         /// <param name="applecantID">applecantID=購買人編號</param>
         /// </summary>
@@ -11437,6 +11467,23 @@ namespace Temple.data
         public DataTable GetAPPCharge_dh_Lybc(int applicantID, string Year)
         {
             string sql = "Select * from Temple_" + Year + "..view_Lybc_dh_infowithAPPCharge Where AppcStatus = 1 and AppStatus = 2 and Num > 0 and ApplicantID = @ApplicantID";
+
+            DatabaseAdapter objDatabaseAdapter = new DatabaseAdapter(sql, this.DBSource);
+            objDatabaseAdapter.AddParameterToSelectCommand("@ApplicantID", applicantID);
+            DataTable dtGetData = new DataTable();
+            objDatabaseAdapter.Fill(dtGetData);
+
+            return dtGetData;
+        }
+
+        /// <summary>
+        /// 取得玉敕大樹朝天宮天赦日招財補運付款資料
+        /// </summary>
+        /// <param name="applicantID"></param>
+        /// <returns></returns>
+        public DataTable GetAPPCharge_ma_Supplies(int applicantID, string Year)
+        {
+            string sql = "Select * from Temple_" + Year + "..view_Supplies_ma_InfowithAPPCharge Where AppcStatus = 1 and AppStatus = 2 and Num > 0 and ApplicantID = @ApplicantID";
 
             DatabaseAdapter objDatabaseAdapter = new DatabaseAdapter(sql, this.DBSource);
             objDatabaseAdapter.AddParameterToSelectCommand("@ApplicantID", applicantID);
@@ -12581,6 +12628,10 @@ namespace Temple.data
                             break;
                         case 2:
                             sql = "Select * from Temple_" + Year + "..ApplicantInfo_ma_Purdue Where ApplicantID = @aid and AdminID = " + adminID;
+                            break;
+                        case 7:
+                            //天赦日補運
+                            sql = "Select * from Temple_" + Year + "..ApplicantInfo_ma_Supplies Where ApplicantID = @aid and AdminID = " + adminID;
                             break;
                         case 12:
                             //靈寶禮斗
@@ -14902,6 +14953,29 @@ namespace Temple.data
         }
 
         /// <summary>
+        /// 檢查購買人是否有已付款-玉敕大樹朝天宮天赦日招財補運
+        /// <param name="applecantID">applecantID=購買人編號</param>
+        /// </summary>
+        public bool checkedappcharge_Supplies_ma(int applicantID, int adminID, string Year)
+        {
+            bool result = true;
+            string sql = "Select * from Temple_" + Year + "..view_APPCharge_ma_Supplies Where (AppStatus = 1 or AppStatus = 2) and ApplicantID = @ApplicantID and AdminID = @AdminID";
+
+            DatabaseAdapter objDatabaseAdapter = new DatabaseAdapter(sql, this.DBSource);
+            objDatabaseAdapter.AddParameterToSelectCommand("ApplicantID", applicantID);
+            objDatabaseAdapter.AddParameterToSelectCommand("AdminID", adminID);
+            DataTable dtGetData = new DataTable();
+            objDatabaseAdapter.Fill(dtGetData);
+
+            if (dtGetData.Rows.Count > 0)
+            {
+                result = false;
+            }
+
+            return result;
+        }
+
+        /// <summary>
         /// 檢查購買人是否有已付款-桃園威天宮天赦日補運
         /// <param name="applecantID">applecantID=購買人編號</param>
         /// </summary>
@@ -17026,6 +17100,32 @@ namespace Temple.data
                 DatabaseHelper objDatabaseHelper = new DatabaseHelper(basePage);
 
                 bResult = objDatabaseHelper.Updateapplicantinfo_Supplies_Lk(ApplicantID, Cost, 1, Year);
+            }
+
+
+            return bResult;
+        }
+
+        public bool Updatecost2applicantinfo_Supplies_ma(int ApplicantID, int AdminID, int Cost, string Year)
+        {
+            TimeZoneInfo info = TimeZoneInfo.FindSystemTimeZoneById("Taipei Standard Time");
+            DateTime dtNow = TimeZoneInfo.ConvertTime(DateTime.Now, info);
+            bool bResult = false;
+            DataTable dtDataList = new DataTable();
+            string sql = "Select Top 1 * From Temple_" + Year + "..ApplicantInfo_ma_Supplies Where ApplicantID=@ApplicantID and AdminID=@AdminID and Status = 0";
+
+            DatabaseAdapter AdapterObj = new DatabaseAdapter(sql, this.DBSource);
+            AdapterObj.SetSqlCommandBuilder();
+            AdapterObj.AddParameterToSelectCommand("@ApplicantID", ApplicantID);
+            AdapterObj.AddParameterToSelectCommand("@AdminID", AdminID);
+            AdapterObj.Fill(dtDataList);
+
+            if (dtDataList.Rows.Count > 0 && (int)dtDataList.Rows[0]["Status"] == 0)
+            {
+                BCFBaseLibrary.Web.BasePage basePage = new BCFBaseLibrary.Web.BasePage();
+                DatabaseHelper objDatabaseHelper = new DatabaseHelper(basePage);
+
+                bResult = objDatabaseHelper.Updateapplicantinfo_Supplies_ma(ApplicantID, Cost, 1, Year);
             }
 
 
