@@ -2197,10 +2197,10 @@ namespace Temple.Temples
                                                         //link = "https://bobibobi.tw/Admin/line/LinePay.aspx?a=" + AdminID + "&aid=" + ApplicantID + "&Total=" + cost + "&kind=" + kind + (basePage.Request["twm"] != null ? "&twm=1" : "") + "&name=桃園威天宮天赦日招財補運&orderId=" + orderId;
                                                         break;
                                                     case "JkosPay":
-                                                        if (basePage.Request["ad"] == "2299")
-                                                        {
-                                                            cost = 10;
-                                                        }
+                                                        //if (basePage.Request["ad"] == "2299")
+                                                        //{
+                                                        //    cost = 10;
+                                                        //}
                                                         link = "https://bobibobi.tw/Admin/jkos/jkosPay.aspx?a=" + AdminID + "&aid=" + ApplicantID + "&Total=" + cost + "&kind=" + kind + (basePage.Request["twm"] != null ? "&twm=1" : "") + "&name=桃園威天宮天赦日招財補運&orderId=" + orderId;
                                                         //link = "https://localhost:56437/Admin/jkos/jkosPay.aspx?a=" + AdminID + "&aid=" + ApplicantID + "&Total=" + cost + "&kind=" + kind + (basePage.Request["twm"] != null ? "&twm=1" : "") + "&name=桃園威天宮天赦日招財補運&orderId=" + orderId;
                                                         break;
@@ -2224,10 +2224,10 @@ namespace Temple.Temples
                                                         //link = "https://bobibobi.tw/Admin/line/LinePay.aspx?a=" + AdminID + "&aid=" + ApplicantID + "&Total=" + cost + "&kind=" + kind + (basePage.Request["twm"] != null ? "&twm=1" : "") + "&name=桃園威天宮天赦日招財補運&orderId=" + orderId;
                                                         break;
                                                     case "JkosPay":
-                                                        if (basePage.Request["ad"] == "2299")
-                                                        {
-                                                            cost = 10;
-                                                        }
+                                                        //if (basePage.Request["ad"] == "2299")
+                                                        //{
+                                                        //    cost = 10;
+                                                        //}
                                                         link = "https://bobibobi.tw/Admin/jkos/jkosPay.aspx?a=" + AdminID + "&aid=" + ApplicantID + "&Total=" + cost + "&kind=" + kind + (basePage.Request["twm"] != null ? "&twm=1" : "") + "&name=玉敕大樹朝天宮天赦日招財補運&orderId=" + orderId;
                                                         //link = "https://localhost:56437/Admin/jkos/jkosPay.aspx?a=" + AdminID + "&aid=" + ApplicantID + "&Total=" + cost + "&kind=" + kind + (basePage.Request["twm"] != null ? "&twm=1" : "") + "&name=玉敕大樹朝天宮天赦日招財補運&orderId=" + orderId;
                                                         break;
