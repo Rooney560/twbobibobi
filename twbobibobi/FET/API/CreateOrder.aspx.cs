@@ -5001,7 +5001,7 @@ namespace Temple.FET.APITEST
                             case 7:
                                 //天赦日補運
                                 Year = dtNow.Year.ToString();
-                                if (URL.IndexOf("20.6.8.46") >= 0 || URL.IndexOf("fettest") >= 0 || URL.IndexOf("localhost:56371") >= 0)
+                                if (URL.IndexOf("20.6.8.46") >= 0 || URL.IndexOf("fettest") >= 0)
                                 {
                                     Year = "TEST";
                                 }
@@ -5234,7 +5234,7 @@ namespace Temple.FET.APITEST
                             case 8:
                                 //天赦日祭改
                                 Year = dtNow.Year.ToString();
-                                if (URL.IndexOf("20.6.8.46") >= 0 || URL.IndexOf("fettest") >= 0 || URL.IndexOf("localhost:56371") >= 0)
+                                if (URL.IndexOf("20.6.8.46") >= 0 || URL.IndexOf("fettest") >= 0)
                                 {
                                     Year = "TEST";
                                 }
@@ -5946,7 +5946,7 @@ namespace Temple.FET.APITEST
                             case 16:
                                 //補財庫-鹿港城隍廟
                                 Year = "2025";
-                                if (URL.IndexOf("20.6.8.46") >= 0 || URL.IndexOf("fettest") >= 0 || URL.IndexOf("localhost:56371") >= 0)
+                                if (URL.IndexOf("20.6.8.46") >= 0 || URL.IndexOf("fettest") >= 0)
                                 {
                                     Year = "TEST";
                                 }
@@ -6127,7 +6127,7 @@ namespace Temple.FET.APITEST
                             case 18:
                                 //天公生招財補運-桃園威天宮
                                 Year = "2025";
-                                if (URL.IndexOf("20.6.8.46") >= 0 || URL.IndexOf("fettest") >= 0 || URL.IndexOf("localhost:56371") >= 0)
+                                if (URL.IndexOf("20.6.8.46") >= 0 || URL.IndexOf("fettest") >= 0)
                                 {
                                     Year = "TEST";
                                 }
@@ -15202,8 +15202,8 @@ namespace Temple.FET.APITEST
 
             appbirthMonth = CheckedDateZero(appbirthMonth, 1);
 
-            aid = objLightDAC.addapplicantinfo_Supplies_ty(appName, appMobile, AppBirth, appLeapMonth, appBirthTime, appbirthMonth, appage, appZodiac, AppsBirth, total, appZipCode, 
-                appCity, appRegion, appAddr, sendback, reName, reMobile, appEmail, 2, adminID.ToString(), postURL, Year);
+            aid = objLightDAC.addapplicantinfo_Supplies_ty(appName, appMobile, AppBirth, appLeapMonth, appBirthTime, appbirthMonth, appage, appZodiac, AppsBirth, total,
+                appEmail, appZipCode, appCity, appRegion, appAddr, sendback, reName, reMobile, 2, adminID.ToString(), postURL, Year);
             if (aid > 0)
             {
                 int count = 0;
