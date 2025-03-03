@@ -909,7 +909,7 @@ namespace Temple.FET.Lights
                 string Sid = "Temple-DaJiaLightUp";    //大甲鎮瀾宮祈福點燈 PR00004024
                 string item = "大甲鎮瀾宮點燈服務";
                 string ValidationKey = "Ov7BmaT5l1C89t5FNj0cEsR";
-                string link = "https://tw.mktwservice.com/atPay/pay.aspx?uid=";
+                string link = "https://paygate.tw/xpay/pay?uid=";
                 string PaymentReceiveURL = basePag.GetConfigValue("PaymentLights_da_ReceiveURL");
                 string Timestamp = dtNow.ToString("yyyyMMddHHmmssfff");
                 string msisdn = m_phone;
@@ -961,7 +961,7 @@ namespace Temple.FET.Lights
                 string Sid = "Temple-HsinKangLightUp";    //新港奉天宮祈福點燈 PR00004008
                 string item = "新港奉天宮祈福點燈";
                 string ValidationKey = "Ov7BmaT5l1C89t5FNj0cEsR";
-                string link = "https://tw.mktwservice.com/atPay/pay.aspx?uid=";
+                string link = "https://paygate.tw/xpay/pay?uid=";
                 string PaymentReceiveURL = basePag.GetConfigValue("PaymentLights_h_ReceiveURL");
                 string Timestamp = dtNow.ToString("yyyyMMddHHmmssfff");
                 string msisdn = m_phone;
@@ -1013,7 +1013,7 @@ namespace Temple.FET.Lights
                 string Sid = "Temple-WudeLightUp";    //北港武德宮 宮廟服務 PR00004401
                 string item = "北港武德宮點燈服務";
                 string ValidationKey = "Ov7BmaT5l1C89t5FNj0cEsR";
-                string link = "https://tw.mktwservice.com/atPay/pay.aspx?uid=";
+                string link = "https://paygate.tw/xpay/pay?uid=";
                 string PaymentReceiveURL = basePag.GetConfigValue("PaymentLights_wu_ReceiveURL");
                 string Timestamp = dtNow.ToString("yyyyMMddHHmmssfff");
                 string msisdn = m_phone;
@@ -1065,7 +1065,7 @@ namespace Temple.FET.Lights
                 string Sid = "Temple-XiluoFuyu";    //西螺福興宮_宮廟服務 00004588
                 string item = "西螺福興宮點燈服務";
                 string ValidationKey = "Ov7BmaT5l1C89t5FNj0cEsR";
-                string link = "https://tw.mktwservice.com/atPay/pay.aspx?uid=";
+                string link = "https://paygate.tw/xpay/pay?uid=";
                 string PaymentReceiveURL = basePag.GetConfigValue("PaymentLights_Fu_ReceiveURL");
                 string Timestamp = dtNow.ToString("yyyyMMddHHmmssfff");
                 string msisdn = m_phone;
@@ -1117,7 +1117,7 @@ namespace Temple.FET.Lights
                 string Sid = "Temple-Luermen";    //台南正統鹿耳門聖母廟_宮廟服務 PR00004609
                 string item = "台南正統鹿耳門聖母廟點燈服務";
                 string ValidationKey = "Ov7BmaT5l1C89t5FNj0cEsR";
-                string link = "https://tw.mktwservice.com/atPay/pay.aspx?uid=";
+                string link = "https://paygate.tw/xpay/pay?uid=";
                 string PaymentReceiveURL = basePag.GetConfigValue("PaymentLights_Luer_ReceiveURL_FET");
                 string Timestamp = dtNow.ToString("yyyyMMddHHmmssfff");
                 string msisdn = m_phone;
@@ -1169,7 +1169,7 @@ namespace Temple.FET.Lights
                 string Sid = "Temple-TaoyuanWeitian";    //桃園威天宮_宮廟服務 PR00004719
                 string item = "桃園威天宮點燈服務";
                 string ValidationKey = "Ov7BmaT5l1C89t5FNj0cEsR";
-                string link = "https://tw.mktwservice.com/atPay/pay.aspx?uid=";
+                string link = "https://paygate.tw/xpay/pay?uid=";
                 string PaymentReceiveURL = basePag.GetConfigValue("PaymentLights_ty_ReceiveURL");
                 string Timestamp = dtNow.ToString("yyyyMMddHHmmssfff");
                 string msisdn = m_phone;
@@ -1221,7 +1221,7 @@ namespace Temple.FET.Lights
                 string Sid = "Temple-YunlinWulucaishen";    //斗六五路財神宮_宮廟服務 PR00004721
                 string item = "斗六五路財神宮點燈服務";
                 string ValidationKey = "Ov7BmaT5l1C89t5FNj0cEsR";
-                string link = "https://tw.mktwservice.com/atPay/pay.aspx?uid=";
+                string link = "https://paygate.tw/xpay/pay?uid=";
                 string PaymentReceiveURL = basePag.GetConfigValue("PaymentLights_Fw_ReceiveURL");
                 string Timestamp = dtNow.ToString("yyyyMMddHHmmssfff");
                 string msisdn = m_phone;
@@ -1273,7 +1273,7 @@ namespace Temple.FET.Lights
                 string Sid = "Temple-TaidongHailongmen";    //台東東海龍門天聖宮_宮廟服務 PR00004720
                 string item = "台東東海龍門天聖宮點燈服務";
                 string ValidationKey = "Ov7BmaT5l1C89t5FNj0cEsR";
-                string link = "https://tw.mktwservice.com/atPay/pay.aspx?uid=";
+                string link = "https://paygate.tw/xpay/pay?uid=";
                 string PaymentReceiveURL = basePag.GetConfigValue("PaymentLights_dh_ReceiveURL");
                 string Timestamp = dtNow.ToString("yyyyMMddHHmmssfff");
                 string msisdn = m_phone;
@@ -1325,7 +1325,7 @@ namespace Temple.FET.Lights
                 string Sid = "Temple-DaJiaLightUp";    //五股賀聖宮祈福點燈 PR00004024
                 string item = "五股賀聖宮點燈服務";
                 string ValidationKey = "Ov7BmaT5l1C89t5FNj0cEsR";
-                string link = "https://tw.mktwservice.com/atPay/pay.aspx?uid=";
+                string link = "https://paygate.tw/xpay/pay?uid=";
                 string PaymentReceiveURL = basePag.GetConfigValue("PaymentLights_Hs_ReceiveURL");
                 string Timestamp = dtNow.ToString("yyyyMMddHHmmssfff");
                 string msisdn = m_phone;
@@ -1377,7 +1377,7 @@ namespace Temple.FET.Lights
                 string Sid = "Temple-DaJiaLightUp";    //外澳接天宮祈福點燈 PR00004024
                 string item = "外澳接天宮點燈服務";
                 string ValidationKey = "Ov7BmaT5l1C89t5FNj0cEsR";
-                string link = "https://tw.mktwservice.com/atPay/pay.aspx?uid=";
+                string link = "https://paygate.tw/xpay/pay?uid=";
                 string PaymentReceiveURL = basePag.GetConfigValue("PaymentLights_Jt_ReceiveURL");
                 string Timestamp = dtNow.ToString("yyyyMMddHHmmssfff");
                 string msisdn = m_phone;
@@ -1429,7 +1429,7 @@ namespace Temple.FET.Lights
                 string Sid = "Temple-DaJiaLightUp";    //安平開台天后宮祈福點燈 PR00004024
                 string item = "安平開台天后宮點燈服務";
                 string ValidationKey = "Ov7BmaT5l1C89t5FNj0cEsR";
-                string link = "https://tw.mktwservice.com/atPay/pay.aspx?uid=";
+                string link = "https://paygate.tw/xpay/pay?uid=";
                 string PaymentReceiveURL = basePag.GetConfigValue("PaymentLights_Am_ReceiveURL");
                 string Timestamp = dtNow.ToString("yyyyMMddHHmmssfff");
                 string msisdn = m_phone;
@@ -1481,7 +1481,7 @@ namespace Temple.FET.Lights
                 string Sid = "Temple-LugangChenghuangmiao";    //鹿港城隍廟祈福點燈 PR00004755
                 string item = "鹿港城隍廟點燈服務";
                 string ValidationKey = "Ov7BmaT5l1C89t5FNj0cEsR";
-                string link = "https://tw.mktwservice.com/atPay/pay.aspx?uid=";
+                string link = "https://paygate.tw/xpay/pay?uid=";
                 string PaymentReceiveURL = basePag.GetConfigValue("PaymentLights_Lk_ReceiveURL");
                 string Timestamp = dtNow.ToString("yyyyMMddHHmmssfff");
                 string msisdn = m_phone;
