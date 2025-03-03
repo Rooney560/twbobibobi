@@ -321,7 +321,7 @@ namespace twbobibobi.Product
                 string Sid = "Temple-Donation";    //廟宇拜拜添油錢功德金 PR00004021
                 string item = "新港奉天宮授權開運商品";
                 string ValidationKey = "Ov7BmaT5l1C89t5FNj0cEsR";
-                string link = "https://tw.mktwservice.com/atPay/pay.aspx?uid=";
+                string link = "https://paygate.tw/xpay/pay?uid=";
                 string PaymentReceiveURL = basePag.GetConfigValue("PaymentMoneymother_ReceiveURL");
                 string Timestamp = dtNow.ToString("yyyyMMddHHmmssfff");
                 string msisdn = m_phone;
@@ -372,7 +372,7 @@ namespace twbobibobi.Product
                 string Sid = "Temple-Products";    //廟宇拜拜添油錢功德金 PR00004021
                 string item = "新港奉天宮授權開運商品";
                 string ValidationKey = "Ov7BmaT5l1C89t5FNj0cEsR";
-                string link = "https://tw.mktwservice.com/atPay/pay.aspx?uid=";
+                string link = "https://paygate.tw/xpay/pay?uid=";
                 string PaymentReceiveURL = basePag.GetConfigValue("PaymentMoneymother_ReceiveURL");
                 string Timestamp = dtNow.ToString("yyyyMMddHHmmssfff");
                 string msisdn = m_phone;

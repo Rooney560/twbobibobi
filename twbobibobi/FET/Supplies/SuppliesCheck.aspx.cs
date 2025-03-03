@@ -369,7 +369,7 @@ namespace Temple.FET.Supplies
                 string Sid = "Temple-WudeLightUp";    //北港武德宮宮廟服務 PR00004401
                 string item = "北港武德宮企業補財庫";
                 string ValidationKey = "Ov7BmaT5l1C89t5FNj0cEsR";
-                string link = "https://tw.mktwservice.com/atPay/pay.aspx?uid=";
+                string link = "https://paygate.tw/xpay/pay?uid=";
                 string PaymentReceiveURL = basePag.GetConfigValue("PaymentSupplies_wu_ReceiveURL_FET");
                 string Timestamp = dtNow.ToString("yyyyMMddHHmmssfff");
                 string msisdn = m_phone;

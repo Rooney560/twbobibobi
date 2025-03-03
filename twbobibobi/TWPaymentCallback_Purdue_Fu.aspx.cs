@@ -37,7 +37,7 @@ namespace Temple
                 string[] purduelist = new string[0];
                 string[] Purduelist = new string[0];
 
-                string url = "https://tw.mktwservice.com/atPay/CommitTrans.aspx?uid=" + uid + "&tid=" + tid + "&oid=" + oid + "&timestamp=" + Timestamp + "&mac=" + mac;
+                string url = "https://paygate.tw/xpay/committrans?uid=" + uid + "&tid=" + tid + "&oid=" + oid + "&timestamp=" + Timestamp + "&mac=" + mac;
 
                 string resp = "";
                 if (!BCFBaseLibrary.Net.HTTPClient.Get(url, string.Empty, ref resp))

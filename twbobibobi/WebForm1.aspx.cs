@@ -53,7 +53,7 @@ namespace twbobibobi
             string Sid = "Temple-DajiaCeremony";    //大甲鎮瀾宮普渡法會(CSENT64199)
             string item = "大甲鎮瀾宮重修慶成祈安七朝清醮活動";
             string ValidationKey = "Ov7BmaT5l1C89t5FNj0cEsR";
-            string link = "https://tw.mktwservice.com/atPay/pay.aspx?uid=";
+            string link = "https://paygate.tw/xpay/pay?uid=";
             string PaymentReceiveURL = "https://bobibobi.tw/TWPaymentCallback_TaoistJiaoCeremony_da.aspx";
             string Timestamp = dtNow.ToString("yyyyMMddHHmmssfff");
             string msisdn = m_phone;
