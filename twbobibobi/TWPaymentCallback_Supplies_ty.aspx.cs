@@ -47,8 +47,6 @@ namespace Temple
                     SaveErrorLog(resp + ", 取得API錯誤。");
                 }
 
-                //測試
-
                 if (Request["ad"] != null)
                 {
                     resp = "1|18062216041218500003|100|TELEPAY|twm|0934315020|20180622160559423|F6C5E389052469CC441A402A3F0D0C9F";
