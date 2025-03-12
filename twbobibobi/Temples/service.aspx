@@ -449,7 +449,7 @@
                             <div class="ServiceType">
                                 <div>
                                     <img src="images/icon_05.png" width="50" height="50" alt="" /></div>
-                                <div>呈疏補庫</div>
+                                <div>財神聖誕補庫</div>
                             </div>
                             <div class="ServiceTempleList">
                                 <ul>
@@ -497,7 +497,7 @@
                             <div class="ServiceTempleList">
                                 <ul>
                                     <%--<li><a href="templeService_supplies_ty.aspx" title="桃園威天宮">桃園威天宮</a></li>--%>
-
+                                    <li><a onclick="ActivityTime(16, 15)" href="javascript: void(0)" title="斗六五路財神宮">斗六五路財神宮</a></li>
                                     <li><a onclick="ActivityTime(16, 21)" href="javascript: void(0)" title="鹿港城隍廟">鹿港城隍廟</a></li>
                                 </ul>
                             </div>

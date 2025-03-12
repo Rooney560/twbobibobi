@@ -868,6 +868,7 @@
     <Content Include="Temples\templeService_supplies3.aspx" />
     <Content Include="Temples\templeService_supplies3_ty.aspx" />
     <Content Include="Temples\templeService_supplies_dh.aspx" />
+    <Content Include="Temples\templeService_supplies_Fw.aspx" />
     <Content Include="Temples\templeService_supplies_Lk.aspx" />
     <Content Include="Temples\templeService_supplies_ma.aspx" />
     <Content Include="Temples\templeService_supplies_sx.aspx" />
@@ -921,6 +922,7 @@
     <Content Include="TWPaymentCallback_Supplies2_ty.aspx" />
     <Content Include="TWPaymentCallback_Supplies3_ty.aspx" />
     <Content Include="TWPaymentCallback_Supplies_dh.aspx" />
+    <Content Include="TWPaymentCallback_Supplies_Fw.aspx" />
     <Content Include="TWPaymentCallback_Supplies_Lk.aspx" />
     <Content Include="TWPaymentCallback_Supplies_ma.aspx" />
     <Content Include="TWPaymentCallback_Supplies_sx.aspx" />
@@ -1845,6 +1847,13 @@
     <Compile Include="Temples\templeService_supplies_dh.aspx.designer.cs">
       <DependentUpon>templeService_supplies_dh.aspx</DependentUpon>
     </Compile>
+    <Compile Include="Temples\templeService_supplies_Fw.aspx.cs">
+      <DependentUpon>templeService_supplies_Fw.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Temples\templeService_supplies_Fw.aspx.designer.cs">
+      <DependentUpon>templeService_supplies_Fw.aspx</DependentUpon>
+    </Compile>
     <Compile Include="Temples\templeService_supplies_Lk.aspx.cs">
       <DependentUpon>templeService_supplies_Lk.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -2215,6 +2224,13 @@
     </Compile>
     <Compile Include="TWPaymentCallback_Supplies_dh.aspx.designer.cs">
       <DependentUpon>TWPaymentCallback_Supplies_dh.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="TWPaymentCallback_Supplies_Fw.aspx.cs">
+      <DependentUpon>TWPaymentCallback_Supplies_Fw.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="TWPaymentCallback_Supplies_Fw.aspx.designer.cs">
+      <DependentUpon>TWPaymentCallback_Supplies_Fw.aspx</DependentUpon>
     </Compile>
     <Compile Include="TWPaymentCallback_Supplies_Lk.aspx.cs">
       <DependentUpon>TWPaymentCallback_Supplies_Lk.aspx</DependentUpon>

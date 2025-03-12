@@ -51,10 +51,18 @@
         .icon {
             width: 600px;
         }
+        
+        .FormInput label.emailalert {
+            display: inline-block;
+        }
 
         @media (max-width:720px) {
             .icon {
                 width: 100%;
+            }
+
+            .FormInput label.emailalert {
+                display: none;
             }
         }
     </style>
@@ -156,6 +164,13 @@
                         <div class="FormInput tel">
                             <label>購買人電話</label><input name="member_tel" type="tel" class="required" id="member_tel" placeholder="請輸入聯絡電話"/>
                         </div>
+                        <div class="FormInput text_s">
+                            <label>購買人Email</label><input name="member_email" type="text" class="required" id="member_email" placeholder="請輸入購買人Email(必填)"/>
+                        </div>
+                        <div class="FormInput">
+                            <label class="emailalert"></label>
+                            <span style="color: red;">北港武德宮 推行"無紙功德"環保理念" 原紙本感謝狀之提供改為 Email提供電子感謝狀。</span>
+                        </div>
 
                         <!--可複製的區塊 //start-->
                         <ul class="InputGroup">
@@ -223,11 +238,7 @@
                                     <label>市話</label><input name="bless_homenum_1" type="tel" class="" id="bless_homenum_1" placeholder="請輸入市話(選填)"/>
                                 </div>
                                 <div class="FormInput email mail">
-                                    <label>Email</label><input name="bless_email_1" type="text" class="required" id="bless_email_1" placeholder="請輸入Email"/>
-                                </div>
-                                <div class="FormInput">
-                                    <label></label>
-                                    <span style="color: red;">注意事項: 北港武德宮 推行"無紙功德"環保理念" 原紙本感謝狀之提供改為 Email提供電子感謝狀。</span>
+                                    <label>Email</label><input name="bless_email_1" type="text" class="" id="bless_email_1" placeholder="請輸入Email(選填)"/>
                                 </div>
                                 <div class="FormInput address">
                                     <label>地址</label>
@@ -255,8 +266,16 @@
                         <div class="Notice">
                             <!--警告說明-->
                         </div>
-
+                        
                         <div class="FormButtom">
+                            <div>
+                                <input type="checkbox" id="checkedprivate" />
+                                <label for="checkedprivate">本人同意
+                                    <a href="PrivacyPolicy.aspx" target="_blank">隱私權政策</a>
+                                    並已取得當事人同意，為「保必保庇線上宮廟服務平台」之所有交易行為，新薪網元得基於
+                                    <a href="PrivacyPolicy.aspx" target="_blank">隱私權政策</a>
+                                    蒐集、處理及利用本人所提供之資料，並提供予合作廠商及服務宮廟。</label>
+                            </div>
                             <input type="button" id="subBtn" class="subBtn" value="下一步"/>
                         </div>
 
@@ -430,65 +449,167 @@
 
 <!-----必填欄位檢查----->
 <script>
-    var regex = "^民國\\d{2,3}年(0?[1-9]|1[012])月(0?[1-9]|[12][0-9]|3[01])日$";  // 民國日期格式
     $("#subBtn").on("click", function () {
-        var isValid = true;
-        var isBirth = true;
-
         var listcount = $('.InputGroup > li').last().attr('bless-id');
+        var isValid = true;
+        var isValid_Mobile = true;
+        var isValid_dist = true;
+        var isValid_birth = true;
+        var isCheckedValid = $("#checkedprivate").is(":checked");
 
-        // 遍歷每個必填欄位
-        $('.required').each(function () {
-            var value = $(this).val().trim();
-            var text = this;
-            if (value === '' || value === null) {
-                isValid = false;
-                $(this).addClass('unfilled');
-            } else if (value != '' && $(this).hasClass('unfilled')) {
-                $(this).removeClass('unfilled');
+        var value = $("#member_tel").val().trim();
+        var value_email = $("#member_email").val().trim();
+        if (value == "") {
+            $(".Notice").text("購買人電話不能為空。");
+            $(".Notice").addClass("active");
+            $("#member_tel").addClass('unfilled');
+        }
+        else if (!Isphone(value)) {
+            $(".Notice").text("購買人電話格式錯誤。");
+            $(".Notice").addClass("active");
+            $("#member_tel").addClass('unfilled');
+        }
+        else if (value_email == "") {
+            $(".Notice").text("購買人Email不能為空。");
+            $(".Notice").addClass("active");
+            $("#member_email").addClass('unfilled');
+            $("#member_email").focus();
+        }
+        else if (!IsEmail(value_email)) {
+            $(".Notice").text("購買人Email格式錯誤。");
+            $(".Notice").addClass("active");
+            $("#member_email").addClass('unfilled');
+            $("#member_email").focus();
+        }
+        else {
+            if (value != '' && $("#member_tel").hasClass('unfilled')) {
+                $("#member_tel").removeClass('unfilled');
             }
-        });
 
-        // 遍歷每個生日欄位
-        $('.datapicker').each(function () {
-            var value = $(this).val();
-            var text = this;
+            for (var i = 1; i <= listcount; i++) {
+                var value_birth = $("#bless_birthday_" + i).val();
+                var value_sbirth = $("#bless_sbirthday_" + i).val();
 
-            if (value === '' || value === null) {
-                isValid = false;
-                $(this).addClass('unfilled');
-            } else if (!value.match(regex)) {
-                isValid = false;
-                isBirth = false;
-                $(this).addClass('unfilled');
-            } else if (value != '' && $(this).hasClass('unfilled')) {
-                $(this).removeClass('unfilled');
+                if (value_birth == '' && value_sbirth == '') {
+                    $(".Notice").text("祈福人農曆生日或國曆生日不能為空。");
+                    $(".Notice").addClass("active");
+                    $('.required2').addClass('unfilled');
+
+                    isValid = false;
+                    isValid_birth = false;
+                    break;
+                } else if ((value_birth != '' || value_sbirth != '') && $('.required2').hasClass('unfilled')) {
+                    $('.required2').removeClass('unfilled');
+                }
+
+                value = $("#bless_tel_" + i).val().trim();
+                //value_email = $("#bless_email_" + i).val().trim();
+                if (value == "") {
+                    $(".Notice").text("祈福人電話不能為空。");
+                    $(".Notice").addClass("active");
+                    $("#bless_tel_" + i).addClass('unfilled');
+
+                    isValid = false;
+                    isValid_Mobile = false;
+                    break;
+                }
+                else if (!Isphone(value)) {
+                    $(".Notice").text("祈福人電話格式錯誤。");
+                    $(".Notice").addClass("active");
+                    $("#bless_tel_" + i).addClass('unfilled');
+
+                    isValid = false;
+                    isValid_Mobile = false;
+                    break;
+                }
+                else {
+                    if (value != '' && $("#bless_tel_" + i).hasClass('unfilled')) {
+                        $("#bless_tel_" + i).removeClass('unfilled');
+                    }
+                }
+
+                if ($("#bless_oversea_" + i).val() == "1") {
+                    value = $("#bless_county_" + i).val();
+                    if (value == '' || value == null) {
+                        $(".Notice").text("祈福人地址 縣市為空，請重新選擇縣市。");
+                        $(".Notice").addClass("active");
+                        $("#bless_county_" + i).addClass('unfilled');
+
+                        isValid = false;
+                        isValid_dist = false;
+                        break;
+                    }
+                    else {
+                        if (value != '' && $("#bless_county_" + i).hasClass('unfilled')) {
+                            $("#bless_county_" + i).removeClass('unfilled');
+                        }
+                    }
+
+                    value = $("#bless_district_" + i).val();
+                    if (value == '' || value == null) {
+                        $(".Notice").text("祈福人地址 區域為空，請重新選擇區域。");
+                        $(".Notice").addClass("active");
+                        $("#bless_district_" + i).addClass('unfilled');
+
+                        isValid = false;
+                        isValid_dist = false;
+                        break;
+                    }
+                    else {
+                        if (value != '' && $("#bless_district_" + i).hasClass('unfilled')) {
+                            $("#bless_district_" + i).removeClass('unfilled');
+                        }
+                    }
+                }
             }
-        });
 
+            if (isValid_Mobile && isValid_dist && isValid_birth) {
 
-        if (isValid) {
-            // 所有欄位都已填寫
-            console.log('所有欄位都已填寫');
+                // 遍歷每個必填欄位
+                $('.required').each(function () {
+                    var value = $(this).val().trim();
+                    if (value === '') {
+                        isValid = false;
+                        $(this).addClass('unfilled');
+                    } else if (value != '' && $(this).hasClass('unfilled')) {
+                        $(this).removeClass('unfilled');
+                    }
+                });
 
-            gotoChecked_wu();
-                //alert('親愛的大德您好\n北港武德宮 企業補財庫活動已截止！！\n感謝您的支持, 謝謝!'); location = 'https://bobibobi.tw/Temples/temple.aspx'
-            //if (checkEndTime()) {
-            //}
-            //else {
-            //    alert('親愛的大德您好\n北港武德宮 2023企業補財庫活動已截止！！\n感謝您的支持, 謝謝!'); location = 'https://bobibobi.tw/Temples/temple.aspx'
-            //}
-
-        } else {
-            // 在這裡可以進行表單提交或其他相關處理
-            // 有欄位未填寫
-            if (isBirth) {
-                $(".Notice").text("請檢查上方欄位是否都已填寫。");
-                $(".Notice").addClass("active");
             }
-            else {
-                $(".Notice").text("請檢查上方生日欄位格式是否正確。正確格式：民國xx年xx月xx日");
-                $(".Notice").addClass("active");
+
+            if (isValid) {
+                if (!isCheckedValid) {
+                    $(".Notice").text("請勾選同意隱私權政策使用。");
+                    $(".Notice").addClass("active");
+                }
+                else {
+                    // 所有欄位都已填寫
+                    console.log('所有欄位都已填寫');
+                    //alert("活動尚未開始!");
+
+                    gotoChecked_wu();
+                    //if (location.search.indexOf('ad') >= 0 || checkedStartTime()) {
+                    //    if (checkEndTime()) {
+                    //        gotoChecked_wu();
+                    //    }
+                    //    else {
+                    //        alert('親愛的大德您好\n北港武德宮 2025天官武財神聖誕補財庫活動已截止！！\n感謝您的支持, 謝謝!'); location = 'https://bobibobi.tw/Temples/temple.aspx'
+                    //    }
+                    //}
+                    //else {
+                    //    alert('親愛的大德您好\n北港武德宮 2025天官武財神聖誕補財庫尚未開始！！\n感謝您的支持, 謝謝!'); location = 'https://bobibobi.tw/Temples/temple.aspx'
+                    //}
+                }
+            } else {
+                // 在這裡可以進行表單提交或其他相關處理
+                // 有欄位未填寫
+                if (!isValid) {
+                    if (isValid_Mobile && isValid_dist && isValid_birth) {
+                        $(".Notice").text("請檢查上方欄位是否都已填寫。");
+                        $(".Notice").addClass("active");
+                    }
+                }
             }
         }
     })
@@ -520,6 +641,7 @@
 
             $("#member_name").val(res.AppName);
             $("#member_tel").val(res.AppMobile);
+            $("#member_email").val(res.AppEmail);
 
             if (res.DataSource != null) {
                 $.each(res.DataSource, function (i, item) {
@@ -557,6 +679,7 @@
 
         Appname = $("#member_name").val();      //購買人姓名
         Appmobile = $("#member_tel").val()      //購買人電話
+        Appemail = $("#member_email").val()      //購買人電話
 
         name_Tag = [];
         mobile_Tag = [];
@@ -595,6 +718,7 @@
         data = {
             Appname: Appname,
             Appmobile: Appmobile,
+            Appemail: Appemail,
             name_Tag: JSON.stringify(name_Tag),
             mobile_Tag: JSON.stringify(mobile_Tag),
             sex_Tag: JSON.stringify(sex_Tag),

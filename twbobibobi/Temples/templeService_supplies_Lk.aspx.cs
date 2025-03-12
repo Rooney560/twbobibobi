@@ -18,7 +18,7 @@ namespace twbobibobi.Temples
     {
         public int aid = 0;
         public int a = 0;
-        public string EndDate = "2025/01/23 23:59";
+        public string EndDate = "2025/04/09 23:59";
         protected static string Year = "2025";
 
         protected override void InitAjaxHandler()
@@ -56,13 +56,13 @@ namespace twbobibobi.Temples
                 string AppName = basePage.Request["Appname"];                                       //購買人姓名
                 string AppMobile = basePage.Request["Appmobile"];                                   //購買人電話
 
-                //string AppSendback = basePage.Request["sendback_Tag"];                              //寄送方式 N-不寄回(會轉送給弱勢團體) Y-寄回(加收運費120元)
-                //string Apprname = basePage.Request["rname_Tag"];                                    //收件人姓名
-                //string Apprmobile = basePage.Request["rmobile_Tag"];                                //收件人電話
-                //string ApprzipCode = basePage.Request["rzipCode_Tag"];                              //收件人郵政區號
-                //string Apprcounty = basePage.Request["rcounty_Tag"];                                //收件人縣市
-                //string Apprdist = basePage.Request["rdist_Tag"];                                    //收件人區域
-                //string Appraddr = basePage.Request["raddr_Tag"];                                    //收件人部分地址
+                string AppSendback = basePage.Request["AppSendback"];                               //寄送方式 N-不寄回(會轉送給弱勢團體) Y-寄回(加收運費100元)
+                string Apprname = basePage.Request["Apprname_Tag"];                                 //收件人姓名
+                string Apprmobile = basePage.Request["Apprmobile_Tag"];                             //收件人電話
+                string ApprzipCode = basePage.Request["ApprzipCode_Tag"];                           //收件人郵政區號
+                string Apprcounty = basePage.Request["Apprcounty_Tag"];                             //收件人縣市
+                string Apprdist = basePage.Request["Apprdist_Tag"];                                 //收件人區域
+                string Appraddr = basePage.Request["Appraddr_Tag"];                                 //收件人部分地址
 
                 string name_Tag = basePage.Request["name_Tag"];                                     //祈福人姓名
                 string mobile_Tag = basePage.Request["mobile_Tag"];                                 //祈福人電話
@@ -126,13 +126,13 @@ namespace twbobibobi.Temples
                 postURL += basePage.Request["elv"] != null ? "_ELV" : "";
 
 
-                string AppSendback = "Y";                                                           //寄送方式 N-不寄回(會轉送給弱勢團體) Y-寄回(加收運費120元)
-                string Apprname = Jname[0].ToString();                                              //收件人姓名
-                string Apprmobile = Jmobile[0].ToString();                                          //收件人電話
-                string ApprzipCode = JzipCode[0].ToString();                                        //收件人郵政區號
-                string Apprcounty = Jcounty[0].ToString();                                          //收件人縣市
-                string Apprdist = Jdist[0].ToString();                                              //收件人區域
-                string Appraddr = Jaddr[0].ToString();                                              //收件人部分地址
+                //string AppSendback = "Y";                                                           //寄送方式 N-不寄回(會轉送給弱勢團體) Y-寄回(加收運費120元)
+                //string Apprname = Jname[0].ToString();                                              //收件人姓名
+                //string Apprmobile = Jmobile[0].ToString();                                          //收件人電話
+                //string ApprzipCode = JzipCode[0].ToString();                                        //收件人郵政區號
+                //string Apprcounty = Jcounty[0].ToString();                                          //收件人縣市
+                //string Apprdist = Jdist[0].ToString();                                              //收件人區域
+                //string Appraddr = Jaddr[0].ToString();                                              //收件人部分地址
 
                 ApplicantID = objLightDAC.addapplicantinfo_Supplies_Lk(AppName, AppMobile, "0", Apprcounty, Apprdist, Appraddr, ApprzipCode, AppSendback, Apprname, Apprmobile
                     , 0, AdminID, postURL, Year);

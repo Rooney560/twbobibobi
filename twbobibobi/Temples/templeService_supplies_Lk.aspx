@@ -192,10 +192,10 @@
                     <div class="EventServiceContent">
                         <div class="EventTime">
                             <div>活動開始日期：</div>
-                        <div id="startTime">2024/12/28 00:00</div>
+                        <div id="startTime">2025/03/06 00:00</div>
                             <br />
                             <div>活動截止日期：</div>
-                            <div id="endTime">2025/01/23 23:59</div>
+                            <div id="endTime">2025/04/09 23:59</div>
                         </div>
                         <div class="EventServiceContent">
                         <div>
@@ -229,11 +229,11 @@
                         </div>
                         <div>
                             <h2>▌注意事項</h2>
-                            <p style="color: red;">鹿港城隍廟管理委員會將於將於大年初五全天(8:00-17:00), 及每月第二和第四星期六早上8:00-9:00)舉行補財庫，
+                            <p style="color: red;">鹿港城隍廟管理委員會將於將於國曆四月十二日全天(8:00-17:00)舉行補財庫，
                                 完成後會收到廟方補財庫的贈品(黃金萬兩錢母以及催財符令)。</p>
                         </div>
                         <div>
-                            <h2>補財庫 $1600 /份</h2>
+                            <h2>補財庫 $1600 /份 (含郵資$100)</h2>
                         </div>
                         </div>
 
@@ -250,28 +250,28 @@
                         <div class="FormInput tel">
                             <label>購買人電話</label><input name="member_tel" type="tel" class="required" id="member_tel" placeholder="請輸入聯絡電話"/>
                         </div>
-                        <div class="FormInput select" style="display:none;">
+                        <%--<div class="FormInput select" style="display:none;">
                             <label>贈品處理方式</label>
                             <select name="bless_sendback_1" class="required" id="bless_sendback_1">
                                 <option value="Y">寄回（運費+$100）</option>
                                 <option value="N">不寄回</option>
                             </select>
-                        </div>
+                        </div>--%>
                         <div class="Receive" id="bless_receive_1">
                             <div class="FormInput text_s">
-                                <label>收件人姓名</label><input name="bless_rec_name_1" type="text" class="receivename" id="bless_rec_name_1" placeholder="請輸入收件人姓名" />
+                                <label>收件人姓名</label><input name="bless_rec_name_1" type="text" class="receivename required" id="bless_rec_name_1" placeholder="請輸入收件人姓名" />
                             </div>
                             <div class="FormInput tel">
-                                <label>收件人電話</label><input name="bless_rec_tel_1" type="tel" class="receivetype" id="bless_rec_tel_1" placeholder="請輸入收件人電話" />
+                                <label>收件人電話</label><input name="bless_rec_tel_1" type="tel" class="receivetype required" id="bless_rec_tel_1" placeholder="請輸入收件人電話" />
                             </div>
                             <div class="FormInput address">
                                 <label>收件人地址</label>
                                 <div class="RecAddress">
                                     <div data-role="zipcode" data-style="addr-zip" data-placeholder="" data-name="bless_rec_zipcode_1" data-id="bless_rec_zipcode_1"></div>
-                                    <div data-role="county" data-style="addr-county required3" data-name="bless_rec_county_1" data-id="bless_rec_county_1"></div>
-                                    <div data-role="district" data-style="addr-district required3" data-name="bless_rec_district_1" data-id="bless_rec_district_1"></div>
+                                    <div data-role="county" data-style="addr-county required" data-name="bless_rec_county_1" data-id="bless_rec_county_1"></div>
+                                    <div data-role="district" data-style="addr-district required" data-name="bless_rec_district_1" data-id="bless_rec_district_1"></div>
                                 </div>
-                                <input name="bless_rec_address_1" type="text" class="required3" id="bless_rec_address_1" placeholder="請輸入收件人地址" />
+                                <input name="bless_rec_address_1" type="text" class="required" id="bless_rec_address_1" placeholder="請輸入收件人地址" />
                             </div>
                         </div>
 
@@ -472,16 +472,16 @@
             }
         });
 
-        $(".Receive").hide();
+        //$(".Receive").hide();
 
-        $("#bless_sendback_1").change(function () {
-            if ($(this).val() == "Y") {
-                $("#bless_receive_1").show();
-            }
-            else {
-                $("#bless_receive_1").hide();
-            }
-        });
+        //$("#bless_sendback_1").change(function () {
+        //    if ($(this).val() == "Y") {
+        //        $("#bless_receive_1").show();
+        //    }
+        //    else {
+        //        $("#bless_receive_1").hide();
+        //    }
+        //});
 
         if (aid != 0) {
             ac_loadServerMethod("editinfo", null, editinfo);
@@ -568,22 +568,22 @@
 
 
             //更新所有動態產生的ID編號  
-            $('.InputGroup > li:last').find('.Receive').each(function (index) {
-                var originalId = $(this).attr('id');
-                var newId = originalId.slice(0, -1) + lastblessNum;
-                $(this).attr('id', newId);
-                $(this).attr('name', newId);
-                $(this).hide();
-            });
+            //$('.InputGroup > li:last').find('.Receive').each(function (index) {
+            //    var originalId = $(this).attr('id');
+            //    var newId = originalId.slice(0, -1) + lastblessNum;
+            //    $(this).attr('id', newId);
+            //    $(this).attr('name', newId);
+            //    $(this).hide();
+            //});
 
-            $('.InputGroup > li:last .RecAddress').find('div[data-role]').each(function (index) {
-                var originalId = $(this).attr('data-id');
-                var originalName = $(this).attr('data-name');
-                var newId = originalId.slice(0, -1) + lastblessNum;
-                var newName = originalName.slice(0, -1) + lastblessNum;
-                $(this).attr('data-id', newId);
-                $(this).attr('data-name', newId);
-            });
+            //$('.InputGroup > li:last .RecAddress').find('div[data-role]').each(function (index) {
+            //    var originalId = $(this).attr('data-id');
+            //    var originalName = $(this).attr('data-name');
+            //    var newId = originalId.slice(0, -1) + lastblessNum;
+            //    var newName = originalName.slice(0, -1) + lastblessNum;
+            //    $(this).attr('data-id', newId);
+            //    $(this).attr('data-name', newId);
+            //});
 
             //更新所有動態產生的ID編號  
             $('.InputGroup > li:last').find('div').each(function (index) {
@@ -734,6 +734,7 @@
         var isCheckedValid = $("#checkedprivate").is(":checked");
 
         var value = $("#member_tel").val().trim();
+        var value2 = $("#bless_rec_tel_1").val().trim();
         if (value == "") {
             $(".Notice").text("購買人電話不能為空。");
             $(".Notice").addClass("active");
@@ -743,6 +744,16 @@
             $(".Notice").text("購買人電話格式錯誤。");
             $(".Notice").addClass("active");
             $("#member_tel").addClass('unfilled');
+        }
+        else if (value2 == "") {
+            $(".Notice").text("收件人電話不能為空。");
+            $(".Notice").addClass("active");
+            $("#bless_rec_tel_1").addClass('unfilled');
+        }
+        else if (!Isphone(value2)) {
+            $(".Notice").text("收件人電話格式錯誤。");
+            $(".Notice").addClass("active");
+            $("#bless_rec_tel_1").addClass('unfilled');
         }
         else {
             //if ($("#bless_sendback_1").val() == "Y") {
@@ -984,12 +995,13 @@
         Appmobile = $("#member_tel").val();                     //購買人電話
 
         //sendback_Tag = $("select[name='bless_sendback_1']").val().trim();                          //寄送方式 N-不寄回 Y-寄回(加收運費100元)
-        //rname_Tag = $("#bless_rec_name_1").val().trim();                                           //收件人姓名
-        //rmobile_Tag = $("#bless_rec_tel_1").val().trim();                                          //收件人電話
-        //rzipCode_Tag = $("#bless_rec_zipcode_1").val().trim();                                     //收件人郵政區號
-        //rcounty_Tag = $("select[name='bless_rec_county_1']").val().trim();                         //收件人縣市
-        //rdist_Tag = $("select[name='bless_rec_district_1']").val().trim();                         //收件人區域
-        //raddr_Tag = $("#bless_rec_address_1").val().trim();
+        AppSendback = "Y";
+        Apprname_Tag = $("#bless_rec_name_1").val().trim();                                           //收件人姓名
+        Apprmobile_Tag = $("#bless_rec_tel_1").val().trim();                                          //收件人電話
+        ApprzipCode_Tag = $("#bless_rec_zipcode_1").val().trim();                                     //收件人郵政區號
+        Apprcounty_Tag = $("select[name='bless_rec_county_1']").val().trim();                         //收件人縣市
+        Apprdist_Tag = $("select[name='bless_rec_district_1']").val().trim();                         //收件人區域
+        Appraddr_Tag = $("#bless_rec_address_1").val().trim();
 
         name_Tag = [];
         mobile_Tag = [];
@@ -1036,13 +1048,14 @@
         data = {
             Appname: Appname,
             Appmobile: Appmobile,
+            AppSendback: AppSendback,
             //sendback_Tag: sendback_Tag,
-            //rname_Tag: rname_Tag,
-            //rmobile_Tag: rmobile_Tag,
-            //rzipCode_Tag: rzipCode_Tag,
-            //rcounty_Tag: rcounty_Tag,
-            //rdist_Tag: rdist_Tag,
-            //raddr_Tag: raddr_Tag,
+            Apprname_Tag: Apprname_Tag,
+            Apprmobile_Tag: Apprmobile_Tag,
+            ApprzipCode_Tag: ApprzipCode_Tag,
+            Apprcounty_Tag: Apprcounty_Tag,
+            Apprdist_Tag: Apprdist_Tag,
+            Appraddr_Tag: Appraddr_Tag,
             name_Tag: JSON.stringify(name_Tag),
             mobile_Tag: JSON.stringify(mobile_Tag),
             sex_Tag: JSON.stringify(sex_Tag),

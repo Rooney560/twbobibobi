@@ -783,6 +783,9 @@
                 break;
             case "16":
                 switch (url.searchParams.get('a')) {
+                    case "15":
+                        window.location = 'templeService_supplies_Fw.aspx' + window.location.search;
+                        break;
                     case "21":
                         window.location = 'templeService_supplies_Lk.aspx' + window.location.search;
                         break;
@@ -1098,6 +1101,9 @@
                         break;
                     case "16":
                         switch (url.searchParams.get('a')) {
+                            case "15":
+                                window.location = 'templeService_supplies_Fw.aspx' + window.location.search;
+                                break;
                             case "21":
                                 window.location = 'templeService_supplies_Lk.aspx' + window.location.search;
                                 break;

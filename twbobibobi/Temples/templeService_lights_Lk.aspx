@@ -219,29 +219,29 @@
                         <div class="FormInput tel">
                             <label>購買人電話</label><input name="member_tel" type="tel" class="required" id="member_tel" placeholder="請輸入聯絡電話"/>
                         </div>
-                        <div class="FormInput select">
+                        <%--<div class="FormInput select">
                             <label>贈品處理方式</label>
                             <select name="bless_sendback_1" class="required" id="bless_sendback_1">
                                 <option value="N">不寄回</option>
 
                                 <option value="Y">寄回（運費+$100）</option>
                             </select>
-                        </div>
+                        </div>--%>
                         <div class="Receive" id="bless_receive_1">
                             <div class="FormInput text_s">
-                                <label>收件人姓名</label><input name="bless_rec_name_1" type="text" class="receivename" id="bless_rec_name_1" placeholder="請輸入收件人姓名" />
+                                <label>收件人姓名</label><input name="bless_rec_name_1" type="text" class="receivename required" id="bless_rec_name_1" placeholder="請輸入收件人姓名" />
                             </div>
                             <div class="FormInput tel">
-                                <label>收件人電話</label><input name="bless_rec_tel_1" type="tel" class="receivetype" id="bless_rec_tel_1" placeholder="請輸入收件人電話" />
+                                <label>收件人電話</label><input name="bless_rec_tel_1" type="tel" class="receivetype required" id="bless_rec_tel_1" placeholder="請輸入收件人電話" />
                             </div>
                             <div class="FormInput address">
                                 <label>收件人地址</label>
                                 <div class="RecAddress">
                                     <div data-role="zipcode" data-style="addr-zip" data-placeholder="" data-name="bless_rec_zipcode_1" data-id="bless_rec_zipcode_1"></div>
-                                    <div data-role="county" data-style="addr-county required2" data-name="bless_rec_county_1" data-id="bless_rec_county_1"></div>
-                                    <div data-role="district" data-style="addr-district required2" data-name="bless_rec_district_1" data-id="bless_rec_district_1"></div>
+                                    <div data-role="county" data-style="addr-county required" data-name="bless_rec_county_1" data-id="bless_rec_county_1"></div>
+                                    <div data-role="district" data-style="addr-district required" data-name="bless_rec_district_1" data-id="bless_rec_district_1"></div>
                                 </div>
-                                <input name="bless_rec_address_1" type="text" class="required2" id="bless_rec_address_1" placeholder="請輸入收件人地址" />
+                                <input name="bless_rec_address_1" type="text" class="required" id="bless_rec_address_1" placeholder="請輸入收件人地址" />
                             </div>
                         </div>
 
@@ -443,16 +443,16 @@
             }
         });
 
-        $(".Receive").hide();
+        //$(".Receive").hide();
 
-        $("#bless_sendback_1").change(function () {
-            if ($(this).val() == "Y") {
-                $("#bless_receive_1").show();
-            }
-            else {
-                $("#bless_receive_1").hide();
-            }
-        });
+        //$("#bless_sendback_1").change(function () {
+        //    if ($(this).val() == "Y") {
+        //        $("#bless_receive_1").show();
+        //    }
+        //    else {
+        //        $("#bless_receive_1").hide();
+        //    }
+        //});
 
         if (aid != 0) {
             ac_loadServerMethod("editinfo", null, editinfo);
@@ -539,22 +539,22 @@
 
 
         //更新所有動態產生的ID編號  
-        $('.InputGroup > li:last').find('.Receive').each(function (index) {
-            var originalId = $(this).attr('id');
-            var newId = originalId.slice(0, -1) + lastblessNum;
-            $(this).attr('id', newId);
-            $(this).attr('name', newId);
-            $(this).hide();
-        });
+        //$('.InputGroup > li:last').find('.Receive').each(function (index) {
+        //    var originalId = $(this).attr('id');
+        //    var newId = originalId.slice(0, -1) + lastblessNum;
+        //    $(this).attr('id', newId);
+        //    $(this).attr('name', newId);
+        //    $(this).hide();
+        //});
 
-        $('.InputGroup > li:last .RecAddress').find('div[data-role]').each(function (index) {
-            var originalId = $(this).attr('data-id');
-            var originalName = $(this).attr('data-name');
-            var newId = originalId.slice(0, -1) + lastblessNum;
-            var newName = originalName.slice(0, -1) + lastblessNum;
-            $(this).attr('data-id', newId);
-            $(this).attr('data-name', newId);
-        });
+        //$('.InputGroup > li:last .RecAddress').find('div[data-role]').each(function (index) {
+        //    var originalId = $(this).attr('data-id');
+        //    var originalName = $(this).attr('data-name');
+        //    var newId = originalId.slice(0, -1) + lastblessNum;
+        //    var newName = originalName.slice(0, -1) + lastblessNum;
+        //    $(this).attr('data-id', newId);
+        //    $(this).attr('data-name', newId);
+        //});
 
         //更新所有動態產生的ID編號  
         $('.InputGroup > li:last').find('div').each(function (index) {
@@ -983,12 +983,22 @@
         Appmobile = $("#member_tel").val().trim();     //購買人電話
 
         sendback_Tag = $("select[name='bless_sendback_1']").val().trim();                          //寄送方式 N-不寄回 Y-寄回(加收運費100元)
-        rname_Tag = $("#bless_rec_name_1").val().trim();                                           //收件人姓名
-        rmobile_Tag = $("#bless_rec_tel_1").val().trim();                                          //收件人電話
-        rzipCode_Tag = $("#bless_rec_zipcode_1").val().trim();                                     //收件人郵政區號
-        rcounty_Tag = $("select[name='bless_rec_county_1']").val().trim();                         //收件人縣市
-        rdist_Tag = $("select[name='bless_rec_district_1']").val().trim();                         //收件人區域
-        raddr_Tag = $("#bless_rec_address_1").val().trim();
+        if (sendback_Tag == "Y") {
+            rname_Tag = $("#bless_rec_name_1").val().trim();                                           //收件人姓名
+            rmobile_Tag = $("#bless_rec_tel_1").val().trim();                                          //收件人電話
+            rzipCode_Tag = $("#bless_rec_zipcode_1").val().trim();                                     //收件人郵政區號
+            rcounty_Tag = $("select[name='bless_rec_county_1']").val().trim();                         //收件人縣市
+            rdist_Tag = $("select[name='bless_rec_district_1']").val().trim();                         //收件人區域
+            raddr_Tag = $("#bless_rec_address_1").val().trim();
+        }
+        else {
+            rname_Tag = "";
+            rmobile_Tag = "";
+            rzipCode_Tag = "0";
+            rcounty_Tag = "";
+            rdist_Tag = "";
+            raddr_Tag = "";
+        }
 
         name_Tag = [];
         mobile_Tag = [];

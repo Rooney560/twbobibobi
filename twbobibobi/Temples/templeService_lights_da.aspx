@@ -331,7 +331,6 @@
                                     <label>點燈項目</label>
                                     <select name="bless_service_1" class="required" id="bless_service_1">
                                         <option value>請選擇</option>
-                                        <option value="光明燈">光明燈 $620</option>
                                         <option value="安太歲">安太歲 $520</option>
                                     </select>
                                 </div>

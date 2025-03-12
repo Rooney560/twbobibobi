@@ -1905,6 +1905,11 @@ namespace MotoSystem.Data
                     //補財庫
                     switch (AdminID)
                     {
+                        case "15":
+                            //斗六五路財神公
+                            view = "Temple_" + Year + "..APPCharge_Fw_Supplies";
+                            sql = "Select * from Temple_" + Year + "..APPCharge_Fw_Supplies Where Status = 1 and UniqueID = @UniqueID";
+                            break;
                         case "21":
                             //鹿港城隍廟
                             view = "Temple_" + Year + "..APPCharge_Lk_Supplies";
@@ -2369,6 +2374,11 @@ namespace MotoSystem.Data
                     //補財庫
                     switch (AdminID)
                     {
+                        case "15":
+                            //斗六五路財神宮
+                            view = "Temple_" + Year + "..ApplicantInfo_Lk_Supplies";
+                            sql = "Select * from Temple_" + Year + "..ApplicantInfo_Lk_Supplies Where Status = 2 and ApplicantID = @ApplicantID";
+                            break;
                         case "21":
                             //鹿港城隍廟
                             view = "Temple_" + Year + "..ApplicantInfo_Lk_Supplies";
@@ -3024,6 +3034,15 @@ namespace MotoSystem.Data
                         //天赦日補運
                         view = "Temple_" + Year + "..Supplies3_ty_info";
                         sql = "Select * from Temple_" + Year + "..Supplies3_ty_info Where Status = 0 and ApplicantID = @ApplicantID";
+                    }
+                    break;
+                case "15":
+                    //斗六五路財神宮
+                    if (Suppliestype == 9)
+                    {
+                        //補財庫
+                        view = "Temple_" + Year + "..Supplies_Fw_info";
+                        sql = "Select * from Temple_" + Year + "..Supplies_Fw_info Where Status = 0 and ApplicantID = @ApplicantID";
                     }
                     break;
                 case "21":

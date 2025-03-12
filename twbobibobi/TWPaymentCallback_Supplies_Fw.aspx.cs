@@ -11,9 +11,9 @@ using BCFBaseLibrary.Security;
 using System.Collections;
 using Temple.data;
 
-namespace Temple
+namespace twbobibobi
 {
-    public partial class TWPaymentCallback_Supplies_wu2 : BasePage
+    public partial class TWPaymentCallback_Supplies_Fw : BasePage
     {
         protected void Page_Load(object sender, EventArgs e)
         {
@@ -46,23 +46,24 @@ namespace Temple
                     //resp = "交易網址連結失敗";
                     SaveErrorLog(resp + ", 取得API錯誤。");
                 }
+
                 if (Request["ad"] != null)
                 {
                     resp = "1|18062216041218500003|100|TELEPAY|twm|0934315020|20180622160559423|F6C5E389052469CC441A402A3F0D0C9F";
                 }
-                //resp = "1|18062216041218500003|100|TELEPAY|twm|0934315020|20180622160559423|F6C5E389052469CC441A402A3F0D0C9F";
+                //resp = "1|18062216041218500003|100|TELEPAY|twm|0918101710|20180622160559423|F6C5E389052469CC441A402A3F0D0C9F";
                 string orderId = oid;
                 string CallbackLog = tid + "," + resp;
                 DatabaseHelper objDatabaseHelper = new DatabaseHelper(this);
                 int aid = int.Parse(m1);
                 int status = 999;
-                int adminID = objDatabaseHelper.GetAdminID_Supplies_wu2(aid, Year);
+                int adminID = 15;
 
-                DataTable dtCharge = objDatabaseHelper.GetChargeLog_Supplies_wu2(orderId, Year);
+                DataTable dtCharge = objDatabaseHelper.GetChargeLog_Supplies_Fw(orderId, Year);
 
                 if (dtCharge.Rows.Count > 0)
                 {
-                    string rebackURL = "https://bobibobi.tw/Temples/templeService_supplies2.aspx";
+                    string rebackURL = "https://bobibobi.tw/Temples/templeService_supplies_Fw.aspx";
 
                     if (dtCharge.Rows[0]["ChargeType"].ToString() == "Twm")
                     {
@@ -83,10 +84,11 @@ namespace Temple
 
                                 string msg = "感謝購買,已成功付款" + cost + "元,您的訂單編號 ";
 
-                                objDatabaseHelper.UpdateSupplies_wu_Info2(aid, Year, ref msg, ref Supplieslist);
-                                //DataTable dtapplicantinfo = objDatabaseHelper.Getapplicantinfo_Supplies_wu2(aid, adminID, Year);
+                                objDatabaseHelper.UpdateSupplies_Fw_Info(aid, Year, ref msg, ref supplieslist);
+                                //objDatabaseHelper.UpdateSupplies_Fw_Info(aid, Year, ref Supplieslist);
+                                //DataTable dtapplicantinfo = objDatabaseHelper.Getapplicantinfo_Supplies_Fw(aid, adminID, Year);
                                 //int cost = dtapplicantinfo.Rows.Count > 0 ? int.Parse(dtapplicantinfo.Rows[0]["Cost"].ToString()) : 0;
-                                objDatabaseHelper.Updateapplicantinfo_Supplies_wu2(aid, cost, 2, Year); //更新購買表內購買人狀態為已付款(Status=2)
+                                objDatabaseHelper.Updateapplicantinfo_Supplies_Fw(aid, cost, 2, Year); //更新購買表內購買人狀態為已付款(Status=2)
 
                                 //msg = "感謝大德參與線上點燈,茲收您1960元功德金,訂單編號 光明燈:T2204, 安太歲:25351, 文昌燈:六1214。";
                                 //mobile = "0903002568";
@@ -95,12 +97,12 @@ namespace Temple
                                 string ChargeType = string.Empty;
 
                                 //更新流水付費表資訊(付費成功)
-                                if (objDatabaseHelper.UpdateChargeLog_Supplies_wu2(orderId, tid, msg, Request.UserHostAddress, CallbackLog, Year, ref ChargeType))
+                                if (objDatabaseHelper.UpdateChargeLog_Supplies_Fw(orderId, tid, msg, Request.UserHostAddress, CallbackLog, Year, ref ChargeType))
                                 {
                                     if (objSMSHepler.SendMsg_SL(mobile, msg))
                                     {
                                         //m2 = m2.IndexOf("aid=") > 0 ? m2 : (m2.IndexOf("?") > 0 ? m2 + "&aid=" + m1 : m2 + "?aid=" + m1 + "&a=" + adminID);
-                                        m2 = "https://bobibobi.tw/Temples/templeComplete.aspx?a=" + adminID + "&aid=" + aid + "&kind=5" + (ChargeType == "Twm" ? "&twm=1" : "");
+                                        m2 = "https://bobibobi.tw/Temples/templeComplete.aspx?a=" + adminID + "&aid=" + aid + "&kind=16" + (ChargeType == "Twm" ? "&twm=1" : "");
                                         Response.Redirect(m2, true);
                                     }
                                     else
@@ -121,15 +123,15 @@ namespace Temple
                         }
                         else if (result[0] == "4")
                         {
-                            if (objDatabaseHelper.UpdateChargeStatus_Supplies_wu2(orderId, -2, Request.UserHostAddress, CallbackLog, Year))
+                            if (objDatabaseHelper.UpdateChargeStatus_Supplies_Fw(orderId, -2, Request.UserHostAddress, CallbackLog, Year))
                             {
                                 Response.Write("<script>alert('此用戶已退款。');window.location.href='" + rebackURL + "'</script>");
                             }
                         }
                         else
                         {
-                            objDatabaseHelper.UpdateChargeStatus_Supplies_wu2(orderId, -1, Request.UserHostAddress, CallbackLog, Year);
-                            //objDatabaseHelper.UpdateChargeErrLog_Supplies_wu3(orderId, "", Request.UserHostAddress, CallbackLog, Year);
+                            objDatabaseHelper.UpdateChargeStatus_Supplies_Fw(orderId, -1, Request.UserHostAddress, CallbackLog, Year);
+                            //objDatabaseHelper.UpdateChargeErrLog_Supplies_Fw(orderId, "", Request.UserHostAddress, CallbackLog, Year);
 
                             if (m2.IndexOf("APPPaymentResult") > 0)
                             {
@@ -139,19 +141,20 @@ namespace Temple
                             {
                                 Response.Write("<script>alert('付款失敗。錯誤代碼：" + result[0] + "，請聯繫管理員。');window.location.href='" + rebackURL + "'</script>");
                             }
+
+                            //Response.Redirect(m2, true);
                         }
                     }
                     else if (status == 1)
                     {
                         //已經付費成功。
-                        m2 = "https://bobibobi.tw/Temples/templeComplete.aspx?kind=5&a=" + adminID + "&aid=" + aid + (dtCharge.Rows[0]["ChargeType"].ToString() == "Twm" ? "&twm=1" : "");
+                        m2 = "https://bobibobi.tw/Temples/templeComplete.aspx?kind=16&a=" + adminID + "&aid=" + aid + (dtCharge.Rows[0]["ChargeType"].ToString() == "Twm" ? "&twm=1" : "");
                         Response.Redirect(m2, true);
                     }
                     else
                     {
                         Response.Write("<script>alert('此訂單已交易失敗，交易代碼：" + resp + "如有疑問。請洽客服電話：04-36092299。');window.location.href='https://bobibobi.tw/Temples/templeInfo.aspx?a=" + adminID + "'</script>");
                     }
-
                 }
                 else
                 {

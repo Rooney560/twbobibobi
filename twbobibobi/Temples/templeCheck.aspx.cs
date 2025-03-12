@@ -362,7 +362,7 @@ namespace Temple.Temples
                             break;
                         //呈疏補庫
                         case 5:
-                            typeString = " 2024呈疏補庫";
+                            typeString = " 2025天官武財神聖誕補財庫";
 
                             switch (adminID)
                             {
@@ -371,8 +371,8 @@ namespace Temple.Temples
                                     title = "北港武德宮";
                                     GetPurchaserlist_wu_Supplies2(adminID, ApplicantID, Year);          //購買人資料列表
                                     Checkedtemple_wu(adminID, ApplicantID, kind, Year);
-                                    EndDate = "2024/04/17 23:59";
-                                    bindPayButton(true, true, true, false, true, false, false, false);
+                                    EndDate = "2025/04/06 23:59";
+                                    bindPayButton(true, true, true, true, true, true, true, true);
                                     break;
                             }
                             break;
@@ -577,12 +577,27 @@ namespace Temple.Temples
 
                             switch (adminID)
                             {
+                                case 15:
+                                    //斗六五路財神宮
+                                    ExpirationDate = false;
+                                    GetPurchaserlist_Fw_Supplies(adminID, ApplicantID, Year);          //購買人資料列表
+                                    Checkedtemple_Fw(adminID, ApplicantID, kind, Year);
+                                    EndDate = "2026/01/23 23:59";
+                                    if (Request["fetsms"] != null)
+                                    {
+                                        bindPayButton(true, false, false, false, false, false, false, false);
+                                    }
+                                    else
+                                    {
+                                        bindPayButton(true, true, true, true, true, true, false, false);
+                                    }
+                                    break;
                                 case 21:
                                     //鹿港城隍廟
                                     title = "鹿港城隍廟";
                                     GetPurchaserlist_Lk_Supplies(adminID, ApplicantID, Year);          //購買人資料列表
                                     Checkedtemple_Lk(adminID, ApplicantID, kind, Year);
-                                    EndDate = "2025/01/23 23:59";
+                                    EndDate = "2025/04/09 23:59";
                                     if (Request["fetsms"] != null)
                                     {
                                         bindPayButton(true, false, false, false, false, false, false, false);
@@ -2112,10 +2127,15 @@ namespace Temple.Temples
                                         switch (ChargeType)
                                         {
                                             case "LinePay":
-                                                link = "https://bobibobi.tw/Admin/line/LinePay.aspx?a=" + AdminID + "&aid=" + ApplicantID + "&Total=" + cost + "&kind=" + kind + (basePage.Request["twm"] != null ? "&twm=1" : "") + "&name=北港武德宮呈疏補庫&orderId=" + orderId;
+                                                link = TWWebPay_supplies_wu2(basePage, orderId, ApplicantID, "LINEPAY", "", cost, AppMobile, "a=" + AdminID + "&aid=" + ApplicantID + "&kind=" + kind + (basePage.Request["twm"] != null ? "&twm=1" : ""), Year);
+                                                //link = "https://bobibobi.tw/Admin/line/LinePay.aspx?a=" + AdminID + "&aid=" + ApplicantID + "&Total=" + cost + "&kind=" + kind + (basePage.Request["twm"] != null ? "&twm=1" : "") + "&name=北港武德宮呈疏補庫&orderId=" + orderId;
                                                 break;
                                             case "JkosPay":
-                                                link = "https://bobibobi.tw/Admin/jkos/jkosPay.aspx?a=" + AdminID + "&aid=" + ApplicantID + "&Total=" + cost + "&kind=" + kind + (basePage.Request["twm"] != null ? "&twm=1" : "") + "&name=北港武德宮呈疏補庫&orderId=" + orderId;
+                                                //if (basePage.Request["ad"] != null && basePage.Request["ad"] == "2290")
+                                                //{
+                                                //    cost = 10;
+                                                //}
+                                                link = "https://bobibobi.tw/Admin/jkos/jkosPay.aspx?a=" + AdminID + "&aid=" + ApplicantID + "&Total=" + cost + "&kind=" + kind + (basePage.Request["twm"] != null ? "&twm=1" : "") + "&name=北港武德宮天官武財神聖誕補財庫&orderId=" + orderId;
                                                 break;
                                             case "ChtCSP":
                                                 link = TWWebPay_supplies_wu2(basePage, orderId, ApplicantID, "TELEPAY", "", cost, AppMobile, "a=" + AdminID + "&aid=" + ApplicantID + "&kind=" + kind + (basePage.Request["twm"] != null ? "&twm=1" : ""), Year);
@@ -2625,6 +2645,62 @@ namespace Temple.Temples
                                     //補財庫-鹿港城隍廟
                                     switch (AdminID)
                                     {
+                                        case 15:
+                                            Year = "2025";
+                                            dtLASTTIME = objLightDAC.GetInfoLastDate(ApplicantID, AdminID, 16, type, Year);
+                                            if (dtLASTTIME.AddMinutes(20) < dtNow)
+                                            {
+                                                basePage.mJSonHelper.AddContent("Timeover", 1);
+                                            }
+                                            else
+                                            {
+                                                int cost = Total;
+                                                string link = string.Empty;
+
+                                                switch (ChargeType)
+                                                {
+                                                    case "LinePay":
+                                                        link = TWWebPay_supplies_Fw(basePage, orderId, ApplicantID, "LINEPAY", "", cost, AppMobile, "a=" + AdminID + "&aid=" +
+                                                            ApplicantID + "&kind=" + kind + (basePage.Request["twm"] != null ? "&twm=1" : "") +
+                                                            (basePage.Request["bobi"] != null ? "&bobi=1" : ""), Year);
+                                                        break;
+                                                    case "JkosPay":
+                                                        //if (basePage.Request["ad"] != null && basePage.Request["ad"] == "2290")
+                                                        //{
+                                                        //    cost = 10;
+                                                        //}
+                                                        link = "https://bobibobi.tw/Admin/jkos/jkosPay.aspx?a=" + AdminID + "&aid=" + ApplicantID + "&Total=" + cost + "&kind=" + kind +
+                                                            (basePage.Request["twm"] != null ? "&twm=1" : "") + (basePage.Request["bobi"] != null ? "&bobi=1" : "") +
+                                                            "&name=斗六五路財神宮補財庫&orderId=" + orderId;
+                                                        break;
+                                                    case "ChtCSP":
+                                                        link = TWWebPay_supplies_Fw(basePage, orderId, ApplicantID, "TELEPAY", "", cost, AppMobile, "a=" + AdminID + "&aid=" +
+                                                            ApplicantID + "&kind=" + kind + (basePage.Request["twm"] != null ? "&twm=1" : "") +
+                                                            (basePage.Request["bobi"] != null ? "&bobi=1" : ""), Year);
+                                                        break;
+                                                    case "TwmCSP":
+                                                        link = TWWebPay_supplies_Fw(basePage, orderId, ApplicantID, "TELEPAY", "twm", cost, AppMobile, "a=" + AdminID + "&aid=" +
+                                                            ApplicantID + "&kind=" + kind + (basePage.Request["twm"] != null ? "&twm=1" : "") +
+                                                            (basePage.Request["bobi"] != null ? "&bobi=1" : ""), Year);
+                                                        break;
+                                                    default:
+                                                        link = TWWebPay_supplies_Fw(basePage, orderId, ApplicantID, ChargeType, "", cost, AppMobile, "a=" + AdminID + "&aid=" +
+                                                            ApplicantID + "&kind=" + kind + (basePage.Request["twm"] != null ? "&twm=1" : "") +
+                                                            (basePage.Request["bobi"] != null ? "&bobi=1" : ""), Year);
+                                                        break;
+                                                }
+
+                                                if (link != "")
+                                                {
+                                                    basePage.SavePayLog(link);
+
+                                                    basePage.mJSonHelper.AddContent("StatusCode", 1);
+                                                    basePage.mJSonHelper.AddContent("redirect", link);
+
+                                                    basePage.Session["ApplicantID"] = ApplicantID;
+                                                }
+                                            }
+                                            break;
                                         case 21:
                                             Year = "2025";
                                             dtLASTTIME = objLightDAC.GetInfoLastDate(ApplicantID, AdminID, 16, type, Year);
@@ -5438,6 +5514,67 @@ namespace Temple.Temples
                 return link;
             }
 
+            protected string TWWebPay_supplies_Fw(BasePage basePag, string orderid, int applicantID, string paytype, string telco, int price, string m_phone, string returnUrl,
+                string Year)
+            {
+                TimeZoneInfo info = TimeZoneInfo.FindSystemTimeZoneById("Taipei Standard Time");
+                DateTime dtNow = TimeZoneInfo.ConvertTime(DateTime.Now, info);
+                BCFBaseLibrary.Web.BasePage basePage = new BCFBaseLibrary.Web.BasePage();
+                string oid = orderid;
+                string uid = "Temple";
+                string Sid = "Temple-YunlinWulucaishen";    //斗六五路財神宮_宮廟服務 PR00004721
+                string item = "斗六五路財神宮補財庫服務";
+                string ValidationKey = "Ov7BmaT5l1C89t5FNj0cEsR";
+                string link = "https://paygate.tw/xpay/pay?uid=";
+                string PaymentReceiveURL = basePag.GetConfigValue("PaymentSupplies_Fw_ReceiveURL");
+                string Timestamp = dtNow.ToString("yyyyMMddHHmmssfff");
+                string msisdn = m_phone;
+                string chrgtype = "1";
+                string m1 = applicantID.ToString();
+                string m2 = returnUrl;
+                //string mac = MD5.Encode(uid + oid + price + item + paytype + Sid + PaymentReceiveURL + m1 + m2
+                //                      + telco + chrgtype + Timestamp + ValidationKey).Replace("-", "").ToLower();
+                string mac = MD5.MD5Encrypt(uid + oid + price + item + paytype + Sid + PaymentReceiveURL + m1 + m2
+                                      + telco + chrgtype + msisdn + Timestamp + ValidationKey).Replace("-", "").ToLower();
+
+                string paymentChannelLog = returnUrl;
+                DatabaseHelper objdatabaseHelper = new DatabaseHelper(basePage);
+                string ChargeType = paytype;
+                if (ChargeType == "TELEPAY")
+                {
+                    if (telco == "twm")
+                    {
+                        ChargeType = "Twm";
+                    }
+                    else
+                    {
+                        ChargeType = "Cht";
+                    }
+                }
+
+                if (ChargeType == "CreditCard")
+                {
+                    if (telco == "UNIONPAY")
+                    {
+                        ChargeType = "UNIONPAY";
+                    }
+                }
+                long id = objdatabaseHelper.AddChargeLog_Supplies_Fw(oid, applicantID, price, ChargeType, 0, "", "", paymentChannelLog, basePag.Request.UserHostAddress, Year);
+                //long id = 6;
+
+                LightDAC objLightDAC = new LightDAC(basePag);
+
+                if (id > 0 && objLightDAC.Updatecost2applicantinfo_Supplies_Fw(applicantID, AdminID, price, Year))
+                {
+                    link = link + uid + "&oid=" + oid + "&returl=" + basePage.Server.UrlEncode(PaymentReceiveURL) + "&point=" + price + "&pw=" + paytype
+                        + "&sid=" + Sid + "&item=" + item + "&timestamp=" + Timestamp + "&chrgtype=" + chrgtype + "&mac="
+                        + mac + "&m1=" + basePage.Server.UrlEncode(m1) + "&m2=" + System.Web.HttpUtility.UrlEncode(m2) + "&telco=" + telco + "&msisdn=" + msisdn;
+
+                }
+
+                return link;
+            }
+
             protected string TWWebPay_supplies_dh(BasePage basePag, string orderid, int applicantID, string paytype, string telco, int price, string m_phone, string returnUrl, 
                 string Year)
             {
@@ -5813,7 +5950,7 @@ namespace Temple.Temples
                 string oid = orderid;
                 string uid = "Temple";
                 string Sid = "Temple-WudeCSBK";    //北港武德宮宮廟服務 PR00004401
-                string item = "北港武德宮呈疏補庫";
+                string item = "北港武德宮天官武財神聖誕補財庫";
                 string ValidationKey = "Ov7BmaT5l1C89t5FNj0cEsR";
                 string link = "https://paygate.tw/xpay/pay?uid=";
                 string PaymentReceiveURL = basePag.GetConfigValue("PaymentSupplies_wu_ReceiveURL2");
@@ -6762,6 +6899,7 @@ namespace Temple.Temples
 
                 AppMobile = dtData.Rows[0]["AppMobile"].ToString();
                 OrderPurchaser += String.Format(result, "購買人電話", dtData.Rows[0]["AppMobile"].ToString());
+                OrderPurchaser += OrderData("購買人Email", dtData.Rows[0]["AppEmail"].ToString());
 
                 OrderInfo = string.Empty;
 
@@ -6770,26 +6908,27 @@ namespace Temple.Temples
                     OrderInfo += "<li><div>";
 
                     ////服務項目
-                    OrderInfo += "<div class=\"ProductsName\">呈疏補庫</div>";
+                    OrderInfo += "<div class=\"ProductsName\">天官武財神聖誕補財庫</div>";
 
                     //祈福人內容列表
                     OrderInfo += "<div class=\"ProductsInfo\">";
 
                     OrderInfo += OrderData("祈福人姓名", dtData.Rows[i]["Name"].ToString());
                     OrderInfo += OrderData("祈福人電話", dtData.Rows[i]["Mobile"].ToString());
-                    OrderInfo += OrderData("性別", dtData.Rows[i]["Sex"].ToString());
-                    OrderInfo += OrderData("農曆生日", dtData.Rows[i]["Birth"].ToString() + (dtData.Rows[i]["LeapMonth"].ToString() == "Y" ? " 閏月" : ""));
-                    OrderInfo += OrderData("農曆時辰", dtData.Rows[i]["BirthTime"].ToString());
-                    OrderInfo += OrderData("市話", dtData.Rows[i]["HomeNum"].ToString());
-                    OrderInfo += OrderData("Email", dtData.Rows[i]["Email"].ToString());
-                    OrderInfo += OrderData("地址", dtData.Rows[i]["Address"].ToString());
-                    OrderInfo += OrderData("數量", dtData.Rows[i]["Count"].ToString());
+                    OrderInfo += OrderData("祈福人性別", dtData.Rows[i]["Sex"].ToString());
+                    OrderInfo += OrderData("祈福人農曆生日", dtData.Rows[i]["Birth"].ToString() + (dtData.Rows[i]["LeapMonth"].ToString() == "Y" ? " 閏月" : ""));
+                    OrderInfo += OrderData("祈福人農曆時辰", dtData.Rows[i]["BirthTime"].ToString());
+                    OrderInfo += OrderData("祈福人國曆生日", dtData.Rows[i]["sBirth"].ToString());
+                    OrderInfo += OrderData("祈福人Email", dtData.Rows[i]["Email"].ToString());
+                    OrderInfo += OrderData("祈福人市話", dtData.Rows[i]["HomeNum"].ToString());
+                    OrderInfo += OrderData("祈福人地址", dtData.Rows[i]["Address"].ToString());
                     OrderInfo += OrderData("備註", TextToHtml(dtData.Rows[i]["Remark"].ToString()));
 
                     OrderInfo += "</div></div>";
 
                     //服務項目金額
-                    int cost = int.Parse(dtData.Rows[i]["Count"].ToString()) * 650;
+                    //int cost = int.Parse(dtData.Rows[i]["Count"].ToString()) * 650;
+                    int cost = 650;
                     OrderInfo += "<div>$ " + cost + "元</div>";
                     Total += cost;
 
@@ -6812,6 +6951,7 @@ namespace Temple.Temples
 
                 AppMobile = dtData.Rows[0]["AppMobile"].ToString();
                 OrderPurchaser += String.Format(result, "購買人電話", dtData.Rows[0]["AppMobile"].ToString());
+                OrderPurchaser += OrderData("購買人Email", dtData.Rows[0]["AppEmail"].ToString());
 
                 OrderInfo = string.Empty;
 
@@ -8328,6 +8468,64 @@ namespace Temple.Temples
                 }
             }
         }
+        public void GetPurchaserlist_Fw_Supplies(int AdminID, int ApplicantID, string Year)
+        {
+            LightDAC objLightDAC = new LightDAC(this);
+            int cost = 0;
+
+            DataTable dtData = objLightDAC.Getsupplies_Fw_info(ApplicantID, Year);
+
+            if (dtData.Rows.Count > 0)
+            {
+                OrderPurchaser = OrderData("購買人姓名", dtData.Rows[0]["AppName"].ToString());
+
+
+                string result = "<div class=\"OrderData\">\r\n                                                <div class=\"label\">{0}：</div>\r\n                                                <div id=\"AppMobile\" class=\"txt\">{1}</div>\r\n                                            </div>";
+
+                AppMobile = dtData.Rows[0]["AppMobile"].ToString();
+                OrderPurchaser += String.Format(result, "購買人電話", dtData.Rows[0]["AppMobile"].ToString());
+                OrderPurchaser += OrderData("購買人地址", dtData.Rows[0]["AppAddress"].ToString());
+
+
+                OrderInfo = string.Empty;
+
+                for (int i = 0; i < dtData.Rows.Count; i++)
+                {
+                    OrderInfo += "<li><div>";
+
+                    string suppliesString = dtData.Rows[i]["SuppliesString"].ToString();
+                    string suppliesType = dtData.Rows[i]["SuppliesType"].ToString();
+
+                    ////服務項目
+                    OrderInfo += String.Format("<div class=\"ProductsName\">{0}</div>", suppliesString);
+
+                    //服務項目金額
+                    cost = int.Parse(dtData.Rows[i]["Count"].ToString()) * GetSuppliesCost(AdminID, suppliesType);
+
+                    //祈福人內容列表
+                    OrderInfo += "<div class=\"ProductsInfo\">";
+
+                    OrderInfo += OrderData("祈福人姓名", dtData.Rows[i]["Name"].ToString());
+                    OrderInfo += OrderData("祈福人電話", dtData.Rows[i]["Mobile"].ToString());
+                    OrderInfo += OrderData("祈福人性別", dtData.Rows[i]["Sex"].ToString());
+                    OrderInfo += OrderData("祈福人農曆生日", dtData.Rows[i]["Birth"].ToString() + (dtData.Rows[i]["LeapMonth"].ToString() == "Y" ? " 閏月" : ""));
+                    OrderInfo += OrderData("祈福人農曆時辰", dtData.Rows[i]["BirthTime"].ToString());
+                    OrderInfo += OrderData("祈福人國曆生日", dtData.Rows[i]["sBirth"].ToString());
+                    OrderInfo += OrderData("祈福人Email", dtData.Rows[i]["Email"].ToString());
+                    OrderInfo += OrderData("祈福人市話", dtData.Rows[i]["HomeNum"].ToString());
+                    OrderInfo += OrderData("祈福人地址", dtData.Rows[i]["Address"].ToString());
+                    OrderInfo += OrderData("備註", TextToHtml(dtData.Rows[i]["Remark"].ToString()));
+
+                    OrderInfo += "</div></div>";
+
+
+                    OrderInfo += "<div>$ " + cost + "元</div>";
+                    Total += cost;
+
+                    OrderInfo += "</li>";
+                }
+            }
+        }
         public void Checkedtemple_Fw(int AdminID, int ApplicantID, int kind, string Year)
         {
             TimeZoneInfo info = TimeZoneInfo.FindSystemTimeZoneById("Taipei Standard Time");
@@ -8371,6 +8569,29 @@ namespace Temple.Temples
                         else
                         {
                             DateTime dtLASTTIME = objLightDAC.GetInfoLastDate(ApplicantID, AdminID, 2, -1, Year);
+                            if (dtLASTTIME.AddMinutes(20) < dtNow)
+                            {
+                                Response.Write("<script>alert('此購買人付款時間已超時20分鐘，請重新購買。');location='" + reback + "'</script>");
+                            }
+                        }
+                    }
+                    else
+                    {
+                        Response.Write("<script>alert('此購買人已進行付款動作。請重新購買。');location='" + reback + "'</script>");
+                    }
+                    break;
+                case 16:
+                    //補財庫服務
+                    reback = "https://bobibobi.tw/Temples/templeService_supplies_Fw.aspx" + (Request["twm"] != null ? "?twm=1" : "");
+                    if (objLightDAC.checkedappcharge_Supplies_Fw(ApplicantID, AdminID, Year))
+                    {
+                        if (OrderPurchaser == "")
+                        {
+                            Response.Write("<script>alert('讀取購買人資料錯誤。請重新購買。');location='" + reback + "'</script>");
+                        }
+                        else
+                        {
+                            DateTime dtLASTTIME = objLightDAC.GetInfoLastDate(ApplicantID, AdminID, 16, -1, Year);
                             if (dtLASTTIME.AddMinutes(20) < dtNow)
                             {
                                 Response.Write("<script>alert('此購買人付款時間已超時20分鐘，請重新購買。');location='" + reback + "'</script>");
@@ -8901,13 +9122,13 @@ namespace Temple.Temples
                 OrderPurchaser += String.Format(result, "購買人電話", dtData.Rows[0]["AppMobile"].ToString());
                 //OrderPurchaser += OrderData("贈品處理方式", dtData.Rows[0]["AppSendback"].ToString() == "Y" ? "寄回（運費+$100）" : "不寄回");
 
-                //if (dtData.Rows[0]["AppSendback"].ToString() == "Y")
-                //{
-                //    Total += 100;
-                //    OrderPurchaser += OrderData("收件人姓名", dtData.Rows[0]["ReceiptName"].ToString());
-                //    OrderPurchaser += OrderData("收件人電話", dtData.Rows[0]["ReceiptMobile"].ToString());
-                //    OrderPurchaser += OrderData("收件人地址", dtData.Rows[0]["ApprAddress"].ToString());
-                //}
+                if (dtData.Rows[0]["AppSendback"].ToString() == "Y")
+                {
+                    //Total += 100;
+                    OrderPurchaser += OrderData("收件人姓名", dtData.Rows[0]["ReceiptName"].ToString());
+                    OrderPurchaser += OrderData("收件人電話", dtData.Rows[0]["ReceiptMobile"].ToString());
+                    OrderPurchaser += OrderData("收件人地址", dtData.Rows[0]["ApprAddress"].ToString());
+                }
 
 
                 OrderInfo = string.Empty;

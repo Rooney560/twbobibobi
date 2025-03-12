@@ -81,7 +81,7 @@ namespace Temple.Temples
 
         //    if (supplies2Service == "1")
         //    {
-        //        result += "<li class=\"Tag_02\">呈疏補庫</li>";
+        //        result += "<li class=\"Tag_02\">財神聖誕補庫</li>";
         //    }
 
         //    if (supplies3Service == "1")
@@ -128,7 +128,7 @@ namespace Temple.Temples
 
             if (supplies2Service == "1")
             {
-                result += "<li class=\"Tag_02\">呈疏補庫</li>";
+                result += "<li class=\"Tag_02\">財神聖誕補庫</li>";
             }
 
             if (supplies3Service == "1")

@@ -4,6 +4,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Net;
 using System.Resources;
@@ -566,120 +567,237 @@ namespace MotoSystem.Data
             Response.End();
         }
 
+        private static readonly object logLock = new object();
+
+        //public void SaveErrorLog(Exception e)
+        //{
+        //    Application.Lock();
+        //    string logPath = GetConfigValue(CONST_CONFIG_ERROR_LOG_PATH);
+
+        //    if (logPath == string.Empty)
+        //        logPath = @"\err";
+
+
+        //    System.IO.StreamWriter sw = new System.IO.StreamWriter(Server.MapPath(Request.ApplicationPath) + logPath + "_" + System.DateTime.Now.ToString("yyyyMMdd") + ".txt", true);
+        //    sw.WriteLine(System.DateTime.Now.ToString());
+        //    sw.WriteLine(Request.Url.ToString());
+        //    sw.WriteLine(TransactionID);
+        //    sw.WriteLine(e.Message);
+        //    sw.WriteLine(e.StackTrace);
+        //    sw.Close();
+        //    Application.UnLock();
+        //}
+
+        //public void SaveErrorLog(string log)
+        //{
+        //    Application.Lock();
+        //    string logPath = GetConfigValue(CONST_CONFIG_ERROR_LOG_PATH);
+
+        //    if (logPath == string.Empty)
+        //        logPath = @"\err";
+
+
+        //    System.IO.StreamWriter sw = new System.IO.StreamWriter(Server.MapPath(Request.ApplicationPath) + logPath + "_" + System.DateTime.Now.ToString("yyyyMMdd") + ".txt", true);
+        //    sw.WriteLine(System.DateTime.Now.ToString());
+
+        //    if (mSupportSaveRequestURL)
+        //    {
+        //        sw.WriteLine(Request.Url.ToString());
+        //    }
+        //    if (log != string.Empty)
+        //    {
+        //        sw.WriteLine(log);
+        //    }
+        //    sw.Close();
+        //    Application.UnLock();
+        //}
+
+        //public void SaveRequestLog(string log)
+        //{
+        //    Application.Lock();
+        //    string logPath = GetConfigValue(CONST_CONFIG_REQUEST_LOG_PATH);
+
+        //    if (logPath == string.Empty)
+        //        logPath = @"\request";
+
+
+        //    System.IO.StreamWriter sw = new System.IO.StreamWriter(Server.MapPath(Request.ApplicationPath) + logPath + "_" + System.DateTime.Now.ToString("yyyyMMdd") + ".txt", true);
+        //    sw.WriteLine(System.DateTime.Now.ToString());
+
+        //    if (mSupportSaveRequestURL)
+        //    {
+        //        sw.WriteLine(Request.Url.ToString());
+        //    }
+        //    if (log != string.Empty)
+        //    {
+        //        sw.WriteLine(log);
+        //    }
+        //    sw.Close();
+        //    Application.UnLock();
+        //}
+
+        //public void SavePayLog(string log)
+        //{
+        //    Application.Lock();
+        //    string logPath = GetConfigValue(CONST_CONFIG_REQUEST_PAY_LOG_PATH);
+
+        //    if (logPath == string.Empty)
+        //        logPath = @"\request";
+
+
+        //    System.IO.StreamWriter sw = new System.IO.StreamWriter(Server.MapPath(Request.ApplicationPath) + logPath + "_" + System.DateTime.Now.ToString("yyyyMMdd") + ".txt", true);
+        //    sw.WriteLine(System.DateTime.Now.ToString());
+
+        //    if (mSupportSaveRequestURL)
+        //    {
+        //        sw.WriteLine(Request.Url.ToString());
+        //    }
+        //    if (log != string.Empty)
+        //    {
+        //        sw.WriteLine(log);
+        //    }
+        //    sw.Close();
+        //    Application.UnLock();
+        //}
+
+        //public void SaveCAPTCHACodeLog(string log)
+        //{
+        //    Application.Lock();
+        //    string logPath = GetConfigValue(CONST_CONFIG_REQUEST_PAY_LOG_PATH);
+
+        //    if (logPath == string.Empty)
+        //        logPath = @"\request";
+
+
+        //    System.IO.StreamWriter sw = new System.IO.StreamWriter(Server.MapPath(Request.ApplicationPath) + logPath + "_" + System.DateTime.Now.ToString("yyyyMMdd") + ".txt", true);
+        //    sw.WriteLine(System.DateTime.Now.ToString());
+
+        //    if (mSupportSaveRequestURL)
+        //    {
+        //        sw.WriteLine(Request.Url.ToString());
+        //    }
+        //    if (log != string.Empty)
+        //    {
+        //        sw.WriteLine(log);
+        //    }
+        //    sw.Close();
+        //    Application.UnLock();
+        //}
+
         public void SaveErrorLog(Exception e)
         {
-            Application.Lock();
             string logPath = GetConfigValue(CONST_CONFIG_ERROR_LOG_PATH);
-
-            if (logPath == string.Empty)
+            if (string.IsNullOrEmpty(logPath))
                 logPath = @"\err";
 
+            string fullPath = Path.Combine(Server.MapPath("~"), logPath + "_" + DateTime.Now.ToString("yyyyMMdd") + ".txt");
 
-            System.IO.StreamWriter sw = new System.IO.StreamWriter(Server.MapPath(Request.ApplicationPath) + logPath + "_" + System.DateTime.Now.ToString("yyyyMMdd") + ".txt", true);
-            sw.WriteLine(System.DateTime.Now.ToString());
-            sw.WriteLine(Request.Url.ToString());
-            sw.WriteLine(TransactionID);
-            sw.WriteLine(e.Message);
-            sw.WriteLine(e.StackTrace);
-            sw.Close();
-            Application.UnLock();
+            lock (logLock)
+            {
+                using (StreamWriter sw = new StreamWriter(fullPath, true))
+                {
+                    sw.WriteLine(DateTime.Now.ToString());
+                    sw.WriteLine(Request.Url.ToString());
+                    sw.WriteLine(TransactionID);
+                    sw.WriteLine(e.Message);
+                    sw.WriteLine(e.StackTrace);
+                }
+            }
         }
 
         public void SaveErrorLog(string log)
         {
-            Application.Lock();
             string logPath = GetConfigValue(CONST_CONFIG_ERROR_LOG_PATH);
-
-            if (logPath == string.Empty)
+            if (string.IsNullOrEmpty(logPath))
                 logPath = @"\err";
 
+            string fullPath = Server.MapPath(Request.ApplicationPath) + logPath + "_" + DateTime.Now.ToString("yyyyMMdd") + ".txt";
 
-            System.IO.StreamWriter sw = new System.IO.StreamWriter(Server.MapPath(Request.ApplicationPath) + logPath + "_" + System.DateTime.Now.ToString("yyyyMMdd") + ".txt", true);
-            sw.WriteLine(System.DateTime.Now.ToString());
+            lock (logLock)
+            {
+                using (StreamWriter sw = new StreamWriter(fullPath, true))
+                {
+                    sw.WriteLine(DateTime.Now.ToString());
 
-            if (mSupportSaveRequestURL)
-            {
-                sw.WriteLine(Request.Url.ToString());
+                    if (mSupportSaveRequestURL)
+                    {
+                        sw.WriteLine(Request.Url.ToString());
+                    }
+                    if (!string.IsNullOrEmpty(log))
+                    {
+                        sw.WriteLine(log);
+                    }
+                }  // `using` 结束时，文件会自动释放
             }
-            if (log != string.Empty)
-            {
-                sw.WriteLine(log);
-            }
-            sw.Close();
-            Application.UnLock();
         }
 
         public void SaveRequestLog(string log)
         {
-            Application.Lock();
             string logPath = GetConfigValue(CONST_CONFIG_REQUEST_LOG_PATH);
+            if (string.IsNullOrEmpty(logPath))
+                logPath = "\request";
 
-            if (logPath == string.Empty)
-                logPath = @"\request";
+            string fullPath = Path.Combine(Server.MapPath("~"), logPath + "_" + DateTime.Now.ToString("yyyyMMdd") + ".txt");
 
-
-            System.IO.StreamWriter sw = new System.IO.StreamWriter(Server.MapPath(Request.ApplicationPath) + logPath + "_" + System.DateTime.Now.ToString("yyyyMMdd") + ".txt", true);
-            sw.WriteLine(System.DateTime.Now.ToString());
-
-            if (mSupportSaveRequestURL)
+            lock (logLock)
             {
-                sw.WriteLine(Request.Url.ToString());
+                using (StreamWriter sw = new StreamWriter(fullPath, true))
+                {
+                    sw.WriteLine(DateTime.Now.ToString());
+                    if (mSupportSaveRequestURL)
+                    {
+                        sw.WriteLine(Request.Url.ToString());
+                    }
+                    if (!string.IsNullOrEmpty(log))
+                    {
+                        sw.WriteLine(log);
+                    }
+                }
             }
-            if (log != string.Empty)
-            {
-                sw.WriteLine(log);
-            }
-            sw.Close();
-            Application.UnLock();
         }
 
         public void SavePayLog(string log)
         {
-            Application.Lock();
             string logPath = GetConfigValue(CONST_CONFIG_REQUEST_PAY_LOG_PATH);
+            if (string.IsNullOrEmpty(logPath))
+                logPath = "\request";
 
-            if (logPath == string.Empty)
-                logPath = @"\request";
+            string fullPath = Path.Combine(Server.MapPath("~"), logPath + "_" + DateTime.Now.ToString("yyyyMMdd") + ".txt");
 
-
-            System.IO.StreamWriter sw = new System.IO.StreamWriter(Server.MapPath(Request.ApplicationPath) + logPath + "_" + System.DateTime.Now.ToString("yyyyMMdd") + ".txt", true);
-            sw.WriteLine(System.DateTime.Now.ToString());
-
-            //if (mSupportSaveRequestURL)
-            //{
-            //    sw.WriteLine(Request.Url.ToString());
-            //}
-            if (log != string.Empty)
+            lock (logLock)
             {
-                sw.WriteLine(log);
+                using (StreamWriter sw = new StreamWriter(fullPath, true))
+                {
+                    sw.WriteLine(DateTime.Now.ToString());
+                    if (!string.IsNullOrEmpty(log))
+                    {
+                        sw.WriteLine(log);
+                    }
+                }
             }
-            sw.Close();
-            Application.UnLock();
         }
 
         public void SaveCAPTCHACodeLog(string log)
         {
-            Application.Lock();
             string logPath = GetConfigValue(CONST_CONFIG_REQUEST_PAY_LOG_PATH);
+            if (string.IsNullOrEmpty(logPath))
+                logPath = "\request";
 
-            if (logPath == string.Empty)
-                logPath = @"\request";
+            string fullPath = Path.Combine(Server.MapPath("~"), logPath + "_" + DateTime.Now.ToString("yyyyMMdd") + ".txt");
 
-
-            System.IO.StreamWriter sw = new System.IO.StreamWriter(Server.MapPath(Request.ApplicationPath) + logPath + "_" + System.DateTime.Now.ToString("yyyyMMdd") + ".txt", true);
-            sw.WriteLine(System.DateTime.Now.ToString());
-
-            //if (mSupportSaveRequestURL)
-            //{
-            //    sw.WriteLine(Request.Url.ToString());
-            //}
-            if (log != string.Empty)
+            lock (logLock)
             {
-                sw.WriteLine(log);
+                using (StreamWriter sw = new StreamWriter(fullPath, true))
+                {
+                    sw.WriteLine(DateTime.Now.ToString());
+                    if (!string.IsNullOrEmpty(log))
+                    {
+                        sw.WriteLine(log);
+                    }
+                }
             }
-            sw.Close();
-            Application.UnLock();
         }
+
 
         public string GetConfigValue(string paramName)
         {

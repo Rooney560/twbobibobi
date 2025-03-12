@@ -342,10 +342,10 @@ namespace Temple.Temples
                             break;
                         case 5:
                             //呈疏補庫
-                            typeString = " 2024呈疏補庫";
+                            typeString = " 2025天官武財神聖誕補財庫";
                             title = "北港武德宮";
                             GetStateContentlist_wu(adminID, ApplicantID, kind, Year);           //購買人資料列表
-                            EndDate = "2024/04/17 23:59";
+                            EndDate = "2025/04/06 23:59";
                             break;
                         case 6:
                             //企業補財庫
@@ -451,11 +451,18 @@ namespace Temple.Temples
 
                             switch (adminID)
                             {
+                                case 15:
+                                    //斗六五路財神宮
+                                    title = "斗六五路財神宮";
+                                    GetStateContentlist_Fw(adminID, ApplicantID, kind, Year);          //購買人資料列表
+                                    ExpirationDate = false;
+                                    EndDate = "2026/01/23 23:59";
+                                    break;
                                 case 21:
                                     //鹿港城隍廟
                                     title = "鹿港城隍廟";
                                     GetStateContentlist_Lk(adminID, ApplicantID, kind, Year);          //購買人資料列表
-                                    EndDate = "2025/01/23 23:59";
+                                    EndDate = "2025/04/09 23:59";
                                     break;
                             }
                             break;
@@ -1067,7 +1074,7 @@ namespace Temple.Temples
                             OrderInfo += OrderData("祈福人市話", dtData.Rows[i]["HomeNum"].ToString());
                             OrderInfo += OrderData("祈福人地址", dtData.Rows[i]["Address"].ToString());
                             //OrderInfo += OrderData("祈福小語", dtData.Rows[i]["Msg"].ToString());
-                            OrderInfo += OrderData("備註", dtData.Rows[i]["Remark"].ToString());
+                            OrderInfo += OrderData("備註", TextToHtml(dtData.Rows[i]["Remark"].ToString()));
 
                             OrderInfo += "</div></div>";
 
@@ -1115,7 +1122,7 @@ namespace Temple.Temples
                             OrderInfo += OrderData("Email", dtData.Rows[i]["Email"].ToString());
                             OrderInfo += OrderData("地址", dtData.Rows[i]["Address"].ToString());
                             OrderInfo += OrderData("數量", dtData.Rows[i]["Count"].ToString());
-                            OrderInfo += OrderData("備註", dtData.Rows[i]["Remark"].ToString());
+                            OrderInfo += OrderData("備註", TextToHtml(dtData.Rows[i]["Remark"].ToString()));
 
                             OrderInfo += "</div></div>";
 
@@ -1188,6 +1195,7 @@ namespace Temple.Temples
 
                         OrderPurchaser = OrderData("購買人姓名", dtData.Rows[0]["AppName"].ToString());
                         OrderPurchaser += OrderData("購買人電話", dtData.Rows[0]["AppMobile"].ToString());
+                        OrderPurchaser += OrderData("購買人Email", dtData.Rows[0]["AppEmail"].ToString());
 
                         OrderInfo = string.Empty;
 
@@ -1207,19 +1215,20 @@ namespace Temple.Temples
                             OrderInfo += OrderData("訂單編號", dtData.Rows[i]["Num2String"].ToString());
                             OrderInfo += OrderData("祈福人姓名", dtData.Rows[i]["Name"].ToString());
                             OrderInfo += OrderData("祈福人電話", dtData.Rows[i]["Mobile"].ToString());
-                            OrderInfo += OrderData("性別", dtData.Rows[i]["Sex"].ToString());
-                            OrderInfo += OrderData("農曆生日", dtData.Rows[i]["Birth"].ToString() + (dtData.Rows[i]["LeapMonth"].ToString() == "Y" ? " 閏月" : ""));
-                            OrderInfo += OrderData("農曆時辰", dtData.Rows[i]["BirthTime"].ToString());
-                            OrderInfo += OrderData("市話", dtData.Rows[i]["HomeNum"].ToString());
-                            OrderInfo += OrderData("Email", dtData.Rows[i]["Email"].ToString());
-                            OrderInfo += OrderData("地址", dtData.Rows[i]["Address"].ToString());
-                            OrderInfo += OrderData("數量", dtData.Rows[i]["Count"].ToString());
-                            OrderInfo += OrderData("備註", dtData.Rows[i]["Remark"].ToString());
+                            OrderInfo += OrderData("祈福人性別", dtData.Rows[i]["Sex"].ToString());
+                            OrderInfo += OrderData("祈福人農曆生日", dtData.Rows[i]["Birth"].ToString() + (dtData.Rows[i]["LeapMonth"].ToString() == "Y" ? " 閏月" : ""));
+                            OrderInfo += OrderData("祈福人農曆時辰", dtData.Rows[i]["BirthTime"].ToString());
+                            OrderInfo += OrderData("祈福人國曆生日", dtData.Rows[i]["sBirth"].ToString());
+                            OrderInfo += OrderData("祈福人Email", dtData.Rows[i]["Email"].ToString());
+                            OrderInfo += OrderData("祈福人市話", dtData.Rows[i]["HomeNum"].ToString());
+                            OrderInfo += OrderData("祈福人地址", dtData.Rows[i]["Address"].ToString());
+                            OrderInfo += OrderData("備註", TextToHtml(dtData.Rows[i]["Remark"].ToString()));
 
                             OrderInfo += "</div></div>";
 
                             //服務項目金額
-                            int cost = int.Parse(dtData.Rows[i]["Count"].ToString()) * 650;
+                            //int cost = int.Parse(dtData.Rows[i]["Count"].ToString()) * 650;
+                            int cost = 650;
                             OrderInfo += "<div>$ " + cost + "元</div>";
                             Total += cost;
 
@@ -1236,6 +1245,7 @@ namespace Temple.Temples
 
                         OrderPurchaser = OrderData("購買人姓名", dtData.Rows[0]["AppName"].ToString());
                         OrderPurchaser += OrderData("購買人電話", dtData.Rows[0]["AppMobile"].ToString());
+                        OrderPurchaser += OrderData("購買人Email", dtData.Rows[0]["AppEmail"].ToString());
 
                         OrderInfo = string.Empty;
 
@@ -1259,7 +1269,7 @@ namespace Temple.Temples
                             OrderInfo += OrderData("祈福人Email", dtData.Rows[i]["Email"].ToString());
                             OrderInfo += OrderData("祈福人地址", dtData.Rows[i]["Address"].ToString());
                             //OrderInfo += OrderData("數量", dtData.Rows[i]["Count"].ToString());
-                            OrderInfo += OrderData("備註", dtData.Rows[i]["Remark"].ToString());
+                            OrderInfo += OrderData("備註", TextToHtml(dtData.Rows[i]["Remark"].ToString()));
 
                             OrderInfo += "</div></div>";
 
@@ -1934,7 +1944,7 @@ namespace Temple.Temples
                             OrderInfo += OrderData("祈福人電話", dtData.Rows[i]["Mobile"].ToString());
                             OrderInfo += OrderData("國曆生日", dtData.Rows[i]["sBirth"].ToString());
                             OrderInfo += OrderData("祈福人地址", dtData.Rows[i]["Address"].ToString());
-                            OrderInfo += OrderData("備註", dtData.Rows[i]["Remark"].ToString());
+                            OrderInfo += OrderData("備註", TextToHtml(dtData.Rows[i]["Remark"].ToString()));
 
                             OrderInfo += "</div></div>";
 
@@ -1981,7 +1991,7 @@ namespace Temple.Temples
                             OrderInfo += OrderData("祈福人電話", dtData.Rows[i]["Mobile"].ToString());
                             OrderInfo += OrderData("國曆生日", dtData.Rows[i]["sBirth"].ToString());
                             OrderInfo += OrderData("祈福人地址", dtData.Rows[i]["Address"].ToString());
-                            OrderInfo += OrderData("備註", dtData.Rows[i]["Remark"].ToString());
+                            OrderInfo += OrderData("備註", TextToHtml(dtData.Rows[i]["Remark"].ToString()));
 
                             OrderInfo += "</div></div>";
 
@@ -2272,6 +2282,57 @@ namespace Temple.Temples
                         }
                     }
                     break;
+                case 16:
+                    //補財庫服務
+                    dtData = objLightDAC.GetAPPCharge_Fw_Supplies(ApplicantID, Year);
+                    if (dtData.Rows.Count > 0)
+                    {
+                        OrderStateContent = OrderState("付款時間", DateTime.Parse(dtData.Rows[0]["ChargeDate"].ToString()).ToString("yyyy-MM-dd HH:mm:ss"));
+
+                        OrderPurchaser = OrderData("購買人姓名", dtData.Rows[0]["AppName"].ToString());
+                        OrderPurchaser += OrderData("購買人電話", dtData.Rows[0]["AppMobile"].ToString());
+                        OrderPurchaser += OrderData("購買人地址", dtData.Rows[0]["AppAddress"].ToString());
+
+                        OrderInfo = string.Empty;
+
+                        for (int i = 0; i < dtData.Rows.Count; i++)
+                        {
+                            OrderInfo += "<li><div>";
+
+                            string suppliesString = dtData.Rows[i]["SuppliesString"].ToString();
+                            string suppliesType = dtData.Rows[i]["SuppliesType"].ToString();
+
+                            ////服務項目
+                            OrderInfo += String.Format("<div class=\"ProductsName\">{0}</div>", suppliesString);
+
+                            //服務項目金額
+                            int cost = int.Parse(dtData.Rows[i]["Count"].ToString()) * GetSuppliesCost(AdminID, suppliesType);
+
+                            //祈福人內容列表
+                            OrderInfo += "<div class=\"ProductsInfo\">";
+
+                            OrderInfo += OrderData("宮廟名稱", "斗六五路財神宮");
+                            OrderInfo += OrderData("訂單編號", dtData.Rows[i]["Num2String"].ToString());
+                            OrderInfo += OrderData("祈福人姓名", dtData.Rows[i]["Name"].ToString());
+                            OrderInfo += OrderData("祈福人電話", dtData.Rows[i]["Mobile"].ToString());
+                            OrderInfo += OrderData("祈福人性別", dtData.Rows[i]["Sex"].ToString());
+                            OrderInfo += OrderData("祈福人農曆生日", dtData.Rows[i]["Birth"].ToString() + (dtData.Rows[i]["LeapMonth"].ToString() == "Y" ? " 閏月" : ""));
+                            OrderInfo += OrderData("祈福人農曆時辰", dtData.Rows[i]["BirthTime"].ToString());
+                            OrderInfo += OrderData("祈福人國曆生日", dtData.Rows[i]["sBirth"].ToString());
+                            OrderInfo += OrderData("祈福人Email", dtData.Rows[i]["Email"].ToString());
+                            OrderInfo += OrderData("祈福人市話", dtData.Rows[i]["HomeNum"].ToString());
+                            OrderInfo += OrderData("祈福人地址", dtData.Rows[i]["Address"].ToString());
+                            OrderInfo += OrderData("備註", TextToHtml(dtData.Rows[i]["Remark"].ToString()));
+
+                            OrderInfo += "</div></div>";
+
+                            OrderInfo += "<div>$ " + cost + "元</div>";
+                            Total += cost;
+
+                            OrderInfo += "</li>";
+                        }
+                    }
+                    break;
             }
         }
 
@@ -2537,7 +2598,7 @@ namespace Temple.Temples
                             OrderInfo += OrderData("祈福人國曆生日", dtData.Rows[i]["sBirth"].ToString());
                             OrderInfo += OrderData("祈福人Email", dtData.Rows[i]["Email"].ToString());
                             OrderInfo += OrderData("祈福人地址", dtData.Rows[i]["Address"].ToString());
-                            OrderInfo += OrderData("備註", dtData.Rows[i]["Remark"].ToString());
+                            OrderInfo += OrderData("備註", TextToHtml(dtData.Rows[i]["Remark"].ToString()));
 
                             OrderInfo += "</div></div>";
 
@@ -2692,13 +2753,13 @@ namespace Temple.Temples
                         OrderPurchaser += OrderData("購買人電話", dtData.Rows[0]["AppMobile"].ToString());
                         //OrderPurchaser += OrderData("贈品處理方式", dtData.Rows[0]["AppSendback"].ToString() == "Y" ? "寄回（運費+$100）" : "不寄回");
 
-                        //if (dtData.Rows[0]["AppSendback"].ToString() == "Y")
-                        //{
-                        //    Total += 100;
-                        //    OrderPurchaser += OrderData("收件人姓名", dtData.Rows[0]["ReceiptName"].ToString());
-                        //    OrderPurchaser += OrderData("收件人電話", dtData.Rows[0]["ReceiptMobile"].ToString());
-                        //    OrderPurchaser += OrderData("收件人地址", dtData.Rows[0]["ApprAddress"].ToString());
-                        //}
+                        if (dtData.Rows[0]["AppSendback"].ToString() == "Y")
+                        {
+                            //Total += 100;
+                            OrderPurchaser += OrderData("收件人姓名", dtData.Rows[0]["ReceiptName"].ToString());
+                            OrderPurchaser += OrderData("收件人電話", dtData.Rows[0]["ReceiptMobile"].ToString());
+                            OrderPurchaser += OrderData("收件人地址", dtData.Rows[0]["ApprAddress"].ToString());
+                        }
 
                         OrderInfo = string.Empty;
 
