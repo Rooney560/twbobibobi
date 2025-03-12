@@ -182,7 +182,7 @@ namespace Temple.Temples
                         if (supplies2Service == "1")
                         {
                             //servicelist += "<li><a href=\"" + supplies2url + "\" title=\"呈疏補庫\"><span>呈疏補庫</span></a></li>";
-                            servicelist += "<li><a onclick = \"ActivityTime(5, " + adminID + ")\" href = \"javascript: void(0)\" title=\"呈疏補庫\"><span>呈疏補庫</span></a></li>";
+                            servicelist += "<li><a onclick = \"ActivityTime(5, " + adminID + ")\" href = \"javascript: void(0)\" title=\"財神聖誕補庫\"><span>財神聖誕補庫</span></a></li>";
                         }
 
                         if (supplies3Service == "1")
@@ -308,10 +308,11 @@ namespace Temple.Temples
             string[] lights_wjsan = { "台灣道教總廟無極三清總道院", "2024/11/01 00:00", "2025/03/15 23:59", "templeService_lights_wjsan.aspx" };
 
             string[] supplies_wu = { "北港武德宮", "2023/10/15 00:00", "2023/11/21 23:59", "templeService_supplies.aspx" };
-            string[] supplies_wu2 = { "北港武德宮", "2024/03/12 00:00", "2024/04/17 23:59", "templeService_supplies2.aspx" };
+            string[] supplies_wu2 = { "北港武德宮", "2025/03/07 00:00", "2025/04/06 23:59", "templeService_supplies2.aspx" };
             string[] supplies_wu3 = { "北港武德宮", "0", "0", "templeService_supplies3.aspx" };
             string[] supplies_ty = { "桃園威天宮", "2025/02/18 00:00", "2025/03/06 23:59", "templeService_supplies_ty.aspx" };
-            string[] supplies_Lk = { "鹿港城隍廟", "2024/12/28 00:00", "2025/01/23 23:59", "templeService_supplies_Lk.aspx" };
+            string[] supplies_Fw = { "斗六五路財神宮", "0", "0", "templeService_supplies_Fw.aspx" };
+            string[] supplies_Lk = { "鹿港城隍廟", "2025/03/06 00:00", "2025/04/09 23:59", "templeService_supplies_Lk.aspx" };
             string[] supplies_ma = { "玉敕大樹朝天宮", "2025/02/18 00:00", "2025/03/06 23:59", "templeService_supplies_ma.aspx" };
 
             public void getActivityTime(BasePage basePage)
@@ -524,8 +525,8 @@ namespace Temple.Temples
                             }
                             break;
                         case "5":
-                            //呈疏補庫
-                            service = "呈疏補庫";
+                            //呈疏補庫(天官武財神聖誕補財庫)
+                            service = "財神聖誕補庫";
                             switch (adminID)
                             {
                                 case "6":
@@ -591,6 +592,13 @@ namespace Temple.Temples
                             service = "補財庫";
                             switch (adminID)
                             {
+                                case "15":
+                                    //斗六五路財神宮
+                                    name = supplies_Fw[0];
+                                    startDate = supplies_Fw[1];
+                                    endDate = supplies_Fw[2];
+                                    Url = supplies_Fw[3];
+                                    break;
                                 case "21":
                                     //鹿港城隍廟
                                     name = supplies_Lk[0];

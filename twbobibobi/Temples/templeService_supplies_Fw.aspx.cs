@@ -2,7 +2,6 @@
 using Newtonsoft.Json.Linq;
 using Read.data;
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
@@ -13,14 +12,14 @@ using System.Web.UI;
 using System.Web.UI.WebControls;
 using Temple.data;
 
-namespace Temple.Temples
+namespace twbobibobi.Temples
 {
-    public partial class templeService_supplies2 : AjaxBasePage
+    public partial class templeService_supplies_Fw : AjaxBasePage
     {
         public int aid = 0;
         public int a = 0;
-        public string EndDate = "2025/04/06 23:59";
-        public static string Add_year = "2025";
+        //public string EndDate = "2025/03/06 23:59";
+        protected static string Year = "2025";
 
         protected override void InitAjaxHandler()
         {
@@ -40,17 +39,9 @@ namespace Temple.Temples
                     aid = int.Parse(Request["aid"]);
                 }
 
-                int adminID = a = 6;
-
-                Add_year = dtNow.Year.ToString();
-
-                //if (dtNow >= DateTime.Parse(EndDate))
-                //{
-                //    Response.Write("<script>alert('親愛的大德您好\\n 北港武德宮 2023補財庫活動已截止！！\\n感謝您的支持, 謝謝!');</script>");
-                //}
+                int adminID = a = 15;
             }
         }
-
         public class AjaxPageHandler
         {
             public int ApplicantID = 0;
@@ -61,10 +52,13 @@ namespace Temple.Temples
                 basePage.mJSonHelper.AddContent("StatusCode", 0);
 
                 LightDAC objLightDAC = new LightDAC(basePage);
-                string AdminID = "6";
+                string AdminID = "15";
                 string AppName = basePage.Request["Appname"];                                       //購買人姓名
                 string AppMobile = basePage.Request["Appmobile"];                                   //購買人電話
-                string AppEmail = basePage.Request["Appemail"];                                     //購買人Email
+                string AppzipCode = basePage.Request["AppzipCode_Tag"];                             //購買人郵政區號
+                string Appcounty = basePage.Request["Appcounty_Tag"];                               //購買人縣市
+                string Appdist = basePage.Request["Appdist_Tag"];                                   //購買人區域
+                string Appaddr = basePage.Request["Appaddr_Tag"];                                   //購買人部分地址
 
                 string name_Tag = basePage.Request["name_Tag"];                                     //祈福人姓名
                 string mobile_Tag = basePage.Request["mobile_Tag"];                                 //祈福人電話
@@ -99,15 +93,13 @@ namespace Temple.Temples
                 JArray Jcounty = JArray.Parse(county_Tag);
                 JArray Jdist = JArray.Parse(dist_Tag);
                 JArray Jaddr = JArray.Parse(addr_Tag);
+                JArray Jremark = JArray.Parse(remark_Tag);
                 JArray JSuppliesType_Tag = JArray.Parse(SuppliesType_Tag);
 
                 JArray Jhomenum = new JArray();
-                JArray Jremark = new JArray();
-
                 nullChecked(homenum_Tag, ref Jhomenum);
-                nullChecked(remark_Tag, ref Jremark);
 
-                string postURL = "Supplies_wu2_Index";
+                string postURL = "Supplies_Fw_Index";
 
                 postURL += basePage.Request["twm"] != null ? "_TWM" : "";
 
@@ -117,7 +109,7 @@ namespace Temple.Temples
 
                 postURL += basePage.Request["fb"] != null ? "_FB" : "";
 
-                postURL += basePage.Request["fbwu"] != null ? "_FBWU" : "";
+                postURL += basePage.Request["fbfw"] != null ? "_FBFW" : "";
 
                 postURL += basePage.Request["ig"] != null ? "_IG" : "";
 
@@ -127,21 +119,17 @@ namespace Temple.Temples
 
                 postURL += basePage.Request["gads"] != null ? "_GADS" : "";
 
-                postURL += basePage.Request["inwu"] != null ? "_INWU" : "";
+                postURL += basePage.Request["infw"] != null ? "_INFW" : "";
 
                 postURL += basePage.Request["elv"] != null ? "_ELV" : "";
 
 
-                string AppSendback = "N";                                                           //寄送方式 N-不寄回(會轉送給弱勢團體) Y-寄回(加收運費120元)
-                string Apprname = "";                                                               //收件人姓名
-                string Apprmobile = "";                                                             //收件人電話
-                string ApprzipCode = "0";                                                           //收件人郵政區號
-                string Apprcounty = "";                                                             //收件人縣市
-                string Apprdist = "";                                                               //收件人區域
-                string Appraddr = "";                                                               //收件人部分地址
+                string AppSendback = "Y";                                                           //寄送方式 N-不寄回(會轉送給弱勢團體) Y-寄回(加收運費120元)
+                string Apprname = AppName;                                                          //收件人姓名
+                string Apprmobile = AppMobile;                                                      //收件人電話
 
-                ApplicantID = objLightDAC.addapplicantinfo_Supplies_wu2(AppName, AppMobile, "0", AppEmail, Apprcounty, Apprdist, Appraddr, ApprzipCode, AppSendback, Apprname, 
-                    Apprmobile, 0, AdminID, postURL, Add_year);
+                ApplicantID = objLightDAC.addapplicantinfo_Supplies_Fw(AppName, AppMobile, "0", Appcounty, Appdist, Appaddr, AppzipCode, AppSendback, Apprname, Apprmobile
+                    , 0, AdminID, postURL, Year);
                 bool suppliesinfo = false;
 
                 if (ApplicantID > 0)
@@ -164,7 +152,7 @@ namespace Temple.Temples
                         string dist = Jdist[i].ToString();
                         string zipCode = JzipCode[i].ToString();
                         string oversea = Joversea[i].ToString();
-                        string remark = Jremark.Count > 0 ? Jremark[i].ToString() : "";
+                        string remark = Jremark[i].ToString();
                         string birthMonth = "0";
                         string age = "0";
                         string Zodiac = string.Empty;
@@ -269,17 +257,17 @@ namespace Temple.Temples
                         if (name != "")
                         {
                             suppliesinfo = true;
-                            SuppliesID = objLightDAC.addsupplies_wu2(ApplicantID, name, mobile, suppliesType, suppliesString, sex, oversea, Birth, leapMonth, birthTime,
-                                birthMonth, age, Zodiac, sBirth, homenum, email, addr, county, dist, zipCode, remark, "1", Add_year);
+                            SuppliesID = objLightDAC.addSupplies_Fw(ApplicantID, name, mobile, sex, suppliesType, suppliesString, oversea, Birth, leapMonth, birthTime,
+                                birthMonth, age, Zodiac, sBirth, email, homenum, 1, remark, addr, county, dist, zipCode, Year);
                         }
 
                     }
                 }
 
-                if (ApplicantID > 0 && suppliesinfo)
+                if (ApplicantID > 0 && SuppliesID > 0 && suppliesinfo)
                 {
                     basePage.mJSonHelper.AddContent("StatusCode", 1);
-                    basePage.mJSonHelper.AddContent("redirect", "templeCheck.aspx?kind=5&a=" + AdminID + "&aid=" + ApplicantID +
+                    basePage.mJSonHelper.AddContent("redirect", "templeCheck.aspx?kind=16&a=" + AdminID + "&aid=" + ApplicantID +
                         (basePage.Request["ad"] != null ? "&ad=" + basePage.Request["ad"] : "") +
                         (basePage.Request["jkos"] != null ? "&jkos=1" : "") +
                         (basePage.Request["twm"] != null ? "&twm=1" : ""));
@@ -299,7 +287,7 @@ namespace Temple.Temples
 
                 string AdminID = basePage.Request["a"];
 
-                dtData = objLightDAC.Getsupplies_wu_info2(applicantID, Add_year);
+                dtData = objLightDAC.Getsupplies_Fw_info(applicantID, Year);
 
                 if (dtData.Rows.Count > 0)
                 {
@@ -309,7 +297,10 @@ namespace Temple.Temples
                     basePage.mJSonHelper.AddContent("a", AdminID);
                     basePage.mJSonHelper.AddContent("AppName", dtData.Rows[0]["AppName"].ToString());
                     basePage.mJSonHelper.AddContent("AppMobile", dtData.Rows[0]["AppMobile"].ToString());
-                    basePage.mJSonHelper.AddContent("AppEmail", dtData.Rows[0]["AppEmail"].ToString());
+                    basePage.mJSonHelper.AddContent("AppCounty", dtData.Rows[0]["AppCounty"].ToString());
+                    basePage.mJSonHelper.AddContent("Appdist", dtData.Rows[0]["Appdist"].ToString());
+                    basePage.mJSonHelper.AddContent("AppAddr", dtData.Rows[0]["AppAddr"].ToString());
+                    basePage.mJSonHelper.AddContent("AppMobile", dtData.Rows[0]["AppMobile"].ToString());
 
                     basePage.mJSonHelper.AddDataTable("DataSource", dtData);
                 }

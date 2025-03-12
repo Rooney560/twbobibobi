@@ -2046,9 +2046,9 @@ namespace MotoSystem.Data
             return result;
         }
 
-        //補庫項目 1-下元補庫 2-呈疏補庫 3-企業補財庫 4-天赦日補運 5-天赦日祭改 6-代燒金紙 7-招財補運 8-招財補運九九重陽升級版 9-補財庫 10-財神賜福-消災補庫法會 11-地母廟-赦罪解業
+        //補庫項目 1-下元補庫 2-呈疏補庫(天官武財神聖誕補財庫) 3-企業補財庫 4-天赦日補運 5-天赦日祭改 6-代燒金紙 7-招財補運 8-招財補運九九重陽升級版 9-補財庫 10-財神賜福-消災補庫法會 11-地母廟-赦罪解業
         //          12-地母廟-補財庫 13-地母廟-赦罪解業+補財庫 14-草屯敦和宮-赦罪解業 15-草屯敦和宮-補財庫 16-草屯敦和宮-赦罪解業+補財庫 17-紫南宮-赦罪解業 18-紫南宮-補財庫
-        //          19-紫南宮-赦罪解業+補財庫 20-天公生招財補運
+        //          19-紫南宮-赦罪解業+補財庫 20-天公生招財補運 21-補財庫(正財) 22-補財庫(偏財)
         public static int GetSuppliesCost(int AdminID, string SuppliesType)
         {
             int result = 0;
@@ -2064,7 +2064,7 @@ namespace MotoSystem.Data
                             result = 600;
                             break;
                         case "2":
-                            //呈疏補庫
+                            //呈疏補庫(天官武財神聖誕補財庫)
                             result = 600;
                             break;
                         case "3":
@@ -2092,6 +2092,21 @@ namespace MotoSystem.Data
                         case "20":
                             //天公生招財補運
                             result = 1680;
+                            break;
+                    }
+                    break;
+                case 15:
+                    //斗六五路財神宮
+                    switch (SuppliesType)
+                    {
+                        //case "21":
+                        //    //補財庫(正財)
+                        //    break;
+                        //case "22":
+                        //    //補財庫(偏財)
+                        //    break;
+                        default:
+                            result = 500;
                             break;
                     }
                     break;
@@ -2154,6 +2169,155 @@ namespace MotoSystem.Data
 
             return result;
         }
+
+        public static string GetSuppliesType(string SuppliesString)
+        {
+            string result = "-1";
+            switch (SuppliesString)
+            {
+                case "下元補庫":
+                    result = "1";
+                    break;
+                case "呈疏補庫":
+                    result = "2";
+                    break;
+                case "呈疏補庫(天官武財神聖誕補財庫)":
+                    result = "2";
+                    break;
+                case "企業補財庫":
+                    result = "3";
+                    break;
+                case "天赦日招財補運":
+                    result = "4";
+                    break;
+                case "天赦日祭改":
+                    result = "5";
+                    break;
+                case "天貺納福添運法會":
+                    result = "6";
+                    break;
+                case "補財庫":
+                    result = "9";
+                    break;
+                case "財神賜福-消災補庫法會":
+                    result = "10";
+                    break;
+                case "地母廟-赦罪解業":
+                    result = "11";
+                    break;
+                case "地母廟-補財庫":
+                    result = "12";
+                    break;
+                case "地母廟-赦罪解業+補財庫":
+                    result = "13";
+                    break;
+                case "草屯敦和宮-赦罪解業":
+                    result = "14";
+                    break;
+                case "草屯敦和宮-補財庫":
+                    result = "15";
+                    break;
+                case "草屯敦和宮-赦罪解業+補財庫":
+                    result = "16";
+                    break;
+                case "紫南宮-赦罪解業":
+                    result = "17";
+                    break;
+                case "紫南宮-補財庫":
+                    result = "18";
+                    break;
+                case "紫南宮-赦罪解業+補財庫":
+                    result = "19";
+                    break;
+                case "天公生招財補運":
+                    result = "20";
+                    break;
+                case "補財庫(正財)":
+                    result = "21";
+                    break;
+                case "補財庫(偏財)":
+                    result = "22";
+                    break;
+            }
+
+            return result;
+        }
+        public static string GetSuppliesString(string SuppliesType)
+        {
+            string result = string.Empty;
+            switch (SuppliesType)
+            {
+                case "1":
+                    result = "下元補庫";
+                    break;
+                case "2":
+                    result = "天官武財神聖誕補財庫";
+                    break;
+                case "3":
+                    result = "企業補財庫";
+                    break;
+                case "4":
+                    result = "天赦日招財補運";
+                    break;
+                case "5":
+                    result = "天赦日祭改";
+                    break;
+                case "6":
+                    result = "天貺納福添運法會";
+                    break;
+                case "7":
+                    result = "";
+                    break;
+                case "8":
+                    result = "";
+                    break;
+                case "9":
+                    result = "補財庫";
+                    break;
+                case "10":
+                    result = "財神賜福-消災補庫法會";
+                    break;
+                case "11":
+                    result = "地母廟-赦罪解業";
+                    break;
+                case "12":
+                    result = "地母廟-補財庫";
+                    break;
+                case "13":
+                    result = "地母廟-赦罪解業+補財庫";
+                    break;
+                case "14":
+                    result = "草屯敦和宮-赦罪解業";
+                    break;
+                case "15":
+                    result = "草屯敦和宮-補財庫";
+                    break;
+                case "16":
+                    result = "草屯敦和宮-赦罪解業+補財庫";
+                    break;
+                case "17":
+                    result = "紫南宮-赦罪解業";
+                    break;
+                case "18":
+                    result = "紫南宮-補財庫";
+                    break;
+                case "19":
+                    result = "紫南宮-赦罪解業+補財庫";
+                    break;
+                case "20":
+                    result = "天公生招財補運";
+                    break;
+                case "21":
+                    result = "補財庫(正財)";
+                    break;
+                case "22":
+                    result = "補財庫(偏財)";
+                    break;
+            }
+
+            return result;
+        }
+
 
         //關聖帝君聖誕項目 1-忠義狀功德主 2-富貴狀功德主 3-招財補運 4-招財補運紀念版
         public static int GetEmperorGuanshengCost(int AdminID, string EmperorGuanshengType)

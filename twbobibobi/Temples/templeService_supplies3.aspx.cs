@@ -22,7 +22,7 @@ namespace Temple.Temples
         public int aid = 0;
         public int a = 0;
         public string EndDate = "2023/11/21 23:59";
-        public static string Add_year = "2024";
+        public static string Add_year = "2025";
 
         protected override void InitAjaxHandler()
         {
@@ -64,8 +64,9 @@ namespace Temple.Temples
                 LightDAC objLightDAC = new LightDAC(basePage);
                 DataTable dtlist = new DataTable();
                 string AdminID = "6";
-                string AppName = basePage.Request["Appname"];                   //申請人姓名
-                string AppMobile = basePage.Request["Appmobile"];               //申請人電話
+                string AppName = basePage.Request["Appname"];                   //購買人姓名
+                string AppMobile = basePage.Request["Appmobile"];               //購買人電話
+                string Appemail = basePage.Request["Appemail"];                 //購買人電話
 
                 string name_Tag = basePage.Request["name_Tag"];                 //祈福人姓名
                 string mobile_Tag = basePage.Request["mobile_Tag"];             //祈福人電話
@@ -103,12 +104,34 @@ namespace Temple.Temples
                 nullChecked(homenum_Tag, ref Jhomenum);
                 nullChecked(remark_Tag, ref Jremark);
 
-                string postURL = "Supplies_wu_Index3_FET";
+                string postURL = "Supplies_wu3_Index";
 
-                //檢查此申請人電話是否上個月已註冊
+                postURL += basePage.Request["twm"] != null ? "_TWM" : "";
+
+                postURL += basePage.Request["cht"] != null ? "_CHT" : "";
+
+                postURL += basePage.Request["line"] != null ? "_LINE" : "";
+
+                postURL += basePage.Request["fb"] != null ? "_FB" : "";
+
+                postURL += basePage.Request["fbwu"] != null ? "_FBWU" : "";
+
+                postURL += basePage.Request["ig"] != null ? "_IG" : "";
+
+                postURL += basePage.Request["fetssms"] != null ? "_fetSMS" : "";
+
+                postURL += basePage.Request["jkos"] != null ? "_JKOS" : "";
+
+                postURL += basePage.Request["gads"] != null ? "_GADS" : "";
+
+                postURL += basePage.Request["inwu"] != null ? "_INWU" : "";
+
+                postURL += basePage.Request["elv"] != null ? "_ELV" : "";
+
+                //檢查此購買人電話是否上個月已註冊
                 if (objLightDAC.CheckedSupplies_wu_info3(AdminID, AppMobile, Add_year))
                 {
-                    ApplicantID = objLightDAC.addapplicantinfo_Supplies_wu3(AppName, AppMobile, "0", "", "", "", "0", "N", "", "", 0, AdminID, postURL, Add_year);
+                    ApplicantID = objLightDAC.addapplicantinfo_Supplies_wu3(AppName, AppMobile, "0", Appemail, "", "", "", "0", "N", "", "", 0, AdminID, postURL, Add_year);
                     bool suppliesinfo = false;
 
                     if (ApplicantID > 0)

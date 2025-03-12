@@ -417,6 +417,7 @@ namespace Temple.FET.Supplies
 
                 string result = "<tr><td>{0} :</td>\r\n                      <td id='AppMobile'>{1}</td></tr>";
                 OrderInfo += String.Format(result, "購買者電話", dtData.Rows[0]["AppMobile"].ToString());
+                OrderInfo += OrderData("購買人Email", dtData.Rows[0]["AppEmail"].ToString());
 
                 for (int i = 0; i < dtData.Rows.Count; i++)
                 {

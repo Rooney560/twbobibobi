@@ -528,7 +528,7 @@
                 <div><label>服務專線</label><a href="tel:0436092299">04-3609-2299</a></div>
                 <div><label>服務信箱</label><a href="mailto:service@appssp.com">service@appssp.com</a></div>
             </div>
-            <div class="serviceTime footerTxt"><label>服務時間</label><span>週一至週五11:00-20:00</span><span>週六9:00-18:00(國定假日休息)</span></div>
+            <div class="serviceTime footerTxt"><label>服務時間</label><span>週一至週五10:00-17:00</span></div>
             <div class="copyright footerTxt">Copyright©2022-2025 保必保庇線上祈福平台 <span>All rights reserved.</span></div>
         </footer><!--#頁尾 //end-->
     

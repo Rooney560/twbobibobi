@@ -64,6 +64,7 @@ namespace twbobibobi.FET.Supplies
                 string AdminID = "6";
                 string AppName = basePage.Request["Appname"];                   //申請人姓名
                 string AppMobile = basePage.Request["Appmobile"];               //申請人電話
+                string AppEmail = basePage.Request["Appemail"];               //申請人電話
 
                 string name_Tag = basePage.Request["name_Tag"];                 //祈福人姓名
                 string mobile_Tag = basePage.Request["mobile_Tag"];             //祈福人電話
@@ -104,7 +105,7 @@ namespace twbobibobi.FET.Supplies
                 //檢查此申請人電話是否上個月已註冊
                 if (objLightDAC.CheckedSupplies_wu_info3(AdminID, AppMobile, Add_year))
                 {
-                    ApplicantID = objLightDAC.addapplicantinfo_Supplies_wu3(AppName, AppMobile, "0", "", "", "", "0", "N", "", "", 0, AdminID, postURL, Add_year);
+                    ApplicantID = objLightDAC.addapplicantinfo_Supplies_wu3(AppName, AppMobile, "0", AppEmail, "", "", "", "0", "N", "", "", 0, AdminID, postURL, Add_year);
                     bool suppliesinfo = false;
 
                     if (ApplicantID > 0)

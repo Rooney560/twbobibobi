@@ -62,8 +62,9 @@ namespace Temple.FET.Supplies
 
                 LightDAC objLightDAC = new LightDAC(basePage);
                 string AdminID = "6";
-                string AppName = basePage.Request["Appname"];                   //申請人姓名
-                string AppMobile = basePage.Request["Appmobile"];               //申請人電話
+                string AppName = basePage.Request["Appname"];                   //購買人姓名
+                string AppMobile = basePage.Request["Appmobile"];               //購買人電話
+                string AppEmail = basePage.Request["Appemail"];                 //購買人Email
 
                 string name_Tag = basePage.Request["name_Tag"];                 //祈福人姓名
                 string mobile_Tag = basePage.Request["mobile_Tag"];             //祈福人電話
@@ -99,18 +100,23 @@ namespace Temple.FET.Supplies
 
                 nullChecked(homenum_Tag, ref Jhomenum);
 
-                string postURL = "Supplies_wu_Index3_FETAPI";
+                string postURL = "Supplies_wu3_Index_FETAPI";
 
-                //檢查此申請人電話是否上個月已註冊
+                //檢查此購買人電話是否上個月已註冊
                 if (objLightDAC.CheckedSupplies_wu_info3(AdminID, AppMobile, Add_year))
                 {
-                    ApplicantID = objLightDAC.addapplicantinfo_Supplies_wu3(AppName, AppMobile, "0", "", "", "", "0", "N", "", "", 0, AdminID, postURL, Add_year);
+                    ApplicantID = objLightDAC.addapplicantinfo_Supplies_wu3(AppName, AppMobile, "0", AppEmail, "", "", "", "0", "N", "", "", 0, AdminID, postURL, Add_year);
                     bool suppliesinfo = false;
 
                     if (ApplicantID > 0)
                     {
                         string name = Jname[0].ToString();
                         string homenum = Jhomenum.Count > 0 ? Jhomenum[0].ToString() : "";
+                        int h = 0;
+                        if (!int.TryParse(homenum, out h))
+                        {
+                            homenum = "";
+                        }
 
                         TimeZoneInfo info = TimeZoneInfo.FindSystemTimeZoneById("Taipei Standard Time");
                         DateTime dtNow = TimeZoneInfo.ConvertTime(DateTime.Now, info);
@@ -208,6 +214,7 @@ namespace Temple.FET.Supplies
                     basePage.mJSonHelper.AddContent("a", AdminID);
                     basePage.mJSonHelper.AddContent("AppName", dtData.Rows[0]["AppName"].ToString());
                     basePage.mJSonHelper.AddContent("AppMobile", dtData.Rows[0]["AppMobile"].ToString());
+                    basePage.mJSonHelper.AddContent("AppEmail", dtData.Rows[0]["AppEmail"].ToString());
                     basePage.mJSonHelper.AddContent("year", year);
                     basePage.mJSonHelper.AddContent("month", month);
                     basePage.mJSonHelper.AddContent("day", day);

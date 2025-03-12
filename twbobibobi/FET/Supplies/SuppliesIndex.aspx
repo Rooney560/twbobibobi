@@ -502,6 +502,15 @@
                 </div>
               </div>
             </div>
+            <div class="long-grid">
+              <div class="form-group">
+                <label for="input-buyer-mobile" class="">購買者Email</label>
+                <div class="text-input">
+                  <input id="member_email" name="member_email" type="text" placeholder="請輸入購買者Email(必填)" class="required" aria-label="請輸入購買者Email(必填)" maxlength="200" value="" />
+                        <span style="color: red;">北港武德宮 推行"無紙功德"環保理念" 原紙本感謝狀之提供改為 Email提供電子感謝狀。</span>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -703,8 +712,7 @@
                   <div class="form-group">
                     <label for="input-name" class="">被祈福者Email</label>
                     <div class="text-input">
-                      <input id="bless_email_1" name="bless_email_1" type="text" placeholder="請輸入祈福人Email" class="required" aria-label="請輸入姓名" maxlength="200" value="" />
-                        <span style="color: red;">注意事項: 北港武德宮 推行"無紙功德"環保理念" 原紙本感謝狀之提供改為 Email提供電子感謝狀。</span>
+                      <input id="bless_email_1" name="bless_email_1" type="text" placeholder="請輸入祈福人Email(可不填)" class="" aria-label="請輸入姓名" maxlength="200" value="" />
                     </div>
                   </div>
                 </div>
@@ -807,47 +815,78 @@
         var isValid = true;
         var isBirth = true;
 
-        // 遍歷每個必填欄位
-        $('.required').each(function () {
-            var value = $.trim($(this).val());
-            var text = this;
-            if (value === '' || value === null) {
-                isValid = false;
-                $(this).addClass('unfilled');
-            } else if (value != '' && $(this).hasClass('unfilled')) {
-                $(this).removeClass('unfilled');
-            }
-        });
+        var value = $("#member_tel").val().trim();
+        var value_email = $("#member_email").val().trim();
 
-        var today = new Date();
-        var ss = $("#input-birthday-year").val().trim();
-        var lyear = (today.getFullYear() - 1911)
-        if ($("#input-birthday-year").val() == "" || ss > lyear) {
-            isValid = false;
-            isBirth = false;
-            $(this).addClass('unfilled');
+        if (value == "") {
+            $(".Notice").text("購買人電話不能為空。");
+            $(".Notice").addClass("active");
+            $("#member_tel").addClass('unfilled');
+            //$("#member_tel").focus();
+        }
+        else if (!Isphone(value)) {
+            $(".Notice").text("購買人電話格式錯誤。");
+            $(".Notice").addClass("active");
+            $("#member_tel").addClass('unfilled');
+            //$("#member_tel").focus();
+        }
+        else if (value_email == "") {
+            $(".Notice").text("購買人Email不能為空。");
+            $(".Notice").addClass("active");
+            $("#member_email").addClass('unfilled');
+            //$("#member_email").focus();
+        }
+        else if (!IsEmail(value_email)) {
+            $(".Notice").text("購買人Email格式錯誤。");
+            $(".Notice").addClass("active");
+            $("#member_email").addClass('unfilled');
+            //$("#member_email").focus();
         }
         else {
-            $(this).removeClass('unfilled');
-        }
-
-
-        if (isValid) {
-            // 所有欄位都已填寫
-            console.log('所有欄位都已填寫');
-            $(".Notice").removeClass("active");
-
-            gotoChecked_wu();
-        } else {
-            // 在這裡可以進行表單提交或其他相關處理
-            // 有欄位未填寫
-            if (isBirth) {
-                $(".Notice").text("請檢查上方欄位是否都已填寫。");
-                $(".Notice").addClass("active");
+            var today = new Date();
+            var ss = $("#input-birthday-year").val().trim();
+            var lyear = (today.getFullYear() - 1911)
+            if ($("#input-birthday-year").val() == "" || ss > lyear) {
+                isValid = false;
+                isBirth = false;
+                $(this).addClass('unfilled');
             }
             else {
-                $(".Notice").text("請檢查上方生日欄位格式是否正確。正確格式：民國xxx年");
-                $(".Notice").addClass("active");
+                $(this).removeClass('unfilled');
+            }
+
+            if (isBirth) {
+                // 遍歷每個必填欄位
+                $('.required').each(function () {
+                    var value = $.trim($(this).val());
+                    var text = this;
+                    if (value === '' || value === null) {
+                        isValid = false;
+                        $(this).addClass('unfilled');
+                    } else if (value != '' && $(this).hasClass('unfilled')) {
+                        $(this).removeClass('unfilled');
+                    }
+                });
+            }
+
+            if (isValid) {
+                // 所有欄位都已填寫
+                console.log('所有欄位都已填寫');
+                $(".Notice").removeClass("active");
+
+                gotoChecked_wu();
+            } else {
+                // 在這裡可以進行表單提交或其他相關處理
+                // 有欄位未填寫
+                if (isBirth) {
+                    $(".Notice").text("請檢查上方欄位是否都已填寫。");
+                    $(".Notice").addClass("active");
+                }
+                else {
+                    $(".Notice").text("請檢查上方生日欄位格式是否正確。正確格式：民國xxx年");
+                    $(".Notice").addClass("active");
+                    $("#input-birthday-year").focus();
+                }
             }
         }
     })
@@ -861,7 +900,7 @@
             }
         } else {
             if (res.OldUser == 1) {
-                alert("此申請人電話已註冊過，將會每個月進行扣款。如果有疑問，請洽客服。");
+                alert("此購買人電話已註冊過，將會每個月進行扣款。如果有疑問，請洽客服。");
             }
             else {
                 alert("資料錯誤！請重新再試一次，若還是不行，請洽客服。");
@@ -877,6 +916,7 @@
         if (res.StatusCode == 1) {
             $("#member_name").val(res.AppName);
             $("#member_tel").val(res.AppMobile);
+            $("#member_email").val(res.AppEmail);
 
             if (res.DataSource != null) {
                 $.each(res.DataSource, function (i, item) {
@@ -924,8 +964,9 @@
     function gotoChecked_wu() {
         var listcount = 1;
 
-        Appname = $("#member_name").val().trim();      //申請人姓名
-        Appmobile = $("#member_tel").val()      //申請人電話
+        Appname = $("#member_name").val().trim();                                               //購買人姓名
+        Appmobile = $("#member_tel").val()                                                      //購買人電話
+        Appemail = $("#member_email").val()                                                     //購買人Email
 
         name_Tag = [];
         mobile_Tag = [];
@@ -965,6 +1006,7 @@
         data = {
             Appname: Appname,
             Appmobile: Appmobile,
+            Appemail: Appemail,
             name_Tag: JSON.stringify(name_Tag),
             mobile_Tag: JSON.stringify(mobile_Tag),
             sex_Tag: JSON.stringify(sex_Tag),
