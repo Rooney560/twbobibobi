@@ -1623,7 +1623,7 @@ namespace MotoSystem.Data
         /// <param name="kind">kind=活動名稱: 1-點燈 2-普度 4-下元補庫 5-呈疏補庫 6-企業補財庫 7-天赦日補運 8-天赦日祭改 9-關聖帝君聖誕 10-代燒金紙 11-天貺納福添運法會 12-靈寶禮斗</param>
         /// <param name="Year"></param>
         /// <returns></returns>
-        public bool Updatestatus2appcharge(int UniqueID, int Status, string AdminID, string kind, string Year)
+        public bool Updatestatus2appcharge(int UniqueID, int Status, string AdminID, string kind, int type, string Year)
         {
             TimeZoneInfo info = TimeZoneInfo.FindSystemTimeZoneById("Taipei Standard Time");
             DateTime dt = TimeZoneInfo.ConvertTime(DateTime.Now, info);
@@ -1665,8 +1665,16 @@ namespace MotoSystem.Data
                             break;
                         case "14":
                             //桃園威天宮
-                            view = "Temple_" + Year + "..APPCharge_ty_Lights";
-                            sql = "Select * from Temple_" + Year + "..APPCharge_ty_Lights Where Status = 1 and UniqueID = @UniqueID";
+                            if (type == 2)
+                            {
+                                view = "Temple_" + Year + "..APPCharge_ty_mom_Lights";
+                                sql = "Select * from Temple_" + Year + "..APPCharge_ty_mom_Lights Where Status = 1 and UniqueID = @UniqueID";
+                            }
+                            else
+                            {
+                                view = "Temple_" + Year + "..APPCharge_ty_Lights";
+                                sql = "Select * from Temple_" + Year + "..APPCharge_ty_Lights Where Status = 1 and UniqueID = @UniqueID";
+                            }
                             break;
                         case "15":
                             //斗六五路財神宮
@@ -1702,6 +1710,11 @@ namespace MotoSystem.Data
                             //桃園龍德宮
                             view = "Temple_" + Year + "..APPCharge_ld_Lights";
                             sql = "Select * from Temple_" + Year + "..APPCharge_ld_Lights Where Status = 1 and UniqueID = @UniqueID";
+                            break;
+                        case "34":
+                            //基隆悟玄宮
+                            view = "Temple_" + Year + "..APPCharge_wh_Lights";
+                            sql = "Select * from Temple_" + Year + "..APPCharge_wh_Lights Where Status = 1 and UniqueID = @UniqueID";
                             break;
                     }
                     break;
@@ -1958,13 +1971,13 @@ namespace MotoSystem.Data
 
                         if (res > 0)
                         {
-                            if (Updatestatus2applicantinfo(int.Parse(dtDataList.Rows[0]["ApplicantID"].ToString()), Status, AdminID, kind, Year))
+                            if (Updatestatus2applicantinfo(int.Parse(dtDataList.Rows[0]["ApplicantID"].ToString()), Status, AdminID, kind, type, Year))
                             {
                                 switch (kind)
                                 {
                                     case "1":
                                         //點燈
-                                        if (DeleteLightsinfo(int.Parse(dtDataList.Rows[0]["ApplicantID"].ToString()), AdminID, Year))
+                                        if (DeleteLightsinfo(int.Parse(dtDataList.Rows[0]["ApplicantID"].ToString()), AdminID, type, Year))
                                         {
                                             bResult = true;
                                         }
@@ -2073,7 +2086,7 @@ namespace MotoSystem.Data
         /// <param name="kind">kind=活動名稱: 1-點燈 2-普度 4-下元補庫 5-呈疏補庫 6-企業補財庫 7-天赦日補運 8-天赦日祭改 9-關聖帝君聖誕 10-代燒金紙 11-天貺納福添運法會 12-靈寶禮斗</param>
         /// <param name="Year"></param>
         /// <returns></returns>
-        public bool Updatestatus2applicantinfo(int ApplicantID, int Status, string AdminID, string kind, string Year)
+        public bool Updatestatus2applicantinfo(int ApplicantID, int Status, string AdminID, string kind, int type, string Year)
         {
             TimeZoneInfo info = TimeZoneInfo.FindSystemTimeZoneById("Taipei Standard Time");
             DateTime dt = TimeZoneInfo.ConvertTime(DateTime.Now, info);
@@ -2115,8 +2128,16 @@ namespace MotoSystem.Data
                             break;
                         case "14":
                             //桃園威天宮
-                            view = "Temple_" + Year + "..ApplicantInfo_ty_Lights";
-                            sql = "Select * from Temple_" + Year + "..ApplicantInfo_ty_Lights Where Status = 2 and ApplicantID = @ApplicantID";
+                            if (type == 2)
+                            {
+                                view = "Temple_" + Year + "..ApplicantInfo_ty_mom_Lights";
+                                sql = "Select * from Temple_" + Year + "..ApplicantInfo_ty_mom_Lights Where Status = 2 and ApplicantID = @ApplicantID";
+                            }
+                            else
+                            {
+                                view = "Temple_" + Year + "..ApplicantInfo_ty_Lights";
+                                sql = "Select * from Temple_" + Year + "..ApplicantInfo_ty_Lights Where Status = 2 and ApplicantID = @ApplicantID";
+                            }
                             break;
                         case "15":
                             //斗六五路財神宮
@@ -2167,6 +2188,11 @@ namespace MotoSystem.Data
                             //桃園龍德宮
                             view = "Temple_" + Year + "..ApplicantInfo_ld_Lights";
                             sql = "Select * from Temple_" + Year + "..ApplicantInfo_ld_Lights Where Status = 2 and ApplicantID = @ApplicantID";
+                            break;
+                        case "34":
+                            //基隆悟玄宮
+                            view = "Temple_" + Year + "..ApplicantInfo_wh_Lights";
+                            sql = "Select * from Temple_" + Year + "..ApplicantInfo_wh_Lights Where Status = 2 and ApplicantID = @ApplicantID";
                             break;
                     }
                     break;
@@ -2376,8 +2402,8 @@ namespace MotoSystem.Data
                     {
                         case "15":
                             //斗六五路財神宮
-                            view = "Temple_" + Year + "..ApplicantInfo_Lk_Supplies";
-                            sql = "Select * from Temple_" + Year + "..ApplicantInfo_Lk_Supplies Where Status = 2 and ApplicantID = @ApplicantID";
+                            view = "Temple_" + Year + "..ApplicantInfo_Fw_Supplies";
+                            sql = "Select * from Temple_" + Year + "..ApplicantInfo_Fw_Supplies Where Status = 2 and ApplicantID = @ApplicantID";
                             break;
                         case "21":
                             //鹿港城隍廟
@@ -2443,7 +2469,7 @@ namespace MotoSystem.Data
         /// <param name="ApplicantID">ApplicantID=申請人編號</param>
         /// <param name="AdminID">AdminID=廟宇編號 3-大甲鎮瀾宮 4-新港奉天宮 5-文創商品(新港奉天宮) 6-北港武德宮</param>
         /// </summary>
-        public bool DeleteLightsinfo(int ApplicantID, string AdminID, string Year)
+        public bool DeleteLightsinfo(int ApplicantID, string AdminID, int type, string Year)
         {
             bool result = false;
             string sql = string.Empty;
@@ -2478,8 +2504,16 @@ namespace MotoSystem.Data
                     break;
                 case "14":
                     //桃園威天宮
-                    view = "Temple_" + Year + "..Lights_ty_info";
-                    sql = "Select * from Temple_" + Year + "..Lights_ty_info Where Status = 0 and ApplicantID = @ApplicantID";
+                    if (type == 2)
+                    {
+                        view = "Temple_" + Year + "..Lights_ty_mom_info";
+                        sql = "Select * from Temple_" + Year + "..Lights_ty_mom_info Where Status = 0 and ApplicantID = @ApplicantID";
+                    }
+                    else
+                    {
+                        view = "Temple_" + Year + "..Lights_ty_info";
+                        sql = "Select * from Temple_" + Year + "..Lights_ty_info Where Status = 0 and ApplicantID = @ApplicantID";
+                    }
                     break;
                 case "15":
                     //斗六五路財神宮
@@ -2530,6 +2564,11 @@ namespace MotoSystem.Data
                     //桃園龍德宮
                     view = "Temple_" + Year + "..Lights_ld_info";
                     sql = "Select * from Temple_" + Year + "..Lights_ld_info Where ApplicantID = @ApplicantID and Status = 0";
+                    break;
+                case "34":
+                    //基隆悟玄宮
+                    view = "Temple_" + Year + "..Lights_wh_info";
+                    sql = "Select * from Temple_" + Year + "..Lights_wh_info Where ApplicantID = @ApplicantID and Status = 0";
                     break;
             }
 

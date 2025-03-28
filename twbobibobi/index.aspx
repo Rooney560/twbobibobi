@@ -360,7 +360,7 @@
                             <hr class="Category" />
                         </div>
                         <div class="row gx-5">
-                            <div class="col-lg-3 col-sm-12 py-3">
+                            <div class="col-lg-4 col-sm-12 py-3">
                                 <a href="https://bobibobi.tw/Temples/newsContent_2025lights.aspx">
                                     <div class="card shadow h-100" style="background-color: white; color: #707070;">
                                     <%--<div class="Newsimg">--%>
@@ -377,24 +377,7 @@
                                     </div>
                                 </a>
                             </div>
-                            <div class="col-lg-3 col-sm-12 py-3">
-                                <a href="https://bobibobi.tw/Temples/templeService_supplies2.aspx">
-                                    <div class="card shadow h-100" style="background-color: white; color: #707070;">
-                                        <%--<div class="Newsimg">--%>
-                                        <img src="https://bobibobi.tw/Temples/SiteFile/News/20250310_NewsImg_s.jpg?t=666168" class="card-img-top p-3" alt="斗六五路財神宮補財庫" title="斗六五路財神宮補財庫" />
-                                        <%--</div>--%>
-                                        <div class="card-body">
-                                            <div class="fs-3">北港武德宮２０２５天官武財神聖誕補財庫</div>
-                                            <div class="fs-5">財運加持・富貴來臨！農曆三月十五日迎來【天官武財神聖壽】，誠邀您一同參與補庫、植福、謝恩，添補財庫、穩固財源、開運聚富，讓新的一年財氣滾滾、錢財不斷！</div>
-
-                                        </div>
-                                        <div class="card-footer pb-3" style="border-top: none; background-color: transparent;">
-                                            <div class="ReadMoreBtn"><span>&nbsp;詳情&nbsp;</span></div>
-                                        </div>
-                                    </div>
-                                </a>
-                            </div>
-                            <div class="col-lg-3 col-sm-12 py-3">
+                            <div class="col-lg-4 col-sm-12 py-3">
                                 <a href="https://bobibobi.tw/Temples/templeService_supplies_Fw.aspx">
                                     <div class="card shadow h-100" style="background-color: white; color: #707070;">
                                         <%--<div class="Newsimg">--%>
@@ -411,7 +394,7 @@
                                     </div>
                                 </a>
                             </div>
-                            <div class="col-lg-3 col-sm-12 py-3">
+                            <div class="col-lg-4 col-sm-12 py-3">
                                 <a href="https://bobibobi.tw/Temples/templeService_supplies_Lk.aspx">
                                     <div class="card shadow h-100" style="background-color: white; color: #707070;">
                                         <%--<div class="Newsimg">--%>

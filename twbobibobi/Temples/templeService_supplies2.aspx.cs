@@ -107,29 +107,33 @@ namespace Temple.Temples
                 nullChecked(homenum_Tag, ref Jhomenum);
                 nullChecked(remark_Tag, ref Jremark);
 
-                string postURL = "Supplies_wu2_Index";
+                string postURL_Init = "Supplies_wu2_Index";
 
-                postURL += basePage.Request["twm"] != null ? "_TWM" : "";
+                string url = HttpContext.Current.Request.Url.AbsoluteUri;
 
-                postURL += basePage.Request["cht"] != null ? "_CHT" : "";
+                string postURL = GetRequestURL(url, postURL_Init);
 
-                postURL += basePage.Request["line"] != null ? "_LINE" : "";
+                //postURL += basePage.Request["twm"] != null ? "_TWM" : "";
 
-                postURL += basePage.Request["fb"] != null ? "_FB" : "";
+                //postURL += basePage.Request["cht"] != null ? "_CHT" : "";
 
-                postURL += basePage.Request["fbwu"] != null ? "_FBWU" : "";
+                //postURL += basePage.Request["line"] != null ? "_LINE" : "";
 
-                postURL += basePage.Request["ig"] != null ? "_IG" : "";
+                //postURL += basePage.Request["fb"] != null ? "_FB" : "";
 
-                postURL += basePage.Request["fetssms"] != null ? "_fetSMS" : "";
+                //postURL += basePage.Request["fbwu"] != null ? "_FBWU" : "";
 
-                postURL += basePage.Request["jkos"] != null ? "_JKOS" : "";
+                //postURL += basePage.Request["ig"] != null ? "_IG" : "";
 
-                postURL += basePage.Request["gads"] != null ? "_GADS" : "";
+                //postURL += basePage.Request["fetssms"] != null ? "_fetSMS" : "";
 
-                postURL += basePage.Request["inwu"] != null ? "_INWU" : "";
+                //postURL += basePage.Request["jkos"] != null ? "_JKOS" : "";
 
-                postURL += basePage.Request["elv"] != null ? "_ELV" : "";
+                //postURL += basePage.Request["gads"] != null ? "_GADS" : "";
+
+                //postURL += basePage.Request["inwu"] != null ? "_INWU" : "";
+
+                //postURL += basePage.Request["elv"] != null ? "_ELV" : "";
 
 
                 string AppSendback = "N";                                                           //寄送方式 N-不寄回(會轉送給弱勢團體) Y-寄回(加收運費120元)
@@ -282,6 +286,7 @@ namespace Temple.Temples
                     basePage.mJSonHelper.AddContent("redirect", "templeCheck.aspx?kind=5&a=" + AdminID + "&aid=" + ApplicantID +
                         (basePage.Request["ad"] != null ? "&ad=" + basePage.Request["ad"] : "") +
                         (basePage.Request["jkos"] != null ? "&jkos=1" : "") +
+                        (basePage.Request["pxpayplues"] != null ? "&pxpayplues=1" : "") +
                         (basePage.Request["twm"] != null ? "&twm=1" : ""));
 
                     basePage.Session["ApplicantID"] = ApplicantID;

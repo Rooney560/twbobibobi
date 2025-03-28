@@ -144,6 +144,7 @@ namespace Temple.FET.APITEST
                     string OrderID = string.Empty;
                     string[] LightsList = new string[0];
                     string[] clist = { "CMPO20241119001243", "CMPO20241119001241", "CMPO20250115015318" };
+                    int type = 1;
 
                     //DataTable dtAdmin = objAdminDAC.GetAdminList(9);
                     for (int j = 1; j <= 18; j++)
@@ -152,7 +153,13 @@ namespace Temple.FET.APITEST
                         {
                             string adminID = adminlist[i].ToString();
 
-                            dtData = objLightDAC.Getappcharge(clientOrderNumber, adminID, j.ToString(), Year);
+                            dtData = objLightDAC.Getappcharge(clientOrderNumber, adminID, j.ToString(), type, Year);
+
+                            if (j == 1 && adminID == "14" && dtData.Rows.Count == 0)
+                            {
+                                type = 2;
+                                dtData = objLightDAC.Getappcharge(clientOrderNumber, adminID, j.ToString(), type, Year);
+                            }
 
                             for (int k = 0; k < dtData.Rows.Count; k++)
                             {

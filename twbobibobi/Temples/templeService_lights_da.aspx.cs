@@ -128,31 +128,35 @@ namespace Temple.Temples
                 JArray Jaddr = JArray.Parse(addr_Tag);
                 JArray JLightsString_Tag = JArray.Parse(LightsString_Tag);
 
-                string postURL = "Lights_da_Index";
+                string postURL_Init = "Lights_da_Index";
 
-                postURL += basePage.Request["twm"] != null ? "_TWM" : "";
+                string url = HttpContext.Current.Request.Url.AbsoluteUri;
 
-                postURL += basePage.Request["cht"] != null ? "_CHT" : "";
+                string postURL = GetRequestURL(url, postURL_Init);
 
-                postURL += basePage.Request["line"] != null ? "_LINE" : "";
+                //postURL += basePage.Request["twm"] != null ? "_TWM" : "";
 
-                postURL += basePage.Request["fb"] != null ? "_FB" : "";
+                //postURL += basePage.Request["cht"] != null ? "_CHT" : "";
 
-                postURL += basePage.Request["fbda"] != null ? "_FBDA" : "";
+                //postURL += basePage.Request["line"] != null ? "_LINE" : "";
 
-                postURL += basePage.Request["ig"] != null ? "_IG" : "";
+                //postURL += basePage.Request["fb"] != null ? "_FB" : "";
 
-                postURL += basePage.Request["fetsms"] != null ? "_fetSMS" : "";
+                //postURL += basePage.Request["fbda"] != null ? "_FBDA" : "";
 
-                postURL += basePage.Request["jkos"] != null ? "_JKOS" : "";
+                //postURL += basePage.Request["ig"] != null ? "_IG" : "";
 
-                postURL += basePage.Request["pxpayplues"] != null ? "_PXPAY" : "";
+                //postURL += basePage.Request["fetsms"] != null ? "_fetSMS" : "";
 
-                postURL += basePage.Request["gads"] != null ? "_GADS" : "";
+                //postURL += basePage.Request["jkos"] != null ? "_JKOS" : "";
 
-                postURL += basePage.Request["inda"] != null ? "_INDA" : "";
+                //postURL += basePage.Request["pxpayplues"] != null ? "_PXPAY" : "";
 
-                postURL += basePage.Request["elv"] != null ? "_ELV" : "";
+                //postURL += basePage.Request["gads"] != null ? "_GADS" : "";
+
+                //postURL += basePage.Request["inda"] != null ? "_INDA" : "";
+
+                //postURL += basePage.Request["elv"] != null ? "_ELV" : "";
 
                 int[] count_da_lights = new int[3];
                 bool checkednum_da = true;

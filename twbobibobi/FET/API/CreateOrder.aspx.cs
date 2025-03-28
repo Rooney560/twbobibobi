@@ -471,9 +471,14 @@ namespace Temple.FET.APITEST
                                                         //福祿燈
                                                         count_ty_lights[5] += count_ty;
                                                         break;
+                                                    case "21":
+                                                        //孝親祈福燈
+                                                        //count_ty_lights[7] += count_ty;
+                                                        //checkednum_ty = false;
+                                                        break;
                                                     case "33":
                                                         //智慧燈
-                                                        count_ty_lights[5] += count_ty;
+                                                        count_ty_lights[6] += count_ty;
                                                         break;
                                                 }
                                                 break;
@@ -966,8 +971,20 @@ namespace Temple.FET.APITEST
                                                     //桃園威天宮
                                                     if (checkednum_ty)
                                                     {
-                                                        ApplicantID = addapplicantID_ty_Lights(appName, appMobile, total, appCity, appRegion, appAddr, appzipCode, sendback, reName,
-                                                            reMobile, itemsInfo, productCode, clientOrderNumber, fetOrderNumber, Year, ref Lightslist, ref LightsID, ref OrderID);
+                                                        string LightsType = dtTempleCodeInfo.Rows[0]["TypeID"].ToString();
+                                                        if (LightsType == "21")
+                                                        {
+                                                            //孝親祈福燈
+                                                            ApplicantID = addapplicantID_ty_Lights_mom(appName, appMobile, total, appCity, appRegion, appAddr, appzipCode, sendback, reName, reMobile,
+                                                                applunarBirthday, appleapMonth, applunarBirthTime, appBirth, appemail, itemsInfo, clientOrderNumber, fetOrderNumber, Year,
+                                                                ref Lightslist, ref LightsID, ref OrderID);
+                                                        }
+                                                        else
+                                                        {
+                                                            //一般點燈
+                                                            ApplicantID = addapplicantID_ty_Lights(appName, appMobile, total, appCity, appRegion, appAddr, appzipCode, sendback, reName,
+                                                                reMobile, itemsInfo, productCode, clientOrderNumber, fetOrderNumber, Year, ref Lightslist, ref LightsID, ref OrderID);
+                                                        }
 
                                                         tempList_aid.Add(ApplicantID);
                                                         tempList_lid.Add(LightsID);
@@ -1304,6 +1321,19 @@ namespace Temple.FET.APITEST
                                                 case 32:
                                                     //桃園龍德宮
                                                     ApplicantID = addapplicantID_ld_Lights(appName, appMobile, total, appCity, appRegion, appAddr, appzipCode, sendback, reName,
+                                                        reMobile, itemsInfo, productCode, clientOrderNumber, fetOrderNumber, Year, ref Lightslist, ref LightsID, ref OrderID);
+
+                                                    tempList_aid.Add(ApplicantID);
+                                                    tempList_lid.Add(LightsID);
+                                                    tempList_oid.Add(OrderID);
+
+                                                    ApplicantID_Array = tempList_aid.ToArray();
+                                                    LightsID_Array = tempList_lid.ToArray();
+                                                    OrderID_Array = tempList_oid.ToArray();
+                                                    break;
+                                                case 34:
+                                                    //基隆悟玄宮
+                                                    ApplicantID = addapplicantID_wh_Lights(appName, appMobile, total, appCity, appRegion, appAddr, appzipCode, sendback, reName,
                                                         reMobile, itemsInfo, productCode, clientOrderNumber, fetOrderNumber, Year, ref Lightslist, ref LightsID, ref OrderID);
 
                                                     tempList_aid.Add(ApplicantID);
@@ -6492,7 +6522,7 @@ namespace Temple.FET.APITEST
                             {
                                 if (ApplicantID != 0 && LightsID != 0)
                                 {
-                                    DeleteLightsInfo(AdminID, ApplicantID);
+                                    DeleteLightsInfo(AdminID, 1, ApplicantID);
                                 }
 
                                 if (ApplicantID != 0 && PurdueID != 0)
@@ -8123,6 +8153,209 @@ namespace Temple.FET.APITEST
                             string ChargeType = string.Empty;
                             //更新流水付費表資訊(付費成功)
                             if (objDatabaseHelper.UpdateChargeLog_Lights_ty(OrderID, Tid, msg, Request.UserHostAddress, CallbackLog, Year, ref ChargeType))
+                            {
+                                //if (objSMSHepler.SendMsg_SL(mobile, msg))
+                                //{
+
+                                //    //m2 = m2.IndexOf("aid=") > 0 ? m2 : (m2.IndexOf("?") > 0 ? m2 + "&aid=" + m1 : m2 + "?aid=" + m1 + "&a=" + adminID);
+                                //    m2 = "https://bobibobi.tw/Temples/templeComplete.aspx?kind=1&a=" + adminID + "&aid=" + aid;
+                                //    Response.Redirect(m2, true);
+                                //}
+                                //else
+                                //{
+                                //    Response.Write("<script>alert('傳送簡訊失敗。請聯繫管理員。客服電話：04-36092299。');window.location.href='" + rebackURL + "'</script>");
+                                //}
+                            }
+                            else
+                            {
+                                string encrypt = string.Empty;
+
+                                //JSON寫入到檔案
+                                using (StringWriter sw = new StringWriter())
+                                {
+                                    using (JsonTextWriter writer = new JsonTextWriter(sw))
+                                    {
+                                        //建立物件
+                                        writer.WriteStartObject();
+
+                                        //物件名稱
+                                        writer.WritePropertyName("detail");
+
+                                        using (StringWriter sw2 = new StringWriter())
+                                        {
+                                            using (JsonTextWriter writer2 = new JsonTextWriter(sw2))
+                                            {
+                                                //建立物件
+                                                writer2.WriteStartObject();
+
+                                                writer2.WritePropertyName("orderMsg");
+                                                writer2.WriteValue("fail");
+
+                                                writer2.WritePropertyName("orderStatus");
+                                                writer2.WriteValue("1003");
+
+                                                writer2.WriteEndObject();
+
+                                                encrypt = AESHelper.AesEncrypt(sw2.ToString(), checkedkey);
+                                            }
+                                        }
+
+                                        writer.WriteValue(encrypt);
+
+                                        writer.WritePropertyName("resultCode"); writer.WriteValue("9999");
+
+                                        writer.WriteEndObject();
+
+                                        writer.Flush();
+                                        writer.Close();
+                                        sw.Flush();
+                                        sw.Close();
+
+                                        //輸出結果
+                                        Response.Write(sw.ToString());
+
+                                        SaveRequestLog(Request.Url + sw.ToString());
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+
+            return aid;
+        }
+
+        //桃園威天宮孝親祈福點燈
+        protected int addapplicantID_ty_Lights_mom(string appName, string appMobile, string total, string appCity, string appRegion, string appAddr, string appZipCode, string sendback,
+            string reName, string reMobile, string appBirth, string appLeapMonth, string appBirthTime, string appsBirth, string appEmail, JArray itemsInfo, string Tid,
+            string fetOrderNumber, string Year, ref string[] Lightslist, ref int LightsID, ref string OrderID)
+        {
+            int aid = 0;
+            int adminID = 14;
+            LightDAC objLightDAC = new LightDAC(this);
+            string postURL = "Lights_ty_mom_Index_FETAPI";
+            TimeZoneInfo info = TimeZoneInfo.FindSystemTimeZoneById("Taipei Standard Time");
+            DateTime dtNow = TimeZoneInfo.ConvertTime(DateTime.Now, info);
+
+            string AppBirth = string.Empty;
+            string AppsBirth = string.Empty;
+            string appbirth = appBirth;
+            string appsbirth = appsBirth;
+            string appbirthMonth = "0";
+            string appage = "0";
+            string appZodiac = string.Empty;
+
+            GetBirthInfo_FET(appbirth, appsbirth, ref AppBirth, ref AppsBirth, ref appbirthMonth, ref appage, ref appZodiac);
+
+            appbirthMonth = CheckedDateZero(appbirthMonth, 1);
+
+            aid = objLightDAC.addapplicantinfo_lights_ty_mom(appName, appMobile, AppBirth, appLeapMonth, appBirthTime, appbirthMonth, appage, appZodiac, AppsBirth, total,
+                appEmail, appZipCode, appCity, appRegion, appAddr, sendback, reName, reMobile, 2, adminID.ToString(), postURL, Year);
+            if (aid > 0)
+            {
+                int count = 0;
+                int cost = 0;
+
+                foreach (var item in itemsInfo)
+                {
+                    //int.TryParse(item["qty"].ToString(), out count);                                                                                        //數量/普品數量
+                    count = 1;
+                    int.TryParse(item["unitPrice"].ToString(), out cost);
+                    string productCode = item["productCode"].ToString();
+
+                    DataTable dtTempleCodeInfo = objLightDAC.GetTempleCodeInfo(productCode);
+                    if (dtTempleCodeInfo.Rows.Count > 0)
+                    {
+                        string LightsString = dtTempleCodeInfo.Rows[0]["TypeString"].ToString();
+                        string LightsType = dtTempleCodeInfo.Rows[0]["TypeID"].ToString();
+
+                        JArray prayedPerson = (JArray)item["prayedPerson"];
+                        foreach (var item2 in prayedPerson)
+                        {
+                            string name = item2["name"].ToString();                                                                                         //被祈福者姓名 / 飼主姓名
+                            //string mobile = appMobile;
+                            string mobile = item2["msisdn"] != null ? item2["msisdn"].ToString() : appMobile;                                               //祈福者電話                                                                                     //祈福者電話
+                            string gender = item2["gender"] != null ? (item2["gender"].ToString() == "F" ? "信女" : "善男") : "善男";                       //性別 M: 男 F: 女
+                            string birthday = item2["birthday"] != null ? item2["birthday"].ToString() : "";                                                //國曆生日 YYYMMDD (民國年/國曆月/國曆日)
+                            string lunarBirthday = item2["lunarBirthday"] != null ? item2["lunarBirthday"].ToString() : "";                                 //農曆生日 YYYMMDD (民國年/農曆月/農曆日)
+                            string leapMonth = item2["leapMonth"] != null ? item2["leapMonth"].ToString() : "N";                                            //是否為閏月 Y: 是 N: 否
+                            string birthTime = item2["lunarBirthTime"] != null ? item2["lunarBirthTime"].ToString() : "吉";                                 //農曆時辰 子、丑、寅…亥 未確認時辰用戶可選吉時
+                            string oversea = item2["oversea"] != null ? item2["oversea"].ToString() : "1";                                                  //1: 國內 2: 國外
+                            string city = string.Empty;                                                                                                     //縣/市, 國內地址必填
+                            string region = string.Empty;                                                                                                   //地區, 國內地址必填
+                            string addr = item2["address"].ToString();                                                                                      //部分地址
+                            string zipCode = item2["zipCode"] != null ? item2["zipCode"].ToString() : "0";                                                  //郵遞區號, 國內地址必填
+
+                            if (oversea == "1")
+                            {
+                                city = item2["city"].ToString();
+                                region = item2["region"].ToString();
+                            }
+                            else
+                            {
+                                if (item2["city"] != null)
+                                {
+                                    city = item2["city"].ToString();
+                                }
+                                if (item2["region"] != null)
+                                {
+                                    region = item2["region"].ToString();
+                                }
+                            }
+
+                            string name2 = item2["additionalName"] != null ? item2["additionalName"].ToString() : "";                                       //附加祈福人姓名（祈福者 2）
+                            string homeNum = item2["phone"] != null ? item2["phone"].ToString() : "";                                                       //市話
+                            string email = item2["email"] != null ? item2["email"].ToString() : "";                                                         //Email
+                            string companyName = item2["companyName"] != null ? item2["companyName"].ToString() : "";                                       //公司行號名稱
+
+                            string Birth = string.Empty;
+                            string sBirth = string.Empty;
+                            string birth = lunarBirthday;
+                            string sbirth = birthday;
+                            string birthMonth = "0";
+                            string age = "0";
+                            string Zodiac = string.Empty;
+
+                            GetBirthInfo_FET(birth, sbirth, ref Birth, ref sBirth, ref birthMonth, ref age, ref Zodiac);
+
+                            birthMonth = CheckedDateZero(birthMonth, 1);
+
+                            LightsID = objLightDAC.addLights_ty_mom(aid, name, mobile, gender, LightsType, LightsString, oversea, Birth, leapMonth, birthTime, birthMonth,
+                                age, Zodiac, sBirth, email, 1, "", addr, city, region, zipCode, Year);
+                        }
+                    }
+                }
+
+                if (LightsID > 0)
+                {
+                    BCFBaseLibrary.Web.BasePage basePage = new BCFBaseLibrary.Web.BasePage();
+                    DatabaseHelper objDatabaseHelper = new DatabaseHelper(basePage);
+                    OrderID = dtNow.ToString("yyyyMMddHHmmssfff");
+                    string CallbackLog = Tid + "," + fetOrderNumber;
+                    string[] lightslist = new string[0];
+
+                    long id = objDatabaseHelper.AddChargeLog_Lights_ty_mom(OrderID, aid, int.Parse(total), "FETAPI", 0, itemsInfo.ToString(), "", fetOrderNumber, Request.UserHostAddress, Year);
+
+                    DataTable dtCharge = objDatabaseHelper.GetChargeLog_Lights_ty_mom(OrderID, Year);
+                    if (dtCharge.Rows.Count > 0)
+                    {
+                        if ((int)dtCharge.Rows[0]["Status"] == 0)
+                        {
+                            int LightsType = 21;
+
+                            string msg = "感謝購買,已成功付款" + cost + "元,您的訂單編號 ";
+
+                            //更新點燈資料表並取得訂單編號
+                            objDatabaseHelper.UpdateLights_ty_mom_Info(aid, LightsType, Year, ref msg, ref lightslist, ref Lightslist);
+
+                            //msg = "感謝大德參與線上點燈,茲收您1960元功德金,訂單編號 光明燈:T2204, 安太歲:25351, 文昌燈:六1214。";
+                            //mobile = "0903002568";
+
+                            SMSHepler objSMSHepler = new SMSHepler();
+                            string ChargeType = string.Empty;
+                            //更新流水付費表資訊(付費成功)
+                            if (objDatabaseHelper.UpdateChargeLog_Lights_ty_mom(OrderID, Tid, msg, Request.UserHostAddress, CallbackLog, Year, ref ChargeType))
                             {
                                 //if (objSMSHepler.SendMsg_SL(mobile, msg))
                                 //{
@@ -10147,6 +10380,294 @@ namespace Temple.FET.APITEST
 
             return aid;
         }
+
+        //基隆悟玄宮
+        protected int addapplicantID_wh_Lights(string appName, string appMobile, string total, string appCity, string appRegion, string appAddr, string appZipCode, string sendback,
+            string reName, string reMobile, JArray itemsInfo, string productCode, string Tid, string fetOrderNumber, string Year, ref string[] Lightslist, ref int LightsID,
+            ref string OrderID)
+        {
+            int aid = 0;
+            int adminID = 34;
+            LightDAC objLightDAC = new LightDAC(this);
+            string postURL = "Lights_wh_Index_FETAPI";
+            TimeZoneInfo info = TimeZoneInfo.FindSystemTimeZoneById("Taipei Standard Time");
+            DateTime dtNow = TimeZoneInfo.ConvertTime(DateTime.Now, info);
+
+            aid = objLightDAC.addapplicantinfo_lights_wh(appName, appMobile, total, appCity, appRegion, appAddr, appZipCode, sendback, reName, reMobile, 2, adminID.ToString(),
+                postURL, Year);
+            if (aid > 0)
+            {
+                int count = 0;
+                int cost = 0;
+
+                foreach (var item in itemsInfo)
+                {
+                    if (productCode == item["productCode"].ToString())
+                    {
+                        //int.TryParse(item["qty"].ToString(), out count);
+                        count = 1;
+                        int.TryParse(item["unitPrice"].ToString(), out cost);
+
+                        DataTable dtTempleCodeInfo = objLightDAC.GetTempleCodeInfo(productCode);
+                        if (dtTempleCodeInfo.Rows.Count > 0)
+                        {
+                            string LightsString = dtTempleCodeInfo.Rows[0]["TypeString"].ToString();
+                            string LightsType = dtTempleCodeInfo.Rows[0]["TypeID"].ToString();
+
+                            JArray prayedPerson = (JArray)item["prayedPerson"];
+                            foreach (var item2 in prayedPerson)
+                            {
+                                string name = item2["name"].ToString();                                                                                         //被祈福者姓名 / 飼主姓名
+                                                                                                                                                                //string mobile = appMobile;
+                                string mobile = item2["msisdn"] != null ? item2["msisdn"].ToString() : appMobile;                                               //祈福者電話                                                                                     //祈福者電話
+                                string gender = item2["gender"] != null ? (item2["gender"].ToString() == "F" ? "信女" : "善男") : "善男";                       //性別 M: 男 F: 女
+                                string birthday = item2["birthday"] != null ? item2["birthday"].ToString() : "";                                                //國曆生日 YYYMMDD (民國年/國曆月/國曆日)
+                                string lunarBirthday = item2["lunarBirthday"] != null ? item2["lunarBirthday"].ToString() : "";                                 //農曆生日 YYYMMDD (民國年/農曆月/農曆日)
+                                string leapMonth = item2["leapMonth"] != null ? item2["leapMonth"].ToString() : "N";                                            //是否為閏月 Y: 是 N: 否
+                                string birthTime = item2["lunarBirthTime"] != null ? item2["lunarBirthTime"].ToString() : "吉";                                 //農曆時辰 子、丑、寅…亥 未確認時辰用戶可選吉時
+                                string oversea = item2["oversea"] != null ? item2["oversea"].ToString() : "1";                                                  //1: 國內 2: 國外
+                                string city = string.Empty;                                                                                                     //縣/市, 國內地址必填
+                                string region = string.Empty;                                                                                                   //地區, 國內地址必填
+                                string addr = item2["address"].ToString();                                                                                      //部分地址
+                                string zipCode = item2["zipCode"] != null ? item2["zipCode"].ToString() : "0";                                                  //郵遞區號, 國內地址必填
+                                if (oversea == "1")
+                                {
+                                    city = item2["city"].ToString();
+                                    region = item2["region"].ToString();
+                                }
+                                else
+                                {
+                                    if (item2["city"] != null)
+                                    {
+                                        city = item2["city"].ToString();
+                                    }
+                                    if (item2["region"] != null)
+                                    {
+                                        region = item2["region"].ToString();
+                                    }
+                                }
+
+                                string name2 = item2["additionalName"] != null ? item2["additionalName"].ToString() : "";                                       //附加祈福人姓名（祈福者 2）
+                                string homeNum = item2["phone"] != null ? item2["phone"].ToString() : "";                                                       //市話
+                                string email = item2["email"] != null ? item2["email"].ToString() : "";                                                         //Email
+                                string companyName = item2["companyName"] != null ? item2["companyName"].ToString() : "";                                       //公司行號名稱
+                                string dName = item2["deceasedName"] != null ? item2["deceasedName"].ToString() : "";                                           //祖先姓氏/亡者姓名 (超拔法會類型時必填)
+                                string dBirthType = item2["deceasedBirthRocEra"] != null ? item2["deceasedBirthRocEra"].ToString() : "";                        //祖先/亡者民國生日紀元 0：民國前 1：民國  001MMDD 1912 為民國 1 年 或 1910 為民國前 1 年
+                                string dBirthday = item2["deceasedBirthday"] != null ? item2["deceasedBirthday"].ToString() : "";                               //祖先/亡者國曆生日 YYYMMDD (民國年/國曆月/國曆日)
+                                string dLunarBirthday = item2["deceasedLunarBirthday"] != null ? item2["deceasedLunarBirthday"].ToString() : "";                //祖先/亡者農曆生日 YYYMMDD (民國年/農曆月/農曆日)
+                                string dLeapMonth = item2["deceasedBirthdayLeapMonth"] != null ? item2["deceasedBirthdayLeapMonth"].ToString() : "N";           //祖先/亡者農曆生日是否為閏月 Y: 是 N: 否
+                                string dBirthTime = item2["deceasedLunarBirthTime"] != null ? item2["deceasedLunarBirthTime"].ToString() : "吉";                //祖先/亡者農曆時辰 子、丑、寅…亥 未確認時辰用戶可選吉時
+                                string dDoDType = item2["deceasedDoDRocEra"] != null ? item2["deceasedDoDRocEra"].ToString() : "";                               //祖先/亡者死亡日期紀元 0：民國前 1：民國  001MMDD 1912 為民國 1 年 或 1910 為民國前 1 年
+                                string dDoD = item2["deceasedDoD"] != null ? item2["deceasedDoD"].ToString() : "";                                              //祖先/亡者死亡日期 YYYMMDD (民國年/國曆月/國曆日)
+                                string dLunarDoD = item2["deceasedLunarDoD"] != null ? item2["deceasedLunarDoD"].ToString() : "";                               //祖先/亡者死亡農曆日期 YYYMMDD (民國年/農曆月/農曆日)
+                                string dDoDLeapMonth = item2["deceasedDoDLeepMonth"] != null ? item2["deceasedDoDLeepMonth"].ToString() : "N";                  //祖先/亡者死亡農曆日期是否為閏月 Y: 是 N: 否
+                                string dZipCode = item2["deceasedZipCode"] != null ? item2["deceasedZipCode"].ToString() : "0";                                 //祖先/亡者/牌位 郵遞區號
+                                string dCity = item2["deceasedCity"] != null ? item2["deceasedCity"].ToString() : "";                                           //祖先/亡者/牌位 縣/市
+                                string dRegion = item2["deceasedRegion"] != null ? item2["deceasedRegion"].ToString() : "";                                     //祖先/亡者/牌位 地區
+                                string dAddr = item2["deceasedAddress"] != null ? item2["deceasedAddress"].ToString() : "";                                     //祖先/亡者/牌位 部分地址
+
+                                string additionalOffering = item2["additionalOffering"] != null ? item2["additionalOffering"].ToString() : "N";                 //加購普品 Y: 是 N: 否
+                                string offeringQty = item2["offeringQty"] != null ? item2["offeringQty"].ToString() : "0";                                      //加購普品數量
+                                string additionalOfferingCost = item2["additionalOfferingPrice"] != null ? item2["additionalOfferingPrice"].ToString() : "0";   //加購普品單價
+                                string jossMoneyQty = item2["jossMoneyQty"] != null ? item2["jossMoneyQty"].ToString() : "0";                                   //加購金紙數量
+                                string jossMoneyPrice = item2["jossMoneyPrice"] != null ? item2["jossMoneyPrice"].ToString() : "0";                             //加購金紙單價
+
+                                string remark = item2["remark"] != null ? item2["remark"].ToString() : "";                                                      //備註
+
+                                string Birth = string.Empty;
+                                string birthMonth = string.Empty;
+                                string age = string.Empty;
+                                string Zodiac = string.Empty;
+                                string lyear = string.Empty;
+                                string year = string.Empty;
+                                string month = string.Empty;
+                                string day = string.Empty;
+
+                                string sBirth = string.Empty;
+                                string syear = string.Empty;
+                                string smonth = string.Empty;
+                                string sday = string.Empty;
+
+                                string birth = lunarBirthday;
+                                if (birth.Length == 7)
+                                {
+                                    lyear = birth.Substring(0, 3);
+                                    year = (int.Parse(birth.Substring(0, 3)) + 1911).ToString();
+                                    month = birthMonth = birth.Substring(3, 2);
+                                    day = birth.Substring(5, 2);
+
+                                    string b = year + "-" + month + "-" + day;
+                                    LunarSolarConverter.shuxiang(int.Parse(year), ref Zodiac);
+                                    DateTime lunarBirth;
+                                    DateTime solorBirth;
+                                    if (DateTime.TryParse(b, out lunarBirth))
+                                    {
+                                        //age = GetAge(DateTime.Parse(b), dtNow);
+
+                                        age = GetAge(int.Parse(year), int.Parse(month), int.Parse(day)).ToString();
+                                    }
+                                    else
+                                    {
+                                        birth = birthday;
+                                        if (birth.Length == 7)
+                                        {
+                                            syear = birth.Substring(0, 3);
+                                            year = (int.Parse(birth.Substring(0, 3)) + 1911).ToString();
+                                            smonth = birthMonth = birth.Substring(3, 2);
+                                            sday = birth.Substring(5, 2);
+
+                                            b = year + "-" + smonth + "-" + sday;
+                                            LunarSolarConverter.shuxiang(int.Parse(year), ref Zodiac);
+                                            if (DateTime.TryParse(b, out solorBirth))
+                                            {
+                                                //age = GetAge(DateTime.Parse(b), dtNow);
+
+                                                age = GetAge(int.Parse(year), int.Parse(smonth), int.Parse(sday)).ToString();
+                                            }
+                                        }
+                                    }
+                                }
+
+                                string sbirth = birthday;
+                                if (sbirth.Length == 7)
+                                {
+                                    syear = sbirth.Substring(0, 3);
+                                    year = (int.Parse(sbirth.Substring(0, 3)) + 1911).ToString();
+                                    smonth = sbirth.Substring(3, 2);
+                                    sday = sbirth.Substring(5, 2);
+
+                                    //b = year + "-" + smonth + "-" + sday;
+                                    //if (DateTime.TryParse(b, out solorBirth))
+                                    //{
+                                    //    //age = GetAge(DateTime.Parse(b), dtNow);
+
+                                    //    age = GetAge(int.Parse(year), int.Parse(smonth), int.Parse(sday)).ToString();
+                                    //}
+                                }
+
+                                int l = 0, s = 0;
+                                int.TryParse(lyear, out l);
+                                int.TryParse(syear, out s);
+
+                                if (lyear != "" && month != "" && day != "")
+                                {
+                                    Birth = "民國" + (l > 0 ? l.ToString() : lyear) + "年" + month + "月" + day + "日";
+                                }
+                                if (syear != "" && smonth != "" && sday != "")
+                                {
+                                    sBirth = "民國" + (s > 0 ? s.ToString() : syear) + "年" + smonth + "月" + sday + "日";
+                                }
+
+                                LightsID = objLightDAC.addLights_wh(aid, name, mobile, gender, LightsType, LightsString, oversea, Birth, leapMonth, birthTime, birthMonth, age,
+                                    Zodiac, sBirth, "", count, addr, city, region, zipCode, Year);
+                            }
+                        }
+                    }
+                }
+
+                if (LightsID > 0)
+                {
+                    BCFBaseLibrary.Web.BasePage basePage = new BCFBaseLibrary.Web.BasePage();
+                    DatabaseHelper objDatabaseHelper = new DatabaseHelper(basePage);
+                    OrderID = dtNow.ToString("yyyyMMddHHmmssfff");
+                    string CallbackLog = Tid + "," + fetOrderNumber;
+                    string[] lightslist = new string[0];
+
+                    long id = objDatabaseHelper.AddChargeLog_Lights_wh(OrderID, aid, int.Parse(total), "FETAPI", 0, itemsInfo.ToString(), "", fetOrderNumber,
+                        Request.UserHostAddress, Year);
+
+                    DataTable dtCharge = objDatabaseHelper.GetChargeLog_Lights_wh(OrderID, Year);
+                    if (dtCharge.Rows.Count > 0)
+                    {
+                        if ((int)dtCharge.Rows[0]["Status"] == 0)
+                        {
+                            int LightsType = objDatabaseHelper.GetLightsType_wh(aid, Year);
+
+                            string msg = "感謝購買,已成功付款" + cost + "元,您的訂單編號 ";
+
+                            //更新點燈資料表並取得訂單編號
+                            objDatabaseHelper.UpdateLights_wh_Info(aid, LightsType, Year, ref msg, ref lightslist, ref Lightslist);
+
+                            //msg = "感謝大德參與線上點燈,茲收您1960元功德金,訂單編號 光明燈:T2204, 安太歲:25351, 文昌燈:六1214。";
+                            //mobile = "0903002568";
+
+                            SMSHepler objSMSHepler = new SMSHepler();
+                            string ChargeType = string.Empty;
+                            //更新流水付費表資訊(付費成功)
+                            if (objDatabaseHelper.UpdateChargeLog_Lights_wh(OrderID, Tid, msg, Request.UserHostAddress, CallbackLog, Year, ref ChargeType))
+                            {
+                                //if (objSMSHepler.SendMsg_SL(mobile, msg))
+                                //{
+
+                                //    //m2 = m2.IndexOf("aid=") > 0 ? m2 : (m2.IndexOf("?") > 0 ? m2 + "&aid=" + m1 : m2 + "?aid=" + m1 + "&a=" + adminID);
+                                //    m2 = "https://bobibobi.tw/Temples/templeComplete.aspx?kind=1&a=" + adminID + "&aid=" + aid;
+                                //    Response.Redirect(m2, true);
+                                //}
+                                //else
+                                //{
+                                //    Response.Write("<script>alert('傳送簡訊失敗。請聯繫管理員。客服電話：04-36092299。');window.location.href='" + rebackURL + "'</script>");
+                                //}
+                            }
+                            else
+                            {
+                                string encrypt = string.Empty;
+
+                                //JSON寫入到檔案
+                                using (StringWriter sw = new StringWriter())
+                                {
+                                    using (JsonTextWriter writer = new JsonTextWriter(sw))
+                                    {
+                                        //建立物件
+                                        writer.WriteStartObject();
+
+                                        //物件名稱
+                                        writer.WritePropertyName("detail");
+
+                                        using (StringWriter sw2 = new StringWriter())
+                                        {
+                                            using (JsonTextWriter writer2 = new JsonTextWriter(sw2))
+                                            {
+                                                //建立物件
+                                                writer2.WriteStartObject();
+
+                                                writer2.WritePropertyName("orderMsg");
+                                                writer2.WriteValue("fail");
+
+                                                writer2.WritePropertyName("orderStatus");
+                                                writer2.WriteValue("1003");
+
+                                                writer2.WriteEndObject();
+
+                                                encrypt = AESHelper.AesEncrypt(sw2.ToString(), checkedkey);
+                                            }
+                                        }
+
+                                        writer.WriteValue(encrypt);
+
+                                        writer.WritePropertyName("resultCode"); writer.WriteValue("9999");
+
+                                        writer.WriteEndObject();
+
+                                        writer.Flush();
+                                        writer.Close();
+                                        sw.Flush();
+                                        sw.Close();
+
+                                        //輸出結果
+                                        Response.Write(sw.ToString());
+
+                                        SaveRequestLog(Request.Url + sw.ToString());
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+
+            return aid;
+        }
+
 
 
         //大甲鎮瀾宮普度
@@ -17742,15 +18263,15 @@ namespace Temple.FET.APITEST
 
 
 
-        protected void DeleteLightsInfo(int AdminID, int ApplicantID)
+        protected void DeleteLightsInfo(int AdminID, int type, int ApplicantID)
         {
             TimeZoneInfo info = TimeZoneInfo.FindSystemTimeZoneById("Taipei Standard Time");
             DateTime dtNow = TimeZoneInfo.ConvertTime(DateTime.Now, info);
             AdminDAC objAdminDAC = new AdminDAC(this);
 
-            if (objAdminDAC.Updatestatus2applicantinfo(ApplicantID, -1, AdminID.ToString(), "1", dtNow.Year.ToString()))
+            if (objAdminDAC.Updatestatus2applicantinfo(ApplicantID, -1, AdminID.ToString(), "1", type, dtNow.Year.ToString()))
             {
-                if (objAdminDAC.DeleteLightsinfo(ApplicantID, AdminID.ToString(), dtNow.Year.ToString()))
+                if (objAdminDAC.DeleteLightsinfo(ApplicantID, AdminID.ToString(), type, dtNow.Year.ToString()))
                 {
                 }
             }
@@ -17762,7 +18283,7 @@ namespace Temple.FET.APITEST
             DateTime dtNow = TimeZoneInfo.ConvertTime(DateTime.Now, info);
             AdminDAC objAdminDAC = new AdminDAC(this);
 
-            if (objAdminDAC.Updatestatus2applicantinfo(ApplicantID, -1, AdminID.ToString(), "2", dtNow.Year.ToString()))
+            if (objAdminDAC.Updatestatus2applicantinfo(ApplicantID, -1, AdminID.ToString(), "2", 1, dtNow.Year.ToString()))
             {
                 if (objAdminDAC.DeletePurdueinfo(ApplicantID, AdminID.ToString(), dtNow.Year.ToString()))
                 {
@@ -17776,7 +18297,7 @@ namespace Temple.FET.APITEST
             DateTime dtNow = TimeZoneInfo.ConvertTime(DateTime.Now, info);
             AdminDAC objAdminDAC = new AdminDAC(this);
 
-            if (objAdminDAC.Updatestatus2applicantinfo(ApplicantID, -1, AdminID.ToString(), "3", dtNow.Year.ToString()))
+            if (objAdminDAC.Updatestatus2applicantinfo(ApplicantID, -1, AdminID.ToString(), "3", 1, dtNow.Year.ToString()))
             {
                 if (objAdminDAC.DeleteProductNum(ApplicantID, AdminID.ToString(), "-1", dtNow.Year.ToString()))
                 {
@@ -17790,7 +18311,7 @@ namespace Temple.FET.APITEST
             DateTime dtNow = TimeZoneInfo.ConvertTime(DateTime.Now, info);
             AdminDAC objAdminDAC = new AdminDAC(this);
 
-            if (objAdminDAC.Updatestatus2applicantinfo(ApplicantID, -1, AdminID.ToString(), SuppliesType.ToString(), dtNow.Year.ToString()))
+            if (objAdminDAC.Updatestatus2applicantinfo(ApplicantID, -1, AdminID.ToString(), SuppliesType.ToString(), 1, dtNow.Year.ToString()))
             {
                 if (objAdminDAC.DeleteSuppliesNum(ApplicantID, AdminID.ToString(), SuppliesType, dtNow.Year.ToString()))
                 {
@@ -17804,7 +18325,7 @@ namespace Temple.FET.APITEST
             DateTime dtNow = TimeZoneInfo.ConvertTime(DateTime.Now, info);
             AdminDAC objAdminDAC = new AdminDAC(this);
 
-            if (objAdminDAC.Updatestatus2applicantinfo(ApplicantID, -1, AdminID.ToString(), "10", dtNow.Year.ToString()))
+            if (objAdminDAC.Updatestatus2applicantinfo(ApplicantID, -1, AdminID.ToString(), "10", 1, dtNow.Year.ToString()))
             {
                 if (objAdminDAC.DeleteBPONum(ApplicantID, AdminID.ToString(), dtNow.Year.ToString()))
                 {
@@ -17818,7 +18339,7 @@ namespace Temple.FET.APITEST
             DateTime dtNow = TimeZoneInfo.ConvertTime(DateTime.Now, info);
             AdminDAC objAdminDAC = new AdminDAC(this);
 
-            if (objAdminDAC.Updatestatus2applicantinfo(ApplicantID, -1, AdminID.ToString(), "12", dtNow.Year.ToString()))
+            if (objAdminDAC.Updatestatus2applicantinfo(ApplicantID, -1, AdminID.ToString(), "12", 1, dtNow.Year.ToString()))
             {
                 if (objAdminDAC.DeleteLingbaolidouNum(ApplicantID, AdminID.ToString(), dtNow.Year.ToString()))
                 {
@@ -17832,7 +18353,7 @@ namespace Temple.FET.APITEST
             DateTime dtNow = TimeZoneInfo.ConvertTime(DateTime.Now, info);
             AdminDAC objAdminDAC = new AdminDAC(this);
 
-            if (objAdminDAC.Updatestatus2applicantinfo(ApplicantID, -1, AdminID.ToString(), "12", dtNow.Year.ToString()))
+            if (objAdminDAC.Updatestatus2applicantinfo(ApplicantID, -1, AdminID.ToString(), "12", 1, dtNow.Year.ToString()))
             {
                 if (objAdminDAC.DeleteTaoistJiaoCeremonyNum(ApplicantID, AdminID.ToString(), dtNow.Year.ToString()))
                 {

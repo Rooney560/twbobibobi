@@ -99,6 +99,10 @@
             margin-bottom: -5px;
         }
 
+        .FormInput p {
+            font-size: 1vw;
+        }
+
         @media only screen and (max-width: 720px) {
             .RecAddress > div:first-child {
                 width: 20%;
@@ -128,6 +132,10 @@
                 width: 100%;
                 text-align: left;
                 margin-bottom: 1%;
+            }
+
+            .FormInput p {
+                font-size: 3.8vw;
             }
         }
     </style>
@@ -239,12 +247,12 @@
                             <h2>補財庫有分正財與偏財</h2>
                         </div>
                         <div class="">
-                            <p style="color: forestgreen; font-weight: bold;">正財：</p>
-                            <p>穩健踏實，適合長期累積，需要付出努力才能獲得回報，穩定但成長較慢，適合長期規劃，依靠專業能力、實力與責任感累積財富</p>
+                            <p style="color: forestgreen; font-weight: bold;">補（正）財庫：</p>
+                            <p>正財是指：需要用時間勞力工作換取之財。例如每月固定薪水收入，或是認真努力經營事業，都需要補正財庫。使用正財符令來開啟你的正財運，想要事業鴻圖大展，生意興隆，財源廣進，每月都一定要補正財庫，讓你正財運亨通，財源滾滾而來。</p>
                         </div>
                         <div class="">
-                            <p style="color: forestgreen; font-weight: bold;">偏財：</p>
-                            <p>機會財、意外之財，變動快，收入不穩定但回報高，需要眼光、膽識、運氣加持，風險高，但若運氣好，能快速累積財富</p>
+                            <p style="color: forestgreen; font-weight: bold;">補（偏）財庫：</p>
+                            <p>偏財是指：不用靠勞力工作而得之財。例如：一夕暴富，意外之財，彩券，股市，娛樂業，八大行業，都需要補偏財庫。使用偏財符令來開啟你的偏財運，想要輕鬆進財，每月都一定要補偏財庫，讓你偏財運亨通，八方進財，財富滾滾而來。</p>
                         </div>
                         <br />
 
@@ -254,6 +262,8 @@
 
                         <br />
                         <uc3:SocialMedia runat="server" ID="SocialMedia" />
+                        <br />
+                        <p style="color: red;">( 加入官方LINE好友 , 並傳訊息提供購買人電話+訂單編號,小幫手會將 補財庫疏文照片傳給您。)</p>
                     </div>
                 </div>
                 <div class="OrderForm">
@@ -283,7 +293,9 @@
                                 <div class="DeletData"><a href="javascript:;" class="deletList" title="刪除">
                                     <img src="images/deletData.svg" alt="" /></a></div>
                                 <div class="FormTitle_B">祈福人<span></span></div>
-                                <div>（祈福人限填一位，每個補財庫對應一位祈福人。如需多位，請點選增加祈福人。）</div>
+                                <div class="FormInput">
+                                    <p>（祈福人限填一位，每個補財庫對應一位祈福人。如需多位，請點選增加祈福人。）</p>
+                                </div>
                                 <div class="FormInput select">
                                     <label>活動項目</label>
                                     <select name="bless_service_1" class="required" id="bless_service_1">

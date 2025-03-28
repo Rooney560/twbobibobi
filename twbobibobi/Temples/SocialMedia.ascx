@@ -1,7 +1,18 @@
 ﻿<%@ Control Language="C#" AutoEventWireup="true" CodeBehind="SocialMedia.ascx.cs" Inherits="twbobibobi.Temples.SocialMedia" %>
 
+<style>
+    .socialmedia a {
+        font-size: 1vw;
+    }
 
-<p>
+    @media only screen and (max-width: 720px) {
+        .socialmedia a {
+            font-size: 5vw;
+        }
+    }
+</style>
+
+<p class="socialmedia">
     <a href="https://yun30.pse.is/6eabyl" target="_blank">FB粉絲募集中！現在只要在保必保庇粉絲團按讚+分享，截圖並私訊小編，就可獲得錢母小紅包！
                                 <img src="https://bobibobi.tw/Temples/images/community_icon_01.png" style="width: 36px; display: inline;" width="45" height="45" alt="" /></a>
     <br />

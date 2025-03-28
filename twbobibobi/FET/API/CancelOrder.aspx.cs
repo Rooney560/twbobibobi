@@ -142,6 +142,7 @@ namespace Temple.FET.APITEST
                     string AdminID = string.Empty;
                     string kind = string.Empty;
                     bool checkeddata = true;
+                    int type = 1;
 
                     while (dtData.Rows.Count > 0 || checkeddata)
                     {
@@ -165,12 +166,22 @@ namespace Temple.FET.APITEST
                                     Year = "TEST";
                                 }
 
-                                dtData = objLightDAC.Getappcharge(clientOrderNumber, adminID, j.ToString(), Year);
+                                dtData = objLightDAC.Getappcharge(clientOrderNumber, adminID, j.ToString(), type, Year);
 
                                 if (dtData.Rows.Count > 0)
                                 {
                                     kind = j.ToString();
                                     break;
+                                }
+                                else if (j == 1 && adminID == "14")
+                                {
+                                    type = 2;
+                                    dtData = objLightDAC.Getappcharge(clientOrderNumber, adminID, j.ToString(), type, Year);
+                                    if (dtData.Rows.Count > 0)
+                                    {
+                                        kind = j.ToString();
+                                        break;
+                                    }
                                 }
                             }
 
@@ -193,7 +204,7 @@ namespace Temple.FET.APITEST
                                 {
                                     Year = "TEST";
                                 }
-                                dtData = objLightDAC.Getappcharge(clientOrderNumber, adminID, "3", Year);
+                                dtData = objLightDAC.Getappcharge(clientOrderNumber, adminID, "3", type, Year);
 
                                 if (dtData.Rows.Count > 0)
                                 {
@@ -227,7 +238,7 @@ namespace Temple.FET.APITEST
                             }
                             else
                             {
-                                checkeddata = objAdminDAC.Updatestatus2appcharge(int.Parse(dtData.Rows[0]["UniqueID"].ToString()), -2, adminID, kind, Year);
+                                checkeddata = objAdminDAC.Updatestatus2appcharge(int.Parse(dtData.Rows[0]["UniqueID"].ToString()), -2, adminID, kind, type, Year);
                                 //if (objAdminDAC.Updatestatus2appcharge(int.Parse(dtData.Rows[0]["UniqueID"].ToString()), -2, adminID, kind, Year))
                                 //{
                                 //    //JSON寫入到檔案

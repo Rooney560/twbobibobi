@@ -345,7 +345,7 @@ namespace Temple.Temples
                             typeString = " 2025天官武財神聖誕補財庫";
                             title = "北港武德宮";
                             GetStateContentlist_wu(adminID, ApplicantID, kind, Year);           //購買人資料列表
-                            EndDate = "2025/04/06 23:59";
+                            EndDate = "2025/03/24 23:59";
                             break;
                         case 6:
                             //企業補財庫

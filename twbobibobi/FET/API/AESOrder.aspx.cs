@@ -28,7 +28,16 @@ namespace Temple.FET.API
     {
         protected void Page_Load(object sender, EventArgs e)
         {
+            var sr = new StreamReader(Request.InputStream);//读取流
+            string URL = Request.Url.Authority;
+            string checkedkey = "shh#upsu6lyoeBkx";
 
+            var stream = sr.ReadToEnd();//读取所有数据
+            if (stream != "")
+            {
+                string decrypt2 = AESHelper.AesEncrypt(stream, checkedkey);
+                Response.Write(decrypt2);
+            }
         }
 
         protected void Button1_Click(object sender, EventArgs e)

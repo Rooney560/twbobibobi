@@ -52,7 +52,7 @@ namespace Temple.Temples
             string[] lights_wjsan = { "台灣道教總廟無極三清總道院", "2024/11/01 00:00", "2025/03/15 23:59", "templeService_lights_wjsan.aspx" };
 
             string[] supplies_wu = { "北港武德宮", "2023/10/15 00:00", "2023/11/21 23:59", "templeService_supplies.aspx" };
-            string[] supplies_wu2 = { "北港武德宮", "2025/03/07 00:00", "2025/04/06 23:59", "templeService_supplies2.aspx" };
+            string[] supplies_wu2 = { "北港武德宮", "2025/03/07 00:00", "2025/03/24 23:59", "templeService_supplies2.aspx" };
             string[] supplies_wu3 = { "北港武德宮", "0", "0", "templeService_supplies3.aspx" };
             string[] supplies_ty = { "桃園威天宮", "2025/02/18 00:00", "2025/03/06 23:59", "templeService_supplies_ty.aspx" };
             string[] supplies_Fw = { "斗六五路財神宮", "0", "0", "templeService_supplies_Fw.aspx" };
