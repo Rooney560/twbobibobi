@@ -81,6 +81,11 @@
             width: 12px;
             margin-left: 5px;
         }
+        
+        .FormInput label.emailalert {
+            display: inline-block;
+        }
+
         @media only screen and (max-width: 720px) {
             .RecAddress > div:first-child {
                 width: 20%;
@@ -110,6 +115,10 @@
                 width: 100%;
                 text-align: left;
                 margin-bottom: 1%;
+            }
+
+            .FormInput label.emailalert {
+                display: none;
             }
         }
     </style>
@@ -272,6 +281,10 @@
                                     <div data-role="district" data-style="addr-district required" data-name="bless_rec_district_1" data-id="bless_rec_district_1"></div>
                                 </div>
                                 <input name="bless_rec_address_1" type="text" class="required" id="bless_rec_address_1" placeholder="請輸入收件人地址" />
+                            </div>
+                            <div class="FormInput">
+                                <label class="emailalert"></label>
+                                <span style="color: red;">請填寫可以收件的地址，如未收件遭退回將不再補寄。</span>
                             </div>
                         </div>
 

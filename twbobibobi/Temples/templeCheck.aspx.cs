@@ -371,7 +371,7 @@ namespace Temple.Temples
                                     title = "北港武德宮";
                                     GetPurchaserlist_wu_Supplies2(adminID, ApplicantID, Year);          //購買人資料列表
                                     Checkedtemple_wu(adminID, ApplicantID, kind, Year);
-                                    EndDate = "2025/04/06 23:59";
+                                    EndDate = "2025/03/24 23:59";
                                     bindPayButton(true, true, true, true, true, true, true, true);
                                     break;
                             }
@@ -589,7 +589,7 @@ namespace Temple.Temples
                                     }
                                     else
                                     {
-                                        bindPayButton(true, true, true, true, true, true, false, false);
+                                        bindPayButton(true, true, true, true, true, true, true, true);
                                     }
                                     break;
                                 case 21:
@@ -604,7 +604,7 @@ namespace Temple.Temples
                                     }
                                     else
                                     {
-                                        bindPayButton(true, true, true, true, true, true, false, false);
+                                        bindPayButton(true, true, true, true, true, true, true, true);
                                     }
                                     break;
                             }
@@ -8991,11 +8991,11 @@ namespace Temple.Temples
 
                 AppMobile = dtData.Rows[0]["AppMobile"].ToString();
                 OrderPurchaser += String.Format(result, "購買人電話", dtData.Rows[0]["AppMobile"].ToString());
-                OrderPurchaser += OrderData("贈品處理方式", dtData.Rows[0]["AppSendback"].ToString() == "Y" ? "寄回（運費+$100）" : "不寄回");
+                //OrderPurchaser += OrderData("贈品處理方式", dtData.Rows[0]["AppSendback"].ToString() == "Y" ? "寄回（運費+$100）" : "不寄回");
 
                 if (dtData.Rows[0]["AppSendback"].ToString() == "Y")
                 {
-                    Total += 100;
+                    //Total += 100;
                     OrderPurchaser += OrderData("收件人姓名", dtData.Rows[0]["ReceiptName"].ToString());
                     OrderPurchaser += OrderData("收件人電話", dtData.Rows[0]["ReceiptMobile"].ToString());
                     OrderPurchaser += OrderData("收件人地址", dtData.Rows[0]["ApprAddress"].ToString());
@@ -9016,6 +9016,7 @@ namespace Temple.Temples
 
                     //服務項目金額
                     cost = int.Parse(dtData.Rows[i]["Count"].ToString()) * GetLightsCost(AdminID, lightsType);
+                    cost += 100;
 
                     //祈福人內容列表
                     OrderInfo += "<div class=\"ProductsInfo\">";

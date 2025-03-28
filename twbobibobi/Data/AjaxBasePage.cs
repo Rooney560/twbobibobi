@@ -15,6 +15,7 @@ using Newtonsoft.Json.Linq;
 using Newtonsoft.Json;
 using System.Web.UI;
 using System.Drawing;
+using System.Collections.Specialized;
 
 namespace MotoSystem.Data
 {
@@ -2761,6 +2762,63 @@ namespace MotoSystem.Data
                     SaveRequestLog(Request.Url + sw.ToString() + errorMsg);
                 }
             }
+        }
+
+        /// <summary>
+        /// 取得來源網址的字串並結合服務項目名稱
+        /// </summary>
+        /// <param name="url">來源網址</param>
+        /// <param name="urlString">服務項目名稱</param>
+        /// <returns></returns>
+        protected static string GetRequestURL(string url, string urlString)
+        {
+            try
+            {
+                Uri uri = new Uri(url);
+                string query = uri.Query.TrimStart('?');
+                NameValueCollection parameters = HttpUtility.ParseQueryString(query);
+
+                // 檢查是否有第一個參數且值為 "1"
+                if (parameters.Count > 0)
+                {
+                    string firstKey = parameters.Keys[0];
+                    string firstValue = parameters[firstKey];
+
+                    if (firstValue == "1")
+                    {
+                        // 判斷 urlString 是否包含三個 '_'
+                        int underscoreCount = urlString.Count(c => c == '_');
+
+                        // 確保 "Index" 後面一定有 "_" 
+                        if (urlString.EndsWith("Index"))
+                        {
+                            urlString += "_";
+                        }
+
+                        // 檢查是否是 pxpayplues
+                        string formattedKey;
+                        if (firstKey == "pxpayplues" && firstValue == "1")
+                        {
+                            formattedKey = "PXPAY";  // 轉換成 PXPAY
+                        }
+                        else
+                        {
+                            // 如果有三個 '_'，則 firstKey 前面加上 '_'，但避免連續 '_'
+                            formattedKey = (underscoreCount == 3)
+                                ? (urlString.EndsWith("_") ? firstKey.ToUpper() : "_" + firstKey.ToUpper())
+                                : firstKey.ToUpper();
+                        }
+
+                        return urlString + formattedKey;
+                    }
+                }
+            }
+            catch (Exception)
+            {
+                // 可在此處理例外錯誤
+            }
+
+            return urlString;
         }
     }
 }

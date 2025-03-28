@@ -99,29 +99,33 @@ namespace twbobibobi.Temples
                 JArray Jhomenum = new JArray();
                 nullChecked(homenum_Tag, ref Jhomenum);
 
-                string postURL = "Supplies_Fw_Index";
+                string postURL_Init = "Supplies_Fw_Index";
 
-                postURL += basePage.Request["twm"] != null ? "_TWM" : "";
+                string url = HttpContext.Current.Request.Url.AbsoluteUri;
 
-                postURL += basePage.Request["cht"] != null ? "_CHT" : "";
+                string postURL = GetRequestURL(url, postURL_Init);
 
-                postURL += basePage.Request["line"] != null ? "_LINE" : "";
+                //postURL += basePage.Request["twm"] != null ? "_TWM" : "";
 
-                postURL += basePage.Request["fb"] != null ? "_FB" : "";
+                //postURL += basePage.Request["cht"] != null ? "_CHT" : "";
 
-                postURL += basePage.Request["fbfw"] != null ? "_FBFW" : "";
+                //postURL += basePage.Request["line"] != null ? "_LINE" : "";
 
-                postURL += basePage.Request["ig"] != null ? "_IG" : "";
+                //postURL += basePage.Request["fb"] != null ? "_FB" : "";
 
-                postURL += basePage.Request["fetssms"] != null ? "_fetSMS" : "";
+                //postURL += basePage.Request["fbfw"] != null ? "_FBFW" : "";
 
-                postURL += basePage.Request["jkos"] != null ? "_JKOS" : "";
+                //postURL += basePage.Request["ig"] != null ? "_IG" : "";
 
-                postURL += basePage.Request["gads"] != null ? "_GADS" : "";
+                //postURL += basePage.Request["fetssms"] != null ? "_fetSMS" : "";
 
-                postURL += basePage.Request["infw"] != null ? "_INFW" : "";
+                //postURL += basePage.Request["jkos"] != null ? "_JKOS" : "";
 
-                postURL += basePage.Request["elv"] != null ? "_ELV" : "";
+                //postURL += basePage.Request["gads"] != null ? "_GADS" : "";
+
+                //postURL += basePage.Request["infw"] != null ? "_INFW" : "";
+
+                //postURL += basePage.Request["elv"] != null ? "_ELV" : "";
 
 
                 string AppSendback = "Y";                                                           //寄送方式 N-不寄回(會轉送給弱勢團體) Y-寄回(加收運費120元)
@@ -270,6 +274,7 @@ namespace twbobibobi.Temples
                     basePage.mJSonHelper.AddContent("redirect", "templeCheck.aspx?kind=16&a=" + AdminID + "&aid=" + ApplicantID +
                         (basePage.Request["ad"] != null ? "&ad=" + basePage.Request["ad"] : "") +
                         (basePage.Request["jkos"] != null ? "&jkos=1" : "") +
+                        (basePage.Request["pxpayplues"] != null ? "&pxpayplues=1" : "") +
                         (basePage.Request["twm"] != null ? "&twm=1" : ""));
 
                     basePage.Session["ApplicantID"] = ApplicantID;

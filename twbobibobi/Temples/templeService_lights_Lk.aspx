@@ -67,12 +67,21 @@
             width: 12px;
             margin-left: 5px;
         }
+        
+        .FormInput label.emailalert {
+            display: inline-block;
+        }
+
         @media only screen and (max-width: 720px) {
             .RecAddress > div:first-child {
                 width: 20%;
             }
             .content_a {
                 font-size: 5vw;
+            }
+
+            .FormInput label.emailalert {
+                display: none;
             }
         }
     </style>
@@ -161,39 +170,39 @@
                         <div id="endTime">2025/10/31 23:59</div>
                     </div>
                         <div class="EventServiceContent">
-                            <h2>於本廟點燈者附贈品，信眾可選擇寄回贈品(需自行負擔運費100元)</h2>
+                            <h2>於本廟點燈者附贈品，需自行負擔運費100元</h2>
                             <h2>本廟每月初一、初十、十五會為點燈者誦經消災</h2>
                             <br />
                             <div>
-                                <h2><a target="_blank" class="content_a" href="https://bobibobi.tw/Temples/images/temple/product/Lk/LK008.jpg">轉運納福燈(看圖)</a> | 運勢轉順、福氣滿門、功成名就，費用1000元。
+                                <h2><a target="_blank" class="content_a" href="https://bobibobi.tw/Temples/images/temple/product/Lk/LK008.jpg">轉運納福燈(看圖)</a> | 運勢轉順、福氣滿門、功成名就，費用1100元。
                                     <a target="_blank" class="content_a" href="https://bobibobi.tw/Temples/images/temple/product/Lk/011.jpg">贈平安燈吊飾(看圖)</a></h2>
                             </div>
                             <div>
-                                <h2><a target="_blank" class="content_a" href="https://bobibobi.tw/Temples/images/temple/product/Lk/LK009.jpg">光明燈上層(看圖)</a> | 元神光彩、前途光明、萬事如意，費用1000元。
+                                <h2><a target="_blank" class="content_a" href="https://bobibobi.tw/Temples/images/temple/product/Lk/LK009.jpg">光明燈上層(看圖)</a> | 元神光彩、前途光明、萬事如意，費用1100元。
                                     <a target="_blank" class="content_a" href="https://bobibobi.tw/Temples/images/temple/product/Lk/011.jpg">贈平安燈吊飾(看圖)</a></h2>
                             </div>
                             <div>
-                                <h2><a target="_blank" class="content_a" href="https://bobibobi.tw/Temples/images/temple/product/Lk/LK003.jpg">文魁智慧燈(看圖)</a> | 學業進步、金榜題名、升遷如意，費用500元。
+                                <h2><a target="_blank" class="content_a" href="https://bobibobi.tw/Temples/images/temple/product/Lk/LK003.jpg">文魁智慧燈(看圖)</a> | 學業進步、金榜題名、升遷如意，費用600元。
                                     <a target="_blank" class="content_a" href="https://bobibobi.tw/Temples/images/temple/product/Lk/002.jpg">贈文魁筆組四件式(看圖)</a></h2>
                             </div>
                             <div>
-                                <h2><a target="_blank" class="content_a" href="https://bobibobi.tw/Temples/images/temple/product/Lk/LK004.jpg">元神光明燈(看圖)</a> | 元神光彩、前途光明、萬事如意，費用500元。
+                                <h2><a target="_blank" class="content_a" href="https://bobibobi.tw/Temples/images/temple/product/Lk/LK004.jpg">元神光明燈(看圖)</a> | 元神光彩、前途光明、萬事如意，費用600元。
                                     <a target="_blank" class="content_a" href="https://bobibobi.tw/Temples/images/temple/product/Lk/012.jpg">贈檀香皂(看圖)</a></h2>
                             </div>
                             <div>
-                                <h2><a target="_blank" class="content_a" href="https://bobibobi.tw/Temples/images/temple/product/Lk/LK005.jpg">太歲平安符(看圖)</a> | 流年平安、消災解厄、身體健康，費用500元。
+                                <h2><a target="_blank" class="content_a" href="https://bobibobi.tw/Temples/images/temple/product/Lk/LK005.jpg">太歲平安符(看圖)</a> | 流年平安、消災解厄、身體健康，費用600元。
                                     <a target="_blank" class="content_a" href="https://bobibobi.tw/Temples/images/temple/product/Lk/004.jpg">贈淨身包一包(看圖)</a></h2>
                             </div>
                             <div>
-                                <h2><a target="_blank" class="content_a" href="https://bobibobi.tw/Temples/images/temple/product/Lk/LK006.jpg">正財福報燈(看圖)</a> | 財運亨通、財庫圓滿、事業順利，費用500元。
+                                <h2><a target="_blank" class="content_a" href="https://bobibobi.tw/Temples/images/temple/product/Lk/LK006.jpg">正財福報燈(看圖)</a> | 財運亨通、財庫圓滿、事業順利，費用600元。
                                     <a target="_blank" class="content_a" href="https://bobibobi.tw/Temples/images/temple/product/Lk/009.jpg">贈招財龍銀一組(看圖)</a></h2>
                             </div>
                             <div>
-                                <h2><a target="_blank" class="content_a" href="https://bobibobi.tw/Temples/images/temple/product/Lk/LK0010.jpg">偏財旺旺燈(看圖)</a> | 添補財庫、好運旺來、福運連年，費用500元。
+                                <h2><a target="_blank" class="content_a" href="https://bobibobi.tw/Temples/images/temple/product/Lk/LK0010.jpg">偏財旺旺燈(看圖)</a> | 添補財庫、好運旺來、福運連年，費用600元。
                                     <a target="_blank" class="content_a" href="https://bobibobi.tw/Temples/images/temple/product/Lk/009.jpg">贈招財龍銀一組(看圖)</a></h2>
                             </div>
                             <div>
-                                <h2><a target="_blank" class="content_a" href="https://bobibobi.tw/Temples/images/temple/product/Lk/LK0011.jpg">廣進安財庫(看圖)</a> | 留住財庫、財運亨通、財庫飽滿，費用300元。
+                                <h2><a target="_blank" class="content_a" href="https://bobibobi.tw/Temples/images/temple/product/Lk/LK0011.jpg">廣進安財庫(看圖)</a> | 留住財庫、財運亨通、財庫飽滿，費用400元。
                                     <a target="_blank" class="content_a" href="https://bobibobi.tw/Temples/images/temple/product/Lk/012.jpg">贈檀香皂(看圖)</a></h2>
                             </div>
 
@@ -242,6 +251,10 @@
                                     <div data-role="district" data-style="addr-district required" data-name="bless_rec_district_1" data-id="bless_rec_district_1"></div>
                                 </div>
                                 <input name="bless_rec_address_1" type="text" class="required" id="bless_rec_address_1" placeholder="請輸入收件人地址" />
+                            </div>
+                            <div class="FormInput">
+                                <label class="emailalert"></label>
+                                <span style="color: red;">請填寫可以收件的地址，如未收件遭退回將不再補寄。</span>
                             </div>
                         </div>
 
@@ -343,14 +356,14 @@
                                     <label>點燈項目</label>
                                     <select name="bless_service_1" class="required" id="bless_service_1">
                                         <option value>請選擇</option>
-                                        <option value="轉運納福燈">轉運納福燈 $1000</option>
-                                        <option value="光明燈上層">光明燈上層 $1000</option>
-                                        <option value="文魁智慧燈">文魁智慧燈 $500</option>
-                                        <option value="元神光明燈">元神光明燈 $500</option>
-                                        <option value="太歲平安符">太歲平安符 $500</option>
-                                        <option value="正財福報燈">正財福報燈 $500</option>
-                                        <option value="偏財旺旺燈">偏財旺旺燈 $500</option>
-                                        <option value="廣進安財庫">廣進安財庫 $300</option>
+                                        <option value="轉運納福燈">轉運納福燈 $1100</option>
+                                        <option value="光明燈上層">光明燈上層 $1100</option>
+                                        <option value="文魁智慧燈">文魁智慧燈 $600</option>
+                                        <option value="元神光明燈">元神光明燈 $600</option>
+                                        <option value="太歲平安符">太歲平安符 $600</option>
+                                        <option value="正財福報燈">正財福報燈 $600</option>
+                                        <option value="偏財旺旺燈">偏財旺旺燈 $600</option>
+                                        <option value="廣進安財庫">廣進安財庫 $400</option>
                                     </select>
                                 </div>
                             </li>
@@ -982,7 +995,8 @@
         Appname = $("#member_name").val().trim();      //購買人姓名
         Appmobile = $("#member_tel").val().trim();     //購買人電話
 
-        sendback_Tag = $("select[name='bless_sendback_1']").val().trim();                          //寄送方式 N-不寄回 Y-寄回(加收運費100元)
+        //sendback_Tag = $("select[name='bless_sendback_1']").val();                                   //寄送方式 N-不寄回 Y-寄回(加收運費100元)
+        sendback_Tag = "Y";                                                                            //寄送方式 N-不寄回 Y-寄回(加收運費100元)
         if (sendback_Tag == "Y") {
             rname_Tag = $("#bless_rec_name_1").val().trim();                                           //收件人姓名
             rmobile_Tag = $("#bless_rec_tel_1").val().trim();                                          //收件人電話

@@ -2779,6 +2779,47 @@ namespace Read.data
         }
 
         /// <summary>
+        /// 记录產品支付请求-基隆悟玄宮點燈
+        /// </summary>
+        /// <param name="OrderID">订单编号</param>
+        /// <param name="ApplicantID">購買人编号</param>
+        /// <param name="Amount">支付金額</param>>
+        /// <param name="Description">支付内容说明</param>
+        /// <param name="Comment">备注</param>
+        /// <param name="PayChannelLog">支付接口日志</param>
+        /// <param name="IP">来源IP</param>
+        public long AddChargeLog_Lights_wh(string OrderID, int ApplicantID, int Amount, string ChargeType, int Status, string Description, string Comment, string PayChannelLog,
+            string IP, string Year)
+        {
+            TimeZoneInfo info = TimeZoneInfo.FindSystemTimeZoneById("Taipei Standard Time");
+            DateTime dt = TimeZoneInfo.ConvertTime(DateTime.Now, info);
+            DataTable dtDataList = new DataTable();
+            string sql = "Insert into Temple_" + Year + "..APPCharge_wh_Lights(OrderID, ApplicantID, Amount, Status, Description, ChargeType, Comment, PayChannelLog, IP, " +
+                "CreateDate, CreateDateString) " +
+                "values(@OrderID, @ApplicantID, @Amount, @Status, @Description, @ChargeType, @Comment, @PayChannelLog, @IP, @CreateDate, @CreateDateString)";
+
+            DatabaseAdapter Adapter = new DatabaseAdapter(sql, this.DBSource);
+            DataTable dtdata = new DataTable();
+            Adapter.AddParameterToSelectCommand("@OrderID", OrderID);
+            Adapter.AddParameterToSelectCommand("@ApplicantID", ApplicantID);
+            Adapter.AddParameterToSelectCommand("@Amount", Amount);
+            Adapter.AddParameterToSelectCommand("@Status", Status);
+            Adapter.AddParameterToSelectCommand("@Description", Description);
+            Adapter.AddParameterToSelectCommand("@ChargeType", ChargeType);
+            Adapter.AddParameterToSelectCommand("@Comment", Comment);
+            Adapter.AddParameterToSelectCommand("@PayChannelLog", PayChannelLog);
+            Adapter.AddParameterToSelectCommand("@IP", IP);
+            Adapter.AddParameterToSelectCommand("@CreateDate", dt);
+            Adapter.AddParameterToSelectCommand("@CreateDateString", dt.ToString("yyyy-MM-dd"));
+
+            Adapter.SetSqlCommandBuilder();
+            Adapter.Fill(dtdata);
+            Adapter.Update(dtdata);
+
+            return this.GetIdentity();
+        }
+
+        /// <summary>
         /// 记录產品支付请求-商品販賣小舖
         /// </summary>
         /// <param name="OrderID">订单编号</param>
@@ -3511,6 +3552,17 @@ namespace Read.data
         {
             DataTable dtDataList = new DataTable();
             string sql = "Select Top 1 * From Temple_" + Year + "..APPCharge_ld_Lights Where OrderID=@OrderID";
+
+            DatabaseAdapter AdapterObj = new DatabaseAdapter(sql, this.DBSource);
+            AdapterObj.AddParameterToSelectCommand("@OrderID", OrderID);
+            AdapterObj.Fill(dtDataList);
+            return dtDataList;
+        }
+
+        public DataTable GetChargeLog_Lights_wh(string OrderID, string Year)
+        {
+            DataTable dtDataList = new DataTable();
+            string sql = "Select Top 1 * From Temple_" + Year + "..APPCharge_wh_Lights Where OrderID=@OrderID";
 
             DatabaseAdapter AdapterObj = new DatabaseAdapter(sql, this.DBSource);
             AdapterObj.AddParameterToSelectCommand("@OrderID", OrderID);
@@ -10478,6 +10530,180 @@ namespace Read.data
             }
         }
 
+        public bool UpdateLights_wh_Info(int applicantID, int LightsType, string Year, ref string msg, ref string[] lightslist, ref string[] Lightslist)
+        {
+            lock (_thisLock)
+            {
+                TimeZoneInfo info = TimeZoneInfo.FindSystemTimeZoneById("Taipei Standard Time");
+                DateTime dt = TimeZoneInfo.ConvertTime(DateTime.Now, info);
+                bool bResult = false;
+                int lastnum = GetListNum_wh_Lights(LightsType, applicantID, Year);
+                if (lastnum > 0)
+                {
+                    bool dhavenum = true;
+
+                    switch (LightsType)
+                    {
+                        case 3:
+                            //光明燈
+                            for (int j = 1001; j < lastnum; j++)
+                            {
+                                if (CheckedNum_wh_Lights(LightsType, j, Year))
+                                {
+                                    lastnum = j;
+                                    dhavenum = false;
+                                    break;
+                                }
+                            }
+
+                            break;
+                        case 5:
+                            //文昌燈
+                            for (int j = 1001; j < lastnum; j++)
+                            {
+                                if (CheckedNum_wh_Lights(LightsType, j, Year))
+                                {
+                                    lastnum = j;
+                                    dhavenum = false;
+                                    break;
+                                }
+                            }
+
+                            break;
+                    }
+
+                    if (dhavenum)
+                    {
+                        ++lastnum;
+                    }
+                }
+                else
+                {
+                    switch (LightsType)
+                    {
+                        case 3:
+                            //光明燈
+                            lastnum = 1001;
+                            break;
+                        case 5:
+                            //文昌燈
+                            lastnum = 1001;
+                            break;
+                    }
+                }
+
+                DataTable dtDataList = new DataTable();
+                string sql = "Select * From Temple_" + Year + "..Lights_wh_info Where ApplicantID=@ApplicantID and Status = 0 and Num = 0";
+
+                DatabaseAdapter AdapterObj = new DatabaseAdapter(sql, this.DBSource);
+                AdapterObj.SetSqlCommandBuilder();
+                AdapterObj.AddParameterToSelectCommand("@ApplicantID", applicantID);
+                AdapterObj.Fill(dtDataList);
+
+                //Lightslist = new string[dtDataList.Rows.Count];
+                var tempList_lights = Lightslist.ToList();
+                lightslist = new string[dtDataList.Rows.Count];
+                for (int i = 0; i < dtDataList.Rows.Count; i++)
+                {
+                    string lid = dtDataList.Rows[i]["LightsID"].ToString();
+                    string NumString = string.Empty;
+
+                    LightsType = int.Parse(dtDataList.Rows[i]["LightsType"].ToString());
+                    switch (LightsType)
+                    {
+                        case 3:
+                            //光明燈
+                            NumString = "WHS" + Num2String(lastnum);
+                            tempList_lights.Add(NumString);
+                            lightslist[i] = "光明燈:WHS" + Num2String(lastnum);
+                            break;
+                        case 5:
+                            //文昌燈
+                            NumString = "WHW" + Num2String(lastnum);
+                            tempList_lights.Add(NumString);
+                            lightslist[i] = "文昌燈:WHW" + Num2String(lastnum);
+                            break;
+                    }
+                    Lightslist = tempList_lights.ToArray();
+
+                    msg += lightslist[i];
+                    if (i < lightslist.Length - 1)
+                    {
+                        msg += ",";
+                    }
+
+                    int res = ExecuteSql("Update Temple_" + Year + "..Lights_wh_info Set Num2String = N'" + NumString + "', Num = " + lastnum + " Where LightsID=" + lid);
+
+                    if (res > 0)
+                    {
+                        bResult = true;
+                    }
+
+                    int index = dtDataList.Rows.Count - i > 1 ? i + 1 : i;
+                    LightsType = int.Parse(dtDataList.Rows[index]["LightsType"].ToString());
+
+                    lastnum = GetListNum_wh_Lights(LightsType, applicantID, Year);
+                    if (lastnum > 0)
+                    {
+                        bool dhavenum = true;
+
+                        switch (LightsType)
+                        {
+                            case 3:
+                                //光明燈
+                                for (int j = 1001; j < lastnum; j++)
+                                {
+                                    if (CheckedNum_wh_Lights(LightsType, j, Year))
+                                    {
+                                        lastnum = j;
+                                        dhavenum = false;
+                                        break;
+                                    }
+                                }
+
+                                break;
+                            case 5:
+                                //文昌燈
+                                for (int j = 1001; j < lastnum; j++)
+                                {
+                                    if (CheckedNum_wh_Lights(LightsType, j, Year))
+                                    {
+                                        lastnum = j;
+                                        dhavenum = false;
+                                        break;
+                                    }
+                                }
+
+                                break;
+                        }
+
+                        if (dhavenum)
+                        {
+                            ++lastnum;
+                        }
+                    }
+                    else
+                    {
+                        switch (LightsType)
+                        {
+                            case 3:
+                                //光明燈
+                                lastnum = 1001;
+                                break;
+                            case 5:
+                                //文昌燈
+                                lastnum = 1001;
+                                break;
+                        }
+                    }
+                }
+
+                msg += "。客服電話：04-36092299。";
+
+                return bResult;
+            }
+        }
+
         public bool UpdatePurdue_da_Info(int applicantID, int PurdueType, string Year, ref string[] purduelist, ref string[] Purduelist)
         {
             TimeZoneInfo info = TimeZoneInfo.FindSystemTimeZoneById("Taipei Standard Time");
@@ -15013,6 +15239,19 @@ namespace Read.data
             return bResult;
         }
 
+        public bool Updateapplicantinfo_Lights_wh(int applicantID, int Cost, int Status, string Year)
+        {
+            bool bResult = false;
+            int res = ExecuteSql("Update Temple_" + Year + "..ApplicantInfo_wh_Lights Set Status= " + Status + ", Cost= " + Cost + " Where ApplicantID=" + applicantID);
+
+            if (res > 0)
+            {
+                bResult = true;
+            }
+
+            return bResult;
+        }
+
         public bool Updateapplicantinfo_Purdue_da(int applicantID, int Cost, int Status, string Year)
         {
             //TimeZoneInfo info = TimeZoneInfo.FindSystemTimeZoneById("Taipei Standard Time");
@@ -17010,6 +17249,30 @@ namespace Read.data
         }
 
         /// <summary>
+        /// 取得最後一名編號資料-基隆悟玄宮點燈
+        /// <param name="LightsType">LightsType=燈種 3-光明燈 4-安太歲 5-文昌燈 6-財神燈 7-姻緣燈 8-藥師燈 9-財利燈 10-貴人燈 11-福祿(壽)燈 12-寵物平安燈 13-龍王燈 14-虎爺燈 
+        /// 15-轉運納福燈 16-光明燈上層 17-偏財旺旺燈 18-廣進安財庫 19-財庫燈 20-月老姻緣燈 21-孝親祈福燈 22-事業燈 23-全家光明燈 24-觀音佛祖燈 25-財神斗 26-事業斗 27-平安斗 
+        /// 28-文昌斗 29-藥師斗 30-元神斗 31-福祿壽斗 32-觀音斗 33-明心智慧燈</param>
+        /// </summary>
+        public int GetListNum_wh_Lights(int LightsType, int applicantID, string Year)
+        {
+            int result = 0;
+            string sql = string.Empty;
+            sql = "Select * from Temple_" + Year + "..Lights_wh_info Where Status = 0 and LightsType = @LightsType and Num != 0 Order by Num Desc";
+
+            DatabaseAdapter objDatabaseAdapter = new DatabaseAdapter(sql, this.DBSource);
+            objDatabaseAdapter.AddParameterToSelectCommand("LightsType", LightsType);
+            DataTable dtGetData = new DataTable();
+            objDatabaseAdapter.Fill(dtGetData);
+
+            if (dtGetData.Rows.Count > 0)
+            {
+                result = int.Parse(dtGetData.Rows[0]["Num"].ToString());
+            }
+            return result;
+        }
+
+        /// <summary>
         /// 取得最後一名編號資料-文創小販部
         /// <param name="adminID">adminID=廟宇 5-新港奉天宮文創小販部 20-西螺福興宮文創小販部</param>
         /// </summary>
@@ -17889,6 +18152,28 @@ namespace Read.data
         }
 
         /// <summary>
+        /// 取得購買人電話(基隆悟玄宮)
+        /// </summary>
+        public string GetMobile_wh(int applicantID, string Year)
+        {
+            string result = string.Empty;
+            string sql = string.Empty;
+
+            sql = "Select * from Temple_" + Year + "..ApplicantInfo_wh_Lights Where ApplicantID = @ApplicantID ";
+
+            DatabaseAdapter objDatabaseAdapter = new DatabaseAdapter(sql, this.DBSource);
+            objDatabaseAdapter.AddParameterToSelectCommand("ApplicantID", applicantID);
+            DataTable dtGetData = new DataTable();
+            objDatabaseAdapter.Fill(dtGetData);
+
+            if (dtGetData.Rows.Count > 0)
+            {
+                result = dtGetData.Rows[0]["Mobile"].ToString();
+            }
+            return result;
+        }
+
+        /// <summary>
         /// 取得購買人電話(新港奉天宮錢母擺件小舖)
         /// </summary>
         public string GetMobile_Moneymother(int applicantID, string Year)
@@ -18293,6 +18578,28 @@ namespace Read.data
             string sql = string.Empty;
 
             sql = "Select * from Temple_" + Year + "..Lights_ld_info Where Status = 0 and ApplicantID = @ApplicantID ";
+
+            DatabaseAdapter objDatabaseAdapter = new DatabaseAdapter(sql, this.DBSource);
+            objDatabaseAdapter.AddParameterToSelectCommand("ApplicantID", applicantID);
+            DataTable dtGetData = new DataTable();
+            objDatabaseAdapter.Fill(dtGetData);
+
+            if (dtGetData.Rows.Count > 0)
+            {
+                int.TryParse(dtGetData.Rows[0]["LightsType"].ToString(), out result);
+            }
+            return result;
+        }
+
+        /// <summary>
+        /// 取得點燈所點燈種(基隆悟玄宮)
+        /// </summary>
+        public int GetLightsType_wh(int applicantID, string Year)
+        {
+            int result = 0;
+            string sql = string.Empty;
+
+            sql = "Select * from Temple_" + Year + "..Lights_wh_info Where Status = 0 and ApplicantID = @ApplicantID ";
 
             DatabaseAdapter objDatabaseAdapter = new DatabaseAdapter(sql, this.DBSource);
             objDatabaseAdapter.AddParameterToSelectCommand("ApplicantID", applicantID);
@@ -19229,6 +19536,23 @@ namespace Read.data
         public DataTable Getapplicantinfo_Lights_ld(int applicantID, int adminID, string Year)
         {
             string sql = "Select * from Temple_" + Year + "..ApplicantInfo_ld_Lights Where ApplicantID = @ApplicantID and AdminID = @AdminID";
+
+            DatabaseAdapter objDatabaseAdapter = new DatabaseAdapter(sql, this.DBSource);
+            objDatabaseAdapter.AddParameterToSelectCommand("AdminID", adminID);
+            objDatabaseAdapter.AddParameterToSelectCommand("ApplicantID", applicantID);
+            DataTable dtGetData = new DataTable();
+            objDatabaseAdapter.Fill(dtGetData);
+
+            return dtGetData;
+        }
+
+        /// <summary>
+        /// 取得購買人資料-基隆悟玄宮點燈
+        /// <param name="applecantID">applecantID=購買人編號</param>
+        /// </summary>
+        public DataTable Getapplicantinfo_Lights_wh(int applicantID, int adminID, string Year)
+        {
+            string sql = "Select * from Temple_" + Year + "..ApplicantInfo_wh_Lights Where ApplicantID = @ApplicantID and AdminID = @AdminID";
 
             DatabaseAdapter objDatabaseAdapter = new DatabaseAdapter(sql, this.DBSource);
             objDatabaseAdapter.AddParameterToSelectCommand("AdminID", adminID);
@@ -20796,6 +21120,33 @@ namespace Read.data
             if ((int)dtDataList.Rows[0]["Status"] == 0)
             {
                 int res = ExecuteSql("Update Temple_" + Year + "..APPCharge_ld_Lights Set Status = " + Status + ", BillIP = '" + BillIP + "', CallbackLog = '" + CallbackLog +
+                    "', ChargeDate = '" + dt.ToString("yyyy-MM-dd HH:mm:ss") + "', ChargeDateString = '" + dt.ToString("yyyy-MM-dd") + "' Where OrderID='" + OrderID + "'");
+                if (res > 0)
+                {
+                    bResult = true;
+                }
+            }
+
+
+            return bResult;
+        }
+
+        public bool UpdateChargeStatus_Lights_wh(string OrderID, int Status, string BillIP, string CallbackLog, string Year)
+        {
+            TimeZoneInfo info = TimeZoneInfo.FindSystemTimeZoneById("Taipei Standard Time");
+            DateTime dt = TimeZoneInfo.ConvertTime(DateTime.Now, info);
+            bool bResult = false;
+            DataTable dtDataList = new DataTable();
+            string sql = "Select Top 1 * From Temple_" + Year + "..APPCharge_wh_Lights Where OrderID=@OrderID";
+
+            DatabaseAdapter AdapterObj = new DatabaseAdapter(sql, this.DBSource);
+            AdapterObj.SetSqlCommandBuilder();
+            AdapterObj.AddParameterToSelectCommand("@OrderID", OrderID);
+            AdapterObj.Fill(dtDataList);
+
+            if ((int)dtDataList.Rows[0]["Status"] == 0)
+            {
+                int res = ExecuteSql("Update Temple_" + Year + "..APPCharge_wh_Lights Set Status = " + Status + ", BillIP = '" + BillIP + "', CallbackLog = '" + CallbackLog +
                     "', ChargeDate = '" + dt.ToString("yyyy-MM-dd HH:mm:ss") + "', ChargeDateString = '" + dt.ToString("yyyy-MM-dd") + "' Where OrderID='" + OrderID + "'");
                 if (res > 0)
                 {
@@ -22760,6 +23111,34 @@ namespace Read.data
             return bResult;
         }
 
+        public bool UpdateChargeLog_Lights_wh(string OrderID, string Transaction_id, string Comment, string BillIP, string CallbackLog, string Year, ref string ChargeType)
+        {
+            TimeZoneInfo info = TimeZoneInfo.FindSystemTimeZoneById("Taipei Standard Time");
+            DateTime dt = TimeZoneInfo.ConvertTime(DateTime.Now, info);
+            bool bResult = false;
+            DataTable dtDataList = new DataTable();
+            string sql = "Select Top 1 * From Temple_" + Year + "..APPCharge_wh_Lights Where OrderID=@OrderID";
+
+            DatabaseAdapter AdapterObj = new DatabaseAdapter(sql, this.DBSource);
+            AdapterObj.SetSqlCommandBuilder();
+            AdapterObj.AddParameterToSelectCommand("@OrderID", OrderID);
+            AdapterObj.Fill(dtDataList);
+
+            if ((int)dtDataList.Rows[0]["Status"] == 0)
+            {
+                ChargeType = dtDataList.Rows[0]["ChargeType"].ToString();
+                int res = ExecuteSql("Update Temple_" + Year + "..APPCharge_wh_Lights Set Status = 1, BillIP = '" + BillIP + "', Transaction_id = '" + Transaction_id + "', CallbackLog = '" + CallbackLog +
+                    "', Comment = N'" + Comment + "', ChargeDate = '" + dt.ToString("yyyy-MM-dd HH:mm:ss") + "', ChargeDateString = '" + dt.ToString("yyyy-MM-dd") + "' Where OrderID='" + OrderID + "'");
+
+                if (res > 0)
+                {
+                    bResult = true;
+                }
+            }
+
+            return bResult;
+        }
+
         public bool UpdateChargeLog_Product(string OrderID, string Transaction_id, string Comment, string BillIP, string CallbackLog, string Year, ref string ChargeType)
         {
             TimeZoneInfo info = TimeZoneInfo.FindSystemTimeZoneById("Taipei Standard Time");
@@ -24008,6 +24387,25 @@ namespace Read.data
             return result;
         }
 
+        public bool CheckedNum_wh_Lights(int LightsType, int Num, string Year)
+        {
+            bool result = true;
+            string sql = string.Empty;
+
+            sql = "Select * from Temple_" + Year + "..Lights_wh_info Where Status = 0 and LightsType = @LightsType and Num = " + Num + " Order by Num Desc";
+
+            DatabaseAdapter objDatabaseAdapter = new DatabaseAdapter(sql, this.DBSource);
+            objDatabaseAdapter.AddParameterToSelectCommand("@LightsType", LightsType);
+            DataTable dtGetData = new DataTable();
+            objDatabaseAdapter.Fill(dtGetData);
+
+            if (dtGetData.Rows.Count > 0)
+            {
+                result = false;
+            }
+            return result;
+        }
+
         public bool CheckedNum_Product(int adminID, int Num, string Year)
         {
             bool result = true;
@@ -24343,6 +24741,20 @@ namespace Read.data
                         case 2:
                             //普渡
                             //sql = "Select * from Temple_" + Year + "..view_Purdue_ld_InfowithAPPCharge Where Status = 0 and ApplicantID = @ApplicantID and AdminID = @AdminID Order by Num Desc";
+                            break;
+                    }
+                    break;
+                case 34:
+                    //基隆悟玄宮
+                    switch (kind)
+                    {
+                        case 1:
+                            //點燈
+                            sql = "Select * from Temple_" + Year + "..view_Lights_wh_InfowithAPPCharge Where Status = 0 and ApplicantID = @ApplicantID and AdminID = @AdminID Order by Num Desc";
+                            break;
+                        case 2:
+                            //普渡
+                            //sql = "Select * from Temple_" + Year + "..view_Purdue_wh_InfowithAPPCharge Where Status = 0 and ApplicantID = @ApplicantID and AdminID = @AdminID Order by Num Desc";
                             break;
                     }
                     break;
