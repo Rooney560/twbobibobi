@@ -761,6 +761,7 @@
     <Content Include="Temples\newsContent_2024supplies_ty.aspx" />
     <Content Include="Temples\newsContent_2024taoistJiaoCeremony_da.aspx" />
     <Content Include="Temples\newsContent_2025lights.aspx" />
+    <Content Include="Temples\newsContent_2025lights_ty.aspx" />
     <Content Include="Temples\newsContent_2025suppliesBF.aspx" />
     <Content Include="Temples\newsContent_2025supplies_Lk.aspx" />
     <Content Include="Temples\newsContent_2025supplies_sx.aspx" />
@@ -864,6 +865,7 @@
     <Content Include="Temples\templeService_purdue_wu.aspx" />
     <Content Include="Temples\templeService_supplies.aspx" />
     <Content Include="Temples\templeService_supplies2.aspx" />
+    <Content Include="Temples\templeService_supplies2_sx.aspx" />
     <Content Include="Temples\templeService_supplies2_ty.aspx" />
     <Content Include="Temples\templeService_supplies3.aspx" />
     <Content Include="Temples\templeService_supplies3_ty.aspx" />
@@ -874,6 +876,7 @@
     <Content Include="Temples\templeService_supplies_sx.aspx" />
     <Content Include="Temples\templeService_supplies_ty.aspx" />
     <Content Include="Temples\templeService_TaoistJiaoCeremony_da.aspx" />
+    <Content Include="TWPaymentCallback_Lights_ty_mom.aspx" />
     <Content Include="Temples\ZodiacFortune.aspx" />
     <Content Include="Temples\Zodiac_Dog.aspx" />
     <Content Include="Temples\Zodiac_Dragon.aspx" />
@@ -919,6 +922,7 @@
     <Content Include="TWPaymentCallback_Purdue_mazu.aspx" />
     <Content Include="TWPaymentCallback_Purdue_ty.aspx" />
     <Content Include="TWPaymentCallback_Purdue_wu.aspx" />
+    <Content Include="TWPaymentCallback_Supplies2_sx.aspx" />
     <Content Include="TWPaymentCallback_Supplies2_ty.aspx" />
     <Content Include="TWPaymentCallback_Supplies3_ty.aspx" />
     <Content Include="TWPaymentCallback_Supplies_dh.aspx" />
@@ -1413,6 +1417,13 @@
     <Compile Include="Temples\newsContent_2025lights.aspx.designer.cs">
       <DependentUpon>newsContent_2025lights.aspx</DependentUpon>
     </Compile>
+    <Compile Include="Temples\newsContent_2025lights_ty.aspx.cs">
+      <DependentUpon>newsContent_2025lights_ty.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Temples\newsContent_2025lights_ty.aspx.designer.cs">
+      <DependentUpon>newsContent_2025lights_ty.aspx</DependentUpon>
+    </Compile>
     <Compile Include="Temples\newsContent_2025suppliesBF.aspx.cs">
       <DependentUpon>newsContent_2025suppliesBF.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -1819,6 +1830,13 @@
     <Compile Include="Temples\templeService_supplies2.aspx.designer.cs">
       <DependentUpon>templeService_supplies2.aspx</DependentUpon>
     </Compile>
+    <Compile Include="Temples\templeService_supplies2_sx.aspx.cs">
+      <DependentUpon>templeService_supplies2_sx.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Temples\templeService_supplies2_sx.aspx.designer.cs">
+      <DependentUpon>templeService_supplies2_sx.aspx</DependentUpon>
+    </Compile>
     <Compile Include="Temples\templeService_supplies2_ty.aspx.cs">
       <DependentUpon>templeService_supplies2_ty.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -1888,6 +1906,13 @@
     </Compile>
     <Compile Include="Temples\templeService_TaoistJiaoCeremony_da.aspx.designer.cs">
       <DependentUpon>templeService_TaoistJiaoCeremony_da.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="TWPaymentCallback_Lights_ty_mom.aspx.cs">
+      <DependentUpon>TWPaymentCallback_Lights_ty_mom.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="TWPaymentCallback_Lights_ty_mom.aspx.designer.cs">
+      <DependentUpon>TWPaymentCallback_Lights_ty_mom.aspx</DependentUpon>
     </Compile>
     <Compile Include="Temples\ZodiacFortune.aspx.cs">
       <DependentUpon>ZodiacFortune.aspx</DependentUpon>
@@ -2203,6 +2228,13 @@
     </Compile>
     <Compile Include="TWPaymentCallback_Purdue_wu.aspx.designer.cs">
       <DependentUpon>TWPaymentCallback_Purdue_wu.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="TWPaymentCallback_Supplies2_sx.aspx.cs">
+      <DependentUpon>TWPaymentCallback_Supplies2_sx.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="TWPaymentCallback_Supplies2_sx.aspx.designer.cs">
+      <DependentUpon>TWPaymentCallback_Supplies2_sx.aspx</DependentUpon>
     </Compile>
     <Compile Include="TWPaymentCallback_Supplies2_ty.aspx.cs">
       <DependentUpon>TWPaymentCallback_Supplies2_ty.aspx</DependentUpon>

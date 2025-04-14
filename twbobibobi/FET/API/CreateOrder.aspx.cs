@@ -15625,7 +15625,7 @@ namespace Temple.FET.APITEST
             int aid = 0;
             int adminID = 6;
             LightDAC objLightDAC = new LightDAC(this);
-            string postURL = "Supplies_wu_Index_FETAPI";
+            string postURL = "Supplies_wu3_Index_FETAPI";
             TimeZoneInfo info = TimeZoneInfo.FindSystemTimeZoneById("Taipei Standard Time");
             DateTime dtNow = TimeZoneInfo.ConvertTime(DateTime.Now, info);
 
@@ -15681,30 +15681,64 @@ namespace Temple.FET.APITEST
                                 }
                             }
 
+                            string name2 = item2["additionalName"] != null ? item2["additionalName"].ToString() : "";                                       //附加祈福人姓名（祈福者 2）
+                            string homeNum = item2["phone"] != null ? item2["phone"].ToString() : "";                                                       //市話
+                            string email = item2["email"] != null ? item2["email"].ToString() : "";                                                         //Email
+                            string companyName = item2["companyName"] != null ? item2["companyName"].ToString() : "";                                       //公司行號名稱
+                            string dName = item2["deceasedName"] != null ? item2["deceasedName"].ToString() : "";                                           //祖先姓氏/亡者姓名 (超拔法會類型時必填)
+                            string dBirthType = item2["deceasedBirthRocEra"] != null ? item2["deceasedBirthRocEra"].ToString() : "";                        //祖先/亡者民國生日紀元 0：民國前 1：民國  001MMDD 1912 為民國 1 年 或 1910 為民國前 1 年
+                            string dBirthday = item2["deceasedBirthday"] != null ? item2["deceasedBirthday"].ToString() : "";                               //祖先/亡者國曆生日 YYYMMDD (民國年/國曆月/國曆日)
+                            string dLunarBirthday = item2["deceasedLunarBirthday"] != null ? item2["deceasedLunarBirthday"].ToString() : "";                //祖先/亡者農曆生日 YYYMMDD (民國年/農曆月/農曆日)
+                            string dLeapMonth = item2["deceasedBirthdayLeapMonth"] != null ? item2["deceasedBirthdayLeapMonth"].ToString() : "N";           //祖先/亡者農曆生日是否為閏月 Y: 是 N: 否
+                            string dBirthTime = item2["deceasedLunarBirthTime"] != null ? item2["deceasedLunarBirthTime"].ToString() : "吉";                //祖先/亡者農曆時辰 子、丑、寅…亥 未確認時辰用戶可選吉時
+                            string dDoDType = item2["deceasedDoDRocEra"] != null ? item2["deceasedDoDRocEra"].ToString() : "";                               //祖先/亡者死亡日期紀元 0：民國前 1：民國  001MMDD 1912 為民國 1 年 或 1910 為民國前 1 年
+                            string dDoD = item2["deceasedDoD"] != null ? item2["deceasedDoD"].ToString() : "";                                              //祖先/亡者死亡日期 YYYMMDD (民國年/國曆月/國曆日)
+                            string dLunarDoD = item2["deceasedLunarDoD"] != null ? item2["deceasedLunarDoD"].ToString() : "";                               //祖先/亡者死亡農曆日期 YYYMMDD (民國年/農曆月/農曆日)
+                            string dDoDLeapMonth = item2["deceasedDoDLeepMonth"] != null ? item2["deceasedDoDLeepMonth"].ToString() : "N";                  //祖先/亡者死亡農曆日期是否為閏月 Y: 是 N: 否
+                            string dZipCode = item2["deceasedZipCode"] != null ? item2["deceasedZipCode"].ToString() : "0";                                 //祖先/亡者/牌位 郵遞區號
+                            string dCity = item2["deceasedCity"] != null ? item2["deceasedCity"].ToString() : "";                                           //祖先/亡者/牌位 縣/市
+                            string dRegion = item2["deceasedRegion"] != null ? item2["deceasedRegion"].ToString() : "";                                     //祖先/亡者/牌位 地區
+                            string dAddr = item2["deceasedAddress"] != null ? item2["deceasedAddress"].ToString() : "";                                     //祖先/亡者/牌位 部分地址
+
+                            string additionalOffering = item2["additionalOffering"] != null ? item2["additionalOffering"].ToString() : "N";                 //加購普品 Y: 是 N: 否
+                            string offeringQty = item2["offeringQty"] != null ? item2["offeringQty"].ToString() : "0";                                      //加購普品數量
+                            string additionalOfferingCost = item2["additionalOfferingPrice"] != null ? item2["additionalOfferingPrice"].ToString() : "0";   //加購普品單價
+                            string jossMoneyQty = item2["jossMoneyQty"] != null ? item2["jossMoneyQty"].ToString() : "0";                                   //加購金紙數量
+                            string jossMoneyPrice = item2["jossMoneyPrice"] != null ? item2["jossMoneyPrice"].ToString() : "0";                             //加購金紙單價
+
+                            string remark = item2["remark"] != null ? item2["remark"].ToString() : "";                                                      //備註
+
+                            int.TryParse(offeringQty, out count);
+
                             string Birth = string.Empty;
                             string birthMonth = string.Empty;
                             string age = string.Empty;
                             string Zodiac = string.Empty;
-
+                            string lyear = string.Empty;
                             string year = string.Empty;
                             string month = string.Empty;
                             string day = string.Empty;
 
+                            string sBirth = string.Empty;
+                            string syear = string.Empty;
+                            string smonth = string.Empty;
+                            string sday = string.Empty;
+
                             string birth = lunarBirthday;
                             if (birth.Length == 7)
                             {
-                                string lyear = birth.Substring(0, 3);
+                                lyear = birth.Substring(0, 3);
                                 year = (int.Parse(birth.Substring(0, 3)) + 1911).ToString();
                                 month = birthMonth = birth.Substring(3, 2);
                                 day = birth.Substring(5, 2);
 
-                                Birth = year + "-" + month + "-" + day;
+                                string b = year + "-" + month + "-" + day;
                                 LunarSolarConverter.shuxiang(int.Parse(year), ref Zodiac);
-                                DateTime lBirth;
-                                DateTime sBirth;
-                                if (DateTime.TryParse(Birth, out lBirth))
+                                DateTime lunarBirth;
+                                DateTime solorBirth;
+                                if (DateTime.TryParse(b, out lunarBirth))
                                 {
-                                    //age = GetAge(DateTime.Parse(Birth), dtNow);
+                                    //age = GetAge(DateTime.Parse(b), dtNow);
 
                                     age = GetAge(int.Parse(year), int.Parse(month), int.Parse(day)).ToString();
                                 }
@@ -15713,26 +15747,47 @@ namespace Temple.FET.APITEST
                                     birth = birthday;
                                     if (birth.Length == 7)
                                     {
-                                        lyear = birth.Substring(0, 3);
+                                        syear = birth.Substring(0, 3);
                                         year = (int.Parse(birth.Substring(0, 3)) + 1911).ToString();
-                                        month = birthMonth = birth.Substring(3, 2);
-                                        day = birth.Substring(5, 2);
+                                        smonth = birthMonth = birth.Substring(3, 2);
+                                        sday = birth.Substring(5, 2);
 
-                                        Birth = year + "-" + month + "-" + day;
-                                        if (DateTime.TryParse(Birth, out sBirth))
+                                        b = year + "-" + smonth + "-" + sday;
+                                        LunarSolarConverter.shuxiang(int.Parse(year), ref Zodiac);
+                                        if (DateTime.TryParse(b, out solorBirth))
                                         {
-                                            //age = GetAge(DateTime.Parse(Birth), dtNow);
+                                            //age = GetAge(DateTime.Parse(b), dtNow);
 
-                                            age = GetAge(int.Parse(year), int.Parse(month), int.Parse(day)).ToString();
+                                            age = GetAge(int.Parse(year), int.Parse(smonth), int.Parse(sday)).ToString();
                                         }
                                     }
                                 }
-
-                                birth = "民國" + lyear + "年" + month + "月" + day + "日";
                             }
 
-                            SuppliesID = objLightDAC.addsupplies_wu3(aid, name, mobile, SuppliesType, SuppliesString, gender, oversea, birth, leapMonth, birthTime, birthMonth, 
-                                age, Zodiac, "", "", city + region + addr, addr, city, region, zipCode, "", count.ToString(), Year);
+                            string sbirth = birthday;
+                            if (sbirth.Length == 7)
+                            {
+                                syear = sbirth.Substring(0, 3);
+                                year = (int.Parse(sbirth.Substring(0, 3)) + 1911).ToString();
+                                smonth = sbirth.Substring(3, 2);
+                                sday = sbirth.Substring(5, 2);
+                            }
+
+                            int l = 0, s = 0;
+                            int.TryParse(lyear, out l);
+                            int.TryParse(syear, out s);
+
+                            if (lyear != "" && month != "" && day != "")
+                            {
+                                Birth = "民國" + (l > 0 ? l.ToString() : lyear) + "年" + month + "月" + day + "日";
+                            }
+                            if (syear != "" && smonth != "" && sday != "")
+                            {
+                                sBirth = "民國" + (s > 0 ? s.ToString() : syear) + "年" + smonth + "月" + sday + "日";
+                            }
+
+                            SuppliesID = objLightDAC.addsupplies_wu3(aid, name, mobile, SuppliesType, SuppliesString, gender, oversea, Birth, leapMonth, birthTime, birthMonth, age,
+                                Zodiac, sBirth, homeNum, email, addr, city, region, zipCode, remark, count.ToString(), Year);
                         }
                     }
                 }
@@ -15751,22 +15806,10 @@ namespace Temple.FET.APITEST
                     {
                         if ((int)dtCharge.Rows[0]["Status"] == 0)
                         {
-                            //更新點燈資料表並取得訂單編號
-                            objDatabaseHelper.UpdateSupplies_wu_Info3(aid, Year, ref Supplieslist);
-
                             string msg = "感謝購買,已成功付款" + cost + "元,您的訂單編號 ";
 
-                            for (int i = 0; i < Supplieslist.Length; i++)
-                            {
-                                msg += Supplieslist[i];
-                                if (i < Supplieslist.Length - 1)
-                                {
-                                    msg += ",";
-                                }
-                            }
-
-                            msg += "。客服電話：04-36092299。";
-
+                            //更新點燈資料表並取得訂單編號
+                            objDatabaseHelper.UpdateSupplies_wu_Info3(aid, Year, ref msg, ref Supplieslist);
 
                             //msg = "感謝大德參與線上點燈,茲收您1960元功德金,訂單編號 光明燈:T2204, 安太歲:25351, 文昌燈:六1214。";
                             //mobile = "0903002568";
@@ -15774,21 +15817,7 @@ namespace Temple.FET.APITEST
                             SMSHepler objSMSHepler = new SMSHepler();
                             string ChargeType = string.Empty;
                             //更新流水付費表資訊(付費成功)
-                            if (objDatabaseHelper.UpdateChargeLog_Supplies_wu3(OrderID, Tid, msg, Request.UserHostAddress, CallbackLog, Year, ref ChargeType))
-                            {
-                                //if (objSMSHepler.SendMsg_SL(mobile, msg))
-                                //{
-
-                                //    //m2 = m2.IndexOf("aid=") > 0 ? m2 : (m2.IndexOf("?") > 0 ? m2 + "&aid=" + m1 : m2 + "?aid=" + m1 + "&a=" + adminID);
-                                //    m2 = "https://bobibobi.tw/Temples/templeComplete.aspx?kind=1&a=" + adminID + "&aid=" + aid;
-                                //    Response.Redirect(m2, true);
-                                //}
-                                //else
-                                //{
-                                //    Response.Write("<script>alert('傳送簡訊失敗。請聯繫管理員。客服電話：04-36092299。');window.location.href='" + rebackURL + "'</script>");
-                                //}
-                            }
-                            else
+                            if (!objDatabaseHelper.UpdateChargeLog_Supplies_wu3(OrderID, Tid, msg, Request.UserHostAddress, CallbackLog, Year, ref ChargeType))
                             {
                                 string encrypt = string.Empty;
 

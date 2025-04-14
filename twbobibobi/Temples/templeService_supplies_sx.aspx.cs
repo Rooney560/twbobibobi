@@ -268,6 +268,7 @@ namespace twbobibobi.Temples
                     basePage.mJSonHelper.AddContent("redirect", "templeCheck.aspx?kind=17&a=" + AdminID + "&aid=" + ApplicantID +
                         (basePage.Request["ad"] != null ? "&ad=" + basePage.Request["ad"] : "") +
                         (basePage.Request["jkos"] != null ? "&jkos=1" : "") +
+                        (basePage.Request["pxpayplues"] != null ? "&pxpayplues=1" : "") +
                         (basePage.Request["twm"] != null ? "&twm=1" : ""));
 
                     basePage.Session["ApplicantID"] = ApplicantID;

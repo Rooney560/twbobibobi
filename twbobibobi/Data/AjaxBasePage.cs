@@ -2049,7 +2049,7 @@ namespace MotoSystem.Data
 
         //補庫項目 1-下元補庫 2-呈疏補庫(天官武財神聖誕補財庫) 3-企業補財庫 4-天赦日補運 5-天赦日祭改 6-代燒金紙 7-招財補運 8-招財補運九九重陽升級版 9-補財庫 10-財神賜福-消災補庫法會 11-地母廟-赦罪解業
         //          12-地母廟-補財庫 13-地母廟-赦罪解業+補財庫 14-草屯敦和宮-赦罪解業 15-草屯敦和宮-補財庫 16-草屯敦和宮-赦罪解業+補財庫 17-紫南宮-赦罪解業 18-紫南宮-補財庫
-        //          19-紫南宮-赦罪解業+補財庫 20-天公生招財補運 21-補財庫(正財) 22-補財庫(偏財)
+        //          19-紫南宮-赦罪解業+補財庫 20-天公生招財補運 21-補財庫(正財) 22-補財庫(偏財) 23-烏日神霄玉府/沉香每台斤 24-草屯敦和宮/沉香每台斤
         public static int GetSuppliesCost(int AdminID, string SuppliesType)
         {
             int result = 0;
@@ -2161,6 +2161,10 @@ namespace MotoSystem.Data
                             //紫南宮-赦罪解業+補財庫
                             result = 2800;
                             break;
+                        case "23":
+                            //烏日神霄玉府/沉香每台斤
+                            result = 1200;
+                            break;
                         default:
                             result = 1500;
                             break;
@@ -2239,6 +2243,12 @@ namespace MotoSystem.Data
                 case "補財庫(偏財)":
                     result = "22";
                     break;
+                case "烏日神霄玉府/沉香每台斤":
+                    result = "23";
+                    break;
+                case "草屯敦和宮/沉香每台斤":
+                    result = "24";
+                    break;
             }
 
             return result;
@@ -2313,6 +2323,12 @@ namespace MotoSystem.Data
                     break;
                 case "22":
                     result = "補財庫(偏財)";
+                    break;
+                case "23":
+                    result = "烏日神霄玉府/沉香每台斤";
+                    break;
+                case "24":
+                    result = "草屯敦和宮/沉香每台斤";
                     break;
             }
 
@@ -2782,6 +2798,10 @@ namespace MotoSystem.Data
                 if (parameters.Count > 0)
                 {
                     string firstKey = parameters.Keys[0];
+                    if (firstKey == "kind")
+                    {
+                        return urlString;
+                    }
                     string firstValue = parameters[firstKey];
 
                     if (firstValue == "1")

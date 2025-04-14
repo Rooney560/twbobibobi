@@ -9,7 +9,7 @@
 <head runat="server">
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport" />
-    <meta property="og:title" content="２０２５乙巳蛇年首個天赦日招財補運活動|最新消息|【保必保庇】線上宮廟服務平台" />
+    <meta property="og:title" content="２０２５乙巳蛇年天赦日招財補運活動|最新消息|【保必保庇】線上宮廟服務平台" />
     <!--標題-->
     <meta property="og:url" content="https://bobibobi.tw/Temples/newsContent_2025suppliesBF.aspx" />
     <!--網址：請補上網址-->
@@ -17,7 +17,7 @@
     <!--簡介-->
     <meta property="og:description" content="世代信仰，數位傳承 - 與全臺知名宮廟合作，提供宮廟服務線上報名，讓您在忙碌之餘也可以透過線上報名的方式,參與宮廟的服務。" />
     <!--簡介-->
-    <meta property="og:site_name" content="２０２５乙巳蛇年首個天赦日招財補運活動|最新消息|【保必保庇】線上宮廟服務平台" />
+    <meta property="og:site_name" content="２０２５乙巳蛇年天赦日招財補運活動|最新消息|【保必保庇】線上宮廟服務平台" />
     <!--標題-->
     <meta property="og:type" content="website" />
 
@@ -31,7 +31,7 @@
     <link href="images/favicon.png" rel="apple-touch-icon" sizes="192x192" />
 
 
-    <title>２０２５乙巳蛇年首個天赦日招財補運活動|最新消息|【保必保庇】線上宮廟服務平台</title>
+    <title>２０２５乙巳蛇年天赦日招財補運活動|最新消息|【保必保庇】線上宮廟服務平台</title>
     <!--標題-->
 
     <!--資源項目-->
@@ -166,7 +166,7 @@
                 <ul>
                     <li><a href="../index.aspx" title="首頁">首頁</a></li>
                     <li><a href="news.aspx" title="最新消息">最新消息</a></li>
-                    <li>>２０２５乙巳蛇年首個天赦日招財補運活動</li>
+                    <li>>２０２５乙巳蛇年天赦日招財補運活動</li>
                 </ul>
             </nav>
 
@@ -175,11 +175,11 @@
                 <div class="NewsImg">
                     <img src="SiteFile/News/20250221_NewsImg.jpg?t=666168" width="1160" height="550" alt="天赦日招財補運" title="天赦日招財補運" /></div>
                 <div class="NewsBk">
-                    <div class="NewsDate">發布日期：2025-02-19</div>
+                    <div class="NewsDate">發布日期：2025-04-01</div>
                     <br />
                     <div class="NewsContent Content">
                         <!--內容放這裡 //Start-->
-                        <h1>歡迎參加2025乙巳蛇年首個天赦日招財補運活動</h1>
+                        <h1>歡迎參加2025乙巳蛇年天赦日招財補運活動</h1>
                         <br />
                         <h2>天赦日 是傳統民俗中的四大吉日之一，屬於天時大吉之日，意指上天赦罪、萬物得以更新。這一天，無論過去犯下何種過錯（無論是有意或無意的過失），
                             只要誠心懺悔，皆能得到上天的赦免與庇佑，因此被視為消災解厄、補運轉運的最佳時機。</h2>                       

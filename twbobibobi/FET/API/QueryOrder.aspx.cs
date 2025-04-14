@@ -143,7 +143,7 @@ namespace Temple.FET.APITEST
                     string Description = string.Empty;
                     string OrderID = string.Empty;
                     string[] LightsList = new string[0];
-                    string[] clist = { "CMPO20241119001243", "CMPO20241119001241", "CMPO20250115015318" };
+                    string[] clist = { "CMPO20241119001243", "CMPO20241119001241", "CMPO20250115015318", "CMPO20250410001584" };
                     int type = 1;
 
                     //DataTable dtAdmin = objAdminDAC.GetAdminList(9);

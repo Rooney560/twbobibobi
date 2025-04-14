@@ -1612,6 +1612,45 @@ namespace Read.data
         }
 
         /// <summary>
+        /// 记录產品支付请求-供香祈福(神霄玉府財神會館)
+        /// </summary>
+        /// <param name="OrderID">订单编号</param>
+        /// <param name="ApplicantID">購買人编号</param>
+        /// <param name="Amount">支付金額</param>>
+        /// <param name="Description">支付内容说明</param>
+        /// <param name="Comment">备注</param>
+        /// <param name="PayChannelLog">支付接口日志</param>
+        /// <param name="IP">来源IP</param>
+        public long AddChargeLog_Supplies2_sx(string OrderID, int ApplicantID, int Amount, string ChargeType, int Status, string Description, string Comment, string PayChannelLog, string IP, string Year)
+        {
+            TimeZoneInfo info = TimeZoneInfo.FindSystemTimeZoneById("Taipei Standard Time");
+            DateTime dt = TimeZoneInfo.ConvertTime(DateTime.Now, info);
+            DataTable dtDataList = new DataTable();
+            string sql = "Insert into Temple_" + Year + "..APPCharge_sx_Supplies2(OrderID, ApplicantID, Amount, Status, Description, ChargeType, Comment, PayChannelLog, IP, CreateDate, CreateDateString) " +
+                "values(@OrderID, @ApplicantID, @Amount, @Status, @Description, @ChargeType, @Comment, @PayChannelLog, @IP, @CreateDate, @CreateDateString)";
+
+            DatabaseAdapter Adapter = new DatabaseAdapter(sql, this.DBSource);
+            DataTable dtdata = new DataTable();
+            Adapter.AddParameterToSelectCommand("@OrderID", OrderID);
+            Adapter.AddParameterToSelectCommand("@ApplicantID", ApplicantID);
+            Adapter.AddParameterToSelectCommand("@Amount", Amount);
+            Adapter.AddParameterToSelectCommand("@Status", Status);
+            Adapter.AddParameterToSelectCommand("@Description", Description);
+            Adapter.AddParameterToSelectCommand("@ChargeType", ChargeType);
+            Adapter.AddParameterToSelectCommand("@Comment", Comment);
+            Adapter.AddParameterToSelectCommand("@PayChannelLog", PayChannelLog);
+            Adapter.AddParameterToSelectCommand("@IP", IP);
+            Adapter.AddParameterToSelectCommand("@CreateDate", dt);
+            Adapter.AddParameterToSelectCommand("@CreateDateString", dt.ToString("yyyy-MM-dd"));
+
+            Adapter.SetSqlCommandBuilder();
+            Adapter.Fill(dtdata);
+            Adapter.Update(dtdata);
+
+            return this.GetIdentity();
+        }
+
+        /// <summary>
         /// 记录產品支付请求-補財庫(鹿港城隍廟)
         /// </summary>
         /// <param name="OrderID">订单编号</param>
@@ -3189,6 +3228,17 @@ namespace Read.data
         {
             DataTable dtDataList = new DataTable();
             string sql = "Select Top 1 * From Temple_" + Year + "..APPCharge_sx_Supplies Where OrderID=@OrderID";
+
+            DatabaseAdapter AdapterObj = new DatabaseAdapter(sql, this.DBSource);
+            AdapterObj.AddParameterToSelectCommand("@OrderID", OrderID);
+            AdapterObj.Fill(dtDataList);
+            return dtDataList;
+        }
+
+        public DataTable GetChargeLog_Supplies2_sx(string OrderID, string Year)
+        {
+            DataTable dtDataList = new DataTable();
+            string sql = "Select Top 1 * From Temple_" + Year + "..APPCharge_sx_Supplies2 Where OrderID=@OrderID";
 
             DatabaseAdapter AdapterObj = new DatabaseAdapter(sql, this.DBSource);
             AdapterObj.AddParameterToSelectCommand("@OrderID", OrderID);
@@ -12732,6 +12782,96 @@ namespace Read.data
             }
         }
 
+        public bool UpdateSupplies2_sx_Info(int applicantID, string Year, ref string msg, ref string[] Supplieslist)
+        {
+            lock (_thisLock)
+            {
+                TimeZoneInfo info = TimeZoneInfo.FindSystemTimeZoneById("Taipei Standard Time");
+                DateTime dt = TimeZoneInfo.ConvertTime(DateTime.Now, info);
+                bool bResult = false;
+                int lastnum = GetListNum_sx_Supplies2(applicantID, Year);
+                if (lastnum > 0)
+                {
+                    bool dhavenum = true;
+                    for (int i = 1001; i < lastnum; i++)
+                    {
+                        if (CheckedNum_sx_Supplies2(i, Year))
+                        {
+                            lastnum = i;
+                            dhavenum = false;
+                            break;
+                        }
+                    }
+
+                    if (dhavenum)
+                    {
+                        ++lastnum;
+                    }
+                }
+                else
+                {
+                    lastnum = 1001;
+                }
+                DataTable dtDataList = new DataTable();
+                string sql = "Select * From Temple_" + Year + "..Supplies2_sx_info Where ApplicantID=@ApplicantID and Status = 0";
+
+                DatabaseAdapter AdapterObj = new DatabaseAdapter(sql, this.DBSource);
+                AdapterObj.SetSqlCommandBuilder();
+                AdapterObj.AddParameterToSelectCommand("@ApplicantID", applicantID);
+                AdapterObj.Fill(dtDataList);
+
+                Supplieslist = new string[dtDataList.Rows.Count];
+                for (int i = 0; i < dtDataList.Rows.Count; i++)
+                {
+                    string sid = dtDataList.Rows[i]["SuppliesID"].ToString();
+                    string Num2String = "SX2BF" + lastnum;
+
+                    int res = ExecuteSql("Update Temple_" + Year + "..Supplies2_sx_info Set Num2String = '" + Num2String + "', Num = " + lastnum + " Where SuppliesID=" + sid);
+
+                    if (res > 0)
+                    {
+                        bResult = true;
+                    }
+
+                    Supplieslist[i] = Num2String;
+
+                    msg += Supplieslist[i];
+                    if (i < Supplieslist.Length - 1)
+                    {
+                        msg += ",";
+                    }
+
+                    lastnum = GetListNum_sx_Supplies2(applicantID, Year);
+                    if (lastnum > 0)
+                    {
+                        bool dhavenum = true;
+                        for (int j = 1001; j < lastnum; j++)
+                        {
+                            if (CheckedNum_sx_Supplies2(j, Year))
+                            {
+                                lastnum = j;
+                                dhavenum = false;
+                                break;
+                            }
+                        }
+
+                        if (dhavenum)
+                        {
+                            lastnum++;
+                        }
+                    }
+                    else
+                    {
+                        lastnum = 1001;
+                    }
+                }
+
+                msg += "。客服電話：04-36092299。";
+
+                return bResult;
+            }
+        }
+
         public bool UpdateSupplies_jb_Info(int applicantID, string Year, ref string[] Supplieslist)
         {
             TimeZoneInfo info = TimeZoneInfo.FindSystemTimeZoneById("Taipei Standard Time");
@@ -13639,6 +13779,93 @@ namespace Read.data
                     lastnum = 2001;
                 }
             }
+
+            return bResult;
+        }
+
+        public bool UpdateSupplies_wu_Info3(int applicantID, string Year, ref string msg, ref string[] Supplieslist)
+        {
+            TimeZoneInfo info = TimeZoneInfo.FindSystemTimeZoneById("Taipei Standard Time");
+            DateTime dt = TimeZoneInfo.ConvertTime(DateTime.Now, info);
+            bool bResult = false;
+            int lastnum = GetListNum_wu_Supplies3(applicantID, Year);
+            if (lastnum > 0)
+            {
+                bool dhavenum = true;
+                for (int i = 2001; i < lastnum; i++)
+                {
+                    if (CheckedNum_wu_Supplies3(i, Year))
+                    {
+                        lastnum = i;
+                        dhavenum = false;
+                        break;
+                    }
+                }
+
+                if (dhavenum)
+                {
+                    ++lastnum;
+                }
+            }
+            else
+            {
+                lastnum = 2001;
+            }
+            DataTable dtDataList = new DataTable();
+            string sql = "Select * From Temple_" + Year + "..Supplies_wu_info3 Where ApplicantID=@ApplicantID and Status = 0 and Num = 0";
+
+            DatabaseAdapter AdapterObj = new DatabaseAdapter(sql, this.DBSource);
+            AdapterObj.SetSqlCommandBuilder();
+            AdapterObj.AddParameterToSelectCommand("@ApplicantID", applicantID);
+            AdapterObj.Fill(dtDataList);
+
+            Supplieslist = new string[dtDataList.Rows.Count];
+            for (int i = 0; i < dtDataList.Rows.Count; i++)
+            {
+                string sid = dtDataList.Rows[i]["SuppliesID"].ToString();
+                string Num2String = "W3S" + lastnum;
+
+                int res = ExecuteSql("Update Temple_" + Year + "..Supplies_wu_info3 Set Num2String = '" + Num2String + "', Num = " + lastnum + " Where SuppliesID=" + sid);
+
+                if (res > 0)
+                {
+                    bResult = true;
+                }
+
+                Supplieslist[i] = Num2String;
+
+                msg += Supplieslist[i];
+                if (i < Supplieslist.Length - 1)
+                {
+                    msg += ",";
+                }
+
+                lastnum = GetListNum_wu_Supplies3(applicantID, Year);
+                if (lastnum > 0)
+                {
+                    bool dhavenum = true;
+                    for (int j = 2001; j < lastnum; j++)
+                    {
+                        if (CheckedNum_wu_Supplies3(j, Year))
+                        {
+                            lastnum = j;
+                            dhavenum = false;
+                            break;
+                        }
+                    }
+
+                    if (dhavenum)
+                    {
+                        lastnum++;
+                    }
+                }
+                else
+                {
+                    lastnum = 2001;
+                }
+            }
+
+            msg += "。客服電話：04-36092299。";
 
             return bResult;
         }
@@ -14669,6 +14896,19 @@ namespace Read.data
         {
             bool bResult = false;
             int res = ExecuteSql("Update Temple_" + Year + "..ApplicantInfo_sx_Supplies Set Status= " + Status + ", Cost= " + Cost + " Where ApplicantID=" + applicantID);
+
+            if (res > 0)
+            {
+                bResult = true;
+            }
+
+            return bResult;
+        }
+
+        public bool Updateapplicantinfo_Supplies2_sx(int applicantID, int Cost, int Status, string Year)
+        {
+            bool bResult = false;
+            int res = ExecuteSql("Update Temple_" + Year + "..ApplicantInfo_sx_Supplies2 Set Status= " + Status + ", Cost= " + Cost + " Where ApplicantID=" + applicantID);
 
             if (res > 0)
             {
@@ -16730,6 +16970,26 @@ namespace Read.data
             int result = 0;
             string sql = string.Empty;
             sql = "Select * from Temple_" + Year + "..Supplies_sx_info Where Status = 0 and Num != 0 Order by Num Desc";
+
+            DatabaseAdapter objDatabaseAdapter = new DatabaseAdapter(sql, this.DBSource);
+            DataTable dtGetData = new DataTable();
+            objDatabaseAdapter.Fill(dtGetData);
+
+            if (dtGetData.Rows.Count > 0)
+            {
+                result = int.Parse(dtGetData.Rows[0]["Num"].ToString());
+            }
+            return result;
+        }
+
+        /// <summary>
+        /// 取得最後一名編號資料-神霄玉府財神會館供香祈福
+        /// </summary>
+        public int GetListNum_sx_Supplies2(int applicantID, string Year)
+        {
+            int result = 0;
+            string sql = string.Empty;
+            sql = "Select * from Temple_" + Year + "..Supplies2_sx_info Where Status = 0 and Num != 0 Order by Num Desc";
 
             DatabaseAdapter objDatabaseAdapter = new DatabaseAdapter(sql, this.DBSource);
             DataTable dtGetData = new DataTable();
@@ -20247,6 +20507,33 @@ namespace Read.data
             return bResult;
         }
 
+        public bool UpdateChargeStatus_Supplies2_sx(string OrderID, int Status, string BillIP, string CallbackLog, string Year)
+        {
+            TimeZoneInfo info = TimeZoneInfo.FindSystemTimeZoneById("Taipei Standard Time");
+            DateTime dt = TimeZoneInfo.ConvertTime(DateTime.Now, info);
+            bool bResult = false;
+            DataTable dtDataList = new DataTable();
+            string sql = "Select Top 1 * From Temple_" + Year + "..APPCharge_sx_Supplies2 Where OrderID=@OrderID";
+
+            DatabaseAdapter AdapterObj = new DatabaseAdapter(sql, this.DBSource);
+            AdapterObj.SetSqlCommandBuilder();
+            AdapterObj.AddParameterToSelectCommand("@OrderID", OrderID);
+            AdapterObj.Fill(dtDataList);
+
+            if ((int)dtDataList.Rows[0]["Status"] == 0)
+            {
+                int res = ExecuteSql("Update Temple_" + Year + "..APPCharge_sx_Supplies2 Set Status = " + Status + ", BillIP = '" + BillIP + "', CallbackLog = '" + CallbackLog +
+                    "', ChargeDate = '" + dt.ToString("yyyy-MM-dd HH:mm:ss") + "', ChargeDateString = '" + dt.ToString("yyyy-MM-dd") + "' Where OrderID='" + OrderID + "'");
+                if (res > 0)
+                {
+                    bResult = true;
+                }
+            }
+
+
+            return bResult;
+        }
+
         public bool UpdateChargeStatus_Supplies_wu(string OrderID, int Status)
         {
             TimeZoneInfo info = TimeZoneInfo.FindSystemTimeZoneById("Taipei Standard Time");
@@ -20841,6 +21128,33 @@ namespace Read.data
             bool bResult = false;
             DataTable dtDataList = new DataTable();
             string sql = "Select Top 1 * From Temple_" + Year + "..APPCharge_ty_Lights Where OrderID=@OrderID";
+
+            DatabaseAdapter AdapterObj = new DatabaseAdapter(sql, this.DBSource);
+            AdapterObj.SetSqlCommandBuilder();
+            AdapterObj.AddParameterToSelectCommand("@OrderID", OrderID);
+            AdapterObj.Fill(dtDataList);
+
+            if ((int)dtDataList.Rows[0]["Status"] == 0)
+            {
+                int res = ExecuteSql("Update Temple_" + Year + "..APPCharge_ty_Lights Set Status = " + Status + ", BillIP = '" + BillIP + "', CallbackLog = '" + CallbackLog +
+                    "', ChargeDate = '" + dt.ToString("yyyy-MM-dd HH:mm:ss") + "', ChargeDateString = '" + dt.ToString("yyyy-MM-dd") + "' Where OrderID='" + OrderID + "'");
+                if (res > 0)
+                {
+                    bResult = true;
+                }
+            }
+
+
+            return bResult;
+        }
+
+        public bool UpdateChargeStatus_Lights_ty_mom(string OrderID, int Status, string BillIP, string CallbackLog, string Year)
+        {
+            TimeZoneInfo info = TimeZoneInfo.FindSystemTimeZoneById("Taipei Standard Time");
+            DateTime dt = TimeZoneInfo.ConvertTime(DateTime.Now, info);
+            bool bResult = false;
+            DataTable dtDataList = new DataTable();
+            string sql = "Select Top 1 * From Temple_" + Year + "..APPCharge_ty_mom_Lights Where OrderID=@OrderID";
 
             DatabaseAdapter AdapterObj = new DatabaseAdapter(sql, this.DBSource);
             AdapterObj.SetSqlCommandBuilder();
@@ -22138,6 +22452,34 @@ namespace Read.data
             {
                 ChargeType = dtDataList.Rows[0]["ChargeType"].ToString();
                 int res = ExecuteSql("Update Temple_" + Year + "..APPCharge_sx_Supplies Set Status = 1, BillIP = '" + BillIP + "', Transaction_id = '" + Transaction_id + "', CallbackLog = '" + CallbackLog +
+                    "', Comment = N'" + Comment + "', ChargeDate = '" + dt.ToString("yyyy-MM-dd HH:mm:ss") + "', ChargeDateString = '" + dt.ToString("yyyy-MM-dd") + "' Where OrderID='" + OrderID + "'");
+
+                if (res > 0)
+                {
+                    bResult = true;
+                }
+            }
+
+            return bResult;
+        }
+
+        public bool UpdateChargeLog_Supplies2_sx(string OrderID, string Transaction_id, string Comment, string BillIP, string CallbackLog, string Year, ref string ChargeType)
+        {
+            TimeZoneInfo info = TimeZoneInfo.FindSystemTimeZoneById("Taipei Standard Time");
+            DateTime dt = TimeZoneInfo.ConvertTime(DateTime.Now, info);
+            bool bResult = false;
+            DataTable dtDataList = new DataTable();
+            string sql = "Select Top 1 * From Temple_" + Year + "..APPCharge_sx_Supplies2 Where OrderID=@OrderID";
+
+            DatabaseAdapter AdapterObj = new DatabaseAdapter(sql, this.DBSource);
+            AdapterObj.SetSqlCommandBuilder();
+            AdapterObj.AddParameterToSelectCommand("@OrderID", OrderID);
+            AdapterObj.Fill(dtDataList);
+
+            if ((int)dtDataList.Rows[0]["Status"] == 0)
+            {
+                ChargeType = dtDataList.Rows[0]["ChargeType"].ToString();
+                int res = ExecuteSql("Update Temple_" + Year + "..APPCharge_sx_Supplies2 Set Status = 1, BillIP = '" + BillIP + "', Transaction_id = '" + Transaction_id + "', CallbackLog = '" + CallbackLog +
                     "', Comment = N'" + Comment + "', ChargeDate = '" + dt.ToString("yyyy-MM-dd HH:mm:ss") + "', ChargeDateString = '" + dt.ToString("yyyy-MM-dd") + "' Where OrderID='" + OrderID + "'");
 
                 if (res > 0)
@@ -23926,6 +24268,24 @@ namespace Read.data
             string sql = string.Empty;
 
             sql = "Select * from Temple_" + Year + "..Supplies_sx_info Where Status = 0 and Num = " + Num + " Order by Num Desc";
+
+            DatabaseAdapter objDatabaseAdapter = new DatabaseAdapter(sql, this.DBSource);
+            DataTable dtGetData = new DataTable();
+            objDatabaseAdapter.Fill(dtGetData);
+
+            if (dtGetData.Rows.Count > 0)
+            {
+                result = false;
+            }
+            return result;
+        }
+
+        public bool CheckedNum_sx_Supplies2(int Num, string Year)
+        {
+            bool result = true;
+            string sql = string.Empty;
+
+            sql = "Select * from Temple_" + Year + "..Supplies2_sx_info Where Status = 0 and Num = " + Num + " Order by Num Desc";
 
             DatabaseAdapter objDatabaseAdapter = new DatabaseAdapter(sql, this.DBSource);
             DataTable dtGetData = new DataTable();

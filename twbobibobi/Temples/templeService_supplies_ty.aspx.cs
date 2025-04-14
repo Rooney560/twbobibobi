@@ -116,6 +116,8 @@ namespace Temple.Temples
 
                 postURL += basePage.Request["jkos"] != null ? "_JKOS" : "";
 
+                postURL += basePage.Request["pxpayplues"] != null ? "_PXPAY" : "";
+
                 postURL += basePage.Request["gads"] != null ? "_GADS" : "";
 
                 postURL += basePage.Request["inty"] != null ? "_INTY" : "";
@@ -324,6 +326,7 @@ namespace Temple.Temples
                         basePage.mJSonHelper.AddContent("redirect", "templeCheck.aspx?kind=7&a=" + AdminID + "&aid=" + ApplicantID +
                         (basePage.Request["ad"] != null ? "&ad=" + basePage.Request["ad"] : "") +
                         (basePage.Request["jkos"] != null ? "&jkos=1" : "") +
+                        (basePage.Request["pxpayplues"] != null ? "&pxpayplues=1" : "") +
                         (basePage.Request["twm"] != null ? "&twm=1" : ""));
 
                         basePage.Session["ApplicantID"] = ApplicantID;
