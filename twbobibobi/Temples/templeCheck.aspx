@@ -616,6 +616,576 @@
         $.cookie('validateCodeCountdown', 0);
         countdown = 0;
 
+        backURL(url);
+
+        //switch (url.searchParams.get('kind')) {
+        //    case "1":
+        //        switch (url.searchParams.get('a')) {
+        //            case "3":
+        //                window.location = 'templeService_lights_da.aspx' + window.location.search;
+        //                break;
+        //            case "4":
+        //                window.location = 'templeService_lights_h.aspx' + window.location.search;
+        //                break;
+        //            case "6":
+        //                window.location = 'templeService_lights_wu.aspx' + window.location.search;
+        //                break;
+        //            case "8":
+        //                window.location = 'templeService_lights_Fu.aspx' + window.location.search;
+        //                break;
+        //            case "10":
+        //                window.location = 'templeService_lights_Luer.aspx' + window.location.search;
+        //                if (url.searchParams.get('type') == "2") {
+        //                    window.location = 'templeService_marriagelights_Luer.aspx' + window.location.search;
+        //                }
+        //                break;
+        //            case "14":
+        //                window.location = 'templeService_lights_ty.aspx' + window.location.search;
+        //                break;
+        //            case "15":
+        //                window.location = 'templeService_lights_Fw.aspx' + window.location.search;
+        //                break;
+        //            case "16":
+        //                window.location = 'templeService_lights_dh.aspx' + window.location.search;
+        //                break;
+        //            case "21":
+        //                window.location = 'templeService_lights_Lk.aspx' + window.location.search;
+        //                break;
+        //            case "23":
+        //                window.location = 'templeService_lights_ma.aspx' + window.location.search;
+        //                break;
+        //            case "31":
+        //                window.location = 'templeService_lights_wjsan.aspx' + window.location.search;
+        //                break;
+        //        }
+        //        break;
+        //    case "2":
+        //        switch (url.searchParams.get('a')) {
+        //            case "3":
+        //                window.location = 'templeService_purdue_da.aspx' + window.location.search;
+        //                break;
+        //            case "4":
+        //                window.location = 'templeService_purdue_h.aspx' + window.location.search;
+        //                break;
+        //            case "6":
+        //                window.location = 'templeService_purdue_wu.aspx' + window.location.search;
+        //                break;
+        //            case "8":
+        //                window.location = 'templeService_purdue_Fu.aspx' + window.location.search;
+        //                break;
+        //            case "9":
+        //                window.location = 'templeService_purdue_Jing.aspx' + window.location.search;
+        //                break;
+        //            case "10":
+        //                window.location = 'templeService_purdue_Luer.aspx' + window.location.search;
+        //                break;
+        //            case "14":
+        //                window.location = 'templeService_purdue_ty.aspx' + window.location.search;
+        //                break;
+        //            case "15":
+        //                window.location = 'templeService_purdue_Fw.aspx' + window.location.search;
+        //                break;
+        //            case "16":
+        //                window.location = 'templeService_purdue_dh.aspx' + window.location.search;
+        //                break;
+        //            case "21":
+        //                window.location = 'templeService_purdue_Lk.aspx' + window.location.search;
+        //                break;
+        //            case "23":
+        //                window.location = 'templeService_purdue_ma.aspx' + window.location.search;
+        //                break;
+        //        }
+        //        break;
+        //    case "3":
+        //        break;
+        //    case "4":
+        //        switch (url.searchParams.get('a')) {
+        //            case "6":
+        //                window.location = 'templeService_supplies.aspx' + window.location.search;
+        //                break;
+        //        }
+        //        break;
+        //    case "5":
+        //        switch (url.searchParams.get('a')) {
+        //            case "6":
+        //                window.location = 'templeService_supplies2.aspx' + window.location.search;
+        //                break;
+        //        }
+        //        break;
+        //    case "6":
+        //        switch (url.searchParams.get('a')) {
+        //            case "6":
+        //                window.location = 'templeService_supplies3.aspx' + window.location.search;
+        //                $("#card_pay").hide();
+        //                $("#Line_pay").hide();
+        //                break;
+        //        }
+        //        break;
+        //    case "7":
+        //        switch (url.searchParams.get('a')) {
+        //            case "14":
+        //                window.location = 'templeService_supplies_ty.aspx' + window.location.search;
+        //                break;
+        //            case "23":
+        //                window.location = 'templeService_supplies_ma.aspx' + window.location.search;
+        //                break;
+        //        }
+        //        break;
+        //    case "9":
+        //        switch (url.searchParams.get('a')) {
+        //            case "14":
+        //                if (url.searchParams.get('bobi') == 1) {
+        //                    window.location = 'templeService_EmperorGuansheng_bobi_ty.aspx' + window.location.search;
+        //                }
+        //                else {
+        //                    window.location = 'templeService_EmperorGuansheng_ty.aspx' + window.location.search;
+        //                }
+        //                break;
+        //        }
+        //        break;
+        //    case "11":
+        //        switch (url.searchParams.get('a')) {
+        //            case "16":
+        //                window.location = 'templeService_supplies_dh.aspx' + window.location.search;
+        //                break;
+        //        }
+        //        break;
+        //    case "12":
+        //        switch (url.searchParams.get('a')) {
+        //            case "23":
+        //                if (url.searchParams.get('fet') == 1) {
+        //                    window.location = 'templeService_Lingbaolidou_ma_fet.aspx' + window.location.search;
+        //                }
+        //                else {
+        //                    window.location = 'templeService_Lingbaolidou_ma.aspx' + window.location.search;
+        //                }
+        //                break;
+        //        }
+        //        break;
+        //    case "13":
+        //        switch (url.searchParams.get('a')) {
+        //            case "3":
+        //                window.location = 'templeService_TaoistJiaoCeremony_da.aspx' + window.location.search;
+        //                break;
+        //        }
+        //        break;
+        //    case "14":
+        //        switch (url.searchParams.get('a')) {
+        //            case "14":
+        //                window.location = 'templeService_supplies2_ty.aspx' + window.location.search;
+        //                break;
+        //        }
+        //        break;
+        //    case "15":
+        //        switch (url.searchParams.get('a')) {
+        //            case "16":
+        //                window.location = 'templeService_lybc_dh.aspx' + window.location.search;
+        //                break;
+        //        }
+        //        break;
+        //    case "16":
+        //        switch (url.searchParams.get('a')) {
+        //            case "15":
+        //                window.location = 'templeService_supplies_Fw.aspx' + window.location.search;
+        //                break;
+        //            case "21":
+        //                window.location = 'templeService_supplies_Lk.aspx' + window.location.search;
+        //                break;
+        //        }
+        //        break;
+        //    case "17":
+        //        switch (url.searchParams.get('a')) {
+        //            case "33":
+        //                window.location = 'templeService_supplies_sx.aspx' + window.location.search;
+        //                break;
+        //        }
+        //        break;
+        //    case "18":
+        //        switch (url.searchParams.get('a')) {
+        //            case "14":
+        //                window.location = 'templeService_supplies3_ty.aspx' + window.location.search;
+        //                break;
+        //        }
+        //        break;
+        //    case "19":
+        //        switch (url.searchParams.get('a')) {
+        //            case "33":
+        //                window.location = 'templeService_supplies2_sx.aspx' + window.location.search;
+        //                break;
+        //        }
+        //        break;
+        //}
+    })
+
+    ////遠傳手機門號付款
+    //$("#mobile_fet_pay").on("click", function () {
+    //    //付款串接放這裡
+    //    nextStep('FetCSP');
+    //})
+
+    ////信用卡付款
+    //$("#card_pay").on("click", function () {
+    //    //付款串接放這裡
+    //    nextStep('CreditCard');
+    //})
+
+    ////Google付款
+    //$("#Google_pay").on("click", function () {
+    //    //付款串接放這裡
+    //    nextStep('GOOGLEPAY');
+    //})
+
+    ////line付款
+    //$("#Line_pay").on("click", function () {
+    //    //付款串接放這裡
+    //    nextStep('LinePay');
+    //})
+
+    ////街口支付付款
+    //$("#Jkos_pay").on("click", function () {
+    //    //付款串接放這裡
+    //    nextStep('JkosPay');
+    //})
+
+    ////全支付付款
+    //$("#PXPayPlus").on("click", function () {
+    //    //付款串接放這裡
+    //    nextStep('PXPayPlus');
+    //})
+
+    ////中華手機門號付款
+    //$("#mobile_cht_pay").on("click", function () {
+    //    //付款串接放這裡
+    //    nextStep('ChtCSP');
+    //})
+
+    ////台哥大手機門號付款
+    //$("#mobile_twm_pay").on("click", function () {
+    //    //付款串接放這裡
+    //    nextStep('TwmCSP');
+    //})
+
+    ////銀聯卡付款
+    //$("#union_pay").on("click", function () {
+    //    //付款串接放這裡
+    //    nextStep('UnionPay');
+    //})
+
+    //確認付款
+    $("#SubmitOrder").on("click", function () {
+        //付款串接放這裡
+        var payType = $('input[name="pay"]:checked').val();
+
+        if (typeof (payType) == "undefined") {
+            alert("請選擇付款方式！");
+        }
+        else {
+            nextStep(payType);
+        }
+    })
+
+    //前往付款
+    function nextStep(ChargeType) {
+        var isValid = true;
+
+        if ($("#Code").val() != null) {
+            var value = $("#Code").val().trim();
+            if (value === '') {
+                isValid = false;
+                $("#Code").addClass('unfilled');
+            } else if (value != '' && $("#Code").hasClass('unfilled')) {
+                $("#Code").removeClass('unfilled');
+            }
+        }
+
+        if (isValid) {
+            $(".loader").addClass("is-active");
+
+            var getUrlString = location.href;
+            var url = new URL(getUrlString);
+            var kind = url.searchParams.get('kind');
+            var a = url.searchParams.get('a');
+
+            data = {
+                AppMobile: $("#AppMobile").text(),
+                Total: $("#Cost").text(),
+                Code: $("#Code").val(),
+                ChargeType: ChargeType
+            };
+
+            ac_loadServerMethod("gotopay", data, gotopay);
+        }
+        else {
+            // 在這裡可以進行表單提交或其他相關處理
+            // 有欄位未填寫
+            if (!isValid) {
+                $(".Notice").text("請檢查驗證碼是否都已填寫。");
+                $(".Notice").addClass("active");
+                $("#Code").focus();
+            }
+        }
+    }
+
+    //導向付款頁面
+    function gotopay(res) {
+
+        // 重導到相關頁面
+        if (res.StatusCode == 1) {
+            $("#Code").removeClass('unfilled');
+            if (res.redirect) {
+                $.cookie('validateCodeCountdown', 0);
+                countdown = 0;
+                window.location = res.redirect;
+                //$(".loader").removeClass("is-active");
+            }
+        } else {
+            $(".loader").removeClass("is-active");
+            if (res.Timeover == 1) {
+                alert("此申請人付款時間已超時20分鐘，請重新申請。");
+                location = res.backURL;
+            }
+            else if (res.Getlisterr == 1) {
+                alert(msg + " 請洽客服並告知此問題，我們將盡快為您處理！");
+                var getUrlString = location.href;
+                var url = new URL(getUrlString);
+
+                backURL(url);
+                //switch (url.searchParams.get('kind')) {
+                //    case "1":
+                //        switch (url.searchParams.get('a')) {
+                //            case "3":
+                //                window.location = 'templeService_lights_da.aspx' + window.location.search;
+                //                break;
+                //            case "4":
+                //                window.location = 'templeService_lights_h.aspx' + window.location.search;
+                //                break;
+                //            case "6":
+                //                window.location = 'templeService_lights_wu.aspx' + window.location.search;
+                //                break;
+                //            case "8":
+                //                window.location = 'templeService_lights_Fu.aspx' + window.location.search;
+                //                break;
+                //            case "10":
+                //                window.location = 'templeService_lights_Luer.aspx' + window.location.search;
+                //                if (url.searchParams.get('type') == "2") {
+                //                    window.location = 'templeService_marriagelights_Luer.aspx' + window.location.search;
+                //                }
+                //                break;
+                //            case "14":
+                //                window.location = 'templeService_lights_ty.aspx' + window.location.search;
+                //                break;
+                //            case "15":
+                //                window.location = 'templeService_lights_Fw.aspx' + window.location.search;
+                //                break;
+                //            case "16":
+                //                window.location = 'templeService_lights_dh.aspx' + window.location.search;
+                //                break;
+                //            case "21":
+                //                window.location = 'templeService_lights_Lk.aspx' + window.location.search;
+                //                break;
+                //        }
+                //        break;
+                //    case "2":
+                //        switch (url.searchParams.get('a')) {
+                //            case "3":
+                //                window.location = 'templeService_purdue_da.aspx' + window.location.search;
+                //                break;
+                //            case "4":
+                //                window.location = 'templeService_purdue_h.aspx' + window.location.search;
+                //                break;
+                //            case "6":
+                //                window.location = 'templeService_purdue_wu.aspx' + window.location.search;
+                //                break;
+                //            case "8":
+                //                window.location = 'templeService_purdue_Fu.aspx' + window.location.search;
+                //                break;
+                //            case "9":
+                //                window.location = 'templeService_purdue_Jing.aspx' + window.location.search;
+                //                break;
+                //            case "10":
+                //                window.location = 'templeService_purdue_Luer.aspx' + window.location.search;
+                //                break;
+                //            case "14":
+                //                window.location = 'templeService_purdue_ty.aspx' + window.location.search;
+                //                break;
+                //            case "15":
+                //                window.location = 'templeService_purdue_Fw.aspx' + window.location.search;
+                //                break;
+                //            case "16":
+                //                window.location = 'templeService_purdue_dh.aspx' + window.location.search;
+                //                break;
+                //            case "21":
+                //                window.location = 'templeService_purdue_Lk.aspx' + window.location.search;
+                //                break;
+                //            case "23":
+                //                window.location = 'templeService_purdue_ma.aspx' + window.location.search;
+                //                break;
+                //        }
+                //        break;
+                //    case "3":
+                //        break;
+                //    case "4":
+                //        switch (url.searchParams.get('a')) {
+                //            case "6":
+                //                window.location = 'templeService_supplies.aspx' + window.location.search;
+                //                break;
+                //        }
+                //        break;
+                //    case "5":
+                //        switch (url.searchParams.get('a')) {
+                //            case "6":
+                //                window.location = 'templeService_supplies2.aspx' + window.location.search;
+                //                break;
+                //        }
+                //        break;
+                //    case "6":
+                //        switch (url.searchParams.get('a')) {
+                //            case "6":
+                //                window.location = 'templeService_supplies3.aspx' + window.location.search;
+                //                $("#card_pay").hide();
+                //                $("#Line_pay").hide();
+                //                break;
+                //        }
+                //        break;
+                //    case "7":
+                //        switch (url.searchParams.get('a')) {
+                //            case "14":
+                //                window.location = 'templeService_supplies_ty.aspx' + window.location.search;
+                //                break;
+                //            case "23":
+                //                window.location = 'templeService_supplies_ma.aspx' + window.location.search;
+                //                break;
+                //        }
+                //        break;
+                //    case "9":
+                //        switch (url.searchParams.get('a')) {
+                //            case "14":
+                //                if (url.searchParams.get('bobi') == 1) {
+                //                    window.location = 'templeService_EmperorGuansheng_bobi_ty.aspx' + window.location.search;
+                //                }
+                //                else {
+                //                    window.location = 'templeService_EmperorGuansheng_ty.aspx' + window.location.search;
+                //                }
+                //                break;
+                //        }
+                //        break;
+                //    case "11":
+                //        switch (url.searchParams.get('a')) {
+                //            case "16":
+                //                window.location = 'templeService_supplies_dh.aspx' + window.location.search;
+                //                break;
+                //        }
+                //        break;
+                //    case "12":
+                //        switch (url.searchParams.get('a')) {
+                //            case "23":
+                //                if (url.searchParams.get('fet') == 1) {
+                //                    window.location = 'templeService_Lingbaolidou_ma_fet.aspx' + window.location.search;
+                //                }
+                //                else {
+                //                    window.location = 'templeService_Lingbaolidou_ma.aspx' + window.location.search;
+                //                }
+                //                break;
+                //        }
+                //        break;
+                //    case "13":
+                //        switch (url.searchParams.get('a')) {
+                //            case "3":
+                //                window.location = 'templeService_TaoistJiaoCeremony_da.aspx' + window.location.search;
+                //                break;
+                //        }
+                //        break;
+                //    case "14":
+                //        switch (url.searchParams.get('a')) {
+                //            case "14":
+                //                window.location = 'templeService_supplies2_ty.aspx' + window.location.search;
+                //                break;
+                //        }
+                //        break;
+                //    case "15":
+                //        switch (url.searchParams.get('a')) {
+                //            case "16":
+                //                window.location = 'templeService_lybc_dh.aspx' + window.location.search;
+                //                break;
+                //        }
+                //        break;
+                //    case "16":
+                //        switch (url.searchParams.get('a')) {
+                //            case "15":
+                //                window.location = 'templeService_supplies_Fw.aspx' + window.location.search;
+                //                break;
+                //            case "21":
+                //                window.location = 'templeService_supplies_Lk.aspx' + window.location.search;
+                //                break;
+                //        }
+                //        break;
+                //    case "17":
+                //        switch (url.searchParams.get('a')) {
+                //            case "33":
+                //                window.location = 'templeService_supplies_sx.aspx' + window.location.search;
+                //                break;
+                //        }
+                //        break;
+                //    case "18":
+                //        switch (url.searchParams.get('a')) {
+                //            case "14":
+                //                window.location = 'templeService_supplies3_ty.aspx' + window.location.search;
+                //                break;
+                //        }
+                //        break;
+                //}
+            }
+            else if (res.CodeError != 0) {
+                switch (res.CodeError) {
+                    case "-2":
+                        alert("驗證碼超時，請重新發送新的驗證碼！如一直錯誤，請聯繫客服！");
+                        $("#Code").focus();
+                        $("#Code").addClass('unfilled');
+                        break;
+                    case "-3":
+                        alert("驗證碼輸入錯誤，請重新輸入！如一直錯誤，請聯繫客服！");
+                        $("#Code").focus();
+                        $("#Code").addClass('unfilled');
+                        break;
+                    case "-4":
+                        alert("更新驗證碼狀態錯誤，請重新輸入！如一直錯誤，請聯繫客服！");
+                        $("#Code").focus();
+                        $("#Code").addClass('unfilled');
+                        break;
+                    case "-5":
+                        alert("此購買人電話當日超過三次寄發驗證碼，請返回修改購買人電話！");
+                        $("#Code").focus();
+                        $("#Code").addClass('unfilled');
+                        break;
+                }
+            }
+            else {
+                if (res.overnumType == 3) {
+                    alert(res.LightsString + "燈種已額滿，請重新填單。或至其他宮廟點燈。");
+                }
+                else if (res.overnumType == 4) {
+                    alert(res.LightsString + "燈種已額滿，請重新填單。或至其他宮廟點燈。");
+                }
+                else if (res.overnumType == 5) {
+                    alert(res.LightsString + "燈種已額滿，請重新填單。或至其他宮廟點燈。");
+                }
+                else if (res.overnumType == 6) {
+                    alert(res.LightsString + "燈種已額滿，請重新填單。或至其他宮廟點燈。");
+                }
+                else if (res.overnumType == 8) {
+                    alert(res.LightsString + "燈種已額滿，請重新填單。或至其他宮廟點燈。");
+                }
+                else if (res.overnumType == 10) {
+                    alert(res.LightsString + "燈種已額滿，請重新填單。或至其他宮廟點燈。");
+                }
+                else {
+                    alert("資料錯誤！請重新再試一次，若還是不行，請洽客服。");
+                }
+            }
+        }
+    }
+
+    function backURL(url) {
         switch (url.searchParams.get('kind')) {
             case "1":
                 switch (url.searchParams.get('a')) {
@@ -632,13 +1202,20 @@
                         window.location = 'templeService_lights_Fu.aspx' + window.location.search;
                         break;
                     case "10":
-                        window.location = 'templeService_lights_Luer.aspx' + window.location.search;
                         if (url.searchParams.get('type') == "2") {
                             window.location = 'templeService_marriagelights_Luer.aspx' + window.location.search;
                         }
+                        else {
+                            window.location = 'templeService_lights_Luer.aspx' + window.location.search;
+                        }
                         break;
                     case "14":
-                        window.location = 'templeService_lights_ty.aspx' + window.location.search;
+                        if (url.searchParams.get('type') == "2") {
+                            window.location = 'templeService_lights_ty_mom.aspx' + window.location.search;
+                        }
+                        else {
+                            window.location = 'templeService_lights_ty.aspx' + window.location.search;
+                        }
                         break;
                     case "15":
                         window.location = 'templeService_lights_Fw.aspx' + window.location.search;
@@ -805,374 +1382,13 @@
                         break;
                 }
                 break;
-        }
-    })
-
-    ////遠傳手機門號付款
-    //$("#mobile_fet_pay").on("click", function () {
-    //    //付款串接放這裡
-    //    nextStep('FetCSP');
-    //})
-
-    ////信用卡付款
-    //$("#card_pay").on("click", function () {
-    //    //付款串接放這裡
-    //    nextStep('CreditCard');
-    //})
-
-    ////Google付款
-    //$("#Google_pay").on("click", function () {
-    //    //付款串接放這裡
-    //    nextStep('GOOGLEPAY');
-    //})
-
-    ////line付款
-    //$("#Line_pay").on("click", function () {
-    //    //付款串接放這裡
-    //    nextStep('LinePay');
-    //})
-
-    ////街口支付付款
-    //$("#Jkos_pay").on("click", function () {
-    //    //付款串接放這裡
-    //    nextStep('JkosPay');
-    //})
-
-    ////全支付付款
-    //$("#PXPayPlus").on("click", function () {
-    //    //付款串接放這裡
-    //    nextStep('PXPayPlus');
-    //})
-
-    ////中華手機門號付款
-    //$("#mobile_cht_pay").on("click", function () {
-    //    //付款串接放這裡
-    //    nextStep('ChtCSP');
-    //})
-
-    ////台哥大手機門號付款
-    //$("#mobile_twm_pay").on("click", function () {
-    //    //付款串接放這裡
-    //    nextStep('TwmCSP');
-    //})
-
-    ////銀聯卡付款
-    //$("#union_pay").on("click", function () {
-    //    //付款串接放這裡
-    //    nextStep('UnionPay');
-    //})
-
-    //確認付款
-    $("#SubmitOrder").on("click", function () {
-        //付款串接放這裡
-        var payType = $('input[name="pay"]:checked').val();
-
-        if (typeof (payType) == "undefined") {
-            alert("請選擇付款方式！");
-        }
-        else {
-            nextStep(payType);
-        }
-    })
-
-    //前往付款
-    function nextStep(ChargeType) {
-        var isValid = true;
-
-        if ($("#Code").val() != null) {
-            var value = $("#Code").val().trim();
-            if (value === '') {
-                isValid = false;
-                $("#Code").addClass('unfilled');
-            } else if (value != '' && $("#Code").hasClass('unfilled')) {
-                $("#Code").removeClass('unfilled');
-            }
-        }
-
-        if (isValid) {
-            $(".loader").addClass("is-active");
-
-            var getUrlString = location.href;
-            var url = new URL(getUrlString);
-            var kind = url.searchParams.get('kind');
-            var a = url.searchParams.get('a');
-
-            data = {
-                AppMobile: $("#AppMobile").text(),
-                Total: $("#Cost").text(),
-                Code: $("#Code").val(),
-                ChargeType: ChargeType
-            };
-
-            ac_loadServerMethod("gotopay", data, gotopay);
-        }
-        else {
-            // 在這裡可以進行表單提交或其他相關處理
-            // 有欄位未填寫
-            if (!isValid) {
-                $(".Notice").text("請檢查驗證碼是否都已填寫。");
-                $(".Notice").addClass("active");
-                $("#Code").focus();
-            }
+            case "19":
+                switch (url.searchParams.get('a')) {
+                    case "33":
+                        window.location = 'templeService_supplies2_sx.aspx' + window.location.search;
+                        break;
+                }
+                break;
         }
     }
-
-    //導向付款頁面
-    function gotopay(res) {
-
-        // 重導到相關頁面
-        if (res.StatusCode == 1) {
-            $("#Code").removeClass('unfilled');
-            if (res.redirect) {
-                $.cookie('validateCodeCountdown', 0);
-                countdown = 0;
-                window.location = res.redirect;
-                //$(".loader").removeClass("is-active");
-            }
-        } else {
-            $(".loader").removeClass("is-active");
-            if (res.Timeover == 1) {
-                alert("此申請人付款時間已超時20分鐘，請重新申請。");
-                location = res.backURL;
-            }
-            else if (res.Getlisterr == 1) {
-                alert(msg + " 請洽客服並告知此問題，我們將盡快為您處理！");
-                var getUrlString = location.href;
-                var url = new URL(getUrlString);
-
-                switch (url.searchParams.get('kind')) {
-                    case "1":
-                        switch (url.searchParams.get('a')) {
-                            case "3":
-                                window.location = 'templeService_lights_da.aspx' + window.location.search;
-                                break;
-                            case "4":
-                                window.location = 'templeService_lights_h.aspx' + window.location.search;
-                                break;
-                            case "6":
-                                window.location = 'templeService_lights_wu.aspx' + window.location.search;
-                                break;
-                            case "8":
-                                window.location = 'templeService_lights_Fu.aspx' + window.location.search;
-                                break;
-                            case "10":
-                                window.location = 'templeService_lights_Luer.aspx' + window.location.search;
-                                if (url.searchParams.get('type') == "2") {
-                                    window.location = 'templeService_marriagelights_Luer.aspx' + window.location.search;
-                                }
-                                break;
-                            case "14":
-                                window.location = 'templeService_lights_ty.aspx' + window.location.search;
-                                break;
-                            case "15":
-                                window.location = 'templeService_lights_Fw.aspx' + window.location.search;
-                                break;
-                            case "16":
-                                window.location = 'templeService_lights_dh.aspx' + window.location.search;
-                                break;
-                            case "21":
-                                window.location = 'templeService_lights_Lk.aspx' + window.location.search;
-                                break;
-                        }
-                        break;
-                    case "2":
-                        switch (url.searchParams.get('a')) {
-                            case "3":
-                                window.location = 'templeService_purdue_da.aspx' + window.location.search;
-                                break;
-                            case "4":
-                                window.location = 'templeService_purdue_h.aspx' + window.location.search;
-                                break;
-                            case "6":
-                                window.location = 'templeService_purdue_wu.aspx' + window.location.search;
-                                break;
-                            case "8":
-                                window.location = 'templeService_purdue_Fu.aspx' + window.location.search;
-                                break;
-                            case "9":
-                                window.location = 'templeService_purdue_Jing.aspx' + window.location.search;
-                                break;
-                            case "10":
-                                window.location = 'templeService_purdue_Luer.aspx' + window.location.search;
-                                break;
-                            case "14":
-                                window.location = 'templeService_purdue_ty.aspx' + window.location.search;
-                                break;
-                            case "15":
-                                window.location = 'templeService_purdue_Fw.aspx' + window.location.search;
-                                break;
-                            case "16":
-                                window.location = 'templeService_purdue_dh.aspx' + window.location.search;
-                                break;
-                            case "21":
-                                window.location = 'templeService_purdue_Lk.aspx' + window.location.search;
-                                break;
-                            case "23":
-                                window.location = 'templeService_purdue_ma.aspx' + window.location.search;
-                                break;
-                        }
-                        break;
-                    case "3":
-                        break;
-                    case "4":
-                        switch (url.searchParams.get('a')) {
-                            case "6":
-                                window.location = 'templeService_supplies.aspx' + window.location.search;
-                                break;
-                        }
-                        break;
-                    case "5":
-                        switch (url.searchParams.get('a')) {
-                            case "6":
-                                window.location = 'templeService_supplies2.aspx' + window.location.search;
-                                break;
-                        }
-                        break;
-                    case "6":
-                        switch (url.searchParams.get('a')) {
-                            case "6":
-                                window.location = 'templeService_supplies3.aspx' + window.location.search;
-                                $("#card_pay").hide();
-                                $("#Line_pay").hide();
-                                break;
-                        }
-                        break;
-                    case "7":
-                        switch (url.searchParams.get('a')) {
-                            case "14":
-                                window.location = 'templeService_supplies_ty.aspx' + window.location.search;
-                                break;
-                            case "23":
-                                window.location = 'templeService_supplies_ma.aspx' + window.location.search;
-                                break;
-                        }
-                        break;
-                    case "9":
-                        switch (url.searchParams.get('a')) {
-                            case "14":
-                                if (url.searchParams.get('bobi') == 1) {
-                                    window.location = 'templeService_EmperorGuansheng_bobi_ty.aspx' + window.location.search;
-                                }
-                                else {
-                                    window.location = 'templeService_EmperorGuansheng_ty.aspx' + window.location.search;
-                                }
-                                break;
-                        }
-                        break;
-                    case "11":
-                        switch (url.searchParams.get('a')) {
-                            case "16":
-                                window.location = 'templeService_supplies_dh.aspx' + window.location.search;
-                                break;
-                        }
-                        break;
-                    case "12":
-                        switch (url.searchParams.get('a')) {
-                            case "23":
-                                if (url.searchParams.get('fet') == 1) {
-                                    window.location = 'templeService_Lingbaolidou_ma_fet.aspx' + window.location.search;
-                                }
-                                else {
-                                    window.location = 'templeService_Lingbaolidou_ma.aspx' + window.location.search;
-                                }
-                                break;
-                        }
-                        break;
-                    case "13":
-                        switch (url.searchParams.get('a')) {
-                            case "3":
-                                window.location = 'templeService_TaoistJiaoCeremony_da.aspx' + window.location.search;
-                                break;
-                        }
-                        break;
-                    case "14":
-                        switch (url.searchParams.get('a')) {
-                            case "14":
-                                window.location = 'templeService_supplies2_ty.aspx' + window.location.search;
-                                break;
-                        }
-                        break;
-                    case "15":
-                        switch (url.searchParams.get('a')) {
-                            case "16":
-                                window.location = 'templeService_lybc_dh.aspx' + window.location.search;
-                                break;
-                        }
-                        break;
-                    case "16":
-                        switch (url.searchParams.get('a')) {
-                            case "15":
-                                window.location = 'templeService_supplies_Fw.aspx' + window.location.search;
-                                break;
-                            case "21":
-                                window.location = 'templeService_supplies_Lk.aspx' + window.location.search;
-                                break;
-                        }
-                        break;
-                    case "17":
-                        switch (url.searchParams.get('a')) {
-                            case "33":
-                                window.location = 'templeService_supplies_sx.aspx' + window.location.search;
-                                break;
-                        }
-                        break;
-                    case "18":
-                        switch (url.searchParams.get('a')) {
-                            case "14":
-                                window.location = 'templeService_supplies3_ty.aspx' + window.location.search;
-                                break;
-                        }
-                        break;
-                }
-            }
-            else if (res.CodeError != 0) {
-                switch (res.CodeError) {
-                    case "-2":
-                        alert("驗證碼超時，請重新發送新的驗證碼！如一直錯誤，請聯繫客服！");
-                        $("#Code").focus();
-                        $("#Code").addClass('unfilled');
-                        break;
-                    case "-3":
-                        alert("驗證碼輸入錯誤，請重新輸入！如一直錯誤，請聯繫客服！");
-                        $("#Code").focus();
-                        $("#Code").addClass('unfilled');
-                        break;
-                    case "-4":
-                        alert("更新驗證碼狀態錯誤，請重新輸入！如一直錯誤，請聯繫客服！");
-                        $("#Code").focus();
-                        $("#Code").addClass('unfilled');
-                        break;
-                    case "-5":
-                        alert("此購買人電話當日超過三次寄發驗證碼，請返回修改購買人電話！");
-                        $("#Code").focus();
-                        $("#Code").addClass('unfilled');
-                        break;
-                }
-            }
-            else {
-                if (res.overnumType == 3) {
-                    alert(res.LightsString + "燈種已額滿，請重新填單。或至其他宮廟點燈。");
-                }
-                else if (res.overnumType == 4) {
-                    alert(res.LightsString + "燈種已額滿，請重新填單。或至其他宮廟點燈。");
-                }
-                else if (res.overnumType == 5) {
-                    alert(res.LightsString + "燈種已額滿，請重新填單。或至其他宮廟點燈。");
-                }
-                else if (res.overnumType == 6) {
-                    alert(res.LightsString + "燈種已額滿，請重新填單。或至其他宮廟點燈。");
-                }
-                else if (res.overnumType == 8) {
-                    alert(res.LightsString + "燈種已額滿，請重新填單。或至其他宮廟點燈。");
-                }
-                else if (res.overnumType == 10) {
-                    alert(res.LightsString + "燈種已額滿，請重新填單。或至其他宮廟點燈。");
-                }
-                else {
-                    alert("資料錯誤！請重新再試一次，若還是不行，請洽客服。");
-                }
-            }
-        }
-    }
-
 </script>

@@ -192,10 +192,10 @@
                     <div class="EventServiceContent">
                         <div class="EventTime">
                             <div>活動開始日期：</div>
-                        <div id="startTime">2025/02/21 00:00</div>
+                        <div id="startTime">2025/04/01 00:00</div>
                             <br />
                             <div>活動截止日期：</div>
-                            <div id="endTime">2025/03/06 23:59</div>
+                            <div id="endTime">2025/05/22 23:59</div>
                         </div>
                         <div class="EventServiceContent">
                         <div>
@@ -226,7 +226,7 @@
                         <div>
                             <h2>誠聘：府城延陵道壇，高功道長：吳政憲道長 主法天赦日科儀</h2>
                             <h2>【114年乙巳蛇年天赦日日期】</h2>
-                            <h2>國曆03月10日 (農曆02月11日)</h2>
+                            <h2>國曆05月25日 (農曆04月28日)</h2>
                             <h2>金額: 500/每份，贈品: 感謝狀 (科儀結束後陸續寄出)</h2>
                         </div>
 

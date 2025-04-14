@@ -134,6 +134,60 @@
                             </a>
                         </div>     
                         <div class="col-lg-4 col-sm-12 py-3">
+                            <a href="https://bobibobi.tw/Temples/newsContent_2025suppliesBF.aspx">
+                                <div class="card shadow h-100" style="background-color: white; color: #707070;">
+                                <%--<div class="Newsimg">--%>
+                                    <img src="https://bobibobi.tw/Temples/SiteFile/News/20250221_NewsImg_s.jpg?t=666168" class="card-img-top p-3" alt="2025乙巳蛇年首個天赦日招財補運活動" title="2025乙巳蛇年首個天赦日招財補運活動" />
+                                <%--</div>--%>
+                                    <div class="card-body">
+                                <div class="fs-3">２０２５乙巳蛇年天赦日招財補運活動</div>
+                                <div class="fs-5">天赦日是傳統民俗中的四大吉日之一，屬於天時大吉之日，意指上天赦罪、萬物得以更新。這一天，無論過去犯下何種有意或無意的過失，只要誠心懺悔，皆能得到上天的赦免與庇佑，因此被視為消災解厄、補運轉運的最佳時機。</div>
+                               
+                                    </div>
+                                    <div class="card-footer pb-3" style="border-top: none; background-color: transparent;">
+                                        <div class="ReadMoreBtn"><span>&nbsp;詳情&nbsp;</span></div>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+                        <div class="col-lg-4 col-sm-12 py-3">
+                            <a href="https://bobibobi.tw/Temples/templeService_lights_ty_mom.aspx">
+                                <div class="card shadow h-100" style="background-color: white; color: #707070;">
+                                    <%--<div class="Newsimg">--%>
+                                    <img src="https://bobibobi.tw/Temples/SiteFile/News/20250401_NewsImg_s.jpg?t=666168" class="card-img-top p-3" alt="2025桃園威天宮母親節孝親祈福謝恩活動" title="2025桃園威天宮母親節孝親祈福謝恩活動" />
+                                    <%--</div>--%>
+                                    <div class="card-body">
+                                        <div class="fs-3">２０２５桃園威天宮母親節孝親祈福謝恩活動</div>
+                                        <div class="fs-5">感念母愛如海，誠心為媽媽或是長輩祈福祝壽！本宮舉辦母親節孝親活動，邀您攜母親一同來廟參拜，點燈祈福、獻上祝福，傳達心中感恩。福報加持，孝心圓滿！</div>
+
+                                    </div>
+                                    <div class="card-footer pb-3" style="border-top: none; background-color: transparent;">
+                                        <div class="ReadMoreBtn"><span>&nbsp;詳情&nbsp;</span></div>
+                                    </div>
+                                </div>
+                            </a>
+                        </div> 
+                    </div>
+                    <div class="row gx-5"> 
+                        <!--↓↓範例 (3筆一列，建議一頁放6筆或12筆)↓↓--> 
+                        <div class="col-lg-4 col-sm-12 py-3">
+                            <a href="https://bobibobi.tw/Temples/templeService_supplies2_sx.aspx">
+                                <div class="card shadow h-100" style="background-color: white; color: #707070;">
+                                    <%--<div class="Newsimg">--%>
+                                    <img src="https://bobibobi.tw/Temples/SiteFile/News/20250407_NewsImg_s.jpg?t=55282" class="card-img-top p-3" alt="2025神霄玉府財神會館供香轉運活動" title="2025神霄玉府財神會館供香轉運活動" />
+                                    <%--</div>--%>
+                                    <div class="card-body">
+                                        <div class="fs-3">２０２５神霄玉府財神會館供香轉運活動</div>
+                                        <div class="fs-5">一炷清香傳心意，一份供香轉運勢。誠心供香，功德無量，祈求神明庇佑、傳達願力、消災解厄、福運綿延。供香敬神，更是為自己與家人種下平安與好運的種子。</div>
+
+                                    </div>
+                                    <div class="card-footer pb-3" style="border-top: none; background-color: transparent;">
+                                        <div class="ReadMoreBtn"><span>&nbsp;詳情&nbsp;</span></div>
+                                    </div>
+                                </div>
+                            </a>
+                        </div> 
+                        <div class="col-lg-4 col-sm-12 py-3">
                             <a href="https://bobibobi.tw/Temples/templeService_supplies2.aspx">
                                 <div class="card shadow h-100" style="background-color: white; color: #707070;">
                                     <%--<div class="Newsimg">--%>
@@ -166,10 +220,10 @@
                                     </div>
                                 </div>
                             </a>
-                        </div>   
+                        </div>      
                     </div>
-                    <div class="row gx-5"> 
-                        <!--↓↓範例 (3筆一列，建議一頁放6筆或12筆)↓↓--> 
+                    <div class="row gx-5">  
+                        <!--↓↓範例 (3筆一列，建議一頁放6筆或12筆)↓↓-->   
                         <div class="col-lg-4 col-sm-12 py-3">
                             <a href="https://bobibobi.tw/Temples/templeService_supplies_Lk.aspx">
                                 <div class="card shadow h-100" style="background-color: white; color: #707070;">
@@ -186,24 +240,7 @@
                                     </div>
                                 </div>
                             </a>
-                        </div>   
-                        <div class="col-lg-4 col-sm-12 py-3">
-                            <a href="https://bobibobi.tw/Temples/newsContent_2025suppliesBF.aspx">
-                                <div class="card shadow h-100" style="background-color: white; color: #707070;">
-                                <%--<div class="Newsimg">--%>
-                                    <img src="https://bobibobi.tw/Temples/SiteFile/News/20250221_NewsImg_s.jpg?t=666168" class="card-img-top p-3" alt="2025乙巳蛇年首個天赦日招財補運活動" title="2025乙巳蛇年首個天赦日招財補運活動" />
-                                <%--</div>--%>
-                                    <div class="card-body">
-                                <div class="fs-3">2025乙巳蛇年首個天赦日招財補運活動</div>
-                                <div class="fs-5">天赦日是傳統民俗中的四大吉日之一，屬於天時大吉之日，意指上天赦罪、萬物得以更新。這一天，無論過去犯下何種有意或無意的過失，只要誠心懺悔，皆能得到上天的赦免與庇佑，因此被視為消災解厄、補運轉運的最佳時機。</div>
-                               
-                                    </div>
-                                    <div class="card-footer pb-3" style="border-top: none; background-color: transparent;">
-                                        <div class="ReadMoreBtn"><span>&nbsp;詳情&nbsp;</span></div>
-                                    </div>
-                                </div>
-                            </a>
-                        </div>     
+                        </div>
                         <div class="col-lg-4 col-sm-12 py-3">
                             <a href="https://bobibobi.tw/Temples/templeService_supplies3_ty.aspx">
                                 <div class="card shadow h-100" style="background-color: white; color: #707070;">
@@ -220,10 +257,7 @@
                                     </div>
                                 </div>
                             </a>
-                        </div>     
-                    </div>
-                    <div class="row gx-5">  
-                        <!--↓↓範例 (3筆一列，建議一頁放6筆或12筆)↓↓--> 
+                        </div>   
                         <div class="col-lg-4 col-sm-12 py-3">
                             <a href="https://bobibobi.tw/Temples/templeService_supplies_sx.aspx">
                                 <div class="card shadow h-100" style="background-color: white; color: #707070;">
@@ -240,7 +274,10 @@
                                     </div>
                                 </div>
                             </a>
-                        </div>   
+                        </div>    
+                    </div>
+                    <div class="row gx-5">  
+                        <!--↓↓範例 (3筆一列，建議一頁放6筆或12筆)↓↓-->  
                         <div class="col-lg-4 col-sm-12 py-3">
                             <a href="https://bobibobi.tw/Temples/newsContent_2024lybc_dh.aspx">
                                 <div class="card shadow h-100" style="background-color: white; color: #707070;">
@@ -257,7 +294,7 @@
                                     </div>
                                 </div>
                             </a>
-                        </div>   
+                        </div> 
                         <div class="col-lg-4 col-sm-12 py-3">
                             <a href="https://bobibobi.tw/Temples/newsContent_2024taoistJiaoCeremony_da.aspx">
                                 <div class="card shadow h-100" style="background-color: white; color: #707070;">
@@ -274,9 +311,6 @@
                                 </div>
                             </a>
                         </div>
-                    </div>
-                    <div class="row gx-5">  
-                        <!--↓↓範例 (3筆一列，建議一頁放6筆或12筆)↓↓--> 
                         <div class="col-lg-4 col-sm-12 py-3">
                             <a href="https://bobibobi.tw/Temples/newsContent_2024supplies.aspx">
                                 <div class="card shadow h-100" style="background-color: white; color: #707070;">
@@ -293,6 +327,11 @@
                                 </div>
                             </a>
                         </div>
+                    </div>
+                </div>
+                <div class="IndexNewsList2 PageNewsList Page2">
+                    <div class="row gx-5">
+                        <!--↓↓範例 (3筆一列，建議一頁放6筆或12筆)↓↓--> 
                         <div class="col-lg-4 col-sm-12 py-3">
                             <a href="https://bobibobi.tw/Temples/newsContent_2024supplies2_ty.aspx">
                                 <div class="card shadow h-100" style="background-color: white; color: #707070;">
@@ -325,11 +364,6 @@
                                 </div>
                             </a>
                         </div>
-                    </div>
-                </div>
-                <div class="IndexNewsList2 PageNewsList Page2">
-                    <div class="row gx-5">
-                        <!--↓↓範例 (3筆一列，建議一頁放6筆或12筆)↓↓--> 
                         <div class="col-lg-4 col-sm-12 py-3">
                             <a href="https://bobibobi.tw/Temples/newsContent_2024purdue_pet.aspx">
                                 <div class="card shadow h-100" style="background-color: white; color: #707070;">
@@ -349,6 +383,11 @@
                                 </div>
                             </a>
                         </div> 
+
+                        <!--↑↑範例↑↑-->
+                    </div>
+                    <div class="row gx-5">
+                        <!--↓↓範例 (3筆一列，建議一頁放6筆或12筆)↓↓--> 
                         <div class="col-lg-4 col-sm-12 py-3">
                             <a href="https://bobibobi.tw/Temples/newsContent_2024purdue_baby.aspx">
                                 <div class="card shadow h-100" style="background-color: white; color: #707070;">
@@ -388,11 +427,6 @@
                                 </div>
                             </a>
                         </div>
-
-                        <!--↑↑範例↑↑-->
-                    </div>
-                    <div class="row gx-5">
-                        <!--↓↓範例 (3筆一列，建議一頁放6筆或12筆)↓↓--> 
                         <div class="col-lg-4 col-sm-12 py-3">
                             <a href="https://bobibobi.tw/Temples/newsContent_2024emperorGuansheng_ty.aspx">
                                 <div class="card shadow h-100" style="background-color: white; color: #707070;">
@@ -409,6 +443,9 @@
                                 </div>
                             </a>
                         </div>
+                    </div>
+                    <div class="row gx-5">   
+                        <!--↓↓範例 (3筆一列，建議一頁放6筆或12筆)↓↓--> 
                         <div class="col-lg-4 col-sm-12 py-3">
                             <a href="https://bobibobi.tw/Temples/newsContent_2024lights_pet.aspx">
                                 <div class="card shadow h-100" style="background-color: white; color: #707070;">
@@ -441,9 +478,6 @@
                                 </div>
                             </a>
                         </div>
-                    </div>
-                    <div class="row gx-5">   
-                        <!--↓↓範例 (3筆一列，建議一頁放6筆或12筆)↓↓--> 
                         <div class="col-lg-4 col-sm-12 py-3">
                             <a href="https://bobibobi.tw/Temples/newsContent_2024lights_ty.aspx">
                                 <div class="card shadow h-100" style="background-color: white; color: #707070;">
@@ -460,6 +494,9 @@
                                 </div>
                             </a>
                         </div>
+                    </div>
+                    <div class="row gx-5">
+                        <!--↓↓範例 (3筆一列，建議一頁放6筆或12筆)↓↓--> 
                         <div class="col-lg-4 col-sm-12 py-3">
                             <a href="https://bobibobi.tw/Temples/newsContent_2024lights_Fu.aspx">
                                 <div class="card shadow h-100" style="background-color: white; color: #707070;">
@@ -492,9 +529,6 @@
                                 </div>
                             </a>
                         </div>  
-                    </div>
-                    <div class="row gx-5">
-                        <!--↓↓範例 (3筆一列，建議一頁放6筆或12筆)↓↓--> 
                         <div class="col-lg-4 col-sm-12 py-3">
                             <a href="https://bobibobi.tw/Temples/newsContent_2024lights.aspx">
                                 <div class="card shadow h-100" style="background-color: white; color: #707070;">
@@ -512,6 +546,11 @@
                                 </div>
                             </a>
                         </div>   
+                    </div>
+                </div>
+                <div class="IndexNewsList3 PageNewsList Page3">
+                    <div class="row gx-5">
+                        <!--↓↓範例 (3筆一列，建議一頁放6筆或12筆)↓↓-->    
                         <div class="col-lg-4 col-sm-12 py-3">
                             <a href="https://bobibobi.tw/Temples/newsContent_2023supplies.aspx">
                                 <div class="card shadow h-100" style="background-color: white; color: #707070;">
@@ -529,7 +568,7 @@
                                     </div>
                                 </div>
                             </a>
-                        </div>  
+                        </div>   
                         <div class="col-lg-4 col-sm-12 py-3">
                             <a href="https://bobibobi.tw/Temples/newsContent_2023purdue.aspx">
                                 <div class="card shadow h-100" style="background-color: white; color: #707070;">
@@ -548,11 +587,6 @@
                                 </div>
                             </a>
                         </div>
-                    </div>
-                </div>
-                <div class="IndexNewsList3 PageNewsList Page3">
-                    <div class="row gx-5">
-                        <!--↓↓範例 (3筆一列，建議一頁放6筆或12筆)↓↓-->     
                         <div class="col-lg-4 col-sm-12 py-3">
                             <a href="https://bobibobi.tw/Temples/newsContent_2023supplies2.aspx">
                                 <div class="card shadow h-100" style="background-color: white; color: #707070;">
@@ -571,6 +605,9 @@
                                 </div>
                             </a>
                         </div>   
+                    </div>
+                    <div class="row gx-5">
+                        <!--↓↓範例 (3筆一列，建議一頁放6筆或12筆)↓↓-->    
                         <div class="col-lg-4 col-sm-12 py-3">
                             <a href="https://bobibobi.tw/Temples/newsContent_2023Pilgrimage.aspx">
                                 <div class="card shadow h-100" style="background-color: white; color: #707070;">
@@ -588,7 +625,7 @@
                                     </div>
                                 </div>
                             </a>
-                        </div>   
+                        </div> 
                         <div class="col-lg-4 col-sm-12 py-3">
                             <a href="https://bobibobi.tw/Temples/newsContent_2023lights.aspx">
                                 <div class="card shadow h-100" style="background-color: white; color: #707070;">
@@ -606,10 +643,7 @@
                                     </div>
                                 </div>
                             </a>
-                        </div>  
-                    </div>
-                    <div class="row gx-5">
-                        <!--↓↓範例 (3筆一列，建議一頁放6筆或12筆)↓↓--> 
+                        </div> 
                         <div class="col-lg-4 col-sm-12 py-3">
                             <a href="https://bobibobi.tw/Temples/newsContent_2022supplies.aspx">
                                 <div class="card shadow h-100" style="background-color: white; color: #707070;">
@@ -628,6 +662,9 @@
                                 </div>
                             </a>
                         </div>  
+                    </div>
+                    <div class="row gx-5">
+                        <!--↓↓範例 (3筆一列，建議一頁放6筆或12筆)↓↓-->  
                         <div class="col-lg-4 col-sm-12 py-3">
                             <a href="https://bobibobi.tw/Temples/newsContent_2022purdue.aspx">
                                 <div class="card shadow h-100" style="background-color: white; color: #707070;">
@@ -663,7 +700,7 @@
                                     </div>
                                 </div>
                             </a>
-                        </div> 
+                        </div>   
                     </div>
                 </div>
 

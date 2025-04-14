@@ -14,11 +14,11 @@ using Temple.data;
 
 namespace twbobibobi.Temples
 {
-    public partial class templeService_supplies_ma : AjaxBasePage
+    public partial class templeService_supplies2_sx : AjaxBasePage
     {
         public int aid = 0;
         public int a = 0;
-        public string EndDate = "2025/03/06 23:59";
+        public string EndDate = "2025/02/03 23:59";
         protected static string Year = "2025";
 
         protected override void InitAjaxHandler()
@@ -39,7 +39,7 @@ namespace twbobibobi.Temples
                     aid = int.Parse(Request["aid"]);
                 }
 
-                int adminID = a = 23;
+                int adminID = a = 33;
             }
         }
         public class AjaxPageHandler
@@ -52,9 +52,10 @@ namespace twbobibobi.Temples
                 basePage.mJSonHelper.AddContent("StatusCode", 0);
 
                 LightDAC objLightDAC = new LightDAC(basePage);
-                string AdminID = "23";
+                string AdminID = "33";
                 string AppName = basePage.Request["Appname"];                                       //購買人姓名
                 string AppMobile = basePage.Request["Appmobile"];                                   //購買人電話
+                string Appemail = basePage.Request["Appemail"];                                     //購買人信箱
 
                 string name_Tag = basePage.Request["name_Tag"];                                     //祈福人姓名
                 string mobile_Tag = basePage.Request["mobile_Tag"];                                 //祈福人電話
@@ -70,7 +71,6 @@ namespace twbobibobi.Temples
                 string county_Tag = basePage.Request["county_Tag"];                                 //祈福人縣市
                 string dist_Tag = basePage.Request["dist_Tag"];                                     //祈福人區域
                 string addr_Tag = basePage.Request["addr_Tag"];                                     //祈福人部分地址
-                string remark_Tag = basePage.Request["remark_Tag"];                                 //備註
                 string SuppliesType_Tag = basePage.Request["SuppliesType_Tag"];                     //服務項目
 
                 int listcount = int.Parse(basePage.Request["listcount"]);                           //祈福人數量
@@ -83,19 +83,19 @@ namespace twbobibobi.Temples
                 JArray JleapMonth = JArray.Parse(leapMonth_Tag);
                 JArray Jbirthtime = JArray.Parse(birthtime_Tag);
                 JArray Jsbirth = JArray.Parse(sbirth_Tag);
-                JArray Jemail = JArray.Parse(email_Tag);
                 JArray Joversea = JArray.Parse(oversea_Tag);
                 JArray JzipCode = JArray.Parse(zipCode_Tag);
                 JArray Jcounty = JArray.Parse(county_Tag);
                 JArray Jdist = JArray.Parse(dist_Tag);
                 JArray Jaddr = JArray.Parse(addr_Tag);
-                JArray Jremark = JArray.Parse(remark_Tag);
                 JArray JSuppliesType_Tag = JArray.Parse(SuppliesType_Tag);
 
                 JArray Jhomenum = new JArray();
                 nullChecked(homenum_Tag, ref Jhomenum);
+                JArray Jemail = new JArray();
+                nullChecked(email_Tag, ref Jemail);
 
-                string postURL_Init = "Supplies_ma_Index";
+                string postURL_Init = "Supplies2_sx_Index";
 
                 string url = HttpContext.Current.Request.Url.AbsoluteUri;
 
@@ -109,17 +109,17 @@ namespace twbobibobi.Temples
 
                 //postURL += basePage.Request["fb"] != null ? "_FB" : "";
 
-                //postURL += basePage.Request["fbma"] != null ? "_FBMA" : "";
+                //postURL += basePage.Request["fbsx"] != null ? "_FBSX" : "";
 
                 //postURL += basePage.Request["ig"] != null ? "_IG" : "";
 
-                //postURL += basePage.Request["fetssms"] != null ? "_fetSMS" : "";
+                //postURL += basePage.Request["fetsms"] != null ? "_fetSMS" : "";
 
                 //postURL += basePage.Request["jkos"] != null ? "_JKOS" : "";
 
                 //postURL += basePage.Request["gads"] != null ? "_GADS" : "";
 
-                //postURL += basePage.Request["inma"] != null ? "_INMA" : "";
+                //postURL += basePage.Request["insx"] != null ? "_INSX" : "";
 
                 //postURL += basePage.Request["elv"] != null ? "_ELV" : "";
 
@@ -132,8 +132,8 @@ namespace twbobibobi.Temples
                 string Apprdist = "";                                                               //收件人區域
                 string Appraddr = "";                                                               //收件人部分地址
 
-                ApplicantID = objLightDAC.addapplicantinfo_Supplies_ma(AppName, AppMobile, "0", Apprcounty, Apprdist, Appraddr, ApprzipCode, AppSendback, Apprname, Apprmobile
-                    , 0, AdminID, postURL, Year);
+                ApplicantID = objLightDAC.addapplicantinfo_Supplies2_sx(AppName, AppMobile, Appemail, "0", Apprcounty, Apprdist, Appraddr, ApprzipCode, AppSendback, Apprname, 
+                    Apprmobile , 0, AdminID, postURL, Year);
                 bool suppliesinfo = false;
 
                 if (ApplicantID > 0)
@@ -156,7 +156,7 @@ namespace twbobibobi.Temples
                         string dist = Jdist[i].ToString();
                         string zipCode = JzipCode[i].ToString();
                         string oversea = Joversea[i].ToString();
-                        string remark = Jremark[i].ToString();
+                        //string oversea = "1";
                         string birthMonth = "0";
                         string age = "0";
                         string Zodiac = string.Empty;
@@ -261,8 +261,8 @@ namespace twbobibobi.Temples
                         if (name != "")
                         {
                             suppliesinfo = true;
-                            SuppliesID = objLightDAC.addSupplies_ma(ApplicantID, name, mobile, sex, suppliesType, suppliesString, oversea, Birth, leapMonth, birthTime,
-                                birthMonth, age, Zodiac, sBirth, email, homenum, 1, remark, addr, county, dist, zipCode, Year);
+                            SuppliesID = objLightDAC.addSupplies2_sx(ApplicantID, name, mobile, sex, suppliesType, suppliesString, oversea, Birth, leapMonth, birthTime,
+                                birthMonth, age, Zodiac, sBirth, email, homenum, 1, addr, county, dist, zipCode, Year);
                         }
 
                     }
@@ -271,11 +271,46 @@ namespace twbobibobi.Temples
                 if (ApplicantID > 0 && SuppliesID > 0 && suppliesinfo)
                 {
                     basePage.mJSonHelper.AddContent("StatusCode", 1);
-                    basePage.mJSonHelper.AddContent("redirect", "templeCheck.aspx?kind=7&a=" + AdminID + "&aid=" + ApplicantID +
-                        (basePage.Request["ad"] != null ? "&ad=" + basePage.Request["ad"] : "") +
-                        (basePage.Request["jkos"] != null ? "&jkos=1" : "") +
-                        (basePage.Request["pxpayplues"] != null ? "&pxpayplues=1" : "") +
-                        (basePage.Request["twm"] != null ? "&twm=1" : ""));
+                    //basePage.mJSonHelper.AddContent("redirect", "templeCheck.aspx?kind=19&a=" + AdminID + "&aid=" + ApplicantID +
+                    //    (basePage.Request["ad"] != null ? "&ad=" + basePage.Request["ad"] : "") +
+                    //    (basePage.Request["jkos"] != null ? "&jkos=1" : "") +
+                    //    (basePage.Request["pxpayplues"] != null ? "&pxpayplues=1" : "") +
+                    //    (basePage.Request["twm"] != null ? "&twm=1" : ""));
+
+                    string rawQuery = basePage.Request.Url.Query.TrimStart('?');
+
+                    // 將 query 拆成每個 key=value
+                    string[] queryParts = rawQuery.Split('&');
+                    List<string> filteredParts = new List<string>();
+
+                    foreach (string part in queryParts)
+                    {
+                        if (part.StartsWith("RequestPageType=", StringComparison.OrdinalIgnoreCase))
+                        {
+                            break; // 一旦遇到 RequestPageType 就停止擷取
+                        }
+
+                        // 忽略 key 為 kind, a, aid 的參數
+                        if (part.StartsWith("kind=", StringComparison.OrdinalIgnoreCase) ||
+                            part.StartsWith("a=", StringComparison.OrdinalIgnoreCase) ||
+                            part.StartsWith("aid=", StringComparison.OrdinalIgnoreCase))
+                        {
+                            continue;
+                        }
+
+                        if (!string.IsNullOrWhiteSpace(part))
+                        {
+                            filteredParts.Add(part);
+                        }
+                    }
+
+                    // 組合處理後的 query 字串
+                    string filteredQuery = string.Join("&", filteredParts);
+
+                    basePage.mJSonHelper.AddContent("redirect",
+                        "templeCheck.aspx?" +
+                        (string.IsNullOrEmpty(filteredQuery) ? "" : filteredQuery + "&") +
+                        "kind=19&a=" + AdminID + "&aid=" + ApplicantID);
 
                     basePage.Session["ApplicantID"] = ApplicantID;
                 }
@@ -292,7 +327,7 @@ namespace twbobibobi.Temples
 
                 string AdminID = basePage.Request["a"];
 
-                dtData = objLightDAC.Getsupplies_ma_info(applicantID, Year);
+                dtData = objLightDAC.Getsupplies2_sx_info(applicantID, Year);
 
                 if (dtData.Rows.Count > 0)
                 {
@@ -302,6 +337,7 @@ namespace twbobibobi.Temples
                     basePage.mJSonHelper.AddContent("a", AdminID);
                     basePage.mJSonHelper.AddContent("AppName", dtData.Rows[0]["AppName"].ToString());
                     basePage.mJSonHelper.AddContent("AppMobile", dtData.Rows[0]["AppMobile"].ToString());
+                    basePage.mJSonHelper.AddContent("AppEmail", dtData.Rows[0]["AppEmail"].ToString());
 
                     basePage.mJSonHelper.AddDataTable("DataSource", dtData);
                 }
@@ -313,136 +349,6 @@ namespace twbobibobi.Temples
                 {
                     jArry = JArray.Parse(str);
                 }
-            }
-
-            //補庫項目 1-下元補庫 2-呈疏補庫 3-企業補財庫 4-天赦日補運 5-天赦日祭改 6-代燒金紙 7-招財補運 8-招財補運九九重陽升級版 9-補財庫 10-財神賜福-消災補庫法會 11-地母廟-赦罪解業
-            //          12-地母廟-補財庫 13-地母廟-赦罪解業+補財庫 14-草屯敦和宮-赦罪解業 15-草屯敦和宮-補財庫 16-草屯敦和宮-赦罪解業+補財庫 17-紫南宮-赦罪解業 18-紫南宮-補財庫
-            //          19-紫南宮-赦罪解業+補財庫
-            public string GetSuppliesType(string SuppliesString)
-            {
-                string result = "-1";
-                switch (SuppliesString)
-                {
-                    case "下元補庫":
-                        result = "1";
-                        break;
-                    case "呈疏補庫":
-                        result = "2";
-                        break;
-                    case "企業補財庫":
-                        result = "3";
-                        break;
-                    case "天赦日招財補運":
-                        result = "4";
-                        break;
-                    case "天赦日祭改":
-                        result = "5";
-                        break;
-                    case "天貺納福添運法會":
-                        result = "6";
-                        break;
-                    case "補財庫":
-                        result = "9";
-                        break;
-                    case "財神賜福-消災補庫法會":
-                        result = "10";
-                        break;
-                    case "地母廟-赦罪解業":
-                        result = "11";
-                        break;
-                    case "地母廟-補財庫":
-                        result = "12";
-                        break;
-                    case "地母廟-赦罪解業+補財庫":
-                        result = "13";
-                        break;
-                    case "草屯敦和宮-赦罪解業":
-                        result = "14";
-                        break;
-                    case "草屯敦和宮-補財庫":
-                        result = "15";
-                        break;
-                    case "草屯敦和宮-赦罪解業+補財庫":
-                        result = "16";
-                        break;
-                    case "紫南宮-赦罪解業":
-                        result = "17";
-                        break;
-                    case "紫南宮-補財庫":
-                        result = "18";
-                        break;
-                    case "紫南宮-赦罪解業+補財庫":
-                        result = "19";
-                        break;
-                }
-
-                return result;
-            }
-            public string GetSuppliesString(string SuppliesType)
-            {
-                string result = string.Empty;
-                switch (SuppliesType)
-                {
-                    case "1":
-                        result = "下元補庫";
-                        break;
-                    case "2":
-                        result = "呈疏補庫";
-                        break;
-                    case "3":
-                        result = "企業補財庫";
-                        break;
-                    case "4":
-                        result = "天赦日招財補運";
-                        break;
-                    case "5":
-                        result = "天赦日祭改";
-                        break;
-                    case "6":
-                        result = "天貺納福添運法會";
-                        break;
-                    case "7":
-                        result = "";
-                        break;
-                    case "8":
-                        result = "";
-                        break;
-                    case "9":
-                        result = "補財庫";
-                        break;
-                    case "10":
-                        result = "財神賜福-消災補庫法會";
-                        break;
-                    case "11":
-                        result = "地母廟-赦罪解業";
-                        break;
-                    case "12":
-                        result = "地母廟-補財庫";
-                        break;
-                    case "13":
-                        result = "地母廟-赦罪解業+補財庫";
-                        break;
-                    case "14":
-                        result = "草屯敦和宮-赦罪解業";
-                        break;
-                    case "15":
-                        result = "草屯敦和宮-補財庫";
-                        break;
-                    case "16":
-                        result = "草屯敦和宮-赦罪解業+補財庫";
-                        break;
-                    case "17":
-                        result = "紫南宮-赦罪解業";
-                        break;
-                    case "18":
-                        result = "紫南宮-補財庫";
-                        break;
-                    case "19":
-                        result = "紫南宮-赦罪解業+補財庫";
-                        break;
-                }
-
-                return result;
             }
         }
     }
