@@ -329,7 +329,13 @@
 
         });
     </script>
+    <style type="text/css">
+        .footMenuList ul li {
+            width: 50%;
+            margin-right: 0;
+        }
 
+    </style>
         <footer>
              <hr style="padding-bottom: 5px;" />
             <div class="footer">
@@ -346,6 +352,8 @@
                             <li><a href="https://bobibobi.tw/Temples/LightsGuide.aspx">燈種說明</a></li>
                             <li><a href="https://bobibobi.tw/Temples/ZodiacFortune.aspx">生肖運勢</a></li>
                             <li><a href="https://bobibobi.tw/Temples/NewYearNotes.aspx">過年注意事項</a></li>
+                            <li><a href="https://bobibobi.tw/Temples/Supplies01.aspx">天赦日是什麼</a></li>
+                            <li><a href="https://bobibobi.tw/Temples/Supplies02.aspx">補財庫是什麼</a></li>
                             <li></li>
                         </ul>
                     </div>

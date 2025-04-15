@@ -823,6 +823,8 @@
     <Content Include="Temples\slick\slick.js" />
     <Content Include="Temples\slick\slick.min.js" />
     <Content Include="Temples\SocialMedia.ascx" />
+    <Content Include="Temples\Supplies01.aspx" />
+    <Content Include="Temples\Supplies02.aspx" />
     <Content Include="Temples\temple.aspx" />
     <Content Include="Temples\templeCheck.aspx" />
     <Content Include="Temples\templeCheck_in.aspx" />
@@ -1535,6 +1537,20 @@
     </Compile>
     <Compile Include="Temples\SocialMedia.ascx.designer.cs">
       <DependentUpon>SocialMedia.ascx</DependentUpon>
+    </Compile>
+    <Compile Include="Temples\Supplies01.aspx.cs">
+      <DependentUpon>Supplies01.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Temples\Supplies01.aspx.designer.cs">
+      <DependentUpon>Supplies01.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Temples\Supplies02.aspx.cs">
+      <DependentUpon>Supplies02.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Temples\Supplies02.aspx.designer.cs">
+      <DependentUpon>Supplies02.aspx</DependentUpon>
     </Compile>
     <Compile Include="Temples\temple.aspx.cs">
       <DependentUpon>temple.aspx</DependentUpon>
