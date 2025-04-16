@@ -76,6 +76,14 @@
             width: 12px;
             margin-left: 5px;
         }
+        
+        .ytvideo {
+            max-width: 100%;
+            width: 100%;
+            height: 550px;
+            margin-bottom: -5px;
+        }
+
         @media only screen and (max-width: 720px) {
             .content_a {
                 font-size: 3.8vw;
@@ -196,6 +204,10 @@
                                     <a target="_blank" class="content_a" href="https://bobibobi.tw/Temples/images/temple/product/ty/product_supplies_ty_02.jpg">(看圖)</a>
                                     <span id="supplies2" style="color:red" class="content_a" runat="server">(已額滿)</span></p>--%>
                             </div>
+                        </div>
+
+                        <div class="">
+                            <iframe class="ytvideo" src="https://www.youtube.com/embed/6pvLjh11eo4?si=Rb99bpr1DY83N51J" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
                         </div>
 
                         <uc3:SocialMedia runat="server" id="SocialMedia" />

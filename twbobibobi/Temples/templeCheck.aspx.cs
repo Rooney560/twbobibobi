@@ -668,9 +668,9 @@ namespace Temple.Temples
                                     break;
                             }
                             break;
-                        //供香祈福
+                        //供香轉運
                         case 19:
-                            typeString = " 供香祈福";
+                            typeString = " 供香轉運";
                             Year = "2025";
 
                             switch (adminID)
@@ -3003,7 +3003,7 @@ namespace Temple.Temples
                                     }
                                     break;
                                 case 19:
-                                    //供香祈福-神霄玉府財神會館
+                                    //供香轉運-神霄玉府財神會館
                                     switch (AdminID)
                                     {
                                         case 33:
@@ -3032,7 +3032,7 @@ namespace Temple.Temples
                                                         //}
                                                         link = "https://bobibobi.tw/Admin/jkos/jkosPay.aspx?a=" + AdminID + "&aid=" + ApplicantID + "&Total=" + cost + "&kind=" + kind +
                                                             (basePage.Request["twm"] != null ? "&twm=1" : "") + (basePage.Request["bobi"] != null ? "&bobi=1" : "") +
-                                                            "&name=神霄玉府財神會館供香祈福&orderId=" + orderId;
+                                                            "&name=神霄玉府財神會館供香轉運&orderId=" + orderId;
                                                         break;
                                                     case "PXPayPlus":
                                                         link = TWWebPay_supplies2_sx(basePage, orderId, ApplicantID, "PXPAY", "", cost, AppMobile, "a=" + AdminID + "&aid=" + ApplicantID +
@@ -5659,7 +5659,7 @@ namespace Temple.Temples
                 string oid = orderid;
                 string uid = "Temple";
                 string Sid = "Temple-Thewealthgod";    //神霄玉府財神會 PR00009720
-                string item = "神霄玉府財神會館供香祈福服務";
+                string item = "神霄玉府財神會館供香轉運服務";
                 string ValidationKey = "Ov7BmaT5l1C89t5FNj0cEsR";
                 string link = "https://paygate.tw/xpay/pay?uid=";
                 string PaymentReceiveURL = basePag.GetConfigValue("PaymentSupplies2_sx_ReceiveURL");
@@ -10175,7 +10175,7 @@ namespace Temple.Temples
                     dtData = objLightDAC.Getsupplies_sx_info(ApplicantID, Year);
                     break;
                 case 19:
-                    //供香祈福
+                    //供香轉運
                     dtData = objLightDAC.Getsupplies2_sx_info(ApplicantID, Year);
                     break;
             }
@@ -10311,7 +10311,7 @@ namespace Temple.Temples
                     }
                     break;
                 case 19:
-                    //補財庫服務-供香祈福
+                    //補財庫服務-供香轉運
                     reback = "https://bobibobi.tw/Temples/templeService_supplies2_sx.aspx" + (Request["twm"] != null ? "?twm=1" : "");
                     if (objLightDAC.checkedappcharge_Supplies2_sx(ApplicantID, AdminID, Year))
                     {

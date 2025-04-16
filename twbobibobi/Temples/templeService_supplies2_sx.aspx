@@ -11,7 +11,7 @@
 <head runat="server">
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
     <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport" />
-    <meta property="og:title" content="神霄玉府財神會館|供香祈福|合作宮廟|【保必保庇】線上宮廟服務平臺" />
+    <meta property="og:title" content="神霄玉府財神會館|供香轉運|合作宮廟|【保必保庇】線上宮廟服務平臺" />
     <!--標題-->
     <meta property="og:url" content="https://bobibobi.tw/Temples/templeService_supplies2_sx.aspx" />
     <!--網址：請補上網址-->
@@ -19,7 +19,7 @@
     <!--簡介-->
     <meta property="og:description" content="世代信仰，數位傳承 - 與全臺知名宮廟合作，提供宮廟服務線上報名，讓您在忙碌之餘也可以透過線上報名的方式,參與宮廟的服務。" />
     <!--簡介-->
-    <meta property="og:site_name" content="神霄玉府財神會館|供香祈福|合作宮廟|【保必保庇】線上宮廟服務平臺" />
+    <meta property="og:site_name" content="神霄玉府財神會館|供香轉運|合作宮廟|【保必保庇】線上宮廟服務平臺" />
     <!--標題-->
     <meta property="og:type" content="website" />
 
@@ -33,7 +33,7 @@
     <link href="images/favicon.png" rel="apple-touch-icon" sizes="192x192" />
 
 
-    <title>神霄玉府財神會館|供香祈福|合作宮廟|【保必保庇】線上宮廟服務平臺</title>
+    <title>神霄玉府財神會館|供香轉運|合作宮廟|【保必保庇】線上宮廟服務平臺</title>
     <!--標題-->
 
     <!--資源項目-->
@@ -194,14 +194,14 @@
                     <li><a href="../index.aspx" title="首頁">首頁</a></li>
                     <li><a href="temple.aspx" title="合作宮廟">合作宮廟</a></li>
                     <li><a href="#" title="神霄玉府財神會館">神霄玉府財神會館</a></li>
-                    <li>供香祈福</li>
+                    <li>供香轉運</li>
                 </ul>
             </nav>
 
             <!--本頁內容-->
             <section>
                 <div class="TempleImg">
-                    <img src="https://bobibobi.tw/Temples/images/temple/supplies2_sx.jpg?t=55282" width="1160" height="550" alt="小龍蛇年旺財氣，供香祈福好運到" title="小龍蛇年旺財氣，供香祈福好運到" />
+                    <img src="https://bobibobi.tw/Temples/images/temple/supplies2_sx.jpg?t=55282" width="1160" height="550" alt="小龍蛇年旺財氣，供香轉運好運到" title="小龍蛇年旺財氣，供香轉運好運到" />
                 </div>
                 <h1 class="TempleName">神霄玉府財神會館</h1>
                 <div class="TempleServiceInfo">                    
@@ -258,7 +258,7 @@
                                 <div class="DeletData"><a href="javascript:;" class="deletList" title="刪除">
                                     <img src="images/deletData.svg" alt="" /></a></div>
                                 <div class="FormTitle_B">祈福人<span></span></div>
-                                <div>（祈福人限填一位，每個供香祈福對應一位祈福人。如需多位，請點選增加祈福人。）</div>
+                                <div>（祈福人限填一位，每個供香轉運對應一位祈福人。如需多位，請點選增加祈福人。）</div>
                                 <div class="FormInput select">
                                     <label>服務項目</label>
                                     <select name="bless_service_1" class="required" id="bless_service_1">
@@ -404,7 +404,7 @@
         //}
 
         //if (!checkEndTime()) {
-        //    alert('親愛的大德您好\n神霄玉府財神會館 2025供香祈福已截止！！\n感謝您的支持, 謝謝!');
+        //    alert('親愛的大德您好\n神霄玉府財神會館 2025供香轉運已截止！！\n感謝您的支持, 謝謝!');
         //}
 
         $("input[type='tel']").on("keypress keyup blur", function (event) {

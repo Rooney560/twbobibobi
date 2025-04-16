@@ -8955,6 +8955,29 @@ namespace Temple.FET.APITEST
             TimeZoneInfo info = TimeZoneInfo.FindSystemTimeZoneById("Taipei Standard Time");
             DateTime dtNow = TimeZoneInfo.ConvertTime(DateTime.Now, info);
 
+            if (sendback == "N")
+            {
+                sendback = "Y";
+                foreach (var item in itemsInfo)
+                {
+                    if (productCode == item["productCode"].ToString())
+                    {
+                        JArray prayedPerson = (JArray)item["prayedPerson"];
+                        reName = prayedPerson[0]["Name"] != null ? prayedPerson[0]["Name"].ToString() : appName;
+                        reMobile = prayedPerson[0]["msisdn"] != null ? prayedPerson[0]["msisdn"].ToString() : appMobile;
+                        appCity = prayedPerson[0]["city"] != null ? prayedPerson[0]["city"].ToString() : "";
+                        appRegion = prayedPerson[0]["region"] != null ? prayedPerson[0]["region"].ToString() : "";
+                        appAddr = prayedPerson[0]["Name"] != null ? prayedPerson[0]["Name"].ToString() : "";
+                        appZipCode = prayedPerson[0]["Name"] != null ? prayedPerson[0]["Name"].ToString() : "";
+                        break;
+                    }
+                }
+            }
+            else
+            {
+                reMobile = appMobile;
+            }
+
             aid = objLightDAC.addapplicantinfo_lights_Lk(appName, appMobile, total, appCity, appRegion, appAddr, appZipCode, sendback, reName, reMobile, 2, adminID.ToString(), 
                 postURL, Year);
             if (aid > 0)

@@ -489,9 +489,9 @@ namespace Temple.Temples
                             GetStateContentlist_ty(adminID, ApplicantID, kind, 1, Year);           //購買人資料列表
                             EndDate = "2025/02/03 23:59";
                             break;
-                        //供香祈福
+                        //供香轉運
                         case 19:
-                            typeString = " 供香祈福";
+                            typeString = " 供香轉運";
                             Year = "2025";
 
                             switch (adminID)
@@ -3452,7 +3452,7 @@ namespace Temple.Temples
                     }
                     break;
                 case 19:
-                    //供香祈福服務
+                    //供香轉運服務
                     dtData = objLightDAC.GetAPPCharge_sx_Supplies2(ApplicantID, Year);
                     if (dtData.Rows.Count > 0)
                     {

@@ -1612,7 +1612,7 @@ namespace Read.data
         }
 
         /// <summary>
-        /// 记录產品支付请求-供香祈福(神霄玉府財神會館)
+        /// 记录產品支付请求-供香轉運(神霄玉府財神會館)
         /// </summary>
         /// <param name="OrderID">订单编号</param>
         /// <param name="ApplicantID">購買人编号</param>
@@ -16983,7 +16983,7 @@ namespace Read.data
         }
 
         /// <summary>
-        /// 取得最後一名編號資料-神霄玉府財神會館供香祈福
+        /// 取得最後一名編號資料-神霄玉府財神會館供香轉運
         /// </summary>
         public int GetListNum_sx_Supplies2(int applicantID, string Year)
         {

@@ -3569,7 +3569,7 @@ namespace Temple
                                         }
                                     }
 
-                                    //供香祈福服務
+                                    //供香轉運服務
                                     dtapplecantinfo = objLightDAC.Getapplicantinfo_SuppliesInfo(m_Name, m_Mobile, adminID, 121, Yearlist[y]);
                                     if (dtapplecantinfo.Rows.Count > 0)
                                     {
@@ -3628,7 +3628,7 @@ namespace Temple
                                         }
                                     }
 
-                                    //供香祈福服務
+                                    //供香轉運服務
                                     dtapplecantinfo = objLightDAC.Getapplicantinfo_SuppliesInfo(m_Name, m_Mobile, adminID, 121, Yearlist[y]);
                                     if (dtapplecantinfo.Rows.Count > 0)
                                     {

@@ -2425,7 +2425,7 @@ namespace Temple.data
                             result = 2800;
                             break;
                         case "19":
-                            //供香祈福
+                            //供香轉運
                             result = 2800;
                             break;
                         default:
@@ -3435,7 +3435,7 @@ namespace Temple.data
         }
 
         /// <summary>
-        /// 建立神霄玉府供香祈福資料
+        /// 建立神霄玉府供香轉運資料
         /// <param name="applicantID">applicantID=購買人編號</param>
         /// <param name="Name">Name=姓名</param>
         /// <param name="Mobile">Mobile=手機號碼</param>
@@ -7929,7 +7929,7 @@ namespace Temple.data
         }
 
         /// <summary>
-        /// 建立神霄玉府供香祈福購買人資料
+        /// 建立神霄玉府供香轉運購買人資料
         /// </summary>
         /// <param name="Name"></param>
         /// <param name="Phone"></param>
@@ -9356,7 +9356,7 @@ namespace Temple.data
                     sql = "Select * from Temple_" + Year + "..view_Supplies_sx_InfowithAPPCharge Where Num > 0 and AppStatus = 2 and Status = 0 and AdminID = @AdminID and (AppName = @Name and AppMobile = @Mobile)";
                     break;
                 case 121:
-                    //供香祈福-神霄玉府財神會館
+                    //供香轉運-神霄玉府財神會館
                     sql = "Select * from Temple_" + Year + "..view_Supplies2_sx_InfowithAPPCharge Where Num > 0 and AppStatus = 2 and Status = 0 and AdminID = @AdminID and (AppName = @Name and AppMobile = @Mobile)";
                     break;
                 case 18:
@@ -10939,7 +10939,7 @@ namespace Temple.data
         }
 
         /// <summary>
-        /// 取得神霄玉府供香祈福資料
+        /// 取得神霄玉府供香轉運資料
         /// <param name="applecantID">applecantID=購買人編號</param>
         /// </summary>
         public DataTable Getsupplies2_sx_info(int applicantID, string Year)
@@ -12173,7 +12173,7 @@ namespace Temple.data
         }
 
         /// <summary>
-        /// 取得神霄玉府財神會館供香祈福付款資料
+        /// 取得神霄玉府財神會館供香轉運付款資料
         /// </summary>
         /// <param name="applicantID"></param>
         /// <returns></returns>
@@ -12245,7 +12245,7 @@ namespace Temple.data
         /// <param name="Transaction_id">Transaction_id</param>
         /// <param name="adminID">AdminID=廟宇編號 3-大甲鎮瀾宮 4-新港奉天宮 5-文創商品(新港奉天宮) 6-北港武德宮</param>
         /// <param name="kind">kind=活動名稱: 1-點燈 2-普度 4-下元補庫 5-呈疏補庫(天官武財神聖誕補財庫) 6-企業補財庫 7-天赦日補運 8-天赦日祭改 9-關聖帝君聖誕 10-代燒金紙 11-天貺納福添運法會 12-靈寶禮斗 
-        /// 13-七朝清醮 14-九九重陽天赦日補運 15-護國息災梁皇大法會 16-補財庫 17-赦罪補庫 18-天公生招財補運 19-供香祈福</param>
+        /// 13-七朝清醮 14-九九重陽天赦日補運 15-護國息災梁皇大法會 16-補財庫 17-赦罪補庫 18-天公生招財補運 19-供香轉運</param>
         /// </summary>
         public DataTable Getappcharge(string Transaction_id, string adminID, string kind, int type, string Year)
         {
@@ -12556,7 +12556,7 @@ namespace Temple.data
                     }
                     break;
                 case "19":
-                    //供香祈福
+                    //供香轉運
                     switch (adminID)
                     {
                         case "33":
@@ -12583,7 +12583,7 @@ namespace Temple.data
         /// <param name="Transaction_id">Transaction_id</param>
         /// <param name="adminID">AdminID=廟宇編號 3-大甲鎮瀾宮 4-新港奉天宮 5-文創商品(新港奉天宮) 6-北港武德宮</param>
         /// <param name="kind">kind=活動名稱: 1-點燈 2-普度 4-下元補庫 5-呈疏補庫(天官武財神聖誕補財庫) 6-企業補財庫 7-天赦日補運 8-天赦日祭改 9-關聖帝君聖誕 10-代燒金紙 11-天貺納福添運法會 12-靈寶禮斗 
-        /// 13-七朝清醮 14-九九重陽天赦日補運 15-護國息災梁皇大法會 16-補財庫 17-赦罪補庫 18-天公生招財補運 19-供香祈福</param>
+        /// 13-七朝清醮 14-九九重陽天赦日補運 15-護國息災梁皇大法會 16-補財庫 17-赦罪補庫 18-天公生招財補運 19-供香轉運</param>
         /// </summary>
         public DataTable GetappchargeNum2String(string Transaction_id, string adminID, string kind, string Year)
         {
@@ -12882,7 +12882,7 @@ namespace Temple.data
                     }
                     break;
                 case "19":
-                    //供香祈福
+                    //供香轉運
                     switch (adminID)
                     {
                         case "33":
@@ -13065,7 +13065,7 @@ namespace Temple.data
         /// <param name="aid">aid=資料表編號</param>
         /// <param name="adminID">adminID=宮廟編號</param>
         /// <param name="kind">kind=活動名稱: 1-點燈 2-普度 4-下元補庫 5-呈疏補庫(天官武財神聖誕補財庫) 6-企業補財庫 7-天赦日補運 8-天赦日祭改 9-關聖帝君聖誕 10-代燒金紙 11-天貺納福添運法會 12-靈寶禮斗 
-        /// 13-七朝清醮 14-九九重陽天赦日補運 15-護國息災梁皇大法會 16-補財庫 17-赦罪補庫 18-天公生招財補運 19-供香祈福</param>
+        /// 13-七朝清醮 14-九九重陽天赦日補運 15-護國息災梁皇大法會 16-補財庫 17-赦罪補庫 18-天公生招財補運 19-供香轉運</param>
         /// <returns></returns>
         public DateTime GetInfoLastDate(int aid, int adminID, int kind, int type, string Year)
         {
@@ -13338,7 +13338,7 @@ namespace Temple.data
                             sql = "Select * from Temple_" + Year + "..ApplicantInfo_sx_Supplies Where ApplicantID = @aid and AdminID = " + adminID;
                             break;
                         case 19:
-                            //供香祈福
+                            //供香轉運
                             sql = "Select * from Temple_" + Year + "..ApplicantInfo_sx_Supplies2 Where ApplicantID = @aid and AdminID = " + adminID;
                             break;
                     }
@@ -15930,7 +15930,7 @@ namespace Temple.data
         }
 
         /// <summary>
-        /// 檢查購買人是否有已付款-神霄玉府財神會館供香祈福
+        /// 檢查購買人是否有已付款-神霄玉府財神會館供香轉運
         /// <param name="applecantID">applecantID=購買人編號</param>
         /// </summary>
         public bool checkedappcharge_Supplies2_sx(int applicantID, int adminID, string Year)
