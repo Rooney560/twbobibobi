@@ -1,4 +1,4 @@
-﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="Supplies01.aspx.cs" Inherits="twbobibobi.Temples.Supplies01" %>
+﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="AnDouInformation.aspx.cs" Inherits="twbobibobi.Temples.AnDouInformation" %>
 
 <%@ Register src="~/Temples/footer.ascx" tagprefix="uc1" tagname="footer" %>
 <%@ Register src="~/Temples/header.ascx" tagprefix="uc2" tagname="header" %>
@@ -9,31 +9,29 @@
 <head runat="server">
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
     <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport" />
-    <meta property="og:title" content="天赦日是什麼？｜保必保庇" />
+    <meta property="og:title" content="安斗是什麼？｜保必保庇" />
     <!--標題-->
-    <meta property="og:url" content="https://bobibobi.tw/Temples/Supplies01.aspx" />
+    <meta property="og:url" content="https://bobibobi.tw/Temples/AnDouInformation.aspx" />
     <!--網址：請補上網址-->
-    <meta name="description" content="保必保庇導讀｜天赦日是中國傳統曆法中的一個重要吉日，被視為全年最吉利的日子之一。這一天是天道赦罪之日，有「上天開恩赦罪」之意，傳說中是上天原
-        諒眾生過失、赦免罪過的日子，因此被稱為「天赦日」。" />
+    <meta name="description" content="保必保庇導讀｜安斗就像是加強版的光明燈。" />
     <!--簡介-->
-    <meta property="og:description" content="保必保庇導讀｜天赦日是中國傳統曆法中的一個重要吉日，被視為全年最吉利的日子之一。這一天是天道赦罪之日，有「上天開恩赦罪」之意，傳說中是
-        上天原諒眾生過失、赦免罪過的日子，因此被稱為「天赦日」。" />
+    <meta property="og:description" content="保必保庇導讀｜安斗就像是加強版的光明燈。" />
     <!--簡介-->
-    <meta property="og:site_name" content="天赦日是什麼？｜保必保庇" />
+    <meta property="og:site_name" content="安斗是什麼？｜保必保庇" />
     <!--標題-->
     <meta property="og:type" content="website" />
 
     <!--抓取圖片-->
     <meta property="og:image" content="images/fb.jpg" />
     <meta name="twitter:image:src" content="images/fb.jpg" />
-    <link rel="canonical" href="https://bobibobi.tw/Temples/Supplies01.aspx" />
+    <link rel="canonical" href="https://bobibobi.tw/Temples/AnDouInformation.aspx" />
 
 
     <link rel="shortcut icon" href="images/favicon.png" />
     <link href="images/favicon.png" rel="apple-touch-icon" sizes="192x192" />
 
 
-    <title>天赦日是什麼？｜保必保庇</title>
+    <title>安斗是什麼？｜保必保庇</title>
     <!--標題-->
 
     <!--資源項目-->
@@ -138,7 +136,7 @@
                 <div class="Here">目前位置：</div>
                 <ul>
                     <li><a href="../index.aspx" title="首頁">首頁</a></li>
-                    <li><a href="Supplies01.aspx" title="天赦日介紹">天赦日介紹</a></li>
+                    <li><a href="AnDouInformation.aspx" title="安奉斗燈介紹">安奉斗燈介紹</a></li>
                 </ul>
             </nav>
 
@@ -146,59 +144,61 @@
             <section>
                 <div class="TempleServiceInfo">
                     <div class="EventServiceContent">
-                        <h1 class="TempleName">天赦日是什麼？｜保必保庇</h1>
+                        <h1 class="TempleName">安斗是什麼？｜保必保庇</h1>
                         <div>
                             <p>
-                                <span class="title">天赦日</span>中國傳統曆法中的一個重要吉日，被視為<span class="title">全年最吉利的日子之一</span>。
-                                這一天是<span class="title">天道赦罪之日</span>，有「上天開恩赦罪」之意，傳說中是上天原諒眾生過失、赦免罪過的日子，因此被稱為「天赦日」。
+                                安斗就像是加強版的光明燈，不僅點亮前路，更是在神明座前為自己「立名入冊」，將個人姓名、生辰八字正式上呈天庭。比起光明燈祈求一般的運勢平穩，安斗更強調
+                                <span class="title">補足元神、鎮宅化煞、轉運開運</span>
+                                ，如同在天上建立一座屬於自己的護身光罩，讓神明能持續護佑，福運長存，厄運不侵。對於運勢低迷、想強化運途者而言，安斗是更深層的祈福方式。
                             </p>
                         </div>
                         <br />
-                        <h1 class="TempleName">天赦日的由來與意義</h1>
-                        <p>「赦」的意思是赦免、寬恕。在古代天子有「大赦天下」的權力，象徵赦罪、重生。相傳天赦日是由上天所定的特別時日，在這一天，天門大開、萬事可赦，是一年當中最適合<span class="title">化解業障、祈福轉運、補運補財庫</span>的日子。</p>
-                        <p>因此，許多信仰民眾會在天赦日進行：</p>
+                        <h1 class="TempleName">安奉斗燈的意義與功德</h1>
+                        <p>在傳統信仰中，「斗燈」又稱「安斗」或「上斗」，是民眾向天界神明稟報姓名、生辰八字，祈求護佑的莊嚴儀式。古書記載：「人有三魂七魄，上達天庭，籍於斗府」。點
+                            斗燈就如同在人間為自己安一座天上的「神帳」，讓神明能清楚知道此人的祈願與所求，進而庇佑其元神穩固、運勢順遂、厄運消除。</p>
+                        <p>安奉斗燈不僅是一種宗教儀式，更象徵著一份虔誠的心念。無論是為自己祈福，還是為家人、公司、孩子點燈，都是希望透過神明的光明力量，照亮人生、化解障礙。</p>
+                        <br />
+                        <h1 class="TempleName">斗燈種類與功效</h1>
+                        <p>根據不同的祈願方向，斗燈有多種形式，每一種都對應不同的神力與祝福：</p>
+                        
+                        <h2>平安斗</h2>
+                        <p>最為普遍的斗燈種類，適合所有人安奉。祈求闔家平安、出入順利、災厄遠離，讓神明庇佑每日平安順遂。</p>
+                        <h2>事業斗</h2>
+                        <p>適合上班族、創業者、經營者。可助於事業拓展、升官進祿、業績提升、人脈廣進，排除職場小人干擾。</p>
+                        <h2>財神斗</h2>
+                        <p>專為求財祈福所設，幫助增強財運、守住財庫、提升偏正財運，常搭配補財庫儀式一同進行效果更佳。</p>
+                        <h2>文昌斗</h2>
+                        <p>適合學生、應試者、升學考試、職場進修者。增強記憶力、智慧與專注力，讓考試順利、學業進步。</p>
+                        <h2>藥師斗</h2>
+                        <p>祈求身體康健、病痛消除、藥石有效，適合病中者、年長者或欲強健體魄者點燈，祈求藥師佛護佑。</p>
+                        <h2>元神斗</h2>
+                        <p>補足元神、穩固精神能量，適合感覺運勢低落、常作惡夢、精神不穩、情緒易波動者安奉。</p>
+                        <h2>福祿壽斗</h2>
+                        <p>象徵三位仙人福星、祿星與壽星之加持，祈求家庭和樂、子孫昌盛、長壽安康，尤其適合長輩或全家一起點燈祈福。</p>
+                        <br />
+                        <h1 class="TempleName">為何要點斗燈？</h1>
+                        <p>安斗是與神明接軌的重要方式，就像在神界為自己立下名號。透過斗燈的力量，我們可望：</p>
                         <div>
-                            <p>　<span class="title">•	補財庫</span></p>
-                            <p>　<span class="title">•	還陰債</span></p>
-                            <p>　<span class="title">•	祈求好運</span></p>
-                            <p>　<span class="title">•	化解災厄</span></p>
-                            <p>　<span class="title">•	改運祈福</span></p>
-                            <p>　<span class="title">•	補運點燈</span></p>
-                            <p>　<span class="title">•	求職轉業</span></p>
+                            <p>　•	安定身心元神，穩定情緒與能量場</p>
+                            <p>　•	化解厄運、提升個人整體運勢</p>
+                            <p>　•	祈求身心健康、財運事業順遂</p>
+                            <p>　•	為家人或事業建立光明能量場</p>
+                            <p>　•	在大運不佳或犯太歲之年趨吉避凶</p>
                         </div>
                         <br />
-                        <h1 class="TempleName">📌 天赦日如何判定？（農民曆的算法）</h1>
-                        <p>天赦日每年出現 4～6次，但不是固定的日子，而是根據天干地支與節氣交錯而定。簡單來說：</p>
+                        <h1 class="TempleName">安斗流程（以傳統宮廟為例）</h1>
                         <div>
-                            <p>　<span class="title">•	春季（立春之後）：</span>天干為「戊」日</p>
-                            <p>　<span class="title">•	夏季（立夏之後）：</span>天干為「甲」日</p>
-                            <p>　<span class="title">•	秋季（立秋之後）：</span>天干為「戊」日</p>
-                            <p>　<span class="title">•	冬季（立冬之後）：</span>天干為「甲」日</p>
+                            <p>　1.	向廟方登記姓名、生辰八字、地址等基本資料</p>
+                            <p>　2.	選擇所需斗燈類型（可由師父協助判斷）</p>
+                            <p>　3.	廟方誦經疏文、上奏天庭，正式安奉斗燈</p>
+                            <p>　4.	信眾可定期至宮廟禮拜、參香迴向功德</p>
                         </div>
-                        <p>搭配<span class="title">特定的地支日子與節氣組合</span>，由專業曆師或《通書》記載判定，才會標示為「天赦」。</p>
+                        <p>有些宮廟也提供線上安斗服務，讓無法親臨現場者也能點燈祈福，接受神明護佑。</p>
                         <br />
-                        <h1 class="TempleName">天赦日可以做什麼？</h1>
-                        <p><span class="title">宜做之事（大吉）</span></p>
+                        <h1 class="TempleName">結語</h1>
                         <div>
-                            <p>　•	補財庫、補運</p>
-                            <p>　•	化解官司、訴訟</p>
-                            <p>　•	改名、改運、求職</p>
-                            <p>　•	安太歲、安神位</p>
-                            <p>　•	婚嫁、動土（視個人八字配合）</p>
+                            <p>斗燈，不只是一盞燈，更是一份對神明的敬信、一段與神緣的延續。在煩惱與挑戰中，讓神明的光明為我們照路，保佑平安、引領未來。誠心安斗，福運自來。</p>
                         </div>
-                        <p><span class="title">忌諱之事</span></p>
-                        <div>
-                            <p>　•	若與個人八字犯沖，仍需避開</p>
-                            <p>　•	雖為大吉日，但若農民曆另有「破日」、「黑道日」等不吉註記，需謹慎評估</p>
-                        </div>
-                        <br />
-                        <h1 class="TempleName">小提醒</h1>
-                        <div>
-                            <p>　•	天赦日是百無禁忌的大吉日，但若個人流年運勢欠佳，建議搭配<span class="title">擇日師傅、命理師</span>協助更準確。</p>
-                            <p>　•	廟宇通常會在這幾天辦補運、補財庫法會，可以參加來求轉運。</p>
-                        </div>
-                        <br />
-                        <h1 class="TempleName">限時補運儀式開放報名，誠心參與，讓財運、福氣、貴人運全面提升！ 把握天赦日，翻轉好運勢！</h1>
                         <br />
                         <h2>選擇宮廟：</h2>
                         <ul class="ServiceList">
@@ -206,8 +206,8 @@
                             <li>
                                 <div class="ServiceTempleList">
                                     <ul>
-                                        <li><a href="templeService_supplies_ty.aspx" target="_blank" title="桃園威天宮">桃園威天宮</a></li>
-                                        <li><a href="templeService_supplies_ma.aspx" target="_blank" title="玉敕大樹朝天宮">玉敕大樹朝天宮</a></li>
+                                        <li><a href="templeService_andou_Fw.aspx" target="_blank" title="斗六五路財神宮">斗六五路財神宮</a></li>
+                                        <li><a href="templeService_andou_wjsan.aspx" target="_blank" title="台灣道教總廟無極三清總道院">台灣道教總廟無極三清總道院</a></li>
                                     </ul>
                                 </div>
                             </li>
@@ -232,3 +232,4 @@
         $("header").addClass("active");
     })
 </script>
+
