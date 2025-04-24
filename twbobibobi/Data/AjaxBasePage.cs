@@ -2840,5 +2840,56 @@ namespace MotoSystem.Data
 
             return urlString;
         }
+
+        /// <summary>
+        /// 建立帶有固定與條件式參數的重導向網址，通常用於 templeCheck.aspx 的跳轉。
+        /// </summary>
+        /// <param name="baseUrl">欲導向的目標頁面，例如 "templeCheck.aspx"</param>
+        /// <param name="kind">指定的 kind 參數值，代表不同活動代號</param>
+        /// <param name="adminId">a 參數值，通常是管理者或發起者 ID</param>
+        /// <param name="applicantId">aid 參數值，通常是參與者或申請者 ID</param>
+        /// <param name="request">目前頁面的 HttpRequest，用來抓取 URL 中的參數值</param>
+        /// <returns>組合完成的 redirect URL（含參數）</returns>
+        protected static string BuildRedirectUrl(string baseUrl, int kind, string adminId, int applicantId, HttpRequest request)
+        {
+            // 建立初始固定參數：kind、a、aid
+            string query = $"kind={kind}&a={adminId}&aid={applicantId}";
+
+            // 設定額外的選填參數及其附加邏輯條件
+            var optionalParams = new Dictionary<string, Func<HttpRequest, string>>
+            {
+                // 若 URL 中有 ad，則直接帶入其值
+                { "ad", req => !string.IsNullOrEmpty(req["ad"]) ? req["ad"] : null },
+
+                // 若 URL 中出現 jkos 則固定帶入值 1
+                { "jkos", req => req["jkos"] != null ? "1" : null },
+
+                // 若 URL 中出現 twm 則固定帶入值 1
+                { "twm", req => req["twm"] != null ? "1" : null },
+
+                // 若 URL 中出現 pxpayplues 則固定帶入值 1
+                { "pxpayplues", req => req["pxpayplues"] != null ? "1" : null },
+
+                // 若 URL 中有 purl 且其值不為空，則保留原值
+                { "purl", req => !string.IsNullOrWhiteSpace(req["purl"]) ? req["purl"] : null },
+
+                // 可依需求擴充更多條件式參數，例如：
+                // { "fb", req => req["fb"] == "active" ? "yes" : null },
+            };
+
+            // 遍歷每個可選參數，檢查是否符合條件，若符合則加進 query string
+            foreach (var kv in optionalParams)
+            {
+                var value = kv.Value(request); // 執行條件邏輯
+                if (!string.IsNullOrEmpty(value))
+                {
+                    query += $"&{kv.Key}={HttpUtility.UrlEncode(value)}";
+                }
+            }
+
+            // 回傳組合完成的最終網址
+            return $"{baseUrl}?{query}";
+        }
+
     }
 }

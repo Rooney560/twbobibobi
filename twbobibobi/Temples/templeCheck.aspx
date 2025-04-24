@@ -1389,6 +1389,16 @@
                         break;
                 }
                 break;
+            case "20":
+                switch (url.searchParams.get('a')) {
+                    case "15":
+                        window.location = 'templeService_andou_Fw.aspx' + window.location.search;
+                        break;
+                    case "31":
+                        window.location = 'templeService_andou_wjsan.aspx' + window.location.search;
+                        break;
+                }
+                break;
         }
     }
 </script>

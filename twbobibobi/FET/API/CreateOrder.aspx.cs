@@ -185,6 +185,7 @@ namespace Temple.FET.APITEST
             int LightsID = 0;
             int ProductID = 0;
             int SuppliesID = 0;
+            int AnDouID = 0;
             int BPOID = 0;
             int LingbaolidouID = 0;
             int TaoistJiaoCeremonyID = 0;
@@ -196,6 +197,7 @@ namespace Temple.FET.APITEST
             string[] Lightslist = new string[0];
             string[] Purduelist = new string[0];
             string[] Supplieslist = new string[0];
+            string[] AnDoulist = new string[0];
             string[] BPOlist = new string[0];
             string[] Lingbaolidoulist = new string[0];
             string[] TaoistJiaoCeremonylist = new string[0];
@@ -204,13 +206,17 @@ namespace Temple.FET.APITEST
             int[] ApplicantID_Array = new int[0];
             int[] LightsID_Array = new int[0];
             int[] PurdueID_Array = new int[0];
+            int[] SuppliesID_Array = new int[0];
+            int[] AnDouID_Array = new int[0];
             int[] ProductID_Array = new int[0];
             string[] OrderID_Array = new string[0];
 
             var tempList_aid = ApplicantID_Array.ToList();
             var tempList_lid = LightsID_Array.ToList();
-            var tempList_pid = ProductID_Array.ToList();
             var tempList_puid = PurdueID_Array.ToList();
+            var tempList_sid = SuppliesID_Array.ToList();
+            var tempList_anid = AnDouID_Array.ToList();
+            var tempList_pid = ProductID_Array.ToList();
             var tempList_oid = OrderID_Array.ToList();
 
             //encryptText2 = "gqagr5d52I0U3PXSL//yfTpisydIZCK9uNZUTn6NvlhZ3CjtqsuUpoEBbK26E1PYQlvZNnjuAn9jnc2eSdB/IS3AOGz1YPEvppZODnb8PTxMQgK9Ocv2972sLp+E/miogux97QthWfyASVXojxTjDqNkG8dF2dcYrgWIuaGSXhpm6zxsl7WsLG1juynKr+h8PMRW7xk6EiGXS8InQrBf11RSG5hSdn10t+uppKt2riq/zgVkgpBNpUlo76R9LpQtxiqDTbCRBo3Wm/jpZpPhoyMlCRDZpW30FFRq/FLq/3RdJr6WmX5QGuVE51q1Ycg7WOgVdYj54TrKWM3iFUwZyi/B0w2q1c72fXzToo8C5K4=";
@@ -275,8 +281,49 @@ namespace Temple.FET.APITEST
 
                     TimeZoneInfo info = TimeZoneInfo.FindSystemTimeZoneById("Taipei Standard Time");
                     DateTime dtNow = TimeZoneInfo.ConvertTime(DateTime.Now, info);
+                    DataTable dtTempleCodeInfo = new DataTable();
 
-                    DataTable dtTempleCodeInfo = objLightDAC.GetTempleCodeInfo(productCode);
+                    // 創建一個 List 來存放 productCode 欄位
+                    List<string> productCodelist = new List<string>();
+                    // 創建一個 List 來存放 adminID 欄位
+                    List<string> adminIDlist = new List<string>();
+                    // 創建一個 List 來存放 Kind 欄位
+                    List<string> kindlist = new List<string>();
+                    // 創建一個 List 來存放 qty 欄位 (數量)
+                    List<int> qtylist = new List<int>();
+
+                    foreach (var item in itemsInfo)
+                    {
+                        string productCodeString = item["productCode"]?.ToString();
+                        if (productCodeString != null)
+                        {
+                            productCodelist.Add(productCodeString);
+
+                            dtTempleCodeInfo = objLightDAC.GetTempleCodeInfo(productCodeString);
+                            if (dtTempleCodeInfo.Rows.Count > 0)
+                            {
+                                string adminIDString = dtTempleCodeInfo.Rows[0]["AdminID"]?.ToString();
+                                if (adminIDString != null)
+                                {
+                                    adminIDlist.Add(adminIDString);
+                                }
+
+                                string kindString = dtTempleCodeInfo.Rows[0]["ServiceID"]?.ToString();
+                                if (adminIDString != null)
+                                {
+                                    kindlist.Add(adminIDString);
+                                }
+                            }
+                        }
+
+                        int qtyInt = 0;
+                        if (int.TryParse(item["qty"].ToString(), out qtyInt))
+                        {
+                            qtylist.Add(qtyInt);
+                        }
+                    }
+
+                    dtTempleCodeInfo = objLightDAC.GetTempleCodeInfo(productCode);
                     if (dtTempleCodeInfo.Rows.Count > 0)
                     {
 
@@ -5933,340 +5980,188 @@ namespace Temple.FET.APITEST
                                     Year = "TEST";
                                 }
 
-                                switch (AdminID)
+                                bool checkednum_supplies_Fw = true;
+                                bool checkednum_supplies_Lk = true;
+                                count = 0;
+                                cost = 0;
+                                ApplicantID_Array = new int[0];
+                                SuppliesID_Array = new int[0];
+                                OrderID_Array = new string[0];
+
+                                tempList_aid = ApplicantID_Array.ToList();
+                                tempList_sid = SuppliesID_Array.ToList();
+                                tempList_oid = OrderID_Array.ToList();
+
+
+                                if (checkednum_supplies_Fw && checkednum_supplies_Lk)
                                 {
-                                    case 15:
-                                        //斗六五路財神宮
-                                        ApplicantID = addapplicantID_Fw_Supplies(appName, appMobile, total, appCity, appRegion, appAddr, appzipCode, sendback,
-                                            reName, reMobile, itemsInfo, clientOrderNumber, fetOrderNumber, Year, ref Supplieslist, ref SuppliesID, ref OrderID);
-                                        if (ApplicantID > 0 && SuppliesID > 0 && OrderID != "0" && Supplieslist.Length > 0)
+                                    foreach (var item in itemsInfo)
+                                    {
+                                        productCode = item["productCode"].ToString();
+                                        dtTempleCodeInfo = objLightDAC.GetTempleCodeInfo(productCode);
+                                        if (dtTempleCodeInfo.Rows.Count > 0)
                                         {
-                                            //JSON寫入到檔案
-                                            using (StringWriter sw = new StringWriter())
+                                            int.TryParse(dtTempleCodeInfo.Rows[0]["AdminID"].ToString(), out AdminID);
+                                            int.TryParse(dtTempleCodeInfo.Rows[0]["ServiceID"].ToString(), out service);
+                                            //int.TryParse(item["qty"].ToString(), out count);                                                                                        //數量/普品數量
+                                            count = 1;
+                                            int.TryParse(item["unitPrice"].ToString(), out cost);
+                                            switch (AdminID)
                                             {
-                                                using (JsonTextWriter writer = new JsonTextWriter(sw))
+                                                case 15:
+                                                    //斗六五路財神宮
+                                                    ApplicantID = addapplicantID_Fw_Supplies(appName, appMobile, total, appCity, appRegion, appAddr, appzipCode, sendback, reName, 
+                                                        reMobile, itemsInfo, productCode, clientOrderNumber, fetOrderNumber, Year, ref Supplieslist, ref SuppliesID, ref OrderID);
+
+                                                    tempList_aid.Add(ApplicantID);
+                                                    tempList_sid.Add(SuppliesID);
+                                                    tempList_oid.Add(OrderID);
+
+                                                    ApplicantID_Array = tempList_aid.ToArray();
+                                                    SuppliesID_Array = tempList_sid.ToArray();
+                                                    OrderID_Array = tempList_oid.ToArray();
+                                                    break;
+                                                case 31:
+                                                    //鹿港城隍廟
+                                                    ApplicantID = addapplicantID_Lk_Supplies(appName, appMobile, total, appCity, appRegion, appAddr, appzipCode, sendback, reName,
+                                                        reMobile, itemsInfo, productCode, clientOrderNumber, fetOrderNumber, Year, ref Supplieslist, ref SuppliesID, ref OrderID);
+
+                                                    tempList_aid.Add(ApplicantID);
+                                                    tempList_sid.Add(SuppliesID);
+                                                    tempList_oid.Add(OrderID);
+
+                                                    ApplicantID_Array = tempList_aid.ToArray();
+                                                    SuppliesID_Array = tempList_sid.ToArray();
+                                                    OrderID_Array = tempList_oid.ToArray();
+                                                    break;
+                                            }
+                                        }
+                                    }
+
+                                    if (ApplicantID_Array.Length > 0 && SuppliesID_Array.Length > 0 && OrderID_Array.Length > 0 && Supplieslist.Length > 0)
+                                    {
+                                        //JSON寫入到檔案
+                                        using (StringWriter sw = new StringWriter())
+                                        {
+                                            using (JsonTextWriter writer = new JsonTextWriter(sw))
+                                            {
+                                                //建立物件
+                                                writer.WriteStartObject();
+
+                                                //物件名稱
+                                                writer.WritePropertyName("detail");
+
+                                                using (StringWriter sw2 = new StringWriter())
                                                 {
-                                                    //建立物件
-                                                    writer.WriteStartObject();
-
-                                                    //物件名稱
-                                                    writer.WritePropertyName("detail");
-
-                                                    using (StringWriter sw2 = new StringWriter())
+                                                    using (JsonTextWriter writer2 = new JsonTextWriter(sw2))
                                                     {
-                                                        using (JsonTextWriter writer2 = new JsonTextWriter(sw2))
+                                                        //建立物件
+                                                        writer2.WriteStartObject();
+
+                                                        writer2.WritePropertyName(string.Format("clientOrderNumber", clientOrderNumber));
+                                                        writer2.WriteValue(clientOrderNumber);
+
+                                                        writer2.WritePropertyName("partnerOrderNumber");
+                                                        writer2.WriteValue(OrderID);
+
+                                                        writer2.WritePropertyName("orderMsg");
+                                                        writer2.WriteValue("success");
+
+                                                        writer2.WritePropertyName("orderStatus");
+                                                        writer2.WriteValue("0000");
+
+                                                        writer2.WritePropertyName("items");
+                                                        //建立陣列
+                                                        writer2.WriteStartArray();
+                                                        int i = 0;
+                                                        foreach (var item in itemsInfo)
                                                         {
                                                             //建立物件
                                                             writer2.WriteStartObject();
 
-                                                            writer2.WritePropertyName(string.Format("clientOrderNumber", clientOrderNumber));
-                                                            writer2.WriteValue(clientOrderNumber);
+                                                            //物件名稱
+                                                            writer2.WritePropertyName("productCode");
+                                                            writer2.WriteValue(item["productCode"]);
 
-                                                            writer2.WritePropertyName("partnerOrderNumber");
-                                                            writer2.WriteValue(OrderID);
-
-                                                            writer2.WritePropertyName("orderMsg");
-                                                            writer2.WriteValue("success");
-
-                                                            writer2.WritePropertyName("orderStatus");
-                                                            writer2.WriteValue("0000");
-
-                                                            writer2.WritePropertyName("items");
+                                                            writer2.WritePropertyName("prayedPerson");
                                                             //建立陣列
                                                             writer2.WriteStartArray();
-                                                            int i = 0;
-                                                            foreach (var item in itemsInfo)
+
+                                                            JArray prayedPerson = (JArray)item["prayedPerson"];
+                                                            foreach (var item2 in prayedPerson)
                                                             {
                                                                 //建立物件
                                                                 writer2.WriteStartObject();
-
-                                                                //物件名稱
-                                                                writer2.WritePropertyName("productCode");
-                                                                writer2.WriteValue(item["productCode"]);
-
-                                                                writer2.WritePropertyName("prayedPerson");
-                                                                //建立陣列
-                                                                writer2.WriteStartArray();
-
-                                                                JArray prayedPerson = (JArray)item["prayedPerson"];
-                                                                foreach (var item2 in prayedPerson)
-                                                                {
-                                                                    //建立物件
-                                                                    writer2.WriteStartObject();
-                                                                    writer2.WritePropertyName("prayedPersonSeq"); writer2.WriteValue(item2["prayedPersonSeq"]);
-                                                                    writer2.WritePropertyName("prayedPersonOrderNumber"); writer2.WriteValue(Supplieslist[i]);
-                                                                    writer2.WritePropertyName("sessionSeq"); writer2.WriteValue("");
-                                                                    writer2.WritePropertyName("sessionName"); writer2.WriteValue("");
-                                                                    writer2.WriteEndObject();
-                                                                    i++;
-                                                                }
-                                                                writer2.WriteEndArray();
-
+                                                                writer2.WritePropertyName("prayedPersonSeq"); writer2.WriteValue(item2["prayedPersonSeq"]);
+                                                                writer2.WritePropertyName("prayedPersonOrderNumber"); writer2.WriteValue(Supplieslist[i]);
+                                                                writer2.WritePropertyName("sessionSeq"); writer2.WriteValue("");
+                                                                writer2.WritePropertyName("sessionName"); writer2.WriteValue("");
                                                                 writer2.WriteEndObject();
+                                                                i++;
                                                             }
                                                             writer2.WriteEndArray();
 
                                                             writer2.WriteEndObject();
-
-                                                            encrypt = AESHelper.AesEncrypt(sw2.ToString(), checkedkey);
                                                         }
+                                                        writer2.WriteEndArray();
+
+                                                        writer2.WriteEndObject();
+
+                                                        encrypt = AESHelper.AesEncrypt(sw2.ToString(), checkedkey);
                                                     }
-
-                                                    writer.WriteValue(encrypt);
-
-                                                    writer.WritePropertyName("resultCode"); writer.WriteValue("0000");
-
-                                                    writer.WriteEndObject();
-
-                                                    //建立陣列
-                                                    //writer.WriteStartArray();
-                                                    //for (int index = 1; index <= 10; index++)
-                                                    //{
-                                                    //    //建立物件
-                                                    //    writer.WriteStartObject();
-                                                    //    //設定屬性名稱
-                                                    //    writer.WritePropertyName(String.Format("number", index));
-                                                    //    //設定值
-                                                    //    writer.WriteValue(index);
-                                                    //    writer.WriteEndObject();
-                                                    //}
-                                                    //writer.WriteEndArray();
-
-                                                    writer.Flush();
-                                                    writer.Close();
-                                                    sw.Flush();
-                                                    sw.Close();
-
-                                                    //輸出結果
-                                                    Response.Write(sw.ToString());
-
-                                                    SaveRequestLog(Request.Url + sw.ToString());
                                                 }
+
+                                                writer.WriteValue(encrypt);
+
+                                                writer.WritePropertyName("resultCode"); writer.WriteValue("0000");
+
+                                                writer.WriteEndObject();
+
+                                                //建立陣列
+                                                //writer.WriteStartArray();
+                                                //for (int index = 1; index <= 10; index++)
+                                                //{
+                                                //    //建立物件
+                                                //    writer.WriteStartObject();
+                                                //    //設定屬性名稱
+                                                //    writer.WritePropertyName(String.Format("number", index));
+                                                //    //設定值
+                                                //    writer.WriteValue(index);
+                                                //    writer.WriteEndObject();
+                                                //}
+                                                //writer.WriteEndArray();
+
+                                                writer.Flush();
+                                                writer.Close();
+                                                sw.Flush();
+                                                sw.Close();
+
+                                                //輸出結果
+                                                Response.Write(sw.ToString());
+
+                                                SaveRequestLog(Request.Url + sw.ToString());
                                             }
                                         }
-                                        else
-                                        {
-                                            //JSON寫入到檔案
-                                            using (StringWriter sw = new StringWriter())
-                                            {
-                                                using (JsonTextWriter writer = new JsonTextWriter(sw))
-                                                {
-                                                    //建立物件
-                                                    writer.WriteStartObject();
+                                    }
+                                    else
+                                    {
+                                        JSONErrorOrder(checkedkey, encrypt, "1003", "9999", "建立補財庫訂單失敗！");
+                                    }
+                                }
+                                else
+                                {
+                                    string errommsg = string.Empty;
+                                    if (!checkednum_supplies_Fw)
+                                    {
+                                        errommsg = "斗六五路財神宮";
+                                    }
+                                    else if (!checkednum_supplies_Lk)
+                                    {
+                                        errommsg = "鹿港城隍廟";
+                                    }
 
-                                                    //物件名稱
-                                                    writer.WritePropertyName("detail");
 
-                                                    using (StringWriter sw2 = new StringWriter())
-                                                    {
-                                                        using (JsonTextWriter writer2 = new JsonTextWriter(sw2))
-                                                        {
-                                                            //建立物件
-                                                            writer2.WriteStartObject();
-
-                                                            writer2.WritePropertyName(string.Format("clientOrderNumber", clientOrderNumber));
-                                                            writer2.WriteValue(clientOrderNumber);
-
-                                                            writer2.WritePropertyName("partnerOrderNumber");
-                                                            writer2.WriteValue(OrderID);
-
-                                                            writer2.WritePropertyName("orderMsg");
-                                                            writer2.WriteValue("fail");
-
-                                                            writer2.WritePropertyName("orderStatus");
-                                                            writer2.WriteValue("1003");
-
-                                                            writer2.WriteEndObject();
-
-                                                            encrypt = AESHelper.AesEncrypt(sw2.ToString(), checkedkey);
-                                                        }
-                                                    }
-
-                                                    writer.WriteValue(encrypt);
-
-                                                    writer.WritePropertyName("resultCode"); writer.WriteValue("9999");
-
-                                                    writer.WriteEndObject();
-
-                                                    writer.Flush();
-                                                    writer.Close();
-                                                    sw.Flush();
-                                                    sw.Close();
-
-                                                    //輸出結果
-                                                    Response.Write(sw.ToString());
-
-                                                    SaveRequestLog(Request.Url + sw.ToString());
-                                                }
-                                            }
-                                        }
-                                        break;
-                                    case 21:
-                                        //鹿港城隍廟
-                                        ApplicantID = addapplicantID_Lk_Supplies(appName, appMobile, total, appCity, appRegion, appAddr, appzipCode, sendback,
-                                            reName, reMobile, itemsInfo, clientOrderNumber, fetOrderNumber, Year, ref Supplieslist, ref SuppliesID, ref OrderID);
-                                        if (ApplicantID > 0 && SuppliesID > 0 && OrderID != "0" && Supplieslist.Length > 0)
-                                        {
-                                            //JSON寫入到檔案
-                                            using (StringWriter sw = new StringWriter())
-                                            {
-                                                using (JsonTextWriter writer = new JsonTextWriter(sw))
-                                                {
-                                                    //建立物件
-                                                    writer.WriteStartObject();
-
-                                                    //物件名稱
-                                                    writer.WritePropertyName("detail");
-
-                                                    using (StringWriter sw2 = new StringWriter())
-                                                    {
-                                                        using (JsonTextWriter writer2 = new JsonTextWriter(sw2))
-                                                        {
-                                                            //建立物件
-                                                            writer2.WriteStartObject();
-
-                                                            writer2.WritePropertyName(string.Format("clientOrderNumber", clientOrderNumber));
-                                                            writer2.WriteValue(clientOrderNumber);
-
-                                                            writer2.WritePropertyName("partnerOrderNumber");
-                                                            writer2.WriteValue(OrderID);
-
-                                                            writer2.WritePropertyName("orderMsg");
-                                                            writer2.WriteValue("success");
-
-                                                            writer2.WritePropertyName("orderStatus");
-                                                            writer2.WriteValue("0000");
-
-                                                            writer2.WritePropertyName("items");
-                                                            //建立陣列
-                                                            writer2.WriteStartArray();
-                                                            int i = 0;
-                                                            foreach (var item in itemsInfo)
-                                                            {
-                                                                //建立物件
-                                                                writer2.WriteStartObject();
-
-                                                                //物件名稱
-                                                                writer2.WritePropertyName("productCode");
-                                                                writer2.WriteValue(item["productCode"]);
-
-                                                                writer2.WritePropertyName("prayedPerson");
-                                                                //建立陣列
-                                                                writer2.WriteStartArray();
-
-                                                                JArray prayedPerson = (JArray)item["prayedPerson"];
-                                                                foreach (var item2 in prayedPerson)
-                                                                {
-                                                                    //建立物件
-                                                                    writer2.WriteStartObject();
-                                                                    writer2.WritePropertyName("prayedPersonSeq"); writer2.WriteValue(item2["prayedPersonSeq"]);
-                                                                    writer2.WritePropertyName("prayedPersonOrderNumber"); writer2.WriteValue(Supplieslist[i]);
-                                                                    writer2.WritePropertyName("sessionSeq"); writer2.WriteValue("");
-                                                                    writer2.WritePropertyName("sessionName"); writer2.WriteValue("");
-                                                                    writer2.WriteEndObject();
-                                                                    i++;
-                                                                }
-                                                                writer2.WriteEndArray();
-
-                                                                writer2.WriteEndObject();
-                                                            }
-                                                            writer2.WriteEndArray();
-
-                                                            writer2.WriteEndObject();
-
-                                                            encrypt = AESHelper.AesEncrypt(sw2.ToString(), checkedkey);
-                                                        }
-                                                    }
-
-                                                    writer.WriteValue(encrypt);
-
-                                                    writer.WritePropertyName("resultCode"); writer.WriteValue("0000");
-
-                                                    writer.WriteEndObject();
-
-                                                    //建立陣列
-                                                    //writer.WriteStartArray();
-                                                    //for (int index = 1; index <= 10; index++)
-                                                    //{
-                                                    //    //建立物件
-                                                    //    writer.WriteStartObject();
-                                                    //    //設定屬性名稱
-                                                    //    writer.WritePropertyName(String.Format("number", index));
-                                                    //    //設定值
-                                                    //    writer.WriteValue(index);
-                                                    //    writer.WriteEndObject();
-                                                    //}
-                                                    //writer.WriteEndArray();
-
-                                                    writer.Flush();
-                                                    writer.Close();
-                                                    sw.Flush();
-                                                    sw.Close();
-
-                                                    //輸出結果
-                                                    Response.Write(sw.ToString());
-
-                                                    SaveRequestLog(Request.Url + sw.ToString());
-                                                }
-                                            }
-                                        }
-                                        else
-                                        {
-                                            //JSON寫入到檔案
-                                            using (StringWriter sw = new StringWriter())
-                                            {
-                                                using (JsonTextWriter writer = new JsonTextWriter(sw))
-                                                {
-                                                    //建立物件
-                                                    writer.WriteStartObject();
-
-                                                    //物件名稱
-                                                    writer.WritePropertyName("detail");
-
-                                                    using (StringWriter sw2 = new StringWriter())
-                                                    {
-                                                        using (JsonTextWriter writer2 = new JsonTextWriter(sw2))
-                                                        {
-                                                            //建立物件
-                                                            writer2.WriteStartObject();
-
-                                                            writer2.WritePropertyName(string.Format("clientOrderNumber", clientOrderNumber));
-                                                            writer2.WriteValue(clientOrderNumber);
-
-                                                            writer2.WritePropertyName("partnerOrderNumber");
-                                                            writer2.WriteValue(OrderID);
-
-                                                            writer2.WritePropertyName("orderMsg");
-                                                            writer2.WriteValue("fail");
-
-                                                            writer2.WritePropertyName("orderStatus");
-                                                            writer2.WriteValue("1003");
-
-                                                            writer2.WriteEndObject();
-
-                                                            encrypt = AESHelper.AesEncrypt(sw2.ToString(), checkedkey);
-                                                        }
-                                                    }
-
-                                                    writer.WriteValue(encrypt);
-
-                                                    writer.WritePropertyName("resultCode"); writer.WriteValue("9999");
-
-                                                    writer.WriteEndObject();
-
-                                                    writer.Flush();
-                                                    writer.Close();
-                                                    sw.Flush();
-                                                    sw.Close();
-
-                                                    //輸出結果
-                                                    Response.Write(sw.ToString());
-
-                                                    SaveRequestLog(Request.Url + sw.ToString());
-                                                }
-                                            }
-                                        }
-                                        break;
+                                    JSONErrorOrder(checkedkey, encrypt, "1003", "9999", errommsg + " 補財庫已額滿！");
                                 }
                                 break;
                             case 17:
@@ -6451,6 +6346,254 @@ namespace Temple.FET.APITEST
                                         break;
                                 }
                                 break;
+                            case 20:
+                                //安斗
+                                if (URL.IndexOf("20.6.8.46") >= 0 || URL.IndexOf("fettest") >= 0)
+                                {
+                                    Year = "TEST";
+                                }
+
+                                bool checkednum_andou_Fw = true;
+                                bool checkednum_andou_wjsan = true;
+                                count = 0;
+                                cost = 0;
+                                ApplicantID_Array = new int[0];
+                                AnDouID_Array = new int[0];
+                                OrderID_Array = new string[0];
+
+                                tempList_aid = ApplicantID_Array.ToList();
+                                tempList_anid = AnDouID_Array.ToList();
+                                tempList_oid = OrderID_Array.ToList();
+
+                                //foreach (var item2 in itemsInfo)
+                                //{
+                                //    //int.TryParse(item["unitPrice"].ToString(), out cost);
+                                //    string productCode2 = item2["productCode"].ToString();
+
+                                //    dtTempleCodeInfo = objLightDAC.GetTempleCodeInfo(productCode2);
+                                //    if (dtTempleCodeInfo.Rows.Count > 0)
+                                //    {
+                                //        int.TryParse(dtTempleCodeInfo.Rows[0]["AdminID"].ToString(), out AdminID);
+                                //        int.TryParse(dtTempleCodeInfo.Rows[0]["ServiceID"].ToString(), out service);
+                                //        string AnDouString = dtTempleCodeInfo.Rows[0]["TypeString"].ToString();
+                                //        string AnDouType = dtTempleCodeInfo.Rows[0]["TypeID"].ToString();
+
+                                //        switch (AdminID)
+                                //        {
+                                //            case 16:
+                                //                lightstypelist = new string[0];
+                                //                int.TryParse(item2["qty"].ToString(), out count_dh);
+                                //                Ists = lightstypelist.ToList();
+                                //                lightstypelist = Ists.Append(AnDouType).ToArray();
+
+                                //                switch (AnDouType)
+                                //                {
+                                //                    case "3":
+                                //                        //光明燈
+                                //                        count_dh_lights[0] += count_dh;
+                                //                        break;
+                                //                    case "4":
+                                //                        //安太歲
+                                //                        count_dh_lights[1] += count_dh;
+                                //                        break;
+                                //                    case "5":
+                                //                        //文昌燈
+                                //                        count_dh_lights[2] += count_dh;
+                                //                        checkednum_dh = false;
+                                //                        break;
+                                //                    case "9":
+                                //                        //財利燈
+                                //                        count_dh_lights[3] += count_dh;
+                                //                        break;
+                                //                    case "13":
+                                //                        //龍王燈
+                                //                        count_dh_lights[4] += count_dh;
+                                //                        checkednum_dh = false;
+                                //                        break;
+                                //                    case "14":
+                                //                        //虎爺燈
+                                //                        count_dh_lights[6] += count_dh;
+                                //                        checkednum_dh = false;
+                                //                        break;
+                                //                }
+                                //                break;
+                                //        }
+                                //    }
+                                //    index++;
+                                //}
+
+                                if (checkednum_andou_Fw && checkednum_andou_wjsan)
+                                {
+                                    foreach (var item in itemsInfo)
+                                    {
+                                        productCode = item["productCode"].ToString();
+                                        dtTempleCodeInfo = objLightDAC.GetTempleCodeInfo(productCode);
+                                        if (dtTempleCodeInfo.Rows.Count > 0)
+                                        {
+                                            int.TryParse(dtTempleCodeInfo.Rows[0]["AdminID"].ToString(), out AdminID);
+                                            int.TryParse(dtTempleCodeInfo.Rows[0]["ServiceID"].ToString(), out service);
+                                            //int.TryParse(item["qty"].ToString(), out count);                                                                                        //數量/普品數量
+                                            count = 1;
+                                            int.TryParse(item["unitPrice"].ToString(), out cost);
+                                            switch (AdminID)
+                                            {
+                                                case 15:
+                                                    //斗六五路財神宮
+                                                    ApplicantID = addapplicantID_Fw_AnDou(appName, appMobile, total, appCity, appRegion, appAddr, appzipCode, sendback, reName, reMobile,
+                                                        itemsInfo, productCode, clientOrderNumber, fetOrderNumber, Year, ref AnDoulist, ref AnDouID, ref OrderID);
+
+                                                    tempList_aid.Add(ApplicantID);
+                                                    tempList_anid.Add(AnDouID);
+                                                    tempList_oid.Add(OrderID);
+
+                                                    ApplicantID_Array = tempList_aid.ToArray();
+                                                    AnDouID_Array = tempList_anid.ToArray();
+                                                    OrderID_Array = tempList_oid.ToArray();
+                                                    break;
+                                                case 31:
+                                                    //台灣道教總廟無極三清總道院
+                                                    ApplicantID = addapplicantID_wjsan_AnDou(appName, appMobile, total, appCity, appRegion, appAddr, appzipCode, sendback, reName,
+                                                        reMobile, itemsInfo, productCode, clientOrderNumber, fetOrderNumber, Year, ref AnDoulist, ref AnDouID, ref OrderID);
+
+                                                    tempList_aid.Add(ApplicantID);
+                                                    tempList_anid.Add(AnDouID);
+                                                    tempList_oid.Add(OrderID);
+
+                                                    ApplicantID_Array = tempList_aid.ToArray();
+                                                    AnDouID_Array = tempList_anid.ToArray();
+                                                    OrderID_Array = tempList_oid.ToArray();
+                                                    break;
+                                            }
+                                        }
+                                    }
+
+                                    if (ApplicantID_Array.Length > 0 && AnDouID_Array.Length > 0 && OrderID_Array.Length > 0 && AnDoulist.Length > 0)
+                                    {
+                                        //JSON寫入到檔案
+                                        using (StringWriter sw = new StringWriter())
+                                        {
+                                            using (JsonTextWriter writer = new JsonTextWriter(sw))
+                                            {
+                                                //建立物件
+                                                writer.WriteStartObject();
+
+                                                //物件名稱
+                                                writer.WritePropertyName("detail");
+
+                                                using (StringWriter sw2 = new StringWriter())
+                                                {
+                                                    using (JsonTextWriter writer2 = new JsonTextWriter(sw2))
+                                                    {
+                                                        //建立物件
+                                                        writer2.WriteStartObject();
+
+                                                        writer2.WritePropertyName(string.Format("clientOrderNumber", clientOrderNumber));
+                                                        writer2.WriteValue(clientOrderNumber);
+
+                                                        writer2.WritePropertyName("partnerOrderNumber");
+                                                        writer2.WriteValue(OrderID);
+
+                                                        writer2.WritePropertyName("orderMsg");
+                                                        writer2.WriteValue("success");
+
+                                                        writer2.WritePropertyName("orderStatus");
+                                                        writer2.WriteValue("0000");
+
+                                                        writer2.WritePropertyName("items");
+                                                        //建立陣列
+                                                        writer2.WriteStartArray();
+                                                        int i = 0;
+                                                        foreach (var item in itemsInfo)
+                                                        {
+                                                            //建立物件
+                                                            writer2.WriteStartObject();
+
+                                                            //物件名稱
+                                                            writer2.WritePropertyName("productCode");
+                                                            writer2.WriteValue(item["productCode"]);
+
+                                                            writer2.WritePropertyName("prayedPerson");
+                                                            //建立陣列
+                                                            writer2.WriteStartArray();
+
+                                                            JArray prayedPerson = (JArray)item["prayedPerson"];
+                                                            foreach (var item2 in prayedPerson)
+                                                            {
+                                                                //建立物件
+                                                                writer2.WriteStartObject();
+                                                                writer2.WritePropertyName("prayedPersonSeq"); writer2.WriteValue(item2["prayedPersonSeq"]);
+                                                                writer2.WritePropertyName("prayedPersonOrderNumber"); writer2.WriteValue(AnDoulist[i]);
+                                                                writer2.WritePropertyName("sessionSeq"); writer2.WriteValue("");
+                                                                writer2.WritePropertyName("sessionName"); writer2.WriteValue("");
+                                                                writer2.WriteEndObject();
+                                                                i++;
+                                                            }
+                                                            writer2.WriteEndArray();
+
+                                                            writer2.WriteEndObject();
+                                                        }
+                                                        writer2.WriteEndArray();
+
+                                                        writer2.WriteEndObject();
+
+                                                        encrypt = AESHelper.AesEncrypt(sw2.ToString(), checkedkey);
+                                                    }
+                                                }
+
+                                                writer.WriteValue(encrypt);
+
+                                                writer.WritePropertyName("resultCode"); writer.WriteValue("0000");
+
+                                                writer.WriteEndObject();
+
+                                                //建立陣列
+                                                //writer.WriteStartArray();
+                                                //for (int index = 1; index <= 10; index++)
+                                                //{
+                                                //    //建立物件
+                                                //    writer.WriteStartObject();
+                                                //    //設定屬性名稱
+                                                //    writer.WritePropertyName(String.Format("number", index));
+                                                //    //設定值
+                                                //    writer.WriteValue(index);
+                                                //    writer.WriteEndObject();
+                                                //}
+                                                //writer.WriteEndArray();
+
+                                                writer.Flush();
+                                                writer.Close();
+                                                sw.Flush();
+                                                sw.Close();
+
+                                                //輸出結果
+                                                Response.Write(sw.ToString());
+
+                                                SaveRequestLog(Request.Url + sw.ToString());
+                                            }
+                                        }
+                                    }
+                                    else
+                                    {
+                                        JSONErrorOrder(checkedkey, encrypt, "1003", "9999", "建立安斗訂單失敗！");
+                                    }
+                                }
+                                else
+                                {
+                                    string errommsg = string.Empty;
+                                    if (!checkednum_andou_Fw)
+                                    {
+                                        errommsg = "斗六五路財神宮";
+                                    }
+                                    else if (!checkednum_andou_wjsan)
+                                    {
+                                        errommsg = "台灣道教總廟無極三清總道院";
+                                    }
+
+
+                                    JSONErrorOrder(checkedkey, encrypt, "1003", "9999", errommsg + " 安斗已額滿！");
+                                }
+
+                                break;
                         }
                     }
                     else
@@ -6538,6 +6681,11 @@ namespace Temple.FET.APITEST
                                 if (ApplicantID != 0 && SuppliesID != 0)
                                 {
                                     DeleteSuppliesInfo(AdminID, ApplicantID, service);
+                                }
+
+                                if (ApplicantID != 0 && AnDouID != 0)
+                                {
+                                    DeleteAnDouInfo(AdminID, ApplicantID);
                                 }
 
                                 if (ApplicantID != 0 && BPOID != 0)
@@ -8687,6 +8835,264 @@ namespace Temple.FET.APITEST
             return aid;
         }
 
+        //斗六五路財神宮-安斗
+        protected int addapplicantID_Fw_AnDou(string appName, string appMobile, string total, string appCity, string appRegion, string appAddr, string appZipCode, string sendback,
+            string reName, string reMobile, JArray itemsInfo, string productCode, string Tid, string fetOrderNumber, string Year, ref string[] AnDoulist, ref int AnDouID,
+            ref string OrderID)
+        {
+            int aid = 0;
+            int adminID = 15;
+            LightDAC objLightDAC = new LightDAC(this);
+            string postURL = "AnDou_Fw_Index_FETAPI";
+            TimeZoneInfo info = TimeZoneInfo.FindSystemTimeZoneById("Taipei Standard Time");
+            DateTime dtNow = TimeZoneInfo.ConvertTime(DateTime.Now, info);
+
+            aid = objLightDAC.addapplicantinfo_andou_Fw(appName, appMobile, total, appCity, appRegion, appAddr, appZipCode, sendback, reName, reMobile, 2, adminID.ToString(),
+                postURL, Year);
+            if (aid > 0)
+            {
+                int count = 0;
+                int cost = 0;
+
+                foreach (var item in itemsInfo)
+                {
+                    if (productCode == item["productCode"].ToString())
+                    {
+                        //int.TryParse(item["qty"].ToString(), out count);
+                        count = 1;
+                        int.TryParse(item["unitPrice"].ToString(), out cost);
+
+                        DataTable dtTempleCodeInfo = objLightDAC.GetTempleCodeInfo(productCode);
+                        if (dtTempleCodeInfo.Rows.Count > 0)
+                        {
+                            string AnDouString = dtTempleCodeInfo.Rows[0]["TypeString"].ToString();
+                            string AnDouType = dtTempleCodeInfo.Rows[0]["TypeID"].ToString();
+
+                            JArray prayedPerson = (JArray)item["prayedPerson"];
+                            foreach (var item2 in prayedPerson)
+                            {
+                                string name = item2["name"].ToString();                                                                                         //被祈福者姓名 / 飼主姓名
+                                                                                                                                                                //string mobile = appMobile;
+                                string mobile = item2["msisdn"] != null ? item2["msisdn"].ToString() : appMobile;                                               //祈福者電話                                                                                     //祈福者電話
+                                string gender = item2["gender"] != null ? (item2["gender"].ToString() == "F" ? "信女" : "善男") : "善男";                       //性別 M: 男 F: 女
+                                string birthday = item2["birthday"] != null ? item2["birthday"].ToString() : "";                                                //國曆生日 YYYMMDD (民國年/國曆月/國曆日)
+                                string lunarBirthday = item2["lunarBirthday"] != null ? item2["lunarBirthday"].ToString() : "";                                 //農曆生日 YYYMMDD (民國年/農曆月/農曆日)
+                                string leapMonth = item2["leapMonth"] != null ? item2["leapMonth"].ToString() : "N";                                            //是否為閏月 Y: 是 N: 否
+                                string birthTime = item2["lunarBirthTime"] != null ? item2["lunarBirthTime"].ToString() : "吉";                                 //農曆時辰 子、丑、寅…亥 未確認時辰用戶可選吉時
+                                string oversea = item2["oversea"] != null ? item2["oversea"].ToString() : "1";                                                  //1: 國內 2: 國外
+                                string city = string.Empty;                                                                                                     //縣/市, 國內地址必填
+                                string region = string.Empty;                                                                                                   //地區, 國內地址必填
+                                string addr = item2["address"].ToString();                                                                                      //部分地址
+                                string zipCode = item2["zipCode"] != null ? item2["zipCode"].ToString() : "0";                                                  //郵遞區號, 國內地址必填
+                                if (oversea == "1")
+                                {
+                                    city = item2["city"].ToString();
+                                    region = item2["region"].ToString();
+                                }
+                                else
+                                {
+                                    if (item2["city"] != null)
+                                    {
+                                        city = item2["city"].ToString();
+                                    }
+                                    if (item2["region"] != null)
+                                    {
+                                        region = item2["region"].ToString();
+                                    }
+                                }
+                                string petName = item2["petName"] != null ? item2["petName"].ToString() : "";                                                   //寵物姓名
+                                string petType = item2["petBreed"] != null ? item2["petBreed"].ToString() : "無";                                               //寵物品種
+
+                                string Birth = string.Empty;
+                                string birthMonth = string.Empty;
+                                string age = string.Empty;
+                                string Zodiac = string.Empty;
+                                string lyear = string.Empty;
+                                string year = string.Empty;
+                                string month = string.Empty;
+                                string day = string.Empty;
+
+                                string sBirth = string.Empty;
+                                string syear = string.Empty;
+                                string smonth = string.Empty;
+                                string sday = string.Empty;
+
+                                string birth = lunarBirthday;
+                                if (birth.Length == 7)
+                                {
+                                    lyear = birth.Substring(0, 3);
+                                    year = (int.Parse(birth.Substring(0, 3)) + 1911).ToString();
+                                    month = birthMonth = birth.Substring(3, 2);
+                                    day = birth.Substring(5, 2);
+
+                                    string b = year + "-" + month + "-" + day;
+                                    LunarSolarConverter.shuxiang(int.Parse(year), ref Zodiac);
+                                    DateTime lunarBirth;
+                                    DateTime solorBirth;
+                                    if (DateTime.TryParse(b, out lunarBirth))
+                                    {
+                                        //age = GetAge(DateTime.Parse(b), dtNow);
+
+                                        age = GetAge(int.Parse(year), int.Parse(month), int.Parse(day)).ToString();
+                                    }
+                                    else
+                                    {
+                                        birth = birthday;
+                                        if (birth.Length == 7)
+                                        {
+                                            syear = birth.Substring(0, 3);
+                                            year = (int.Parse(birth.Substring(0, 3)) + 1911).ToString();
+                                            smonth = birthMonth = birth.Substring(3, 2);
+                                            sday = birth.Substring(5, 2);
+
+                                            b = year + "-" + smonth + "-" + sday;
+                                            LunarSolarConverter.shuxiang(int.Parse(year), ref Zodiac);
+                                            if (DateTime.TryParse(b, out solorBirth))
+                                            {
+                                                //age = GetAge(DateTime.Parse(b), dtNow);
+
+                                                age = GetAge(int.Parse(year), int.Parse(smonth), int.Parse(sday)).ToString();
+                                            }
+                                        }
+                                    }
+                                }
+
+                                string sbirth = birthday;
+                                if (sbirth.Length == 7)
+                                {
+                                    syear = sbirth.Substring(0, 3);
+                                    year = (int.Parse(sbirth.Substring(0, 3)) + 1911).ToString();
+                                    smonth = sbirth.Substring(3, 2);
+                                    sday = sbirth.Substring(5, 2);
+
+                                    //b = year + "-" + smonth + "-" + sday;
+                                    //if (DateTime.TryParse(b, out solorBirth))
+                                    //{
+                                    //    //age = GetAge(DateTime.Parse(b), dtNow);
+
+                                    //    age = GetAge(int.Parse(year), int.Parse(smonth), int.Parse(sday)).ToString();
+                                    //}
+                                }
+
+                                int l = 0, s = 0;
+                                int.TryParse(lyear, out l);
+                                int.TryParse(syear, out s);
+
+                                Birth = "民國" + (l > 0 ? l.ToString() : lyear) + "年" + month + "月" + day + "日";
+                                if (syear != "" && smonth != "" && sday != "")
+                                {
+                                    sBirth = "民國" + (s > 0 ? s.ToString() : syear) + "年" + smonth + "月" + sday + "日";
+                                }
+
+                                AnDouID = objLightDAC.addAnDou_Fw(aid, name, mobile, gender, AnDouType, AnDouString, oversea, Birth, leapMonth, birthTime, birthMonth, age,
+                                    Zodiac, sBirth, "", count, addr, city, region, zipCode, petName, petType, Year);
+                            }
+                        }
+                    }
+                }
+
+                if (AnDouID > 0)
+                {
+                    BCFBaseLibrary.Web.BasePage basePage = new BCFBaseLibrary.Web.BasePage();
+                    DatabaseHelper objDatabaseHelper = new DatabaseHelper(basePage);
+                    OrderID = dtNow.ToString("yyyyMMddHHmmssfff");
+                    string CallbackLog = Tid + "," + fetOrderNumber;
+                    string[] andoulist = new string[0];
+
+                    long id = objDatabaseHelper.AddChargeLog_AnDou_Fw(OrderID, aid, int.Parse(total), "FETAPI", 0, itemsInfo.ToString(), "", fetOrderNumber, Request.UserHostAddress, Year);
+
+                    DataTable dtCharge = objDatabaseHelper.GetChargeLog_AnDou_Fw(OrderID, Year);
+                    if (dtCharge.Rows.Count > 0)
+                    {
+                        if ((int)dtCharge.Rows[0]["Status"] == 0)
+                        {
+                            int AnDouType = objDatabaseHelper.GetAnDouType_Fw(aid, Year);
+
+                            string msg = "感謝購買,已成功付款" + cost + "元,您的訂單編號 ";
+
+                            //更新點燈資料表並取得訂單編號
+                            objDatabaseHelper.UpdateAnDou_Fw_Info(aid, AnDouType, Year, ref msg, ref andoulist, ref AnDoulist);
+
+                            //msg = "感謝大德參與線上點燈,茲收您1960元功德金,訂單編號 光明燈:T2204, 安太歲:25351, 文昌燈:六1214。";
+                            //mobile = "0903002568";
+
+                            SMSHepler objSMSHepler = new SMSHepler();
+                            string ChargeType = string.Empty;
+                            //更新流水付費表資訊(付費成功)
+                            if (objDatabaseHelper.UpdateChargeLog_AnDou_Fw(OrderID, Tid, msg, Request.UserHostAddress, CallbackLog, Year, ref ChargeType))
+                            {
+                                //if (objSMSHepler.SendMsg_SL(mobile, msg))
+                                //{
+
+                                //    //m2 = m2.IndexOf("aid=") > 0 ? m2 : (m2.IndexOf("?") > 0 ? m2 + "&aid=" + m1 : m2 + "?aid=" + m1 + "&a=" + adminID);
+                                //    m2 = "https://bobibobi.tw/Temples/templeComplete.aspx?kind=1&a=" + adminID + "&aid=" + aid;
+                                //    Response.Redirect(m2, true);
+                                //}
+                                //else
+                                //{
+                                //    Response.Write("<script>alert('傳送簡訊失敗。請聯繫管理員。客服電話：04-36092299。');window.location.href='" + rebackURL + "'</script>");
+                                //}
+                            }
+                            else
+                            {
+                                string encrypt = string.Empty;
+
+                                //JSON寫入到檔案
+                                using (StringWriter sw = new StringWriter())
+                                {
+                                    using (JsonTextWriter writer = new JsonTextWriter(sw))
+                                    {
+                                        //建立物件
+                                        writer.WriteStartObject();
+
+                                        //物件名稱
+                                        writer.WritePropertyName("detail");
+
+                                        using (StringWriter sw2 = new StringWriter())
+                                        {
+                                            using (JsonTextWriter writer2 = new JsonTextWriter(sw2))
+                                            {
+                                                //建立物件
+                                                writer2.WriteStartObject();
+
+                                                writer2.WritePropertyName("orderMsg");
+                                                writer2.WriteValue("fail");
+
+                                                writer2.WritePropertyName("orderStatus");
+                                                writer2.WriteValue("1003");
+
+                                                writer2.WriteEndObject();
+
+                                                encrypt = AESHelper.AesEncrypt(sw2.ToString(), checkedkey);
+                                            }
+                                        }
+
+                                        writer.WriteValue(encrypt);
+
+                                        writer.WritePropertyName("resultCode"); writer.WriteValue("9999");
+
+                                        writer.WriteEndObject();
+
+                                        writer.Flush();
+                                        writer.Close();
+                                        sw.Flush();
+                                        sw.Close();
+
+                                        //輸出結果
+                                        Response.Write(sw.ToString());
+
+                                        SaveRequestLog(Request.Url + sw.ToString());
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+
+            return aid;
+        }
+
         //台東東海龍門天聖宮點燈
         protected int addapplicantID_dh_Lights(string appName, string appMobile, string total, string appCity, string appRegion, string appAddr, string appZipCode, string sendback, 
             string reName, string reMobile, JArray itemsInfo, string productCode, string Tid, string fetOrderNumber, string Year, ref string[] Lightslist, ref int LightsID, 
@@ -10044,6 +10450,293 @@ namespace Temple.FET.APITEST
                             string ChargeType = string.Empty;
                             //更新流水付費表資訊(付費成功)
                             if (objDatabaseHelper.UpdateChargeLog_Lights_wjsan(OrderID, Tid, msg, Request.UserHostAddress, CallbackLog, Year, ref ChargeType))
+                            {
+                                //if (objSMSHepler.SendMsg_SL(mobile, msg))
+                                //{
+
+                                //    //m2 = m2.IndexOf("aid=") > 0 ? m2 : (m2.IndexOf("?") > 0 ? m2 + "&aid=" + m1 : m2 + "?aid=" + m1 + "&a=" + adminID);
+                                //    m2 = "https://bobibobi.tw/Temples/templeComplete.aspx?kind=1&a=" + adminID + "&aid=" + aid;
+                                //    Response.Redirect(m2, true);
+                                //}
+                                //else
+                                //{
+                                //    Response.Write("<script>alert('傳送簡訊失敗。請聯繫管理員。客服電話：04-36092299。');window.location.href='" + rebackURL + "'</script>");
+                                //}
+                            }
+                            else
+                            {
+                                string encrypt = string.Empty;
+
+                                //JSON寫入到檔案
+                                using (StringWriter sw = new StringWriter())
+                                {
+                                    using (JsonTextWriter writer = new JsonTextWriter(sw))
+                                    {
+                                        //建立物件
+                                        writer.WriteStartObject();
+
+                                        //物件名稱
+                                        writer.WritePropertyName("detail");
+
+                                        using (StringWriter sw2 = new StringWriter())
+                                        {
+                                            using (JsonTextWriter writer2 = new JsonTextWriter(sw2))
+                                            {
+                                                //建立物件
+                                                writer2.WriteStartObject();
+
+                                                writer2.WritePropertyName("orderMsg");
+                                                writer2.WriteValue("fail");
+
+                                                writer2.WritePropertyName("orderStatus");
+                                                writer2.WriteValue("1003");
+
+                                                writer2.WriteEndObject();
+
+                                                encrypt = AESHelper.AesEncrypt(sw2.ToString(), checkedkey);
+                                            }
+                                        }
+
+                                        writer.WriteValue(encrypt);
+
+                                        writer.WritePropertyName("resultCode"); writer.WriteValue("9999");
+
+                                        writer.WriteEndObject();
+
+                                        writer.Flush();
+                                        writer.Close();
+                                        sw.Flush();
+                                        sw.Close();
+
+                                        //輸出結果
+                                        Response.Write(sw.ToString());
+
+                                        SaveRequestLog(Request.Url + sw.ToString());
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+
+            return aid;
+        }
+
+        //台灣道教總廟無極三清總道院-安斗
+        protected int addapplicantID_wjsan_AnDou(string appName, string appMobile, string total, string appCity, string appRegion, string appAddr, string appZipCode, string sendback,
+            string reName, string reMobile, JArray itemsInfo, string productCode, string Tid, string fetOrderNumber, string Year, ref string[] AnDoulist, ref int AnDouID,
+            ref string OrderID)
+        {
+            int aid = 0;
+            int adminID = 29;
+            LightDAC objLightDAC = new LightDAC(this);
+            string postURL = "AnDou_wjsan_Index_FETAPI";
+            TimeZoneInfo info = TimeZoneInfo.FindSystemTimeZoneById("Taipei Standard Time");
+            DateTime dtNow = TimeZoneInfo.ConvertTime(DateTime.Now, info);
+
+            aid = objLightDAC.addapplicantinfo_andou_wjsan(appName, appMobile, total, appCity, appRegion, appAddr, appZipCode, sendback, reName, reMobile, 2, adminID.ToString(),
+                postURL, Year);
+            if (aid > 0)
+            {
+                int count = 0;
+                int cost = 0;
+
+                foreach (var item in itemsInfo)
+                {
+                    if (productCode == item["productCode"].ToString())
+                    {
+                        //int.TryParse(item["qty"].ToString(), out count);
+                        count = 1;
+                        int.TryParse(item["unitPrice"].ToString(), out cost);
+
+                        DataTable dtTempleCodeInfo = objLightDAC.GetTempleCodeInfo(productCode);
+                        if (dtTempleCodeInfo.Rows.Count > 0)
+                        {
+                            string AnDouString = dtTempleCodeInfo.Rows[0]["TypeString"].ToString();
+                            string AnDouType = dtTempleCodeInfo.Rows[0]["TypeID"].ToString();
+
+                            JArray prayedPerson = (JArray)item["prayedPerson"];
+                            foreach (var item2 in prayedPerson)
+                            {
+                                string name = item2["name"].ToString();                                                                                         //被祈福者姓名 / 飼主姓名
+                                                                                                                                                                //string mobile = appMobile;
+                                string mobile = item2["msisdn"] != null ? item2["msisdn"].ToString() : appMobile;                                               //祈福者電話                                                                                     //祈福者電話
+                                string gender = item2["gender"] != null ? (item2["gender"].ToString() == "F" ? "信女" : "善男") : "善男";                       //性別 M: 男 F: 女
+                                string birthday = item2["birthday"] != null ? item2["birthday"].ToString() : "";                                                //國曆生日 YYYMMDD (民國年/國曆月/國曆日)
+                                string lunarBirthday = item2["lunarBirthday"] != null ? item2["lunarBirthday"].ToString() : "";                                 //農曆生日 YYYMMDD (民國年/農曆月/農曆日)
+                                string leapMonth = item2["leapMonth"] != null ? item2["leapMonth"].ToString() : "N";                                            //是否為閏月 Y: 是 N: 否
+                                string birthTime = item2["lunarBirthTime"] != null ? item2["lunarBirthTime"].ToString() : "吉";                                 //農曆時辰 子、丑、寅…亥 未確認時辰用戶可選吉時
+                                string oversea = item2["oversea"] != null ? item2["oversea"].ToString() : "1";                                                  //1: 國內 2: 國外
+                                string city = string.Empty;                                                                                                     //縣/市, 國內地址必填
+                                string region = string.Empty;                                                                                                   //地區, 國內地址必填
+                                string addr = item2["address"].ToString();                                                                                      //部分地址
+                                string zipCode = item2["zipCode"] != null ? item2["zipCode"].ToString() : "0";                                                  //郵遞區號, 國內地址必填
+                                if (oversea == "1")
+                                {
+                                    city = item2["city"].ToString();
+                                    region = item2["region"].ToString();
+                                }
+                                else
+                                {
+                                    if (item2["city"] != null)
+                                    {
+                                        city = item2["city"].ToString();
+                                    }
+                                    if (item2["region"] != null)
+                                    {
+                                        region = item2["region"].ToString();
+                                    }
+                                }
+
+                                string name2 = item2["additionalName"] != null ? item2["additionalName"].ToString() : "";                                       //附加祈福人姓名（祈福者 2）
+                                string homeNum = item2["phone"] != null ? item2["phone"].ToString() : "";                                                       //市話
+                                string email = item2["email"] != null ? item2["email"].ToString() : "";                                                         //Email
+                                string companyName = item2["companyName"] != null ? item2["companyName"].ToString() : "";                                       //公司行號名稱
+                                string dName = item2["deceasedName"] != null ? item2["deceasedName"].ToString() : "";                                           //祖先姓氏/亡者姓名 (超拔法會類型時必填)
+                                string dBirthType = item2["deceasedBirthRocEra"] != null ? item2["deceasedBirthRocEra"].ToString() : "";                        //祖先/亡者民國生日紀元 0：民國前 1：民國  001MMDD 1912 為民國 1 年 或 1910 為民國前 1 年
+                                string dBirthday = item2["deceasedBirthday"] != null ? item2["deceasedBirthday"].ToString() : "";                               //祖先/亡者國曆生日 YYYMMDD (民國年/國曆月/國曆日)
+                                string dLunarBirthday = item2["deceasedLunarBirthday"] != null ? item2["deceasedLunarBirthday"].ToString() : "";                //祖先/亡者農曆生日 YYYMMDD (民國年/農曆月/農曆日)
+                                string dLeapMonth = item2["deceasedBirthdayLeapMonth"] != null ? item2["deceasedBirthdayLeapMonth"].ToString() : "N";           //祖先/亡者農曆生日是否為閏月 Y: 是 N: 否
+                                string dBirthTime = item2["deceasedLunarBirthTime"] != null ? item2["deceasedLunarBirthTime"].ToString() : "吉";                //祖先/亡者農曆時辰 子、丑、寅…亥 未確認時辰用戶可選吉時
+                                string dDoDType = item2["deceasedDoDRocEra"] != null ? item2["deceasedDoDRocEra"].ToString() : "";                               //祖先/亡者死亡日期紀元 0：民國前 1：民國  001MMDD 1912 為民國 1 年 或 1910 為民國前 1 年
+                                string dDoD = item2["deceasedDoD"] != null ? item2["deceasedDoD"].ToString() : "";                                              //祖先/亡者死亡日期 YYYMMDD (民國年/國曆月/國曆日)
+                                string dLunarDoD = item2["deceasedLunarDoD"] != null ? item2["deceasedLunarDoD"].ToString() : "";                               //祖先/亡者死亡農曆日期 YYYMMDD (民國年/農曆月/農曆日)
+                                string dDoDLeapMonth = item2["deceasedDoDLeepMonth"] != null ? item2["deceasedDoDLeepMonth"].ToString() : "N";                  //祖先/亡者死亡農曆日期是否為閏月 Y: 是 N: 否
+                                string dZipCode = item2["deceasedZipCode"] != null ? item2["deceasedZipCode"].ToString() : "0";                                 //祖先/亡者/牌位 郵遞區號
+                                string dCity = item2["deceasedCity"] != null ? item2["deceasedCity"].ToString() : "";                                           //祖先/亡者/牌位 縣/市
+                                string dRegion = item2["deceasedRegion"] != null ? item2["deceasedRegion"].ToString() : "";                                     //祖先/亡者/牌位 地區
+                                string dAddr = item2["deceasedAddress"] != null ? item2["deceasedAddress"].ToString() : "";                                     //祖先/亡者/牌位 部分地址
+
+                                string additionalOffering = item2["additionalOffering"] != null ? item2["additionalOffering"].ToString() : "N";                 //加購普品 Y: 是 N: 否
+                                string offeringQty = item2["offeringQty"] != null ? item2["offeringQty"].ToString() : "0";                                      //加購普品數量
+                                string additionalOfferingCost = item2["additionalOfferingPrice"] != null ? item2["additionalOfferingPrice"].ToString() : "0";   //加購普品單價
+                                string jossMoneyQty = item2["jossMoneyQty"] != null ? item2["jossMoneyQty"].ToString() : "0";                                   //加購金紙數量
+                                string jossMoneyPrice = item2["jossMoneyPrice"] != null ? item2["jossMoneyPrice"].ToString() : "0";                             //加購金紙單價
+
+                                string remark = item2["remark"] != null ? item2["remark"].ToString() : "";                                                      //備註
+
+                                string Birth = string.Empty;
+                                string birthMonth = string.Empty;
+                                string age = string.Empty;
+                                string Zodiac = string.Empty;
+                                string lyear = string.Empty;
+                                string year = string.Empty;
+                                string month = string.Empty;
+                                string day = string.Empty;
+
+                                string sBirth = string.Empty;
+                                string syear = string.Empty;
+                                string smonth = string.Empty;
+                                string sday = string.Empty;
+
+                                string birth = lunarBirthday;
+                                if (birth.Length == 7)
+                                {
+                                    lyear = birth.Substring(0, 3);
+                                    year = (int.Parse(birth.Substring(0, 3)) + 1911).ToString();
+                                    month = birthMonth = birth.Substring(3, 2);
+                                    day = birth.Substring(5, 2);
+
+                                    string b = year + "-" + month + "-" + day;
+                                    LunarSolarConverter.shuxiang(int.Parse(year), ref Zodiac);
+                                    DateTime lunarBirth;
+                                    DateTime solorBirth;
+                                    if (DateTime.TryParse(b, out lunarBirth))
+                                    {
+                                        //age = GetAge(DateTime.Parse(b), dtNow);
+
+                                        age = GetAge(int.Parse(year), int.Parse(month), int.Parse(day)).ToString();
+                                    }
+                                    else
+                                    {
+                                        birth = birthday;
+                                        if (birth.Length == 7)
+                                        {
+                                            syear = birth.Substring(0, 3);
+                                            year = (int.Parse(birth.Substring(0, 3)) + 1911).ToString();
+                                            smonth = birthMonth = birth.Substring(3, 2);
+                                            sday = birth.Substring(5, 2);
+
+                                            b = year + "-" + smonth + "-" + sday;
+                                            LunarSolarConverter.shuxiang(int.Parse(year), ref Zodiac);
+                                            if (DateTime.TryParse(b, out solorBirth))
+                                            {
+                                                //age = GetAge(DateTime.Parse(b), dtNow);
+
+                                                age = GetAge(int.Parse(year), int.Parse(smonth), int.Parse(sday)).ToString();
+                                            }
+                                        }
+                                    }
+                                }
+
+                                string sbirth = birthday;
+                                if (sbirth.Length == 7)
+                                {
+                                    syear = sbirth.Substring(0, 3);
+                                    year = (int.Parse(sbirth.Substring(0, 3)) + 1911).ToString();
+                                    smonth = sbirth.Substring(3, 2);
+                                    sday = sbirth.Substring(5, 2);
+
+                                    //b = year + "-" + smonth + "-" + sday;
+                                    //if (DateTime.TryParse(b, out solorBirth))
+                                    //{
+                                    //    //age = GetAge(DateTime.Parse(b), dtNow);
+
+                                    //    age = GetAge(int.Parse(year), int.Parse(smonth), int.Parse(sday)).ToString();
+                                    //}
+                                }
+
+                                int l = 0, s = 0;
+                                int.TryParse(lyear, out l);
+                                int.TryParse(syear, out s);
+
+                                if (lyear != "" && month != "" && day != "")
+                                {
+                                    Birth = "民國" + (l > 0 ? l.ToString() : lyear) + "年" + month + "月" + day + "日";
+                                }
+                                if (syear != "" && smonth != "" && sday != "")
+                                {
+                                    sBirth = "民國" + (s > 0 ? s.ToString() : syear) + "年" + smonth + "月" + sday + "日";
+                                }
+
+                                AnDouID = objLightDAC.addAnDou_wjsan(aid, name, mobile, gender, AnDouType, AnDouString, oversea, Birth, leapMonth, birthTime, birthMonth, age,
+                                    Zodiac, sBirth, "", count, addr, city, region, zipCode, Year);
+                            }
+                        }
+                    }
+                }
+
+                if (AnDouID > 0)
+                {
+                    BCFBaseLibrary.Web.BasePage basePage = new BCFBaseLibrary.Web.BasePage();
+                    DatabaseHelper objDatabaseHelper = new DatabaseHelper(basePage);
+                    OrderID = dtNow.ToString("yyyyMMddHHmmssfff");
+                    string CallbackLog = Tid + "," + fetOrderNumber;
+                    string[] andoulist = new string[0];
+
+                    long id = objDatabaseHelper.AddChargeLog_AnDou_wjsan(OrderID, aid, int.Parse(total), "FETAPI", 0, itemsInfo.ToString(), "", fetOrderNumber,
+                        Request.UserHostAddress, Year);
+
+                    DataTable dtCharge = objDatabaseHelper.GetChargeLog_AnDou_wjsan(OrderID, Year);
+                    if (dtCharge.Rows.Count > 0)
+                    {
+                        if ((int)dtCharge.Rows[0]["Status"] == 0)
+                        {
+                            int AnDouType = objDatabaseHelper.GetAnDouType_wjsan(aid, Year);
+
+                            string msg = "感謝購買,已成功付款" + cost + "元,您的訂單編號 ";
+
+                            //更新點燈資料表並取得訂單編號
+                            objDatabaseHelper.UpdateAnDou_wjsan_Info(aid, AnDouType, Year, ref msg, ref andoulist, ref AnDoulist);
+
+                            //msg = "感謝大德參與線上點燈,茲收您1960元功德金,訂單編號 光明燈:T2204, 安太歲:25351, 文昌燈:六1214。";
+                            //mobile = "0903002568";
+
+                            SMSHepler objSMSHepler = new SMSHepler();
+                            string ChargeType = string.Empty;
+                            //更新流水付費表資訊(付費成功)
+                            if (objDatabaseHelper.UpdateChargeLog_AnDou_wjsan(OrderID, Tid, msg, Request.UserHostAddress, CallbackLog, Year, ref ChargeType))
                             {
                                 //if (objSMSHepler.SendMsg_SL(mobile, msg))
                                 //{
@@ -17380,7 +18073,7 @@ namespace Temple.FET.APITEST
 
         //補財庫-鹿港城隍廟
         protected int addapplicantID_Lk_Supplies(string appName, string appMobile, string total, string appCity, string appRegion, string appAddr, string appZipCode, string sendback,
-            string reName, string reMobile, JArray itemsInfo, string Tid, string fetOrderNumber, string Year, ref string[] Supplieslist, ref int SuppliesID, ref string OrderID)
+            string reName, string reMobile, JArray itemsInfo, string productCode, string Tid, string fetOrderNumber, string Year, ref string[] Supplieslist, ref int SuppliesID, ref string OrderID)
         {
             int aid = 0;
             int adminID = 21;
@@ -17398,243 +18091,246 @@ namespace Temple.FET.APITEST
 
                 foreach (var item in itemsInfo)
                 {
-                    //int.TryParse(item["qty"].ToString(), out count);                                                                                        //數量/普品數量
-                    count = 1;
-                    int.TryParse(item["unitPrice"].ToString(), out cost);
-                    string productCode = item["productCode"].ToString();
-
-                    DataTable dtTempleCodeInfo = objLightDAC.GetTempleCodeInfo(productCode);
-                    if (dtTempleCodeInfo.Rows.Count > 0)
+                    if (productCode == item["productCode"].ToString())
                     {
-                        string SuppliesString = dtTempleCodeInfo.Rows[0]["TypeString"].ToString();
-                        string SuppliesType = dtTempleCodeInfo.Rows[0]["TypeID"].ToString();
+                        //int.TryParse(item["qty"].ToString(), out count);                                                                                        //數量/普品數量
+                        count = 1;
+                        int.TryParse(item["unitPrice"].ToString(), out cost);
+                        //string productCode = item["productCode"].ToString();
 
-                        JArray prayedPerson = (JArray)item["prayedPerson"];
-                        foreach (var item2 in prayedPerson)
+                        DataTable dtTempleCodeInfo = objLightDAC.GetTempleCodeInfo(productCode);
+                        if (dtTempleCodeInfo.Rows.Count > 0)
                         {
-                            //string name = item2["name"].ToString();                                                                                         //被祈福者姓名 / 飼主姓名
-                            ////string mobile = appMobile;
-                            //string mobile = item2["msisdn"] != null ? item2["msisdn"].ToString() : appMobile;                                               //祈福者電話                                                                                     //祈福者電話
-                            //string gender = item2["gender"] != null ? (item2["gender"].ToString() == "F" ? "信女" : "善男") : "善男";                       //性別 M: 男 F: 女
-                            //string birthday = item2["birthday"] != null ? item2["birthday"].ToString() : "";                                                //國曆生日 YYYMMDD (民國年/國曆月/國曆日)
-                            //string lunarBirthday = item2["lunarBirthday"] != null ? item2["lunarBirthday"].ToString() : "";                                 //農曆生日 YYYMMDD (民國年/農曆月/農曆日)
-                            //string leapMonth = item2["leapMonth"] != null ? item2["leapMonth"].ToString() : "N";                                            //是否為閏月 Y: 是 N: 否
-                            //string birthTime = item2["lunarBirthTime"] != null ? item2["lunarBirthTime"].ToString() : "吉";                                 //農曆時辰 子、丑、寅…亥 未確認時辰用戶可選吉時
-                            //string oversea = item2["oversea"] != null ? item2["oversea"].ToString() : "1";                                                  //1: 國內 2: 國外
-                            //string city = string.Empty;                                                                                                     //縣/市, 國內地址必填
-                            //string region = string.Empty;                                                                                                   //地區, 國內地址必填
-                            //string addr = item2["address"].ToString();                                                                                      //部分地址
-                            //string zipCode = item2["zipCode"] != null ? item2["zipCode"].ToString() : "0";                                                  //郵遞區號, 國內地址必填
-                            //if (oversea == "1")
-                            //{
-                            //    city = item2["city"].ToString();
-                            //    region = item2["region"].ToString();
-                            //}
-                            //else
-                            //{
-                            //    if (item2["city"] != null)
-                            //    {
-                            //        city = item2["city"].ToString();
-                            //    }
-                            //    if (item2["region"] != null)
-                            //    {
-                            //        region = item2["region"].ToString();
-                            //    }
-                            //}
+                            string SuppliesString = dtTempleCodeInfo.Rows[0]["TypeString"].ToString();
+                            string SuppliesType = dtTempleCodeInfo.Rows[0]["TypeID"].ToString();
 
-                            //string Birth = string.Empty;
-                            //string birthMonth = string.Empty;
-                            //string age = string.Empty;
-                            //string Zodiac = string.Empty;
-
-                            //string year = string.Empty;
-                            //string month = string.Empty;
-                            //string day = string.Empty;
-
-                            //string birth = lunarBirthday;
-                            //if (birth.Length == 7)
-                            //{
-                            //    string lyear = birth.Substring(0, 3);
-                            //    year = (int.Parse(birth.Substring(0, 3)) + 1911).ToString();
-                            //    month = birthMonth = birth.Substring(3, 2);
-                            //    day = birth.Substring(5, 2);
-
-                            //    Birth = year + "-" + month + "-" + day;
-                            //    LunarSolarConverter.shuxiang(int.Parse(year), ref Zodiac);
-                            //    DateTime lBirth;
-                            //    DateTime sBirth;
-                            //    if (DateTime.TryParse(Birth, out lBirth))
-                            //    {
-                            //        //age = GetAge(DateTime.Parse(Birth), dtNow);
-
-                            //        age = GetAge(int.Parse(year), int.Parse(month), int.Parse(day)).ToString();
-                            //    }
-                            //    else
-                            //    {
-                            //        birth = birthday;
-                            //        if (birth.Length == 7)
-                            //        {
-                            //            lyear = birth.Substring(0, 3);
-                            //            year = (int.Parse(birth.Substring(0, 3)) + 1911).ToString();
-                            //            month = birthMonth = birth.Substring(3, 2);
-                            //            day = birth.Substring(5, 2);
-
-                            //            Birth = year + "-" + month + "-" + day;
-                            //            if (DateTime.TryParse(Birth, out sBirth))
-                            //            {
-                            //                //age = GetAge(DateTime.Parse(Birth), dtNow);
-
-                            //                age = GetAge(int.Parse(year), int.Parse(month), int.Parse(day)).ToString();
-                            //            }
-                            //        }
-                            //    }
-
-                            //    birth = "民國" + lyear + "年" + month + "月" + day + "日";
-                            //}
-                            string name = item2["name"].ToString();                                                                                         //被祈福者姓名 / 飼主姓名
-                                                                                                                                                            //string mobile = appMobile;
-                            string mobile = item2["msisdn"] != null ? item2["msisdn"].ToString() : appMobile;                                               //祈福者電話                                                                                     //祈福者電話
-                            string gender = item2["gender"] != null ? (item2["gender"].ToString() == "F" ? "信女" : "善男") : "善男";                       //性別 M: 男 F: 女
-                            string birthday = item2["birthday"] != null ? item2["birthday"].ToString() : "";                                                //國曆生日 YYYMMDD (民國年/國曆月/國曆日)
-                            string lunarBirthday = item2["lunarBirthday"] != null ? item2["lunarBirthday"].ToString() : "";                                 //農曆生日 YYYMMDD (民國年/農曆月/農曆日)
-                            string leapMonth = item2["leapMonth"] != null ? item2["leapMonth"].ToString() : "N";                                            //是否為閏月 Y: 是 N: 否
-                            string birthTime = item2["lunarBirthTime"] != null ? item2["lunarBirthTime"].ToString() : "吉";                                 //農曆時辰 子、丑、寅…亥 未確認時辰用戶可選吉時
-                            string oversea = item2["oversea"] != null ? item2["oversea"].ToString() : "1";                                                  //1: 國內 2: 國外
-                            string city = string.Empty;                                                                                                     //縣/市, 國內地址必填
-                            string region = string.Empty;                                                                                                   //地區, 國內地址必填
-                            string addr = item2["address"].ToString();                                                                                      //部分地址
-                            string zipCode = item2["zipCode"] != null ? item2["zipCode"].ToString() : "0";                                                  //郵遞區號, 國內地址必填
-                            if (oversea == "1")
+                            JArray prayedPerson = (JArray)item["prayedPerson"];
+                            foreach (var item2 in prayedPerson)
                             {
-                                city = item2["city"].ToString();
-                                region = item2["region"].ToString();
-                            }
-                            else
-                            {
-                                if (item2["city"] != null)
+                                //string name = item2["name"].ToString();                                                                                         //被祈福者姓名 / 飼主姓名
+                                ////string mobile = appMobile;
+                                //string mobile = item2["msisdn"] != null ? item2["msisdn"].ToString() : appMobile;                                               //祈福者電話                                                                                     //祈福者電話
+                                //string gender = item2["gender"] != null ? (item2["gender"].ToString() == "F" ? "信女" : "善男") : "善男";                       //性別 M: 男 F: 女
+                                //string birthday = item2["birthday"] != null ? item2["birthday"].ToString() : "";                                                //國曆生日 YYYMMDD (民國年/國曆月/國曆日)
+                                //string lunarBirthday = item2["lunarBirthday"] != null ? item2["lunarBirthday"].ToString() : "";                                 //農曆生日 YYYMMDD (民國年/農曆月/農曆日)
+                                //string leapMonth = item2["leapMonth"] != null ? item2["leapMonth"].ToString() : "N";                                            //是否為閏月 Y: 是 N: 否
+                                //string birthTime = item2["lunarBirthTime"] != null ? item2["lunarBirthTime"].ToString() : "吉";                                 //農曆時辰 子、丑、寅…亥 未確認時辰用戶可選吉時
+                                //string oversea = item2["oversea"] != null ? item2["oversea"].ToString() : "1";                                                  //1: 國內 2: 國外
+                                //string city = string.Empty;                                                                                                     //縣/市, 國內地址必填
+                                //string region = string.Empty;                                                                                                   //地區, 國內地址必填
+                                //string addr = item2["address"].ToString();                                                                                      //部分地址
+                                //string zipCode = item2["zipCode"] != null ? item2["zipCode"].ToString() : "0";                                                  //郵遞區號, 國內地址必填
+                                //if (oversea == "1")
+                                //{
+                                //    city = item2["city"].ToString();
+                                //    region = item2["region"].ToString();
+                                //}
+                                //else
+                                //{
+                                //    if (item2["city"] != null)
+                                //    {
+                                //        city = item2["city"].ToString();
+                                //    }
+                                //    if (item2["region"] != null)
+                                //    {
+                                //        region = item2["region"].ToString();
+                                //    }
+                                //}
+
+                                //string Birth = string.Empty;
+                                //string birthMonth = string.Empty;
+                                //string age = string.Empty;
+                                //string Zodiac = string.Empty;
+
+                                //string year = string.Empty;
+                                //string month = string.Empty;
+                                //string day = string.Empty;
+
+                                //string birth = lunarBirthday;
+                                //if (birth.Length == 7)
+                                //{
+                                //    string lyear = birth.Substring(0, 3);
+                                //    year = (int.Parse(birth.Substring(0, 3)) + 1911).ToString();
+                                //    month = birthMonth = birth.Substring(3, 2);
+                                //    day = birth.Substring(5, 2);
+
+                                //    Birth = year + "-" + month + "-" + day;
+                                //    LunarSolarConverter.shuxiang(int.Parse(year), ref Zodiac);
+                                //    DateTime lBirth;
+                                //    DateTime sBirth;
+                                //    if (DateTime.TryParse(Birth, out lBirth))
+                                //    {
+                                //        //age = GetAge(DateTime.Parse(Birth), dtNow);
+
+                                //        age = GetAge(int.Parse(year), int.Parse(month), int.Parse(day)).ToString();
+                                //    }
+                                //    else
+                                //    {
+                                //        birth = birthday;
+                                //        if (birth.Length == 7)
+                                //        {
+                                //            lyear = birth.Substring(0, 3);
+                                //            year = (int.Parse(birth.Substring(0, 3)) + 1911).ToString();
+                                //            month = birthMonth = birth.Substring(3, 2);
+                                //            day = birth.Substring(5, 2);
+
+                                //            Birth = year + "-" + month + "-" + day;
+                                //            if (DateTime.TryParse(Birth, out sBirth))
+                                //            {
+                                //                //age = GetAge(DateTime.Parse(Birth), dtNow);
+
+                                //                age = GetAge(int.Parse(year), int.Parse(month), int.Parse(day)).ToString();
+                                //            }
+                                //        }
+                                //    }
+
+                                //    birth = "民國" + lyear + "年" + month + "月" + day + "日";
+                                //}
+                                string name = item2["name"].ToString();                                                                                         //被祈福者姓名 / 飼主姓名
+                                                                                                                                                                //string mobile = appMobile;
+                                string mobile = item2["msisdn"] != null ? item2["msisdn"].ToString() : appMobile;                                               //祈福者電話                                                                                     //祈福者電話
+                                string gender = item2["gender"] != null ? (item2["gender"].ToString() == "F" ? "信女" : "善男") : "善男";                       //性別 M: 男 F: 女
+                                string birthday = item2["birthday"] != null ? item2["birthday"].ToString() : "";                                                //國曆生日 YYYMMDD (民國年/國曆月/國曆日)
+                                string lunarBirthday = item2["lunarBirthday"] != null ? item2["lunarBirthday"].ToString() : "";                                 //農曆生日 YYYMMDD (民國年/農曆月/農曆日)
+                                string leapMonth = item2["leapMonth"] != null ? item2["leapMonth"].ToString() : "N";                                            //是否為閏月 Y: 是 N: 否
+                                string birthTime = item2["lunarBirthTime"] != null ? item2["lunarBirthTime"].ToString() : "吉";                                 //農曆時辰 子、丑、寅…亥 未確認時辰用戶可選吉時
+                                string oversea = item2["oversea"] != null ? item2["oversea"].ToString() : "1";                                                  //1: 國內 2: 國外
+                                string city = string.Empty;                                                                                                     //縣/市, 國內地址必填
+                                string region = string.Empty;                                                                                                   //地區, 國內地址必填
+                                string addr = item2["address"].ToString();                                                                                      //部分地址
+                                string zipCode = item2["zipCode"] != null ? item2["zipCode"].ToString() : "0";                                                  //郵遞區號, 國內地址必填
+                                if (oversea == "1")
                                 {
                                     city = item2["city"].ToString();
-                                }
-                                if (item2["region"] != null)
-                                {
                                     region = item2["region"].ToString();
-                                }
-                            }
-
-                            string name2 = item2["additionalName"] != null ? item2["additionalName"].ToString() : "";                                       //附加祈福人姓名（祈福者 2）
-                            string homeNum = item2["phone"] != null ? item2["phone"].ToString() : "";                                                       //市話
-                            string email = item2["email"] != null ? item2["email"].ToString() : "";                                                         //Email
-                            string companyName = item2["companyName"] != null ? item2["companyName"].ToString() : "";                                       //公司行號名稱
-                            string dName = item2["deceasedName"] != null ? item2["deceasedName"].ToString() : "";                                           //祖先姓氏/亡者姓名 (超拔法會類型時必填)
-                            string dBirthType = item2["deceasedBirthRocEra"] != null ? item2["deceasedBirthRocEra"].ToString() : "";                        //祖先/亡者民國生日紀元 0：民國前 1：民國  001MMDD 1912 為民國 1 年 或 1910 為民國前 1 年
-                            string dBirthday = item2["deceasedBirthday"] != null ? item2["deceasedBirthday"].ToString() : "";                               //祖先/亡者國曆生日 YYYMMDD (民國年/國曆月/國曆日)
-                            string dLunarBirthday = item2["deceasedLunarBirthday"] != null ? item2["deceasedLunarBirthday"].ToString() : "";                //祖先/亡者農曆生日 YYYMMDD (民國年/農曆月/農曆日)
-                            string dLeapMonth = item2["deceasedBirthdayLeapMonth"] != null ? item2["deceasedBirthdayLeapMonth"].ToString() : "N";           //祖先/亡者農曆生日是否為閏月 Y: 是 N: 否
-                            string dBirthTime = item2["deceasedLunarBirthTime"] != null ? item2["deceasedLunarBirthTime"].ToString() : "吉";                //祖先/亡者農曆時辰 子、丑、寅…亥 未確認時辰用戶可選吉時
-                            string dDoDType = item2["deceasedDoDRocEra"] != null ? item2["deceasedDoDRocEra"].ToString() : "";                               //祖先/亡者死亡日期紀元 0：民國前 1：民國  001MMDD 1912 為民國 1 年 或 1910 為民國前 1 年
-                            string dDoD = item2["deceasedDoD"] != null ? item2["deceasedDoD"].ToString() : "";                                              //祖先/亡者死亡日期 YYYMMDD (民國年/國曆月/國曆日)
-                            string dLunarDoD = item2["deceasedLunarDoD"] != null ? item2["deceasedLunarDoD"].ToString() : "";                               //祖先/亡者死亡農曆日期 YYYMMDD (民國年/農曆月/農曆日)
-                            string dDoDLeapMonth = item2["deceasedDoDLeepMonth"] != null ? item2["deceasedDoDLeepMonth"].ToString() : "N";                  //祖先/亡者死亡農曆日期是否為閏月 Y: 是 N: 否
-                            string dZipCode = item2["deceasedZipCode"] != null ? item2["deceasedZipCode"].ToString() : "0";                                 //祖先/亡者/牌位 郵遞區號
-                            string dCity = item2["deceasedCity"] != null ? item2["deceasedCity"].ToString() : "";                                           //祖先/亡者/牌位 縣/市
-                            string dRegion = item2["deceasedRegion"] != null ? item2["deceasedRegion"].ToString() : "";                                     //祖先/亡者/牌位 地區
-                            string dAddr = item2["deceasedAddress"] != null ? item2["deceasedAddress"].ToString() : "";                                     //祖先/亡者/牌位 部分地址
-
-                            string additionalOffering = item2["additionalOffering"] != null ? item2["additionalOffering"].ToString() : "N";                 //加購普品 Y: 是 N: 否
-                            string offeringQty = item2["offeringQty"] != null ? item2["offeringQty"].ToString() : "0";                                      //加購普品數量
-                            string additionalOfferingCost = item2["additionalOfferingPrice"] != null ? item2["additionalOfferingPrice"].ToString() : "0";   //加購普品單價
-                            string jossMoneyQty = item2["jossMoneyQty"] != null ? item2["jossMoneyQty"].ToString() : "0";                                   //加購金紙數量
-                            string jossMoneyPrice = item2["jossMoneyPrice"] != null ? item2["jossMoneyPrice"].ToString() : "0";                             //加購金紙單價
-
-                            string remark = item2["remark"] != null ? item2["remark"].ToString() : "";                                                      //備註
-
-                            string Birth = string.Empty;
-                            string birthMonth = string.Empty;
-                            string age = string.Empty;
-                            string Zodiac = string.Empty;
-                            string lyear = string.Empty;
-                            string year = string.Empty;
-                            string month = string.Empty;
-                            string day = string.Empty;
-
-                            string sBirth = string.Empty;
-                            string syear = string.Empty;
-                            string smonth = string.Empty;
-                            string sday = string.Empty;
-
-                            string birth = lunarBirthday;
-                            if (birth.Length == 7)
-                            {
-                                lyear = birth.Substring(0, 3);
-                                year = (int.Parse(birth.Substring(0, 3)) + 1911).ToString();
-                                month = birthMonth = birth.Substring(3, 2);
-                                day = birth.Substring(5, 2);
-
-                                string b = year + "-" + month + "-" + day;
-                                LunarSolarConverter.shuxiang(int.Parse(year), ref Zodiac);
-                                DateTime lunarBirth;
-                                DateTime solorBirth;
-                                if (DateTime.TryParse(b, out lunarBirth))
-                                {
-                                    //age = GetAge(DateTime.Parse(b), dtNow);
-
-                                    age = GetAge(int.Parse(year), int.Parse(month), int.Parse(day)).ToString();
                                 }
                                 else
                                 {
-                                    birth = birthday;
-                                    if (birth.Length == 7)
+                                    if (item2["city"] != null)
                                     {
-                                        syear = birth.Substring(0, 3);
-                                        year = (int.Parse(birth.Substring(0, 3)) + 1911).ToString();
-                                        smonth = birthMonth = birth.Substring(3, 2);
-                                        sday = birth.Substring(5, 2);
+                                        city = item2["city"].ToString();
+                                    }
+                                    if (item2["region"] != null)
+                                    {
+                                        region = item2["region"].ToString();
+                                    }
+                                }
 
-                                        b = year + "-" + smonth + "-" + sday;
-                                        LunarSolarConverter.shuxiang(int.Parse(year), ref Zodiac);
-                                        if (DateTime.TryParse(b, out solorBirth))
+                                string name2 = item2["additionalName"] != null ? item2["additionalName"].ToString() : "";                                       //附加祈福人姓名（祈福者 2）
+                                string homeNum = item2["phone"] != null ? item2["phone"].ToString() : "";                                                       //市話
+                                string email = item2["email"] != null ? item2["email"].ToString() : "";                                                         //Email
+                                string companyName = item2["companyName"] != null ? item2["companyName"].ToString() : "";                                       //公司行號名稱
+                                string dName = item2["deceasedName"] != null ? item2["deceasedName"].ToString() : "";                                           //祖先姓氏/亡者姓名 (超拔法會類型時必填)
+                                string dBirthType = item2["deceasedBirthRocEra"] != null ? item2["deceasedBirthRocEra"].ToString() : "";                        //祖先/亡者民國生日紀元 0：民國前 1：民國  001MMDD 1912 為民國 1 年 或 1910 為民國前 1 年
+                                string dBirthday = item2["deceasedBirthday"] != null ? item2["deceasedBirthday"].ToString() : "";                               //祖先/亡者國曆生日 YYYMMDD (民國年/國曆月/國曆日)
+                                string dLunarBirthday = item2["deceasedLunarBirthday"] != null ? item2["deceasedLunarBirthday"].ToString() : "";                //祖先/亡者農曆生日 YYYMMDD (民國年/農曆月/農曆日)
+                                string dLeapMonth = item2["deceasedBirthdayLeapMonth"] != null ? item2["deceasedBirthdayLeapMonth"].ToString() : "N";           //祖先/亡者農曆生日是否為閏月 Y: 是 N: 否
+                                string dBirthTime = item2["deceasedLunarBirthTime"] != null ? item2["deceasedLunarBirthTime"].ToString() : "吉";                //祖先/亡者農曆時辰 子、丑、寅…亥 未確認時辰用戶可選吉時
+                                string dDoDType = item2["deceasedDoDRocEra"] != null ? item2["deceasedDoDRocEra"].ToString() : "";                               //祖先/亡者死亡日期紀元 0：民國前 1：民國  001MMDD 1912 為民國 1 年 或 1910 為民國前 1 年
+                                string dDoD = item2["deceasedDoD"] != null ? item2["deceasedDoD"].ToString() : "";                                              //祖先/亡者死亡日期 YYYMMDD (民國年/國曆月/國曆日)
+                                string dLunarDoD = item2["deceasedLunarDoD"] != null ? item2["deceasedLunarDoD"].ToString() : "";                               //祖先/亡者死亡農曆日期 YYYMMDD (民國年/農曆月/農曆日)
+                                string dDoDLeapMonth = item2["deceasedDoDLeepMonth"] != null ? item2["deceasedDoDLeepMonth"].ToString() : "N";                  //祖先/亡者死亡農曆日期是否為閏月 Y: 是 N: 否
+                                string dZipCode = item2["deceasedZipCode"] != null ? item2["deceasedZipCode"].ToString() : "0";                                 //祖先/亡者/牌位 郵遞區號
+                                string dCity = item2["deceasedCity"] != null ? item2["deceasedCity"].ToString() : "";                                           //祖先/亡者/牌位 縣/市
+                                string dRegion = item2["deceasedRegion"] != null ? item2["deceasedRegion"].ToString() : "";                                     //祖先/亡者/牌位 地區
+                                string dAddr = item2["deceasedAddress"] != null ? item2["deceasedAddress"].ToString() : "";                                     //祖先/亡者/牌位 部分地址
+
+                                string additionalOffering = item2["additionalOffering"] != null ? item2["additionalOffering"].ToString() : "N";                 //加購普品 Y: 是 N: 否
+                                string offeringQty = item2["offeringQty"] != null ? item2["offeringQty"].ToString() : "0";                                      //加購普品數量
+                                string additionalOfferingCost = item2["additionalOfferingPrice"] != null ? item2["additionalOfferingPrice"].ToString() : "0";   //加購普品單價
+                                string jossMoneyQty = item2["jossMoneyQty"] != null ? item2["jossMoneyQty"].ToString() : "0";                                   //加購金紙數量
+                                string jossMoneyPrice = item2["jossMoneyPrice"] != null ? item2["jossMoneyPrice"].ToString() : "0";                             //加購金紙單價
+
+                                string remark = item2["remark"] != null ? item2["remark"].ToString() : "";                                                      //備註
+
+                                string Birth = string.Empty;
+                                string birthMonth = string.Empty;
+                                string age = string.Empty;
+                                string Zodiac = string.Empty;
+                                string lyear = string.Empty;
+                                string year = string.Empty;
+                                string month = string.Empty;
+                                string day = string.Empty;
+
+                                string sBirth = string.Empty;
+                                string syear = string.Empty;
+                                string smonth = string.Empty;
+                                string sday = string.Empty;
+
+                                string birth = lunarBirthday;
+                                if (birth.Length == 7)
+                                {
+                                    lyear = birth.Substring(0, 3);
+                                    year = (int.Parse(birth.Substring(0, 3)) + 1911).ToString();
+                                    month = birthMonth = birth.Substring(3, 2);
+                                    day = birth.Substring(5, 2);
+
+                                    string b = year + "-" + month + "-" + day;
+                                    LunarSolarConverter.shuxiang(int.Parse(year), ref Zodiac);
+                                    DateTime lunarBirth;
+                                    DateTime solorBirth;
+                                    if (DateTime.TryParse(b, out lunarBirth))
+                                    {
+                                        //age = GetAge(DateTime.Parse(b), dtNow);
+
+                                        age = GetAge(int.Parse(year), int.Parse(month), int.Parse(day)).ToString();
+                                    }
+                                    else
+                                    {
+                                        birth = birthday;
+                                        if (birth.Length == 7)
                                         {
-                                            //age = GetAge(DateTime.Parse(b), dtNow);
+                                            syear = birth.Substring(0, 3);
+                                            year = (int.Parse(birth.Substring(0, 3)) + 1911).ToString();
+                                            smonth = birthMonth = birth.Substring(3, 2);
+                                            sday = birth.Substring(5, 2);
 
-                                            age = GetAge(int.Parse(year), int.Parse(smonth), int.Parse(sday)).ToString();
+                                            b = year + "-" + smonth + "-" + sday;
+                                            LunarSolarConverter.shuxiang(int.Parse(year), ref Zodiac);
+                                            if (DateTime.TryParse(b, out solorBirth))
+                                            {
+                                                //age = GetAge(DateTime.Parse(b), dtNow);
+
+                                                age = GetAge(int.Parse(year), int.Parse(smonth), int.Parse(sday)).ToString();
+                                            }
                                         }
                                     }
                                 }
+
+                                string sbirth = birthday;
+                                if (sbirth.Length == 7)
+                                {
+                                    syear = sbirth.Substring(0, 3);
+                                    year = (int.Parse(sbirth.Substring(0, 3)) + 1911).ToString();
+                                    smonth = sbirth.Substring(3, 2);
+                                    sday = sbirth.Substring(5, 2);
+
+                                    //b = year + "-" + smonth + "-" + sday;
+                                    //if (DateTime.TryParse(b, out solorBirth))
+                                    //{
+                                    //    //age = GetAge(DateTime.Parse(b), dtNow);
+
+                                    //    age = GetAge(int.Parse(year), int.Parse(smonth), int.Parse(sday)).ToString();
+                                    //}
+                                }
+
+                                int l = 0, s = 0;
+                                int.TryParse(lyear, out l);
+                                int.TryParse(syear, out s);
+
+                                if (lyear != "" && month != "" && day != "")
+                                {
+                                    Birth = "民國" + (l > 0 ? l.ToString() : lyear) + "年" + month + "月" + day + "日";
+                                }
+                                if (syear != "" && smonth != "" && sday != "")
+                                {
+                                    sBirth = "民國" + (s > 0 ? s.ToString() : syear) + "年" + smonth + "月" + sday + "日";
+                                }
+
+
+                                SuppliesID = objLightDAC.addSupplies_Lk(aid, name, mobile, gender, SuppliesType, SuppliesString, oversea, Birth, leapMonth, birthTime, birthMonth,
+                                    age, Zodiac, sBirth, email, homeNum, 1, addr, city, region, zipCode, Year);
                             }
-
-                            string sbirth = birthday;
-                            if (sbirth.Length == 7)
-                            {
-                                syear = sbirth.Substring(0, 3);
-                                year = (int.Parse(sbirth.Substring(0, 3)) + 1911).ToString();
-                                smonth = sbirth.Substring(3, 2);
-                                sday = sbirth.Substring(5, 2);
-
-                                //b = year + "-" + smonth + "-" + sday;
-                                //if (DateTime.TryParse(b, out solorBirth))
-                                //{
-                                //    //age = GetAge(DateTime.Parse(b), dtNow);
-
-                                //    age = GetAge(int.Parse(year), int.Parse(smonth), int.Parse(sday)).ToString();
-                                //}
-                            }
-
-                            int l = 0, s = 0;
-                            int.TryParse(lyear, out l);
-                            int.TryParse(syear, out s);
-
-                            if (lyear != "" && month != "" && day != "")
-                            {
-                                Birth = "民國" + (l > 0 ? l.ToString() : lyear) + "年" + month + "月" + day + "日";
-                            }
-                            if (syear != "" && smonth != "" && sday != "")
-                            {
-                                sBirth = "民國" + (s > 0 ? s.ToString() : syear) + "年" + smonth + "月" + sday + "日";
-                            }
-
-
-                            SuppliesID = objLightDAC.addSupplies_Lk(aid, name, mobile, gender, SuppliesType, SuppliesString, oversea, Birth, leapMonth, birthTime, birthMonth,
-                                age, Zodiac, sBirth, email, homeNum, 1, addr, city, region, zipCode, Year);
                         }
                     }
                 }
@@ -17752,7 +18448,7 @@ namespace Temple.FET.APITEST
 
         //補財庫-鹿港城隍廟
         protected int addapplicantID_Fw_Supplies(string appName, string appMobile, string total, string appCity, string appRegion, string appAddr, string appZipCode, string sendback,
-            string reName, string reMobile, JArray itemsInfo, string Tid, string fetOrderNumber, string Year, ref string[] Supplieslist, ref int SuppliesID, ref string OrderID)
+            string reName, string reMobile, JArray itemsInfo, string productCode, string Tid, string fetOrderNumber, string Year, ref string[] Supplieslist, ref int SuppliesID, ref string OrderID)
         {
             int aid = 0;
             int adminID = 15;
@@ -17770,164 +18466,167 @@ namespace Temple.FET.APITEST
 
                 foreach (var item in itemsInfo)
                 {
-                    //int.TryParse(item["qty"].ToString(), out count);                                                                                        //數量/普品數量
-                    count = 1;
-                    int.TryParse(item["unitPrice"].ToString(), out cost);
-                    string productCode = item["productCode"].ToString();
-
-                    DataTable dtTempleCodeInfo = objLightDAC.GetTempleCodeInfo(productCode);
-                    if (dtTempleCodeInfo.Rows.Count > 0)
+                    if (productCode == item["productCode"].ToString())
                     {
-                        string SuppliesString = dtTempleCodeInfo.Rows[0]["TypeString"].ToString();
-                        string SuppliesType = dtTempleCodeInfo.Rows[0]["TypeID"].ToString();
+                        //int.TryParse(item["qty"].ToString(), out count);                                                                                        //數量/普品數量
+                        count = 1;
+                        int.TryParse(item["unitPrice"].ToString(), out cost);
+                        //string productCode = item["productCode"].ToString();
 
-                        JArray prayedPerson = (JArray)item["prayedPerson"];
-                        foreach (var item2 in prayedPerson)
+                        DataTable dtTempleCodeInfo = objLightDAC.GetTempleCodeInfo(productCode);
+                        if (dtTempleCodeInfo.Rows.Count > 0)
                         {
-                            string name = item2["name"].ToString();                                                                                         //被祈福者姓名 / 飼主姓名
-                                                                                                                                                            //string mobile = appMobile;
-                            string mobile = item2["msisdn"] != null ? item2["msisdn"].ToString() : appMobile;                                               //祈福者電話                                                                                     //祈福者電話
-                            string gender = item2["gender"] != null ? (item2["gender"].ToString() == "F" ? "信女" : "善男") : "善男";                       //性別 M: 男 F: 女
-                            string birthday = item2["birthday"] != null ? item2["birthday"].ToString() : "";                                                //國曆生日 YYYMMDD (民國年/國曆月/國曆日)
-                            string lunarBirthday = item2["lunarBirthday"] != null ? item2["lunarBirthday"].ToString() : "";                                 //農曆生日 YYYMMDD (民國年/農曆月/農曆日)
-                            string leapMonth = item2["leapMonth"] != null ? item2["leapMonth"].ToString() : "N";                                            //是否為閏月 Y: 是 N: 否
-                            string birthTime = item2["lunarBirthTime"] != null ? item2["lunarBirthTime"].ToString() : "吉";                                 //農曆時辰 子、丑、寅…亥 未確認時辰用戶可選吉時
-                            string oversea = item2["oversea"] != null ? item2["oversea"].ToString() : "1";                                                  //1: 國內 2: 國外
-                            string city = string.Empty;                                                                                                     //縣/市, 國內地址必填
-                            string region = string.Empty;                                                                                                   //地區, 國內地址必填
-                            string addr = item2["address"].ToString();                                                                                      //部分地址
-                            string zipCode = item2["zipCode"] != null ? item2["zipCode"].ToString() : "0";                                                  //郵遞區號, 國內地址必填
-                            if (oversea == "1")
+                            string SuppliesString = dtTempleCodeInfo.Rows[0]["TypeString"].ToString();
+                            string SuppliesType = dtTempleCodeInfo.Rows[0]["TypeID"].ToString();
+
+                            JArray prayedPerson = (JArray)item["prayedPerson"];
+                            foreach (var item2 in prayedPerson)
                             {
-                                city = item2["city"].ToString();
-                                region = item2["region"].ToString();
-                            }
-                            else
-                            {
-                                if (item2["city"] != null)
+                                string name = item2["name"].ToString();                                                                                         //被祈福者姓名 / 飼主姓名
+                                                                                                                                                                //string mobile = appMobile;
+                                string mobile = item2["msisdn"] != null ? item2["msisdn"].ToString() : appMobile;                                               //祈福者電話                                                                                     //祈福者電話
+                                string gender = item2["gender"] != null ? (item2["gender"].ToString() == "F" ? "信女" : "善男") : "善男";                       //性別 M: 男 F: 女
+                                string birthday = item2["birthday"] != null ? item2["birthday"].ToString() : "";                                                //國曆生日 YYYMMDD (民國年/國曆月/國曆日)
+                                string lunarBirthday = item2["lunarBirthday"] != null ? item2["lunarBirthday"].ToString() : "";                                 //農曆生日 YYYMMDD (民國年/農曆月/農曆日)
+                                string leapMonth = item2["leapMonth"] != null ? item2["leapMonth"].ToString() : "N";                                            //是否為閏月 Y: 是 N: 否
+                                string birthTime = item2["lunarBirthTime"] != null ? item2["lunarBirthTime"].ToString() : "吉";                                 //農曆時辰 子、丑、寅…亥 未確認時辰用戶可選吉時
+                                string oversea = item2["oversea"] != null ? item2["oversea"].ToString() : "1";                                                  //1: 國內 2: 國外
+                                string city = string.Empty;                                                                                                     //縣/市, 國內地址必填
+                                string region = string.Empty;                                                                                                   //地區, 國內地址必填
+                                string addr = item2["address"].ToString();                                                                                      //部分地址
+                                string zipCode = item2["zipCode"] != null ? item2["zipCode"].ToString() : "0";                                                  //郵遞區號, 國內地址必填
+                                if (oversea == "1")
                                 {
                                     city = item2["city"].ToString();
-                                }
-                                if (item2["region"] != null)
-                                {
                                     region = item2["region"].ToString();
-                                }
-                            }
-
-                            string name2 = item2["additionalName"] != null ? item2["additionalName"].ToString() : "";                                       //附加祈福人姓名（祈福者 2）
-                            string homeNum = item2["phone"] != null ? item2["phone"].ToString() : "";                                                       //市話
-                            string email = item2["email"] != null ? item2["email"].ToString() : "";                                                         //Email
-                            string companyName = item2["companyName"] != null ? item2["companyName"].ToString() : "";                                       //公司行號名稱
-                            string dName = item2["deceasedName"] != null ? item2["deceasedName"].ToString() : "";                                           //祖先姓氏/亡者姓名 (超拔法會類型時必填)
-                            string dBirthType = item2["deceasedBirthRocEra"] != null ? item2["deceasedBirthRocEra"].ToString() : "";                        //祖先/亡者民國生日紀元 0：民國前 1：民國  001MMDD 1912 為民國 1 年 或 1910 為民國前 1 年
-                            string dBirthday = item2["deceasedBirthday"] != null ? item2["deceasedBirthday"].ToString() : "";                               //祖先/亡者國曆生日 YYYMMDD (民國年/國曆月/國曆日)
-                            string dLunarBirthday = item2["deceasedLunarBirthday"] != null ? item2["deceasedLunarBirthday"].ToString() : "";                //祖先/亡者農曆生日 YYYMMDD (民國年/農曆月/農曆日)
-                            string dLeapMonth = item2["deceasedBirthdayLeapMonth"] != null ? item2["deceasedBirthdayLeapMonth"].ToString() : "N";           //祖先/亡者農曆生日是否為閏月 Y: 是 N: 否
-                            string dBirthTime = item2["deceasedLunarBirthTime"] != null ? item2["deceasedLunarBirthTime"].ToString() : "吉";                //祖先/亡者農曆時辰 子、丑、寅…亥 未確認時辰用戶可選吉時
-                            string dDoDType = item2["deceasedDoDRocEra"] != null ? item2["deceasedDoDRocEra"].ToString() : "";                               //祖先/亡者死亡日期紀元 0：民國前 1：民國  001MMDD 1912 為民國 1 年 或 1910 為民國前 1 年
-                            string dDoD = item2["deceasedDoD"] != null ? item2["deceasedDoD"].ToString() : "";                                              //祖先/亡者死亡日期 YYYMMDD (民國年/國曆月/國曆日)
-                            string dLunarDoD = item2["deceasedLunarDoD"] != null ? item2["deceasedLunarDoD"].ToString() : "";                               //祖先/亡者死亡農曆日期 YYYMMDD (民國年/農曆月/農曆日)
-                            string dDoDLeapMonth = item2["deceasedDoDLeepMonth"] != null ? item2["deceasedDoDLeepMonth"].ToString() : "N";                  //祖先/亡者死亡農曆日期是否為閏月 Y: 是 N: 否
-                            string dZipCode = item2["deceasedZipCode"] != null ? item2["deceasedZipCode"].ToString() : "0";                                 //祖先/亡者/牌位 郵遞區號
-                            string dCity = item2["deceasedCity"] != null ? item2["deceasedCity"].ToString() : "";                                           //祖先/亡者/牌位 縣/市
-                            string dRegion = item2["deceasedRegion"] != null ? item2["deceasedRegion"].ToString() : "";                                     //祖先/亡者/牌位 地區
-                            string dAddr = item2["deceasedAddress"] != null ? item2["deceasedAddress"].ToString() : "";                                     //祖先/亡者/牌位 部分地址
-
-                            string additionalOffering = item2["additionalOffering"] != null ? item2["additionalOffering"].ToString() : "N";                 //加購普品 Y: 是 N: 否
-                            string offeringQty = item2["offeringQty"] != null ? item2["offeringQty"].ToString() : "0";                                      //加購普品數量
-                            string additionalOfferingCost = item2["additionalOfferingPrice"] != null ? item2["additionalOfferingPrice"].ToString() : "0";   //加購普品單價
-                            string jossMoneyQty = item2["jossMoneyQty"] != null ? item2["jossMoneyQty"].ToString() : "0";                                   //加購金紙數量
-                            string jossMoneyPrice = item2["jossMoneyPrice"] != null ? item2["jossMoneyPrice"].ToString() : "0";                             //加購金紙單價
-
-                            string remark = item2["remark"] != null ? item2["remark"].ToString() : "";                                                      //備註
-
-                            string Birth = string.Empty;
-                            string birthMonth = string.Empty;
-                            string age = string.Empty;
-                            string Zodiac = string.Empty;
-                            string lyear = string.Empty;
-                            string year = string.Empty;
-                            string month = string.Empty;
-                            string day = string.Empty;
-
-                            string sBirth = string.Empty;
-                            string syear = string.Empty;
-                            string smonth = string.Empty;
-                            string sday = string.Empty;
-
-                            string birth = lunarBirthday;
-                            if (birth.Length == 7)
-                            {
-                                lyear = birth.Substring(0, 3);
-                                year = (int.Parse(birth.Substring(0, 3)) + 1911).ToString();
-                                month = birthMonth = birth.Substring(3, 2);
-                                day = birth.Substring(5, 2);
-
-                                string b = year + "-" + month + "-" + day;
-                                LunarSolarConverter.shuxiang(int.Parse(year), ref Zodiac);
-                                DateTime lunarBirth;
-                                DateTime solorBirth;
-                                if (DateTime.TryParse(b, out lunarBirth))
-                                {
-                                    //age = GetAge(DateTime.Parse(b), dtNow);
-
-                                    age = GetAge(int.Parse(year), int.Parse(month), int.Parse(day)).ToString();
                                 }
                                 else
                                 {
-                                    birth = birthday;
-                                    if (birth.Length == 7)
+                                    if (item2["city"] != null)
                                     {
-                                        syear = birth.Substring(0, 3);
-                                        year = (int.Parse(birth.Substring(0, 3)) + 1911).ToString();
-                                        smonth = birthMonth = birth.Substring(3, 2);
-                                        sday = birth.Substring(5, 2);
+                                        city = item2["city"].ToString();
+                                    }
+                                    if (item2["region"] != null)
+                                    {
+                                        region = item2["region"].ToString();
+                                    }
+                                }
 
-                                        b = year + "-" + smonth + "-" + sday;
-                                        LunarSolarConverter.shuxiang(int.Parse(year), ref Zodiac);
-                                        if (DateTime.TryParse(b, out solorBirth))
+                                string name2 = item2["additionalName"] != null ? item2["additionalName"].ToString() : "";                                       //附加祈福人姓名（祈福者 2）
+                                string homeNum = item2["phone"] != null ? item2["phone"].ToString() : "";                                                       //市話
+                                string email = item2["email"] != null ? item2["email"].ToString() : "";                                                         //Email
+                                string companyName = item2["companyName"] != null ? item2["companyName"].ToString() : "";                                       //公司行號名稱
+                                string dName = item2["deceasedName"] != null ? item2["deceasedName"].ToString() : "";                                           //祖先姓氏/亡者姓名 (超拔法會類型時必填)
+                                string dBirthType = item2["deceasedBirthRocEra"] != null ? item2["deceasedBirthRocEra"].ToString() : "";                        //祖先/亡者民國生日紀元 0：民國前 1：民國  001MMDD 1912 為民國 1 年 或 1910 為民國前 1 年
+                                string dBirthday = item2["deceasedBirthday"] != null ? item2["deceasedBirthday"].ToString() : "";                               //祖先/亡者國曆生日 YYYMMDD (民國年/國曆月/國曆日)
+                                string dLunarBirthday = item2["deceasedLunarBirthday"] != null ? item2["deceasedLunarBirthday"].ToString() : "";                //祖先/亡者農曆生日 YYYMMDD (民國年/農曆月/農曆日)
+                                string dLeapMonth = item2["deceasedBirthdayLeapMonth"] != null ? item2["deceasedBirthdayLeapMonth"].ToString() : "N";           //祖先/亡者農曆生日是否為閏月 Y: 是 N: 否
+                                string dBirthTime = item2["deceasedLunarBirthTime"] != null ? item2["deceasedLunarBirthTime"].ToString() : "吉";                //祖先/亡者農曆時辰 子、丑、寅…亥 未確認時辰用戶可選吉時
+                                string dDoDType = item2["deceasedDoDRocEra"] != null ? item2["deceasedDoDRocEra"].ToString() : "";                               //祖先/亡者死亡日期紀元 0：民國前 1：民國  001MMDD 1912 為民國 1 年 或 1910 為民國前 1 年
+                                string dDoD = item2["deceasedDoD"] != null ? item2["deceasedDoD"].ToString() : "";                                              //祖先/亡者死亡日期 YYYMMDD (民國年/國曆月/國曆日)
+                                string dLunarDoD = item2["deceasedLunarDoD"] != null ? item2["deceasedLunarDoD"].ToString() : "";                               //祖先/亡者死亡農曆日期 YYYMMDD (民國年/農曆月/農曆日)
+                                string dDoDLeapMonth = item2["deceasedDoDLeepMonth"] != null ? item2["deceasedDoDLeepMonth"].ToString() : "N";                  //祖先/亡者死亡農曆日期是否為閏月 Y: 是 N: 否
+                                string dZipCode = item2["deceasedZipCode"] != null ? item2["deceasedZipCode"].ToString() : "0";                                 //祖先/亡者/牌位 郵遞區號
+                                string dCity = item2["deceasedCity"] != null ? item2["deceasedCity"].ToString() : "";                                           //祖先/亡者/牌位 縣/市
+                                string dRegion = item2["deceasedRegion"] != null ? item2["deceasedRegion"].ToString() : "";                                     //祖先/亡者/牌位 地區
+                                string dAddr = item2["deceasedAddress"] != null ? item2["deceasedAddress"].ToString() : "";                                     //祖先/亡者/牌位 部分地址
+
+                                string additionalOffering = item2["additionalOffering"] != null ? item2["additionalOffering"].ToString() : "N";                 //加購普品 Y: 是 N: 否
+                                string offeringQty = item2["offeringQty"] != null ? item2["offeringQty"].ToString() : "0";                                      //加購普品數量
+                                string additionalOfferingCost = item2["additionalOfferingPrice"] != null ? item2["additionalOfferingPrice"].ToString() : "0";   //加購普品單價
+                                string jossMoneyQty = item2["jossMoneyQty"] != null ? item2["jossMoneyQty"].ToString() : "0";                                   //加購金紙數量
+                                string jossMoneyPrice = item2["jossMoneyPrice"] != null ? item2["jossMoneyPrice"].ToString() : "0";                             //加購金紙單價
+
+                                string remark = item2["remark"] != null ? item2["remark"].ToString() : "";                                                      //備註
+
+                                string Birth = string.Empty;
+                                string birthMonth = string.Empty;
+                                string age = string.Empty;
+                                string Zodiac = string.Empty;
+                                string lyear = string.Empty;
+                                string year = string.Empty;
+                                string month = string.Empty;
+                                string day = string.Empty;
+
+                                string sBirth = string.Empty;
+                                string syear = string.Empty;
+                                string smonth = string.Empty;
+                                string sday = string.Empty;
+
+                                string birth = lunarBirthday;
+                                if (birth.Length == 7)
+                                {
+                                    lyear = birth.Substring(0, 3);
+                                    year = (int.Parse(birth.Substring(0, 3)) + 1911).ToString();
+                                    month = birthMonth = birth.Substring(3, 2);
+                                    day = birth.Substring(5, 2);
+
+                                    string b = year + "-" + month + "-" + day;
+                                    LunarSolarConverter.shuxiang(int.Parse(year), ref Zodiac);
+                                    DateTime lunarBirth;
+                                    DateTime solorBirth;
+                                    if (DateTime.TryParse(b, out lunarBirth))
+                                    {
+                                        //age = GetAge(DateTime.Parse(b), dtNow);
+
+                                        age = GetAge(int.Parse(year), int.Parse(month), int.Parse(day)).ToString();
+                                    }
+                                    else
+                                    {
+                                        birth = birthday;
+                                        if (birth.Length == 7)
                                         {
-                                            //age = GetAge(DateTime.Parse(b), dtNow);
+                                            syear = birth.Substring(0, 3);
+                                            year = (int.Parse(birth.Substring(0, 3)) + 1911).ToString();
+                                            smonth = birthMonth = birth.Substring(3, 2);
+                                            sday = birth.Substring(5, 2);
 
-                                            age = GetAge(int.Parse(year), int.Parse(smonth), int.Parse(sday)).ToString();
+                                            b = year + "-" + smonth + "-" + sday;
+                                            LunarSolarConverter.shuxiang(int.Parse(year), ref Zodiac);
+                                            if (DateTime.TryParse(b, out solorBirth))
+                                            {
+                                                //age = GetAge(DateTime.Parse(b), dtNow);
+
+                                                age = GetAge(int.Parse(year), int.Parse(smonth), int.Parse(sday)).ToString();
+                                            }
                                         }
                                     }
                                 }
+
+                                string sbirth = birthday;
+                                if (sbirth.Length == 7)
+                                {
+                                    syear = sbirth.Substring(0, 3);
+                                    year = (int.Parse(sbirth.Substring(0, 3)) + 1911).ToString();
+                                    smonth = sbirth.Substring(3, 2);
+                                    sday = sbirth.Substring(5, 2);
+
+                                    //b = year + "-" + smonth + "-" + sday;
+                                    //if (DateTime.TryParse(b, out solorBirth))
+                                    //{
+                                    //    //age = GetAge(DateTime.Parse(b), dtNow);
+
+                                    //    age = GetAge(int.Parse(year), int.Parse(smonth), int.Parse(sday)).ToString();
+                                    //}
+                                }
+
+                                int l = 0, s = 0;
+                                int.TryParse(lyear, out l);
+                                int.TryParse(syear, out s);
+
+                                if (lyear != "" && month != "" && day != "")
+                                {
+                                    Birth = "民國" + (l > 0 ? l.ToString() : lyear) + "年" + month + "月" + day + "日";
+                                }
+                                if (syear != "" && smonth != "" && sday != "")
+                                {
+                                    sBirth = "民國" + (s > 0 ? s.ToString() : syear) + "年" + smonth + "月" + sday + "日";
+                                }
+
+
+                                SuppliesID = objLightDAC.addSupplies_Fw(aid, name, mobile, gender, SuppliesType, SuppliesString, oversea, Birth, leapMonth, birthTime, birthMonth,
+                                    age, Zodiac, sBirth, email, homeNum, 1, "", addr, city, region, zipCode, Year);
                             }
-
-                            string sbirth = birthday;
-                            if (sbirth.Length == 7)
-                            {
-                                syear = sbirth.Substring(0, 3);
-                                year = (int.Parse(sbirth.Substring(0, 3)) + 1911).ToString();
-                                smonth = sbirth.Substring(3, 2);
-                                sday = sbirth.Substring(5, 2);
-
-                                //b = year + "-" + smonth + "-" + sday;
-                                //if (DateTime.TryParse(b, out solorBirth))
-                                //{
-                                //    //age = GetAge(DateTime.Parse(b), dtNow);
-
-                                //    age = GetAge(int.Parse(year), int.Parse(smonth), int.Parse(sday)).ToString();
-                                //}
-                            }
-
-                            int l = 0, s = 0;
-                            int.TryParse(lyear, out l);
-                            int.TryParse(syear, out s);
-
-                            if (lyear != "" && month != "" && day != "")
-                            {
-                                Birth = "民國" + (l > 0 ? l.ToString() : lyear) + "年" + month + "月" + day + "日";
-                            }
-                            if (syear != "" && smonth != "" && sday != "")
-                            {
-                                sBirth = "民國" + (s > 0 ? s.ToString() : syear) + "年" + smonth + "月" + sday + "日";
-                            }
-
-
-                            SuppliesID = objLightDAC.addSupplies_Fw(aid, name, mobile, gender, SuppliesType, SuppliesString, oversea, Birth, leapMonth, birthTime, birthMonth,
-                                age, Zodiac, sBirth, email, homeNum, 1, "", addr, city, region, zipCode, Year);
                         }
                     }
                 }
@@ -18366,6 +19065,20 @@ namespace Temple.FET.APITEST
             if (objAdminDAC.Updatestatus2applicantinfo(ApplicantID, -1, AdminID.ToString(), SuppliesType.ToString(), 1, dtNow.Year.ToString()))
             {
                 if (objAdminDAC.DeleteSuppliesNum(ApplicantID, AdminID.ToString(), SuppliesType, dtNow.Year.ToString()))
+                {
+                }
+            }
+        }
+
+        protected void DeleteAnDouInfo(int AdminID, int ApplicantID)
+        {
+            TimeZoneInfo info = TimeZoneInfo.FindSystemTimeZoneById("Taipei Standard Time");
+            DateTime dtNow = TimeZoneInfo.ConvertTime(DateTime.Now, info);
+            AdminDAC objAdminDAC = new AdminDAC(this);
+
+            if (objAdminDAC.Updatestatus2applicantinfo(ApplicantID, -1, AdminID.ToString(), "20", -1, dtNow.Year.ToString()))
+            {
+                if (objAdminDAC.DeleteAnDouinfo(ApplicantID, AdminID.ToString(), dtNow.Year.ToString()))
                 {
                 }
             }

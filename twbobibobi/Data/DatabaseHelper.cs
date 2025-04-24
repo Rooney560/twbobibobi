@@ -2458,6 +2458,45 @@ namespace Read.data
         }
 
         /// <summary>
+        /// 记录產品支付请求-斗六五路財神宮安斗
+        /// </summary>
+        /// <param name="OrderID">订单编号</param>
+        /// <param name="ApplicantID">購買人编号</param>
+        /// <param name="Amount">支付金額</param>>
+        /// <param name="Description">支付内容说明</param>
+        /// <param name="Comment">备注</param>
+        /// <param name="PayChannelLog">支付接口日志</param>
+        /// <param name="IP">来源IP</param>
+        public long AddChargeLog_AnDou_Fw(string OrderID, int ApplicantID, int Amount, string ChargeType, int Status, string Description, string Comment, string PayChannelLog, string IP, string Year)
+        {
+            TimeZoneInfo info = TimeZoneInfo.FindSystemTimeZoneById("Taipei Standard Time");
+            DateTime dt = TimeZoneInfo.ConvertTime(DateTime.Now, info);
+            DataTable dtDataList = new DataTable();
+            string sql = "Insert into Temple_" + Year + "..APPCharge_Fw_AnDou(OrderID, ApplicantID, Amount, Status, Description, ChargeType, Comment, PayChannelLog, IP, CreateDate, CreateDateString) " +
+                "values(@OrderID, @ApplicantID, @Amount, @Status, @Description, @ChargeType, @Comment, @PayChannelLog, @IP, @CreateDate, @CreateDateString)";
+
+            DatabaseAdapter Adapter = new DatabaseAdapter(sql, this.DBSource);
+            DataTable dtdata = new DataTable();
+            Adapter.AddParameterToSelectCommand("@OrderID", OrderID);
+            Adapter.AddParameterToSelectCommand("@ApplicantID", ApplicantID);
+            Adapter.AddParameterToSelectCommand("@Amount", Amount);
+            Adapter.AddParameterToSelectCommand("@Status", Status);
+            Adapter.AddParameterToSelectCommand("@Description", Description);
+            Adapter.AddParameterToSelectCommand("@ChargeType", ChargeType);
+            Adapter.AddParameterToSelectCommand("@Comment", Comment);
+            Adapter.AddParameterToSelectCommand("@PayChannelLog", PayChannelLog);
+            Adapter.AddParameterToSelectCommand("@IP", IP);
+            Adapter.AddParameterToSelectCommand("@CreateDate", dt);
+            Adapter.AddParameterToSelectCommand("@CreateDateString", dt.ToString("yyyy-MM-dd"));
+
+            Adapter.SetSqlCommandBuilder();
+            Adapter.Fill(dtdata);
+            Adapter.Update(dtdata);
+
+            return this.GetIdentity();
+        }
+
+        /// <summary>
         /// 记录產品支付请求-東海龍門天聖宮點燈
         /// </summary>
         /// <param name="OrderID">订单编号</param>
@@ -2473,123 +2512,6 @@ namespace Read.data
             DateTime dt = TimeZoneInfo.ConvertTime(DateTime.Now, info);
             DataTable dtDataList = new DataTable();
             string sql = "Insert into Temple_" + Year + "..APPCharge_dh_Lights(OrderID, ApplicantID, Amount, Status, Description, ChargeType, Comment, PayChannelLog, IP, CreateDate, CreateDateString) " +
-                "values(@OrderID, @ApplicantID, @Amount, @Status, @Description, @ChargeType, @Comment, @PayChannelLog, @IP, @CreateDate, @CreateDateString)";
-
-            DatabaseAdapter Adapter = new DatabaseAdapter(sql, this.DBSource);
-            DataTable dtdata = new DataTable();
-            Adapter.AddParameterToSelectCommand("@OrderID", OrderID);
-            Adapter.AddParameterToSelectCommand("@ApplicantID", ApplicantID);
-            Adapter.AddParameterToSelectCommand("@Amount", Amount);
-            Adapter.AddParameterToSelectCommand("@Status", Status);
-            Adapter.AddParameterToSelectCommand("@Description", Description);
-            Adapter.AddParameterToSelectCommand("@ChargeType", ChargeType);
-            Adapter.AddParameterToSelectCommand("@Comment", Comment);
-            Adapter.AddParameterToSelectCommand("@PayChannelLog", PayChannelLog);
-            Adapter.AddParameterToSelectCommand("@IP", IP);
-            Adapter.AddParameterToSelectCommand("@CreateDate", dt);
-            Adapter.AddParameterToSelectCommand("@CreateDateString", dt.ToString("yyyy-MM-dd"));
-
-            Adapter.SetSqlCommandBuilder();
-            Adapter.Fill(dtdata);
-            Adapter.Update(dtdata);
-
-            return this.GetIdentity();
-        }
-
-        /// <summary>
-        /// 记录產品支付请求-五股賀聖宮點燈
-        /// </summary>
-        /// <param name="OrderID">订单编号</param>
-        /// <param name="ApplicantID">購買人编号</param>
-        /// <param name="Amount">支付金額</param>>
-        /// <param name="Description">支付内容说明</param>
-        /// <param name="Comment">备注</param>
-        /// <param name="PayChannelLog">支付接口日志</param>
-        /// <param name="IP">来源IP</param>
-        public long AddChargeLog_Lights_Hs(string OrderID, int ApplicantID, int Amount, string ChargeType, int Status, string Description, string Comment, string PayChannelLog, string IP, string Year)
-        {
-            TimeZoneInfo info = TimeZoneInfo.FindSystemTimeZoneById("Taipei Standard Time");
-            DateTime dt = TimeZoneInfo.ConvertTime(DateTime.Now, info);
-            DataTable dtDataList = new DataTable();
-            string sql = "Insert into Temple_" + Year + "..APPCharge_Hs_Lights(OrderID, ApplicantID, Amount, Status, Description, ChargeType, Comment, PayChannelLog, IP, CreateDate, CreateDateString) " +
-                "values(@OrderID, @ApplicantID, @Amount, @Status, @Description, @ChargeType, @Comment, @PayChannelLog, @IP, @CreateDate, @CreateDateString)";
-
-            DatabaseAdapter Adapter = new DatabaseAdapter(sql, this.DBSource);
-            DataTable dtdata = new DataTable();
-            Adapter.AddParameterToSelectCommand("@OrderID", OrderID);
-            Adapter.AddParameterToSelectCommand("@ApplicantID", ApplicantID);
-            Adapter.AddParameterToSelectCommand("@Amount", Amount);
-            Adapter.AddParameterToSelectCommand("@Status", Status);
-            Adapter.AddParameterToSelectCommand("@Description", Description);
-            Adapter.AddParameterToSelectCommand("@ChargeType", ChargeType);
-            Adapter.AddParameterToSelectCommand("@Comment", Comment);
-            Adapter.AddParameterToSelectCommand("@PayChannelLog", PayChannelLog);
-            Adapter.AddParameterToSelectCommand("@IP", IP);
-            Adapter.AddParameterToSelectCommand("@CreateDate", dt);
-            Adapter.AddParameterToSelectCommand("@CreateDateString", dt.ToString("yyyy-MM-dd"));
-
-            Adapter.SetSqlCommandBuilder();
-            Adapter.Fill(dtdata);
-            Adapter.Update(dtdata);
-
-            return this.GetIdentity();
-        }
-
-        /// <summary>
-        /// 记录產品支付请求-外澳接天宮點燈
-        /// </summary>
-        /// <param name="OrderID">订单编号</param>
-        /// <param name="ApplicantID">購買人编号</param>
-        /// <param name="Amount">支付金額</param>>
-        /// <param name="Description">支付内容说明</param>
-        /// <param name="Comment">备注</param>
-        /// <param name="PayChannelLog">支付接口日志</param>
-        /// <param name="IP">来源IP</param>
-        public long AddChargeLog_Lights_Jt(string OrderID, int ApplicantID, int Amount, string ChargeType, int Status, string Description, string Comment, string PayChannelLog, string IP, string Year)
-        {
-            TimeZoneInfo info = TimeZoneInfo.FindSystemTimeZoneById("Taipei Standard Time");
-            DateTime dt = TimeZoneInfo.ConvertTime(DateTime.Now, info);
-            DataTable dtDataList = new DataTable();
-            string sql = "Insert into Temple_" + Year + "..APPCharge_Jt_Lights(OrderID, ApplicantID, Amount, Status, Description, ChargeType, Comment, PayChannelLog, IP, CreateDate, CreateDateString) " +
-                "values(@OrderID, @ApplicantID, @Amount, @Status, @Description, @ChargeType, @Comment, @PayChannelLog, @IP, @CreateDate, @CreateDateString)";
-
-            DatabaseAdapter Adapter = new DatabaseAdapter(sql, this.DBSource);
-            DataTable dtdata = new DataTable();
-            Adapter.AddParameterToSelectCommand("@OrderID", OrderID);
-            Adapter.AddParameterToSelectCommand("@ApplicantID", ApplicantID);
-            Adapter.AddParameterToSelectCommand("@Amount", Amount);
-            Adapter.AddParameterToSelectCommand("@Status", Status);
-            Adapter.AddParameterToSelectCommand("@Description", Description);
-            Adapter.AddParameterToSelectCommand("@ChargeType", ChargeType);
-            Adapter.AddParameterToSelectCommand("@Comment", Comment);
-            Adapter.AddParameterToSelectCommand("@PayChannelLog", PayChannelLog);
-            Adapter.AddParameterToSelectCommand("@IP", IP);
-            Adapter.AddParameterToSelectCommand("@CreateDate", dt);
-            Adapter.AddParameterToSelectCommand("@CreateDateString", dt.ToString("yyyy-MM-dd"));
-
-            Adapter.SetSqlCommandBuilder();
-            Adapter.Fill(dtdata);
-            Adapter.Update(dtdata);
-
-            return this.GetIdentity();
-        }
-
-        /// <summary>
-        /// 记录產品支付请求-安平開台天后宮點燈
-        /// </summary>
-        /// <param name="OrderID">订单编号</param>
-        /// <param name="ApplicantID">購買人编号</param>
-        /// <param name="Amount">支付金額</param>>
-        /// <param name="Description">支付内容说明</param>
-        /// <param name="Comment">备注</param>
-        /// <param name="PayChannelLog">支付接口日志</param>
-        /// <param name="IP">来源IP</param>
-        public long AddChargeLog_Lights_Am(string OrderID, int ApplicantID, int Amount, string ChargeType, int Status, string Description, string Comment, string PayChannelLog, string IP, string Year)
-        {
-            TimeZoneInfo info = TimeZoneInfo.FindSystemTimeZoneById("Taipei Standard Time");
-            DateTime dt = TimeZoneInfo.ConvertTime(DateTime.Now, info);
-            DataTable dtDataList = new DataTable();
-            string sql = "Insert into Temple_" + Year + "..APPCharge_Am_Lights(OrderID, ApplicantID, Amount, Status, Description, ChargeType, Comment, PayChannelLog, IP, CreateDate, CreateDateString) " +
                 "values(@OrderID, @ApplicantID, @Amount, @Status, @Description, @ChargeType, @Comment, @PayChannelLog, @IP, @CreateDate, @CreateDateString)";
 
             DatabaseAdapter Adapter = new DatabaseAdapter(sql, this.DBSource);
@@ -2752,6 +2674,47 @@ namespace Read.data
             DateTime dt = TimeZoneInfo.ConvertTime(DateTime.Now, info);
             DataTable dtDataList = new DataTable();
             string sql = "Insert into Temple_" + Year + "..APPCharge_wjsan_Lights(OrderID, ApplicantID, Amount, Status, Description, ChargeType, Comment, PayChannelLog, IP, " +
+                "CreateDate, CreateDateString) " +
+                "values(@OrderID, @ApplicantID, @Amount, @Status, @Description, @ChargeType, @Comment, @PayChannelLog, @IP, @CreateDate, @CreateDateString)";
+
+            DatabaseAdapter Adapter = new DatabaseAdapter(sql, this.DBSource);
+            DataTable dtdata = new DataTable();
+            Adapter.AddParameterToSelectCommand("@OrderID", OrderID);
+            Adapter.AddParameterToSelectCommand("@ApplicantID", ApplicantID);
+            Adapter.AddParameterToSelectCommand("@Amount", Amount);
+            Adapter.AddParameterToSelectCommand("@Status", Status);
+            Adapter.AddParameterToSelectCommand("@Description", Description);
+            Adapter.AddParameterToSelectCommand("@ChargeType", ChargeType);
+            Adapter.AddParameterToSelectCommand("@Comment", Comment);
+            Adapter.AddParameterToSelectCommand("@PayChannelLog", PayChannelLog);
+            Adapter.AddParameterToSelectCommand("@IP", IP);
+            Adapter.AddParameterToSelectCommand("@CreateDate", dt);
+            Adapter.AddParameterToSelectCommand("@CreateDateString", dt.ToString("yyyy-MM-dd"));
+
+            Adapter.SetSqlCommandBuilder();
+            Adapter.Fill(dtdata);
+            Adapter.Update(dtdata);
+
+            return this.GetIdentity();
+        }
+
+        /// <summary>
+        /// 记录產品支付请求-台灣道教總廟無極三清總道院安斗
+        /// </summary>
+        /// <param name="OrderID">订单编号</param>
+        /// <param name="ApplicantID">購買人编号</param>
+        /// <param name="Amount">支付金額</param>>
+        /// <param name="Description">支付内容说明</param>
+        /// <param name="Comment">备注</param>
+        /// <param name="PayChannelLog">支付接口日志</param>
+        /// <param name="IP">来源IP</param>
+        public long AddChargeLog_AnDou_wjsan(string OrderID, int ApplicantID, int Amount, string ChargeType, int Status, string Description, string Comment, string PayChannelLog,
+            string IP, string Year)
+        {
+            TimeZoneInfo info = TimeZoneInfo.FindSystemTimeZoneById("Taipei Standard Time");
+            DateTime dt = TimeZoneInfo.ConvertTime(DateTime.Now, info);
+            DataTable dtDataList = new DataTable();
+            string sql = "Insert into Temple_" + Year + "..APPCharge_wjsan_AnDou(OrderID, ApplicantID, Amount, Status, Description, ChargeType, Comment, PayChannelLog, IP, " +
                 "CreateDate, CreateDateString) " +
                 "values(@OrderID, @ApplicantID, @Amount, @Status, @Description, @ChargeType, @Comment, @PayChannelLog, @IP, @CreateDate, @CreateDateString)";
 
@@ -3510,43 +3473,21 @@ namespace Read.data
             return dtDataList;
         }
 
+        public DataTable GetChargeLog_AnDou_Fw(string OrderID, string Year)
+        {
+            DataTable dtDataList = new DataTable();
+            string sql = "Select Top 1 * From Temple_" + Year + "..APPCharge_Fw_AnDou Where OrderID=@OrderID";
+
+            DatabaseAdapter AdapterObj = new DatabaseAdapter(sql, this.DBSource);
+            AdapterObj.AddParameterToSelectCommand("@OrderID", OrderID);
+            AdapterObj.Fill(dtDataList);
+            return dtDataList;
+        }
+
         public DataTable GetChargeLog_Lights_dh(string OrderID, string Year)
         {
             DataTable dtDataList = new DataTable();
             string sql = "Select Top 1 * From Temple_" + Year + "..APPCharge_dh_Lights Where OrderID=@OrderID";
-
-            DatabaseAdapter AdapterObj = new DatabaseAdapter(sql, this.DBSource);
-            AdapterObj.AddParameterToSelectCommand("@OrderID", OrderID);
-            AdapterObj.Fill(dtDataList);
-            return dtDataList;
-        }
-
-        public DataTable GetChargeLog_Lights_Hs(string OrderID, string Year)
-        {
-            DataTable dtDataList = new DataTable();
-            string sql = "Select Top 1 * From Temple_" + Year + "..APPCharge_Hs_Lights Where OrderID=@OrderID";
-
-            DatabaseAdapter AdapterObj = new DatabaseAdapter(sql, this.DBSource);
-            AdapterObj.AddParameterToSelectCommand("@OrderID", OrderID);
-            AdapterObj.Fill(dtDataList);
-            return dtDataList;
-        }
-
-        public DataTable GetChargeLog_Lights_Jt(string OrderID, string Year)
-        {
-            DataTable dtDataList = new DataTable();
-            string sql = "Select Top 1 * From Temple_" + Year + "..APPCharge_Jt_Lights Where OrderID=@OrderID";
-
-            DatabaseAdapter AdapterObj = new DatabaseAdapter(sql, this.DBSource);
-            AdapterObj.AddParameterToSelectCommand("@OrderID", OrderID);
-            AdapterObj.Fill(dtDataList);
-            return dtDataList;
-        }
-
-        public DataTable GetChargeLog_Lights_Am(string OrderID, string Year)
-        {
-            DataTable dtDataList = new DataTable();
-            string sql = "Select Top 1 * From Temple_" + Year + "..APPCharge_Am_Lights Where OrderID=@OrderID";
 
             DatabaseAdapter AdapterObj = new DatabaseAdapter(sql, this.DBSource);
             AdapterObj.AddParameterToSelectCommand("@OrderID", OrderID);
@@ -3591,6 +3532,17 @@ namespace Read.data
         {
             DataTable dtDataList = new DataTable();
             string sql = "Select Top 1 * From Temple_" + Year + "..APPCharge_wjsan_Lights Where OrderID=@OrderID";
+
+            DatabaseAdapter AdapterObj = new DatabaseAdapter(sql, this.DBSource);
+            AdapterObj.AddParameterToSelectCommand("@OrderID", OrderID);
+            AdapterObj.Fill(dtDataList);
+            return dtDataList;
+        }
+
+        public DataTable GetChargeLog_AnDou_wjsan(string OrderID, string Year)
+        {
+            DataTable dtDataList = new DataTable();
+            string sql = "Select Top 1 * From Temple_" + Year + "..APPCharge_wjsan_AnDou Where OrderID=@OrderID";
 
             DatabaseAdapter AdapterObj = new DatabaseAdapter(sql, this.DBSource);
             AdapterObj.AddParameterToSelectCommand("@OrderID", OrderID);
@@ -8183,6 +8135,500 @@ namespace Read.data
             }
         }
 
+        public bool UpdateAnDou_Fw_Info(int applicantID, int AnDouType, string Year, ref string msg, ref string[] andoulist, ref string[] AnDoulist)
+        {
+            lock (_thisLock)
+            {
+                TimeZoneInfo info = TimeZoneInfo.FindSystemTimeZoneById("Taipei Standard Time");
+                DateTime dt = TimeZoneInfo.ConvertTime(DateTime.Now, info);
+                bool bResult = false;
+                int lastnum = GetListNum_Fw_AnDou(AnDouType, applicantID, Year);
+                if (lastnum > 0)
+                {
+                    bool dhavenum = true;
+
+                    switch (AnDouType)
+                    {
+                        case 25:
+                            //財神斗/一個月
+                            for (int i = 1001; i < lastnum; i++)
+                            {
+                                if (CheckedNum_Fw_AnDou(AnDouType, i, Year))
+                                {
+                                    lastnum = i;
+                                    dhavenum = false;
+                                    break;
+                                }
+                            }
+
+                            break;
+                        case 34:
+                            //發財斗/一個月
+                            for (int i = 1001; i < lastnum; i++)
+                            {
+                                if (CheckedNum_Fw_AnDou(AnDouType, i, Year))
+                                {
+                                    lastnum = i;
+                                    dhavenum = false;
+                                    break;
+                                }
+                            }
+
+                            break;
+                        case 35:
+                            //姻緣斗/一個月
+                            for (int i = 1001; i < lastnum; i++)
+                            {
+                                if (CheckedNum_Fw_AnDou(AnDouType, i, Year))
+                                {
+                                    lastnum = i;
+                                    dhavenum = false;
+                                    break;
+                                }
+                            }
+
+                            break;
+                        case 36:
+                            //貴人斗/一個月
+                            for (int i = 1001; i < lastnum; i++)
+                            {
+                                if (CheckedNum_Fw_AnDou(AnDouType, i, Year))
+                                {
+                                    lastnum = i;
+                                    dhavenum = false;
+                                    break;
+                                }
+                            }
+
+                            break;
+                        case 37:
+                            //消災延壽斗/一個月
+                            for (int i = 1001; i < lastnum; i++)
+                            {
+                                if (CheckedNum_Fw_AnDou(AnDouType, i, Year))
+                                {
+                                    lastnum = i;
+                                    dhavenum = false;
+                                    break;
+                                }
+                            }
+
+                            break;
+                        case 38:
+                            //財神斗/三個月
+                            for (int i = 1001; i < lastnum; i++)
+                            {
+                                if (CheckedNum_Fw_AnDou(AnDouType, i, Year))
+                                {
+                                    lastnum = i;
+                                    dhavenum = false;
+                                    break;
+                                }
+                            }
+
+                            break;
+                        case 39:
+                            //發財斗/三個月
+                            for (int i = 1001; i < lastnum; i++)
+                            {
+                                if (CheckedNum_Fw_AnDou(AnDouType, i, Year))
+                                {
+                                    lastnum = i;
+                                    dhavenum = false;
+                                    break;
+                                }
+                            }
+
+                            break;
+                        case 40:
+                            //姻緣斗/三個月
+                            for (int i = 1001; i < lastnum; i++)
+                            {
+                                if (CheckedNum_Fw_AnDou(AnDouType, i, Year))
+                                {
+                                    lastnum = i;
+                                    dhavenum = false;
+                                    break;
+                                }
+                            }
+
+                            break;
+                        case 41:
+                            //貴人斗/三個月
+                            for (int i = 1001; i < lastnum; i++)
+                            {
+                                if (CheckedNum_Fw_AnDou(AnDouType, i, Year))
+                                {
+                                    lastnum = i;
+                                    dhavenum = false;
+                                    break;
+                                }
+                            }
+
+                            break;
+                        case 42:
+                            //消災延壽斗/三個月
+                            for (int i = 1001; i < lastnum; i++)
+                            {
+                                if (CheckedNum_Fw_AnDou(AnDouType, i, Year))
+                                {
+                                    lastnum = i;
+                                    dhavenum = false;
+                                    break;
+                                }
+                            }
+
+                            break;
+                    }
+
+                    if (dhavenum)
+                    {
+                        ++lastnum;
+                    }
+                }
+                else
+                {
+                    switch (AnDouType)
+                    {
+                        case 25:
+                            //財神斗/一個月
+                            lastnum = 1001;
+                            break;
+                        case 34:
+                            //發財斗/一個月
+                            lastnum = 1001;
+                            break;
+                        case 35:
+                            //姻緣斗/一個月
+                            lastnum = 1001;
+                            break;
+                        case 36:
+                            //貴人斗/一個月
+                            lastnum = 1001;
+                            break;
+                        case 37:
+                            //消災延壽斗/一個月
+                            lastnum = 1001;
+                            break;
+                        case 38:
+                            //財神斗/三個月
+                            lastnum = 1001;
+                            break;
+                        case 39:
+                            //發財斗/三個月
+                            lastnum = 1001;
+                            break;
+                        case 40:
+                            //姻緣斗/三個月
+                            lastnum = 1001;
+                            break;
+                        case 41:
+                            //貴人斗/三個月
+                            lastnum = 1001;
+                            break;
+                        case 42:
+                            //消災延壽斗/三個月
+                            lastnum = 1001;
+                            break;
+                    }
+                }
+
+                DataTable dtDataList = new DataTable();
+                string sql = "Select * From Temple_" + Year + "..AnDou_Fw_info Where ApplicantID=@ApplicantID and Status = 0 and Num = 0";
+
+                DatabaseAdapter AdapterObj = new DatabaseAdapter(sql, this.DBSource);
+                AdapterObj.SetSqlCommandBuilder();
+                AdapterObj.AddParameterToSelectCommand("@ApplicantID", applicantID);
+                AdapterObj.Fill(dtDataList);
+
+                //AnDoulist = new string[dtDataList.Rows.Count];
+                var tempList_andou = AnDoulist.ToList();
+                andoulist = new string[dtDataList.Rows.Count];
+                for (int i = 0; i < dtDataList.Rows.Count; i++)
+                {
+                    string lid = dtDataList.Rows[i]["AnDouID"].ToString();
+                    string NumString = string.Empty;
+
+                    AnDouType = int.Parse(dtDataList.Rows[i]["AnDouType"].ToString());
+                    switch (AnDouType)
+                    {
+                        case 25:
+                            //財神斗/一個月
+                            NumString = "FWTDL" + Num2String(lastnum);
+                            tempList_andou.Add(NumString);
+                            andoulist[i] = "財神斗/一個月:FWTDL" + Num2String(lastnum);
+                            break;
+                        case 34:
+                            //發財斗/一個月
+                            NumString = "FWFDL" + Num2String(lastnum);
+                            tempList_andou.Add(NumString);
+                            andoulist[i] = "發財斗/一個月:FWFDL" + Num2String(lastnum);
+                            break;
+                        case 35:
+                            //姻緣斗/一個月
+                            NumString = "FWMDL" + Num2String(lastnum);
+                            tempList_andou.Add(NumString);
+                            andoulist[i] = "姻緣斗/一個月:FWMDL" + Num2String(lastnum);
+                            break;
+                        case 36:
+                            //貴人斗/一個月
+                            NumString = "FWBDL" + Num2String(lastnum);
+                            tempList_andou.Add(NumString);
+                            andoulist[i] = "貴人斗/一個月:FWBDL" + Num2String(lastnum);
+                            break;
+                        case 37:
+                            //消災延壽斗/一個月
+                            NumString = "FWYDL" + Num2String(lastnum);
+                            tempList_andou.Add(NumString);
+                            andoulist[i] = "消災延壽斗/一個月:FWYDL" + Num2String(lastnum);
+                            break;
+                        case 38:
+                            //財神斗/三個月
+                            NumString = "FW3TDL" + Num2String(lastnum);
+                            tempList_andou.Add(NumString);
+                            andoulist[i] = "財神斗/三個月:FW3TDL" + Num2String(lastnum);
+                            break;
+                        case 39:
+                            //發財斗/三個月
+                            NumString = "FW3FDL" + Num2String(lastnum);
+                            tempList_andou.Add(NumString);
+                            andoulist[i] = "發財斗/三個月:FW3FDL" + Num2String(lastnum);
+                            break;
+                        case 40:
+                            //姻緣斗/三個月
+                            NumString = "FW3MDL" + Num2String(lastnum);
+                            tempList_andou.Add(NumString);
+                            andoulist[i] = "姻緣斗/三個月:FW3MDL" + Num2String(lastnum);
+                            break;
+                        case 41:
+                            //貴人斗/三個月
+                            NumString = "FW3BDL" + Num2String(lastnum);
+                            tempList_andou.Add(NumString);
+                            andoulist[i] = "貴人斗/三個月:FW3BDL" + Num2String(lastnum);
+                            break;
+                        case 42:
+                            //消災延壽斗/三個月
+                            NumString = "FW3YDL" + Num2String(lastnum);
+                            tempList_andou.Add(NumString);
+                            andoulist[i] = "消災延壽斗/三個月:FW3YDL" + Num2String(lastnum);
+                            break;
+                    }
+                    AnDoulist = tempList_andou.ToArray();
+
+                    msg += andoulist[i];
+                    if (i < andoulist.Length - 1)
+                    {
+                        msg += ",";
+                    }
+
+                    int res = ExecuteSql("Update Temple_" + Year + "..AnDou_Fw_info Set Num2String = N'" + NumString + "', Num = " + lastnum + " Where AnDouID=" + lid);
+
+                    if (res > 0)
+                    {
+                        bResult = true;
+                    }
+
+                    int index = dtDataList.Rows.Count - i > 1 ? i + 1 : i;
+                    AnDouType = int.Parse(dtDataList.Rows[index]["AnDouType"].ToString());
+
+                    lastnum = GetListNum_Fw_AnDou(AnDouType, applicantID, Year);
+                    if (lastnum > 0)
+                    {
+                        bool dhavenum = true;
+
+                        switch (AnDouType)
+                        {
+                            case 25:
+                                //財神斗/一個月
+                                for (int j = 1001; j < lastnum; j++)
+                                {
+                                    if (CheckedNum_Fw_AnDou(AnDouType, j, Year))
+                                    {
+                                        lastnum = j;
+                                        dhavenum = false;
+                                        break;
+                                    }
+                                }
+
+                                break;
+                            case 34:
+                                //發財斗/一個月
+                                for (int j = 1001; j < lastnum; j++)
+                                {
+                                    if (CheckedNum_Fw_AnDou(AnDouType, j, Year))
+                                    {
+                                        lastnum = j;
+                                        dhavenum = false;
+                                        break;
+                                    }
+                                }
+
+                                break;
+                            case 35:
+                                //姻緣斗/一個月
+                                for (int j = 1001; j < lastnum; j++)
+                                {
+                                    if (CheckedNum_Fw_AnDou(AnDouType, j, Year))
+                                    {
+                                        lastnum = j;
+                                        dhavenum = false;
+                                        break;
+                                    }
+                                }
+
+                                break;
+                            case 36:
+                                //貴人斗/一個月
+                                for (int j = 1001; j < lastnum; j++)
+                                {
+                                    if (CheckedNum_Fw_AnDou(AnDouType, j, Year))
+                                    {
+                                        lastnum = j;
+                                        dhavenum = false;
+                                        break;
+                                    }
+                                }
+
+                                break;
+                            case 37:
+                                //消災延壽斗/一個月
+                                for (int j = 1001; j < lastnum; j++)
+                                {
+                                    if (CheckedNum_Fw_AnDou(AnDouType, j, Year))
+                                    {
+                                        lastnum = j;
+                                        dhavenum = false;
+                                        break;
+                                    }
+                                }
+
+                                break;
+                            case 38:
+                                //財神斗/三個月
+                                for (int j = 1001; j < lastnum; j++)
+                                {
+                                    if (CheckedNum_Fw_AnDou(AnDouType, j, Year))
+                                    {
+                                        lastnum = j;
+                                        dhavenum = false;
+                                        break;
+                                    }
+                                }
+
+                                break;
+                            case 39:
+                                //發財斗/三個月
+                                for (int j = 1001; j < lastnum; j++)
+                                {
+                                    if (CheckedNum_Fw_AnDou(AnDouType, j, Year))
+                                    {
+                                        lastnum = j;
+                                        dhavenum = false;
+                                        break;
+                                    }
+                                }
+
+                                break;
+                            case 40:
+                                //姻緣斗/三個月
+                                for (int j = 1001; j < lastnum; j++)
+                                {
+                                    if (CheckedNum_Fw_AnDou(AnDouType, j, Year))
+                                    {
+                                        lastnum = j;
+                                        dhavenum = false;
+                                        break;
+                                    }
+                                }
+
+                                break;
+                            case 41:
+                                //貴人斗/三個月
+                                for (int j = 1001; j < lastnum; j++)
+                                {
+                                    if (CheckedNum_Fw_AnDou(AnDouType, j, Year))
+                                    {
+                                        lastnum = j;
+                                        dhavenum = false;
+                                        break;
+                                    }
+                                }
+
+                                break;
+                            case 42:
+                                //消災延壽斗/三個月
+                                for (int j = 1001; j < lastnum; j++)
+                                {
+                                    if (CheckedNum_Fw_AnDou(AnDouType, j, Year))
+                                    {
+                                        lastnum = j;
+                                        dhavenum = false;
+                                        break;
+                                    }
+                                }
+
+                                break;
+                        }
+
+                        if (dhavenum)
+                        {
+                            ++lastnum;
+                        }
+                    }
+                    else
+                    {
+                        switch (AnDouType)
+                        {
+                            case 25:
+                                //財神斗/一個月
+                                lastnum = 1001;
+                                break;
+                            case 34:
+                                //發財斗/一個月
+                                lastnum = 1001;
+                                break;
+                            case 35:
+                                //姻緣斗/一個月
+                                lastnum = 1001;
+                                break;
+                            case 36:
+                                //貴人斗/一個月
+                                lastnum = 1001;
+                                break;
+                            case 37:
+                                //消災延壽斗/一個月
+                                lastnum = 1001;
+                                break;
+                            case 38:
+                                //財神斗/三個月
+                                lastnum = 1001;
+                                break;
+                            case 39:
+                                //發財斗/三個月
+                                lastnum = 1001;
+                                break;
+                            case 40:
+                                //姻緣斗/三個月
+                                lastnum = 1001;
+                                break;
+                            case 41:
+                                //貴人斗/三個月
+                                lastnum = 1001;
+                                break;
+                            case 42:
+                                //消災延壽斗/三個月
+                                lastnum = 1001;
+                                break;
+                        }
+                    }
+                }
+
+                msg += "。客服電話：04-36092299。";
+
+                return bResult;
+            }
+        }
+
         public bool UpdateLights_dh_Info(int applicantID, int LightsType, string Year, ref string msg, ref string[] lightslist, ref string[] Lightslist)
         {
             lock (_thisLock)
@@ -10164,6 +10610,430 @@ namespace Read.data
                                 //全家光明燈
                                 lastnum = 1001;
                                 break;
+                            case 25:
+                                //財神斗
+                                lastnum = 1001;
+                                break;
+                            case 26:
+                                //事業斗
+                                lastnum = 1001;
+                                break;
+                            case 27:
+                                //平安斗
+                                lastnum = 1001;
+                                break;
+                            case 28:
+                                //文昌斗
+                                lastnum = 1001;
+                                break;
+                            case 29:
+                                //藥師斗
+                                lastnum = 1001;
+                                break;
+                            case 30:
+                                //元神斗
+                                lastnum = 1001;
+                                break;
+                            case 31:
+                                //福祿壽斗
+                                lastnum = 1001;
+                                break;
+                            case 32:
+                                //觀音斗
+                                lastnum = 1001;
+                                break;
+                        }
+                    }
+                }
+
+                msg += "。客服電話：04-36092299。";
+
+                return bResult;
+            }
+        }
+
+        public bool UpdateAnDou_wjsan_Info(int applicantID, int AnDouType, string Year, ref string msg, ref string[] andoulist, ref string[] AnDoulist)
+        {
+            lock (_thisLock)
+            {
+                TimeZoneInfo info = TimeZoneInfo.FindSystemTimeZoneById("Taipei Standard Time");
+                DateTime dt = TimeZoneInfo.ConvertTime(DateTime.Now, info);
+                bool bResult = false;
+                int lastnum = GetListNum_wjsan_AnDou(AnDouType, applicantID, Year);
+                if (lastnum > 0)
+                {
+                    bool dhavenum = true;
+
+                    switch (AnDouType)
+                    {
+                        case 25:
+                            //財神斗
+                            for (int j = 1001; j < lastnum; j++)
+                            {
+                                if (CheckedNum_wjsan_AnDou(AnDouType, j, Year))
+                                {
+                                    lastnum = j;
+                                    dhavenum = false;
+                                    break;
+                                }
+                            }
+
+                            break;
+                        case 26:
+                            //事業斗
+                            for (int j = 1001; j < lastnum; j++)
+                            {
+                                if (CheckedNum_wjsan_AnDou(AnDouType, j, Year))
+                                {
+                                    lastnum = j;
+                                    dhavenum = false;
+                                    break;
+                                }
+                            }
+
+                            break;
+                        case 27:
+                            //平安斗
+                            for (int j = 1001; j < lastnum; j++)
+                            {
+                                if (CheckedNum_wjsan_AnDou(AnDouType, j, Year))
+                                {
+                                    lastnum = j;
+                                    dhavenum = false;
+                                    break;
+                                }
+                            }
+
+                            break;
+                        case 28:
+                            //文昌斗
+                            for (int j = 1001; j < lastnum; j++)
+                            {
+                                if (CheckedNum_wjsan_AnDou(AnDouType, j, Year))
+                                {
+                                    lastnum = j;
+                                    dhavenum = false;
+                                    break;
+                                }
+                            }
+
+                            break;
+                        case 29:
+                            //藥師斗
+                            for (int j = 1001; j < lastnum; j++)
+                            {
+                                if (CheckedNum_wjsan_AnDou(AnDouType, j, Year))
+                                {
+                                    lastnum = j;
+                                    dhavenum = false;
+                                    break;
+                                }
+                            }
+
+                            break;
+                        case 30:
+                            //元神斗
+                            for (int j = 1001; j < lastnum; j++)
+                            {
+                                if (CheckedNum_wjsan_AnDou(AnDouType, j, Year))
+                                {
+                                    lastnum = j;
+                                    dhavenum = false;
+                                    break;
+                                }
+                            }
+
+                            break;
+                        case 31:
+                            //福祿壽斗
+                            for (int j = 1001; j < lastnum; j++)
+                            {
+                                if (CheckedNum_wjsan_AnDou(AnDouType, j, Year))
+                                {
+                                    lastnum = j;
+                                    dhavenum = false;
+                                    break;
+                                }
+                            }
+
+                            break;
+                        case 32:
+                            //觀音斗
+                            for (int j = 1001; j < lastnum; j++)
+                            {
+                                if (CheckedNum_wjsan_AnDou(AnDouType, j, Year))
+                                {
+                                    lastnum = j;
+                                    dhavenum = false;
+                                    break;
+                                }
+                            }
+
+                            break;
+                    }
+
+                    if (dhavenum)
+                    {
+                        ++lastnum;
+                    }
+                }
+                else
+                {
+                    switch (AnDouType)
+                    {
+                        case 25:
+                            //財神斗
+                            lastnum = 1001;
+                            break;
+                        case 26:
+                            //事業斗
+                            lastnum = 1001;
+                            break;
+                        case 27:
+                            //平安斗
+                            lastnum = 1001;
+                            break;
+                        case 28:
+                            //文昌斗
+                            lastnum = 1001;
+                            break;
+                        case 29:
+                            //藥師斗
+                            lastnum = 1001;
+                            break;
+                        case 30:
+                            //元神斗
+                            lastnum = 1001;
+                            break;
+                        case 31:
+                            //福祿壽斗
+                            lastnum = 1001;
+                            break;
+                        case 32:
+                            //觀音斗
+                            lastnum = 1001;
+                            break;
+                    }
+                }
+
+                DataTable dtDataList = new DataTable();
+                string sql = "Select * From Temple_" + Year + "..AnDou_wjsan_info Where ApplicantID=@ApplicantID and Status = 0 and Num = 0";
+
+                DatabaseAdapter AdapterObj = new DatabaseAdapter(sql, this.DBSource);
+                AdapterObj.SetSqlCommandBuilder();
+                AdapterObj.AddParameterToSelectCommand("@ApplicantID", applicantID);
+                AdapterObj.Fill(dtDataList);
+
+                //AnDoulist = new string[dtDataList.Rows.Count];
+                var tempList_andou = AnDoulist.ToList();
+                andoulist = new string[dtDataList.Rows.Count];
+                for (int i = 0; i < dtDataList.Rows.Count; i++)
+                {
+                    string lid = dtDataList.Rows[i]["AnDouID"].ToString();
+                    string NumString = string.Empty;
+
+                    AnDouType = int.Parse(dtDataList.Rows[i]["AnDouType"].ToString());
+                    switch (AnDouType)
+                    {
+                        case 25:
+                            //財神斗
+                            NumString = "WJSTDL" + Num2String(lastnum);
+                            tempList_andou.Add(NumString);
+                            andoulist[i] = "財神斗:WJSTDL" + Num2String(lastnum);
+                            break;
+                        case 26:
+                            //事業斗
+                            NumString = "WJSCDL" + Num2String(lastnum);
+                            tempList_andou.Add(NumString);
+                            andoulist[i] = "事業斗:WJSCDL" + Num2String(lastnum);
+                            break;
+                        case 27:
+                            //平安斗
+                            NumString = "WJSPDL" + Num2String(lastnum);
+                            tempList_andou.Add(NumString);
+                            andoulist[i] = "平安斗:WJSPDL" + Num2String(lastnum);
+                            break;
+                        case 28:
+                            //文昌斗
+                            NumString = "WJSWDL" + Num2String(lastnum);
+                            tempList_andou.Add(NumString);
+                            andoulist[i] = "文昌斗:WJSWDL" + Num2String(lastnum);
+                            break;
+                        case 29:
+                            //藥師斗
+                            NumString = "WJSYDL" + Num2String(lastnum);
+                            tempList_andou.Add(NumString);
+                            andoulist[i] = "藥師斗:WJSYDL" + Num2String(lastnum);
+                            break;
+                        case 30:
+                            //元神斗
+                            NumString = "WJSPSDL" + Num2String(lastnum);
+                            tempList_andou.Add(NumString);
+                            andoulist[i] = "元神斗:WJSPSDL" + Num2String(lastnum);
+                            break;
+                        case 31:
+                            //福祿壽斗
+                            NumString = "WJSLDL" + Num2String(lastnum);
+                            tempList_andou.Add(NumString);
+                            andoulist[i] = "福祿壽斗:WJSLDL" + Num2String(lastnum);
+                            break;
+                        case 32:
+                            //觀音斗
+                            NumString = "WJSKYDL" + Num2String(lastnum);
+                            tempList_andou.Add(NumString);
+                            andoulist[i] = "觀音斗:WJSKYDL" + Num2String(lastnum);
+                            break;
+                    }
+                    AnDoulist = tempList_andou.ToArray();
+
+                    //NumString = "WJSAN" + Num2String(lastnum);
+                    //tempList_andou.Add(NumString);
+                    //andoulist[i] = "WJSAN" + Num2String(lastnum);
+
+                    //AnDoulist = tempList_andou.ToArray();
+
+                    //dtDataList.Rows[i]["Num"] = lastnum;
+                    //AdapterObj.Update(dtDataList);
+
+                    msg += andoulist[i];
+                    if (i < andoulist.Length - 1)
+                    {
+                        msg += ",";
+                    }
+
+                    //bResult = true;
+                    int res = ExecuteSql("Update Temple_" + Year + "..AnDou_wjsan_info Set Num2String = N'" + NumString + "', Num = " + lastnum + " Where AnDouID=" + lid);
+
+                    if (res > 0)
+                    {
+                        bResult = true;
+                    }
+
+                    int index = dtDataList.Rows.Count - i > 1 ? i + 1 : i;
+                    AnDouType = int.Parse(dtDataList.Rows[index]["AnDouType"].ToString());
+
+                    lastnum = GetListNum_wjsan_AnDou(AnDouType, applicantID, Year);
+                    if (lastnum > 0)
+                    {
+                        bool dhavenum = true;
+
+                        switch (AnDouType)
+                        {
+                            case 25:
+                                //財神斗
+                                for (int j = 1001; j < lastnum; j++)
+                                {
+                                    if (CheckedNum_wjsan_AnDou(AnDouType, j, Year))
+                                    {
+                                        lastnum = j;
+                                        dhavenum = false;
+                                        break;
+                                    }
+                                }
+
+                                break;
+                            case 26:
+                                //事業斗
+                                for (int j = 1001; j < lastnum; j++)
+                                {
+                                    if (CheckedNum_wjsan_AnDou(AnDouType, j, Year))
+                                    {
+                                        lastnum = j;
+                                        dhavenum = false;
+                                        break;
+                                    }
+                                }
+
+                                break;
+                            case 27:
+                                //平安斗
+                                for (int j = 1001; j < lastnum; j++)
+                                {
+                                    if (CheckedNum_wjsan_AnDou(AnDouType, j, Year))
+                                    {
+                                        lastnum = j;
+                                        dhavenum = false;
+                                        break;
+                                    }
+                                }
+
+                                break;
+                            case 28:
+                                //文昌斗
+                                for (int j = 1001; j < lastnum; j++)
+                                {
+                                    if (CheckedNum_wjsan_AnDou(AnDouType, j, Year))
+                                    {
+                                        lastnum = j;
+                                        dhavenum = false;
+                                        break;
+                                    }
+                                }
+
+                                break;
+                            case 29:
+                                //藥師斗
+                                for (int j = 1001; j < lastnum; j++)
+                                {
+                                    if (CheckedNum_wjsan_AnDou(AnDouType, j, Year))
+                                    {
+                                        lastnum = j;
+                                        dhavenum = false;
+                                        break;
+                                    }
+                                }
+
+                                break;
+                            case 30:
+                                //元神斗
+                                for (int j = 1001; j < lastnum; j++)
+                                {
+                                    if (CheckedNum_wjsan_AnDou(AnDouType, j, Year))
+                                    {
+                                        lastnum = j;
+                                        dhavenum = false;
+                                        break;
+                                    }
+                                }
+
+                                break;
+                            case 31:
+                                //福祿壽斗
+                                for (int j = 1001; j < lastnum; j++)
+                                {
+                                    if (CheckedNum_wjsan_AnDou(AnDouType, j, Year))
+                                    {
+                                        lastnum = j;
+                                        dhavenum = false;
+                                        break;
+                                    }
+                                }
+
+                                break;
+                            case 32:
+                                //觀音斗
+                                for (int j = 1001; j < lastnum; j++)
+                                {
+                                    if (CheckedNum_wjsan_AnDou(AnDouType, j, Year))
+                                    {
+                                        lastnum = j;
+                                        dhavenum = false;
+                                        break;
+                                    }
+                                }
+
+                                break;
+                        }
+
+                        if (dhavenum)
+                        {
+                            ++lastnum;
+                        }
+                    }
+                    else
+                    {
+                        switch (AnDouType)
+                        {
                             case 25:
                                 //財神斗
                                 lastnum = 1001;
@@ -15362,49 +16232,23 @@ namespace Read.data
             return bResult;
         }
 
+        public bool Updateapplicantinfo_AnDou_Fw(int applicantID, int Cost, int Status, string Year)
+        {
+            bool bResult = false;
+            int res = ExecuteSql("Update Temple_" + Year + "..ApplicantInfo_Fw_AnDou Set Status= " + Status + ", Cost= " + Cost + " Where ApplicantID=" + applicantID);
+
+            if (res > 0)
+            {
+                bResult = true;
+            }
+
+            return bResult;
+        }
+
         public bool Updateapplicantinfo_Lights_dh(int applicantID, int Cost, int Status, string Year)
         {
             bool bResult = false;
             int res = ExecuteSql("Update Temple_" + Year + "..ApplicantInfo_dh_Lights Set Status= " + Status + ", Cost= " + Cost + " Where ApplicantID=" + applicantID);
-
-            if (res > 0)
-            {
-                bResult = true;
-            }
-
-            return bResult;
-        }
-
-        public bool Updateapplicantinfo_Lights_Hs(int applicantID, int Cost, int Status, string Year)
-        {
-            bool bResult = false;
-            int res = ExecuteSql("Update Temple_" + Year + "..ApplicantInfo_Hs_Lights Set Status= " + Status + ", Cost= " + Cost + " Where ApplicantID=" + applicantID);
-
-            if (res > 0)
-            {
-                bResult = true;
-            }
-
-            return bResult;
-        }
-
-        public bool Updateapplicantinfo_Lights_Jt(int applicantID, int Cost, int Status, string Year)
-        {
-            bool bResult = false;
-            int res = ExecuteSql("Update Temple_" + Year + "..ApplicantInfo_Jt_Lights Set Status= " + Status + ", Cost= " + Cost + " Where ApplicantID=" + applicantID);
-
-            if (res > 0)
-            {
-                bResult = true;
-            }
-
-            return bResult;
-        }
-
-        public bool Updateapplicantinfo_Lights_Am(int applicantID, int Cost, int Status, string Year)
-        {
-            bool bResult = false;
-            int res = ExecuteSql("Update Temple_" + Year + "..ApplicantInfo_Am_Lights Set Status= " + Status + ", Cost= " + Cost + " Where ApplicantID=" + applicantID);
 
             if (res > 0)
             {
@@ -15457,6 +16301,19 @@ namespace Read.data
         {
             bool bResult = false;
             int res = ExecuteSql("Update Temple_" + Year + "..ApplicantInfo_wjsan_Lights Set Status= " + Status + ", Cost= " + Cost + " Where ApplicantID=" + applicantID);
+
+            if (res > 0)
+            {
+                bResult = true;
+            }
+
+            return bResult;
+        }
+
+        public bool Updateapplicantinfo_AnDou_wjsan(int applicantID, int Cost, int Status, string Year)
+        {
+            bool bResult = false;
+            int res = ExecuteSql("Update Temple_" + Year + "..ApplicantInfo_wjsan_AnDou Set Status= " + Status + ", Cost= " + Cost + " Where ApplicantID=" + applicantID);
 
             if (res > 0)
             {
@@ -17365,6 +18222,30 @@ namespace Read.data
         }
 
         /// <summary>
+        /// 取得最後一名編號資料-斗六五路財神宮安斗
+        /// <param name="AnDouType">AnDouType=燈種 3-光明燈 4-安太歲 5-文昌燈 6-財神燈 7-姻緣燈 8-藥師燈 9-財利燈 10-貴人燈 11-福祿(壽)燈 12-寵物平安燈 13-龍王燈 14-虎爺燈 
+        /// 15-轉運納福燈 16-光明燈上層 17-偏財旺旺燈 18-廣進安財庫 19-財庫燈 20-月老姻緣燈 21-孝親祈福燈 22-事業燈 23-全家光明燈 24-觀音佛祖燈 25-財神斗 26-事業斗 27-平安斗 
+        /// 28-文昌斗 29-藥師斗 30-元神斗 31-福祿壽斗 32-觀音斗 33-明心智慧燈</param>
+        /// </summary>
+        public int GetListNum_Fw_AnDou(int AnDouType, int applicantID, string Year)
+        {
+            int result = 0;
+            string sql = string.Empty;
+            sql = "Select * from Temple_" + Year + "..AnDou_Fw_info Where Status = 0 and AnDouType = @AnDouType and Num != 0 Order by Num Desc";
+
+            DatabaseAdapter objDatabaseAdapter = new DatabaseAdapter(sql, this.DBSource);
+            objDatabaseAdapter.AddParameterToSelectCommand("AnDouType", AnDouType);
+            DataTable dtGetData = new DataTable();
+            objDatabaseAdapter.Fill(dtGetData);
+
+            if (dtGetData.Rows.Count > 0)
+            {
+                result = int.Parse(dtGetData.Rows[0]["Num"].ToString());
+            }
+            return result;
+        }
+
+        /// <summary>
         /// 取得最後一名編號資料-台東東海龍門天聖宮點燈
         /// <param name="LightsType">LightsType=燈種 3-光明燈 4-安太歲 5-文昌燈 6-財神燈 7-姻緣燈 8-藥師燈 9-財利燈 10-貴人燈 11-福祿(壽)燈 12-寵物平安燈 13-龍王燈 14-虎爺燈 
         /// 15-轉運納福燈 16-光明燈上層 17-偏財旺旺燈 18-廣進安財庫 19-財庫燈 20-月老姻緣燈 21-孝親祈福燈 22-事業燈 23-全家光明燈 24-觀音佛祖燈 25-財神斗 26-事業斗 27-平安斗 
@@ -17474,6 +18355,30 @@ namespace Read.data
 
             DatabaseAdapter objDatabaseAdapter = new DatabaseAdapter(sql, this.DBSource);
             objDatabaseAdapter.AddParameterToSelectCommand("LightsType", LightsType);
+            DataTable dtGetData = new DataTable();
+            objDatabaseAdapter.Fill(dtGetData);
+
+            if (dtGetData.Rows.Count > 0)
+            {
+                result = int.Parse(dtGetData.Rows[0]["Num"].ToString());
+            }
+            return result;
+        }
+
+        /// <summary>
+        /// 取得最後一名編號資料-台灣道教總廟無極三清總道院安斗
+        /// <param name="AnDouType">AnDouType=燈種 3-光明燈 4-安太歲 5-文昌燈 6-財神燈 7-姻緣燈 8-藥師燈 9-財利燈 10-貴人燈 11-福祿(壽)燈 12-寵物平安燈 13-龍王燈 14-虎爺燈 
+        /// 15-轉運納福燈 16-光明燈上層 17-偏財旺旺燈 18-廣進安財庫 19-財庫燈 20-月老姻緣燈 21-孝親祈福燈 22-事業燈 23-全家光明燈 24-觀音佛祖燈 25-財神斗 26-事業斗 27-平安斗 
+        /// 28-文昌斗 29-藥師斗 30-元神斗 31-福祿壽斗 32-觀音斗 33-明心智慧燈</param>
+        /// </summary>
+        public int GetListNum_wjsan_AnDou(int AnDouType, int applicantID, string Year)
+        {
+            int result = 0;
+            string sql = string.Empty;
+            sql = "Select * from Temple_" + Year + "..AnDou_wjsan_info Where Status = 0 and AnDouType = @AnDouType and Num != 0 Order by Num Desc";
+
+            DatabaseAdapter objDatabaseAdapter = new DatabaseAdapter(sql, this.DBSource);
+            objDatabaseAdapter.AddParameterToSelectCommand("AnDouType", AnDouType);
             DataTable dtGetData = new DataTable();
             objDatabaseAdapter.Fill(dtGetData);
 
@@ -18282,12 +19187,22 @@ namespace Read.data
         /// <summary>
         /// 取得購買人電話(斗六五路財神宮)
         /// </summary>
-        public string GetMobile_Fw(int applicantID, string Year)
+        public string GetMobile_Fw(int applicantID, int kind, string Year)
         {
             string result = string.Empty;
             string sql = string.Empty;
 
-            sql = "Select * from Temple_" + Year + "..ApplicantInfo_Fw_Lights Where ApplicantID = @ApplicantID ";
+            switch (kind)
+            {
+                case 1:
+                    //點燈
+                    sql = "Select * from Temple_" + Year + "..ApplicantInfo_Fw_Lights Where ApplicantID = @ApplicantID ";
+                    break;
+                case 20:
+                    //安斗
+                    sql = "Select * from Temple_" + Year + "..ApplicantInfo_Fw_AnDou Where ApplicantID = @ApplicantID ";
+                    break;
+            }
 
             DatabaseAdapter objDatabaseAdapter = new DatabaseAdapter(sql, this.DBSource);
             objDatabaseAdapter.AddParameterToSelectCommand("ApplicantID", applicantID);
@@ -18370,12 +19285,22 @@ namespace Read.data
         /// <summary>
         /// 取得購買人電話(台灣道教總廟無極三清總道院)
         /// </summary>
-        public string GetMobile_wjsan(int applicantID, string Year)
+        public string GetMobile_wjsan(int applicantID, int kind, string Year)
         {
             string result = string.Empty;
             string sql = string.Empty;
 
-            sql = "Select * from Temple_" + Year + "..ApplicantInfo_wjsan_Lights Where ApplicantID = @ApplicantID ";
+            switch (kind)
+            {
+                case 1:
+                    //點燈
+                    sql = "Select * from Temple_" + Year + "..ApplicantInfo_wjsan_Lights Where ApplicantID = @ApplicantID ";
+                    break;
+                case 20:
+                    //安斗
+                    sql = "Select * from Temple_" + Year + "..ApplicantInfo_wjsan_AnDou Where ApplicantID = @ApplicantID ";
+                    break;
+            }
 
             DatabaseAdapter objDatabaseAdapter = new DatabaseAdapter(sql, this.DBSource);
             objDatabaseAdapter.AddParameterToSelectCommand("ApplicantID", applicantID);
@@ -18632,6 +19557,28 @@ namespace Read.data
         }
 
         /// <summary>
+        /// 取得安斗所點燈種(斗六五路財神宮)
+        /// </summary>
+        public int GetAnDouType_Fw(int applicantID, string Year)
+        {
+            int result = 0;
+            string sql = string.Empty;
+
+            sql = "Select * from Temple_" + Year + "..AnDou_Fw_info Where Status = 0 and ApplicantID = @ApplicantID ";
+
+            DatabaseAdapter objDatabaseAdapter = new DatabaseAdapter(sql, this.DBSource);
+            objDatabaseAdapter.AddParameterToSelectCommand("ApplicantID", applicantID);
+            DataTable dtGetData = new DataTable();
+            objDatabaseAdapter.Fill(dtGetData);
+
+            if (dtGetData.Rows.Count > 0)
+            {
+                int.TryParse(dtGetData.Rows[0]["AnDouType"].ToString(), out result);
+            }
+            return result;
+        }
+
+        /// <summary>
         /// 取得點燈所點燈種(東海龍門天聖宮)
         /// </summary>
         public int GetLightsType_dh(int applicantID, string Year)
@@ -18640,72 +19587,6 @@ namespace Read.data
             string sql = string.Empty;
 
             sql = "Select * from Temple_" + Year + "..Lights_dh_info Where Status = 0 and ApplicantID = @ApplicantID ";
-
-            DatabaseAdapter objDatabaseAdapter = new DatabaseAdapter(sql, this.DBSource);
-            objDatabaseAdapter.AddParameterToSelectCommand("ApplicantID", applicantID);
-            DataTable dtGetData = new DataTable();
-            objDatabaseAdapter.Fill(dtGetData);
-
-            if (dtGetData.Rows.Count > 0)
-            {
-                int.TryParse(dtGetData.Rows[0]["LightsType"].ToString(), out result);
-            }
-            return result;
-        }
-
-        /// <summary>
-        /// 取得點燈所點燈種(五股賀聖宮)
-        /// </summary>
-        public int GetLightsType_Hs(int applicantID, string Year)
-        {
-            int result = 0;
-            string sql = string.Empty;
-
-            sql = "Select * from Temple_" + Year + "..Lights_Hs_info Where Status = 0 and ApplicantID = @ApplicantID ";
-
-            DatabaseAdapter objDatabaseAdapter = new DatabaseAdapter(sql, this.DBSource);
-            objDatabaseAdapter.AddParameterToSelectCommand("ApplicantID", applicantID);
-            DataTable dtGetData = new DataTable();
-            objDatabaseAdapter.Fill(dtGetData);
-
-            if (dtGetData.Rows.Count > 0)
-            {
-                int.TryParse(dtGetData.Rows[0]["LightsType"].ToString(), out result);
-            }
-            return result;
-        }
-
-        /// <summary>
-        /// 取得點燈所點燈種(外澳接天宮)
-        /// </summary>
-        public int GetLightsType_Jt(int applicantID, string Year)
-        {
-            int result = 0;
-            string sql = string.Empty;
-
-            sql = "Select * from Temple_" + Year + "..Lights_Jt_info Where Status = 0 and ApplicantID = @ApplicantID ";
-
-            DatabaseAdapter objDatabaseAdapter = new DatabaseAdapter(sql, this.DBSource);
-            objDatabaseAdapter.AddParameterToSelectCommand("ApplicantID", applicantID);
-            DataTable dtGetData = new DataTable();
-            objDatabaseAdapter.Fill(dtGetData);
-
-            if (dtGetData.Rows.Count > 0)
-            {
-                int.TryParse(dtGetData.Rows[0]["LightsType"].ToString(), out result);
-            }
-            return result;
-        }
-
-        /// <summary>
-        /// 取得點燈所點燈種(安平開台天后宮)
-        /// </summary>
-        public int GetLightsType_Am(int applicantID, string Year)
-        {
-            int result = 0;
-            string sql = string.Empty;
-
-            sql = "Select * from Temple_" + Year + "..Lights_Am_info Where Status = 0 and ApplicantID = @ApplicantID ";
 
             DatabaseAdapter objDatabaseAdapter = new DatabaseAdapter(sql, this.DBSource);
             objDatabaseAdapter.AddParameterToSelectCommand("ApplicantID", applicantID);
@@ -18803,6 +19684,28 @@ namespace Read.data
             if (dtGetData.Rows.Count > 0)
             {
                 int.TryParse(dtGetData.Rows[0]["LightsType"].ToString(), out result);
+            }
+            return result;
+        }
+
+        /// <summary>
+        /// 取得安斗所點燈種(台灣道教總廟無極三清總道院)
+        /// </summary>
+        public int GetAnDouType_wjsan(int applicantID, string Year)
+        {
+            int result = 0;
+            string sql = string.Empty;
+
+            sql = "Select * from Temple_" + Year + "..AnDou_wjsan_info Where Status = 0 and ApplicantID = @ApplicantID ";
+
+            DatabaseAdapter objDatabaseAdapter = new DatabaseAdapter(sql, this.DBSource);
+            objDatabaseAdapter.AddParameterToSelectCommand("ApplicantID", applicantID);
+            DataTable dtGetData = new DataTable();
+            objDatabaseAdapter.Fill(dtGetData);
+
+            if (dtGetData.Rows.Count > 0)
+            {
+                int.TryParse(dtGetData.Rows[0]["AnDouType"].ToString(), out result);
             }
             return result;
         }
@@ -19654,63 +20557,29 @@ namespace Read.data
         }
 
         /// <summary>
+        /// 取得購買人資料-斗六五路財神宮安斗
+        /// <param name="applecantID">applecantID=購買人編號</param>
+        /// </summary>
+        public DataTable Getapplicantinfo_AnDou_Fw(int applicantID, int adminID, string Year)
+        {
+            string sql = "Select * from Temple_" + Year + "..ApplicantInfo_Fw_AnDou Where ApplicantID = @ApplicantID and AdminID = @AdminID";
+
+            DatabaseAdapter objDatabaseAdapter = new DatabaseAdapter(sql, this.DBSource);
+            objDatabaseAdapter.AddParameterToSelectCommand("AdminID", adminID);
+            objDatabaseAdapter.AddParameterToSelectCommand("ApplicantID", applicantID);
+            DataTable dtGetData = new DataTable();
+            objDatabaseAdapter.Fill(dtGetData);
+
+            return dtGetData;
+        }
+
+        /// <summary>
         /// 取得購買人資料-東海龍門天聖宮點燈
         /// <param name="applecantID">applecantID=購買人編號</param>
         /// </summary>
         public DataTable Getapplicantinfo_Lights_dh(int applicantID, int adminID, string Year)
         {
             string sql = "Select * from Temple_" + Year + "..ApplicantInfo_dh_Lights Where ApplicantID = @ApplicantID and AdminID = @AdminID";
-
-            DatabaseAdapter objDatabaseAdapter = new DatabaseAdapter(sql, this.DBSource);
-            objDatabaseAdapter.AddParameterToSelectCommand("AdminID", adminID);
-            objDatabaseAdapter.AddParameterToSelectCommand("ApplicantID", applicantID);
-            DataTable dtGetData = new DataTable();
-            objDatabaseAdapter.Fill(dtGetData);
-
-            return dtGetData;
-        }
-
-        /// <summary>
-        /// 取得購買人資料-五股賀聖宮點燈
-        /// <param name="applecantID">applecantID=購買人編號</param>
-        /// </summary>
-        public DataTable Getapplicantinfo_Lights_Hs(int applicantID, int adminID, string Year)
-        {
-            string sql = "Select * from Temple_" + Year + "..ApplicantInfo_Hs_Lights Where ApplicantID = @ApplicantID and AdminID = @AdminID";
-
-            DatabaseAdapter objDatabaseAdapter = new DatabaseAdapter(sql, this.DBSource);
-            objDatabaseAdapter.AddParameterToSelectCommand("AdminID", adminID);
-            objDatabaseAdapter.AddParameterToSelectCommand("ApplicantID", applicantID);
-            DataTable dtGetData = new DataTable();
-            objDatabaseAdapter.Fill(dtGetData);
-
-            return dtGetData;
-        }
-
-        /// <summary>
-        /// 取得購買人資料-外澳接天宮點燈
-        /// <param name="applecantID">applecantID=購買人編號</param>
-        /// </summary>
-        public DataTable Getapplicantinfo_Lights_Jt(int applicantID, int adminID, string Year)
-        {
-            string sql = "Select * from Temple_" + Year + "..ApplicantInfo_Jt_Lights Where ApplicantID = @ApplicantID and AdminID = @AdminID";
-
-            DatabaseAdapter objDatabaseAdapter = new DatabaseAdapter(sql, this.DBSource);
-            objDatabaseAdapter.AddParameterToSelectCommand("AdminID", adminID);
-            objDatabaseAdapter.AddParameterToSelectCommand("ApplicantID", applicantID);
-            DataTable dtGetData = new DataTable();
-            objDatabaseAdapter.Fill(dtGetData);
-
-            return dtGetData;
-        }
-
-        /// <summary>
-        /// 取得購買人資料-安平開台天后宮點燈
-        /// <param name="applecantID">applecantID=購買人編號</param>
-        /// </summary>
-        public DataTable Getapplicantinfo_Lights_Am(int applicantID, int adminID, string Year)
-        {
-            string sql = "Select * from Temple_" + Year + "..ApplicantInfo_Am_Lights Where ApplicantID = @ApplicantID and AdminID = @AdminID";
 
             DatabaseAdapter objDatabaseAdapter = new DatabaseAdapter(sql, this.DBSource);
             objDatabaseAdapter.AddParameterToSelectCommand("AdminID", adminID);
@@ -19779,6 +20648,23 @@ namespace Read.data
         public DataTable Getapplicantinfo_Lights_wjsan(int applicantID, int adminID, string Year)
         {
             string sql = "Select * from Temple_" + Year + "..ApplicantInfo_wjsan_Lights Where ApplicantID = @ApplicantID and AdminID = @AdminID";
+
+            DatabaseAdapter objDatabaseAdapter = new DatabaseAdapter(sql, this.DBSource);
+            objDatabaseAdapter.AddParameterToSelectCommand("AdminID", adminID);
+            objDatabaseAdapter.AddParameterToSelectCommand("ApplicantID", applicantID);
+            DataTable dtGetData = new DataTable();
+            objDatabaseAdapter.Fill(dtGetData);
+
+            return dtGetData;
+        }
+
+        /// <summary>
+        /// 取得購買人資料-台灣道教總廟無極三清總道院安斗
+        /// <param name="applecantID">applecantID=購買人編號</param>
+        /// </summary>
+        public DataTable Getapplicantinfo_AnDou_wjsan(int applicantID, int adminID, string Year)
+        {
+            string sql = "Select * from Temple_" + Year + "..ApplicantInfo_wjsan_AnDou Where ApplicantID = @ApplicantID and AdminID = @AdminID";
 
             DatabaseAdapter objDatabaseAdapter = new DatabaseAdapter(sql, this.DBSource);
             objDatabaseAdapter.AddParameterToSelectCommand("AdminID", adminID);
@@ -21202,6 +22088,33 @@ namespace Read.data
             return bResult;
         }
 
+        public bool UpdateChargeStatus_AnDou_Fw(string OrderID, int Status, string BillIP, string CallbackLog, string Year)
+        {
+            TimeZoneInfo info = TimeZoneInfo.FindSystemTimeZoneById("Taipei Standard Time");
+            DateTime dt = TimeZoneInfo.ConvertTime(DateTime.Now, info);
+            bool bResult = false;
+            DataTable dtDataList = new DataTable();
+            string sql = "Select Top 1 * From Temple_" + Year + "..APPCharge_Fw_AnDou Where OrderID=@OrderID";
+
+            DatabaseAdapter AdapterObj = new DatabaseAdapter(sql, this.DBSource);
+            AdapterObj.SetSqlCommandBuilder();
+            AdapterObj.AddParameterToSelectCommand("@OrderID", OrderID);
+            AdapterObj.Fill(dtDataList);
+
+            if ((int)dtDataList.Rows[0]["Status"] == 0)
+            {
+                int res = ExecuteSql("Update Temple_" + Year + "..APPCharge_Fw_AnDou Set Status = " + Status + ", BillIP = '" + BillIP + "', CallbackLog = '" + CallbackLog +
+                    "', ChargeDate = '" + dt.ToString("yyyy-MM-dd HH:mm:ss") + "', ChargeDateString = '" + dt.ToString("yyyy-MM-dd") + "' Where OrderID='" + OrderID + "'");
+                if (res > 0)
+                {
+                    bResult = true;
+                }
+            }
+
+
+            return bResult;
+        }
+
         public bool UpdateChargeStatus_Lights_dh(string OrderID, int Status, string BillIP, string CallbackLog, string Year)
         {
             TimeZoneInfo info = TimeZoneInfo.FindSystemTimeZoneById("Taipei Standard Time");
@@ -21218,87 +22131,6 @@ namespace Read.data
             if ((int)dtDataList.Rows[0]["Status"] == 0)
             {
                 int res = ExecuteSql("Update Temple_" + Year + "..APPCharge_dh_Lights Set Status = " + Status + ", BillIP = '" + BillIP + "', CallbackLog = '" + CallbackLog +
-                    "', ChargeDate = '" + dt.ToString("yyyy-MM-dd HH:mm:ss") + "', ChargeDateString = '" + dt.ToString("yyyy-MM-dd") + "' Where OrderID='" + OrderID + "'");
-                if (res > 0)
-                {
-                    bResult = true;
-                }
-            }
-
-
-            return bResult;
-        }
-
-        public bool UpdateChargeStatus_Lights_Hs(string OrderID, int Status, string BillIP, string CallbackLog, string Year)
-        {
-            TimeZoneInfo info = TimeZoneInfo.FindSystemTimeZoneById("Taipei Standard Time");
-            DateTime dt = TimeZoneInfo.ConvertTime(DateTime.Now, info);
-            bool bResult = false;
-            DataTable dtDataList = new DataTable();
-            string sql = "Select Top 1 * From Temple_" + Year + "..APPCharge_Hs_Lights Where OrderID=@OrderID";
-
-            DatabaseAdapter AdapterObj = new DatabaseAdapter(sql, this.DBSource);
-            AdapterObj.SetSqlCommandBuilder();
-            AdapterObj.AddParameterToSelectCommand("@OrderID", OrderID);
-            AdapterObj.Fill(dtDataList);
-
-            if ((int)dtDataList.Rows[0]["Status"] == 0)
-            {
-                int res = ExecuteSql("Update Temple_" + Year + "..APPCharge_Hs_Lights Set Status = " + Status + ", BillIP = '" + BillIP + "', CallbackLog = '" + CallbackLog +
-                    "', ChargeDate = '" + dt.ToString("yyyy-MM-dd HH:mm:ss") + "', ChargeDateString = '" + dt.ToString("yyyy-MM-dd") + "' Where OrderID='" + OrderID + "'");
-                if (res > 0)
-                {
-                    bResult = true;
-                }
-            }
-
-
-            return bResult;
-        }
-
-        public bool UpdateChargeStatus_Lights_Jt(string OrderID, int Status, string BillIP, string CallbackLog, string Year)
-        {
-            TimeZoneInfo info = TimeZoneInfo.FindSystemTimeZoneById("Taipei Standard Time");
-            DateTime dt = TimeZoneInfo.ConvertTime(DateTime.Now, info);
-            bool bResult = false;
-            DataTable dtDataList = new DataTable();
-            string sql = "Select Top 1 * From Temple_" + Year + "..APPCharge_Jt_Lights Where OrderID=@OrderID";
-
-            DatabaseAdapter AdapterObj = new DatabaseAdapter(sql, this.DBSource);
-            AdapterObj.SetSqlCommandBuilder();
-            AdapterObj.AddParameterToSelectCommand("@OrderID", OrderID);
-            AdapterObj.Fill(dtDataList);
-
-            if ((int)dtDataList.Rows[0]["Status"] == 0)
-            {
-                int res = ExecuteSql("Update Temple_" + Year + "..APPCharge_Jt_Lights Set Status = " + Status + ", BillIP = '" + BillIP + "', CallbackLog = '" + CallbackLog +
-                    "', ChargeDate = '" + dt.ToString("yyyy-MM-dd HH:mm:ss") + "', ChargeDateString = '" + dt.ToString("yyyy-MM-dd") + "' Where OrderID='" + OrderID + "'");
-                if (res > 0)
-                {
-                    bResult = true;
-                }
-            }
-
-
-            return bResult;
-        }
-
-        public bool UpdateChargeStatus_Lights_Am(string OrderID, int Status, string BillIP, string CallbackLog, string Year)
-        {
-            TimeZoneInfo info = TimeZoneInfo.FindSystemTimeZoneById("Taipei Standard Time");
-            DateTime dt = TimeZoneInfo.ConvertTime(DateTime.Now, info);
-            bool bResult = false;
-            DataTable dtDataList = new DataTable();
-            string sql = "Select Top 1 * From Temple_" + Year + "..APPCharge_Am_Lights Where OrderID=@OrderID";
-
-            DatabaseAdapter AdapterObj = new DatabaseAdapter(sql, this.DBSource);
-            AdapterObj.SetSqlCommandBuilder();
-            AdapterObj.AddParameterToSelectCommand("@OrderID", OrderID);
-            AdapterObj.Fill(dtDataList);
-
-            if ((int)dtDataList.Rows[0]["Status"] == 0)
-            {
-                int res = ExecuteSql("Update Temple_" + Year + "..APPCharge_Am_Lights Set Status = " + Status + ", BillIP = '" + BillIP + "', CallbackLog = '" + CallbackLog +
                     "', ChargeDate = '" + dt.ToString("yyyy-MM-dd HH:mm:ss") + "', ChargeDateString = '" + dt.ToString("yyyy-MM-dd") + "' Where OrderID='" + OrderID + "'");
                 if (res > 0)
                 {
@@ -21407,6 +22239,33 @@ namespace Read.data
             if ((int)dtDataList.Rows[0]["Status"] == 0)
             {
                 int res = ExecuteSql("Update Temple_" + Year + "..APPCharge_wjsan_Lights Set Status = " + Status + ", BillIP = '" + BillIP + "', CallbackLog = '" + CallbackLog +
+                    "', ChargeDate = '" + dt.ToString("yyyy-MM-dd HH:mm:ss") + "', ChargeDateString = '" + dt.ToString("yyyy-MM-dd") + "' Where OrderID='" + OrderID + "'");
+                if (res > 0)
+                {
+                    bResult = true;
+                }
+            }
+
+
+            return bResult;
+        }
+
+        public bool UpdateChargeStatus_AnDou_wjsan(string OrderID, int Status, string BillIP, string CallbackLog, string Year)
+        {
+            TimeZoneInfo info = TimeZoneInfo.FindSystemTimeZoneById("Taipei Standard Time");
+            DateTime dt = TimeZoneInfo.ConvertTime(DateTime.Now, info);
+            bool bResult = false;
+            DataTable dtDataList = new DataTable();
+            string sql = "Select Top 1 * From Temple_" + Year + "..APPCharge_wjsan_AnDou Where OrderID=@OrderID";
+
+            DatabaseAdapter AdapterObj = new DatabaseAdapter(sql, this.DBSource);
+            AdapterObj.SetSqlCommandBuilder();
+            AdapterObj.AddParameterToSelectCommand("@OrderID", OrderID);
+            AdapterObj.Fill(dtDataList);
+
+            if ((int)dtDataList.Rows[0]["Status"] == 0)
+            {
+                int res = ExecuteSql("Update Temple_" + Year + "..APPCharge_wjsan_AnDou Set Status = " + Status + ", BillIP = '" + BillIP + "', CallbackLog = '" + CallbackLog +
                     "', ChargeDate = '" + dt.ToString("yyyy-MM-dd HH:mm:ss") + "', ChargeDateString = '" + dt.ToString("yyyy-MM-dd") + "' Where OrderID='" + OrderID + "'");
                 if (res > 0)
                 {
@@ -23201,6 +24060,34 @@ namespace Read.data
             return bResult;
         }
 
+        public bool UpdateChargeLog_AnDou_Fw(string OrderID, string Transaction_id, string Comment, string BillIP, string CallbackLog, string Year, ref string ChargeType)
+        {
+            TimeZoneInfo info = TimeZoneInfo.FindSystemTimeZoneById("Taipei Standard Time");
+            DateTime dt = TimeZoneInfo.ConvertTime(DateTime.Now, info);
+            bool bResult = false;
+            DataTable dtDataList = new DataTable();
+            string sql = "Select Top 1 * From Temple_" + Year + "..APPCharge_Fw_AnDou Where OrderID=@OrderID";
+
+            DatabaseAdapter AdapterObj = new DatabaseAdapter(sql, this.DBSource);
+            AdapterObj.SetSqlCommandBuilder();
+            AdapterObj.AddParameterToSelectCommand("@OrderID", OrderID);
+            AdapterObj.Fill(dtDataList);
+
+            if ((int)dtDataList.Rows[0]["Status"] == 0)
+            {
+                ChargeType = dtDataList.Rows[0]["ChargeType"].ToString();
+                int res = ExecuteSql("Update Temple_" + Year + "..APPCharge_Fw_AnDou Set Status = 1, BillIP = '" + BillIP + "', Transaction_id = '" + Transaction_id + "', CallbackLog = '" + CallbackLog +
+                    "', Comment = N'" + Comment + "', ChargeDate = '" + dt.ToString("yyyy-MM-dd HH:mm:ss") + "', ChargeDateString = '" + dt.ToString("yyyy-MM-dd") + "' Where OrderID='" + OrderID + "'");
+
+                if (res > 0)
+                {
+                    bResult = true;
+                }
+            }
+
+            return bResult;
+        }
+
         public bool UpdateChargeLog_Lights_dh(string OrderID, string Transaction_id, string Comment, string BillIP, string CallbackLog, string Year, ref string ChargeType)
         {
             TimeZoneInfo info = TimeZoneInfo.FindSystemTimeZoneById("Taipei Standard Time");
@@ -23218,90 +24105,6 @@ namespace Read.data
             {
                 ChargeType = dtDataList.Rows[0]["ChargeType"].ToString();
                 int res = ExecuteSql("Update Temple_" + Year + "..APPCharge_dh_Lights Set Status = 1, BillIP = '" + BillIP + "', Transaction_id = '" + Transaction_id + "', CallbackLog = '" + CallbackLog +
-                    "', Comment = N'" + Comment + "', ChargeDate = '" + dt.ToString("yyyy-MM-dd HH:mm:ss") + "', ChargeDateString = '" + dt.ToString("yyyy-MM-dd") + "' Where OrderID='" + OrderID + "'");
-
-                if (res > 0)
-                {
-                    bResult = true;
-                }
-            }
-
-            return bResult;
-        }
-
-        public bool UpdateChargeLog_Lights_Hs(string OrderID, string Transaction_id, string Comment, string BillIP, string CallbackLog, string Year, ref string ChargeType)
-        {
-            TimeZoneInfo info = TimeZoneInfo.FindSystemTimeZoneById("Taipei Standard Time");
-            DateTime dt = TimeZoneInfo.ConvertTime(DateTime.Now, info);
-            bool bResult = false;
-            DataTable dtDataList = new DataTable();
-            string sql = "Select Top 1 * From Temple_" + Year + "..APPCharge_Hs_Lights Where OrderID=@OrderID";
-
-            DatabaseAdapter AdapterObj = new DatabaseAdapter(sql, this.DBSource);
-            AdapterObj.SetSqlCommandBuilder();
-            AdapterObj.AddParameterToSelectCommand("@OrderID", OrderID);
-            AdapterObj.Fill(dtDataList);
-
-            if ((int)dtDataList.Rows[0]["Status"] == 0)
-            {
-                ChargeType = dtDataList.Rows[0]["ChargeType"].ToString();
-                int res = ExecuteSql("Update Temple_" + Year + "..APPCharge_Hs_Lights Set Status = 1, BillIP = '" + BillIP + "', Transaction_id = '" + Transaction_id + "', CallbackLog = '" + CallbackLog +
-                    "', Comment = N'" + Comment + "', ChargeDate = '" + dt.ToString("yyyy-MM-dd HH:mm:ss") + "', ChargeDateString = '" + dt.ToString("yyyy-MM-dd") + "' Where OrderID='" + OrderID + "'");
-
-                if (res > 0)
-                {
-                    bResult = true;
-                }
-            }
-
-            return bResult;
-        }
-
-        public bool UpdateChargeLog_Lights_Jt(string OrderID, string Transaction_id, string Comment, string BillIP, string CallbackLog, string Year, ref string ChargeType)
-        {
-            TimeZoneInfo info = TimeZoneInfo.FindSystemTimeZoneById("Taipei Standard Time");
-            DateTime dt = TimeZoneInfo.ConvertTime(DateTime.Now, info);
-            bool bResult = false;
-            DataTable dtDataList = new DataTable();
-            string sql = "Select Top 1 * From Temple_" + Year + "..APPCharge_Jt_Lights Where OrderID=@OrderID";
-
-            DatabaseAdapter AdapterObj = new DatabaseAdapter(sql, this.DBSource);
-            AdapterObj.SetSqlCommandBuilder();
-            AdapterObj.AddParameterToSelectCommand("@OrderID", OrderID);
-            AdapterObj.Fill(dtDataList);
-
-            if ((int)dtDataList.Rows[0]["Status"] == 0)
-            {
-                ChargeType = dtDataList.Rows[0]["ChargeType"].ToString();
-                int res = ExecuteSql("Update Temple_" + Year + "..APPCharge_Jt_Lights Set Status = 1, BillIP = '" + BillIP + "', Transaction_id = '" + Transaction_id + "', CallbackLog = '" + CallbackLog +
-                    "', Comment = N'" + Comment + "', ChargeDate = '" + dt.ToString("yyyy-MM-dd HH:mm:ss") + "', ChargeDateString = '" + dt.ToString("yyyy-MM-dd") + "' Where OrderID='" + OrderID + "'");
-
-                if (res > 0)
-                {
-                    bResult = true;
-                }
-            }
-
-            return bResult;
-        }
-
-        public bool UpdateChargeLog_Lights_Am(string OrderID, string Transaction_id, string Comment, string BillIP, string CallbackLog, string Year, ref string ChargeType)
-        {
-            TimeZoneInfo info = TimeZoneInfo.FindSystemTimeZoneById("Taipei Standard Time");
-            DateTime dt = TimeZoneInfo.ConvertTime(DateTime.Now, info);
-            bool bResult = false;
-            DataTable dtDataList = new DataTable();
-            string sql = "Select Top 1 * From Temple_" + Year + "..APPCharge_Am_Lights Where OrderID=@OrderID";
-
-            DatabaseAdapter AdapterObj = new DatabaseAdapter(sql, this.DBSource);
-            AdapterObj.SetSqlCommandBuilder();
-            AdapterObj.AddParameterToSelectCommand("@OrderID", OrderID);
-            AdapterObj.Fill(dtDataList);
-
-            if ((int)dtDataList.Rows[0]["Status"] == 0)
-            {
-                ChargeType = dtDataList.Rows[0]["ChargeType"].ToString();
-                int res = ExecuteSql("Update Temple_" + Year + "..APPCharge_Am_Lights Set Status = 1, BillIP = '" + BillIP + "', Transaction_id = '" + Transaction_id + "', CallbackLog = '" + CallbackLog +
                     "', Comment = N'" + Comment + "', ChargeDate = '" + dt.ToString("yyyy-MM-dd HH:mm:ss") + "', ChargeDateString = '" + dt.ToString("yyyy-MM-dd") + "' Where OrderID='" + OrderID + "'");
 
                 if (res > 0)
@@ -23414,6 +24217,34 @@ namespace Read.data
             {
                 ChargeType = dtDataList.Rows[0]["ChargeType"].ToString();
                 int res = ExecuteSql("Update Temple_" + Year + "..APPCharge_wjsan_Lights Set Status = 1, BillIP = '" + BillIP + "', Transaction_id = '" + Transaction_id + "', CallbackLog = '" + CallbackLog +
+                    "', Comment = N'" + Comment + "', ChargeDate = '" + dt.ToString("yyyy-MM-dd HH:mm:ss") + "', ChargeDateString = '" + dt.ToString("yyyy-MM-dd") + "' Where OrderID='" + OrderID + "'");
+
+                if (res > 0)
+                {
+                    bResult = true;
+                }
+            }
+
+            return bResult;
+        }
+
+        public bool UpdateChargeLog_AnDou_wjsan(string OrderID, string Transaction_id, string Comment, string BillIP, string CallbackLog, string Year, ref string ChargeType)
+        {
+            TimeZoneInfo info = TimeZoneInfo.FindSystemTimeZoneById("Taipei Standard Time");
+            DateTime dt = TimeZoneInfo.ConvertTime(DateTime.Now, info);
+            bool bResult = false;
+            DataTable dtDataList = new DataTable();
+            string sql = "Select Top 1 * From Temple_" + Year + "..APPCharge_wjsan_AnDou Where OrderID=@OrderID";
+
+            DatabaseAdapter AdapterObj = new DatabaseAdapter(sql, this.DBSource);
+            AdapterObj.SetSqlCommandBuilder();
+            AdapterObj.AddParameterToSelectCommand("@OrderID", OrderID);
+            AdapterObj.Fill(dtDataList);
+
+            if ((int)dtDataList.Rows[0]["Status"] == 0)
+            {
+                ChargeType = dtDataList.Rows[0]["ChargeType"].ToString();
+                int res = ExecuteSql("Update Temple_" + Year + "..APPCharge_wjsan_AnDou Set Status = 1, BillIP = '" + BillIP + "', Transaction_id = '" + Transaction_id + "', CallbackLog = '" + CallbackLog +
                     "', Comment = N'" + Comment + "', ChargeDate = '" + dt.ToString("yyyy-MM-dd HH:mm:ss") + "', ChargeDateString = '" + dt.ToString("yyyy-MM-dd") + "' Where OrderID='" + OrderID + "'");
 
                 if (res > 0)
@@ -24576,69 +25407,31 @@ namespace Read.data
             return result;
         }
 
+        public bool CheckedNum_Fw_AnDou(int AnDouType, int Num, string Year)
+        {
+            bool result = true;
+            string sql = string.Empty;
+
+            sql = "Select * from Temple_" + Year + "..AnDou_Fw_info Where Status = 0 and AnDouType = @AnDouType and Num = " + Num + " Order by Num Desc";
+
+            DatabaseAdapter objDatabaseAdapter = new DatabaseAdapter(sql, this.DBSource);
+            objDatabaseAdapter.AddParameterToSelectCommand("@AnDouType", AnDouType);
+            DataTable dtGetData = new DataTable();
+            objDatabaseAdapter.Fill(dtGetData);
+
+            if (dtGetData.Rows.Count > 0)
+            {
+                result = false;
+            }
+            return result;
+        }
+
         public bool CheckedNum_dh_Lights(int LightsType, int Num, string Year)
         {
             bool result = true;
             string sql = string.Empty;
 
             sql = "Select * from Temple_" + Year + "..Lights_dh_info Where Status = 0 and LightsType = @LightsType and Num = " + Num + " Order by Num Desc";
-
-            DatabaseAdapter objDatabaseAdapter = new DatabaseAdapter(sql, this.DBSource);
-            objDatabaseAdapter.AddParameterToSelectCommand("@LightsType", LightsType);
-            DataTable dtGetData = new DataTable();
-            objDatabaseAdapter.Fill(dtGetData);
-
-            if (dtGetData.Rows.Count > 0)
-            {
-                result = false;
-            }
-            return result;
-        }
-
-        public bool CheckedNum_Hs_Lights(int LightsType, int Num, string Year)
-        {
-            bool result = true;
-            string sql = string.Empty;
-
-            sql = "Select * from Temple_" + Year + "..Lights_Hs_info Where Status = 0 and LightsType = @LightsType and Num = " + Num + " Order by Num Desc";
-
-            DatabaseAdapter objDatabaseAdapter = new DatabaseAdapter(sql, this.DBSource);
-            objDatabaseAdapter.AddParameterToSelectCommand("@LightsType", LightsType);
-            DataTable dtGetData = new DataTable();
-            objDatabaseAdapter.Fill(dtGetData);
-
-            if (dtGetData.Rows.Count > 0)
-            {
-                result = false;
-            }
-            return result;
-        }
-
-        public bool CheckedNum_Jt_Lights(int LightsType, int Num, string Year)
-        {
-            bool result = true;
-            string sql = string.Empty;
-
-            sql = "Select * from Temple_" + Year + "..Lights_Jt_info Where Status = 0 and LightsType = @LightsType and Num = " + Num + " Order by Num Desc";
-
-            DatabaseAdapter objDatabaseAdapter = new DatabaseAdapter(sql, this.DBSource);
-            objDatabaseAdapter.AddParameterToSelectCommand("@LightsType", LightsType);
-            DataTable dtGetData = new DataTable();
-            objDatabaseAdapter.Fill(dtGetData);
-
-            if (dtGetData.Rows.Count > 0)
-            {
-                result = false;
-            }
-            return result;
-        }
-
-        public bool CheckedNum_Am_Lights(int LightsType, int Num, string Year)
-        {
-            bool result = true;
-            string sql = string.Empty;
-
-            sql = "Select * from Temple_" + Year + "..Lights_Am_info Where Status = 0 and LightsType = @LightsType and Num = " + Num + " Order by Num Desc";
 
             DatabaseAdapter objDatabaseAdapter = new DatabaseAdapter(sql, this.DBSource);
             objDatabaseAdapter.AddParameterToSelectCommand("@LightsType", LightsType);
@@ -24718,6 +25511,25 @@ namespace Read.data
 
             DatabaseAdapter objDatabaseAdapter = new DatabaseAdapter(sql, this.DBSource);
             objDatabaseAdapter.AddParameterToSelectCommand("@LightsType", LightsType);
+            DataTable dtGetData = new DataTable();
+            objDatabaseAdapter.Fill(dtGetData);
+
+            if (dtGetData.Rows.Count > 0)
+            {
+                result = false;
+            }
+            return result;
+        }
+
+        public bool CheckedNum_wjsan_AnDou(int AnDouType, int Num, string Year)
+        {
+            bool result = true;
+            string sql = string.Empty;
+
+            sql = "Select * from Temple_" + Year + "..AnDou_wjsan_info Where Status = 0 and AnDouType = @AnDouType and Num = " + Num + " Order by Num Desc";
+
+            DatabaseAdapter objDatabaseAdapter = new DatabaseAdapter(sql, this.DBSource);
+            objDatabaseAdapter.AddParameterToSelectCommand("@AnDouType", AnDouType);
             DataTable dtGetData = new DataTable();
             objDatabaseAdapter.Fill(dtGetData);
 
@@ -25006,6 +25818,10 @@ namespace Read.data
                             //普渡
                             sql = "Select * from Temple_" + Year + "..view_Purdue_Fw_InfowithAPPCharge Where Status = 0 and ApplicantID = @ApplicantID and AdminID = @AdminID Order by Num Desc";
                             break;
+                        case 20:
+                            //安斗
+                            sql = "Select * from Temple_" + Year + "..view_AnDou_Fw_InfowithAPPCharge Where Status = 0 and ApplicantID = @ApplicantID and AdminID = @AdminID Order by Num Desc";
+                            break;
                     }
                     break;
                 case 16:
@@ -25087,6 +25903,10 @@ namespace Read.data
                         case 2:
                             //普渡
                             //sql = "Select * from Temple_" + Year + "..view_Purdue_wjsan_InfowithAPPCharge Where Status = 0 and ApplicantID = @ApplicantID and AdminID = @AdminID Order by Num Desc";
+                            break;
+                        case 20:
+                            //安斗
+                            sql = "Select * from Temple_" + Year + "..view_AnDou_wjsan_InfowithAPPCharge Where Status = 0 and ApplicantID = @ApplicantID and AdminID = @AdminID Order by Num Desc";
                             break;
                     }
                     break;

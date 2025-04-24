@@ -151,7 +151,7 @@ namespace Temple.FET.APITEST
                         {
                             string adminID = dtAdmin.Rows[i]["AdminID"].ToString();
 
-                            for (int j = 1; j <= 18; j++)
+                            for (int j = 1; j <= 20; j++)
                             {
                                 //if (j == 1 || j == 16)
                                 //{

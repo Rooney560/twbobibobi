@@ -14,11 +14,11 @@ using Temple.data;
 
 namespace twbobibobi.Temples
 {
-    public partial class templeService_lights_wjsan : AjaxBasePage
+    public partial class templeService_andou_wjsan : AjaxBasePage
     {
         public int aid = 0;
         public int a = 0;
-        public string lightslist = string.Empty;
+        public string andoulist = string.Empty;
         public string EndDate = "2025/02/01 23:59";
         protected static string Year = "2025";
 
@@ -42,27 +42,27 @@ namespace twbobibobi.Temples
 
                 int adminID = a = 31;
 
-                //this.lights_an.Visible = true;
-                //lightslist = string.Empty;
-                //lightslist += string.Format("<option value=\"{0}\">{1} $3000</option>", "財神斗", "財神斗");
-                //lightslist += string.Format("<option value=\"{0}\">{1} $3000</option>", "事業斗", "事業斗");
-                //lightslist += string.Format("<option value=\"{0}\">{1} $3000</option>", "平安斗", "平安斗");
-                //lightslist += string.Format("<option value=\"{0}\">{1} $3000</option>", "文昌斗", "文昌斗");
-                //lightslist += string.Format("<option value=\"{0}\">{1} $3000</option>", "藥師斗", "藥師斗");
-                //lightslist += string.Format("<option value=\"{0}\">{1} $3000</option>", "元神斗", "元神斗");
-                //lightslist += string.Format("<option value=\"{0}\">{1} $3000</option>", "福祿壽斗", "福祿壽斗");
-                //lightslist += string.Format("<option value=\"{0}\">{1} $3000</option>", "觀音斗", "觀音斗");
+                this.andou_an.Visible = true;
+                andoulist = string.Empty;
+                andoulist += string.Format("<option value=\"{0}\">{1} $3000</option>", "財神斗", "財神斗");
+                andoulist += string.Format("<option value=\"{0}\">{1} $3000</option>", "事業斗", "事業斗");
+                andoulist += string.Format("<option value=\"{0}\">{1} $3000</option>", "平安斗", "平安斗");
+                andoulist += string.Format("<option value=\"{0}\">{1} $3000</option>", "文昌斗", "文昌斗");
+                andoulist += string.Format("<option value=\"{0}\">{1} $3000</option>", "藥師斗", "藥師斗");
+                andoulist += string.Format("<option value=\"{0}\">{1} $3000</option>", "元神斗", "元神斗");
+                andoulist += string.Format("<option value=\"{0}\">{1} $3000</option>", "福祿壽斗", "福祿壽斗");
+                andoulist += string.Format("<option value=\"{0}\">{1} $3000</option>", "觀音斗", "觀音斗");
 
-                //if (Request["twm"] != null || Request["cht"] != null)
-                //{
-                //    this.lights_an.Visible = false;
-                //    lightslist = string.Empty;
-                //}
+                if (Request["twm"] != null || Request["cht"] != null)
+                {
+                    this.andou_an.Visible = false;
+                    andoulist = string.Empty;
+                }
 
 
                 LightDAC objLightDAC = new LightDAC(this);
 
-                //if (objLightDAC.checkedLightsNum("3", adminID.ToString(), 1, -1, Year))
+                //if (objLightDAC.checkedAnDouNum("3", adminID.ToString(), 1, -1, Year))
                 //{
                 //    this.light1.Visible = true;
                 //}
@@ -71,7 +71,7 @@ namespace twbobibobi.Temples
                 //    this.light1.Visible = false;
                 //}
 
-                //if (objLightDAC.checkedLightsNum("4", adminID.ToString(), 1, -1, Year))
+                //if (objLightDAC.checkedAnDouNum("4", adminID.ToString(), 1, -1, Year))
                 //{
                 //    this.light2.Visible = true;
                 //}
@@ -80,7 +80,7 @@ namespace twbobibobi.Temples
                 //    this.light2.Visible = false;
                 //}
 
-                //if (objLightDAC.checkedLightsNum("5", adminID.ToString(), 1, -1, Year))
+                //if (objLightDAC.checkedAnDouNum("5", adminID.ToString(), 1, -1, Year))
                 //{
                 //    this.light3.Visible = true;
                 //}
@@ -89,7 +89,7 @@ namespace twbobibobi.Temples
                 //    this.light3.Visible = false;
                 //}
 
-                //if (objLightDAC.checkedLightsNum("6", adminID.ToString(), 1, -1, Year))
+                //if (objLightDAC.checkedAnDouNum("6", adminID.ToString(), 1, -1, Year))
                 //{
                 //    this.light4.Visible = true;
                 //}
@@ -107,7 +107,7 @@ namespace twbobibobi.Temples
         public class AjaxPageHandler
         {
             public int ApplicantID = 0;
-            public int LightsID = 0;
+            public int AnDouID = 0;
 
             public void gotochecked(BasePage basePage)
             {
@@ -131,7 +131,7 @@ namespace twbobibobi.Temples
                 string county_Tag = basePage.Request["county_Tag"];                                 //祈福人縣市
                 string dist_Tag = basePage.Request["dist_Tag"];                                     //祈福人區域
                 string addr_Tag = basePage.Request["addr_Tag"];                                     //祈福人部分地址
-                string LightsString_Tag = basePage.Request["LightsString_Tag"];                     //服務項目
+                string AnDouString_Tag = basePage.Request["AnDouString_Tag"];                       //服務項目
 
                 int listcount = int.Parse(basePage.Request["listcount"]);                           //祈福人數量
 
@@ -149,40 +149,44 @@ namespace twbobibobi.Temples
                 JArray Jcounty = JArray.Parse(county_Tag);
                 JArray Jdist = JArray.Parse(dist_Tag);
                 JArray Jaddr = JArray.Parse(addr_Tag);
-                JArray JLightsString_Tag = JArray.Parse(LightsString_Tag);
+                JArray JAnDouString_Tag = JArray.Parse(AnDouString_Tag);
 
-                string postURL = "Lights_wjsan_Index";
+                string postURL_Init = "AnDou_wjsan_Index";
 
-                postURL += basePage.Request["twm"] != null ? "_TWM" : "";
+                string url = HttpContext.Current.Request.Url.AbsoluteUri;
 
-                postURL += basePage.Request["cht"] != null ? "_CHT" : "";
+                string postURL = GetRequestURL(url, postURL_Init);
 
-                postURL += basePage.Request["line"] != null ? "_LINE" : "";
+                //postURL += basePage.Request["twm"] != null ? "_TWM" : "";
 
-                postURL += basePage.Request["fb"] != null ? "_FB" : "";
+                //postURL += basePage.Request["cht"] != null ? "_CHT" : "";
 
-                postURL += basePage.Request["fbwjsan"] != null ? "_FBWJSAN" : "";
+                //postURL += basePage.Request["line"] != null ? "_LINE" : "";
 
-                postURL += basePage.Request["ig"] != null ? "_IG" : "";
+                //postURL += basePage.Request["fb"] != null ? "_FB" : "";
 
-                postURL += basePage.Request["fetsms"] != null ? "_fetSMS" : "";
+                //postURL += basePage.Request["fbwjsan"] != null ? "_FBWJSAN" : "";
 
-                postURL += basePage.Request["jkos"] != null ? "_JKOS" : "";
+                //postURL += basePage.Request["ig"] != null ? "_IG" : "";
 
-                postURL += basePage.Request["pxpayplues"] != null ? "_PXPAY" : "";
+                //postURL += basePage.Request["fetsms"] != null ? "_fetSMS" : "";
 
-                postURL += basePage.Request["gads"] != null ? "_GADS" : "";
+                //postURL += basePage.Request["jkos"] != null ? "_JKOS" : "";
 
-                postURL += basePage.Request["inwjsan"] != null ? "_INWJSAN" : "";
+                //postURL += basePage.Request["pxpayplues"] != null ? "_PXPAY" : "";
 
-                postURL += basePage.Request["elv"] != null ? "_ELV" : "";
+                //postURL += basePage.Request["gads"] != null ? "_GADS" : "";
+
+                //postURL += basePage.Request["inwjsan"] != null ? "_INWJSAN" : "";
+
+                //postURL += basePage.Request["elv"] != null ? "_ELV" : "";
 
                 bool checkednum_wjsan = true;
 
                 if (checkednum_wjsan)
                 {
-                    ApplicantID = objLightDAC.addapplicantinfo_lights_wjsan(AppName, AppMobile, "0", "", "", "", "0", "N", "", "", 0, AdminID, postURL, Year);
-                    bool lightsinfo = false;
+                    ApplicantID = objLightDAC.addapplicantinfo_andou_wjsan(AppName, AppMobile, "0", "", "", "", "0", "N", "", "", 0, AdminID, postURL, Year);
+                    bool andouinfo = false;
 
                     if (ApplicantID > 0)
                     {
@@ -199,8 +203,8 @@ namespace twbobibobi.Temples
                             string birthTime = Jbirthtime[i].ToString();
                             string sBirth = Jsbirth[i].ToString();
                             string email = Jemail.Count > 0 ? Jemail[i].ToString() : "";
-                            string lightsString = JLightsString_Tag[i].ToString();
-                            string lightsType = GetLightsType(lightsString, "31");
+                            string andouString = JAnDouString_Tag[i].ToString();
+                            string andouType = GetLightsType(andouString, "31");
                             string addr = Jaddr[i].ToString();
                             string county = Jcounty[i].ToString();
                             string dist = Jdist[i].ToString();
@@ -310,21 +314,31 @@ namespace twbobibobi.Temples
 
                             if (name != "")
                             {
-                                lightsinfo = true;
-                                LightsID = objLightDAC.addLights_wjsan(ApplicantID, name, mobile, sex, lightsType, lightsString,
+                                andouinfo = true;
+                                AnDouID = objLightDAC.addAnDou_wjsan(ApplicantID, name, mobile, sex, andouType, andouString,
                                     oversea, Birth, leapMonth, birthTime, birthMonth, age, Zodiac, sBirth, email, 1, addr, county, dist, zipCode, Year);
                             }
                         }
                     }
 
-                    if (ApplicantID > 0 && lightsinfo)
+                    if (ApplicantID > 0 && andouinfo)
                     {
                         basePage.mJSonHelper.AddContent("StatusCode", 1);
-                        basePage.mJSonHelper.AddContent("redirect", "templeCheck.aspx?kind=1&a=" + AdminID + "&aid=" + ApplicantID +
-                            (basePage.Request["ad"] != null ? "&ad=" + basePage.Request["ad"] : "") +
-                            (basePage.Request["jkos"] != null ? "&jkos=1" : "") +
-                            (basePage.Request["pxpayplues"] != null ? "&pxpayplues=1" : "") +
-                            (basePage.Request["twm"] != null ? "&twm=1" : ""));
+                        //basePage.mJSonHelper.AddContent("redirect", "templeCheck.aspx?kind=1&a=" + AdminID + "&aid=" + ApplicantID +
+                        //    (basePage.Request["ad"] != null ? "&ad=" + basePage.Request["ad"] : "") +
+                        //    (basePage.Request["jkos"] != null ? "&jkos=1" : "") +
+                        //    (basePage.Request["pxpayplues"] != null ? "&pxpayplues=1" : "") +
+                        //    (basePage.Request["twm"] != null ? "&twm=1" : ""));
+                        string redirectUrl = BuildRedirectUrl(
+                            "templeCheck.aspx",
+                            20,
+                            AdminID,
+                            ApplicantID,
+                            basePage.Request
+                        );
+
+                        // 加入 JSON 回傳內容
+                        basePage.mJSonHelper.AddContent("redirect", redirectUrl);
 
                         basePage.Session["ApplicantID"] = ApplicantID;
                     }
@@ -342,7 +356,7 @@ namespace twbobibobi.Temples
 
                 string AdminID = basePage.Request["a"];
 
-                dtData = objLightDAC.Getlights_wjsan_info(applicantID, Year);
+                dtData = objLightDAC.Getandou_wjsan_info(applicantID, Year);
 
                 if (dtData.Rows.Count > 0)
                 {

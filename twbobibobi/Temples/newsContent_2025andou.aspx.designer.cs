@@ -7,21 +7,12 @@
 // </自動產生>
 //------------------------------------------------------------------------------
 
-namespace Temple.Temples
+namespace twbobibobi.Temples
 {
 
 
-    public partial class templeService_lights_Fw
+    public partial class newsContent_2025andou
     {
-
-        /// <summary>
-        /// AjaxClientControl1 控制項。
-        /// </summary>
-        /// <remarks>
-        /// 自動產生的欄位。
-        /// 若要修改，請將欄位宣告從設計工具檔案移到程式碼後置檔案。
-        /// </remarks>
-        protected global::EChatAdmin.Controls.AjaxClientControl AjaxClientControl1;
 
         /// <summary>
         /// header 控制項。
@@ -40,24 +31,6 @@ namespace Temple.Temples
         /// 若要修改，請將欄位宣告從設計工具檔案移到程式碼後置檔案。
         /// </remarks>
         protected global::twbobibobi.Temples.SocialMedia SocialMedia;
-
-        /// <summary>
-        /// label_birth_1 控制項。
-        /// </summary>
-        /// <remarks>
-        /// 自動產生的欄位。
-        /// 若要修改，請將欄位宣告從設計工具檔案移到程式碼後置檔案。
-        /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl label_birth_1;
-
-        /// <summary>
-        /// label_sbirth_1 控制項。
-        /// </summary>
-        /// <remarks>
-        /// 自動產生的欄位。
-        /// 若要修改，請將欄位宣告從設計工具檔案移到程式碼後置檔案。
-        /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl label_sbirth_1;
 
         /// <summary>
         /// footer 控制項。
