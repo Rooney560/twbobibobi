@@ -2,7 +2,18 @@
 
     <script type="text/javascript">
         $(function () {
-            if (location.search.indexOf('twm') >= 0) {
+            var getUrlString = location.href;
+            var url = new URL(getUrlString);
+            var purl = url.searchParams.get('purl');
+
+            var checkedTWMurl = false;
+
+            checkedTWMurl = location.search.indexOf('twm') >= 0 ? true : false;
+            if (purl) {
+                purl = purl.toLowerCase();
+                checkedTWMurl = location.search.indexOf('purl') >= 0 && purl == 'twm' ? true : false;
+            }
+            if (checkedTWMurl) {
                 $("#fet").hide();
                 $("#Fet").hide();
                 $("#cht").hide();
@@ -243,89 +254,101 @@
                 }
             });
 
-            //// 設定特定宮廟的對應名稱
-            //var templeMap = {
-            //    "da": "大甲鎮瀾宮",
-            //    "h": "新港奉天宮",
-            //    "wu": "北港武德宮",
-            //    "Fu": "西螺福興宮",
-            //    "Luer": "台南正統鹿耳門聖母廟",
-            //    "ty": "桃園威天宮",
-            //    "Fw": "斗六五路財神宮",
-            //    "dh": "台東東海龍門天聖宮",
-            //    "Lk": "鹿港城隍廟",
-            //    "ma": "玉敕大樹朝天宮",
-            //    "wjsan": "台灣道教總廟無極三清總道院"
-            //};
+            // 設定特定宮廟的對應名稱
+            var templeMap = {
+                "da": "大甲鎮瀾宮",
+                "h": "新港奉天宮",
+                "wu": "北港武德宮",
+                "Fu": "西螺福興宮",
+                "Luer": "台南正統鹿耳門聖母廟",
+                "ty": "桃園威天宮",
+                "Fw": "斗六五路財神宮",
+                "dh": "台東東海龍門天聖宮",
+                "Lk": "鹿港城隍廟",
+                "ma": "玉敕大樹朝天宮",
+                "wjsan": "台灣道教總廟無極三清總道院"
+            };
 
-            //// 設定網址參數對應的標題名稱
-            //var paramTitleMap = {
-            //    "twm": "TWM",
-            //    "cht": "CHT",
-            //    "line": "LINE",
-            //    "fb": "FB",
-            //    "ig": "IG",
-            //    "fetsms": "fetSMS",
-            //    "jkos": "街口",
-            //    "gads": "GADS",
-            //    "elv": "ELV",
-            //    "tads": "TADS",
-            //    "pxpayplues": "全支付",
-            //    "fbad": "FB廣告",
-            //};
+            // 設定網址參數對應的標題名稱
+            var paramTitleMap = {
+                "twm": "TWM",
+                "cht": "CHT",
+                "line": "LINE",
+                "fb": "FB",
+                "ig": "IG",
+                "fetsms": "fetSMS",
+                "jkos": "街口",
+                "gads": "GADS",
+                "elv": "ELV",
+                "tads": "TADS",
+                "pxpayplues": "全支付",
+                "fbad": "FB廣告",
+            };
 
-            //var searchParams = new URLSearchParams(window.location.search);
-            //var matchedParam = null;
-            //var matchedValue = "";
+            var searchParams = new URLSearchParams(window.location.search);
+            var matchedParam = null;
+            var matchedValue = "";
 
-            //// **找到第一個符合條件的參數**
-            //searchParams.forEach(function (value, key) {
-            //    if (value === "1") {
-            //        if (key.startsWith("fb") && key.length > 2) {
-            //            // 自動對應粉絲團 (fbda → 大甲鎮瀾宮粉絲團)
-            //            var templeKey = key.substring(2); // 取得宮廟代碼，例如 fbda → da
-            //            if (templeMap[templeKey]) {
-            //                matchedParam = key;
-            //                matchedValue = templeMap[templeKey] + "粉絲團";
-            //            }
-            //        } else if (key.startsWith("in") && key.length > 2) {
-            //            // 自動對應立牌 (inda → 大甲鎮瀾宮立牌)
-            //            var templeKey = key.substring(2); // 取得宮廟代碼，例如 inda → da
-            //            if (templeMap[templeKey]) {
-            //                matchedParam = key;
-            //                matchedValue = templeMap[templeKey] + "立牌";
-            //            }
-            //        } else if (paramTitleMap[key]) {
-            //            // 直接對應 paramTitleMap
-            //            matchedParam = key;
-            //            matchedValue = paramTitleMap[key];
-            //        }
-            //    }
-            //});
+            // **找到第一個符合條件的參數**
+            searchParams.forEach(function (value, key) {
+                if (key == 'purl') {
+                    value = value.toLowerCase();
+                    if (value.startsWith("fb") && value.length > 2) {
+                        // 自動對應粉絲團 (fbda → 大甲鎮瀾宮粉絲團)
+                        var templeKey = value.substring(2); // 取得宮廟代碼，例如 fbda → da
+                        if (templeMap[templeKey]) {
+                            matchedParam = value;
+                            matchedValue = templeMap[templeKey] + "粉絲團";
+                        }
+                    } else if (value.startsWith("in") && value.length > 2) {
+                        // 自動對應立牌 (inda → 大甲鎮瀾宮立牌)
+                        var templeKey = value.substring(2); // 取得宮廟代碼，例如 inda → da
+                        if (templeMap[templeKey]) {
+                            matchedParam = value;
+                            matchedValue = templeMap[templeKey] + "立牌";
+                        }
+                    } else if (paramTitleMap[value]) {
+                        // 直接對應 paramTitleMap
+                        matchedParam = value;
+                        matchedValue = paramTitleMap[value];
+                    }
+                }
+            });
 
-            //// **如果找到符合條件的參數**
-            //if (matchedParam) {
-            //    // **修改標題**
-            //    document.title = "(" + matchedValue + ") " + document.title;
+            // **如果找到符合條件的參數**
+            if (matchedParam) {
+                // **只刪除最前面的括號內容（例如：(xxx) 標題），後面有的不動**
+                document.title = document.title.replace(/^\([^()]*\)\s*/, "");
 
-            //    // **統一處理 <a> 標籤，將該參數附加到超連結中**
-            //    $("a").each(function () {
-            //        var $link = $(this);
-            //        var href = $link.attr("href");
+                // **修改標題**
+                document.title = "(" + matchedValue + ") " + document.title;
 
-            //        if (href && href.indexOf(".aspx") > 0) {
-            //            var linkParams = new URLSearchParams(href.split("?")[1] || "");
+                // **統一處理 <a> 標籤，將該參數附加到超連結中**
+                $("a").each(function () {
+                    var $link = $(this);
+                    var href = $link.attr("href");
 
-            //            // 只允許單一參數附加到網址
-            //            if (!linkParams.has(matchedParam)) {
-            //                linkParams.set(matchedParam, "1");
-            //            }
+                    if (href && href.indexOf(".aspx") > 0) {
+                        var parts = href.split("?");
+                        var baseUrl = parts[0];
+                        var queryString = parts[1] || "";
 
-            //            var baseUrl = href.split("?")[0];
-            //            $link.attr("href", baseUrl + "?" + linkParams.toString());
-            //        }
-            //    });
-            //}
+                        var linkParams = new URLSearchParams(queryString);
+
+                        // 如果有 matchedParam（即 purl 有值），就設置進網址（無論原本有沒有 purl）
+                        if (matchedParam) {
+                            linkParams.set("purl", matchedParam);
+                        }
+
+                        // 組合新的 href 並回填
+                        var newHref = baseUrl + "?" + linkParams.toString();
+                        $link.attr("href", newHref);
+                    }
+                });
+            } else if (searchParams.has("purl")) {
+                // 有 purl 但無對應，刪除舊的括號
+                document.title = document.title.replace(/^\([^()]*\)\s*/, "");
+            }
 
         });
     </script>

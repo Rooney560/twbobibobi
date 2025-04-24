@@ -1952,6 +1952,22 @@ namespace MotoSystem.Data
                             break;
                     }
                     break;
+                case "20":
+                    //安斗
+                    switch (AdminID)
+                    {
+                        case "15":
+                            //斗六五路財神宮
+                            view = "Temple_" + Year + "..APPCharge_Fw_AnDou";
+                            sql = "Select * from Temple_" + Year + "..APPCharge_Fw_AnDou Where Status = 1 and UniqueID = @UniqueID";
+                            break;
+                        case "31":
+                            //台灣道教總廟無極三清總道院
+                            view = "Temple_" + Year + "..APPCharge_wjsan_AnDou";
+                            sql = "Select * from Temple_" + Year + "..APPCharge_wjsan_AnDou Where Status = 1 and UniqueID = @UniqueID";
+                            break;
+                    }
+                    break;
             }
 
             if (sql != "")
@@ -2062,6 +2078,13 @@ namespace MotoSystem.Data
                                     case "18":
                                         //招財補運
                                         if (DeleteSuppliesNum(int.Parse(dtDataList.Rows[0]["ApplicantID"].ToString()), AdminID, 18, Year))
+                                        {
+                                            bResult = true;
+                                        }
+                                        break;
+                                    case "20":
+                                        //安斗
+                                        if (DeleteAnDouinfo(int.Parse(dtDataList.Rows[0]["ApplicantID"].ToString()), AdminID, Year))
                                         {
                                             bResult = true;
                                         }
@@ -2434,6 +2457,22 @@ namespace MotoSystem.Data
                             break;
                     }
                     break;
+                case "20":
+                    //安斗
+                    switch (AdminID)
+                    {
+                        case "15":
+                            //斗六五路財神宮
+                            view = "Temple_" + Year + "..ApplicantInfo_Fw_AnDou";
+                            sql = "Select * from Temple_" + Year + "..ApplicantInfo_Fw_AnDou Where Status = 2 and ApplicantID = @ApplicantID";
+                            break;
+                        case "31":
+                            //台灣道教總廟無極三清總道院
+                            view = "Temple_" + Year + "..ApplicantInfo_wjsan_AnDou";
+                            sql = "Select * from Temple_" + Year + "..ApplicantInfo_wjsan_AnDou Where Status = 2 and ApplicantID = @ApplicantID";
+                            break;
+                    }
+                    break;
             }
 
             if (sql != "")
@@ -2443,7 +2482,7 @@ namespace MotoSystem.Data
                 AdapterObj.AddParameterToSelectCommand("@ApplicantID", ApplicantID);
                 AdapterObj.Fill(dtDataList);
 
-                if (dtDataList.Rows.Count > 0 && (int)dtDataList.Rows[0]["Status"] == 2)
+                if (dtDataList.Rows.Count > 0)
                 {
                     //dtDataList.Rows[0]["Status"] = Status;
                     //dtDataList.Rows[0]["UpdateinfoDate"] = dt;
@@ -3148,6 +3187,63 @@ namespace MotoSystem.Data
                         }
                     }
                     result = true;
+                }
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        /// 刪除安斗訂單編號
+        /// <param name="ApplicantID">ApplicantID=申請人編號</param>
+        /// <param name="AdminID">AdminID=廟宇編號 3-大甲鎮瀾宮 4-新港奉天宮 5-文創商品(新港奉天宮) 6-北港武德宮</param>
+        /// </summary>
+        public bool DeleteAnDouinfo(int ApplicantID, string AdminID, string Year)
+        {
+            bool result = false;
+            string sql = string.Empty;
+            string view = string.Empty;
+
+            switch (AdminID)
+            {
+                case "15":
+                    //斗六五路財神宮
+                    view = "Temple_" + Year + "..AnDou_Fw_info";
+                    sql = "Select * from Temple_" + Year + "..AnDou_Fw_info Where ApplicantID = @ApplicantID";
+                    break;
+                case "31":
+                    //台灣道教總廟無極三清總道院
+                    view = "Temple_" + Year + "..AnDou_wjsan_info";
+                    sql = "Select * from Temple_" + Year + "..AnDou_wjsan_info Where ApplicantID = @ApplicantID";
+                    break;
+            }
+
+            if (sql != "")
+            {
+                DatabaseAdapter Adapter = new DatabaseAdapter(sql, this.DBSource);
+                DataTable dtUpdateStatus = new DataTable();
+                Adapter.AddParameterToSelectCommand("@ApplicantID", ApplicantID);
+                Adapter.SetSqlCommandBuilder();
+                Adapter.Fill(dtUpdateStatus);
+                if (dtUpdateStatus.Rows.Count > 0)
+                {
+                    for (int i = 0; i < dtUpdateStatus.Rows.Count; i++)
+                    {
+                        int AnDouID = int.Parse(dtUpdateStatus.Rows[i]["AnDouID"].ToString());
+                        //dtUpdateStatus.Rows[i]["Num2String"] = "";
+                        //dtUpdateStatus.Rows[i]["Num"] = 0;
+                        //Adapter.Update(dtUpdateStatus);
+
+                        if (view != "")
+                        {
+                            int res = ExecuteSql("Update " + view + " Set Num2String = '', Num = 0 Where AnDouID=" + AnDouID);
+
+                            if (res > 0)
+                            {
+                                result = true;
+                            }
+                        }
+                    }
                 }
             }
 

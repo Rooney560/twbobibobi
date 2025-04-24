@@ -1,4 +1,4 @@
-﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="templeService_lights_wjsan.aspx.cs" Inherits="twbobibobi.Temples.templeService_lights_wjsan" %>
+﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="templeService_andou_Fw.aspx.cs" Inherits="twbobibobi.Temples.templeService_andou_Fw" %>
 
 <%@ Register src="~/Temples/footer.ascx" tagprefix="uc1" tagname="footer" %>
 <%@ Register src="~/Temples/header.ascx" tagprefix="uc2" tagname="header" %>
@@ -11,37 +11,35 @@
 <head runat="server">
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
     <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport" />
-    <meta property="og:title" content="台灣道教總廟無極三清總道院|線上點燈|2025犯太歲光明燈【保必保庇】線上宮廟服務平臺" />
+    <meta property="og:title" content="斗六五路財神宮|線上安斗|【保必保庇】線上宮廟服務平臺" />
     <!--標題-->
-    <meta property="og:url" content="https://bobibobi.tw/Temples/templeService_lights_wjsan.aspx" />
+    <meta property="og:url" content="https://bobibobi.tw/Temples/templeService_andou_Fw.aspx" />
     <!--網址：請補上網址-->
-    <meta name="description" content="保必保庇提供台灣道教總廟無極三清總道院安太歲 光明燈線上點燈，犯太歲生肖 蛇 豬 虎 猴" />
+    <meta name="description" content="保必保庇提供斗六五路財神宮線上安斗，財神斗、發財斗、姻緣斗、貴人斗、消災延壽斗" />
     <!--簡介-->
-    <meta property="og:description" content="保必保庇提供台灣道教總廟無極三清總道院安太歲 光明燈線上點燈，犯太歲生肖 蛇 豬 虎 猴" />
+    <meta property="og:description" content="保必保庇提供斗六五路財神宮線上安斗，財神斗、發財斗、姻緣斗、貴人斗、消災延壽斗" />
     <!--簡介-->
-    <meta property="og:site_name" content="台灣道教總廟無極三清總道院|線上點燈|2025犯太歲光明燈【保必保庇】線上宮廟服務平臺" />
+    <meta property="og:site_name" content="斗六五路財神宮|線上安斗|【保必保庇】線上宮廟服務平臺" />
     <!--標題-->
     <meta property="og:type" content="website" />
 
     <!--抓取圖片-->
-    <meta property="og:image" content="https://bobibobi.tw/Temples/images/temple/lights_wjsan_2025.jpg" />
-    <meta name="twitter:image:src" content="https://bobibobi.tw/Temples/images/temple/lights_wjsan_2025.jpg" />
-    <link rel="image_src" href="https://bobibobi.tw/Temples/images/temple/lights_wjsan_2025.jpg" />
+    <meta property="og:image" content="https://bobibobi.tw/Temples/images/temple/andou_Fw_2025.jpg?t=55688" />
+    <meta name="twitter:image:src" content="https://bobibobi.tw/Temples/images/temple/andou_Fw_2025.jpg?t=55688" />
+    <link rel="image_src" href="https://bobibobi.tw/Temples/images/temple/andou_Fw_2025.jpg?t=55688" />
 
 
     <link rel="shortcut icon" href="images/favicon.png" />
     <link href="images/favicon.png" rel="apple-touch-icon" sizes="192x192" />
 
 
-    <title>台灣道教總廟無極三清總道院|線上點燈|2025犯太歲光明燈【保必保庇】線上宮廟服務平臺</title>
+    <title>斗六五路財神宮|線上安斗|【保必保庇】線上宮廟服務平臺</title>
     <!--標題-->
 
     <!--資源項目-->
     <link href="css/reset.css" rel="stylesheet" type="text/css" />
     <link rel="stylesheet" type="text/css" href="css/style.css" />
     <script type="text/javascript" src="js/jquery-3.2.1.min.js"></script>
-     <script type="text/javascript" src="js/bootstrap.min.js"></script>
-    <link href="css/Activity.css?t=2589963" rel="stylesheet" />
     <style type="text/css">
         .inputBtn input {
             border: 0.2vw solid #fff;
@@ -53,14 +51,14 @@
             color: #fff;
             background: #B91503;
         }
-
         .content_a {
             font-size: 1.2vw;
         }
-
-        .EventServiceContent img {
-            width: 75%;
-            margin: 0 auto;
+        .EventServiceContent > div.mobile {
+            display: none;
+        }
+        .web {
+            display: inline;
         }
 
         .checkedbox {
@@ -84,7 +82,6 @@
             width: 12px;
             margin-left: 5px;
         }
-
         @media only screen and (max-width: 720px) {
             .content_a {
                 font-size: 3.8vw;
@@ -93,17 +90,11 @@
                 font-size: 5vw;
                 height: 10vw;
             }
-
-            .EventServiceContent img {
-                width: 100%;
+            .EventServiceContent > div.mobile {
+                display: inline;
             }
-
-        }
-
-        /*電腦版*/
-        @media only screen and (min-width: 576px) {
-            .text_s input, .tel input, .mail input, .date input {
-                width: 20vw;
+            .web {
+                display: none;
             }
         }
     </style>
@@ -171,81 +162,82 @@
                 <ul>
                     <li><a href="../index.aspx" title="首頁">首頁</a></li>
                     <li><a href="temple.aspx" title="合作宮廟">合作宮廟</a></li>
-                    <li><a href="https://bobibobi.tw/Temples/templeInfo.aspx?a=31" title="台灣道教總廟無極三清總道院">台灣道教總廟無極三清總道院</a></li>
-                    <li>祈福點燈</li>
+                    <li><a href="https://bobibobi.tw/Temples/templeInfo.aspx?a=15" title="斗六五路財神宮">斗六五路財神宮</a></li>
+                    <li>祈福斗燈</li>
                 </ul>
             </nav>
 
             <!--本頁內容-->
             <section>
                 <div class="TempleImg">
-                    <img src="images/temple/lights_wjsan_2025.jpg?t=2589963" width="1160" height="550" alt="保必保庇提供台灣道教總廟無極三清總道院安太歲光明燈線上點燈，犯太歲生肖 蛇 豬 虎 猴" 
-                        title="台灣道教總廟無極三清總道院線上點燈２０２５犯太歲光明燈" />
+                    <img src="images/temple/andou_Fw_2025.jpg?t=55688" width="1160" height="550" alt="保必保庇提供斗六五路財神宮線上安斗，財神斗、發財斗、姻緣斗、貴人斗、消災延壽斗" 
+                        title="斗六五路財神宮線上安斗２０２５祈福斗燈" />
                 </div>
-                <h1 class="TempleName">歡迎使用《台灣道教總廟無極三清總道院》線上點燈服務</h1>
+                <h1 class="TempleName">歡迎使用《斗六五路財神宮》線上安斗服務</h1>
                 <div class="TempleServiceInfo">
                     <div class="EventTime">
                         <div>活動開始日期：</div>
                         <div id="startTime">2024/11/01 00:00</div>
                         <br />
                         <div>活動截止日期：</div>
-                        <div id="endTime">2025/06/30 23:59</div>
+                        <div id="endTime">2025/10/31 23:59</div>
                     </div>
                     <div class="EventServiceContent">
-                        <div class="TempleImg">
-                            <img src="images/temple/lights-03.jpg?t=2589963" width="600" alt="" />
+                        <div id="andou_an" runat="server">
+                            <h1 class="TempleName">什麼是安斗?斗是什麼?</h1>
+                            <span style="color:red;" class="content_a" >“斗”指的是天上的星宿</span>
+                            <span>，道教認為北斗星群主掌人的死、災、厄、病，因此有北斗註死，而斗姆為北斗眾星之母；南斗星群主掌人的生、福、壽、祿，因此有”南斗福壽”，
+                                而太歲就是在執行這些工作的執行者，若能安斗祭祀，弼可消災納福趨吉避凶。</span>
+                            <h2>安斗、拜斗就是在、朝拜自己的本命元辰、可使元辰光彩、 消災賜福、祈求平安。</h2>
+                            <h2>斗燈是由油燈、米、斗燈傘、鏡、劍、秤、剪以及尺所組成。</h2>
+                            <span style="color:red;" class="content_a" >燈</span><span>-光照亮前程。</span><br />
+                            <span style="color:red;" class="content_a" >鏡</span><span>-去邪魔之意，光照到鏡子所產生的折射對著八字元辰，讓本命光彩前程似錦。</span><br />
+                            <span style="color:red;" class="content_a" >青龍持劍</span><span>-除妖魔護其元辰。</span><br />
+                            <span style="color:red;" class="content_a" >朱雀拿剪</span><span>-剪去邪魔纏運。</span><br />
+                            <span style="color:red;" class="content_a" >白虎拿秤</span><span>-添加機運。</span><br />
+                            <span style="color:red;" class="content_a" >玄武帶尺</span><span>-統兵顧神。</span><br />
+                            <span style="color:red;" class="content_a" >斗中放米</span><span>-以求增運補氣。</span><br />
+                            <span style="color:red;" class="content_a" >圓傘護天</span><span>-以求天地泰平，這就是斗中法器所代表的意義。</span>
                         </div>
                         <div>
-                            <h1 class="TempleName">光明燈</h1>
-                            <p>祈求逢凶化吉、解除災厄、男增百福、女納千祥、元辰光彩、消災解厄、五穀豐收、財源廣進、軍中安康、事業發達、植福延壽、
-                                闔家平安。 $500</p>
-                        </div>
-                        <br />
-                        <div class="TempleImg">
-                            <img src="images/temple/lights-04.jpg?t=2589963" width="600" alt="" />
+                            <h2>財神斗 <a target="_blank" class="content_a" href="https://bobibobi.tw/Temples/images/temple/product/Fw/1_11.jpg">(看圖)</a></h2>
+                            <p>祈求  財庫飽滿、會賺錢不是師父、能守住財才是真功夫、錢財守不住、左手來、右手出、要如何守住財、一定要點財神斗、由護法財神來幫您守住錢財。
+                                </p>
                         </div>
                         <div>
-                            <h1 class="TempleName">太歲燈</h1>
-                            <p>為祈求流年平安，凡是太歲星君輪值當年、正沖、對沖、偏沖者，需安奉太歲星君，祈願流年運勢順遂、諸事平安。 $500</p>
-                        </div>
-                        <br />
-                        <div class="TempleImg">
-                            <img src="images/temple/lights-22.jpg?t=2589963" width="600" alt="" />
+                            <h2>發財斗 <a target="_blank" class="content_a" href="https://bobibobi.tw/Temples/images/temple/product/Fw/1_12.jpg">(看圖)</a></h2>
+                            <p>祈求  彩卷、股市、娛樂八大行業、偏財運亨通、八方進財、財源滾滾而來、想要輕鬆進財、一定要點發財斗、由偏財神爺為您開啟偏財運。
+                                </p>
                         </div>
                         <div>
-                            <h1 class="TempleName">事業燈</h1>
-                            <p>事業燈重在幫助個人事業發展能穩固堅強，排除障礙平安順利，在事業工作稱心如意一帆風順。 $500</p>
-                        </div>
-                        <br />
-                        <div class="TempleImg">
-                            <img src="images/temple/lights-06.jpg?t=2589963" width="600" alt="" />
+                            <h2>姻緣斗 <a target="_blank" class="content_a" href="https://bobibobi.tw/Temples/images/temple/product/Fw/1_13.jpg">(看圖)</a></h2>
+                            <p>祈求   增添桃花緣、異性緣、求取好人緣、穩定永固加深緣份、已婚者求婚姻圓滿 夫妻和諧恩愛、未婚者求賜好姻緣、戀愛中男女求賜感情穩定融合緣份永續，
+                                業務員 可增添桃花緣，業績節節上升。</p>
                         </div>
                         <div>
-                            <h1 class="TempleName">財神燈</h1>
-                            <p>祈願在工作事業上，營利運作、業務投資等，獲得到文武財神的護佑，營運利市、利祿亨通、財源廣進、工商倍利。 $500</p>
-                        </div>
-                        <br />
-                        <div class="TempleImg">
-                            <img src="images/temple/lights-05.jpg?t=2589963" width="600" alt="" />
+                            <h2>貴人斗 <a target="_blank" class="content_a" href="https://bobibobi.tw/Temples/images/temple/product/Fw/1_14.jpg">(看圖)</a></h2>
+                            <p>祈求 貴人明現，斬除小三，化解小人與冤親債主，小人轉化為貴人，福星高照，命主光彩，</p>
                         </div>
                         <div>
-                            <h1 class="TempleName">文昌燈</h1>
-                            <p>學子祈願求學讀書、升學考試、檢定認證等，得以文運昌盛、考試順利、名標金榜。出社會工作者，祈願祿馬貴人扶助、工作順利
-                                、步步高升、前途光明、事業成功。 $500</p>
+                            <h2>消災延壽斗 <a target="_blank" class="content_a" href="https://bobibobi.tw/Temples/images/temple/product/Fw/1_15.jpg">(看圖)</a></h2>
+                            <p>化解 冤親債主、消災解厄、延壽添福。生肖屬豬(犯死符)、鼠(犯五鬼、官符)、虎(犯喪門、吊客)、蛇(犯病符)、馬(犯天狗星)、猴(犯白虎星)宜安奉消災延壽斗，
+                                以保平安。</p>
                         </div>
-                        <br />
-                        <div class="TempleImg">
-                            <img src="images/temple/lights-08.jpg?t=2589963" width="600" alt="" />
-                        </div>
-                        <div>
-                            <h1 class="TempleName">藥師燈</h1>
-                            <p>祈願善男子善女人在藥師佛本願的護佑與加持，得以身居善處安住、清淨無礙、無諸疾苦、資具豐足、消災延壽。 $500</p>
-                        </div>
+                        <p>
+                            <br />
+                            <h2>凡報名安斗，即贈送開運錢母及感謝狀。<a target="_blank" class="content_a web" href="https://bobibobi.tw/Temples/images/temple/lights_Fw_01.png">(看圖)</a></h2>
+                            <div class="TempleImg mobile">
+                                <h2>錢母圖片如下圖：</h2>
+                                <img src="images/temple/lights_Fw_01.png" width="1160" height="550" alt="" />
+                            </div>
+                            <p><span style="color:red;" class="" >安斗費用，1200元/一個月、3000元/三個月。</span></p>
+                        </p>
 
                         <uc3:SocialMedia runat="server" id="SocialMedia" />
+
                     </div>
                 </div>
-                
+
 
                 <!--訂購表單-->
                 <!--說明：
@@ -258,7 +250,7 @@
                     <form>
                         <div class="FormTitle_A">購買人資料<span>（資料務必填寫正確，日後查詢訂單使用。聯絡電話請填09開頭號碼，例：0912345678。）</span></div>
                         <div class="FormInput text_s">
-                            <label>購買人姓名</label><input name="member_name" type="text" class="required" id="member_name" maxlength="5" placeholder="請輸入購買人姓名"/>
+                            <label>購買人姓名</label><input name="member_name" type="text" class="required" maxlength="5" id="member_name" placeholder="請輸入購買人姓名"/>
                         </div>
                         <div class="FormInput tel">
                             <label>購買人電話</label><input name="member_tel" type="tel" class="required" id="member_tel" placeholder="請輸入聯絡電話"/>
@@ -272,14 +264,30 @@
                                 <div class="DeletData"><a href="javascript:;" class="deletList" title="刪除">
                                     <img src="images/deletData.svg" alt="" /></a></div>
                                 <div class="FormTitle_B">祈福人<span></span></div>
-                                <div>（祈福人限填一位，每種點燈項目對應一位祈福人。如需多位，請點選增加祈福人。）</div>
+                                <div>（祈福人限填一位，每種安斗項目對應一位祈福人。如需多位或不同項目，請點選增加祈福人。）</div>
+                                <div class="FormInput select">
+                                    <label>安斗項目</label>
+                                    <select name="bless_service2_1" class="required3" id="bless_service2_1">
+                                        <option value>請選擇</option>
+                                        <option value="財神斗/一個月">財神斗/一個月 $1200</option>
+                                        <option value="發財斗/一個月">發財斗/一個月 $1200</option>
+                                        <option value="姻緣斗/一個月">姻緣斗/一個月 $1200</option>
+                                        <option value="貴人斗/一個月">貴人斗/一個月 $1200</option>
+                                        <option value="消災延壽斗/一個月">消災延壽斗/一個月 $1200</option>
+                                        <option value="財神斗/三個月">財神斗/三個月 $3000</option>
+                                        <option value="發財斗/三個月">發財斗/三個月 $3000</option>
+                                        <option value="姻緣斗/三個月">姻緣斗/三個月 $3000</option>
+                                        <option value="貴人斗/三個月">貴人斗/三個月 $3000</option>
+                                        <option value="消災延壽斗/三個月">消災延壽斗/三個月 $3000</option>
+                                    </select>
+                                </div>
                                 <div class="FormInput text_s">
-                                    <label>祈福人姓名</label><input name="bless_name_1" type="text" class="required" maxlength="5" id="bless_name_1" placeholder="請輸入祈福人姓名"/>
+                                    <label class="label" id="label_name_1">祈福人姓名</label><input name="bless_name_1" type="text" class="required" maxlength="5" id="bless_name_1" placeholder="請輸入祈福人姓名"/>
                                     <input type="checkbox" class="checkedbox" id="bless_copy_name_1" />
                                     <label for="bless_copy_name_1" id="bless_checkednamelabel_1" style="width: auto;">同購買人姓名</label>
                                 </div>
                                 <div class="FormInput tel">
-                                    <label>祈福人電話</label><input name="bless_tel_1" type="tel" class="required" id="bless_tel_1" placeholder="請輸入祈福人聯絡電話"/>
+                                    <label class="label" id="label_tel_1">祈福人電話</label><input name="bless_tel_1" type="tel" class="required" id="bless_tel_1" placeholder="請輸入祈福人聯絡電話"/>
                                     <input type="checkbox" class="checkedbox" id="bless_copy_tel_1" />
                                     <label for="bless_copy_tel_1" id="bless_checkedtellabel_1" style="width: auto;">同購買人聯絡電話</label>
                                 </div>
@@ -292,7 +300,7 @@
                                     </select>
                                 </div>
                                 <div class="FormInput date">
-                                    <label>農曆生日</label><input name="bless_birthday_1" type="text" class="datapicker required2" id="bless_birthday_1" placeholder="請選擇農曆生日或國曆生日二擇一" />
+                                    <label runat="server" id="label_birth_1">農曆生日</label><input name="bless_birthday_1" type="text" class="datapicker required2" id="bless_birthday_1" placeholder="請選擇農曆生日或國曆生日二擇一" />
                                 </div>
                                 <div class="FormInput select">
                                     <label>閏月</label>
@@ -333,7 +341,7 @@
                                     </select>
                                 </div>
                                 <div class="FormInput date">
-                                    <label>國曆生日</label><input name="bless_sbirth_1" type="text" class="datapicker required2" id="bless_sbirth_1" placeholder="請選擇國曆生日或農曆生日二擇一" />
+                                    <label runat="server" id="label_sbirth_1">國曆生日</label><input name="bless_sbirth_1" type="text" class="datapicker required2" id="bless_sbirth_1" placeholder="請選擇國曆生日或農曆生日二擇一" />
                                 </div>
                                 <div class="FormInput email mail">
                                     <label>祈福人信箱</label><input name="bless_email_1" type="text" class="" id="bless_email_1" placeholder="請輸入祈福人Email(選填)"/>
@@ -355,17 +363,13 @@
                                     </div>
                                     <input name="bless_address_1" type="text" class="required" id="bless_address_1" placeholder="請輸入地址"/>
                                 </div>
-                                <div class="FormInput select">
-                                    <label>點燈項目</label>
-                                    <select name="bless_service_1" class="required" id="bless_service_1">
-                                        <option value>請選擇</option>
-                                        <option value="光明燈">光明燈 $500</option>
-                                        <option value="太歲燈">太歲燈 $500</option>
-                                        <option value="事業燈">事業燈 $500</option>
-                                        <option value="財神燈">財神燈 $500</option>
-                                        <option value="文昌燈">文昌燈 $500</option>
-                                        <option value="藥師燈">藥師燈 $500</option>
-                                    </select>
+                                <div class="FormInput text_s Pet" id="bless_pet_1">
+                                    <div class="FormInput text_s">
+                                        <label>寵物姓名</label><input name="bless_petname_1" type="text" class="petname" id="bless_petname_1" placeholder="請輸入寵物姓名" />
+                                    </div>
+                                    <div class="FormInput text_s">
+                                        <label>寵物品種</label><input name="bless_pettype_1" type="text" class="pettype" id="bless_pettype_1" placeholder="請輸入寵物品種 (不知道請填無)" />
+                                    </div>
                                 </div>
                             </li>
 
@@ -410,10 +414,9 @@
     var a = '<%=a %>';
     $(function () {
         $("header").addClass("active");
-        //alert("建置中！敬啟期待！");
-        //window.location = 'https://bobibobi.tw/Temples/index.aspx';
+
         if (!checkEndTime()) {
-            alert('親愛的大德您好\n台灣道教總廟無極三清總道院 2025點燈活動已截止！！\n感謝您的支持, 謝謝!');
+            alert('親愛的大德您好\n斗六五路財神宮 2025安斗活動已截止！！\n感謝您的支持, 謝謝!');
         }
 
         $("input[type='tel']").on("keypress keyup blur", function (event) {
@@ -457,6 +460,8 @@
                 $("#bless_tel_1").val('');
             }
         });
+
+        $(".Pet").hide();
 
         if (aid != 0) {
             ac_loadServerMethod("editinfo", null, editinfo);
@@ -533,6 +538,16 @@
         //將所有的ID更新為新的值
         $('.InputGroup > li:last').attr('bless-id', lastblessNum);
 
+
+        //更新所有動態產生的ID編號  
+        $('.InputGroup > li:last').find('.Pet').each(function (index) {
+            var originalId = $(this).attr('id');
+            var newId = originalId.slice(0, -1) + lastblessNum;
+            $(this).attr('id', newId);
+            $(this).attr('name', newId);
+            $(this).hide();
+        });
+
         //更新所有動態產生的ID編號  
         $('.InputGroup > li:last').find('div').each(function (index) {
             var originalId = $(this).attr('id');
@@ -547,16 +562,14 @@
             var originalId = $(this).attr('id');
             if (originalId != null) {
                 var newId = originalId.slice(0, -1) + lastblessNum;
+                $(this).attr('id', newId);
+                $(this).attr('name', newId);
 
                 if (newId.indexOf('checkednamelabel') >= 0) {
-                    $(this).attr('id', newId);
-                    $(this).attr('name', newId);
                     $(this).attr('for', 'bless_copy_name_' + lastblessNum);
                 }
 
                 if (newId.indexOf('checkedtellabel') >= 0) {
-                    $(this).attr('id', newId);
-                    $(this).attr('name', newId);
                     $(this).attr('for', 'bless_copy_tel_' + lastblessNum);
                 }
 
@@ -634,6 +647,53 @@
                     }
                 });
             }
+
+            if (newId.indexOf('service') >= 0) {
+                $("#" + newId).change(function () {
+                    if ($(this).val() == "寵物平安燈") {
+                        $("#bless_pet_" + lastblessNum).show();
+
+                        var label = document.getElementById("label_name_" + lastblessNum);
+                        label.innerText = "飼主姓名";
+                        $("#bless_name_" + lastblessNum).attr("placeholder", "請輸入飼主姓名");
+
+                        var label = document.getElementById("label_tel_" + lastblessNum);
+                        label.innerText = "飼主電話";
+                        $("#bless_tel_" + lastblessNum).attr("placeholder", "請輸入飼主聯絡電話");
+
+                        var label = document.getElementById("label_birth_" + lastblessNum);
+                        label.innerText = "飼主農曆生日";
+
+                        var label = document.getElementById("label_sbirth_" + lastblessNum);
+                        label.innerText = "飼主國曆生日";
+
+                        var label = document.getElementById("label_address_" + lastblessNum);
+                        label.innerText = "飼主地址";
+                        $("#bless_address_" + lastblessNum).attr("placeholder", "請輸入飼主地址");
+                    }
+                    else {
+                        $("#bless_pet_" + lastblessNum).hide();
+
+                        var label = document.getElementById("label_name_" + lastblessNum);
+                        label.innerText = "祈福人姓名";
+                        $("#bless_name_" + lastblessNum).attr("placeholder", "請輸入祈福人姓名");
+
+                        var label = document.getElementById("label_tel_" + lastblessNum);
+                        label.innerText = "祈福人電話";
+                        $("#bless_tel_" + lastblessNum).attr("placeholder", "請輸入祈福人聯絡電話");
+
+                        var label = document.getElementById("label_birth_" + lastblessNum);
+                        label.innerText = "農曆生日";
+
+                        var label = document.getElementById("label_sbirth_" + lastblessNum);
+                        label.innerText = "國曆生日";
+
+                        var label = document.getElementById("label_address_" + lastblessNum);
+                        label.innerText = "地址";
+                        $("#bless_address_" + lastblessNum).attr("placeholder", "請輸入地址");
+                    }
+                });
+            }
         });
         $('.InputGroup > li:last .CusAddress').find('div[data-role]').each(function (index) {
             var originalId = $(this).attr('data-id');
@@ -668,35 +728,10 @@
         var isValid = true;
         var isValid2 = true;
         var isValid3 = true;
+        var isValid4 = true;
         var isCheckedValid = $("#checkedprivate").is(":checked");
 
         var listcount = $('.InputGroup > li').last().attr('bless-id');
-
-        // 遍歷每個必填欄位
-        $('.required').each(function () {
-            if ($(this).val() != null) {
-                var value = $(this).val().trim();
-                if (value === '') {
-                    isValid = false;
-                    $(this).addClass('unfilled');
-                } else if (value != '' && $(this).hasClass('unfilled')) {
-                    $(this).removeClass('unfilled');
-                }
-            }
-        });
-
-        // 遍歷每個必填欄位
-        for (var i = 1; i <= listcount; i++) {
-            var value_birth = $("#bless_birthday_" + i).val().trim();
-            var value_sbirth = $("#bless_sbirth_" + i).val().trim();
-
-            if (value_birth == '' && value_sbirth == '') {
-                isValid = false;
-                $('.required2').addClass('unfilled');
-            } else if ((value_birth != '' || value_sbirth != '') && $('.required2').hasClass('unfilled')) {
-                $('.required2').removeClass('unfilled');
-            }
-        }
 
         var value = $("#member_tel").val().trim();
         if (value == "") {
@@ -710,120 +745,129 @@
             $("#member_tel").addClass('unfilled');
         }
         else {
-            if (value != '' && $("#member_tel").hasClass('unfilled')) {
-                $("#member_tel").removeClass('unfilled');
-            }
-
-            for (var i = 1; i <= listcount; i++) {
-
-                //if ($("#bless_sendback_" + i).val() == 1) {
-                //    // 遍歷每個必填欄位-有條件 (寄回欄位=1)
-                //    var reslist = ["bless_rec_name_" + i, "bless_rec_tel_" + i, "bless_rec_county_" + i, "bless_rec_district_" + i, "bless_rec_address_" + i];
-
-                //    reslist.forEach(function (value) {
-                //        if ($("#" + value).val() == '') {
-                //            isValid = false;
-                //            $(this).addClass('unfilled');
-                //        } else if (value != '' && $(this).hasClass('unfilled')) {
-                //            $(this).removeClass('unfilled');
-                //        }
-                //    });
-                //}
-
-                value = $("#bless_tel_" + i).val().trim();
-                if (value == "") {
-                    $(".Notice").text("祈福人電話不能為空。");
-                    $(".Notice").addClass("active");
-                    $("#bless_tel_" + i).addClass('unfilled');
-
-                    isValid = false;
-                    isValid2 = false;
-                    break;
-                }
-                else if (!Isphone(value)) {
-                    $(".Notice").text("祈福人電話格式錯誤。");
-                    $(".Notice").addClass("active");
-                    $("#bless_tel_" + i).addClass('unfilled');
-
-                    isValid = false;
-                    isValid2 = false;
-                    break;
-                }
-                else {
-                    if (value != '' && $("#bless_tel_" + i).hasClass('unfilled')) {
-                        $("#bless_tel_" + i).removeClass('unfilled');
-                    }
+            if (isValid4) {
+                if (value != '' && $("#member_tel").hasClass('unfilled')) {
+                    $("#member_tel").removeClass('unfilled');
                 }
 
-                if ($("#bless_oversea_" + i).val() == "1") {
-                    value = $("#bless_county_" + i).val();
-                    if (value == '' || value == null) {
-                        $(".Notice").text("祈福人地址 縣市為空，請重新選擇縣市。");
+                for (var i = 1; i <= listcount; i++) {
+                    value = $("#bless_tel_" + i).val().trim();
+                    if (value == "") {
+                        $(".Notice").text("祈福人電話不能為空。");
                         $(".Notice").addClass("active");
-                        $("#bless_county_" + i).addClass('unfilled');
+                        $("#bless_tel_" + i).addClass('unfilled');
 
                         isValid = false;
-                        isValid3 = false;
+                        isValid2 = false;
+                        break;
+                    }
+                    else if (!Isphone(value)) {
+                        $(".Notice").text("祈福人電話格式錯誤。");
+                        $(".Notice").addClass("active");
+                        $("#bless_tel_" + i).addClass('unfilled');
+
+                        isValid = false;
+                        isValid2 = false;
                         break;
                     }
                     else {
-                        if (value != '' && $("#bless_county_" + i).hasClass('unfilled')) {
-                            $("#bless_county_" + i).removeClass('unfilled');
+                        if (value != '' && $("#bless_tel_" + i).hasClass('unfilled')) {
+                            $("#bless_tel_" + i).removeClass('unfilled');
+                        }
+
+                        if ($("#bless_oversea_" + i).val() == "1") {
+                            value = $("#bless_county_" + i).val();
+                            if (value == '' || value == null) {
+                                $(".Notice").text("祈福人地址 縣市為空，請重新選擇縣市。");
+                                $(".Notice").addClass("active");
+                                $("#bless_county_" + i).addClass('unfilled');
+
+                                isValid = false;
+                                isValid3 = false;
+                                break;
+                            }
+                            else {
+                                if (value != '' && $("#bless_county_" + i).hasClass('unfilled')) {
+                                    $("#bless_county_" + i).removeClass('unfilled');
+                                }
+                            }
+
+                            value = $("#bless_district_" + i).val();
+                            if (value == '' || value == null) {
+                                $(".Notice").text("祈福人地址 區域為空，請重新選擇區域。");
+                                $(".Notice").addClass("active");
+                                $("#bless_district_" + i).addClass('unfilled');
+
+                                isValid = false;
+                                isValid3 = false;
+                                break;
+                            }
+                            else {
+                                if (value != '' && $("#bless_district_" + i).hasClass('unfilled')) {
+                                    $("#bless_district_" + i).removeClass('unfilled');
+                                }
+                            }
+                        }
+
+                        var value_birth = $("#bless_birthday_" + i).val();
+                        var value_sbirth = $("#bless_sbirth_" + i).val();
+
+                        if (value_birth == '' && value_sbirth == '') {
+                            isValid = false;
+                            $('.required2').addClass('unfilled');
+                        } else if ((value_birth != '' || value_sbirth != '') && $('.required2').hasClass('unfilled')) {
+                            $('.required2').removeClass('unfilled');
                         }
                     }
+                }
 
-                    value = $("#bless_district_" + i).val();
-                    if (value == '' || value == null) {
-                        $(".Notice").text("祈福人地址 區域為空，請重新選擇區域。");
+                if (isValid2 && isValid3 && isValid4) {
+                    // 遍歷每個必填欄位
+                    $('.required').each(function () {
+                        var value = $(this).val();
+                        if (value === '') {
+                            isValid = false;
+                            $(this).addClass('unfilled');
+                        } else if (value != '' && $(this).hasClass('unfilled')) {
+                            $(this).removeClass('unfilled');
+                        }
+                    });
+                }
+
+                if (isValid) {
+                    if (!isCheckedValid) {
+                        $(".Notice").text("請勾選同意隱私權政策使用。");
                         $(".Notice").addClass("active");
-                        $("#bless_district_" + i).addClass('unfilled');
-
-                        isValid = false;
-                        isValid3 = false;
-                        break;
                     }
                     else {
-                        if (value != '' && $("#bless_district_" + i).hasClass('unfilled')) {
-                            $("#bless_district_" + i).removeClass('unfilled');
-                        }
-                    }
-                }
-            }
+                        // 所有欄位都已填寫
+                        console.log('所有欄位都已填寫');
+                        //alert("活動尚未開始!");
 
-            if (isValid) {
-                if (!isCheckedValid) {
-                    $(".Notice").text("請勾選同意隱私權政策使用。");
-                    $(".Notice").addClass("active");
-                }
-                else {
-                    // 所有欄位都已填寫
-                    console.log('所有欄位都已填寫');
-                    //alert("活動尚未開始!");
-
-                    if (location.search.indexOf('ad') >= 0 || checkedStartTime()) {
-                        if (checkEndTime()) {
-                            gotoChecked_wjsan();
+                        if (location.search.indexOf('ad') >= 0 || checkedStartTime()) {
+                            if (checkEndTime()) {
+                                gotoChecked_Fw();
+                            }
+                            else {
+                                alert('親愛的大德您好\n斗六五路財神宮 2025安斗活動已截止！！\n感謝您的支持, 謝謝!'); location = 'https://bobibobi.tw/Temples/temple.aspx'
+                            }
                         }
                         else {
-                            alert('親愛的大德您好\n台灣道教總廟無極三清總道院 2025點燈活動已截止！！\n感謝您的支持, 謝謝!'); location = 'https://bobibobi.tw/Temples/temple.aspx'
+                            alert('親愛的大德您好\n斗六五路財神宮 2025安斗活動尚未開始！！\n感謝您的支持, 謝謝!'); location = 'https://bobibobi.tw/Temples/temple.aspx'
                         }
                     }
-                    else {
-                        alert('親愛的大德您好\n台灣道教總廟無極三清總道院 2025點燈活動尚未開始！！\n感謝您的支持, 謝謝!'); location = 'https://bobibobi.tw/Temples/temple.aspx'
-                    }
-                }
-            } else {
-                // 在這裡可以進行表單提交或其他相關處理
-                // 有欄位未填寫
-                if (!isValid) {
-                    if (isValid2 && isValid3) {
-                        $(".Notice").text("請檢查上方欄位是否都已填寫。");
-                        $(".Notice").addClass("active");
+                } else {
+                    // 在這裡可以進行表單提交或其他相關處理
+                    // 有欄位未填寫
+                    if (!isValid) {
+                        if (isValid2 && isValid3 && isValid4) {
+                            $(".Notice").text("請檢查上方欄位是否都已填寫。");
+                            $(".Notice").addClass("active");
+                        }
                     }
                 }
             }
         }
-
     })
 
     //導向確認資料頁面
@@ -834,21 +878,7 @@
                 window.location = res.redirect;
             }
         } else {
-            if (res.overnumType == 3) {
-                alert("光明燈已額滿，請重新填單。或至其他宮廟點燈。");
-            }
-            else if (res.overnumType == 4) {
-                alert("太歲燈已額滿，請重新填單。或至其他宮廟點燈。");
-            }
-            else if (res.overnumType == 5) {
-                alert("文昌燈已額滿，請重新填單。或至其他宮廟點燈。");
-            }
-            else if (res.overnumType == 6) {
-                alert("福財燈已額滿，請重新填單。或至其他宮廟點燈。");
-            }
-            else {
-                alert("資料錯誤！請重新再試一次，若還是不行，請洽客服。");
-            }
+            alert("資料錯誤！請重新再試一次，若還是不行，請洽客服。");
         }
     }
 
@@ -883,11 +913,14 @@
                         $("#bless_cusaddress_" + index).hide();
                     }
                     $("#bless_address_" + index).val(item.Addr);
-                    $("#bless_service_" + index).val(item.LightsString);
+                    $("#bless_service2_" + index).val(item.AnDouString).trigger("change");
+                    $("#bless_petname_" + index).val(item.PetName);
+                    $("#bless_pettype_" + index).val(item.PetType);
 
                     index++;
                 });
             }
+
         }
     }
 
@@ -898,11 +931,11 @@
         }
     });
 
-    function gotoChecked_wjsan() {
+    function gotoChecked_Fw() {
         var listcount = $('.InputGroup > li').last().attr('bless-id');
 
-        Appname = $("#member_name").val().trim();      //購買人姓名
-        Appmobile = $("#member_tel").val()      //購買人電話
+        Appname = $("#member_name").val().trim();       //購買人姓名
+        Appmobile = $("#member_tel").val()              //購買人電話
 
         name_Tag = [];
         mobile_Tag = [];
@@ -917,7 +950,9 @@
         county_Tag = [];
         dist_Tag = [];
         addr_Tag = [];
-        LightsString_Tag = [];
+        AnDouString_Tag = [];
+        PetName_Tag = [];
+        PetType_Tag = [];
 
         for (var i = 1; i <= listcount; i++) {
             name_Tag.push($("#bless_name_" + i).val().trim());                                         //祈福人姓名
@@ -941,7 +976,11 @@
                 dist_Tag.push("");
             }
             addr_Tag.push($("#bless_address_" + i).val().trim());                                      //祈福人部分地址
-            LightsString_Tag.push($("#bless_service_" + i).val().trim());                              //服務項目
+            if ($("#bless_service2_" + i).val() != '') {
+                AnDouString_Tag.push($("#bless_service2_" + i).val().trim());                         //服務項目
+            }
+            PetName_Tag.push($("#bless_petname_" + i).val().trim());                                   //寵物姓名
+            PetType_Tag.push($("#bless_pettype_" + i).val().trim());                                   //寵物品種
         }
 
         data = {
@@ -960,7 +999,9 @@
             county_Tag: JSON.stringify(county_Tag),
             dist_Tag: JSON.stringify(dist_Tag),
             addr_Tag: JSON.stringify(addr_Tag),
-            LightsString_Tag: JSON.stringify(LightsString_Tag),
+            AnDouString_Tag: JSON.stringify(AnDouString_Tag),
+            PetName_Tag: JSON.stringify(PetName_Tag),
+            PetType_Tag: JSON.stringify(PetType_Tag),
             listcount: listcount
         };
 

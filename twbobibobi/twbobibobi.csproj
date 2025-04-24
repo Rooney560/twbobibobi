@@ -760,6 +760,7 @@
     <Content Include="Temples\newsContent_2024supplies2_ty.aspx" />
     <Content Include="Temples\newsContent_2024supplies_ty.aspx" />
     <Content Include="Temples\newsContent_2024taoistJiaoCeremony_da.aspx" />
+    <Content Include="Temples\newsContent_2025andou.aspx" />
     <Content Include="Temples\newsContent_2025lights.aspx" />
     <Content Include="Temples\newsContent_2025lights_ty.aspx" />
     <Content Include="Temples\newsContent_2025suppliesBF.aspx" />
@@ -831,6 +832,8 @@
     <Content Include="Temples\templeComplete.aspx" />
     <Content Include="Temples\templeComplete_in.aspx" />
     <Content Include="Temples\templeInfo.aspx" />
+    <Content Include="Temples\templeService_andou_Fw.aspx" />
+    <Content Include="Temples\templeService_andou_wjsan.aspx" />
     <Content Include="Temples\templeService_EmperorGuansheng_bobi_ty.aspx" />
     <Content Include="Temples\templeService_EmperorGuansheng_ty.aspx" />
     <Content Include="Temples\templeService_lights.aspx" />
@@ -878,6 +881,8 @@
     <Content Include="Temples\templeService_supplies_sx.aspx" />
     <Content Include="Temples\templeService_supplies_ty.aspx" />
     <Content Include="Temples\templeService_TaoistJiaoCeremony_da.aspx" />
+    <Content Include="TWPaymentCallback_AnDou_Fw.aspx" />
+    <Content Include="TWPaymentCallback_AnDou_wjsan.aspx" />
     <Content Include="TWPaymentCallback_Lights_ty_mom.aspx" />
     <Content Include="Temples\ZodiacFortune.aspx" />
     <Content Include="Temples\Zodiac_Dog.aspx" />
@@ -1412,6 +1417,13 @@
     <Compile Include="Temples\newsContent_2024taoistJiaoCeremony_da.aspx.designer.cs">
       <DependentUpon>newsContent_2024taoistJiaoCeremony_da.aspx</DependentUpon>
     </Compile>
+    <Compile Include="Temples\newsContent_2025andou.aspx.cs">
+      <DependentUpon>newsContent_2025andou.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Temples\newsContent_2025andou.aspx.designer.cs">
+      <DependentUpon>newsContent_2025andou.aspx</DependentUpon>
+    </Compile>
     <Compile Include="Temples\newsContent_2025lights.aspx.cs">
       <DependentUpon>newsContent_2025lights.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -1593,6 +1605,20 @@
     </Compile>
     <Compile Include="Temples\templeInfo.aspx.designer.cs">
       <DependentUpon>templeInfo.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Temples\templeService_andou_Fw.aspx.cs">
+      <DependentUpon>templeService_andou_Fw.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Temples\templeService_andou_Fw.aspx.designer.cs">
+      <DependentUpon>templeService_andou_Fw.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Temples\templeService_andou_wjsan.aspx.cs">
+      <DependentUpon>templeService_andou_wjsan.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Temples\templeService_andou_wjsan.aspx.designer.cs">
+      <DependentUpon>templeService_andou_wjsan.aspx</DependentUpon>
     </Compile>
     <Compile Include="Temples\templeService_EmperorGuansheng_bobi_ty.aspx.cs">
       <DependentUpon>templeService_EmperorGuansheng_bobi_ty.aspx</DependentUpon>
@@ -1922,6 +1948,20 @@
     </Compile>
     <Compile Include="Temples\templeService_TaoistJiaoCeremony_da.aspx.designer.cs">
       <DependentUpon>templeService_TaoistJiaoCeremony_da.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="TWPaymentCallback_AnDou_Fw.aspx.cs">
+      <DependentUpon>TWPaymentCallback_AnDou_Fw.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="TWPaymentCallback_AnDou_Fw.aspx.designer.cs">
+      <DependentUpon>TWPaymentCallback_AnDou_Fw.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="TWPaymentCallback_AnDou_wjsan.aspx.cs">
+      <DependentUpon>TWPaymentCallback_AnDou_wjsan.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="TWPaymentCallback_AnDou_wjsan.aspx.designer.cs">
+      <DependentUpon>TWPaymentCallback_AnDou_wjsan.aspx</DependentUpon>
     </Compile>
     <Compile Include="TWPaymentCallback_Lights_ty_mom.aspx.cs">
       <DependentUpon>TWPaymentCallback_Lights_ty_mom.aspx</DependentUpon>

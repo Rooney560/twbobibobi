@@ -165,7 +165,7 @@ namespace Temple.Temples
                                     //台灣道教總廟無極三清總道院
                                     title = "台灣道教總廟無極三清總道院";
                                     GetStateContentlist_wjsan(adminID, ApplicantID, kind, Year);       //購買人資料列表
-                                    EndDate = "2025/03/15 23:59";
+                                    EndDate = "2025/06/30 23:59";
                                     break;
                             }
                             break;
@@ -501,7 +501,40 @@ namespace Temple.Temples
                                     title = "神霄玉府財神會館";
                                     GetStateContentlist_sx(adminID, ApplicantID, kind, Year);          //購買人資料列表
                                     ExpirationDate = false;
-                                    EndDate = "2025/02/03 23:59";
+                                    EndDate = "2025/12/31 23:59";
+                                    break;
+                            }
+                            break;
+                        //點燈服務
+                        case 20:
+                            typeString = " 2025安斗";
+                            //startDate = "2024/11/01 00:00:00";
+                            //ijj = DateTime.Compare(DateTime.Parse(startDate), dtNow);
+                            //if (DateTime.Compare(DateTime.Parse(startDate), dtNow) < 0 || Request["ad"] == "2")
+                            //{
+                            //    typeString = " 2025安斗";
+                            //    Year = "2025";
+                            //}
+
+                            //type = 0;
+                            //if (Request["type"] != null)
+                            //{
+                            //    type = int.Parse(Request["type"]);
+                            //}
+
+                            switch (adminID)
+                            {
+                                case 15:
+                                    //斗六五路財神宮
+                                    title = "斗六五路財神宮";
+                                    GetStateContentlist_Fw(adminID, ApplicantID, kind, Year);       //購買人資料列表
+                                    EndDate = "2025/10/31 23:59";
+                                    break;
+                                case 31:
+                                    //台灣道教總廟無極三清總道院
+                                    title = "台灣道教總廟無極三清總道院";
+                                    GetStateContentlist_wjsan(adminID, ApplicantID, kind, Year);       //購買人資料列表
+                                    EndDate = "2025/06/30 23:59";
                                     break;
                             }
                             break;
@@ -2349,6 +2382,71 @@ namespace Temple.Temples
                         }
                     }
                     break;
+                case 20:
+                    //安斗服務
+                    dtData = objLightDAC.GetAPPCharge_Fw_AnDou(ApplicantID, Year);
+                    if (dtData.Rows.Count > 0)
+                    {
+                        OrderStateContent = OrderState("付款時間", DateTime.Parse(dtData.Rows[0]["ChargeDate"].ToString()).ToString("yyyy-MM-dd HH:mm:ss"));
+
+                        OrderPurchaser = OrderData("購買人姓名", dtData.Rows[0]["AppName"].ToString());
+                        OrderPurchaser += OrderData("購買人電話", dtData.Rows[0]["AppMobile"].ToString());
+
+                        OrderInfo = string.Empty;
+
+                        for (int i = 0; i < dtData.Rows.Count; i++)
+                        {
+                            OrderInfo += "<li><div>";
+
+                            string andouString = dtData.Rows[i]["AnDouString"].ToString();
+                            string andouType = dtData.Rows[i]["AnDouType"].ToString();
+
+                            ////服務項目
+                            OrderInfo += String.Format("<div class=\"ProductsName\">{0}</div>", andouString);
+
+                            //祈福人內容列表
+                            OrderInfo += "<div class=\"ProductsInfo\">";
+
+                            OrderInfo += OrderData("宮廟名稱", "斗六五路財神宮");
+                            if (dtData.Rows[i]["PetName"].ToString() != "")
+                            {
+                                OrderInfo += OrderData("訂單編號", dtData.Rows[i]["Num2String"].ToString());
+                                OrderInfo += OrderData("飼主姓名", dtData.Rows[i]["Name"].ToString());
+                                OrderInfo += OrderData("飼主電話", dtData.Rows[i]["Mobile"].ToString());
+                                OrderInfo += OrderData("飼主性別", dtData.Rows[i]["Sex"].ToString());
+                                OrderInfo += OrderData("飼主農曆生日", dtData.Rows[i]["Birth"].ToString() + (dtData.Rows[i]["LeapMonth"].ToString() == "Y" ? " 閏月" : ""));
+                                OrderInfo += OrderData("飼主農曆時辰", dtData.Rows[i]["BirthTime"].ToString());
+                                OrderInfo += OrderData("飼主國曆生日", dtData.Rows[i]["sBirth"].ToString());
+                                OrderInfo += OrderData("飼主Email", dtData.Rows[i]["Email"].ToString());
+                                OrderInfo += OrderData("飼主地址", dtData.Rows[i]["Address"].ToString());
+
+                                OrderInfo += OrderData("寵物姓名", dtData.Rows[i]["PetName"].ToString());
+                                OrderInfo += OrderData("寵物品種", dtData.Rows[i]["PetType"].ToString());
+                            }
+                            else
+                            {
+                                OrderInfo += OrderData("訂單編號", dtData.Rows[i]["Num2String"].ToString());
+                                OrderInfo += OrderData("祈福人姓名", dtData.Rows[i]["Name"].ToString());
+                                OrderInfo += OrderData("祈福人電話", dtData.Rows[i]["Mobile"].ToString());
+                                OrderInfo += OrderData("祈福人性別", dtData.Rows[i]["Sex"].ToString());
+                                OrderInfo += OrderData("祈福人農曆生日", dtData.Rows[i]["Birth"].ToString() + (dtData.Rows[i]["LeapMonth"].ToString() == "Y" ? " 閏月" : ""));
+                                OrderInfo += OrderData("祈福人農曆時辰", dtData.Rows[i]["BirthTime"].ToString());
+                                OrderInfo += OrderData("祈福人國曆生日", dtData.Rows[i]["sBirth"].ToString());
+                                OrderInfo += OrderData("祈福人Email", dtData.Rows[i]["Email"].ToString());
+                                OrderInfo += OrderData("祈福人地址", dtData.Rows[i]["Address"].ToString());
+                            }
+
+                            OrderInfo += "</div></div>";
+
+                            //服務項目金額
+                            int cost = int.Parse(dtData.Rows[i]["Count"].ToString()) * GetLightsCost(AdminID, andouType);
+                            OrderInfo += "<div>$ " + cost + "元</div>";
+                            Total += cost;
+
+                            OrderInfo += "</li>";
+                        }
+                    }
+                    break;
             }
         }
 
@@ -3262,6 +3360,54 @@ namespace Temple.Temples
                     //        OrderInfo += "</li>";
                     //    }
                     //}
+                    break;
+                case 20:
+                    //安斗服務
+                    dtData = objLightDAC.GetAPPCharge_wjsan_AnDou(ApplicantID, Year);
+                    if (dtData.Rows.Count > 0)
+                    {
+                        OrderStateContent = OrderState("付款時間", DateTime.Parse(dtData.Rows[0]["ChargeDate"].ToString()).ToString("yyyy-MM-dd HH:mm:ss"));
+
+                        OrderPurchaser = OrderData("購買人姓名", dtData.Rows[0]["AppName"].ToString());
+                        OrderPurchaser += OrderData("購買人電話", dtData.Rows[0]["AppMobile"].ToString());
+
+                        OrderInfo = string.Empty;
+
+                        for (int i = 0; i < dtData.Rows.Count; i++)
+                        {
+                            OrderInfo += "<li><div>";
+
+                            string andouString = dtData.Rows[i]["AnDouString"].ToString();
+                            string andouType = dtData.Rows[i]["AnDouType"].ToString();
+
+                            ////服務項目
+                            OrderInfo += String.Format("<div class=\"ProductsName\">{0}</div>", andouString);
+
+                            //服務項目金額
+                            int cost = int.Parse(dtData.Rows[i]["Count"].ToString()) * GetLightsCost(AdminID, andouType);
+
+                            //祈福人內容列表
+                            OrderInfo += "<div class=\"ProductsInfo\">";
+
+                            OrderInfo += OrderData("宮廟名稱", "台灣道教總廟無極三清總道院");
+                            OrderInfo += OrderData("訂單編號", dtData.Rows[i]["Num2String"].ToString());
+                            OrderInfo += OrderData("祈福人姓名", dtData.Rows[i]["Name"].ToString());
+                            OrderInfo += OrderData("祈福人電話", dtData.Rows[i]["Mobile"].ToString());
+                            OrderInfo += OrderData("祈福人性別", dtData.Rows[i]["Sex"].ToString());
+                            OrderInfo += OrderData("祈福人農曆生日", dtData.Rows[i]["Birth"].ToString() + (dtData.Rows[i]["LeapMonth"].ToString() == "Y" ? " 閏月" : ""));
+                            OrderInfo += OrderData("祈福人農曆時辰", dtData.Rows[i]["BirthTime"].ToString());
+                            OrderInfo += OrderData("祈福人國曆生日", dtData.Rows[i]["sBirth"].ToString());
+                            OrderInfo += OrderData("祈福人Email", dtData.Rows[i]["Email"].ToString());
+                            OrderInfo += OrderData("祈福人地址", dtData.Rows[i]["Address"].ToString());
+
+                            OrderInfo += "</div></div>";
+
+                            OrderInfo += "<div>$ " + cost + "元</div>";
+                            Total += cost;
+
+                            OrderInfo += "</li>";
+                        }
+                    }
                     break;
             }
         }

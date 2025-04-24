@@ -215,7 +215,7 @@ namespace Temple.Temples
                                     title = "台灣道教總廟無極三清總道院";
                                     GetPurchaserlist_wjsan_Lights(adminID, ApplicantID, Year, ref payStatus);          //台灣道教總廟無極三清總道院資料列表
                                     Checkedtemple_wjsan(adminID, ApplicantID, kind, Year);
-                                    EndDate = "2025/03/15 23:59";
+                                    EndDate = "2025/06/30 23:59";
                                     if (payStatus)
                                     {
                                         bindPayButton(false, true, true, true, false, false, true, true);
@@ -681,8 +681,46 @@ namespace Temple.Temples
                                     title = "神霄玉府財神會館";
                                     GetPurchaserlist_sx_Supplies(adminID, ApplicantID, kind, Year);          //購買人資料列表
                                     Checkedtemple_sx(adminID, ApplicantID, kind, Year);
-                                    EndDate = "2025/02/03 23:59";
+                                    EndDate = "2025/12/31 23:59";
                                     bindPayButton(true, true, true, false, true, true, true, true);
+                                    break;
+                            }
+                            break;
+                        //安斗服務
+                        case 20:
+                            typeString = " 2025安斗";
+                            //startDate = "2024/11/01 00:00:00";
+                            //ijj = DateTime.Compare(DateTime.Parse(startDate), dtNow);
+                            //if (DateTime.Compare(DateTime.Parse(startDate), dtNow) < 0 || Request["ad"] == "2")
+                            //{
+                            //    typeString = " 2025點燈";
+                            //    Year = "2025";
+                            //}
+
+                            //type = 1;
+                            //if (Request["type"] != null)
+                            //{
+                            //    type = int.Parse(Request["type"]);
+                            //}
+
+                            switch (adminID)
+                            {
+                                case 15:
+                                    //斗六五路財神宮
+                                    title = "斗六五路財神宮";
+                                    GetPurchaserlist_Fw_AnDou(adminID, ApplicantID, Year);          //斗六五路財神宮資料列表
+                                    Checkedtemple_Fw(adminID, ApplicantID, kind, Year);
+                                    EndDate = "2025/10/31 23:59";
+                                    bindPayButton(false, true, true, true, false, false, true, true);
+                                    break;
+                                case 31:
+                                    //台灣道教總廟無極三清總道院
+                                    bool payStatus = false;
+                                    title = "台灣道教總廟無極三清總道院";
+                                    GetPurchaserlist_wjsan_AnDou(adminID, ApplicantID, Year, ref payStatus);          //台灣道教總廟無極三清總道院資料列表
+                                    Checkedtemple_wjsan(adminID, ApplicantID, kind, Year);
+                                    EndDate = "2025/06/30 23:59";
+                                    bindPayButton(false, true, true, true, false, false, true, true);
                                     break;
                             }
                             break;
@@ -3068,6 +3106,108 @@ namespace Temple.Temples
                                             break;
                                     }
                                     break;
+                                case 20:
+                                    //安斗服務
+                                    dtLASTTIME = objLightDAC.GetInfoLastDate(ApplicantID, AdminID, 20, type, Year);
+                                    if (dtLASTTIME.AddMinutes(20) < dtNow)
+                                    {
+                                        basePage.mJSonHelper.AddContent("Timeover", 1);
+                                    }
+                                    else
+                                    {
+                                        int cost = Total;
+                                        string link = string.Empty;
+                                        string name = "保必保庇線上服務平台";
+
+                                        switch (AdminID)
+                                        {
+                                            case 15:
+                                                //斗六五路財神宮
+                                                name = "斗六五路財神宮安斗服務";
+
+                                                switch (ChargeType)
+                                                {
+                                                    case "LinePay":
+                                                        link = TWWebPay_andou_Fw(basePage, orderId, ApplicantID, "LINEPAY", "", cost, AppMobile, "a=" + AdminID + "&aid=" + ApplicantID +
+                                                            "&kind=" + kind + (basePage.Request["twm"] != null ? "&twm=1" : ""), Year);
+                                                        //link = "https://bobibobi.tw/Admin/line/LinePay.aspx?a=" + AdminID + "&aid=" + ApplicantID + "&Total=" + cost + "&kind=" + kind + (basePage.Request["twm"] != null ? "&twm=1" : "") + "&name=" + name + "&orderId=" + orderId;
+                                                        break;
+                                                    case "JkosPay":
+                                                        link = "https://bobibobi.tw/Admin/jkos/jkosPay.aspx?a=" + AdminID + "&aid=" + ApplicantID + "&Total=" + cost + "&kind=" + kind + (basePage.Request["twm"] != null ? "&twm=1" : "") + "&name=" + name + "&orderId=" + orderId;
+                                                        break;
+                                                    case "PXPayPlus":
+                                                        link = TWWebPay_andou_Fw(basePage, orderId, ApplicantID, "PXPAY", "", cost, AppMobile, "a=" + AdminID + "&aid=" + ApplicantID +
+                                                            "&kind=" + kind + (basePage.Request["twm"] != null ? "&twm=1" : ""), Year);
+                                                        break;
+                                                    case "ChtCSP":
+                                                        link = TWWebPay_andou_Fw(basePage, orderId, ApplicantID, "TELEPAY", "", cost, AppMobile, "a=" + AdminID + "&aid=" + ApplicantID + "&kind=" + kind + (basePage.Request["twm"] != null ? "&twm=1" : ""), Year);
+                                                        break;
+                                                    case "TwmCSP":
+                                                        link = TWWebPay_andou_Fw(basePage, orderId, ApplicantID, "TELEPAY", "twm", cost, AppMobile, "a=" + AdminID + "&aid=" + ApplicantID + "&kind=" + kind + (basePage.Request["twm"] != null ? "&twm=1" : ""), Year);
+                                                        break;
+                                                    case "UnionPay":
+                                                        link = TWWebPay_andou_Fw(basePage, orderId, ApplicantID, "CreditCard", "UNIONPAY", cost, AppMobile, "a=" + AdminID + "&aid=" + ApplicantID +
+                                                            "&kind=" + kind + (basePage.Request["twm"] != null ? "&twm=1" : ""), Year);
+                                                        break;
+                                                    default:
+                                                        link = TWWebPay_andou_Fw(basePage, orderId, ApplicantID, ChargeType, "", cost, AppMobile, "a=" + AdminID + "&aid=" + ApplicantID + "&kind=" + kind + (basePage.Request["twm"] != null ? "&twm=1" : ""), Year);
+                                                        break;
+                                                }
+                                                break;
+                                            case 31:
+                                                //台灣道教總廟無極三清總道院
+                                                name = "台灣道教總廟無極三清總道院安斗服務";
+                                                bool checkednum_wjsan = true;
+                                                if (checkednum_wjsan)
+                                                {
+                                                    switch (ChargeType)
+                                                    {
+                                                        case "LinePay":
+                                                            link = TWWebPay_andou_wjsan(basePage, orderId, ApplicantID, "LINEPAY", "", cost, AppMobile, "a=" + AdminID + "&aid=" + ApplicantID +
+                                                                "&kind=" + kind + (basePage.Request["twm"] != null ? "&twm=1" : ""), Year);
+                                                            //link = "https://bobibobi.tw/Admin/line/LinePay.aspx?a=" + AdminID + "&aid=" + ApplicantID + "&Total=" + cost + "&kind=" + kind + (basePage.Request["twm"] != null ? "&twm=1" : "") + "&name=" + name + "&orderId=" + orderId;
+                                                            break;
+                                                        case "JkosPay":
+                                                            link = "https://bobibobi.tw/Admin/jkos/jkosPay.aspx?a=" + AdminID + "&aid=" + ApplicantID + "&Total=" + cost + "&kind=" + kind +
+                                                                (basePage.Request["twm"] != null ? "&twm=1" : "") + "&name=" + name + "&orderId=" + orderId;
+                                                            break;
+                                                        case "PXPayPlus":
+                                                            link = TWWebPay_andou_wjsan(basePage, orderId, ApplicantID, "PXPAY", "", cost, AppMobile, "a=" + AdminID + "&aid=" + ApplicantID +
+                                                                "&kind=" + kind + (basePage.Request["twm"] != null ? "&twm=1" : ""), Year);
+                                                            break;
+                                                        case "ChtCSP":
+                                                            link = TWWebPay_andou_wjsan(basePage, orderId, ApplicantID, "TELEPAY", "", cost, AppMobile, "a=" + AdminID + "&aid=" + ApplicantID +
+                                                                "&kind=" + kind + (basePage.Request["twm"] != null ? "&twm=1" : ""), Year);
+                                                            break;
+                                                        case "TwmCSP":
+                                                            link = TWWebPay_andou_wjsan(basePage, orderId, ApplicantID, "TELEPAY", "twm", cost, AppMobile, "a=" + AdminID + "&aid=" +
+                                                                ApplicantID + "&kind=" + kind + (basePage.Request["twm"] != null ? "&twm=1" : ""), Year);
+                                                            break;
+                                                        case "UnionPay":
+                                                            link = TWWebPay_andou_wjsan(basePage, orderId, ApplicantID, "CreditCard", "UNIONPAY", cost, AppMobile, "a=" + AdminID + "&aid=" + ApplicantID +
+                                                                "&kind=" + kind + (basePage.Request["twm"] != null ? "&twm=1" : ""), Year);
+                                                            break;
+                                                        default:
+                                                            link = TWWebPay_andou_wjsan(basePage, orderId, ApplicantID, ChargeType, "", cost, AppMobile, "a=" + AdminID + "&aid=" +
+                                                                ApplicantID + "&kind=" + kind + (basePage.Request["twm"] != null ? "&twm=1" : ""), Year);
+                                                            break;
+                                                    }
+                                                }
+                                                break;
+                                        }
+
+                                        if (link != "")
+                                        {
+                                            basePage.SavePayLog(link);
+
+                                            basePage.mJSonHelper.AddContent("StatusCode", 1);
+                                            basePage.mJSonHelper.AddContent("redirect", link);
+
+                                            basePage.Session["ApplicantID"] = ApplicantID;
+                                        }
+                                    }
+
+                                    break;
                             }
                         }
                     }
@@ -4209,6 +4349,67 @@ namespace Temple.Temples
                 return link;
             }
 
+            protected string TWWebPay_andou_Fw(BasePage basePag, string orderid, int applicantID, string paytype, string telco, int price, string m_phone, string returnUrl,
+                string Year)
+            {
+                TimeZoneInfo info = TimeZoneInfo.FindSystemTimeZoneById("Taipei Standard Time");
+                DateTime dtNow = TimeZoneInfo.ConvertTime(DateTime.Now, info);
+                BCFBaseLibrary.Web.BasePage basePage = new BCFBaseLibrary.Web.BasePage();
+                string oid = orderid;
+                string uid = "Temple";
+                string Sid = "Temple-YunlinWulucaishen";    //斗六五路財神宮_宮廟服務 PR00004721
+                string item = "斗六五路財神宮安斗服務";
+                string ValidationKey = "Ov7BmaT5l1C89t5FNj0cEsR";
+                string link = "https://paygate.tw/xpay/pay?uid=";
+                string PaymentReceiveURL = basePag.GetConfigValue("PaymentAnDou_Fw_ReceiveURL");
+                string Timestamp = dtNow.ToString("yyyyMMddHHmmssfff");
+                string msisdn = m_phone;
+                string chrgtype = "1";
+                string m1 = applicantID.ToString();
+                string m2 = returnUrl;
+                //string mac = MD5.Encode(uid + oid + price + item + paytype + Sid + PaymentReceiveURL + m1 + m2
+                //                      + telco + chrgtype + Timestamp + ValidationKey).Replace("-", "").ToLower();
+                string mac = MD5.MD5Encrypt(uid + oid + price + item + paytype + Sid + PaymentReceiveURL + m1 + m2
+                                      + telco + chrgtype + msisdn + Timestamp + ValidationKey).Replace("-", "").ToLower();
+
+                string paymentChannelLog = returnUrl;
+                DatabaseHelper objdatabaseHelper = new DatabaseHelper(basePage);
+                string ChargeType = paytype;
+                if (ChargeType == "TELEPAY")
+                {
+                    if (telco == "twm")
+                    {
+                        ChargeType = "Twm";
+                    }
+                    else
+                    {
+                        ChargeType = "Cht";
+                    }
+                }
+
+                if (ChargeType == "CreditCard")
+                {
+                    if (telco == "UNIONPAY")
+                    {
+                        ChargeType = "UNIONPAY";
+                    }
+                }
+                long id = objdatabaseHelper.AddChargeLog_AnDou_Fw(oid, applicantID, price, ChargeType, 0, "", "", paymentChannelLog, basePag.Request.UserHostAddress, Year);
+                //long id = 6;
+
+                LightDAC objLightDAC = new LightDAC(basePag);
+
+                if (id > 0 && objLightDAC.Updatecost2applicantinfo_AnDou_Fw(applicantID, AdminID, price, Year))
+                {
+                    link = link + uid + "&oid=" + oid + "&returl=" + basePage.Server.UrlEncode(PaymentReceiveURL) + "&point=" + price + "&pw=" + paytype
+                        + "&sid=" + Sid + "&item=" + item + "&timestamp=" + Timestamp + "&chrgtype=" + chrgtype + "&mac="
+                        + mac + "&m1=" + basePage.Server.UrlEncode(m1) + "&m2=" + System.Web.HttpUtility.UrlEncode(m2) + "&telco=" + telco + "&msisdn=" + msisdn;
+
+                }
+
+                return link;
+            }
+
             protected string TWWebPay_lights_dh(BasePage basePag, string orderid, int applicantID, string paytype, string telco, int price, string m_phone, string returnUrl, 
                 string Year)
             {
@@ -4445,6 +4646,68 @@ namespace Temple.Temples
                 //long id = 6;
 
                 if (id > 0 && objLightDAC.Updatecost2applicantinfo_Lights_wjsan(applicantID, AdminID, price, Year))
+                {
+                    link = link + uid + "&oid=" + oid + "&returl=" + basePage.Server.UrlEncode(PaymentReceiveURL) + "&point=" + price + "&pw=" + paytype
+                        + "&sid=" + Sid + "&item=" + item + "&timestamp=" + Timestamp + "&chrgtype=" + chrgtype + "&mac="
+                        + mac + "&m1=" + basePage.Server.UrlEncode(m1) + "&m2=" + System.Web.HttpUtility.UrlEncode(m2) + "&telco=" + telco + "&msisdn=" + msisdn;
+
+                }
+
+                return link;
+            }
+
+            protected string TWWebPay_andou_wjsan(BasePage basePag, string orderid, int applicantID, string paytype, string telco, int price, string m_phone, string returnUrl,
+                string Year)
+            {
+                TimeZoneInfo info = TimeZoneInfo.FindSystemTimeZoneById("Taipei Standard Time");
+                DateTime dtNow = TimeZoneInfo.ConvertTime(DateTime.Now, info);
+                BCFBaseLibrary.Web.BasePage basePage = new BCFBaseLibrary.Web.BasePage();
+                string oid = orderid;
+                string uid = "Temple";
+                string Sid = "Temple-Wjsan";    //台灣道教總廟無極三清總道院(PR00009720)
+                string item = "台灣道教總廟無極三清總道院安斗服務";
+                string ValidationKey = "Ov7BmaT5l1C89t5FNj0cEsR";
+                string link = "https://paygate.tw/xpay/pay?uid=";
+                string PaymentReceiveURL = basePag.GetConfigValue("PaymentAnDou_wjsan_ReceiveURL");
+                string Timestamp = dtNow.ToString("yyyyMMddHHmmssfff");
+                string msisdn = m_phone;
+                string chrgtype = "1";
+                string m1 = applicantID.ToString();
+                string m2 = returnUrl;
+                //string mac = MD5.Encode(uid + oid + price + item + paytype + Sid + PaymentReceiveURL + m1 + m2
+                //                      + telco + chrgtype + Timestamp + ValidationKey).Replace("-", "").ToLower();
+                string mac = MD5.MD5Encrypt(uid + oid + price + item + paytype + Sid + PaymentReceiveURL + m1 + m2
+                                      + telco + chrgtype + msisdn + Timestamp + ValidationKey).Replace("-", "").ToLower();
+
+                string paymentChannelLog = returnUrl;
+                DatabaseHelper objdatabaseHelper = new DatabaseHelper(basePage);
+                string ChargeType = paytype;
+                if (ChargeType == "TELEPAY")
+                {
+                    if (telco == "twm")
+                    {
+                        ChargeType = "Twm";
+                    }
+                    else
+                    {
+                        ChargeType = "Cht";
+                    }
+                }
+
+                if (ChargeType == "CreditCard")
+                {
+                    if (telco == "UNIONPAY")
+                    {
+                        ChargeType = "UNIONPAY";
+                    }
+                }
+
+                LightDAC objLightDAC = new LightDAC(basePag);
+
+                long id = objdatabaseHelper.AddChargeLog_AnDou_wjsan(oid, applicantID, price, ChargeType, 0, "", "", paymentChannelLog, basePag.Request.UserHostAddress, Year);
+                //long id = 6;
+
+                if (id > 0 && objLightDAC.Updatecost2applicantinfo_AnDou_wjsan(applicantID, AdminID, price, Year))
                 {
                     link = link + uid + "&oid=" + oid + "&returl=" + basePage.Server.UrlEncode(PaymentReceiveURL) + "&point=" + price + "&pw=" + paytype
                         + "&sid=" + Sid + "&item=" + item + "&timestamp=" + Timestamp + "&chrgtype=" + chrgtype + "&mac="
@@ -8786,6 +9049,76 @@ namespace Temple.Temples
                 }
             }
         }
+        public void GetPurchaserlist_Fw_AnDou(int AdminID, int ApplicantID, string Year)
+        {
+            LightDAC objLightDAC = new LightDAC(this);
+            int cost = 0;
+
+            DataTable dtData = objLightDAC.Getandou_Fw_info(ApplicantID, Year);
+
+            if (dtData.Rows.Count > 0)
+            {
+                OrderPurchaser = OrderData("購買人姓名", dtData.Rows[0]["AppName"].ToString());
+
+
+                string result = "<div class=\"OrderData\">\r\n                                                <div class=\"label\">{0}：</div>\r\n                                                <div id=\"AppMobile\" class=\"txt\">{1}</div>\r\n                                            </div>";
+
+                AppMobile = dtData.Rows[0]["AppMobile"].ToString();
+                OrderPurchaser += String.Format(result, "購買人電話", dtData.Rows[0]["AppMobile"].ToString());
+
+                OrderInfo = string.Empty;
+
+                for (int i = 0; i < dtData.Rows.Count; i++)
+                {
+                    OrderInfo += "<li><div>";
+
+                    string andouString = dtData.Rows[i]["AnDouString"].ToString();
+                    string andouType = dtData.Rows[i]["AnDouType"].ToString();
+
+                    ////服務項目
+                    OrderInfo += String.Format("<div class=\"ProductsName\">{0}</div>", andouString);
+
+                    //祈福人內容列表
+                    OrderInfo += "<div class=\"ProductsInfo\">";
+
+                    if (dtData.Rows[i]["PetName"].ToString() != "")
+                    {
+                        OrderInfo += OrderData("飼主姓名", dtData.Rows[i]["Name"].ToString());
+                        OrderInfo += OrderData("飼主電話", dtData.Rows[i]["Mobile"].ToString());
+                        OrderInfo += OrderData("飼主性別", dtData.Rows[i]["Sex"].ToString());
+                        OrderInfo += OrderData("飼主農曆生日", dtData.Rows[i]["Birth"].ToString() + (dtData.Rows[i]["LeapMonth"].ToString() == "Y" ? " 閏月" : ""));
+                        OrderInfo += OrderData("飼主農曆時辰", dtData.Rows[i]["BirthTime"].ToString());
+                        OrderInfo += OrderData("飼主國曆生日", dtData.Rows[i]["sBirth"].ToString());
+                        OrderInfo += OrderData("飼主Email", dtData.Rows[i]["Email"].ToString());
+                        OrderInfo += OrderData("飼主地址", dtData.Rows[i]["Address"].ToString());
+
+                        OrderInfo += OrderData("寵物姓名", dtData.Rows[i]["PetName"].ToString());
+                        OrderInfo += OrderData("寵物品種", dtData.Rows[i]["PetType"].ToString());
+                    }
+                    else
+                    {
+                        OrderInfo += OrderData("祈福人姓名", dtData.Rows[i]["Name"].ToString());
+                        OrderInfo += OrderData("祈福人電話", dtData.Rows[i]["Mobile"].ToString());
+                        OrderInfo += OrderData("祈福人性別", dtData.Rows[i]["Sex"].ToString());
+                        OrderInfo += OrderData("祈福人農曆生日", dtData.Rows[i]["Birth"].ToString() + (dtData.Rows[i]["LeapMonth"].ToString() == "Y" ? " 閏月" : ""));
+                        OrderInfo += OrderData("祈福人農曆時辰", dtData.Rows[i]["BirthTime"].ToString());
+                        OrderInfo += OrderData("祈福人國曆生日", dtData.Rows[i]["sBirth"].ToString());
+                        OrderInfo += OrderData("祈福人Email", dtData.Rows[i]["Email"].ToString());
+                        OrderInfo += OrderData("祈福人地址", dtData.Rows[i]["Address"].ToString());
+                    }
+
+                    OrderInfo += "</div></div>";
+
+                    //服務項目金額
+                    cost = int.Parse(dtData.Rows[i]["Count"].ToString()) * GetLightsCost(AdminID, andouType);
+
+                    OrderInfo += "<div>$ " + cost + "元</div>";
+                    Total += cost;
+
+                    OrderInfo += "</li>";
+                }
+            }
+        }
         public void Checkedtemple_Fw(int AdminID, int ApplicantID, int kind, string Year)
         {
             TimeZoneInfo info = TimeZoneInfo.FindSystemTimeZoneById("Taipei Standard Time");
@@ -8852,6 +9185,29 @@ namespace Temple.Temples
                         else
                         {
                             DateTime dtLASTTIME = objLightDAC.GetInfoLastDate(ApplicantID, AdminID, 16, -1, Year);
+                            if (dtLASTTIME.AddMinutes(20) < dtNow)
+                            {
+                                Response.Write("<script>alert('此購買人付款時間已超時20分鐘，請重新購買。');location='" + reback + "'</script>");
+                            }
+                        }
+                    }
+                    else
+                    {
+                        Response.Write("<script>alert('此購買人已進行付款動作。請重新購買。');location='" + reback + "'</script>");
+                    }
+                    break;
+                case 20:
+                    //安斗服務
+                    reback = "https://bobibobi.tw/Temples/templeService_andou_Fw.aspx" + (Request["twm"] != null ? "?twm=1" : "");
+                    if (objLightDAC.checkedappcharge_AnDou_Fw(ApplicantID, AdminID, Year))
+                    {
+                        if (OrderPurchaser == "")
+                        {
+                            Response.Write("<script>alert('讀取購買人資料錯誤。請重新購買。');location='" + reback + "'</script>");
+                        }
+                        else
+                        {
+                            DateTime dtLASTTIME = objLightDAC.GetInfoLastDate(ApplicantID, AdminID, 20, -1, Year);
                             if (dtLASTTIME.AddMinutes(20) < dtNow)
                             {
                                 Response.Write("<script>alert('此購買人付款時間已超時20分鐘，請重新購買。');location='" + reback + "'</script>");
@@ -9884,9 +10240,6 @@ namespace Temple.Temples
                     ////服務項目
                     OrderInfo += String.Format("<div class=\"ProductsName\">{0}</div>", lightsString);
 
-                    //服務項目金額
-                    cost = int.Parse(dtData.Rows[i]["Count"].ToString()) * GetLightsCost(AdminID, lightsType);
-
                     //祈福人內容列表
                     OrderInfo += "<div class=\"ProductsInfo\">";
 
@@ -9973,6 +10326,67 @@ namespace Temple.Temples
         //        }
         //    }
         //}
+        public void GetPurchaserlist_wjsan_AnDou(int AdminID, int ApplicantID, string Year, ref bool payStatus)
+        {
+            LightDAC objLightDAC = new LightDAC(this);
+            int cost = 0;
+
+            DataTable dtData = objLightDAC.Getandou_wjsan_info(ApplicantID, Year);
+
+            if (dtData.Rows.Count > 0)
+            {
+                OrderPurchaser = OrderData("購買人姓名", dtData.Rows[0]["AppName"].ToString());
+
+
+                string result = "<div class=\"OrderData\">\r\n                                                <div class=\"label\">{0}：</div>\r\n                                                <div id=\"AppMobile\" class=\"txt\">{1}</div>\r\n                                            </div>";
+
+                AppMobile = dtData.Rows[0]["AppMobile"].ToString();
+                OrderPurchaser += String.Format(result, "購買人電話", dtData.Rows[0]["AppMobile"].ToString());
+
+                OrderInfo = string.Empty;
+
+                for (int i = 0; i < dtData.Rows.Count; i++)
+                {
+                    OrderInfo += "<li><div>";
+
+                    string andouString = dtData.Rows[i]["AnDouString"].ToString();
+                    string andouType = dtData.Rows[i]["AnDouType"].ToString();
+
+                    int andoutype = 0;
+                    int.TryParse(andouType, out andoutype);
+                    if (andoutype > 24 && !payStatus)
+                    {
+                        payStatus = true;
+                    }
+
+                    ////服務項目
+                    OrderInfo += String.Format("<div class=\"ProductsName\">{0}</div>", andouString);
+
+                    //祈福人內容列表
+                    OrderInfo += "<div class=\"ProductsInfo\">";
+
+                    OrderInfo += OrderData("祈福人姓名", dtData.Rows[i]["Name"].ToString());
+                    OrderInfo += OrderData("祈福人電話", dtData.Rows[i]["Mobile"].ToString());
+                    OrderInfo += OrderData("祈福人性別", dtData.Rows[i]["Sex"].ToString());
+                    OrderInfo += OrderData("祈福人農曆生日", dtData.Rows[i]["Birth"].ToString() + (dtData.Rows[i]["LeapMonth"].ToString() == "Y" ? " 閏月" : ""));
+                    OrderInfo += OrderData("祈福人農曆時辰", dtData.Rows[i]["BirthTime"].ToString());
+                    OrderInfo += OrderData("祈福人國曆生日", dtData.Rows[i]["sBirth"].ToString());
+                    OrderInfo += OrderData("祈福人Email", dtData.Rows[i]["Email"].ToString());
+                    OrderInfo += OrderData("祈福人地址", dtData.Rows[i]["Address"].ToString());
+
+                    //OrderInfo += OrderData("備註", TextToHtml(dtData.Rows[i]["Remark"].ToString()));
+
+                    OrderInfo += "</div></div>";
+
+                    //服務項目金額
+                    cost = int.Parse(dtData.Rows[i]["Count"].ToString()) * GetLightsCost(AdminID, andouType);
+                    OrderInfo += "<div>$ " + cost + "元</div>";
+                    Total += cost;
+
+                    OrderInfo += "</li>";
+                }
+            }
+        }
         public void Checkedtemple_wjsan(int AdminID, int ApplicantID, int kind, string Year)
         {
             TimeZoneInfo info = TimeZoneInfo.FindSystemTimeZoneById("Taipei Standard Time");
@@ -10026,6 +10440,29 @@ namespace Temple.Temples
                     //{
                     //    Response.Write("<script>alert('此購買人已進行付款動作。請重新購買。');location='" + reback + "'</script>");
                     //}
+                    break;
+                case 20:
+                    //安斗服務
+                    reback = "https://bobibobi.tw/Temples/templeService_andou_wjsan.aspx" + (Request["twm"] != null ? "?twm=1" : "");
+                    if (objLightDAC.checkedappcharge_AnDou_wjsan(ApplicantID, AdminID, Year))
+                    {
+                        if (OrderPurchaser == "")
+                        {
+                            Response.Write("<script>alert('讀取購買人資料錯誤。請重新購買。');location='" + reback + "'</script>");
+                        }
+                        else
+                        {
+                            DateTime dtLASTTIME = objLightDAC.GetInfoLastDate(ApplicantID, AdminID, 20, -1, Year);
+                            if (dtLASTTIME.AddMinutes(20) < dtNow)
+                            {
+                                Response.Write("<script>alert('此購買人付款時間已超時20分鐘，請重新購買。');location='" + reback + "'</script>");
+                            }
+                        }
+                    }
+                    else
+                    {
+                        Response.Write("<script>alert('此購買人已進行付款動作。請重新購買。');location='" + reback + "'</script>");
+                    }
                     break;
             }
 

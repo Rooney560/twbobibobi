@@ -378,6 +378,23 @@
                                 </a>
                             </div>
                             <div class="col-lg-3 col-sm-12 py-3">
+                                <a href="https://bobibobi.tw/Temples/newsContent_2025andou.aspx">
+                                    <div class="card shadow h-100" style="background-color: white; color: #707070;">
+                                        <%--<div class="Newsimg">--%>
+                                        <img src="https://bobibobi.tw/Temples/SiteFile/News/20250422_NewsImg_s.jpg" class="card-img-top p-3" alt="保必保庇２０２５乙巳蛇年安奉斗燈" title="保必保庇２０２５乙巳蛇年安奉斗燈" />
+                                        <%--</div>--%>
+                                        <div class="card-body">
+                                            <div class="fs-3">２０２５乙巳蛇年安奉斗燈~</div>
+                                            <div class="fs-5">斗燈在道教與民間星辰信仰裡扮演著「傳遞光亮、召喚星辰之力」的角色，能讓禮斗或安斗儀式更加莊嚴與有效。</div>
+
+                                        </div>
+                                        <div class="card-footer pb-3" style="border-top: none; background-color: transparent;">
+                                            <div class="ReadMoreBtn"><span>&nbsp;詳情&nbsp;</span></div>
+                                        </div>
+                                    </div>
+                                </a>
+                            </div>
+                            <div class="col-lg-3 col-sm-12 py-3">
                                 <a href="https://bobibobi.tw/Temples/newsContent_2025suppliesBF.aspx">
                                     <div class="card shadow h-100" style="background-color: white; color: #707070;">
                                         <%--<div class="Newsimg">--%>
@@ -403,23 +420,6 @@
                                         <div class="card-body">
                                             <div class="fs-3">2025桃園威天宮母親節孝親祈福謝恩活動</div>
                                             <div class="fs-5">感念母愛如海，誠心為媽媽或是長輩祈福祝壽！本宮舉辦母親節孝親活動，邀您攜母親一同來廟參拜，點燈祈福、獻上祝福，傳達心中感恩。福報加持，孝心圓滿！</div>
-
-                                        </div>
-                                        <div class="card-footer pb-3" style="border-top: none; background-color: transparent;">
-                                            <div class="ReadMoreBtn"><span>&nbsp;詳情&nbsp;</span></div>
-                                        </div>
-                                    </div>
-                                </a>
-                            </div>
-                            <div class="col-lg-3 col-sm-12 py-3">
-                                <a href="https://bobibobi.tw/Temples/templeService_supplies2_sx.aspx">
-                                    <div class="card shadow h-100" style="background-color: white; color: #707070;">
-                                        <%--<div class="Newsimg">--%>
-                                        <img src="https://bobibobi.tw/Temples/SiteFile/News/20250407_NewsImg_s.jpg?t=55282" class="card-img-top p-3" alt="2025神霄玉府財神會館供香轉運活動" title="2025神霄玉府財神會館供香轉運活動" />
-                                        <%--</div>--%>
-                                        <div class="card-body">
-                                            <div class="fs-3">２０２５神霄玉府財神會館供香轉運活動</div>
-                                            <div class="fs-5">一炷清香傳心意，一份供香轉運勢。誠心供香，功德無量，祈求神明庇佑、傳達願力、消災解厄、福運綿延。供香敬神，更是為自己與家人種下平安與好運的種子。</div>
 
                                         </div>
                                         <div class="card-footer pb-3" style="border-top: none; background-color: transparent;">

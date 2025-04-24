@@ -215,50 +215,9 @@
                             <p>希望牠能身體健康，無災無難,長命百歲！</p>
                             <p>五路財神宮 特別設立 [ 寵物平安燈 ] 為您的小寶貝祈福，讓牠能長久陪伴著您！費用500元。</p>
                         </div>
-                        <br />
-                        <div id="lights_an" runat="server">
-                            <h1 class="TempleName">什麼是安斗?斗是什麼?</h1>
-                            <span style="color:red;" class="content_a" >“斗”指的是天上的星宿</span>
-                            <span>，道教認為北斗星群主掌人的死、災、厄、病，因此有北斗註死，而斗姆為北斗眾星之母；南斗星群主掌人的生、福、壽、祿，因此有”南斗福壽”，
-                                而太歲就是在執行這些工作的執行者，若能安斗祭祀，弼可消災納福趨吉避凶。</span>
-                            <h2>安斗、拜斗就是在、朝拜自己的本命元辰、可使元辰光彩、 消災賜福、祈求平安。</h2>
-                            <h2>斗燈是由油燈、米、斗燈傘、鏡、劍、秤、剪以及尺所組成。</h2>
-                            <span style="color:red;" class="content_a" >燈</span><span>-光照亮前程。</span><br />
-                            <span style="color:red;" class="content_a" >鏡</span><span>-去邪魔之意，光照到鏡子所產生的折射對著八字元辰，讓本命光彩前程似錦。</span><br />
-                            <span style="color:red;" class="content_a" >青龍持劍</span><span>-除妖魔護其元辰。</span><br />
-                            <span style="color:red;" class="content_a" >朱雀拿剪</span><span>-剪去邪魔纏運。</span><br />
-                            <span style="color:red;" class="content_a" >白虎拿秤</span><span>-添加機運。</span><br />
-                            <span style="color:red;" class="content_a" >玄武帶尺</span><span>-統兵顧神。</span><br />
-                            <span style="color:red;" class="content_a" >斗中放米</span><span>-以求增運補氣。</span><br />
-                            <span style="color:red;" class="content_a" >圓傘護天</span><span>-以求天地泰平，這就是斗中法器所代表的意義。</span>
-                        </div>
-                        <div>
-                            <h2>財神斗 <a target="_blank" class="content_a" href="https://bobibobi.tw/Temples/images/temple/product/Fw/1_11.jpg">(看圖)</a></h2>
-                            <p>祈求  財庫飽滿、會賺錢不是師父、能守住財才是真功夫、錢財守不住、左手來、右手出、要如何守住財、一定要點財神斗、由護法財神來幫您守住錢財。
-                                <span style="color:red;" class="" >費用1200元/一個月、3000元/三個月。</span></p>
-                        </div>
-                        <div>
-                            <h2>發財斗 <a target="_blank" class="content_a" href="https://bobibobi.tw/Temples/images/temple/product/Fw/1_12.jpg">(看圖)</a></h2>
-                            <p>祈求  彩卷、股市、娛樂八大行業、偏財運亨通、八方進財、財源滾滾而來、想要輕鬆進財、一定要點發財斗、由偏財神爺為您開啟偏財運。
-                                <span style="color:red;" class="" >費用1200元/一個月、3000元/三個月。</span></p>
-                        </div>
-                        <div>
-                            <h2>姻緣斗 <a target="_blank" class="content_a" href="https://bobibobi.tw/Temples/images/temple/product/Fw/1_13.jpg">(看圖)</a></h2>
-                            <p>祈求   增添桃花緣、異性緣、求取好人緣、穩定永固加深緣份、已婚者求婚姻圓滿 夫妻和諧恩愛、未婚者求賜好姻緣、戀愛中男女求賜感情穩定融合緣份永續，
-                                業務員 可增添桃花緣，業績節節上升。<span style="color:red;" class="" >費用1200元/一個月、3000元/三個月。</span></p>
-                        </div>
-                        <div>
-                            <h2>貴人斗 <a target="_blank" class="content_a" href="https://bobibobi.tw/Temples/images/temple/product/Fw/1_14.jpg">(看圖)</a></h2>
-                            <p>祈求 貴人明現，斬除小三，化解小人與冤親債主，小人轉化為貴人，福星高照，命主光彩，<span style="color:red;" class="" >費用1200元/一個月、3000元/三個月。</span></p>
-                        </div>
-                        <div>
-                            <h2>消災延壽斗 <a target="_blank" class="content_a" href="https://bobibobi.tw/Temples/images/temple/product/Fw/1_15.jpg">(看圖)</a></h2>
-                            <p>化解 冤親債主、消災解厄、延壽添福。生肖屬豬(犯死符)、鼠(犯五鬼、官符)、虎(犯喪門、吊客)、蛇(犯病符)、馬(犯天狗星)、猴(犯白虎星)宜安奉消災延壽斗，
-                                以保平安。<span style="color:red;" class="" >費用1200元/一個月、3000元/三個月。</span></p>
-                        </div>
                         <p>
                             <br />
-                            <h2>凡點任一盞燈或安斗，即贈送開運錢母及感謝狀。<a target="_blank" class="content_a web" href="https://bobibobi.tw/Temples/images/temple/lights_Fw_01.png">(看圖)</a></h2>
+                            <h2>凡點任一盞燈，即贈送開運錢母及感謝狀。<a target="_blank" class="content_a web" href="https://bobibobi.tw/Temples/images/temple/lights_Fw_01.png">(看圖)</a></h2>
                             <div class="TempleImg mobile">
                                 <h2>錢母圖片如下圖：</h2>
                                 <img src="images/temple/lights_Fw_01.png" width="1160" height="550" alt="" />
@@ -296,7 +255,7 @@
                                 <div class="DeletData"><a href="javascript:;" class="deletList" title="刪除">
                                     <img src="images/deletData.svg" alt="" /></a></div>
                                 <div class="FormTitle_B">祈福人<span></span></div>
-                                <div>（祈福人限填一位，每種點燈/安斗項目對應一位祈福人。如需多位或不同項目，請點選增加祈福人。）</div>
+                                <div>（祈福人限填一位，每種點燈對應一位祈福人。如需多位或不同項目，請點選增加祈福人。）</div>
                                 <div class="FormInput select">
                                     <label>點燈項目</label>
                                     <select name="bless_service_1" class="required3" id="bless_service_1">
@@ -308,22 +267,6 @@
                                         <option value="安太歲">安太歲 $500</option>
                                         <option value="消災延壽燈">消災延壽燈 $500</option>
                                         <option value="寵物平安燈">寵物平安燈 $500</option>
-                                    </select>
-                                </div>
-                                <div class="FormInput select">
-                                    <label>安斗項目</label>
-                                    <select name="bless_service2_1" class="required3" id="bless_service2_1">
-                                        <option value>請選擇</option>
-                                        <option value="財神斗/一個月">財神斗/一個月 $1200</option>
-                                        <option value="發財斗/一個月">發財斗/一個月 $1200</option>
-                                        <option value="姻緣斗/一個月">姻緣斗/一個月 $1200</option>
-                                        <option value="貴人斗/一個月">貴人斗/一個月 $1200</option>
-                                        <option value="消災延壽斗/一個月">消災延壽斗/一個月 $1200</option>
-                                        <option value="財神斗/三個月">財神斗/三個月 $3000</option>
-                                        <option value="發財斗/三個月">發財斗/三個月 $3000</option>
-                                        <option value="姻緣斗/三個月">姻緣斗/三個月 $3000</option>
-                                        <option value="貴人斗/三個月">貴人斗/三個月 $3000</option>
-                                        <option value="消災延壽斗/三個月">消災延壽斗/三個月 $3000</option>
                                     </select>
                                 </div>
                                 <div class="FormInput text_s">
@@ -866,27 +809,16 @@
         // 遍歷每個服務項目欄位
         for (var i = 1; i <= listcount; i++) {
             var value_service = $("#bless_service_" + i).val().trim();
-            var value_service2 = $("#bless_service2_" + i).val().trim();
+            //var value_service2 = $("#bless_service2_" + i).val().trim();
 
-            if (value_service == '' && value_service2 == '') {
+            if (value_service == '' ) {
                 isValid = false;
                 isValid2 = false;
 
-                $(".Notice").text("點燈/安斗項目不能為空。");
+                $(".Notice").text("點燈項目不能為空。");
                 $(".Notice").addClass("active");
                 $('.required3').addClass('unfilled');
-            } else if (value_service != '' && value_service2 != '') {
-                isValid = false;
-                isValid2 = false;
-
-                $(".Notice").text("點燈/安斗項目只能擇一。");
-                $(".Notice").addClass("active");
-                $('.required3').addClass('unfilled');
-            } else if ((value_service != '' || value_service2 != '') && $('.required3').hasClass('unfilled')) {
-                $(".Notice").text("");
-                $(".Notice").removeClass("active");
-                $('.required3').removeClass('unfilled');
-            }
+            } 
         }
 
         var value = $("#member_tel").val().trim();
@@ -1061,12 +993,7 @@
                         $("#bless_cusaddress_" + index).hide();
                     }
                     $("#bless_address_" + index).val(item.Addr);
-                    if (item.LightsString.indexOf('個月') >= 0) {
-                        $("#bless_service2_" + index).val(item.LightsString).trigger("change");
-                    }
-                    else {
-                        $("#bless_service_" + index).val(item.LightsString).trigger("change");
-                    }
+                    $("#bless_service_" + index).val(item.LightsString).trigger("change");
                     $("#bless_petname_" + index).val(item.PetName);
                     $("#bless_pettype_" + index).val(item.PetType);
 
@@ -1132,9 +1059,9 @@
             if ($("#bless_service_" + i).val() != '') {
                 LightsString_Tag.push($("#bless_service_" + i).val().trim());                          //服務項目
             }
-            if ($("#bless_service2_" + i).val() != '') {
-                LightsString_Tag.push($("#bless_service2_" + i).val().trim());                         //服務項目
-            }
+            //if ($("#bless_service2_" + i).val() != '') {
+            //    LightsString_Tag.push($("#bless_service2_" + i).val().trim());                         //服務項目
+            //}
             PetName_Tag.push($("#bless_petname_" + i).val().trim());                                   //寵物姓名
             PetType_Tag.push($("#bless_pettype_" + i).val().trim());                                   //寵物品種
         }
