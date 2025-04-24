@@ -445,6 +445,9 @@
     <Content Include="scripts\js\slick.min.js" />
     <Content Include="scripts\js\_notes\dwsync.xml" />
     <Content Include="SearchLog.aspx" />
+    <Content Include="Temples\AnDouInformation.aspx" />
+    <Content Include="Temples\articleColumn.aspx" />
+    <Content Include="Temples\AvalokiteshvaraInfo.aspx" />
     <Content Include="Temples\bootstrap\css\bootstrap-grid.css" />
     <Content Include="Temples\bootstrap\css\bootstrap-grid.min.css" />
     <Content Include="Temples\bootstrap\css\bootstrap-grid.rtl.css" />
@@ -1129,6 +1132,27 @@
     </Compile>
     <Compile Include="SearchLog.aspx.designer.cs">
       <DependentUpon>SearchLog.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Temples\AnDouInformation.aspx.cs">
+      <DependentUpon>AnDouInformation.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Temples\AnDouInformation.aspx.designer.cs">
+      <DependentUpon>AnDouInformation.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Temples\articleColumn.aspx.cs">
+      <DependentUpon>articleColumn.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Temples\articleColumn.aspx.designer.cs">
+      <DependentUpon>articleColumn.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Temples\AvalokiteshvaraInfo.aspx.cs">
+      <DependentUpon>AvalokiteshvaraInfo.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Temples\AvalokiteshvaraInfo.aspx.designer.cs">
+      <DependentUpon>AvalokiteshvaraInfo.aspx</DependentUpon>
     </Compile>
     <Compile Include="Temples\EventTitbits.aspx.cs">
       <DependentUpon>EventTitbits.aspx</DependentUpon>

@@ -384,8 +384,8 @@
                                         <img src="https://bobibobi.tw/Temples/SiteFile/News/20250422_NewsImg_s.jpg" class="card-img-top p-3" alt="保必保庇２０２５乙巳蛇年安奉斗燈" title="保必保庇２０２５乙巳蛇年安奉斗燈" />
                                         <%--</div>--%>
                                         <div class="card-body">
-                                            <div class="fs-3">２０２５乙巳蛇年安奉斗燈~</div>
-                                            <div class="fs-5">斗燈在道教與民間星辰信仰裡扮演著「傳遞光亮、召喚星辰之力」的角色，能讓禮斗或安斗儀式更加莊嚴與有效。</div>
+                                            <div class="fs-3">安奉斗燈補元神，祈福轉運避災厄，神明庇佑照光明</div>
+                                            <div class="fs-5">安奉斗燈，為自己在天上安一盞護身之燈！向天界上奏元神，祈求神明庇佑、消災解厄、補運轉運。不論是祈求平安、財運、事業、健康或學業，皆可依所願安奉專屬斗燈，護佑全年。</div>
 
                                         </div>
                                         <div class="card-footer pb-3" style="border-top: none; background-color: transparent;">

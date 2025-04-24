@@ -372,11 +372,7 @@
                             <li><a href="https://bobibobi.tw/Temples/service.aspx">信眾服務</a></li>
                             <li><a href="https://bobibobi.tw/Temples/ShoppingGuide.aspx">購物說明</a></li>
                             <li><a href="https://bobibobi.tw/Temples/PrivacyPolicy.aspx">隱私權政策</a></li>
-                            <li><a href="https://bobibobi.tw/Temples/LightsGuide.aspx">燈種說明</a></li>
-                            <li><a href="https://bobibobi.tw/Temples/ZodiacFortune.aspx">生肖運勢</a></li>
-                            <li><a href="https://bobibobi.tw/Temples/NewYearNotes.aspx">過年注意事項</a></li>
-                            <li><a href="https://bobibobi.tw/Temples/Supplies01.aspx">天赦日是什麼</a></li>
-                            <li><a href="https://bobibobi.tw/Temples/Supplies02.aspx">補財庫是什麼</a></li>
+                            <li><a href="https://bobibobi.tw/Temples/articleColumn.aspx">文章專欄</a></li>
                             <li></li>
                         </ul>
                     </div>
