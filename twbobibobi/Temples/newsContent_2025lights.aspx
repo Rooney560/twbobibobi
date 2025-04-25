@@ -30,11 +30,21 @@
     <meta property="og:image" content="https://bobibobi.tw/Temples/SiteFile/News/20241029_NewsImg_s.jpg" />
     <meta name="twitter:image:src" content="https://bobibobi.tw/Temples/SiteFile/News/20241029_NewsImg_s.jpg" />
     <link rel="image_src" href="https://bobibobi.tw/Temples/SiteFile/News/20241029_NewsImg_s.jpg" />
-
+    
+    <!--預覽影片-->
+    <meta property="og:video" content="https://www.youtube.com/embed/8tdGf8JjhgY" />
+    <meta property="og:video:type" content="text/html" />
+    <meta property="og:video:width" content="640" />
+    <meta property="og:video:height" content="360" />
 
     <link rel="shortcut icon" href="images/favicon.png" />
     <link href="images/favicon.png" rel="apple-touch-icon" sizes="192x192" />
 
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="新港奉天宮｜2025 開運錢母擺件發售中" />
+    <meta name="twitter:description" content="開臺媽祖X金虎爺聯名！2025最強開運錢母擺件限量開賣，附介紹影片說明與購買連結。" />
+    <meta name="twitter:image" content="https://bobibobi.tw/Temples/SiteFile/News/20241029_NewsImg_s.jpg" />
 
     <title>２０２５乙巳蛇年新春點燈線上報名開始囉~|最新消息|【保必保庇】線上宮廟服務平台</title>
     <!--標題-->
@@ -121,6 +131,19 @@
             $("#NowYear").text($mydate.getFullYear());
         })
     </script>
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "VideoObject",
+      "name": "新港奉天宮開運錢母擺件",
+      "description": "2025最強開運錢母擺件\n新港奉天宮開臺媽祖X金虎爺\n讓您新的一年財運大爆發\nhttps://st.bobibobi.tw/6sh4w6",
+      "thumbnailUrl": "https://img.youtube.com/vi/8tdGf8JjhgY/maxresdefault.jpg",
+      "uploadDate": "2025-01-03T00:00:00+08:00",
+      "embedUrl": "https://www.youtube.com/embed/8tdGf8JjhgY",
+      "contentUrl": "https://bobibobi.tw/Temples/newsContent_2025lights.aspx"
+    }
+    </script>
+
     <!-- Global site tag (gtag.js) - Google Analytics -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-4YWFRTFCTT"></script>
     <script>

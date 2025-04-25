@@ -2536,6 +2536,45 @@ namespace Read.data
         }
 
         /// <summary>
+        /// 记录產品支付请求-五股賀聖宮點燈
+        /// </summary>
+        /// <param name="OrderID">订单编号</param>
+        /// <param name="ApplicantID">購買人编号</param>
+        /// <param name="Amount">支付金額</param>>
+        /// <param name="Description">支付内容说明</param>
+        /// <param name="Comment">备注</param>
+        /// <param name="PayChannelLog">支付接口日志</param>
+        /// <param name="IP">来源IP</param>
+        public long AddChargeLog_Lights_Hs(string OrderID, int ApplicantID, int Amount, string ChargeType, int Status, string Description, string Comment, string PayChannelLog, string IP, string Year)
+        {
+            TimeZoneInfo info = TimeZoneInfo.FindSystemTimeZoneById("Taipei Standard Time");
+            DateTime dt = TimeZoneInfo.ConvertTime(DateTime.Now, info);
+            DataTable dtDataList = new DataTable();
+            string sql = "Insert into Temple_" + Year + "..APPCharge_Hs_Lights(OrderID, ApplicantID, Amount, Status, Description, ChargeType, Comment, PayChannelLog, IP, CreateDate, CreateDateString) " +
+                "values(@OrderID, @ApplicantID, @Amount, @Status, @Description, @ChargeType, @Comment, @PayChannelLog, @IP, @CreateDate, @CreateDateString)";
+
+            DatabaseAdapter Adapter = new DatabaseAdapter(sql, this.DBSource);
+            DataTable dtdata = new DataTable();
+            Adapter.AddParameterToSelectCommand("@OrderID", OrderID);
+            Adapter.AddParameterToSelectCommand("@ApplicantID", ApplicantID);
+            Adapter.AddParameterToSelectCommand("@Amount", Amount);
+            Adapter.AddParameterToSelectCommand("@Status", Status);
+            Adapter.AddParameterToSelectCommand("@Description", Description);
+            Adapter.AddParameterToSelectCommand("@ChargeType", ChargeType);
+            Adapter.AddParameterToSelectCommand("@Comment", Comment);
+            Adapter.AddParameterToSelectCommand("@PayChannelLog", PayChannelLog);
+            Adapter.AddParameterToSelectCommand("@IP", IP);
+            Adapter.AddParameterToSelectCommand("@CreateDate", dt);
+            Adapter.AddParameterToSelectCommand("@CreateDateString", dt.ToString("yyyy-MM-dd"));
+
+            Adapter.SetSqlCommandBuilder();
+            Adapter.Fill(dtdata);
+            Adapter.Update(dtdata);
+
+            return this.GetIdentity();
+        }
+
+        /// <summary>
         /// 记录產品支付请求-鹿港城隍廟點燈
         /// </summary>
         /// <param name="OrderID">订单编号</param>
@@ -3488,6 +3527,17 @@ namespace Read.data
         {
             DataTable dtDataList = new DataTable();
             string sql = "Select Top 1 * From Temple_" + Year + "..APPCharge_dh_Lights Where OrderID=@OrderID";
+
+            DatabaseAdapter AdapterObj = new DatabaseAdapter(sql, this.DBSource);
+            AdapterObj.AddParameterToSelectCommand("@OrderID", OrderID);
+            AdapterObj.Fill(dtDataList);
+            return dtDataList;
+        }
+
+        public DataTable GetChargeLog_Lights_Hs(string OrderID, string Year)
+        {
+            DataTable dtDataList = new DataTable();
+            string sql = "Select Top 1 * From Temple_" + Year + "..APPCharge_Hs_Lights Where OrderID=@OrderID";
 
             DatabaseAdapter AdapterObj = new DatabaseAdapter(sql, this.DBSource);
             AdapterObj.AddParameterToSelectCommand("@OrderID", OrderID);
@@ -8953,6 +9003,302 @@ namespace Read.data
                                 break;
                             case 14:
                                 //虎爺燈
+                                lastnum = 1001;
+                                break;
+                        }
+                    }
+                }
+
+                msg += "。客服電話：04-36092299。";
+
+                return bResult;
+            }
+        }
+
+        public bool UpdateLights_Hs_Info(int applicantID, int LightsType, string Year, ref string msg, ref string[] lightslist, ref string[] Lightslist)
+        {
+            lock (_thisLock)
+            {
+
+                TimeZoneInfo info = TimeZoneInfo.FindSystemTimeZoneById("Taipei Standard Time");
+                DateTime dt = TimeZoneInfo.ConvertTime(DateTime.Now, info);
+                bool bResult = false;
+                int lastnum = GetListNum_Hs_Lights(LightsType, applicantID, Year);
+                if (lastnum > 0)
+                {
+                    bool dhavenum = true;
+
+                    switch (LightsType)
+                    {
+                        case 3:
+                            //光明燈
+                            for (int i = 1001; i < lastnum; i++)
+                            {
+                                if (CheckedNum_Hs_Lights(LightsType, i, Year))
+                                {
+                                    lastnum = i;
+                                    dhavenum = false;
+                                    break;
+                                }
+                            }
+
+                            break;
+                        case 4:
+                            //安太歲
+                            for (int i = 1001; i < lastnum; i++)
+                            {
+                                if (CheckedNum_Hs_Lights(LightsType, i, Year))
+                                {
+                                    lastnum = i;
+                                    dhavenum = false;
+                                    break;
+                                }
+                            }
+
+                            break;
+                        case 5:
+                            //文昌燈
+                            for (int i = 1001; i < lastnum; i++)
+                            {
+                                if (CheckedNum_Hs_Lights(LightsType, i, Year))
+                                {
+                                    lastnum = i;
+                                    dhavenum = false;
+                                    break;
+                                }
+                            }
+
+                            break;
+                        case 8:
+                            //藥師燈
+                            for (int i = 1001; i < lastnum; i++)
+                            {
+                                if (CheckedNum_Hs_Lights(LightsType, i, Year))
+                                {
+                                    lastnum = i;
+                                    dhavenum = false;
+                                    break;
+                                }
+                            }
+
+                            break;
+                        case 9:
+                            //財利燈
+                            for (int i = 1001; i < lastnum; i++)
+                            {
+                                if (CheckedNum_Hs_Lights(LightsType, i, Year))
+                                {
+                                    lastnum = i;
+                                    dhavenum = false;
+                                    break;
+                                }
+                            }
+
+                            break;
+                    }
+
+                    if (dhavenum)
+                    {
+                        ++lastnum;
+                    }
+                }
+                else
+                {
+                    switch (LightsType)
+                    {
+                        case 3:
+                            //光明燈
+                            lastnum = 1001;
+                            break;
+                        case 4:
+                            //安太歲
+                            lastnum = 1001;
+                            break;
+                        case 5:
+                            //文昌燈
+                            lastnum = 1001;
+                            break;
+                        case 8:
+                            //藥師燈
+                            lastnum = 1001;
+                            break;
+                        case 9:
+                            //財利燈
+                            lastnum = 1001;
+                            break;
+                    }
+                }
+
+                DataTable dtDataList = new DataTable();
+                string sql = "Select * From Temple_" + Year + "..Lights_Hs_info Where ApplicantID=@ApplicantID and Status = 0 and Num = 0";
+
+                DatabaseAdapter AdapterObj = new DatabaseAdapter(sql, this.DBSource);
+                AdapterObj.SetSqlCommandBuilder();
+                AdapterObj.AddParameterToSelectCommand("@ApplicantID", applicantID);
+                AdapterObj.Fill(dtDataList);
+
+                //Lightslist = new string[dtDataList.Rows.Count];
+                var tempList_lights = Lightslist.ToList();
+                lightslist = new string[dtDataList.Rows.Count];
+                for (int i = 0; i < dtDataList.Rows.Count; i++)
+                {
+                    string lid = dtDataList.Rows[i]["LightsID"].ToString();
+                    string NumString = string.Empty;
+
+                    LightsType = int.Parse(dtDataList.Rows[i]["LightsType"].ToString());
+                    switch (LightsType)
+                    {
+                        case 3:
+                            //光明燈
+                            NumString = "HSS" + Num2String(lastnum);
+                            tempList_lights.Add(NumString);
+                            lightslist[i] = "光明燈:HSS" + Num2String(lastnum);
+                            break;
+                        case 4:
+                            //太歲燈
+                            NumString = "HSA" + Num2String(lastnum);
+                            tempList_lights.Add(NumString);
+                            lightslist[i] = "太歲燈:HSA" + Num2String(lastnum);
+                            break;
+                        case 5:
+                            //文昌燈
+                            NumString = "HSW" + Num2String(lastnum);
+                            tempList_lights.Add(NumString);
+                            lightslist[i] = "文昌燈:HSW" + Num2String(lastnum);
+                            break;
+                        case 8:
+                            //藥師燈
+                            NumString = "HSY" + Num2String(lastnum);
+                            tempList_lights.Add(NumString);
+                            lightslist[i] = "藥師燈:HSY" + Num2String(lastnum);
+                            break;
+                        case 9:
+                            //財利燈
+                            NumString = "HST" + Num2String(lastnum);
+                            tempList_lights.Add(NumString);
+                            lightslist[i] = "財利燈:HST" + Num2String(lastnum);
+                            break;
+                    }
+                    Lightslist = tempList_lights.ToArray();
+
+                    msg += lightslist[i];
+                    if (i < lightslist.Length - 1)
+                    {
+                        msg += ",";
+                    }
+
+                    int res = ExecuteSql("Update Temple_" + Year + "..Lights_Hs_info Set Num2String = N'" + NumString + "', Num = " + lastnum + " Where LightsID=" + lid);
+
+                    if (res > 0)
+                    {
+                        bResult = true;
+                    }
+
+
+                    int index = dtDataList.Rows.Count - i > 1 ? i + 1 : i;
+                    LightsType = int.Parse(dtDataList.Rows[index]["LightsType"].ToString());
+
+                    lastnum = GetListNum_Hs_Lights(LightsType, applicantID, Year);
+                    if (lastnum > 0)
+                    {
+                        bool dhavenum = true;
+
+                        switch (LightsType)
+                        {
+                            case 3:
+                                //光明燈
+                                for (int j = 1001; j < lastnum; j++)
+                                {
+                                    if (CheckedNum_Hs_Lights(LightsType, j, Year))
+                                    {
+                                        lastnum = j;
+                                        dhavenum = false;
+                                        break;
+                                    }
+                                }
+
+                                break;
+                            case 4:
+                                //安太歲
+                                for (int j = 1001; j < lastnum; j++)
+                                {
+                                    if (CheckedNum_Hs_Lights(LightsType, j, Year))
+                                    {
+                                        lastnum = j;
+                                        dhavenum = false;
+                                        break;
+                                    }
+                                }
+
+                                break;
+                            case 5:
+                                //文昌燈
+                                for (int j = 1001; j < lastnum; j++)
+                                {
+                                    if (CheckedNum_Hs_Lights(LightsType, j, Year))
+                                    {
+                                        lastnum = j;
+                                        dhavenum = false;
+                                        break;
+                                    }
+                                }
+
+                                break;
+                            case 8:
+                                //藥師燈
+                                for (int j = 1001; j < lastnum; j++)
+                                {
+                                    if (CheckedNum_Hs_Lights(LightsType, j, Year))
+                                    {
+                                        lastnum = j;
+                                        dhavenum = false;
+                                        break;
+                                    }
+                                }
+
+                                break;
+                            case 9:
+                                //財利燈
+                                for (int j = 1001; j < lastnum; j++)
+                                {
+                                    if (CheckedNum_Hs_Lights(LightsType, j, Year))
+                                    {
+                                        lastnum = j;
+                                        dhavenum = false;
+                                        break;
+                                    }
+                                }
+
+                                break;
+                        }
+
+                        if (dhavenum)
+                        {
+                            ++lastnum;
+                        }
+                    }
+                    else
+                    {
+                        switch (LightsType)
+                        {
+                            case 3:
+                                //光明燈
+                                lastnum = 1001;
+                                break;
+                            case 4:
+                                //安太歲
+                                lastnum = 1001;
+                                break;
+                            case 5:
+                                //文昌燈
+                                lastnum = 1001;
+                                break;
+                            case 8:
+                                //藥師燈
+                                lastnum = 1001;
+                                break;
+                            case 9:
+                                //財利燈
                                 lastnum = 1001;
                                 break;
                         }
@@ -16258,6 +16604,19 @@ namespace Read.data
             return bResult;
         }
 
+        public bool Updateapplicantinfo_Lights_Hs(int applicantID, int Cost, int Status, string Year)
+        {
+            bool bResult = false;
+            int res = ExecuteSql("Update Temple_" + Year + "..ApplicantInfo_Hs_Lights Set Status= " + Status + ", Cost= " + Cost + " Where ApplicantID=" + applicantID);
+
+            if (res > 0)
+            {
+                bResult = true;
+            }
+
+            return bResult;
+        }
+
         public bool Updateapplicantinfo_Lights_Lk(int applicantID, int Cost, int Status, string Year)
         {
             bool bResult = false;
@@ -18270,6 +18629,30 @@ namespace Read.data
         }
 
         /// <summary>
+        /// 取得最後一名編號資料-五股賀聖宮點燈
+        /// <param name="LightsType">LightsType=燈種 3-光明燈 4-安太歲 5-文昌燈 6-財神燈 7-姻緣燈 8-藥師燈 9-財利燈 10-貴人燈 11-福祿(壽)燈 12-寵物平安燈 13-龍王燈 14-虎爺燈 
+        /// 15-轉運納福燈 16-光明燈上層 17-偏財旺旺燈 18-廣進安財庫 19-財庫燈 20-月老姻緣燈 21-孝親祈福燈 22-事業燈 23-全家光明燈 24-觀音佛祖燈 25-財神斗 26-事業斗 27-平安斗 
+        /// 28-文昌斗 29-藥師斗 30-元神斗 31-福祿壽斗 32-觀音斗 33-明心智慧燈</param>
+        /// </summary>
+        public int GetListNum_Hs_Lights(int LightsType, int applicantID, string Year)
+        {
+            int result = 0;
+            string sql = string.Empty;
+            sql = "Select * from Temple_" + Year + "..Lights_Hs_info Where Status = 0 and LightsType = @LightsType and Num != 0 Order by Num Desc";
+
+            DatabaseAdapter objDatabaseAdapter = new DatabaseAdapter(sql, this.DBSource);
+            objDatabaseAdapter.AddParameterToSelectCommand("LightsType", LightsType);
+            DataTable dtGetData = new DataTable();
+            objDatabaseAdapter.Fill(dtGetData);
+
+            if (dtGetData.Rows.Count > 0)
+            {
+                result = int.Parse(dtGetData.Rows[0]["Num"].ToString());
+            }
+            return result;
+        }
+
+        /// <summary>
         /// 取得最後一名編號資料-鹿港城隍廟點燈
         /// <param name="LightsType">LightsType=燈種 3-光明燈 4-安太歲 5-文昌燈 6-財神燈 7-姻緣燈 8-藥師燈 9-財利燈 10-貴人燈 11-福祿(壽)燈 12-寵物平安燈 13-龍王燈 14-虎爺燈 
         /// 15-轉運納福燈 16-光明燈上層 17-偏財旺旺燈 18-廣進安財庫 19-財庫燈 20-月老姻緣燈 21-孝親祈福燈 22-事業燈 23-全家光明燈 24-觀音佛祖燈 25-財神斗 26-事業斗 27-平安斗 
@@ -19587,6 +19970,28 @@ namespace Read.data
             string sql = string.Empty;
 
             sql = "Select * from Temple_" + Year + "..Lights_dh_info Where Status = 0 and ApplicantID = @ApplicantID ";
+
+            DatabaseAdapter objDatabaseAdapter = new DatabaseAdapter(sql, this.DBSource);
+            objDatabaseAdapter.AddParameterToSelectCommand("ApplicantID", applicantID);
+            DataTable dtGetData = new DataTable();
+            objDatabaseAdapter.Fill(dtGetData);
+
+            if (dtGetData.Rows.Count > 0)
+            {
+                int.TryParse(dtGetData.Rows[0]["LightsType"].ToString(), out result);
+            }
+            return result;
+        }
+
+        /// <summary>
+        /// 取得點燈所點燈種(五股賀聖宮)
+        /// </summary>
+        public int GetLightsType_Hs(int applicantID, string Year)
+        {
+            int result = 0;
+            string sql = string.Empty;
+
+            sql = "Select * from Temple_" + Year + "..Lights_Hs_info Where Status = 0 and ApplicantID = @ApplicantID ";
 
             DatabaseAdapter objDatabaseAdapter = new DatabaseAdapter(sql, this.DBSource);
             objDatabaseAdapter.AddParameterToSelectCommand("ApplicantID", applicantID);
@@ -22142,6 +22547,33 @@ namespace Read.data
             return bResult;
         }
 
+        public bool UpdateChargeStatus_Lights_Hs(string OrderID, int Status, string BillIP, string CallbackLog, string Year)
+        {
+            TimeZoneInfo info = TimeZoneInfo.FindSystemTimeZoneById("Taipei Standard Time");
+            DateTime dt = TimeZoneInfo.ConvertTime(DateTime.Now, info);
+            bool bResult = false;
+            DataTable dtDataList = new DataTable();
+            string sql = "Select Top 1 * From Temple_" + Year + "..APPCharge_Hs_Lights Where OrderID=@OrderID";
+
+            DatabaseAdapter AdapterObj = new DatabaseAdapter(sql, this.DBSource);
+            AdapterObj.SetSqlCommandBuilder();
+            AdapterObj.AddParameterToSelectCommand("@OrderID", OrderID);
+            AdapterObj.Fill(dtDataList);
+
+            if ((int)dtDataList.Rows[0]["Status"] == 0)
+            {
+                int res = ExecuteSql("Update Temple_" + Year + "..APPCharge_Hs_Lights Set Status = " + Status + ", BillIP = '" + BillIP + "', CallbackLog = '" + CallbackLog +
+                    "', ChargeDate = '" + dt.ToString("yyyy-MM-dd HH:mm:ss") + "', ChargeDateString = '" + dt.ToString("yyyy-MM-dd") + "' Where OrderID='" + OrderID + "'");
+                if (res > 0)
+                {
+                    bResult = true;
+                }
+            }
+
+
+            return bResult;
+        }
+
         public bool UpdateChargeStatus_Lights_Lk(string OrderID, int Status, string BillIP, string CallbackLog, string Year)
         {
             TimeZoneInfo info = TimeZoneInfo.FindSystemTimeZoneById("Taipei Standard Time");
@@ -24116,6 +24548,34 @@ namespace Read.data
             return bResult;
         }
 
+        public bool UpdateChargeLog_Lights_Hs(string OrderID, string Transaction_id, string Comment, string BillIP, string CallbackLog, string Year, ref string ChargeType)
+        {
+            TimeZoneInfo info = TimeZoneInfo.FindSystemTimeZoneById("Taipei Standard Time");
+            DateTime dt = TimeZoneInfo.ConvertTime(DateTime.Now, info);
+            bool bResult = false;
+            DataTable dtDataList = new DataTable();
+            string sql = "Select Top 1 * From Temple_" + Year + "..APPCharge_Hs_Lights Where OrderID=@OrderID";
+
+            DatabaseAdapter AdapterObj = new DatabaseAdapter(sql, this.DBSource);
+            AdapterObj.SetSqlCommandBuilder();
+            AdapterObj.AddParameterToSelectCommand("@OrderID", OrderID);
+            AdapterObj.Fill(dtDataList);
+
+            if ((int)dtDataList.Rows[0]["Status"] == 0)
+            {
+                ChargeType = dtDataList.Rows[0]["ChargeType"].ToString();
+                int res = ExecuteSql("Update Temple_" + Year + "..APPCharge_Hs_Lights Set Status = 1, BillIP = '" + BillIP + "', Transaction_id = '" + Transaction_id + "', CallbackLog = '" + CallbackLog +
+                    "', Comment = N'" + Comment + "', ChargeDate = '" + dt.ToString("yyyy-MM-dd HH:mm:ss") + "', ChargeDateString = '" + dt.ToString("yyyy-MM-dd") + "' Where OrderID='" + OrderID + "'");
+
+                if (res > 0)
+                {
+                    bResult = true;
+                }
+            }
+
+            return bResult;
+        }
+
         public bool UpdateChargeLog_Lights_Lk(string OrderID, string Transaction_id, string Comment, string BillIP, string CallbackLog, string Year, ref string ChargeType)
         {
             TimeZoneInfo info = TimeZoneInfo.FindSystemTimeZoneById("Taipei Standard Time");
@@ -25432,6 +25892,25 @@ namespace Read.data
             string sql = string.Empty;
 
             sql = "Select * from Temple_" + Year + "..Lights_dh_info Where Status = 0 and LightsType = @LightsType and Num = " + Num + " Order by Num Desc";
+
+            DatabaseAdapter objDatabaseAdapter = new DatabaseAdapter(sql, this.DBSource);
+            objDatabaseAdapter.AddParameterToSelectCommand("@LightsType", LightsType);
+            DataTable dtGetData = new DataTable();
+            objDatabaseAdapter.Fill(dtGetData);
+
+            if (dtGetData.Rows.Count > 0)
+            {
+                result = false;
+            }
+            return result;
+        }
+
+        public bool CheckedNum_Hs_Lights(int LightsType, int Num, string Year)
+        {
+            bool result = true;
+            string sql = string.Empty;
+
+            sql = "Select * from Temple_" + Year + "..Lights_Hs_info Where Status = 0 and LightsType = @LightsType and Num = " + Num + " Order by Num Desc";
 
             DatabaseAdapter objDatabaseAdapter = new DatabaseAdapter(sql, this.DBSource);
             objDatabaseAdapter.AddParameterToSelectCommand("@LightsType", LightsType);

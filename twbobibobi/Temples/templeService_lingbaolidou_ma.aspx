@@ -22,16 +22,26 @@
     <meta property="og:site_name" content="靈寶禮斗活動|玉敕大樹朝天宮|合作宮廟|【保必保庇】線上宮廟服務平臺" />
     <!--標題-->
     <meta property="og:type" content="website" />
+    <meta property="og:video" content="https://www.youtube.com/embed/7k0i9T1f5BY" />
+    <meta property="og:video:type" content="text/html" />
+    <meta property="og:video:width" content="640" />
+    <meta property="og:video:height" content="360" />
+
 
     <!--抓取圖片-->
-    <meta property="og:image" content="images/fb.jpg" />
-    <meta name="twitter:image:src" content="images/fb.jpg" />
-    <link rel="image_src" href="images/fb.jpg" />
+    <meta property="og:image" content="https://bobibobi.tw/Temples/images/temple/lingbaolidou_ty.jpg" />
+    <meta name="twitter:image:src" content="https://bobibobi.tw/Temples/images/temple/lingbaolidou_ty.jpg" />
+    <link rel="image_src" href="https://bobibobi.tw/Temples/images/temple/lingbaolidou_ty.jpg" />
 
 
     <link rel="shortcut icon" href="images/favicon.png" />
     <link href="images/favicon.png" rel="apple-touch-icon" sizes="192x192" />
 
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="玉敕大樹朝天宮｜靈寶祈福法會 線上報名中" />
+    <meta name="twitter:description" content="參加玉敕大樹朝天宮 銀同媽祈福法會，線上報名中，附介紹影片說明流程與時間。" />
+    <meta name="twitter:image" content="https://bobibobi.tw/Temples/images/temple/lingbaolidou_ty.jpg" />
 
     <title>靈寶禮斗活動|玉敕大樹朝天宮|合作宮廟|【保必保庇】線上宮廟服務平臺</title>
     <!--標題-->
@@ -429,6 +439,19 @@
             $("#NowYear").text($mydate.getFullYear());
         })
     </script>
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "VideoObject",
+      "name": "玉敕大樹朝天宮-靈寶活動",
+      "description": "玉敕大樹朝天宮 銀同媽\n祈福法會，線上報名中\n法會日期: \n農曆: 113年09月18日\n國曆:113年10月20日",
+      "thumbnailUrl": "https://img.youtube.com/vi/7k0i9T1f5BY/maxresdefault.jpg",
+      "uploadDate": "2024-09-05T00:00:00+08:00",
+      "embedUrl": "https://www.youtube.com/embed/7k0i9T1f5BY",
+      "contentUrl": "https://bobibobi.tw/Temples/templeService_lingbaolidou_ma.aspx"
+    }
+    </script>
+
     <!-- Global site tag (gtag.js) - Google Analytics -->
     <script async="" src="https://www.googletagmanager.com/gtag/js?id=G-4YWFRTFCTT"></script>
     <script>

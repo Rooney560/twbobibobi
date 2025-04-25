@@ -780,6 +780,42 @@ namespace Temple
             return lightslist;
         }
 
+        public static string add_Lights_Hs_blessed(string AppName, string AppMobile, string name, string Count, string Mobile, string address, string Birth, string LeapMonth,
+            string BirthTime, string zipCode, string LightsType, int numZampBlessed, string AppStatus, string Num2String, string LightsString, string ChargeDate, ref int total)
+        {
+            string lightslist = string.Empty;
+            int cost = GetLightsCost(17, LightsType);
+
+            cost = cost * int.Parse(Count);
+
+            total += cost;
+
+            lightslist = "<li>";
+
+            if (AppName != "" && AppMobile != "")
+            {
+                lightslist += addData_Content("購買人姓名", AppName);
+                lightslist += addData_Content("購買人電話", AppMobile);
+            }
+
+
+            lightslist += addData_Content("宮廟名稱", "五股賀聖宮");
+            lightslist += addData_Content("訂單編號", Num2String);
+            lightslist += addData_Content("祈福人姓名", name);
+            lightslist += addData_Content("祈福人電話", Mobile);
+            lightslist += addData_Content("農曆生日", Birth + (LeapMonth == "Y" ? " 閏月" : ""));
+            lightslist += addData_Content("農曆時辰", BirthTime);
+            lightslist += addData_Content("居住地址", address);
+            lightslist += addData_Content("服務項目", LightsString);
+            lightslist += addData_Content("金額", cost.ToString());
+            lightslist += addData_Content("狀態", Status2String(int.Parse(AppStatus)));
+            lightslist += addData_Content("受理日期", ChargeDate);
+
+            lightslist += "</li>";
+
+            return lightslist;
+        }
+
         public static string add_Lights_Lk_blessed(string AppName, string AppMobile, string name, string Count, string Mobile, string Sex, string HomeNum, string address, 
             string Birth, string LeapMonth, string BirthTime, string zipCode, string LightsType, int numZampBlessed, string AppStatus, string Num2String, string LightsString, string ChargeDate, 
             string Sendback, string rName, string rMobile, string rAddress, string rZipCode, ref int total)
@@ -4015,6 +4051,29 @@ namespace Temple
                             string LightsString = dtapplecantinfo.Rows[i]["LightsString"].ToString();
                             string ChargeDate = dtapplecantinfo.Rows[i]["ChargeDateString"].ToString();
                             Datalist += add_Lights_dh_blessed(AppName, AppMobile, Name, Count, Mobile, Address, Birth, LeapMonth, BirthTime, ZipCode, LightsType, i,
+                                AppStatus, Num2String, LightsString, ChargeDate, ref Total);
+                        }
+                        break;
+                    case 17:
+                        //五股賀聖宮
+                        for (int i = 0; i < dtapplecantinfo.Rows.Count; i++)
+                        {
+                            string AppName = UtilDataMask.MaskName(dtapplecantinfo.Rows[i]["AppName"].ToString());
+                            string AppMobile = UtilDataMask.MaskMobile(dtapplecantinfo.Rows[i]["AppMobile"].ToString(), 5, 3);
+                            string Name = UtilDataMask.MaskName(dtapplecantinfo.Rows[i]["Name"].ToString());
+                            string Mobile = UtilDataMask.MaskMobile(dtapplecantinfo.Rows[i]["Mobile"].ToString(), 5, 3);
+                            string Count = dtapplecantinfo.Rows[i]["Count"].ToString();
+                            string Address = UtilDataMask.MaskTWAddr(dtapplecantinfo.Rows[i]["Address"].ToString());
+                            string ZipCode = dtapplecantinfo.Rows[i]["ZipCode"].ToString();
+                            string Birth = dtapplecantinfo.Rows[i]["Birth"].ToString();
+                            string LeapMonth = dtapplecantinfo.Rows[i]["LeapMonth"].ToString();
+                            string BirthTime = dtapplecantinfo.Rows[i]["BirthTime"].ToString() != "" ? dtapplecantinfo.Rows[i]["BirthTime"].ToString() : "吉";
+                            string AppStatus = dtapplecantinfo.Rows[i]["AppStatus"].ToString();
+                            string Num2String = dtapplecantinfo.Rows[i]["Num2String"].ToString();
+                            string LightsType = dtapplecantinfo.Rows[i]["LightsType"].ToString();
+                            string LightsString = dtapplecantinfo.Rows[i]["LightsString"].ToString();
+                            string ChargeDate = dtapplecantinfo.Rows[i]["ChargeDateString"].ToString();
+                            Datalist += add_Lights_Hs_blessed(AppName, AppMobile, Name, Count, Mobile, Address, Birth, LeapMonth, BirthTime, ZipCode, LightsType, i,
                                 AppStatus, Num2String, LightsString, ChargeDate, ref Total);
                         }
                         break;

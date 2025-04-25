@@ -130,13 +130,11 @@ namespace twbobibobi.Temples
                 nullChecked(firstname_Tag, ref Jfirstname);
                 nullChecked(remark_Tag, ref Jremark);
 
-                string postURL = "Purdue_wjsan_Index";
+                string postURL_Init = "Purdue_wjsan_Index";
 
-                postURL += basePage.Request["twm"] != null ? "_TWM" : "";
+                string url = HttpContext.Current.Request.Url.AbsoluteUri;
 
-                postURL += basePage.Request["line"] != null ? "_LINE" : "";
-
-                postURL += basePage.Request["fb"] != null ? "_FB" : "";
+                string postURL = GetRequestURL(url, postURL_Init);
 
                 //ApplicantID = objLightDAC.addapplicantinfo_purdue_wjsan(AppName, AppMobile, "0", "", "", "", "0", "N", "", "", 0, AdminID, postURL, Year);
                 bool purdueinfo = false;

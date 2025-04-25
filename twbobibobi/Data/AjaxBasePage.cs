@@ -1712,6 +1712,31 @@ namespace MotoSystem.Data
                             break;
                     }
                     break;
+                case 17:
+                    //五股賀聖宮
+                    switch (LightsType)
+                    {
+                        //case "3":
+                        //    //光明燈
+                        //    result = 500;
+                        //    break;
+                        //case "4":
+                        //    //安太歲
+                        //    result = 500;
+                        //    break;
+                        //case "5":
+                        //    //文昌燈
+                        //    result = 500;
+                        //    break;
+                        //case "9":
+                        //    //財利燈
+                        //    result = 500;
+                        //    break;
+                        default:
+                            result = 600;
+                            break;
+                    }
+                    break;
                 case 21:
                     //鹿港城隍廟
                     switch (LightsType)
@@ -2794,43 +2819,49 @@ namespace MotoSystem.Data
                 string query = uri.Query.TrimStart('?');
                 NameValueCollection parameters = HttpUtility.ParseQueryString(query);
 
-                // 檢查是否有第一個參數且值為 "1"
-                if (parameters.Count > 0)
+                string firstKey = null;
+                string firstValue = null;
+
+                // 優先處理 purl（且值不是數字）
+                if (!string.IsNullOrEmpty(parameters["purl"]) && !parameters["purl"].All(char.IsDigit))
                 {
-                    string firstKey = parameters.Keys[0];
-                    if (firstKey == "kind")
+                    firstKey = "purl";
+                    firstValue = parameters["purl"];
+                }
+                // 再處理原本的第一參數流程
+                else if (parameters.Count > 0)
+                {
+                    firstKey = parameters.Keys[0];
+                    if (string.Equals(firstKey, "kind", StringComparison.OrdinalIgnoreCase))
                     {
                         return urlString;
                     }
-                    string firstValue = parameters[firstKey];
+                    firstValue = parameters[firstKey];
+                }
 
-                    if (firstValue == "1")
+                // 套用格式規則（只處理 firstValue == "1" 或 purl 狀況）
+                if (!string.IsNullOrEmpty(firstKey) && firstValue == "1")
+                {
+                    int underscoreCount = urlString.Count(c => c == '_');
+
+                    if (urlString.EndsWith("Index"))
                     {
-                        // 判斷 urlString 是否包含三個 '_'
-                        int underscoreCount = urlString.Count(c => c == '_');
-
-                        // 確保 "Index" 後面一定有 "_" 
-                        if (urlString.EndsWith("Index"))
-                        {
-                            urlString += "_";
-                        }
-
-                        // 檢查是否是 pxpayplues
-                        string formattedKey;
-                        if (firstKey == "pxpayplues" && firstValue == "1")
-                        {
-                            formattedKey = "PXPAY";  // 轉換成 PXPAY
-                        }
-                        else
-                        {
-                            // 如果有三個 '_'，則 firstKey 前面加上 '_'，但避免連續 '_'
-                            formattedKey = (underscoreCount == 3)
-                                ? (urlString.EndsWith("_") ? firstKey.ToUpper() : "_" + firstKey.ToUpper())
-                                : firstKey.ToUpper();
-                        }
-
-                        return urlString + formattedKey;
+                        urlString += "_";
                     }
+
+                    string formattedKey;
+                    if (firstKey == "pxpayplues")
+                    {
+                        formattedKey = "PXPAY";
+                    }
+                    else
+                    {
+                        formattedKey = (underscoreCount == 3)
+                            ? (urlString.EndsWith("_") ? firstKey.ToUpper() : "_" + firstKey.ToUpper())
+                            : firstKey.ToUpper();
+                    }
+
+                    return urlString + formattedKey;
                 }
             }
             catch (Exception)
