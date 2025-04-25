@@ -23,11 +23,22 @@
     <!--標題-->
     <meta property="og:type" content="website" />
 
+    <!-- 預覽影片 -->
+    <meta property="og:video" content="https://www.youtube.com/embed/GveFGmkpGG8" />
+    <meta property="og:video:type" content="text/html" />
+    <meta property="og:video:width" content="640" />
+    <meta property="og:video:height" content="360" />
+
     <!--抓取圖片-->
     <meta property="og:image" content="https://bobibobi.tw/Temples/images/temple/supplies_Fw.jpg?t=666168" />
     <meta name="twitter:image:src" content="https://bobibobi.tw/Temples/images/temple/supplies_Fw.jpg?t=666168" />
     <link rel="image_src" href="https://bobibobi.tw/Temples/images/temple/supplies_Fw.jpg?t=666168" />
 
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="補財庫大揭秘" />
+    <meta name="twitter:description" content="樂透得主這樣拜來這裡補財庫有機會成為下一個樂透得主!" />
+    <meta name="twitter:image" content="https://bobibobi.tw/Temples/images/temple/supplies_Fw.jpg?t=666168" />
 
     <link rel="shortcut icon" href="images/favicon.png" />
     <link href="images/favicon.png" rel="apple-touch-icon" sizes="192x192" />
@@ -146,6 +157,19 @@
             $("#NowYear").text($mydate.getFullYear());
         })
     </script>
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "VideoObject",
+      "name": "補財庫大揭秘",
+      "description": "樂透得主這樣拜來這裡補財庫有機會成為下一個樂透得主!",
+      "thumbnailUrl": "https://img.youtube.com/vi/GveFGmkpGG8/maxresdefault.jpg",
+      "uploadDate": "2025-02-27T00:00:00+08:00",
+      "embedUrl": "https://www.youtube.com/embed/GveFGmkpGG8",
+      "contentUrl": "https://bobibobi.tw/Temples/templeService_supplies_Fw.aspx"
+    }
+    </script>
+
     <!-- Global site tag (gtag.js) - Google Analytics -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-4YWFRTFCTT"></script>
     <script>

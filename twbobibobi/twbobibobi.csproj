@@ -845,6 +845,7 @@
     <Content Include="Temples\templeService_lights_Fu.aspx" />
     <Content Include="Temples\templeService_lights_Fw.aspx" />
     <Content Include="Temples\templeService_lights_h.aspx" />
+    <Content Include="Temples\templeService_lights_Hs.aspx" />
     <Content Include="Temples\templeService_lights_Lk.aspx" />
     <Content Include="Temples\templeService_lights_Luer.aspx" />
     <Content Include="Temples\templeService_lights_ma.aspx" />
@@ -886,6 +887,7 @@
     <Content Include="Temples\templeService_TaoistJiaoCeremony_da.aspx" />
     <Content Include="TWPaymentCallback_AnDou_Fw.aspx" />
     <Content Include="TWPaymentCallback_AnDou_wjsan.aspx" />
+    <Content Include="TWPaymentCallback_Lights_Hs.aspx" />
     <Content Include="TWPaymentCallback_Lights_ty_mom.aspx" />
     <Content Include="Temples\ZodiacFortune.aspx" />
     <Content Include="Temples\Zodiac_Dog.aspx" />
@@ -1700,6 +1702,13 @@
     <Compile Include="Temples\templeService_lights_h.aspx.designer.cs">
       <DependentUpon>templeService_lights_h.aspx</DependentUpon>
     </Compile>
+    <Compile Include="Temples\templeService_lights_Hs.aspx.cs">
+      <DependentUpon>templeService_lights_Hs.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Temples\templeService_lights_Hs.aspx.designer.cs">
+      <DependentUpon>templeService_lights_Hs.aspx</DependentUpon>
+    </Compile>
     <Compile Include="Temples\templeService_lights_Lk.aspx.cs">
       <DependentUpon>templeService_lights_Lk.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -1986,6 +1995,13 @@
     </Compile>
     <Compile Include="TWPaymentCallback_AnDou_wjsan.aspx.designer.cs">
       <DependentUpon>TWPaymentCallback_AnDou_wjsan.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="TWPaymentCallback_Lights_Hs.aspx.cs">
+      <DependentUpon>TWPaymentCallback_Lights_Hs.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="TWPaymentCallback_Lights_Hs.aspx.designer.cs">
+      <DependentUpon>TWPaymentCallback_Lights_Hs.aspx</DependentUpon>
     </Compile>
     <Compile Include="TWPaymentCallback_Lights_ty_mom.aspx.cs">
       <DependentUpon>TWPaymentCallback_Lights_ty_mom.aspx</DependentUpon>

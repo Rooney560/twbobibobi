@@ -280,9 +280,9 @@
     $(function () {
         $("header").addClass("active");
         alert("建置中！敬啟期待！");
-        window.location = 'https://bobibobi.tw/Temples/index.aspx';
+        //window.location = 'https://bobibobi.tw/Temples/index.aspx';
         if (!checkEndTime()) {
-            alert('親愛的大德您好\n無極三清總道院 2024普度活動已截止！！\n感謝您的支持, 謝謝!');
+            //alert('親愛的大德您好\n無極三清總道院 2024普度活動已截止！！\n感謝您的支持, 謝謝!');
         }
 
         $("input[type='tel']").on("keypress keyup blur", function (event) {

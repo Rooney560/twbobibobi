@@ -149,6 +149,12 @@ namespace Temple.Temples
                                     GetStateContentlist_dh(adminID, ApplicantID, kind, Year);       //購買人資料列表
                                     EndDate = "2025/08/15 23:59";
                                     break;
+                                case 17:
+                                    //五股賀聖宮
+                                    title = "五股賀聖宮";
+                                    GetStateContentlist_Hs(adminID, ApplicantID, kind, Year);       //購買人資料列表
+                                    EndDate = "2025/06/30 23:59";
+                                    break;
                                 case 21:
                                     //鹿港城隍廟
                                     title = "鹿港城隍廟";
@@ -2718,6 +2724,66 @@ namespace Temple.Temples
 
                             //服務項目金額
                             int cost = GetLybcCost(lybcType, AdminID);
+                            OrderInfo += "<div>$ " + cost + "元</div>";
+                            Total += cost;
+
+                            OrderInfo += "</li>";
+                        }
+                    }
+                    break;
+            }
+        }
+
+
+        //購買人資料列表-五股賀聖宮
+        public void GetStateContentlist_Hs(int AdminID, int ApplicantID, int kind, string Year)
+        {
+            LightDAC objLightDAC = new LightDAC(this);
+
+            DataTable dtData = new DataTable();
+
+            switch (kind)
+            {
+                case 1:
+                    //點燈服務
+                    dtData = objLightDAC.GetAPPCharge_Hs_Lights(ApplicantID, Year);
+                    if (dtData.Rows.Count > 0)
+                    {
+                        OrderStateContent = OrderState("付款時間", DateTime.Parse(dtData.Rows[0]["ChargeDate"].ToString()).ToString("yyyy-MM-dd HH:mm:ss"));
+
+                        OrderPurchaser = OrderData("購買人姓名", dtData.Rows[0]["AppName"].ToString());
+                        OrderPurchaser += OrderData("購買人電話", dtData.Rows[0]["AppMobile"].ToString());
+
+                        OrderInfo = string.Empty;
+
+                        for (int i = 0; i < dtData.Rows.Count; i++)
+                        {
+                            OrderInfo += "<li><div>";
+
+                            string lightsString = dtData.Rows[i]["LightsString"].ToString();
+                            string lightsType = dtData.Rows[i]["LightsType"].ToString();
+
+                            ////服務項目
+                            OrderInfo += String.Format("<div class=\"ProductsName\">{0}</div>", lightsString);
+
+                            //祈福人內容列表
+                            OrderInfo += "<div class=\"ProductsInfo\">";
+
+                            OrderInfo += OrderData("宮廟名稱", "五股賀聖宮");
+                            OrderInfo += OrderData("訂單編號", dtData.Rows[i]["Num2String"].ToString());
+                            OrderInfo += OrderData("祈福人姓名", dtData.Rows[i]["Name"].ToString());
+                            OrderInfo += OrderData("祈福人電話", dtData.Rows[i]["Mobile"].ToString());
+                            OrderInfo += OrderData("祈福人性別", dtData.Rows[i]["Sex"].ToString());
+                            OrderInfo += OrderData("祈福人農曆生日", dtData.Rows[i]["Birth"].ToString() + (dtData.Rows[i]["LeapMonth"].ToString() == "Y" ? " 閏月" : ""));
+                            OrderInfo += OrderData("祈福人農曆時辰", dtData.Rows[i]["BirthTime"].ToString());
+                            OrderInfo += OrderData("祈福人國曆生日", dtData.Rows[i]["sBirth"].ToString());
+                            OrderInfo += OrderData("祈福人Email", dtData.Rows[i]["Email"].ToString());
+                            OrderInfo += OrderData("祈福人地址", dtData.Rows[i]["Address"].ToString());
+
+                            OrderInfo += "</div></div>";
+
+                            //服務項目金額
+                            int cost = int.Parse(dtData.Rows[i]["Count"].ToString()) * GetLightsCost(AdminID, lightsType);
                             OrderInfo += "<div>$ " + cost + "元</div>";
                             Total += cost;
 

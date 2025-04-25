@@ -22,12 +22,24 @@
     <meta property="og:site_name" content="天赦日招財補運活動|桃園威天宮|合作宮廟|【保必保庇】線上宮廟服務平臺" />
     <!--標題-->
     <meta property="og:type" content="website" />
+    <meta property="og:image" content="https://img.youtube.com/vi/6pvLjh11eo4/maxresdefault.jpg" />
 
     <!--抓取圖片-->
     <meta property="og:image" content="https://bobibobi.tw/Temples/images/temple/supplies_ty.jpg?t=666168" />
     <meta name="twitter:image:src" content="https://bobibobi.tw/Temples/images/temple/supplies_ty.jpg?t=666168" />
     <link rel="image_src" href="https://bobibobi.tw/Temples/images/temple/supplies_ty.jpg?t=666168" />
 
+    <!--預覽影片-->
+    <meta property="og:video" content="https://www.youtube.com/embed/6pvLjh11eo4" />
+    <meta property="og:video:type" content="text/html" />
+    <meta property="og:video:width" content="640" />
+    <meta property="og:video:height" content="360" />
+    
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="桃園威天宮｜天赦日補運活動 線上報名頁面" />
+    <meta name="twitter:description" content="玉皇大帝赦罪補運大好時機！立即報名桃園威天宮補財活動，附加介紹影片說明流程，完成報名還能獲得好禮！" />
+    <meta name="twitter:image" content="https://bobibobi.tw/Temples/images/temple/supplies_ty.jpg?t=666168" />
 
     <link rel="shortcut icon" href="images/favicon.png" />
     <link href="images/favicon.png" rel="apple-touch-icon" sizes="192x192" />
@@ -107,6 +119,20 @@
             $("#NowYear").text($mydate.getFullYear());
         })
     </script>
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "VideoObject",
+      "name": "桃園威天宮 天赦日",
+      "description": "【桃園威天宮｜天赦日補運大好時機】\n一年僅數次的天赦日來了！🌟\n玉皇大帝降下恩澤，赦免罪過、補財補運的最佳日子就在這幾天！\n參加還有好禮喔!\n👀 快來看看怎麼參加，讓你運勢UP、財運旺整年！\n#桃園威天宮 #天赦日 #補財庫 #轉運日 #關公賜福",
+      "thumbnailUrl": "https://img.youtube.com/vi/6pvLjh11eo4/maxresdefault.jpg",
+      "uploadDate": "2025-04-15T00:00:00+08:00",
+      "embedUrl": "https://www.youtube.com/embed/6pvLjh11eo4",
+      "contentUrl": "https://bobibobi.tw/Temples/templeService_supplies_ty.aspx"
+    }
+    </script>
+
+
     <!-- Global site tag (gtag.js) - Google Analytics -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-4YWFRTFCTT"></script>
     <script>

@@ -1223,6 +1223,9 @@
                     case "16":
                         window.location = 'templeService_lights_dh.aspx' + window.location.search;
                         break;
+                    case "17":
+                        window.location = 'templeService_lights_Hs.aspx' + window.location.search;
+                        break;
                     case "21":
                         window.location = 'templeService_lights_Lk.aspx' + window.location.search;
                         break;
