@@ -2779,6 +2779,47 @@ namespace Read.data
         }
 
         /// <summary>
+        /// 记录產品支付请求-台灣道教總廟無極三清總道院供花供果
+        /// </summary>
+        /// <param name="OrderID">订单编号</param>
+        /// <param name="ApplicantID">購買人编号</param>
+        /// <param name="Amount">支付金額</param>>
+        /// <param name="Description">支付内容说明</param>
+        /// <param name="Comment">备注</param>
+        /// <param name="PayChannelLog">支付接口日志</param>
+        /// <param name="IP">来源IP</param>
+        public long AddChargeLog_Huaguo_wjsan(string OrderID, int ApplicantID, int Amount, string ChargeType, int Status, string Description, string Comment, string PayChannelLog,
+            string IP, string Year)
+        {
+            TimeZoneInfo info = TimeZoneInfo.FindSystemTimeZoneById("Taipei Standard Time");
+            DateTime dt = TimeZoneInfo.ConvertTime(DateTime.Now, info);
+            DataTable dtDataList = new DataTable();
+            string sql = "Insert into Temple_" + Year + "..APPCharge_wjsan_Huaguo(OrderID, ApplicantID, Amount, Status, Description, ChargeType, Comment, PayChannelLog, IP, " +
+                "CreateDate, CreateDateString) " +
+                "values(@OrderID, @ApplicantID, @Amount, @Status, @Description, @ChargeType, @Comment, @PayChannelLog, @IP, @CreateDate, @CreateDateString)";
+
+            DatabaseAdapter Adapter = new DatabaseAdapter(sql, this.DBSource);
+            DataTable dtdata = new DataTable();
+            Adapter.AddParameterToSelectCommand("@OrderID", OrderID);
+            Adapter.AddParameterToSelectCommand("@ApplicantID", ApplicantID);
+            Adapter.AddParameterToSelectCommand("@Amount", Amount);
+            Adapter.AddParameterToSelectCommand("@Status", Status);
+            Adapter.AddParameterToSelectCommand("@Description", Description);
+            Adapter.AddParameterToSelectCommand("@ChargeType", ChargeType);
+            Adapter.AddParameterToSelectCommand("@Comment", Comment);
+            Adapter.AddParameterToSelectCommand("@PayChannelLog", PayChannelLog);
+            Adapter.AddParameterToSelectCommand("@IP", IP);
+            Adapter.AddParameterToSelectCommand("@CreateDate", dt);
+            Adapter.AddParameterToSelectCommand("@CreateDateString", dt.ToString("yyyy-MM-dd"));
+
+            Adapter.SetSqlCommandBuilder();
+            Adapter.Fill(dtdata);
+            Adapter.Update(dtdata);
+
+            return this.GetIdentity();
+        }
+
+        /// <summary>
         /// 记录產品支付请求-桃園龍德宮點燈
         /// </summary>
         /// <param name="OrderID">订单编号</param>
@@ -3593,6 +3634,17 @@ namespace Read.data
         {
             DataTable dtDataList = new DataTable();
             string sql = "Select Top 1 * From Temple_" + Year + "..APPCharge_wjsan_AnDou Where OrderID=@OrderID";
+
+            DatabaseAdapter AdapterObj = new DatabaseAdapter(sql, this.DBSource);
+            AdapterObj.AddParameterToSelectCommand("@OrderID", OrderID);
+            AdapterObj.Fill(dtDataList);
+            return dtDataList;
+        }
+
+        public DataTable GetChargeLog_Huaguo_wjsan(string OrderID, string Year)
+        {
+            DataTable dtDataList = new DataTable();
+            string sql = "Select Top 1 * From Temple_" + Year + "..APPCharge_wjsan_Huaguo Where OrderID=@OrderID";
 
             DatabaseAdapter AdapterObj = new DatabaseAdapter(sql, this.DBSource);
             AdapterObj.AddParameterToSelectCommand("@OrderID", OrderID);
@@ -9095,6 +9147,19 @@ namespace Read.data
                             }
 
                             break;
+                        case 16:
+                            //玉皇燈
+                            for (int i = 1001; i < lastnum; i++)
+                            {
+                                if (CheckedNum_Hs_Lights(LightsType, i, Year))
+                                {
+                                    lastnum = i;
+                                    dhavenum = false;
+                                    break;
+                                }
+                            }
+
+                            break;
                     }
 
                     if (dhavenum)
@@ -9124,6 +9189,10 @@ namespace Read.data
                             break;
                         case 9:
                             //財利燈
+                            lastnum = 1001;
+                            break;
+                        case 16:
+                            //玉皇燈
                             lastnum = 1001;
                             break;
                     }
@@ -9177,6 +9246,12 @@ namespace Read.data
                             NumString = "HST" + Num2String(lastnum);
                             tempList_lights.Add(NumString);
                             lightslist[i] = "財利燈:HST" + Num2String(lastnum);
+                            break;
+                        case 16:
+                            //玉皇燈
+                            NumString = "HS2S" + Num2String(lastnum);
+                            tempList_lights.Add(NumString);
+                            lightslist[i] = "玉皇燈:HS2S" + Num2String(lastnum);
                             break;
                     }
                     Lightslist = tempList_lights.ToArray();
@@ -9270,6 +9345,19 @@ namespace Read.data
                                 }
 
                                 break;
+                            case 16:
+                                //玉皇燈
+                                for (int j = 1001; j < lastnum; j++)
+                                {
+                                    if (CheckedNum_Hs_Lights(LightsType, j, Year))
+                                    {
+                                        lastnum = j;
+                                        dhavenum = false;
+                                        break;
+                                    }
+                                }
+
+                                break;
                         }
 
                         if (dhavenum)
@@ -9299,6 +9387,10 @@ namespace Read.data
                                 break;
                             case 9:
                                 //財利燈
+                                lastnum = 1001;
+                                break;
+                            case 16:
+                                //玉皇燈
                                 lastnum = 1001;
                                 break;
                         }
@@ -11410,6 +11502,341 @@ namespace Read.data
                                 break;
                             case 32:
                                 //觀音斗
+                                lastnum = 1001;
+                                break;
+                        }
+                    }
+                }
+
+                msg += "。客服電話：04-36092299。";
+
+                return bResult;
+            }
+        }
+
+        public bool UpdateHuaguo_wjsan_Info(int applicantID, int HuaguoType, string Year, ref string msg, ref string[] huaguolist, ref string[] Huaguolist)
+        {
+            lock (_thisLock)
+            {
+                TimeZoneInfo info = TimeZoneInfo.FindSystemTimeZoneById("Taipei Standard Time");
+                DateTime dt = TimeZoneInfo.ConvertTime(DateTime.Now, info);
+                bool bResult = false;
+                int lastnum = GetListNum_wjsan_Huaguo(HuaguoType, applicantID, Year);
+                if (lastnum > 0)
+                {
+                    bool dhavenum = true;
+
+                    switch (HuaguoType)
+                    {
+                        case 1:
+                            //供花/次
+                            for (int j = 1001; j < lastnum; j++)
+                            {
+                                if (CheckedNum_wjsan_Huaguo(HuaguoType, j, Year))
+                                {
+                                    lastnum = j;
+                                    dhavenum = false;
+                                    break;
+                                }
+                            }
+
+                            break;
+                        case 2:
+                            //供果/次
+                            for (int j = 1001; j < lastnum; j++)
+                            {
+                                if (CheckedNum_wjsan_Huaguo(HuaguoType, j, Year))
+                                {
+                                    lastnum = j;
+                                    dhavenum = false;
+                                    break;
+                                }
+                            }
+
+                            break;
+                        case 3:
+                            //供花/月
+                            for (int j = 1001; j < lastnum; j++)
+                            {
+                                if (CheckedNum_wjsan_Huaguo(HuaguoType, j, Year))
+                                {
+                                    lastnum = j;
+                                    dhavenum = false;
+                                    break;
+                                }
+                            }
+
+                            break;
+                        case 4:
+                            //供果/月
+                            for (int j = 1001; j < lastnum; j++)
+                            {
+                                if (CheckedNum_wjsan_Huaguo(HuaguoType, j, Year))
+                                {
+                                    lastnum = j;
+                                    dhavenum = false;
+                                    break;
+                                }
+                            }
+
+                            break;
+                        case 5:
+                            //供花/半年
+                            for (int j = 1001; j < lastnum; j++)
+                            {
+                                if (CheckedNum_wjsan_Huaguo(HuaguoType, j, Year))
+                                {
+                                    lastnum = j;
+                                    dhavenum = false;
+                                    break;
+                                }
+                            }
+
+                            break;
+                        case 6:
+                            //供果/半年
+                            for (int j = 1001; j < lastnum; j++)
+                            {
+                                if (CheckedNum_wjsan_Huaguo(HuaguoType, j, Year))
+                                {
+                                    lastnum = j;
+                                    dhavenum = false;
+                                    break;
+                                }
+                            }
+
+                            break;
+                    }
+
+                    if (dhavenum)
+                    {
+                        ++lastnum;
+                    }
+                }
+                else
+                {
+                    switch (HuaguoType)
+                    {
+                        case 1:
+                            //供花/次
+                            lastnum = 1001;
+                            break;
+                        case 2:
+                            //供果/次
+                            lastnum = 1001;
+                            break;
+                        case 3:
+                            //供花/月
+                            lastnum = 1001;
+                            break;
+                        case 4:
+                            //供果/月
+                            lastnum = 1001;
+                            break;
+                        case 5:
+                            //供花/半年
+                            lastnum = 1001;
+                            break;
+                        case 6:
+                            //供果/半年
+                            lastnum = 1001;
+                            break;
+                    }
+                }
+
+                DataTable dtDataList = new DataTable();
+                string sql = "Select * From Temple_" + Year + "..Huaguo_wjsan_info Where ApplicantID=@ApplicantID and Status = 0 and Num = 0";
+
+                DatabaseAdapter AdapterObj = new DatabaseAdapter(sql, this.DBSource);
+                AdapterObj.SetSqlCommandBuilder();
+                AdapterObj.AddParameterToSelectCommand("@ApplicantID", applicantID);
+                AdapterObj.Fill(dtDataList);
+
+                //Huaguolist = new string[dtDataList.Rows.Count];
+                var tempList_huaguo = Huaguolist.ToList();
+                huaguolist = new string[dtDataList.Rows.Count];
+                for (int i = 0; i < dtDataList.Rows.Count; i++)
+                {
+                    string id = dtDataList.Rows[i]["HuaguoID"].ToString();
+                    string NumString = string.Empty;
+
+                    HuaguoType = int.Parse(dtDataList.Rows[i]["HuaguoType"].ToString());
+                    switch (HuaguoType)
+                    {
+                        case 1:
+                            //供花/次
+                            NumString = "WJSH" + Num2String(lastnum);
+                            tempList_huaguo.Add(NumString);
+                            huaguolist[i] = "供花/次:WJSH" + Num2String(lastnum);
+                            break;
+                        case 2:
+                            //供果/次
+                            NumString = "WJSG" + Num2String(lastnum);
+                            tempList_huaguo.Add(NumString);
+                            huaguolist[i] = "供果/次:WJSG" + Num2String(lastnum);
+                            break;
+                        case 3:
+                            //供花/月
+                            NumString = "WJS3H" + Num2String(lastnum);
+                            tempList_huaguo.Add(NumString);
+                            huaguolist[i] = "供花/月:WJS3H" + Num2String(lastnum);
+                            break;
+                        case 4:
+                            //供果/月
+                            NumString = "WJS3G" + Num2String(lastnum);
+                            tempList_huaguo.Add(NumString);
+                            huaguolist[i] = "供果/月:WJS3G" + Num2String(lastnum);
+                            break;
+                        case 5:
+                            //供花/半年
+                            NumString = "WJS18H" + Num2String(lastnum);
+                            tempList_huaguo.Add(NumString);
+                            huaguolist[i] = "供花/半年:WJS18H" + Num2String(lastnum);
+                            break;
+                        case 6:
+                            //供果/半年
+                            NumString = "WJS18G" + Num2String(lastnum);
+                            tempList_huaguo.Add(NumString);
+                            huaguolist[i] = "供果/半年:WJS18G" + Num2String(lastnum);
+                            break;
+                    }
+                    Huaguolist = tempList_huaguo.ToArray();
+
+                    msg += huaguolist[i];
+                    if (i < huaguolist.Length - 1)
+                    {
+                        msg += ",";
+                    }
+
+                    //bResult = true;
+                    int res = ExecuteSql("Update Temple_" + Year + "..Huaguo_wjsan_info Set Num2String = N'" + NumString + "', Num = " + lastnum + " Where HuaguoID=" + id);
+
+                    if (res > 0)
+                    {
+                        bResult = true;
+                    }
+
+                    int index = dtDataList.Rows.Count - i > 1 ? i + 1 : i;
+                    HuaguoType = int.Parse(dtDataList.Rows[index]["HuaguoType"].ToString());
+
+                    lastnum = GetListNum_wjsan_Huaguo(HuaguoType, applicantID, Year);
+                    if (lastnum > 0)
+                    {
+                        bool dhavenum = true;
+
+                        switch (HuaguoType)
+                        {
+                            case 1:
+                                //供花/次
+                                for (int j = 1001; j < lastnum; j++)
+                                {
+                                    if (CheckedNum_wjsan_Huaguo(HuaguoType, j, Year))
+                                    {
+                                        lastnum = j;
+                                        dhavenum = false;
+                                        break;
+                                    }
+                                }
+
+                                break;
+                            case 2:
+                                //供果/次
+                                for (int j = 1001; j < lastnum; j++)
+                                {
+                                    if (CheckedNum_wjsan_Huaguo(HuaguoType, j, Year))
+                                    {
+                                        lastnum = j;
+                                        dhavenum = false;
+                                        break;
+                                    }
+                                }
+
+                                break;
+                            case 3:
+                                //供花/月
+                                for (int j = 1001; j < lastnum; j++)
+                                {
+                                    if (CheckedNum_wjsan_Huaguo(HuaguoType, j, Year))
+                                    {
+                                        lastnum = j;
+                                        dhavenum = false;
+                                        break;
+                                    }
+                                }
+
+                                break;
+                            case 4:
+                                //供果/月
+                                for (int j = 1001; j < lastnum; j++)
+                                {
+                                    if (CheckedNum_wjsan_Huaguo(HuaguoType, j, Year))
+                                    {
+                                        lastnum = j;
+                                        dhavenum = false;
+                                        break;
+                                    }
+                                }
+
+                                break;
+                            case 5:
+                                //供花/半年
+                                for (int j = 1001; j < lastnum; j++)
+                                {
+                                    if (CheckedNum_wjsan_Huaguo(HuaguoType, j, Year))
+                                    {
+                                        lastnum = j;
+                                        dhavenum = false;
+                                        break;
+                                    }
+                                }
+
+                                break;
+                            case 6:
+                                //供果/半年
+                                for (int j = 1001; j < lastnum; j++)
+                                {
+                                    if (CheckedNum_wjsan_Huaguo(HuaguoType, j, Year))
+                                    {
+                                        lastnum = j;
+                                        dhavenum = false;
+                                        break;
+                                    }
+                                }
+
+                                break;
+                        }
+
+                        if (dhavenum)
+                        {
+                            ++lastnum;
+                        }
+                    }
+                    else
+                    {
+                        switch (HuaguoType)
+                        {
+                            case 1:
+                                //供花/次
+                                lastnum = 1001;
+                                break;
+                            case 2:
+                                //供果/次
+                                lastnum = 1001;
+                                break;
+                            case 3:
+                                //供花/月
+                                lastnum = 1001;
+                                break;
+                            case 4:
+                                //供果/月
+                                lastnum = 1001;
+                                break;
+                            case 5:
+                                //供果/半年
+                                lastnum = 1001;
+                                break;
+                            case 6:
+                                //供果/半年
                                 lastnum = 1001;
                                 break;
                         }
@@ -16682,6 +17109,19 @@ namespace Read.data
             return bResult;
         }
 
+        public bool Updateapplicantinfo_Huaguo_wjsan(int applicantID, int Cost, int Status, string Year)
+        {
+            bool bResult = false;
+            int res = ExecuteSql("Update Temple_" + Year + "..ApplicantInfo_wjsan_Huaguo Set Status= " + Status + ", Cost= " + Cost + " Where ApplicantID=" + applicantID);
+
+            if (res > 0)
+            {
+                bResult = true;
+            }
+
+            return bResult;
+        }
+
         public bool Updateapplicantinfo_Lights_ld(int applicantID, int Cost, int Status, string Year)
         {
             bool bResult = false;
@@ -18391,7 +18831,7 @@ namespace Read.data
         /// <summary>
         /// 取得最後一名編號資料-大甲鎮瀾宮點燈
         /// <param name="LightsType">LightsType=燈種 3-光明燈 4-安太歲 5-文昌燈 6-財神燈 7-姻緣燈 8-藥師燈 9-財利燈 10-貴人燈 11-福祿(壽)燈 12-寵物平安燈 13-龍王燈 14-虎爺燈 
-        /// 15-轉運納福燈 16-光明燈上層 17-偏財旺旺燈 18-廣進安財庫 19-財庫燈 20-月老姻緣燈 21-孝親祈福燈 22-事業燈 23-全家光明燈 24-觀音佛祖燈 25-財神斗 26-事業斗 27-平安斗 
+        /// 15-轉運納福燈 16-光明燈上層(玉皇燈) 17-偏財旺旺燈 18-廣進安財庫 19-財庫燈 20-月老姻緣燈 21-孝親祈福燈 22-事業燈 23-全家光明燈 24-觀音佛祖燈 25-財神斗 26-事業斗 27-平安斗 
         /// 28-文昌斗 29-藥師斗 30-元神斗 31-福祿壽斗 32-觀音斗 33-明心智慧燈</param>
         /// </summary>
         public int GetListNum_da_Lights(int LightsType, int applicantID, string Year)
@@ -18415,7 +18855,7 @@ namespace Read.data
         /// <summary>
         /// 取得最後一名編號資料-新港奉天宮點燈
         /// <param name="LightsType">LightsType=燈種 3-光明燈 4-安太歲 5-文昌燈 6-財神燈 7-姻緣燈 8-藥師燈 9-財利燈 10-貴人燈 11-福祿(壽)燈 12-寵物平安燈 13-龍王燈 14-虎爺燈 
-        /// 15-轉運納福燈 16-光明燈上層 17-偏財旺旺燈 18-廣進安財庫 19-財庫燈 20-月老姻緣燈 21-孝親祈福燈 22-事業燈 23-全家光明燈 24-觀音佛祖燈 25-財神斗 26-事業斗 27-平安斗 
+        /// 15-轉運納福燈 16-光明燈上層(玉皇燈) 17-偏財旺旺燈 18-廣進安財庫 19-財庫燈 20-月老姻緣燈 21-孝親祈福燈 22-事業燈 23-全家光明燈 24-觀音佛祖燈 25-財神斗 26-事業斗 27-平安斗 
         /// 28-文昌斗 29-藥師斗 30-元神斗 31-福祿壽斗 32-觀音斗 33-明心智慧燈</param>
         /// </summary>
         public int GetListNum_h_Lights(int LightsType, int applicantID, string Year)
@@ -18439,7 +18879,7 @@ namespace Read.data
         /// <summary>
         /// 取得最後一名編號資料-北港武德宮點燈
         /// <param name="LightsType">LightsType=燈種 3-光明燈 4-安太歲 5-文昌燈 6-財神燈 7-姻緣燈 8-藥師燈 9-財利燈 10-貴人燈 11-福祿(壽)燈 12-寵物平安燈 13-龍王燈 14-虎爺燈 
-        /// 15-轉運納福燈 16-光明燈上層 17-偏財旺旺燈 18-廣進安財庫 19-財庫燈 20-月老姻緣燈 21-孝親祈福燈 22-事業燈 23-全家光明燈 24-觀音佛祖燈 25-財神斗 26-事業斗 27-平安斗 
+        /// 15-轉運納福燈 16-光明燈上層(玉皇燈) 17-偏財旺旺燈 18-廣進安財庫 19-財庫燈 20-月老姻緣燈 21-孝親祈福燈 22-事業燈 23-全家光明燈 24-觀音佛祖燈 25-財神斗 26-事業斗 27-平安斗 
         /// 28-文昌斗 29-藥師斗 30-元神斗 31-福祿壽斗 32-觀音斗 33-明心智慧燈</param>
         /// </summary>
         public int GetListNum_wu_Lights(int LightsType, int applicantID, string Year)
@@ -18463,7 +18903,7 @@ namespace Read.data
         /// <summary>
         /// 取得最後一名編號資料-西螺福興宮點燈
         /// <param name="LightsType">LightsType=燈種 3-光明燈 4-安太歲 5-文昌燈 6-財神燈 7-姻緣燈 8-藥師燈 9-財利燈 10-貴人燈 11-福祿(壽)燈 12-寵物平安燈 13-龍王燈 14-虎爺燈 
-        /// 15-轉運納福燈 16-光明燈上層 17-偏財旺旺燈 18-廣進安財庫 19-財庫燈 20-月老姻緣燈 21-孝親祈福燈 22-事業燈 23-全家光明燈 24-觀音佛祖燈 25-財神斗 26-事業斗 27-平安斗 
+        /// 15-轉運納福燈 16-光明燈上層(玉皇燈) 17-偏財旺旺燈 18-廣進安財庫 19-財庫燈 20-月老姻緣燈 21-孝親祈福燈 22-事業燈 23-全家光明燈 24-觀音佛祖燈 25-財神斗 26-事業斗 27-平安斗 
         /// 28-文昌斗 29-藥師斗 30-元神斗 31-福祿壽斗 32-觀音斗 33-明心智慧燈</param>
         /// </summary>
         public int GetListNum_Fu_Lights(int LightsType, int applicantID, string Year)
@@ -18487,7 +18927,7 @@ namespace Read.data
         /// <summary>
         /// 取得最後一名編號資料-台南正統鹿耳門聖母廟點燈
         /// <param name="LightsType">LightsType=燈種 3-光明燈 4-安太歲 5-文昌燈 6-財神燈 7-姻緣燈 8-藥師燈 9-財利燈 10-貴人燈 11-福祿(壽)燈 12-寵物平安燈 13-龍王燈 14-虎爺燈 
-        /// 15-轉運納福燈 16-光明燈上層 17-偏財旺旺燈 18-廣進安財庫 19-財庫燈 20-月老姻緣燈 21-孝親祈福燈 22-事業燈 23-全家光明燈 24-觀音佛祖燈 25-財神斗 26-事業斗 27-平安斗 
+        /// 15-轉運納福燈 16-光明燈上層(玉皇燈) 17-偏財旺旺燈 18-廣進安財庫 19-財庫燈 20-月老姻緣燈 21-孝親祈福燈 22-事業燈 23-全家光明燈 24-觀音佛祖燈 25-財神斗 26-事業斗 27-平安斗 
         /// 28-文昌斗 29-藥師斗 30-元神斗 31-福祿壽斗 32-觀音斗 33-明心智慧燈</param>
         /// </summary>
         public int GetListNum_Luer_Lights(int LightsType, int applicantID, string Year)
@@ -18511,7 +18951,7 @@ namespace Read.data
         /// <summary>
         /// 取得最後一名編號資料-桃園威天宮點燈
         /// <param name="LightsType">LightsType=燈種 3-光明燈 4-安太歲 5-文昌燈 6-財神燈 7-姻緣燈 8-藥師燈 9-財利燈 10-貴人燈 11-福祿(壽)燈 12-寵物平安燈 13-龍王燈 14-虎爺燈 
-        /// 15-轉運納福燈 16-光明燈上層 17-偏財旺旺燈 18-廣進安財庫 19-財庫燈 20-月老姻緣燈 21-孝親祈福燈 22-事業燈 23-全家光明燈 24-觀音佛祖燈 25-財神斗 26-事業斗 27-平安斗 
+        /// 15-轉運納福燈 16-光明燈上層(玉皇燈) 17-偏財旺旺燈 18-廣進安財庫 19-財庫燈 20-月老姻緣燈 21-孝親祈福燈 22-事業燈 23-全家光明燈 24-觀音佛祖燈 25-財神斗 26-事業斗 27-平安斗 
         /// 28-文昌斗 29-藥師斗 30-元神斗 31-福祿壽斗 32-觀音斗 33-明心智慧燈</param>
         /// </summary>
         public int GetListNum_ty_Lights(int LightsType, int applicantID, string Year)
@@ -18535,7 +18975,7 @@ namespace Read.data
         /// <summary>
         /// 取得最後一名編號資料-桃園威天宮孝親祈福燈點燈
         /// <param name="LightsType">LightsType=燈種 3-光明燈 4-安太歲 5-文昌燈 6-財神燈 7-姻緣燈 8-藥師燈 9-財利燈 10-貴人燈 11-福祿(壽)燈 12-寵物平安燈 13-龍王燈 14-虎爺燈 
-        /// 15-轉運納福燈 16-光明燈上層 17-偏財旺旺燈 18-廣進安財庫 19-財庫燈 20-月老姻緣燈 21-孝親祈福燈 22-事業燈 23-全家光明燈 24-觀音佛祖燈 25-財神斗 26-事業斗 27-平安斗 
+        /// 15-轉運納福燈 16-光明燈上層(玉皇燈) 17-偏財旺旺燈 18-廣進安財庫 19-財庫燈 20-月老姻緣燈 21-孝親祈福燈 22-事業燈 23-全家光明燈 24-觀音佛祖燈 25-財神斗 26-事業斗 27-平安斗 
         /// 28-文昌斗 29-藥師斗 30-元神斗 31-福祿壽斗 32-觀音斗 33-明心智慧燈</param>
         /// </summary>
         public int GetListNum_ty_mom_Lights(int LightsType, int applicantID, string Year)
@@ -18559,7 +18999,7 @@ namespace Read.data
         /// <summary>
         /// 取得最後一名編號資料-斗六五路財神宮點燈
         /// <param name="LightsType">LightsType=燈種 3-光明燈 4-安太歲 5-文昌燈 6-財神燈 7-姻緣燈 8-藥師燈 9-財利燈 10-貴人燈 11-福祿(壽)燈 12-寵物平安燈 13-龍王燈 14-虎爺燈 
-        /// 15-轉運納福燈 16-光明燈上層 17-偏財旺旺燈 18-廣進安財庫 19-財庫燈 20-月老姻緣燈 21-孝親祈福燈 22-事業燈 23-全家光明燈 24-觀音佛祖燈 25-財神斗 26-事業斗 27-平安斗 
+        /// 15-轉運納福燈 16-光明燈上層(玉皇燈) 17-偏財旺旺燈 18-廣進安財庫 19-財庫燈 20-月老姻緣燈 21-孝親祈福燈 22-事業燈 23-全家光明燈 24-觀音佛祖燈 25-財神斗 26-事業斗 27-平安斗 
         /// 28-文昌斗 29-藥師斗 30-元神斗 31-福祿壽斗 32-觀音斗 33-明心智慧燈</param>
         /// </summary>
         public int GetListNum_Fw_Lights(int LightsType, int applicantID, string Year)
@@ -18583,7 +19023,7 @@ namespace Read.data
         /// <summary>
         /// 取得最後一名編號資料-斗六五路財神宮安斗
         /// <param name="AnDouType">AnDouType=燈種 3-光明燈 4-安太歲 5-文昌燈 6-財神燈 7-姻緣燈 8-藥師燈 9-財利燈 10-貴人燈 11-福祿(壽)燈 12-寵物平安燈 13-龍王燈 14-虎爺燈 
-        /// 15-轉運納福燈 16-光明燈上層 17-偏財旺旺燈 18-廣進安財庫 19-財庫燈 20-月老姻緣燈 21-孝親祈福燈 22-事業燈 23-全家光明燈 24-觀音佛祖燈 25-財神斗 26-事業斗 27-平安斗 
+        /// 15-轉運納福燈 16-光明燈上層(玉皇燈) 17-偏財旺旺燈 18-廣進安財庫 19-財庫燈 20-月老姻緣燈 21-孝親祈福燈 22-事業燈 23-全家光明燈 24-觀音佛祖燈 25-財神斗 26-事業斗 27-平安斗 
         /// 28-文昌斗 29-藥師斗 30-元神斗 31-福祿壽斗 32-觀音斗 33-明心智慧燈</param>
         /// </summary>
         public int GetListNum_Fw_AnDou(int AnDouType, int applicantID, string Year)
@@ -18607,7 +19047,7 @@ namespace Read.data
         /// <summary>
         /// 取得最後一名編號資料-台東東海龍門天聖宮點燈
         /// <param name="LightsType">LightsType=燈種 3-光明燈 4-安太歲 5-文昌燈 6-財神燈 7-姻緣燈 8-藥師燈 9-財利燈 10-貴人燈 11-福祿(壽)燈 12-寵物平安燈 13-龍王燈 14-虎爺燈 
-        /// 15-轉運納福燈 16-光明燈上層 17-偏財旺旺燈 18-廣進安財庫 19-財庫燈 20-月老姻緣燈 21-孝親祈福燈 22-事業燈 23-全家光明燈 24-觀音佛祖燈 25-財神斗 26-事業斗 27-平安斗 
+        /// 15-轉運納福燈 16-光明燈上層(玉皇燈) 17-偏財旺旺燈 18-廣進安財庫 19-財庫燈 20-月老姻緣燈 21-孝親祈福燈 22-事業燈 23-全家光明燈 24-觀音佛祖燈 25-財神斗 26-事業斗 27-平安斗 
         /// 28-文昌斗 29-藥師斗 30-元神斗 31-福祿壽斗 32-觀音斗 33-明心智慧燈</param>
         /// </summary>
         public int GetListNum_dh_Lights(int LightsType, int applicantID, string Year)
@@ -18631,7 +19071,7 @@ namespace Read.data
         /// <summary>
         /// 取得最後一名編號資料-五股賀聖宮點燈
         /// <param name="LightsType">LightsType=燈種 3-光明燈 4-安太歲 5-文昌燈 6-財神燈 7-姻緣燈 8-藥師燈 9-財利燈 10-貴人燈 11-福祿(壽)燈 12-寵物平安燈 13-龍王燈 14-虎爺燈 
-        /// 15-轉運納福燈 16-光明燈上層 17-偏財旺旺燈 18-廣進安財庫 19-財庫燈 20-月老姻緣燈 21-孝親祈福燈 22-事業燈 23-全家光明燈 24-觀音佛祖燈 25-財神斗 26-事業斗 27-平安斗 
+        /// 15-轉運納福燈 16-光明燈上層(玉皇燈) 17-偏財旺旺燈 18-廣進安財庫 19-財庫燈 20-月老姻緣燈 21-孝親祈福燈 22-事業燈 23-全家光明燈 24-觀音佛祖燈 25-財神斗 26-事業斗 27-平安斗 
         /// 28-文昌斗 29-藥師斗 30-元神斗 31-福祿壽斗 32-觀音斗 33-明心智慧燈</param>
         /// </summary>
         public int GetListNum_Hs_Lights(int LightsType, int applicantID, string Year)
@@ -18655,7 +19095,7 @@ namespace Read.data
         /// <summary>
         /// 取得最後一名編號資料-鹿港城隍廟點燈
         /// <param name="LightsType">LightsType=燈種 3-光明燈 4-安太歲 5-文昌燈 6-財神燈 7-姻緣燈 8-藥師燈 9-財利燈 10-貴人燈 11-福祿(壽)燈 12-寵物平安燈 13-龍王燈 14-虎爺燈 
-        /// 15-轉運納福燈 16-光明燈上層 17-偏財旺旺燈 18-廣進安財庫 19-財庫燈 20-月老姻緣燈 21-孝親祈福燈 22-事業燈 23-全家光明燈 24-觀音佛祖燈 25-財神斗 26-事業斗 27-平安斗 
+        /// 15-轉運納福燈 16-光明燈上層(玉皇燈) 17-偏財旺旺燈 18-廣進安財庫 19-財庫燈 20-月老姻緣燈 21-孝親祈福燈 22-事業燈 23-全家光明燈 24-觀音佛祖燈 25-財神斗 26-事業斗 27-平安斗 
         /// 28-文昌斗 29-藥師斗 30-元神斗 31-福祿壽斗 32-觀音斗 33-明心智慧燈</param>
         /// </summary>
         public int GetListNum_Lk_Lights(int LightsType, int applicantID, string Year)
@@ -18679,7 +19119,7 @@ namespace Read.data
         /// <summary>
         /// 取得最後一名編號資料-玉敕大樹朝天宮點燈
         /// <param name="LightsType">LightsType=燈種 3-光明燈 4-安太歲 5-文昌燈 6-財神燈 7-姻緣燈 8-藥師燈 9-財利燈 10-貴人燈 11-福祿(壽)燈 12-寵物平安燈 13-龍王燈 14-虎爺燈 
-        /// 15-轉運納福燈 16-光明燈上層 17-偏財旺旺燈 18-廣進安財庫 19-財庫燈 20-月老姻緣燈 21-孝親祈福燈 22-事業燈 23-全家光明燈 24-觀音佛祖燈 25-財神斗 26-事業斗 27-平安斗 
+        /// 15-轉運納福燈 16-光明燈上層(玉皇燈) 17-偏財旺旺燈 18-廣進安財庫 19-財庫燈 20-月老姻緣燈 21-孝親祈福燈 22-事業燈 23-全家光明燈 24-觀音佛祖燈 25-財神斗 26-事業斗 27-平安斗 
         /// 28-文昌斗 29-藥師斗 30-元神斗 31-福祿壽斗 32-觀音斗 33-明心智慧燈</param>
         /// </summary>
         public int GetListNum_ma_Lights(int LightsType, int applicantID, string Year)
@@ -18703,7 +19143,7 @@ namespace Read.data
         /// <summary>
         /// 取得最後一名編號資料-進寶財神廟點燈
         /// <param name="LightsType">LightsType=燈種 3-光明燈 4-安太歲 5-文昌燈 6-財神燈 7-姻緣燈 8-藥師燈 9-財利燈 10-貴人燈 11-福祿(壽)燈 12-寵物平安燈 13-龍王燈 14-虎爺燈 
-        /// 15-轉運納福燈 16-光明燈上層 17-偏財旺旺燈 18-廣進安財庫 19-財庫燈 20-月老姻緣燈 21-孝親祈福燈 22-事業燈 23-全家光明燈 24-觀音佛祖燈 25-財神斗 26-事業斗 27-平安斗 
+        /// 15-轉運納福燈 16-光明燈上層(玉皇燈) 17-偏財旺旺燈 18-廣進安財庫 19-財庫燈 20-月老姻緣燈 21-孝親祈福燈 22-事業燈 23-全家光明燈 24-觀音佛祖燈 25-財神斗 26-事業斗 27-平安斗 
         /// 28-文昌斗 29-藥師斗 30-元神斗 31-福祿壽斗 32-觀音斗 33-明心智慧燈</param>
         /// </summary>
         public int GetListNum_jb_Lights(int LightsType, int applicantID, string Year)
@@ -18727,7 +19167,7 @@ namespace Read.data
         /// <summary>
         /// 取得最後一名編號資料-台灣道教總廟無極三清總道院點燈
         /// <param name="LightsType">LightsType=燈種 3-光明燈 4-安太歲 5-文昌燈 6-財神燈 7-姻緣燈 8-藥師燈 9-財利燈 10-貴人燈 11-福祿(壽)燈 12-寵物平安燈 13-龍王燈 14-虎爺燈 
-        /// 15-轉運納福燈 16-光明燈上層 17-偏財旺旺燈 18-廣進安財庫 19-財庫燈 20-月老姻緣燈 21-孝親祈福燈 22-事業燈 23-全家光明燈 24-觀音佛祖燈 25-財神斗 26-事業斗 27-平安斗 
+        /// 15-轉運納福燈 16-光明燈上層(玉皇燈) 17-偏財旺旺燈 18-廣進安財庫 19-財庫燈 20-月老姻緣燈 21-孝親祈福燈 22-事業燈 23-全家光明燈 24-觀音佛祖燈 25-財神斗 26-事業斗 27-平安斗 
         /// 28-文昌斗 29-藥師斗 30-元神斗 31-福祿壽斗 32-觀音斗 33-明心智慧燈</param>
         /// </summary>
         public int GetListNum_wjsan_Lights(int LightsType, int applicantID, string Year)
@@ -18751,7 +19191,7 @@ namespace Read.data
         /// <summary>
         /// 取得最後一名編號資料-台灣道教總廟無極三清總道院安斗
         /// <param name="AnDouType">AnDouType=燈種 3-光明燈 4-安太歲 5-文昌燈 6-財神燈 7-姻緣燈 8-藥師燈 9-財利燈 10-貴人燈 11-福祿(壽)燈 12-寵物平安燈 13-龍王燈 14-虎爺燈 
-        /// 15-轉運納福燈 16-光明燈上層 17-偏財旺旺燈 18-廣進安財庫 19-財庫燈 20-月老姻緣燈 21-孝親祈福燈 22-事業燈 23-全家光明燈 24-觀音佛祖燈 25-財神斗 26-事業斗 27-平安斗 
+        /// 15-轉運納福燈 16-光明燈上層(玉皇燈) 17-偏財旺旺燈 18-廣進安財庫 19-財庫燈 20-月老姻緣燈 21-孝親祈福燈 22-事業燈 23-全家光明燈 24-觀音佛祖燈 25-財神斗 26-事業斗 27-平安斗 
         /// 28-文昌斗 29-藥師斗 30-元神斗 31-福祿壽斗 32-觀音斗 33-明心智慧燈</param>
         /// </summary>
         public int GetListNum_wjsan_AnDou(int AnDouType, int applicantID, string Year)
@@ -18773,9 +19213,31 @@ namespace Read.data
         }
 
         /// <summary>
+        /// 取得最後一名編號資料-台灣道教總廟無極三清總道院供花供果
+        /// <param name="HuaguoType">HuaguoType=活動項目 1-供花/次 2-供果/次 3-供花/月 4-供果/月 5-供花/半年 6-供果/半年</param>
+        /// </summary>
+        public int GetListNum_wjsan_Huaguo(int HuaguoType, int applicantID, string Year)
+        {
+            int result = 0;
+            string sql = string.Empty;
+            sql = "Select * from Temple_" + Year + "..Huaguo_wjsan_info Where Status = 0 and HuaguoType = @HuaguoType and Num != 0 Order by Num Desc";
+
+            DatabaseAdapter objDatabaseAdapter = new DatabaseAdapter(sql, this.DBSource);
+            objDatabaseAdapter.AddParameterToSelectCommand("HuaguoType", HuaguoType);
+            DataTable dtGetData = new DataTable();
+            objDatabaseAdapter.Fill(dtGetData);
+
+            if (dtGetData.Rows.Count > 0)
+            {
+                result = int.Parse(dtGetData.Rows[0]["Num"].ToString());
+            }
+            return result;
+        }
+
+        /// <summary>
         /// 取得最後一名編號資料-桃園龍德宮點燈
         /// <param name="LightsType">LightsType=燈種 3-光明燈 4-安太歲 5-文昌燈 6-財神燈 7-姻緣燈 8-藥師燈 9-財利燈 10-貴人燈 11-福祿(壽)燈 12-寵物平安燈 13-龍王燈 14-虎爺燈 
-        /// 15-轉運納福燈 16-光明燈上層 17-偏財旺旺燈 18-廣進安財庫 19-財庫燈 20-月老姻緣燈 21-孝親祈福燈 22-事業燈 23-全家光明燈 24-觀音佛祖燈 25-財神斗 26-事業斗 27-平安斗 
+        /// 15-轉運納福燈 16-光明燈上層(玉皇燈) 17-偏財旺旺燈 18-廣進安財庫 19-財庫燈 20-月老姻緣燈 21-孝親祈福燈 22-事業燈 23-全家光明燈 24-觀音佛祖燈 25-財神斗 26-事業斗 27-平安斗 
         /// 28-文昌斗 29-藥師斗 30-元神斗 31-福祿壽斗 32-觀音斗 33-明心智慧燈</param>
         /// </summary>
         public int GetListNum_ld_Lights(int LightsType, int applicantID, string Year)
@@ -18799,7 +19261,7 @@ namespace Read.data
         /// <summary>
         /// 取得最後一名編號資料-基隆悟玄宮點燈
         /// <param name="LightsType">LightsType=燈種 3-光明燈 4-安太歲 5-文昌燈 6-財神燈 7-姻緣燈 8-藥師燈 9-財利燈 10-貴人燈 11-福祿(壽)燈 12-寵物平安燈 13-龍王燈 14-虎爺燈 
-        /// 15-轉運納福燈 16-光明燈上層 17-偏財旺旺燈 18-廣進安財庫 19-財庫燈 20-月老姻緣燈 21-孝親祈福燈 22-事業燈 23-全家光明燈 24-觀音佛祖燈 25-財神斗 26-事業斗 27-平安斗 
+        /// 15-轉運納福燈 16-光明燈上層(玉皇燈) 17-偏財旺旺燈 18-廣進安財庫 19-財庫燈 20-月老姻緣燈 21-孝親祈福燈 22-事業燈 23-全家光明燈 24-觀音佛祖燈 25-財神斗 26-事業斗 27-平安斗 
         /// 28-文昌斗 29-藥師斗 30-元神斗 31-福祿壽斗 32-觀音斗 33-明心智慧燈</param>
         /// </summary>
         public int GetListNum_wh_Lights(int LightsType, int applicantID, string Year)
@@ -19683,6 +20145,10 @@ namespace Read.data
                     //安斗
                     sql = "Select * from Temple_" + Year + "..ApplicantInfo_wjsan_AnDou Where ApplicantID = @ApplicantID ";
                     break;
+                case 21:
+                    //供花供果
+                    sql = "Select * from Temple_" + Year + "..ApplicantInfo_wjsan_Huaguo Where ApplicantID = @ApplicantID ";
+                    break;
             }
 
             DatabaseAdapter objDatabaseAdapter = new DatabaseAdapter(sql, this.DBSource);
@@ -20116,6 +20582,28 @@ namespace Read.data
         }
 
         /// <summary>
+        /// 取得供花供果活動的活動項目(台灣道教總廟無極三清總道院)
+        /// </summary>
+        public int GetHuaguoType_wjsan(int applicantID, string Year)
+        {
+            int result = 0;
+            string sql = string.Empty;
+
+            sql = "Select * from Temple_" + Year + "..Huaguo_wjsan_info Where Status = 0 and ApplicantID = @ApplicantID ";
+
+            DatabaseAdapter objDatabaseAdapter = new DatabaseAdapter(sql, this.DBSource);
+            objDatabaseAdapter.AddParameterToSelectCommand("ApplicantID", applicantID);
+            DataTable dtGetData = new DataTable();
+            objDatabaseAdapter.Fill(dtGetData);
+
+            if (dtGetData.Rows.Count > 0)
+            {
+                int.TryParse(dtGetData.Rows[0]["HuaguoType"].ToString(), out result);
+            }
+            return result;
+        }
+
+        /// <summary>
         /// 取得護國息災大法會的服務項目(台東東海龍門天聖宮)
         /// </summary>
         public int GetLybcType_dh(int applicantID, string Year)
@@ -20185,7 +20673,7 @@ namespace Read.data
         /// 取得點燈最後一名編號資料
         /// <param name="adminID">adminID=廟宇 3-大甲鎮瀾宮 4-新港奉天宮</param>
         /// <param name="type">type=燈種 3-光明燈 4-安太歲 5-文昌燈 6-財神燈 7-姻緣燈 8-藥師燈 9-財利燈 10-貴人燈 11-福祿(壽)燈 12-寵物平安燈 13-龍王燈 14-虎爺燈 15-轉運納福燈 
-        /// 16-光明燈上層 17-偏財旺旺燈 18-廣進安財庫 19-財庫燈 20-月老姻緣燈 21-孝親祈福燈 22-事業燈 23-全家光明燈 24-觀音佛祖燈 25-財神斗 26-事業斗 27-平安斗 28-文昌斗 29-藥師斗 
+        /// 16-光明燈上層(玉皇燈) 17-偏財旺旺燈 18-廣進安財庫 19-財庫燈 20-月老姻緣燈 21-孝親祈福燈 22-事業燈 23-全家光明燈 24-觀音佛祖燈 25-財神斗 26-事業斗 27-平安斗 28-文昌斗 29-藥師斗 
         /// 30-元神斗 31-福祿壽斗 32-觀音斗 33-明心智慧燈</param>
         /// </summary>
         public int GetLightsLastNum(int type, int adminID)
@@ -21070,6 +21558,23 @@ namespace Read.data
         public DataTable Getapplicantinfo_AnDou_wjsan(int applicantID, int adminID, string Year)
         {
             string sql = "Select * from Temple_" + Year + "..ApplicantInfo_wjsan_AnDou Where ApplicantID = @ApplicantID and AdminID = @AdminID";
+
+            DatabaseAdapter objDatabaseAdapter = new DatabaseAdapter(sql, this.DBSource);
+            objDatabaseAdapter.AddParameterToSelectCommand("AdminID", adminID);
+            objDatabaseAdapter.AddParameterToSelectCommand("ApplicantID", applicantID);
+            DataTable dtGetData = new DataTable();
+            objDatabaseAdapter.Fill(dtGetData);
+
+            return dtGetData;
+        }
+
+        /// <summary>
+        /// 取得購買人資料-台灣道教總廟無極三清總道院供花供果
+        /// <param name="applecantID">applecantID=購買人編號</param>
+        /// </summary>
+        public DataTable Getapplicantinfo_Huaguo_wjsan(int applicantID, int adminID, string Year)
+        {
+            string sql = "Select * from Temple_" + Year + "..ApplicantInfo_wjsan_Huaguo Where ApplicantID = @ApplicantID and AdminID = @AdminID";
 
             DatabaseAdapter objDatabaseAdapter = new DatabaseAdapter(sql, this.DBSource);
             objDatabaseAdapter.AddParameterToSelectCommand("AdminID", adminID);
@@ -22698,6 +23203,33 @@ namespace Read.data
             if ((int)dtDataList.Rows[0]["Status"] == 0)
             {
                 int res = ExecuteSql("Update Temple_" + Year + "..APPCharge_wjsan_AnDou Set Status = " + Status + ", BillIP = '" + BillIP + "', CallbackLog = '" + CallbackLog +
+                    "', ChargeDate = '" + dt.ToString("yyyy-MM-dd HH:mm:ss") + "', ChargeDateString = '" + dt.ToString("yyyy-MM-dd") + "' Where OrderID='" + OrderID + "'");
+                if (res > 0)
+                {
+                    bResult = true;
+                }
+            }
+
+
+            return bResult;
+        }
+
+        public bool UpdateChargeStatus_Huaguo_wjsan(string OrderID, int Status, string BillIP, string CallbackLog, string Year)
+        {
+            TimeZoneInfo info = TimeZoneInfo.FindSystemTimeZoneById("Taipei Standard Time");
+            DateTime dt = TimeZoneInfo.ConvertTime(DateTime.Now, info);
+            bool bResult = false;
+            DataTable dtDataList = new DataTable();
+            string sql = "Select Top 1 * From Temple_" + Year + "..APPCharge_wjsan_Huaguo Where OrderID=@OrderID";
+
+            DatabaseAdapter AdapterObj = new DatabaseAdapter(sql, this.DBSource);
+            AdapterObj.SetSqlCommandBuilder();
+            AdapterObj.AddParameterToSelectCommand("@OrderID", OrderID);
+            AdapterObj.Fill(dtDataList);
+
+            if ((int)dtDataList.Rows[0]["Status"] == 0)
+            {
+                int res = ExecuteSql("Update Temple_" + Year + "..APPCharge_wjsan_Huaguo Set Status = " + Status + ", BillIP = '" + BillIP + "', CallbackLog = '" + CallbackLog +
                     "', ChargeDate = '" + dt.ToString("yyyy-MM-dd HH:mm:ss") + "', ChargeDateString = '" + dt.ToString("yyyy-MM-dd") + "' Where OrderID='" + OrderID + "'");
                 if (res > 0)
                 {
@@ -24716,6 +25248,34 @@ namespace Read.data
             return bResult;
         }
 
+        public bool UpdateChargeLog_Huaguo_wjsan(string OrderID, string Transaction_id, string Comment, string BillIP, string CallbackLog, string Year, ref string ChargeType)
+        {
+            TimeZoneInfo info = TimeZoneInfo.FindSystemTimeZoneById("Taipei Standard Time");
+            DateTime dt = TimeZoneInfo.ConvertTime(DateTime.Now, info);
+            bool bResult = false;
+            DataTable dtDataList = new DataTable();
+            string sql = "Select Top 1 * From Temple_" + Year + "..APPCharge_wjsan_Huaguo Where OrderID=@OrderID";
+
+            DatabaseAdapter AdapterObj = new DatabaseAdapter(sql, this.DBSource);
+            AdapterObj.SetSqlCommandBuilder();
+            AdapterObj.AddParameterToSelectCommand("@OrderID", OrderID);
+            AdapterObj.Fill(dtDataList);
+
+            if ((int)dtDataList.Rows[0]["Status"] == 0)
+            {
+                ChargeType = dtDataList.Rows[0]["ChargeType"].ToString();
+                int res = ExecuteSql("Update Temple_" + Year + "..APPCharge_wjsan_Huaguo Set Status = 1, BillIP = '" + BillIP + "', Transaction_id = '" + Transaction_id + "', CallbackLog = '" + CallbackLog +
+                    "', Comment = N'" + Comment + "', ChargeDate = '" + dt.ToString("yyyy-MM-dd HH:mm:ss") + "', ChargeDateString = '" + dt.ToString("yyyy-MM-dd") + "' Where OrderID='" + OrderID + "'");
+
+                if (res > 0)
+                {
+                    bResult = true;
+                }
+            }
+
+            return bResult;
+        }
+
         public bool UpdateChargeLog_Lights_ld(string OrderID, string Transaction_id, string Comment, string BillIP, string CallbackLog, string Year, ref string ChargeType)
         {
             TimeZoneInfo info = TimeZoneInfo.FindSystemTimeZoneById("Taipei Standard Time");
@@ -26019,6 +26579,25 @@ namespace Read.data
             return result;
         }
 
+        public bool CheckedNum_wjsan_Huaguo(int HuaguoType, int Num, string Year)
+        {
+            bool result = true;
+            string sql = string.Empty;
+
+            sql = "Select * from Temple_" + Year + "..Huaguo_wjsan_info Where Status = 0 and HuaguoType = @HuaguoType and Num = " + Num + " Order by Num Desc";
+
+            DatabaseAdapter objDatabaseAdapter = new DatabaseAdapter(sql, this.DBSource);
+            objDatabaseAdapter.AddParameterToSelectCommand("@HuaguoType", HuaguoType);
+            DataTable dtGetData = new DataTable();
+            objDatabaseAdapter.Fill(dtGetData);
+
+            if (dtGetData.Rows.Count > 0)
+            {
+                result = false;
+            }
+            return result;
+        }
+
         public bool CheckedNum_ld_Lights(int LightsType, int Num, string Year)
         {
             bool result = true;
@@ -26386,6 +26965,10 @@ namespace Read.data
                         case 20:
                             //安斗
                             sql = "Select * from Temple_" + Year + "..view_AnDou_wjsan_InfowithAPPCharge Where Status = 0 and ApplicantID = @ApplicantID and AdminID = @AdminID Order by Num Desc";
+                            break;
+                        case 21:
+                            //供花供果
+                            sql = "Select * from Temple_" + Year + "..view_Huaguo_wjsan_InfowithAPPCharge Where Status = 0 and ApplicantID = @ApplicantID and AdminID = @AdminID Order by Num Desc";
                             break;
                     }
                     break;

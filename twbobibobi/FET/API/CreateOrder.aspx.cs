@@ -9373,8 +9373,8 @@ namespace Temple.FET.APITEST
                         reMobile = prayedPerson[0]["msisdn"] != null ? prayedPerson[0]["msisdn"].ToString() : appMobile;
                         appCity = prayedPerson[0]["city"] != null ? prayedPerson[0]["city"].ToString() : "";
                         appRegion = prayedPerson[0]["region"] != null ? prayedPerson[0]["region"].ToString() : "";
-                        appAddr = prayedPerson[0]["Name"] != null ? prayedPerson[0]["Name"].ToString() : "";
-                        appZipCode = prayedPerson[0]["Name"] != null ? prayedPerson[0]["Name"].ToString() : "";
+                        appAddr = prayedPerson[0]["address"] != null ? prayedPerson[0]["address"].ToString() : "";
+                        appZipCode = prayedPerson[0]["zipCode"] != null ? prayedPerson[0]["zipCode"].ToString() : "0";
                         break;
                     }
                 }

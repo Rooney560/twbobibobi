@@ -548,7 +548,7 @@ namespace MotoSystem.Data
 
 
         /// <param name="LightsString">LightsString=燈種 3-光明燈 4-安太歲 5-文昌燈 6-財神燈 7-姻緣燈 8-藥師燈 9-財利燈 10-貴人燈 11-福祿(壽)燈 12-寵物平安燈 13-龍王燈 14-虎爺燈 15-轉運納福燈 
-        /// 16-光明燈上層 17-偏財旺旺燈 18-廣進安財庫 19-財庫燈 20-月老姻緣燈 21-孝親祈福燈 22-事業燈 23-全家光明燈 24-觀音佛祖燈 25-財神斗 26-事業斗 27-平安斗 28-文昌斗 29-藥師斗 
+        /// 16-光明燈上層(玉皇燈) 17-偏財旺旺燈 18-廣進安財庫 19-財庫燈 20-月老姻緣燈 21-孝親祈福燈 22-事業燈 23-全家光明燈 24-觀音佛祖燈 25-財神斗 26-事業斗 27-平安斗 28-文昌斗 29-藥師斗 
         /// 30-元神斗 31-福祿壽斗 32-觀音斗 33-明心智慧燈(智慧燈) 34-元辰斗燈</param>
         public static string GetLightsType(string LightsString, string adminID)
         {
@@ -640,6 +640,9 @@ namespace MotoSystem.Data
                 case "光明燈上層":
                     result = "16";
                     break;
+                case "玉皇燈":
+                    result = "16";
+                    break;
                 case "偏財旺旺燈":
                     result = "17";
                     break;
@@ -729,6 +732,35 @@ namespace MotoSystem.Data
             return result;
         }
 
+        /// <param name="HuaguoString">HuaguoString=活動項目 1-供花/次 2-供果/次 3-供花/月 4-供果/月 5-供花/半年 6-供果/半年</param>
+        public static string GetHuaguoType(string HuaguoString, string adminID)
+        {
+            string result = "-1";
+            switch (HuaguoString)
+            {
+                case "供花/次":
+                    result = "1";
+                    break;
+                case "供果/次":
+                    result = "2";
+                    break;
+                case "供花/月":
+                    result = "3";
+                    break;
+                case "供果/月":
+                    result = "4";
+                    break;
+                case "供花/半年":
+                    result = "5";
+                    break;
+                case "供果/半年":
+                    result = "6";
+                    break;
+            }
+
+            return result;
+        }
+
         //關聖帝君聖誕項目 1-忠義狀功德主 2-富貴狀功德主 3-招財補運 4-招財補運紀念版
         public static string GetEmperorGuanshengType(string EmperorGuanshengString, string adminID)
         {
@@ -807,14 +839,14 @@ namespace MotoSystem.Data
         /// <summary>
         /// 轉換點燈項目
         /// </summary>
-        /// <param name="lightstype">lightstype=燈種 3-光明燈 4-安太歲 5-文昌燈 6-財神燈 7-姻緣燈 8-藥師燈 9-財利燈 10-貴人燈 11-福祿(壽)燈 12-寵物平安燈 13-龍王燈 14-虎爺燈 
-        /// 15-轉運納福燈 16-光明燈上層 17-偏財旺旺燈 18-廣進安財庫 19-財庫燈 20-月老姻緣燈 21-孝親祈福燈 22-事業燈 23-全家光明燈 24-觀音佛祖燈 25-財神斗 26-事業斗 27-平安斗 
+        /// <param name="LightsType">lightstype=燈種 3-光明燈 4-安太歲 5-文昌燈 6-財神燈 7-姻緣燈 8-藥師燈 9-財利燈 10-貴人燈 11-福祿(壽)燈 12-寵物平安燈 13-龍王燈 14-虎爺燈 
+        /// 15-轉運納福燈 16-光明燈上層(玉皇燈) 17-偏財旺旺燈 18-廣進安財庫 19-財庫燈 20-月老姻緣燈 21-孝親祈福燈 22-事業燈 23-全家光明燈 24-觀音佛祖燈 25-財神斗 26-事業斗 27-平安斗 
         /// 28-文昌斗 29-藥師斗 30-元神斗 31-福祿壽斗 32-觀音斗 33-明心智慧燈</param>
         /// <returns></returns>
-        public static string LightsType2String(string lightstype, string adminID)
+        public static string LightsType2String(string LightsType, string adminID)
         {
             string result = string.Empty;
-            switch (lightstype)
+            switch (LightsType)
             {
                 case "3":
                     switch (adminID)
@@ -981,6 +1013,9 @@ namespace MotoSystem.Data
                 case "16":
                     switch (adminID)
                     {
+                        case "17":
+                            result = "玉皇燈";
+                            break;
                         default:
                             result = "光明燈上層";
                             break;
@@ -1442,9 +1477,73 @@ namespace MotoSystem.Data
             return result;
         }
 
+        /// <summary>
+        /// 轉換供花供果項目
+        /// </summary>
+        /// <param name="HuaguoType">HuaguoType=活動項目 1-供花/次 2-供果/次 3-供花/月 4-供果/月 5-供花/半年 6-供果/半年</param>
+        /// <returns></returns>
+        public static string HuaguoType2String(string HuaguoType, string adminID)
+        {
+            string result = string.Empty;
+            switch (HuaguoType)
+            {
+                case "1":
+                    switch (adminID)
+                    {
+                        case "31":
+                            result = "供花/次";
+                            break;
+                    }
+
+                    break;
+                case "2":
+                    switch (adminID)
+                    {
+                        case "31":
+                            result = "供果/次";
+                            break;
+                    }
+                    break;
+                case "3":
+                    switch (adminID)
+                    {
+                        case "31":
+                            result = "供花/月";
+                            break;
+                    }
+
+                    break;
+                case "4":
+                    switch (adminID)
+                    {
+                        case "31":
+                            result = "供果/月";
+                            break;
+                    }
+                    break;
+                case "5":
+                    switch (adminID)
+                    {
+                        case "31":
+                            result = "供花/半年";
+                            break;
+                    }
+                    break;
+                case "6":
+                    switch (adminID)
+                    {
+                        case "31":
+                            result = "供果/半年";
+                            break;
+                    }
+                    break;
+            }
+            return result;
+        }
+
 
         ///燈種 3-光明燈 4-安太歲 5-文昌燈 6-財神燈 7-姻緣燈 8-藥師燈 9-財利燈 10-貴人燈 11-福祿(壽)燈 12-寵物平安燈 13-龍王燈 14-虎爺燈 15-轉運納福燈 
-        /// 16-光明燈上層 17-偏財旺旺燈 18-廣進安財庫 19-財庫燈 20-月老姻緣燈 21-孝親祈福燈 22-事業燈 23-全家光明燈 24-觀音佛祖燈 25-財神斗 26-事業斗 27-平安斗 28-文昌斗 29-藥師斗 
+        /// 16-光明燈上層(玉皇燈) 17-偏財旺旺燈 18-廣進安財庫 19-財庫燈 20-月老姻緣燈 21-孝親祈福燈 22-事業燈 23-全家光明燈 24-觀音佛祖燈 25-財神斗 26-事業斗 27-平安斗 28-文昌斗 29-藥師斗 
         /// 30-元神斗 31-福祿壽斗 32-觀音斗 33-明心智慧燈(智慧燈) 34-元辰斗燈
         public static int GetLightsCost(int AdminID, string LightsType)
         {
@@ -1732,6 +1831,10 @@ namespace MotoSystem.Data
                         //    //財利燈
                         //    result = 500;
                         //    break;
+                        case "16":
+                            //玉皇燈
+                            result = 1000;
+                            break;
                         default:
                             result = 600;
                             break;
@@ -2200,6 +2303,48 @@ namespace MotoSystem.Data
             return result;
         }
 
+        /// <param name="HuaguoType">HuaguoType=活動項目 1-供花/次 2-供果/次 3-供花/月 4-供果/月 5-供花/半年 6-供果/半年</param>
+        public static int GetHuaguoCost(int AdminID, string HuaguoType)
+        {
+            int result = 0;
+
+            switch (AdminID)
+            {
+                case 31:
+                    //台灣道教總廟無極三清總道院
+                    switch (HuaguoType)
+                    {
+                        case "1":
+                            //供花/次
+                            result = 500;
+                            break;
+                        case "2":
+                            //供果/次
+                            result = 600;
+                            break;
+                        case "3":
+                            //供花/月
+                            result = 1000;
+                            break;
+                        case "4":
+                            //供果/月
+                            result = 1200;
+                            break;
+                        case "5":
+                            //供花/半年
+                            result = 3000;
+                            break;
+                        case "6":
+                            //供果/半年
+                            result = 3600;
+                            break;
+                    }
+                    break;
+            }
+
+            return result;
+        }
+
         public static string GetSuppliesType(string SuppliesString)
         {
             string result = "-1";
@@ -2354,6 +2499,18 @@ namespace MotoSystem.Data
                     break;
                 case "24":
                     result = "草屯敦和宮/沉香每台斤";
+                    break;
+                case "25":
+                    result = "竹山紫南宮/沉香每台斤";
+                    break;
+                case "26":
+                    result = "竹山金天宮（老袓廟）/沉香每台斤";
+                    break;
+                case "27":
+                    result = "埔里地母廟/沉香每台斤";
+                    break;
+                case "28":
+                    result = "松柏嶺受天宮/沉香每台斤";
                     break;
             }
 
@@ -2570,7 +2727,7 @@ namespace MotoSystem.Data
         }
 
 
-        protected void JSONStringOrder(string checkedkey, string clientOrderNumber, string OrderID, string encrypt, string kind, string[] Lightslist, JArray itemsInfo)
+        protected void JSONStringOrder(string checkedkey, string clientOrderNumber, string OrderID, string encrypt, string kind, string[] list, JArray itemsInfo)
         {
 
             //JSON寫入到檔案
@@ -2635,7 +2792,7 @@ namespace MotoSystem.Data
                                         //建立物件
                                         writer2.WriteStartObject();
                                         writer2.WritePropertyName("prayedPersonSeq"); writer2.WriteValue(item2["prayedPersonSeq"]);
-                                        writer2.WritePropertyName("prayedPersonOrderNumber"); writer2.WriteValue(Lightslist[j]);
+                                        writer2.WritePropertyName("prayedPersonOrderNumber"); writer2.WriteValue(list[j]);
                                         writer2.WriteEndObject();
                                         j++;
                                     }

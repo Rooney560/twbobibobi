@@ -29,6 +29,7 @@
     <!--預設載入css-->
     <link href="css/search/reset.css" rel="stylesheet" type="text/css" />
     <link rel="stylesheet" type="text/css" href="css/search/style.css" />
+    <link href="https://bobibobi.tw/Temples/css/css-loader.css" rel="stylesheet" />
 
     <!--輪播-->
     <link rel="stylesheet" type="text/css" href="css/search/slick.css"/>
@@ -152,6 +153,7 @@
 
             //打開搜尋結果
             $("#DataSearch").on("click", function () {
+                $(".loader").addClass("is-active");
                 /*ajax放這*/
                 data = {
                      //購買人
@@ -174,6 +176,7 @@
         })
 
         function checkedapplicant(res) {
+            $(".loader").removeClass("is-active");
             $("#DataResult").fadeIn();
 
             // 重導到相關頁面
@@ -366,6 +369,7 @@
     </noscript>
     <!-- End Google Tag Manager (noscript) -->
     <uc2:AjaxClientControl ID="AjaxClientControl1" runat="server" />
+    <div class="loader loader-default" data-text="搜尋中，請稍等。"></div>
     <div id="wrap">    
         <!--表單 Start-->
 	    <div id="FormBox">

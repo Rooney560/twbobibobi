@@ -130,8 +130,9 @@
                 <div class="Here">目前位置：</div>
                 <ul>
                     <li><a href="../index.aspx" title="首頁">首頁</a></li>
-                    <li><a href="LightsGuide.aspx" title="點燈說明">點燈說明</a></li>
-                    <li><a href="Lights14.aspx" title="虎爺燈介紹">虎爺燈介紹</a></li>
+                    <li><a href="ArticleColumn.aspx" title="文章專欄">文章專欄</a></li>
+                    <li><a href="LightsGuide.aspx" title="燈種說明">燈種說明</a></li>
+                    <li>虎爺燈介紹</li>
                 </ul>
             </nav>
 

@@ -1021,6 +1021,45 @@ namespace Temple
             return lightslist;
         }
 
+        public static string add_Huaguo_wjsan_blessed(string AppName, string AppMobile, string Name, string Mobile, string Sex, string Birth, string LeapMonth, string BirthTime,
+            string Email, string Count, string Address, int numZampBlessed, string AppStatus, string Num2String, string HuaguoType, string HuaguoString, string ChargeDate, ref int total)
+        {
+            string lightslist = string.Empty;
+            int cost = GetHuaguoCost(31, HuaguoType);
+
+            cost = cost * int.Parse(Count);
+
+            total += cost;
+
+            lightslist = "<li>";
+
+            if (AppName != "" && AppMobile != "")
+            {
+                lightslist += addData_Content("購買人姓名", AppName);
+                lightslist += addData_Content("購買人電話", AppMobile);
+            }
+
+
+            lightslist += addData_Content("宮廟名稱", "台灣道教總廟無極三清總道院");
+            lightslist += addData_Content("訂單編號", Num2String);
+            lightslist += addData_Content("祈福人姓名", Name);
+            lightslist += addData_Content("祈福人電話", Mobile);
+            lightslist += addData_Content("祈福人性別", Sex);
+            lightslist += addData_Content("農曆生日", Birth + (LeapMonth == "Y" ? " 閏月" : ""));
+            lightslist += addData_Content("農曆時辰", BirthTime);
+            lightslist += addData_Content("祈福人Email", Email);
+            lightslist += addData_Content("祈福人地址", Address);
+            lightslist += addData_Content("服務項目", HuaguoString);
+
+            lightslist += addData_Content("金額", cost.ToString());
+            lightslist += addData_Content("狀態", Status2String(int.Parse(AppStatus)));
+            lightslist += addData_Content("受理日期", ChargeDate);
+
+            lightslist += "</li>";
+
+            return lightslist;
+        }
+
         public static string add_Lights_ld_blessed(string AppName, string AppMobile, string Name, string Mobile, string Sex, string Birth, string LeapMonth, string BirthTime,
             string Email, string Count, string Address, int numZampBlessed, string AppStatus, string Num2String, string LightsType, string LightsString, string ChargeDate, ref int total)
         {
@@ -2491,8 +2530,6 @@ namespace Temple
             lightslist += addData_Content("祈福人地址", address);
             lightslist += addData_Content("服務項目", SuppliesString);
 
-            total += cost;
-
             lightslist += addData_Content("金額", cost.ToString());
             lightslist += addData_Content("狀態", Status2String(int.Parse(AppStatus)));
             lightslist += addData_Content("受理日期", ChargeDate);
@@ -3757,6 +3794,9 @@ namespace Temple
 
                                     //法會服務 (財神賜福-消災補庫法會)
                                     GetSuppliesInfo(basePage, dtapplecantinfo, m_Name, m_Mobile, adminID, 10, Yearlist[y], ref Datalist, ref Total);
+
+                                    //供花供果服務
+                                    GetHuaguoInfo(basePage, dtapplecantinfo, m_Name, m_Mobile, 1, adminID, Yearlist[y], ref Datalist, ref Total);
                                 }
                             }
                         }
@@ -4270,7 +4310,45 @@ namespace Temple
                 }
             }
         }
-    
+
+        protected static void GetHuaguoInfo(BasePage basePage, DataTable dtapplecantinfo, string m_Name, string m_Mobile, int type, int adminID, string Year, ref string Datalist,
+            ref int Total)
+        {
+            LightDAC objLightDAC = new LightDAC(basePage);
+
+            dtapplecantinfo = objLightDAC.Getapplicantinfo_HuaguoInfo(m_Name, m_Mobile, adminID, Year);
+            if (dtapplecantinfo.Rows.Count > 0)
+            {
+                switch (adminID)
+                {
+                    case 31:
+                        //台灣道教總廟無極三清總道院
+                        for (int i = 0; i < dtapplecantinfo.Rows.Count; i++)
+                        {
+                            string AppName = UtilDataMask.MaskName(dtapplecantinfo.Rows[i]["AppName"].ToString());
+                            string AppMobile = UtilDataMask.MaskMobile(dtapplecantinfo.Rows[i]["AppMobile"].ToString(), 5, 3);
+                            string Name = UtilDataMask.MaskName(dtapplecantinfo.Rows[i]["Name"].ToString());
+                            string Mobile = UtilDataMask.MaskMobile(dtapplecantinfo.Rows[i]["Mobile"].ToString(), 5, 3);
+                            string Sex = dtapplecantinfo.Rows[i]["Sex"].ToString();
+                            string Birth = dtapplecantinfo.Rows[i]["Birth"].ToString();
+                            string LeapMonth = dtapplecantinfo.Rows[i]["LeapMonth"].ToString();
+                            string BirthTime = dtapplecantinfo.Rows[i]["BirthTime"].ToString() != "" ? dtapplecantinfo.Rows[i]["BirthTime"].ToString() : "吉";
+                            string Email = dtapplecantinfo.Rows[i]["Email"].ToString();
+                            string Count = dtapplecantinfo.Rows[i]["Count"].ToString();
+                            string Address = UtilDataMask.MaskTWAddr(dtapplecantinfo.Rows[i]["Address"].ToString());
+                            string AppStatus = dtapplecantinfo.Rows[i]["AppStatus"].ToString();
+                            string Num2String = dtapplecantinfo.Rows[i]["Num2String"].ToString();
+                            string HuaguoType = dtapplecantinfo.Rows[i]["HuaguoType"].ToString();
+                            string HuaguoString = dtapplecantinfo.Rows[i]["HuaguoString"].ToString();
+                            string ChargeDate = dtapplecantinfo.Rows[i]["ChargeDateString"].ToString();
+                            Datalist += add_Huaguo_wjsan_blessed(AppName, AppMobile, Name, Mobile, Sex, Birth, LeapMonth, BirthTime, Email, Count,
+                                Address, i, AppStatus, Num2String, HuaguoType, HuaguoString, ChargeDate, ref Total);
+                        }
+                        break;
+                }
+            }
+        }
+
         protected static void GetPurdueInfo(BasePage basePage, DataTable dtapplecantinfo, string m_Name, string m_Mobile, int adminID, string Year, ref string Datalist,
             ref int Total)
         {

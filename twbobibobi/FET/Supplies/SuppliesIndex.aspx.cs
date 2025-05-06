@@ -275,6 +275,7 @@ namespace Temple.FET.Supplies
                     string year = string.Empty;
                     string month = string.Empty;
                     string day = string.Empty;
+                    int month_int = 1, day_int = 1;
 
                     string birth = dtData.Rows[0]["Birth"].ToString();
                     int s1 = birth.IndexOf("民國");
@@ -288,6 +289,16 @@ namespace Temple.FET.Supplies
                         year = (int.Parse(birth.Substring(2, year_index - 2))).ToString();
                         month  = birth.Substring(year_index + 1, month_index - year_index - 1);
                         day = birth.Substring(month_index + 1, birth.Length - month_index - 2);
+
+                        if (!int.TryParse(month, out month_int))
+                        {
+                            month_int = 1;
+                        }
+
+                        if (!int.TryParse(day, out day_int))
+                        {
+                            day_int = 1;
+                        }
                     }
 
 
@@ -299,8 +310,8 @@ namespace Temple.FET.Supplies
                     basePage.mJSonHelper.AddContent("AppMobile", dtData.Rows[0]["AppMobile"].ToString());
                     basePage.mJSonHelper.AddContent("AppEmail", dtData.Rows[0]["AppEmail"].ToString());
                     basePage.mJSonHelper.AddContent("year", year);
-                    basePage.mJSonHelper.AddContent("month", month);
-                    basePage.mJSonHelper.AddContent("day", day);
+                    basePage.mJSonHelper.AddContent("month", month_int);
+                    basePage.mJSonHelper.AddContent("day", day_int);
 
                     basePage.mJSonHelper.AddDataTable("DataSource", dtData);
                 }

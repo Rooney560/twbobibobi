@@ -210,7 +210,8 @@
                 <div class="Here">目前位置：</div>
                 <ul>
                     <li><a href="../index.aspx" title="首頁">首頁</a></li>
-                    <li><a href="AvalokiteshvaraInfo.aspx" title="觀世音菩薩介紹">觀世音菩薩介紹</a></li>
+                    <li><a href="ArticleColumn.aspx" title="文章專欄">文章專欄</a></li>
+                    <li>觀世音菩薩介紹</li>
                 </ul>
             </nav>
 
@@ -248,7 +249,7 @@
                                 <tr>
                                     <td data-label="節日">成道日</td>
                                     <td data-label="農曆日期">農曆 6 月 19 日</td>
-                                    <td data-label="意義">菩薩成道、證悟悟日</td>
+                                    <td data-label="意義">菩薩成道、證悟日</td>
                                 </tr>
                             </tbody>
                         </table>
@@ -301,7 +302,7 @@
                                 </tr>
                                 <tr>
                                     <td data-label="類別">香／燭</td>
-                                    <td data-label="供品建議">三柱香、一對紅燭（或電子燭）</td>
+                                    <td data-label="供品建議">三炷香、一對紅燭（或電子燭）</td>
                                 </tr>
                             </tbody>
                         </table>
@@ -325,7 +326,7 @@
                                 </tr>
                                 <tr>
                                     <td data-label="項目">✖ 忌供葷食</td>
-                                    <td data-label="說明">包含肉類、酒類、葱蒜韭等五辛皆不宜上桌</td>
+                                    <td data-label="說明">包含肉類、酒類、葱蒜韭薤等五辛皆不宜上桌</td>
                                 </tr>
                                 <tr>
                                     <td data-label="項目">✖ 忌腐壞水果</td>

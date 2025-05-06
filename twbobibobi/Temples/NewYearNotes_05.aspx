@@ -132,8 +132,9 @@
                 <div class="Here">目前位置：</div>
                 <ul>
                     <li><a href="../index.aspx" title="首頁">首頁</a></li>
+                    <li><a href="ArticleColumn.aspx" title="文章專欄">文章專欄</a></li>
                     <li><a href="NewYearNotes.aspx" title="過年期間注意事項">過年期間注意事項</a></li>
-                    <li><a href="NewYearNotes_05.aspx" title="除夕到初四拜什麼？">除夕到初四拜什麼？</a></li>
+                    <li>除夕到初四拜什麼？</li>
                 </ul>
             </nav>
 
