@@ -142,7 +142,9 @@ namespace Temple.data
         /// <param name="ZipCode">ZipCode=郵遞區號</param>
         /// <param name="Solar_v">Solar_v=國曆生日</param>
         /// <param name="Lunar_v">Lunar_v=農曆生日</param>
-        /// <param name="type">type=燈種 3-光明燈 4-安太歲 5-文昌燈 6-財神燈 7-姻緣燈 8-藥師燈 9-財利燈 10-貴人燈 11-福祿(壽)燈 12-寵物平安燈 13-龍王燈 14-虎爺燈 15-轉運納福燈 16-光明燈上層 17-偏財旺旺燈 18-廣進安財庫 19-財庫燈 20-月老姻緣燈 21-孝親祈福燈 22-事業燈 23-全家光明燈 24-觀音佛祖燈 25-財神斗 26-事業斗 27-平安斗 28-文昌斗 29-藥師斗 30-元神斗 31-福祿壽斗 32-觀音斗 33-明心智慧燈 34-元辰斗燈</param>
+        /// <param name="type">type=燈種 3-光明燈 4-安太歲 5-文昌燈 6-財神燈 7-姻緣燈 8-藥師燈 9-財利燈 10-貴人燈 11-福祿(壽)燈 12-寵物平安燈 13-龍王燈 14-虎爺燈 15-轉運納福燈 
+        /// 16-光明燈上層(玉皇燈)(玉皇燈) 17-偏財旺旺燈 18-廣進安財庫 19-財庫燈 20-月老姻緣燈 21-孝親祈福燈 22-事業燈 23-全家光明燈 24-觀音佛祖燈 25-財神斗 26-事業斗 27-平安斗 28-文昌斗 
+        /// 29-藥師斗 30-元神斗 31-福祿壽斗 32-觀音斗 33-明心智慧燈 34-元辰斗燈</param>
         /// </summary>
         public int addlightsinfo(string Name, string Phone, string Address, string Addr, string County, string Dist, string ZipCode, DateTime Solar_v,DateTime Lunar_v, string type)
         {
@@ -4184,6 +4186,10 @@ namespace Temple.data
                         //    //文昌燈
                         //    result = 600;
                         //    break;
+                        case "16":
+                            //玉皇燈
+                            result = 1000;
+                            break;
                         default:
                             result = 600;
                             break;
@@ -4364,6 +4370,48 @@ namespace Temple.data
             return result;
         }
 
+        /// <param name="HuaguoType">HuaguoType=活動項目 1-供花/次 2-供果/次 3-供花/月 4-供果/月 5-供花/半年 6-供果/半年</param>
+        public static int GetHuaguoCost(int AdminID, string HuaguoType)
+        {
+            int result = 0;
+
+            switch (AdminID)
+            {
+                case 31:
+                    //台灣道教總廟無極三清總道院
+                    switch (HuaguoType)
+                    {
+                        case "1":
+                            //供花/次
+                            result = 500;
+                            break;
+                        case "2":
+                            //供果/次
+                            result = 600;
+                            break;
+                        case "3":
+                            //供花/月
+                            result = 1000;
+                            break;
+                        case "4":
+                            //供果/月
+                            result = 1200;
+                            break;
+                        case "5":
+                            //供花/半年
+                            result = 6000;
+                            break;
+                        case "6":
+                            //供果/半年
+                            result = 7200;
+                            break;
+                    }
+                    break;
+            }
+
+            return result;
+        }
+
         public static int GetLybcCost(string LybcType, int AdminID)
         {
             int result = 0;
@@ -4413,7 +4461,7 @@ namespace Temple.data
         /// <param name="Mobile">Mobile=手機號碼</param>
         /// <param name="Sex">Sex=性別</param>
         /// <param name="LightsType">LightsType=燈種 3-光明燈 4-安太歲 5-文昌燈 6-財神燈 7-姻緣燈 8-藥師燈 9-財利燈 10-貴人燈 11-福祿(壽)燈 12-寵物平安燈 13-龍王燈 14-虎爺燈 
-        /// 15-轉運納福燈 16-光明燈上層 17-偏財旺旺燈 18-廣進安財庫 19-財庫燈 20-月老姻緣燈 21-孝親祈福燈 22-事業燈 23-全家光明燈 24-觀音佛祖燈 25-財神斗 26-事業斗 27-平安斗 
+        /// 15-轉運納福燈 16-光明燈上層(玉皇燈) 17-偏財旺旺燈 18-廣進安財庫 19-財庫燈 20-月老姻緣燈 21-孝親祈福燈 22-事業燈 23-全家光明燈 24-觀音佛祖燈 25-財神斗 26-事業斗 27-平安斗 
         /// 28-文昌斗 29-藥師斗 30-元神斗 31-福祿壽斗 32-觀音斗 33-明心智慧燈 34-元辰斗燈</param>
         /// <param name="oversea">oversea=1-國內 2-國外</param>
         /// <param name="Birth">Birth=農曆生日</param>
@@ -4480,7 +4528,7 @@ namespace Temple.data
         /// <param name="Mobile">Mobile=手機號碼</param>
         /// <param name="Sex">Sex=性別</param>
         /// <param name="LightsType">LightsType=燈種 3-光明燈 4-安太歲 5-文昌燈 6-財神燈 7-姻緣燈 8-藥師燈 9-財利燈 10-貴人燈 11-福祿(壽)燈 12-寵物平安燈 13-龍王燈 14-虎爺燈 
-        /// 15-轉運納福燈 16-光明燈上層 17-偏財旺旺燈 18-廣進安財庫 19-財庫燈 20-月老姻緣燈 21-孝親祈福燈 22-事業燈 23-全家光明燈 24-觀音佛祖燈 25-財神斗 26-事業斗 27-平安斗 
+        /// 15-轉運納福燈 16-光明燈上層(玉皇燈) 17-偏財旺旺燈 18-廣進安財庫 19-財庫燈 20-月老姻緣燈 21-孝親祈福燈 22-事業燈 23-全家光明燈 24-觀音佛祖燈 25-財神斗 26-事業斗 27-平安斗 
         /// 28-文昌斗 29-藥師斗 30-元神斗 31-福祿壽斗 32-觀音斗 33-明心智慧燈 34-元辰斗燈</param>
         /// <param name="oversea">oversea=1-國內 2-國外</param>
         /// <param name="Birth">Birth=農曆生日</param>
@@ -4548,7 +4596,7 @@ namespace Temple.data
         /// <param name="Mobile">Mobile=手機號碼</param>
         /// <param name="Sex">Sex=性別</param>
         /// <param name="LightsType">LightsType=燈種 3-光明燈 4-安太歲 5-文昌燈 6-財神燈 7-姻緣燈 8-藥師燈 9-財利燈 10-貴人燈 11-福祿(壽)燈 12-寵物平安燈 13-龍王燈 14-虎爺燈 
-        /// 15-轉運納福燈 16-光明燈上層 17-偏財旺旺燈 18-廣進安財庫 19-財庫燈 20-月老姻緣燈 21-孝親祈福燈 22-事業燈 23-全家光明燈 24-觀音佛祖燈 25-財神斗 26-事業斗 27-平安斗 
+        /// 15-轉運納福燈 16-光明燈上層(玉皇燈) 17-偏財旺旺燈 18-廣進安財庫 19-財庫燈 20-月老姻緣燈 21-孝親祈福燈 22-事業燈 23-全家光明燈 24-觀音佛祖燈 25-財神斗 26-事業斗 27-平安斗 
         /// 28-文昌斗 29-藥師斗 30-元神斗 31-福祿壽斗 32-觀音斗 33-明心智慧燈 34-元辰斗燈</param>
         /// <param name="oversea">oversea=1-國內 2-國外</param>
         /// <param name="Birth">Birth=農曆生日</param>
@@ -4618,7 +4666,7 @@ namespace Temple.data
         /// <param name="Mobile">Mobile=手機號碼</param>
         /// <param name="Sex">Sex=性別</param>
         /// <param name="LightsType">LightsType=燈種 3-光明燈 4-安太歲 5-文昌燈 6-財神燈 7-姻緣燈 8-藥師燈 9-財利燈 10-貴人燈 11-福祿(壽)燈 12-寵物平安燈 13-龍王燈 14-虎爺燈 
-        /// 15-轉運納福燈 16-光明燈上層 17-偏財旺旺燈 18-廣進安財庫 19-財庫燈 20-月老姻緣燈 21-孝親祈福燈 22-事業燈 23-全家光明燈 24-觀音佛祖燈 25-財神斗 26-事業斗 27-平安斗 
+        /// 15-轉運納福燈 16-光明燈上層(玉皇燈) 17-偏財旺旺燈 18-廣進安財庫 19-財庫燈 20-月老姻緣燈 21-孝親祈福燈 22-事業燈 23-全家光明燈 24-觀音佛祖燈 25-財神斗 26-事業斗 27-平安斗 
         /// 28-文昌斗 29-藥師斗 30-元神斗 31-福祿壽斗 32-觀音斗 33-明心智慧燈 34-元辰斗燈</param>
         /// <param name="oversea">oversea=1-國內 2-國外</param>
         /// <param name="Birth">Birth=農曆生日</param>
@@ -4686,7 +4734,7 @@ namespace Temple.data
         /// <param name="Mobile">Mobile=手機號碼</param>
         /// <param name="Sex">Sex=性別</param>
         /// <param name="LightsType">LightsType=燈種 3-光明燈 4-安太歲 5-文昌燈 6-財神燈 7-姻緣燈 8-藥師燈 9-財利燈 10-貴人燈 11-福祿(壽)燈 12-寵物平安燈 13-龍王燈 14-虎爺燈 
-        /// 15-轉運納福燈 16-光明燈上層 17-偏財旺旺燈 18-廣進安財庫 19-財庫燈 20-月老姻緣燈 21-孝親祈福燈 22-事業燈 23-全家光明燈 24-觀音佛祖燈 25-財神斗 26-事業斗 27-平安斗 
+        /// 15-轉運納福燈 16-光明燈上層(玉皇燈) 17-偏財旺旺燈 18-廣進安財庫 19-財庫燈 20-月老姻緣燈 21-孝親祈福燈 22-事業燈 23-全家光明燈 24-觀音佛祖燈 25-財神斗 26-事業斗 27-平安斗 
         /// 28-文昌斗 29-藥師斗 30-元神斗 31-福祿壽斗 32-觀音斗 33-明心智慧燈 34-元辰斗燈</param>
         /// <param name="oversea">oversea=1-國內 2-國外</param>
         /// <param name="Birth">Birth=農曆生日</param>
@@ -4757,7 +4805,7 @@ namespace Temple.data
         /// <param name="Mobile">Mobile=手機號碼</param>
         /// <param name="Sex">Sex=性別</param>
         /// <param name="LightsType">LightsType=燈種 3-光明燈 4-安太歲 5-文昌燈 6-財神燈 7-姻緣燈 8-藥師燈 9-財利燈 10-貴人燈 11-福祿(壽)燈 12-寵物平安燈 13-龍王燈 14-虎爺燈 
-        /// 15-轉運納福燈 16-光明燈上層 17-偏財旺旺燈 18-廣進安財庫 19-財庫燈 20-月老姻緣燈 21-孝親祈福燈 22-事業燈 23-全家光明燈 24-觀音佛祖燈 25-財神斗 26-事業斗 27-平安斗 
+        /// 15-轉運納福燈 16-光明燈上層(玉皇燈) 17-偏財旺旺燈 18-廣進安財庫 19-財庫燈 20-月老姻緣燈 21-孝親祈福燈 22-事業燈 23-全家光明燈 24-觀音佛祖燈 25-財神斗 26-事業斗 27-平安斗 
         /// 28-文昌斗 29-藥師斗 30-元神斗 31-福祿壽斗 32-觀音斗 33-明心智慧燈 34-元辰斗燈</param>
         /// <param name="oversea">oversea=1-國內 2-國外</param>
         /// <param name="Birth">Birth=農曆生日</param>
@@ -4825,7 +4873,7 @@ namespace Temple.data
         /// <param name="Mobile">Mobile=手機號碼</param>
         /// <param name="Sex">Sex=性別</param>
         /// <param name="LightsType">LightsType=燈種 3-光明燈 4-安太歲 5-文昌燈 6-財神燈 7-姻緣燈 8-藥師燈 9-財利燈 10-貴人燈 11-福祿(壽)燈 12-寵物平安燈 13-龍王燈 14-虎爺燈 
-        /// 15-轉運納福燈 16-光明燈上層 17-偏財旺旺燈 18-廣進安財庫 19-財庫燈 20-月老姻緣燈 21-孝親祈福燈 22-事業燈 23-全家光明燈 24-觀音佛祖燈 25-財神斗 26-事業斗 27-平安斗 
+        /// 15-轉運納福燈 16-光明燈上層(玉皇燈) 17-偏財旺旺燈 18-廣進安財庫 19-財庫燈 20-月老姻緣燈 21-孝親祈福燈 22-事業燈 23-全家光明燈 24-觀音佛祖燈 25-財神斗 26-事業斗 27-平安斗 
         /// 28-文昌斗 29-藥師斗 30-元神斗 31-福祿壽斗 32-觀音斗 33-明心智慧燈 34-元辰斗燈</param>
         /// <param name="oversea">oversea=1-國內 2-國外</param>
         /// <param name="Birth">Birth=國歷生日</param>
@@ -4891,7 +4939,7 @@ namespace Temple.data
         /// <param name="Mobile">Mobile=手機號碼</param>
         /// <param name="Sex">Sex=性別</param>
         /// <param name="LightsType">LightsType=燈種 3-光明燈 4-安太歲 5-文昌燈 6-財神燈 7-姻緣燈 8-藥師燈 9-財利燈 10-貴人燈 11-福祿(壽)燈 12-寵物平安燈 13-龍王燈 14-虎爺燈 
-        /// 15-轉運納福燈 16-光明燈上層 17-偏財旺旺燈 18-廣進安財庫 19-財庫燈 20-月老姻緣燈 21-孝親祈福燈 22-事業燈 23-全家光明燈 24-觀音佛祖燈 25-財神斗 26-事業斗 27-平安斗 
+        /// 15-轉運納福燈 16-光明燈上層(玉皇燈) 17-偏財旺旺燈 18-廣進安財庫 19-財庫燈 20-月老姻緣燈 21-孝親祈福燈 22-事業燈 23-全家光明燈 24-觀音佛祖燈 25-財神斗 26-事業斗 27-平安斗 
         /// 28-文昌斗 29-藥師斗 30-元神斗 31-福祿壽斗 32-觀音斗 33-明心智慧燈 34-元辰斗燈</param>
         /// <param name="oversea">oversea=1-國內 2-國外</param>
         /// <param name="Birth">Birth=國歷生日</param>
@@ -4957,7 +5005,7 @@ namespace Temple.data
         /// <param name="Mobile">Mobile=手機號碼</param>
         /// <param name="Sex">Sex=性別</param>
         /// <param name="LightsType">LightsType=燈種 3-光明燈 4-安太歲 5-文昌燈 6-財神燈 7-姻緣燈 8-藥師燈 9-財利燈 10-貴人燈 11-福祿(壽)燈 12-寵物平安燈 13-龍王燈 14-虎爺燈 
-        /// 15-轉運納福燈 16-光明燈上層 17-偏財旺旺燈 18-廣進安財庫 19-財庫燈 20-月老姻緣燈 21-孝親祈福燈 22-事業燈 23-全家光明燈 24-觀音佛祖燈 25-財神斗 26-事業斗 27-平安斗 
+        /// 15-轉運納福燈 16-光明燈上層(玉皇燈) 17-偏財旺旺燈 18-廣進安財庫 19-財庫燈 20-月老姻緣燈 21-孝親祈福燈 22-事業燈 23-全家光明燈 24-觀音佛祖燈 25-財神斗 26-事業斗 27-平安斗 
         /// 28-文昌斗 29-藥師斗 30-元神斗 31-福祿壽斗 32-觀音斗 33-明心智慧燈 34-元辰斗燈</param>
         /// <param name="oversea">oversea=1-國內 2-國外</param>
         /// <param name="Birth">Birth=農曆生日</param>
@@ -5027,7 +5075,7 @@ namespace Temple.data
         /// <param name="Mobile">Mobile=手機號碼</param>
         /// <param name="Sex">Sex=性別</param>
         /// <param name="AnDouType">AnDouType=燈種 3-光明燈 4-安太歲 5-文昌燈 6-財神燈 7-姻緣燈 8-藥師燈 9-財利燈 10-貴人燈 11-福祿(壽)燈 12-寵物平安燈 13-龍王燈 14-虎爺燈 
-        /// 15-轉運納福燈 16-光明燈上層 17-偏財旺旺燈 18-廣進安財庫 19-財庫燈 20-月老姻緣燈 21-孝親祈福燈 22-事業燈 23-全家光明燈 24-觀音佛祖燈 25-財神斗 26-事業斗 27-平安斗 
+        /// 15-轉運納福燈 16-光明燈上層(玉皇燈) 17-偏財旺旺燈 18-廣進安財庫 19-財庫燈 20-月老姻緣燈 21-孝親祈福燈 22-事業燈 23-全家光明燈 24-觀音佛祖燈 25-財神斗 26-事業斗 27-平安斗 
         /// 28-文昌斗 29-藥師斗 30-元神斗 31-福祿壽斗 32-觀音斗 33-明心智慧燈 34-元辰斗燈</param>
         /// <param name="oversea">oversea=1-國內 2-國外</param>
         /// <param name="Birth">Birth=農曆生日</param>
@@ -5097,7 +5145,7 @@ namespace Temple.data
         /// <param name="Mobile">Mobile=手機號碼</param>
         /// <param name="Sex">Sex=性別</param>
         /// <param name="LightsType">LightsType=燈種 3-光明燈 4-安太歲 5-文昌燈 6-財神燈 7-姻緣燈 8-藥師燈 9-財利燈 10-貴人燈 11-福祿(壽)燈 12-寵物平安燈 13-龍王燈 14-虎爺燈 
-        /// 15-轉運納福燈 16-光明燈上層 17-偏財旺旺燈 18-廣進安財庫 19-財庫燈 20-月老姻緣燈 21-孝親祈福燈 22-事業燈 23-全家光明燈 24-觀音佛祖燈 25-財神斗 26-事業斗 27-平安斗 
+        /// 15-轉運納福燈 16-光明燈上層(玉皇燈) 17-偏財旺旺燈 18-廣進安財庫 19-財庫燈 20-月老姻緣燈 21-孝親祈福燈 22-事業燈 23-全家光明燈 24-觀音佛祖燈 25-財神斗 26-事業斗 27-平安斗 
         /// 28-文昌斗 29-藥師斗 30-元神斗 31-福祿壽斗 32-觀音斗 33-明心智慧燈 34-元辰斗燈</param>
         /// <param name="oversea">oversea=1-國內 2-國外</param>
         /// <param name="Birth">Birth=農曆生日</param>
@@ -5165,7 +5213,7 @@ namespace Temple.data
         /// <param name="Mobile">Mobile=手機號碼</param>
         /// <param name="Sex">Sex=性別</param>
         /// <param name="LightsType">LightsType=燈種 3-光明燈 4-安太歲 5-文昌燈 6-財神燈 7-姻緣燈 8-藥師燈 9-財利燈 10-貴人燈 11-福祿(壽)燈 12-寵物平安燈 13-龍王燈 14-虎爺燈 
-        /// 15-轉運納福燈 16-光明燈上層 17-偏財旺旺燈 18-廣進安財庫 19-財庫燈 20-月老姻緣燈 21-孝親祈福燈 22-事業燈 23-全家光明燈 24-觀音佛祖燈 25-財神斗 26-事業斗 27-平安斗 
+        /// 15-轉運納福燈 16-光明燈上層(玉皇燈) 17-偏財旺旺燈 18-廣進安財庫 19-財庫燈 20-月老姻緣燈 21-孝親祈福燈 22-事業燈 23-全家光明燈 24-觀音佛祖燈 25-財神斗 26-事業斗 27-平安斗 
         /// 28-文昌斗 29-藥師斗 30-元神斗 31-福祿壽斗 32-觀音斗 33-明心智慧燈 34-元辰斗燈</param>
         /// <param name="oversea">oversea=1-國內 2-國外</param>
         /// <param name="Birth">Birth=農曆生日</param>
@@ -5232,7 +5280,7 @@ namespace Temple.data
         /// <param name="Mobile">Mobile=手機號碼</param>
         /// <param name="Sex">Sex=性別</param>
         /// <param name="LightsType">LightsType=燈種 3-光明燈 4-安太歲 5-文昌燈 6-財神燈 7-姻緣燈 8-藥師燈 9-財利燈 10-貴人燈 11-福祿(壽)燈 12-寵物平安燈 13-龍王燈 14-虎爺燈 
-        /// 15-轉運納福燈 16-光明燈上層 17-偏財旺旺燈 18-廣進安財庫 19-財庫燈 20-月老姻緣燈 21-孝親祈福燈 22-事業燈 23-全家光明燈 24-觀音佛祖燈 25-財神斗 26-事業斗 27-平安斗 
+        /// 15-轉運納福燈 16-光明燈上層(玉皇燈) 17-偏財旺旺燈 18-廣進安財庫 19-財庫燈 20-月老姻緣燈 21-孝親祈福燈 22-事業燈 23-全家光明燈 24-觀音佛祖燈 25-財神斗 26-事業斗 27-平安斗 
         /// 28-文昌斗 29-藥師斗 30-元神斗 31-福祿壽斗 32-觀音斗 33-明心智慧燈 34-元辰斗燈</param>
         /// <param name="oversea">oversea=1-國內 2-國外</param>
         /// <param name="Birth">Birth=農曆生日</param>
@@ -5322,7 +5370,7 @@ namespace Temple.data
         /// <param name="Mobile">Mobile=手機號碼</param>
         /// <param name="Sex">Sex=性別</param>
         /// <param name="LightsType">LightsType=燈種 3-光明燈 4-安太歲 5-文昌燈 6-財神燈 7-姻緣燈 8-藥師燈 9-財利燈 10-貴人燈 11-福祿(壽)燈 12-寵物平安燈 13-龍王燈 14-虎爺燈 
-        /// 15-轉運納福燈 16-光明燈上層 17-偏財旺旺燈 18-廣進安財庫 19-財庫燈 20-月老姻緣燈 21-孝親祈福燈 22-事業燈 23-全家光明燈 24-觀音佛祖燈 25-財神斗 26-事業斗 27-平安斗 
+        /// 15-轉運納福燈 16-光明燈上層(玉皇燈) 17-偏財旺旺燈 18-廣進安財庫 19-財庫燈 20-月老姻緣燈 21-孝親祈福燈 22-事業燈 23-全家光明燈 24-觀音佛祖燈 25-財神斗 26-事業斗 27-平安斗 
         /// 28-文昌斗 29-藥師斗 30-元神斗 31-福祿壽斗 32-觀音斗 33-明心智慧燈 34-元辰斗燈</param>
         /// <param name="oversea">oversea=1-國內 2-國外</param>
         /// <param name="Birth">Birth=農曆生日</param>
@@ -5390,7 +5438,7 @@ namespace Temple.data
         /// <param name="Mobile">Mobile=手機號碼</param>
         /// <param name="Sex">Sex=性別</param>
         /// <param name="LightsType">LightsType=燈種 3-光明燈 4-安太歲 5-文昌燈 6-財神燈 7-姻緣燈 8-藥師燈 9-財利燈 10-貴人燈 11-福祿(壽)燈 12-寵物平安燈 13-龍王燈 14-虎爺燈 
-        /// 15-轉運納福燈 16-光明燈上層 17-偏財旺旺燈 18-廣進安財庫 19-財庫燈 20-月老姻緣燈 21-孝親祈福燈 22-事業燈 23-全家光明燈 24-觀音佛祖燈 25-財神斗 26-事業斗 27-平安斗 
+        /// 15-轉運納福燈 16-光明燈上層(玉皇燈) 17-偏財旺旺燈 18-廣進安財庫 19-財庫燈 20-月老姻緣燈 21-孝親祈福燈 22-事業燈 23-全家光明燈 24-觀音佛祖燈 25-財神斗 26-事業斗 27-平安斗 
         /// 28-文昌斗 29-藥師斗 30-元神斗 31-福祿壽斗 32-觀音斗 33-明心智慧燈 34-元辰斗燈</param>
         /// <param name="oversea">oversea=1-國內 2-國外</param>
         /// <param name="Birth">Birth=農曆生日</param>
@@ -5462,7 +5510,7 @@ namespace Temple.data
         /// <param name="Mobile">Mobile=手機號碼</param>
         /// <param name="Sex">Sex=性別</param>
         /// <param name="LightsType">LightsType=燈種 3-光明燈 4-安太歲 5-文昌燈 6-財神燈 7-姻緣燈 8-藥師燈 9-財利燈 10-貴人燈 11-福祿(壽)燈 12-寵物平安燈 13-龍王燈 14-虎爺燈 
-        /// 15-轉運納福燈 16-光明燈上層 17-偏財旺旺燈 18-廣進安財庫 19-財庫燈 20-月老姻緣燈 21-孝親祈福燈 22-事業燈 23-全家光明燈 24-觀音佛祖燈 25-財神斗 26-事業斗 27-平安斗 
+        /// 15-轉運納福燈 16-光明燈上層(玉皇燈) 17-偏財旺旺燈 18-廣進安財庫 19-財庫燈 20-月老姻緣燈 21-孝親祈福燈 22-事業燈 23-全家光明燈 24-觀音佛祖燈 25-財神斗 26-事業斗 27-平安斗 
         /// 28-文昌斗 29-藥師斗 30-元神斗 31-福祿壽斗 32-觀音斗 33-明心智慧燈 34-元辰斗燈</param>
         /// <param name="oversea">oversea=1-國內 2-國外</param>
         /// <param name="Birth">Birth=農曆生日</param>
@@ -5530,7 +5578,7 @@ namespace Temple.data
         /// <param name="Mobile">Mobile=手機號碼</param>
         /// <param name="Sex">Sex=性別</param>
         /// <param name="AnDouType">AnDouType=燈種 3-光明燈 4-安太歲 5-文昌燈 6-財神燈 7-姻緣燈 8-藥師燈 9-財利燈 10-貴人燈 11-福祿(壽)燈 12-寵物平安燈 13-龍王燈 14-虎爺燈 
-        /// 15-轉運納福燈 16-光明燈上層 17-偏財旺旺燈 18-廣進安財庫 19-財庫燈 20-月老姻緣燈 21-孝親祈福燈 22-事業燈 23-全家光明燈 24-觀音佛祖燈 25-財神斗 26-事業斗 27-平安斗 
+        /// 15-轉運納福燈 16-光明燈上層(玉皇燈) 17-偏財旺旺燈 18-廣進安財庫 19-財庫燈 20-月老姻緣燈 21-孝親祈福燈 22-事業燈 23-全家光明燈 24-觀音佛祖燈 25-財神斗 26-事業斗 27-平安斗 
         /// 28-文昌斗 29-藥師斗 30-元神斗 31-福祿壽斗 32-觀音斗 33-明心智慧燈 34-元辰斗燈</param>
         /// <param name="oversea">oversea=1-國內 2-國外</param>
         /// <param name="Birth">Birth=農曆生日</param>
@@ -5592,13 +5640,79 @@ namespace Temple.data
         }
 
         /// <summary>
+        /// 建立台灣道教總廟無極三清總道院供花供果資料
+        /// <param name="applicantID">applicantID=購買人編號</param>
+        /// <param name="Name">Name=姓名</param>
+        /// <param name="Mobile">Mobile=手機號碼</param>
+        /// <param name="Sex">Sex=性別</param>
+        /// <param name="HuaguoType">HuaguoType=活動項目 1-供花/次 2-供果/次 3-供花/月 4-供果/月 5-供花/半年 6-供果/半年</param>
+        /// <param name="oversea">oversea=1-國內 2-國外</param>
+        /// <param name="Birth">Birth=農曆生日</param>
+        /// <param name="BirthTime">BirthTime=農曆時辰</param>
+        /// <param name="LeapMonth">LeapMonth=閏月 Y-是 N-否</param>
+        /// <param name="Zodiac">Zodiac=生肖</param>
+        /// <param name="sBirth">sBirth=國曆生日</param>
+        /// <param name="County">County=縣市</param>
+        /// <param name="dist">dist=區域</param>
+        /// <param name="Addr">Addr=部分地址</param>
+        /// <param name="ZipCode">ZipCode=郵遞區號</param>
+        /// </summary>
+        public int addHuaguo_wjsan(int applicantID, string Name, string Mobile, string Sex, string HuaguoType, string HuaguoString, string oversea, string Birth,
+            string LeapMonth, string BirthTime, string BirthMonth, string Age, string Zodiac, string sBirth, string Email, int Count, string Addr, string County, string Dist,
+            string ZipCode, string Year)
+        {
+            TimeZoneInfo info = TimeZoneInfo.FindSystemTimeZoneById("Taipei Standard Time");
+            DateTime dtNow = TimeZoneInfo.ConvertTime(DateTime.Now, info);
+
+            string sql = "Insert into Temple_" + Year + "..Huaguo_wjsan_info(ApplicantID, AdminID, Name, Mobile, Cost, Sex, HuaguoType, HuaguoString, oversea, Birth, LeapMonth, " +
+                "BirthTime, BirthMonth, Age, Zodiac, sBirth, Email, Count, Address, Addr, County, dist, ZipCode, CreateDate) " +
+                "values(@ApplicantID, @AdminID, @Name, @Mobile, @Cost, @Sex, @HuaguoType, @HuaguoString, @oversea, @Birth, @LeapMonth, @BirthTime, @BirthMonth, @Age, @Zodiac, " +
+                "@sBirth, @Email, @Count, @Address, @Addr, @County, @dist, @ZipCode, @CreateDate)";
+
+            int Cost = 0;
+            Cost = GetHuaguoCost(31, HuaguoType);
+
+            DatabaseAdapter Adapter = new DatabaseAdapter(sql, this.DBSource);
+            DataTable dtdata = new DataTable();
+            Adapter.AddParameterToSelectCommand("@ApplicantID", applicantID);
+            Adapter.AddParameterToSelectCommand("@AdminID", 31);
+            Adapter.AddParameterToSelectCommand("@Name", Name);
+            Adapter.AddParameterToSelectCommand("@Mobile", Mobile);
+            Adapter.AddParameterToSelectCommand("@Cost", Cost);
+            Adapter.AddParameterToSelectCommand("@Sex", Sex);
+            Adapter.AddParameterToSelectCommand("@HuaguoType", HuaguoType);
+            Adapter.AddParameterToSelectCommand("@HuaguoString", HuaguoString);
+            Adapter.AddParameterToSelectCommand("@oversea", oversea);
+            Adapter.AddParameterToSelectCommand("@Birth", Birth);
+            Adapter.AddParameterToSelectCommand("@LeapMonth", LeapMonth);
+            Adapter.AddParameterToSelectCommand("@BirthTime", BirthTime);
+            Adapter.AddParameterToSelectCommand("@BirthMonth", BirthMonth);
+            Adapter.AddParameterToSelectCommand("@Age", Age);
+            Adapter.AddParameterToSelectCommand("@Zodiac", Zodiac);
+            Adapter.AddParameterToSelectCommand("@sBirth", sBirth);
+            Adapter.AddParameterToSelectCommand("@Email", Email);
+            Adapter.AddParameterToSelectCommand("@Count", Count);
+            Adapter.AddParameterToSelectCommand("@Address", County + (Dist == "*" ? "" : Dist) + Addr);
+            Adapter.AddParameterToSelectCommand("@Addr", Addr);
+            Adapter.AddParameterToSelectCommand("@County", County);
+            Adapter.AddParameterToSelectCommand("@dist", Dist);
+            Adapter.AddParameterToSelectCommand("@ZipCode", ZipCode);
+            Adapter.AddParameterToSelectCommand("@CreateDate", dtNow.ToString("yyyy-MM-dd HH:mm:ss"));
+            Adapter.SetSqlCommandBuilder();
+            Adapter.Fill(dtdata);
+            Adapter.Update(dtdata);
+
+            return this.GetIdentity();
+        }
+
+        /// <summary>
         /// 建立桃園龍德宮點燈資料
         /// <param name="applicantID">applicantID=購買人編號</param>
         /// <param name="Name">Name=姓名</param>
         /// <param name="Mobile">Mobile=手機號碼</param>
         /// <param name="Sex">Sex=性別</param>
         /// <param name="LightsType">LightsType=燈種 3-光明燈 4-安太歲 5-文昌燈 6-財神燈 7-姻緣燈 8-藥師燈 9-財利燈 10-貴人燈 11-福祿(壽)燈 12-寵物平安燈 13-龍王燈 14-虎爺燈 
-        /// 15-轉運納福燈 16-光明燈上層 17-偏財旺旺燈 18-廣進安財庫 19-財庫燈 20-月老姻緣燈 21-孝親祈福燈 22-事業燈 23-全家光明燈 24-觀音佛祖燈 25-財神斗 26-事業斗 27-平安斗 
+        /// 15-轉運納福燈 16-光明燈上層(玉皇燈) 17-偏財旺旺燈 18-廣進安財庫 19-財庫燈 20-月老姻緣燈 21-孝親祈福燈 22-事業燈 23-全家光明燈 24-觀音佛祖燈 25-財神斗 26-事業斗 27-平安斗 
         /// 28-文昌斗 29-藥師斗 30-元神斗 31-福祿壽斗 32-觀音斗 33-明心智慧燈 34-元辰斗燈 </param>
         /// <param name="oversea">oversea=1-國內 2-國外</param>
         /// <param name="Birth">Birth=農曆生日</param>
@@ -5666,7 +5780,7 @@ namespace Temple.data
         /// <param name="Mobile">Mobile=手機號碼</param>
         /// <param name="Sex">Sex=性別</param>
         /// <param name="LightsType">LightsType=燈種 3-光明燈 4-安太歲 5-文昌燈 6-財神燈 7-姻緣燈 8-藥師燈 9-財利燈 10-貴人燈 11-福祿(壽)燈 12-寵物平安燈 13-龍王燈 14-虎爺燈 
-        /// 15-轉運納福燈 16-光明燈上層 17-偏財旺旺燈 18-廣進安財庫 19-財庫燈 20-月老姻緣燈 21-孝親祈福燈 22-事業燈 23-全家光明燈 24-觀音佛祖燈 25-財神斗 26-事業斗 27-平安斗 
+        /// 15-轉運納福燈 16-光明燈上層(玉皇燈) 17-偏財旺旺燈 18-廣進安財庫 19-財庫燈 20-月老姻緣燈 21-孝親祈福燈 22-事業燈 23-全家光明燈 24-觀音佛祖燈 25-財神斗 26-事業斗 27-平安斗 
         /// 28-文昌斗 29-藥師斗 30-元神斗 31-福祿壽斗 32-觀音斗 33-明心智慧燈 34-元辰斗燈 </param>
         /// <param name="oversea">oversea=1-國內 2-國外</param>
         /// <param name="Birth">Birth=農曆生日</param>
@@ -5744,7 +5858,7 @@ namespace Temple.data
         /// <param name="Zodiac">Zodiac=生肖</param>
         /// <param name="leamMonth">leamMonth=閏月</param>
         /// <param name="type">type=燈種 3-光明燈 4-安太歲 5-文昌燈 6-財神燈 7-姻緣燈 8-藥師燈 9-財利燈 10-貴人燈 11-福祿(壽)燈 12-寵物平安燈 13-龍王燈 14-虎爺燈 15-轉運納福燈 
-        /// 16-光明燈上層 17-偏財旺旺燈 18-廣進安財庫 19-財庫燈 20-月老姻緣燈 21-孝親祈福燈 22-事業燈 23-全家光明燈 24-觀音佛祖燈 25-財神斗 26-事業斗 27-平安斗 28-文昌斗 29-藥師斗 
+        /// 16-光明燈上層(玉皇燈) 17-偏財旺旺燈 18-廣進安財庫 19-財庫燈 20-月老姻緣燈 21-孝親祈福燈 22-事業燈 23-全家光明燈 24-觀音佛祖燈 25-財神斗 26-事業斗 27-平安斗 28-文昌斗 29-藥師斗 
         /// 30-元神斗 31-福祿壽斗 32-觀音斗 33-明心智慧燈 34-元辰斗燈</param>
         /// </summary>
         public int addLightsinfo(int adminID, int applicantID, string Name, string Phone, string Address, string Addr, string County, string Dist, string ZipCode, string Birthday, string BirthMonth, string Age, string Zodiac, string leamMonth, string type)
@@ -7649,6 +7763,47 @@ namespace Temple.data
         }
 
         /// <summary>
+        /// 建立台灣道教總廟無極三清總道院供花供果購買人資料
+        /// </summary>
+        /// <param name="Name"></param>
+        /// <param name="Phone"></param>
+        /// <returns></returns>
+        public int addapplicantinfo_huaguo_wjsan(string Name, string Mobile, string Cost, string County, string dist, string Addr, string ZipCode, string Sendback,
+            string ReceiptName, string ReceiptMobile, int Status, string adminID, string postURL, string Year)
+        {
+            TimeZoneInfo info = TimeZoneInfo.FindSystemTimeZoneById("Taipei Standard Time");
+            DateTime dtNow = TimeZoneInfo.ConvertTime(DateTime.Now, info);
+
+            string sql = "Insert into Temple_" + Year + "..ApplicantInfo_wjsan_Huaguo(Name, Mobile, Cost, County, dist, Addr, Address, Sendback, ReceiptName, ReceiptMobile, PostURL, " +
+                "AdminID, Status, CreateDate, CreateDateString) " +
+                "       values(@Name, @Mobile, @Cost, @County, @dist, @Addr, @Address, @Sendback, @ReceiptName, @ReceiptMobile, @PostURL, @AdminID, @Status, @CreateDate, " +
+                "@CreateDateString)";
+
+            DatabaseAdapter Adapter = new DatabaseAdapter(sql, this.DBSource);
+            DataTable dtdata = new DataTable(); ;
+            Adapter.AddParameterToSelectCommand("@Name", Name);
+            Adapter.AddParameterToSelectCommand("@AdminID", adminID);
+            Adapter.AddParameterToSelectCommand("@Mobile", Mobile);
+            Adapter.AddParameterToSelectCommand("@Cost", Cost);
+            Adapter.AddParameterToSelectCommand("@County", County);
+            Adapter.AddParameterToSelectCommand("@dist", dist);
+            Adapter.AddParameterToSelectCommand("@Addr", Addr);
+            Adapter.AddParameterToSelectCommand("@Address", County + dist + Addr);
+            Adapter.AddParameterToSelectCommand("@Sendback", Sendback);
+            Adapter.AddParameterToSelectCommand("@ReceiptName", ReceiptName);
+            Adapter.AddParameterToSelectCommand("@ReceiptMobile", ReceiptMobile);
+            Adapter.AddParameterToSelectCommand("@Status", Status);
+            Adapter.AddParameterToSelectCommand("@CreateDate", dtNow.ToString("yyyy-MM-dd HH:mm:ss"));
+            Adapter.AddParameterToSelectCommand("@CreateDateString", dtNow.ToString("yyyy-MM-dd"));
+            Adapter.AddParameterToSelectCommand("@PostURL", postURL);
+            Adapter.SetSqlCommandBuilder();
+            Adapter.Fill(dtdata);
+            Adapter.Update(dtdata);
+
+            return this.GetIdentity();
+        }
+
+        /// <summary>
         /// 建立桃園龍德宮點燈購買人資料
         /// </summary>
         /// <param name="Name"></param>
@@ -8783,7 +8938,7 @@ namespace Temple.data
         /// <summary>
         /// 取得最後一名編號資料
         /// <param name="type">type=燈種 3-光明燈 4-安太歲 5-文昌燈 6-財神燈 7-姻緣燈 8-藥師燈 9-財利燈 10-貴人燈 11-福祿(壽)燈 12-寵物平安燈 13-龍王燈 14-虎爺燈 15-轉運納福燈 
-        /// 16-光明燈上層 17-偏財旺旺燈 18-廣進安財庫 19-財庫燈 20-月老姻緣燈 21-孝親祈福燈 22-事業燈 23-全家光明燈 24-觀音佛祖燈 25-財神斗 26-事業斗 27-平安斗 28-文昌斗 29-藥師斗 
+        /// 16-光明燈上層(玉皇燈) 17-偏財旺旺燈 18-廣進安財庫 19-財庫燈 20-月老姻緣燈 21-孝親祈福燈 22-事業燈 23-全家光明燈 24-觀音佛祖燈 25-財神斗 26-事業斗 27-平安斗 28-文昌斗 29-藥師斗 
         /// 30-元神斗 31-福祿壽斗 32-觀音斗 33-明心智慧燈 34-元辰斗燈</param>
         /// </summary>
         public int GetListNum(int type)
@@ -8826,7 +8981,7 @@ namespace Temple.data
         /// 取得最後一名編號資料
         /// <param name="adminID">adminID=宮廟編號 3-大甲鎮瀾宮 4-新港奉天宮 5-商品販賣小舖-新港奉天宮 6-北港武德宮</param>
         /// <param name="type">type=燈種 3-光明燈 4-安太歲 5-文昌燈 6-財神燈 7-姻緣燈 8-藥師燈 9-財利燈 10-貴人燈 11-福祿(壽)燈 12-寵物平安燈 13-龍王燈 14-虎爺燈 15-轉運納福燈 
-        /// 16-光明燈上層 17-偏財旺旺燈 18-廣進安財庫 19-財庫燈 20-月老姻緣燈 21-孝親祈福燈 22-事業燈 23-全家光明燈 24-觀音佛祖燈 25-財神斗 26-事業斗 27-平安斗 28-文昌斗 29-藥師斗 
+        /// 16-光明燈上層(玉皇燈) 17-偏財旺旺燈 18-廣進安財庫 19-財庫燈 20-月老姻緣燈 21-孝親祈福燈 22-事業燈 23-全家光明燈 24-觀音佛祖燈 25-財神斗 26-事業斗 27-平安斗 28-文昌斗 29-藥師斗 
         /// 30-元神斗 31-福祿壽斗 32-觀音斗 33-明心智慧燈 34-元辰斗燈</param>
         /// </summary>
         public int GetListNum(int adminID, int type)
@@ -8853,7 +9008,7 @@ namespace Temple.data
         /// 取得最後一名編號資料
         /// <param name="adminID">adminID=宮廟編號 3-大甲鎮瀾宮 4-新港奉天宮 5-商品販賣小舖-新港奉天宮 6-北港武德宮</param>
         /// <param name="type">type=燈種 3-光明燈 4-安太歲 5-文昌燈 6-財神燈 7-姻緣燈 8-藥師燈 9-財利燈 10-貴人燈 11-福祿(壽)燈 12-寵物平安燈 13-龍王燈 14-虎爺燈 15-轉運納福燈 
-        /// 16-光明燈上層 17-偏財旺旺燈 18-廣進安財庫 19-財庫燈 20-月老姻緣燈 21-孝親祈福燈 22-事業燈 23-全家光明燈 24-觀音佛祖燈 25-財神斗 26-事業斗 27-平安斗 28-文昌斗 29-藥師斗 
+        /// 16-光明燈上層(玉皇燈) 17-偏財旺旺燈 18-廣進安財庫 19-財庫燈 20-月老姻緣燈 21-孝親祈福燈 22-事業燈 23-全家光明燈 24-觀音佛祖燈 25-財神斗 26-事業斗 27-平安斗 28-文昌斗 29-藥師斗 
         /// 30-元神斗 31-福祿壽斗 32-觀音斗 33-明心智慧燈 34-元辰斗燈</param>
         /// </summary>
         public int GetLightsCount(int adminID, int type)
@@ -9638,6 +9793,36 @@ namespace Temple.data
                     break;
                 case 31:
                     sql = "Select * from Temple_" + Year + "..view_AnDou_wjsan_InfowithAPPCharge Where AppStatus = 2 and Status = 0 and AdminID = @AdminID and (AppName = @Name and AppMobile = @Mobile)";
+                    break;
+            }
+
+            if (sql != "")
+            {
+                DatabaseAdapter objDatabaseAdapter = new DatabaseAdapter(sql, this.DBSource);
+                objDatabaseAdapter.AddParameterToSelectCommand("Name", name);
+                objDatabaseAdapter.AddParameterToSelectCommand("Mobile", phone);
+                objDatabaseAdapter.AddParameterToSelectCommand("AdminID", adminID);
+                objDatabaseAdapter.Fill(dtGetData);
+            }
+
+            return dtGetData;
+        }
+
+        /// <summary>
+        /// 取得供花供果購買人資料
+        /// <param name="name">name=購買人姓名</param>
+        /// <param name="phone">phone=購買人手機</param>
+        /// <param name="adminID">adminID=廟宇編號 3-大甲鎮瀾宮 4-新港奉天宮 6-北港武德宮</param>
+        /// </summary>
+        public DataTable Getapplicantinfo_HuaguoInfo(string name, string phone, int adminID, string Year)
+        {
+            string sql = string.Empty;
+            DataTable dtGetData = new DataTable();
+
+            switch (adminID)
+            {
+                case 31:
+                    sql = "Select * from Temple_" + Year + "..view_Huaguo_wjsan_InfowithAPPCharge Where AppStatus = 2 and Status = 0 and AdminID = @AdminID and (AppName = @Name and AppMobile = @Mobile)";
                     break;
             }
 
@@ -10757,6 +10942,22 @@ namespace Temple.data
         public DataTable Getandou_wjsan_info(int applicantID, string Year)
         {
             string sql = "Select * from Temple_" + Year + "..view_AnDou_wjsan_info Where Status = 0 and ApplicantID = @ApplicantID";
+
+            DatabaseAdapter objDatabaseAdapter = new DatabaseAdapter(sql, this.DBSource);
+            objDatabaseAdapter.AddParameterToSelectCommand("ApplicantID", applicantID);
+            DataTable dtGetData = new DataTable();
+            objDatabaseAdapter.Fill(dtGetData);
+
+            return dtGetData;
+        }
+
+        /// <summary>
+        /// 取得台灣道教總廟無極三清總道院供花供果資料
+        /// <param name="applecantID">applecantID=購買人編號</param>
+        /// </summary>
+        public DataTable Gethuaguo_wjsan_info(int applicantID, string Year)
+        {
+            string sql = "Select * from Temple_" + Year + "..view_Huaguo_wjsan_info Where Status = 0 and ApplicantID = @ApplicantID";
 
             DatabaseAdapter objDatabaseAdapter = new DatabaseAdapter(sql, this.DBSource);
             objDatabaseAdapter.AddParameterToSelectCommand("ApplicantID", applicantID);
@@ -12070,6 +12271,23 @@ namespace Temple.data
         }
 
         /// <summary>
+        /// 取得台灣道教總廟無極三清總道院供花供果付款資料
+        /// </summary>
+        /// <param name="applicantID"></param>
+        /// <returns></returns>
+        public DataTable GetAPPCharge_wjsan_Huaguo(int applicantID, string Year)
+        {
+            string sql = "Select * from Temple_" + Year + "..view_Huaguo_wjsan_InfowithAPPCharge Where AppcStatus = 1 and AppStatus = 2 and Num > 0 and ApplicantID = @ApplicantID";
+
+            DatabaseAdapter objDatabaseAdapter = new DatabaseAdapter(sql, this.DBSource);
+            objDatabaseAdapter.AddParameterToSelectCommand("@ApplicantID", applicantID);
+            DataTable dtGetData = new DataTable();
+            objDatabaseAdapter.Fill(dtGetData);
+
+            return dtGetData;
+        }
+
+        /// <summary>
         /// 取得桃園龍德宮點燈付款資料
         /// </summary>
         /// <param name="applicantID"></param>
@@ -12569,7 +12787,7 @@ namespace Temple.data
         /// <param name="Transaction_id">Transaction_id</param>
         /// <param name="adminID">AdminID=廟宇編號 3-大甲鎮瀾宮 4-新港奉天宮 5-文創商品(新港奉天宮) 6-北港武德宮</param>
         /// <param name="kind">kind=活動名稱: 1-點燈 2-普度 4-下元補庫 5-呈疏補庫(天官武財神聖誕補財庫) 6-企業補財庫 7-天赦日補運 8-天赦日祭改 9-關聖帝君聖誕 10-代燒金紙 11-天貺納福添運法會 12-靈寶禮斗 
-        /// 13-七朝清醮 14-九九重陽天赦日補運 15-護國息災梁皇大法會 16-補財庫 17-赦罪補庫 18-天公生招財補運 19-供香轉運</param>
+        /// 13-七朝清醮 14-九九重陽天赦日補運 15-護國息災梁皇大法會 16-補財庫 17-赦罪補庫 18-天公生招財補運 19-供香轉運 20-安斗 21-供花供果</param>
         /// </summary>
         public DataTable Getappcharge(string Transaction_id, string adminID, string kind, int type, string Year)
         {
@@ -12903,6 +13121,16 @@ namespace Temple.data
                             break;
                     }
                     break;
+                case "21":
+                    //供花供果
+                    switch (adminID)
+                    {
+                        case "31":
+                            //台灣道教總廟無極三清總道院
+                            sql = "Select * from Temple_" + Year + "..view_Huaguo_wjsan_InfowithAPPCharge Where AppcStatus = 1 and Transaction_id = N'" + Transaction_id + "'";
+                            break;
+                    }
+                    break;
             }
 
             DataTable dtGetData = new DataTable();
@@ -12921,7 +13149,7 @@ namespace Temple.data
         /// <param name="Transaction_id">Transaction_id</param>
         /// <param name="adminID">AdminID=廟宇編號 3-大甲鎮瀾宮 4-新港奉天宮 5-文創商品(新港奉天宮) 6-北港武德宮</param>
         /// <param name="kind">kind=活動名稱: 1-點燈 2-普度 4-下元補庫 5-呈疏補庫(天官武財神聖誕補財庫) 6-企業補財庫 7-天赦日補運 8-天赦日祭改 9-關聖帝君聖誕 10-代燒金紙 11-天貺納福添運法會 12-靈寶禮斗 
-        /// 13-七朝清醮 14-九九重陽天赦日補運 15-護國息災梁皇大法會 16-補財庫 17-赦罪補庫 18-天公生招財補運 19-供香轉運</param>
+        /// 13-七朝清醮 14-九九重陽天赦日補運 15-護國息災梁皇大法會 16-補財庫 17-赦罪補庫 18-天公生招財補運 19-供香轉運 20-安斗 21-供花供果</param>
         /// </summary>
         public DataTable GetappchargeNum2String(string Transaction_id, string adminID, string kind, string Year)
         {
@@ -13243,6 +13471,16 @@ namespace Temple.data
                             break;
                     }
                     break;
+                case "21":
+                    //供花供果
+                    switch (adminID)
+                    {
+                        case "31":
+                            //台灣道教總廟無極三清總道院
+                            sql = "Select Num2String, AdminID, OrderID, [Description] from Temple_" + Year + "..view_Huaguo_wjsan_InfowithAPPCharge Where AppcStatus = 1 and Transaction_id = N'" + Transaction_id + "'";
+                            break;
+                    }
+                    break;
             }
 
             DataTable dtGetData = new DataTable();
@@ -13417,7 +13655,7 @@ namespace Temple.data
         /// <param name="aid">aid=資料表編號</param>
         /// <param name="adminID">adminID=宮廟編號</param>
         /// <param name="kind">kind=活動名稱: 1-點燈 2-普度 4-下元補庫 5-呈疏補庫(天官武財神聖誕補財庫) 6-企業補財庫 7-天赦日補運 8-天赦日祭改 9-關聖帝君聖誕 10-代燒金紙 11-天貺納福添運法會 12-靈寶禮斗 
-        /// 13-七朝清醮 14-九九重陽天赦日補運 15-護國息災梁皇大法會 16-補財庫 17-赦罪補庫 18-天公生招財補運 19-供香轉運</param>
+        /// 13-七朝清醮 14-九九重陽天赦日補運 15-護國息災梁皇大法會 16-補財庫 17-赦罪補庫 18-天公生招財補運 19-供香轉運 20-安斗 21-供花供果</param>
         /// <returns></returns>
         public DateTime GetInfoLastDate(int aid, int adminID, int kind, int type, string Year)
         {
@@ -13677,6 +13915,10 @@ namespace Temple.data
                         case 20:
                             //安斗
                             sql = "Select * from Temple_" + Year + "..ApplicantInfo_wjsan_AnDou Where ApplicantID = @aid and AdminID = " + adminID;
+                            break;
+                        case 21:
+                            //供花供果
+                            sql = "Select * from Temple_" + Year + "..ApplicantInfo_wjsan_Huaguo Where ApplicantID = @aid and AdminID = " + adminID;
                             break;
                     }
                     break;
@@ -14322,6 +14564,9 @@ namespace Temple.data
                         case 20:
                             sql = "Select * from Temple_" + Year + "..APPCharge_wjsan_AnDou Where ApplicantID = @aid";
                             break;
+                        case 21:
+                            sql = "Select * from Temple_" + Year + "..APPCharge_wjsan_Huaguo Where ApplicantID = @aid";
+                            break;
                     }
                     break;
                 case 32:
@@ -14581,6 +14826,9 @@ namespace Temple.data
                             break;
                         case 20:
                             sql = "Select * from Temple_" + Year + "..APPCharge_wjsan_AnDou Where ApplicantID = @aid";
+                            break;
+                        case 21:
+                            sql = "Select * from Temple_" + Year + "..APPCharge_wjsan_Huaguo Where ApplicantID = @aid";
                             break;
                     }
                     break;
@@ -15396,6 +15644,29 @@ namespace Temple.data
         {
             bool result = true;
             string sql = "Select * from Temple_" + Year + "..view_APPCharge_wjsan_AnDou Where (AppStatus = 1 or AppStatus = 2) and ApplicantID = @ApplicantID and AdminID = @AdminID";
+
+            DatabaseAdapter objDatabaseAdapter = new DatabaseAdapter(sql, this.DBSource);
+            objDatabaseAdapter.AddParameterToSelectCommand("ApplicantID", applicantID);
+            objDatabaseAdapter.AddParameterToSelectCommand("AdminID", adminID);
+            DataTable dtGetData = new DataTable();
+            objDatabaseAdapter.Fill(dtGetData);
+
+            if (dtGetData.Rows.Count > 0)
+            {
+                result = false;
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        /// 檢查購買人是否有已付款-台灣道教總廟無極三清總道院供花供果
+        /// <param name="applecantID">applecantID=購買人編號</param>
+        /// </summary>
+        public bool checkedappcharge_Huaguo_wjsan(int applicantID, int adminID, string Year)
+        {
+            bool result = true;
+            string sql = "Select * from Temple_" + Year + "..view_APPCharge_wjsan_Huaguo Where (AppStatus = 1 or AppStatus = 2) and ApplicantID = @ApplicantID and AdminID = @AdminID";
 
             DatabaseAdapter objDatabaseAdapter = new DatabaseAdapter(sql, this.DBSource);
             objDatabaseAdapter.AddParameterToSelectCommand("ApplicantID", applicantID);
@@ -16334,9 +16605,64 @@ namespace Temple.data
         }
 
         /// <summary>
+        /// 檢查供花供果餘額
+        /// <param name="HuaguoType">HuaguoType=活動項目 1-供花/次 2-供果/次 3-供花/月 4-供果/月 5-供花/半年 6-供果/半年</param>
+        /// <param name="adminID">adminID=廟方編號</param>
+        /// </summary>
+        public bool checkedHuaguoNum(string HuaguoType, string AdminID, int Count, int type, string Year)
+        {
+            bool result = false;
+            string sql = string.Empty;
+            DataTable dtGetData = new DataTable();
+
+            switch (AdminID)
+            {
+                case "31":
+                    //台灣道教總廟無極三清總道院
+                    sql = "Select * from Temple_" + Year + "..view_Huaguo_wjsan_infowithAPPCharge Where AdminID = @AdminID and HuaguoType = @HuaguoType and AppStatus = 2 " +
+                        "and Num > 0 and AppcStatus = 1";
+                    break;
+            }
+
+            if (sql != "")
+            {
+                DatabaseAdapter objDatabaseAdapter = new DatabaseAdapter(sql, this.DBSource);
+                objDatabaseAdapter.AddParameterToSelectCommand("AdminID", AdminID);
+                objDatabaseAdapter.AddParameterToSelectCommand("HuaguoType", HuaguoType);
+                objDatabaseAdapter.Fill(dtGetData);
+            }
+
+            BasePage basePage = new BasePage();
+            AdminDAC objAdminDAc = new AdminDAC(basePage);
+            bool checkedcount = true;
+            string Str = string.Empty;
+            int adminid = 0;
+            int acount = 0;
+            string msg = string.Empty;
+
+            Str = dtGetData.Rows.Count > 0 ? dtGetData.Rows[0]["HuaguoString"].ToString() : "服務項目";
+
+            if (int.TryParse(AdminID, out adminid))
+            {
+                DataTable dtadminInfo = objAdminDAc.GetAdminInfo(adminid);
+                if (dtadminInfo.Rows.Count > 0)
+                    msg = dtadminInfo.Rows[0]["Nickname"].ToString() + " " + Str + " 快額滿了。";
+            }
+
+            if (acount > 0 && acount <= 50 && checkedcount)
+            {
+                SMSHepler objSMSHepler = new SMSHepler();
+
+                objSMSHepler.SendMsg_SL("0934315020", msg);
+            }
+
+            return result;
+        }
+
+        /// <summary>
         /// 檢查安斗餘額
         /// <param name="type">type=燈種 3-光明燈 4-安太歲 5-文昌燈 6-財神燈 7-姻緣燈 8-藥師燈 9-財利燈 10-貴人燈 11-福祿(壽)燈 12-寵物平安燈 13-龍王燈 14-虎爺燈 15-轉運納福燈 
-        /// 16-光明燈上層 17-偏財旺旺燈 18-廣進安財庫 19-財庫燈 20-月老姻緣燈 21-孝親祈福燈 22-事業燈 23-全家光明燈 24-觀音佛祖燈 25-財神斗 26-事業斗 27-平安斗 28-文昌斗 29-藥師斗 
+        /// 16-光明燈上層(玉皇燈) 17-偏財旺旺燈 18-廣進安財庫 19-財庫燈 20-月老姻緣燈 21-孝親祈福燈 22-事業燈 23-全家光明燈 24-觀音佛祖燈 25-財神斗 26-事業斗 27-平安斗 28-文昌斗 29-藥師斗 
         /// 30-元神斗 31-福祿壽斗 32-觀音斗 33-明心智慧燈(智慧燈) 34-元辰斗燈</param>
         /// <param name="adminID">adminID=廟方編號</param>
         /// </summary>
@@ -16456,7 +16782,7 @@ namespace Temple.data
         /// <summary>
         /// 檢查燈種餘額
         /// <param name="type">type=燈種 3-光明燈 4-安太歲 5-文昌燈 6-財神燈 7-姻緣燈 8-藥師燈 9-財利燈 10-貴人燈 11-福祿(壽)燈 12-寵物平安燈 13-龍王燈 14-虎爺燈 15-轉運納福燈 
-        /// 16-光明燈上層 17-偏財旺旺燈 18-廣進安財庫 19-財庫燈 20-月老姻緣燈 21-孝親祈福燈 22-事業燈 23-全家光明燈 24-觀音佛祖燈 25-財神斗 26-事業斗 27-平安斗 28-文昌斗 29-藥師斗 
+        /// 16-光明燈上層(玉皇燈) 17-偏財旺旺燈 18-廣進安財庫 19-財庫燈 20-月老姻緣燈 21-孝親祈福燈 22-事業燈 23-全家光明燈 24-觀音佛祖燈 25-財神斗 26-事業斗 27-平安斗 28-文昌斗 29-藥師斗 
         /// 30-元神斗 31-福祿壽斗 32-觀音斗 33-明心智慧燈(智慧燈) 34-元辰斗燈</param>
         /// <param name="adminID">adminID=廟方編號</param>
         /// </summary>
@@ -16761,7 +17087,7 @@ namespace Temple.data
         /// <summary>
         /// 檢查燈種餘額
         /// <param name="type">type=燈種 3-光明燈 4-安太歲 5-文昌燈 6-財神燈 7-姻緣燈 8-藥師燈 9-財利燈 10-貴人燈 11-福祿(壽)燈 12-寵物平安燈 13-龍王燈 14-虎爺燈 15-轉運納福燈 
-        /// 16-光明燈上層 17-偏財旺旺燈 18-廣進安財庫 19-財庫燈 20-月老姻緣燈 21-孝親祈福燈 22-事業燈 23-全家光明燈 24-觀音佛祖燈 25-財神斗 26-事業斗 27-平安斗 28-文昌斗 29-藥師斗 
+        /// 16-光明燈上層(玉皇燈) 17-偏財旺旺燈 18-廣進安財庫 19-財庫燈 20-月老姻緣燈 21-孝親祈福燈 22-事業燈 23-全家光明燈 24-觀音佛祖燈 25-財神斗 26-事業斗 27-平安斗 28-文昌斗 29-藥師斗 
         /// 30-元神斗 31-福祿壽斗 32-觀音斗 33-明心智慧燈 34-元辰斗燈</param>
         /// <param name="adminID">adminID=廟方編號</param>
         /// </summary>
@@ -16835,7 +17161,7 @@ namespace Temple.data
         /// <summary>
         /// 檢查燈種餘額
         /// <param name="type">type=燈種 3-光明燈 4-安太歲 5-文昌燈 6-財神燈 7-姻緣燈 8-藥師燈 9-財利燈 10-貴人燈 11-福祿(壽)燈 12-寵物平安燈 13-龍王燈 14-虎爺燈 15-轉運納福燈 
-        /// 16-光明燈上層 17-偏財旺旺燈 18-廣進安財庫 19-財庫燈 20-月老姻緣燈 21-孝親祈福燈 22-事業燈 23-全家光明燈 24-觀音佛祖燈 25-財神斗 26-事業斗 27-平安斗 28-文昌斗 29-藥師斗 
+        /// 16-光明燈上層(玉皇燈) 17-偏財旺旺燈 18-廣進安財庫 19-財庫燈 20-月老姻緣燈 21-孝親祈福燈 22-事業燈 23-全家光明燈 24-觀音佛祖燈 25-財神斗 26-事業斗 27-平安斗 28-文昌斗 29-藥師斗 
         /// 30-元神斗 31-福祿壽斗 32-觀音斗 33-明心智慧燈 34-元辰斗燈</param>
         /// <param name="adminID">adminID=廟方編號</param>
         /// </summary>
@@ -17656,6 +17982,9 @@ namespace Temple.data
                             break;
                         case 20:
                             sql = "Select * from Temple_" + Year + "..APPCharge_wjsan_AnDou Where ApplicantID = @aid";
+                            break;
+                        case 21:
+                            sql = "Select * from Temple_" + Year + "..APPCharge_wjsan_Huaguo Where ApplicantID = @aid";
                             break;
                     }
                     break;
@@ -19112,6 +19441,32 @@ namespace Temple.data
                 //AdapterObj.Update(dtDataList);
 
                 //bResult = true;
+            }
+
+
+            return bResult;
+        }
+
+        public bool Updatecost2applicantinfo_Huaguo_wjsan(int ApplicantID, int AdminID, int Cost, string Year)
+        {
+            TimeZoneInfo info = TimeZoneInfo.FindSystemTimeZoneById("Taipei Standard Time");
+            DateTime dtNow = TimeZoneInfo.ConvertTime(DateTime.Now, info);
+            bool bResult = false;
+            DataTable dtDataList = new DataTable();
+            string sql = "Select Top 1 * From Temple_" + Year + "..ApplicantInfo_wjsan_Huaguo Where ApplicantID=@ApplicantID and AdminID=@AdminID and Status = 0";
+
+            DatabaseAdapter AdapterObj = new DatabaseAdapter(sql, this.DBSource);
+            AdapterObj.SetSqlCommandBuilder();
+            AdapterObj.AddParameterToSelectCommand("@ApplicantID", ApplicantID);
+            AdapterObj.AddParameterToSelectCommand("@AdminID", AdminID);
+            AdapterObj.Fill(dtDataList);
+
+            if (dtDataList.Rows.Count > 0 && (int)dtDataList.Rows[0]["Status"] == 0)
+            {
+                BCFBaseLibrary.Web.BasePage basePage = new BCFBaseLibrary.Web.BasePage();
+                DatabaseHelper objDatabaseHelper = new DatabaseHelper(basePage);
+
+                bResult = objDatabaseHelper.Updateapplicantinfo_Huaguo_wjsan(ApplicantID, Cost, 1, Year);
             }
 
 

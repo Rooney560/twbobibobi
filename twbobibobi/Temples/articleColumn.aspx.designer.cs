@@ -11,7 +11,7 @@ namespace twbobibobi.Temples
 {
 
 
-    public partial class articleColumn
+    public partial class ArticleColumn
     {
 
         /// <summary>

@@ -446,7 +446,8 @@
     <Content Include="scripts\js\_notes\dwsync.xml" />
     <Content Include="SearchLog.aspx" />
     <Content Include="Temples\AnDouInformation.aspx" />
-    <Content Include="Temples\articleColumn.aspx" />
+    <Content Include="Temples\AnDouVsBaiDou.aspx" />
+    <Content Include="Temples\ArticleColumn.aspx" />
     <Content Include="Temples\AvalokiteshvaraInfo.aspx" />
     <Content Include="Temples\bootstrap\css\bootstrap-grid.css" />
     <Content Include="Temples\bootstrap\css\bootstrap-grid.min.css" />
@@ -485,6 +486,7 @@
     <Content Include="Temples\css\swiper-bundle.min.css" />
     <Content Include="Temples\css\take_draw.css" />
     <Content Include="Temples\css\_notes\dwsync.xml" />
+    <Content Include="Temples\DuanWuWuShiShui.aspx" />
     <Content Include="Temples\EventTitbits.aspx" />
     <Content Include="Temples\EventTitbitsCategory.aspx" />
     <Content Include="Temples\footer.ascx" />
@@ -839,6 +841,7 @@
     <Content Include="Temples\templeService_andou_wjsan.aspx" />
     <Content Include="Temples\templeService_EmperorGuansheng_bobi_ty.aspx" />
     <Content Include="Temples\templeService_EmperorGuansheng_ty.aspx" />
+    <Content Include="Temples\templeService_huaguo_wjsan.aspx" />
     <Content Include="Temples\templeService_lights.aspx" />
     <Content Include="Temples\templeService_lights_da.aspx" />
     <Content Include="Temples\templeService_lights_dh.aspx" />
@@ -885,8 +888,10 @@
     <Content Include="Temples\templeService_supplies_sx.aspx" />
     <Content Include="Temples\templeService_supplies_ty.aspx" />
     <Content Include="Temples\templeService_TaoistJiaoCeremony_da.aspx" />
+    <Content Include="Temples\ZodiacFortune_Lixia.aspx" />
     <Content Include="TWPaymentCallback_AnDou_Fw.aspx" />
     <Content Include="TWPaymentCallback_AnDou_wjsan.aspx" />
+    <Content Include="TWPaymentCallback_Huaguo_wjsan.aspx" />
     <Content Include="TWPaymentCallback_Lights_Hs.aspx" />
     <Content Include="TWPaymentCallback_Lights_ty_mom.aspx" />
     <Content Include="Temples\ZodiacFortune.aspx" />
@@ -1142,12 +1147,19 @@
     <Compile Include="Temples\AnDouInformation.aspx.designer.cs">
       <DependentUpon>AnDouInformation.aspx</DependentUpon>
     </Compile>
-    <Compile Include="Temples\articleColumn.aspx.cs">
-      <DependentUpon>articleColumn.aspx</DependentUpon>
+    <Compile Include="Temples\AnDouVsBaiDou.aspx.cs">
+      <DependentUpon>AnDouVsBaiDou.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="Temples\articleColumn.aspx.designer.cs">
-      <DependentUpon>articleColumn.aspx</DependentUpon>
+    <Compile Include="Temples\AnDouVsBaiDou.aspx.designer.cs">
+      <DependentUpon>AnDouVsBaiDou.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Temples\ArticleColumn.aspx.cs">
+      <DependentUpon>ArticleColumn.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Temples\ArticleColumn.aspx.designer.cs">
+      <DependentUpon>ArticleColumn.aspx</DependentUpon>
     </Compile>
     <Compile Include="Temples\AvalokiteshvaraInfo.aspx.cs">
       <DependentUpon>AvalokiteshvaraInfo.aspx</DependentUpon>
@@ -1155,6 +1167,13 @@
     </Compile>
     <Compile Include="Temples\AvalokiteshvaraInfo.aspx.designer.cs">
       <DependentUpon>AvalokiteshvaraInfo.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Temples\DuanWuWuShiShui.aspx.cs">
+      <DependentUpon>DuanWuWuShiShui.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Temples\DuanWuWuShiShui.aspx.designer.cs">
+      <DependentUpon>DuanWuWuShiShui.aspx</DependentUpon>
     </Compile>
     <Compile Include="Temples\EventTitbits.aspx.cs">
       <DependentUpon>EventTitbits.aspx</DependentUpon>
@@ -1660,6 +1679,13 @@
     <Compile Include="Temples\templeService_EmperorGuansheng_ty.aspx.designer.cs">
       <DependentUpon>templeService_EmperorGuansheng_ty.aspx</DependentUpon>
     </Compile>
+    <Compile Include="Temples\templeService_huaguo_wjsan.aspx.cs">
+      <DependentUpon>templeService_huaguo_wjsan.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Temples\templeService_huaguo_wjsan.aspx.designer.cs">
+      <DependentUpon>templeService_huaguo_wjsan.aspx</DependentUpon>
+    </Compile>
     <Compile Include="Temples\templeService_lights.aspx.cs">
       <DependentUpon>templeService_lights.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -1982,6 +2008,13 @@
     <Compile Include="Temples\templeService_TaoistJiaoCeremony_da.aspx.designer.cs">
       <DependentUpon>templeService_TaoistJiaoCeremony_da.aspx</DependentUpon>
     </Compile>
+    <Compile Include="Temples\ZodiacFortune_Lixia.aspx.cs">
+      <DependentUpon>ZodiacFortune_Lixia.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Temples\ZodiacFortune_Lixia.aspx.designer.cs">
+      <DependentUpon>ZodiacFortune_Lixia.aspx</DependentUpon>
+    </Compile>
     <Compile Include="TWPaymentCallback_AnDou_Fw.aspx.cs">
       <DependentUpon>TWPaymentCallback_AnDou_Fw.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -1995,6 +2028,13 @@
     </Compile>
     <Compile Include="TWPaymentCallback_AnDou_wjsan.aspx.designer.cs">
       <DependentUpon>TWPaymentCallback_AnDou_wjsan.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="TWPaymentCallback_Huaguo_wjsan.aspx.cs">
+      <DependentUpon>TWPaymentCallback_Huaguo_wjsan.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="TWPaymentCallback_Huaguo_wjsan.aspx.designer.cs">
+      <DependentUpon>TWPaymentCallback_Huaguo_wjsan.aspx</DependentUpon>
     </Compile>
     <Compile Include="TWPaymentCallback_Lights_Hs.aspx.cs">
       <DependentUpon>TWPaymentCallback_Lights_Hs.aspx</DependentUpon>

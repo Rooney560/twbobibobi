@@ -228,6 +228,10 @@
                             <h2>供香宮廟</h2>
                             <h2>烏日神霄玉府/沉香每台斤 $1200</h2>
                             <h2>草屯敦和宮/沉香每台斤 $1500</h2>
+                            <h2>竹山紫南宮/沉香每台斤 $1500</h2>
+                            <h2>竹山金天宮（老袓廟）/沉香每台斤 $1500</h2>
+                            <h2>埔里地母廟/沉香每台斤 $1500</h2>
+                            <h2>松柏嶺受天宮/沉香每台斤 $1500</h2>
                             <br />
                             <p style="color: red;">*供香流程約20個工作天（不含假日），每月統一捐贈，感謝耐心等候！<br />
                                 （供香完成後寄送供香照片至mail提供確認）</p>
@@ -264,6 +268,10 @@
                                     <select name="bless_service_1" class="required" id="bless_service_1">
                                         <option value="23">烏日神霄玉府/沉香每台斤 $1200</option>
                                         <option value="24">草屯敦和宮/沉香每台斤 $1500</option>
+                                        <option value="25">竹山紫南宮/沉香每台斤 $1500</option>
+                                        <option value="26">竹山金天宮（老袓廟）/沉香每台斤 $1500</option>
+                                        <option value="27">埔里地母廟/沉香每台斤 $1500</option>
+                                        <option value="28">松柏嶺受天宮/沉香每台斤 $1500</option>
                                     </select>
                                 </div>
                                 <div class="FormInput text_s">

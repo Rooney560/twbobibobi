@@ -7,8 +7,10 @@
             var purl = url.searchParams.get('purl');
 
             var checkedTWMurl = false;
+            var checkedHsurl = false;
 
             checkedTWMurl = location.search.indexOf('twm') >= 0 ? true : false;
+            checkedHsurl = location.search.indexOf('hsdemo') >= 0 ? true : false;
             if (purl) {
                 purl = purl.toLowerCase();
                 checkedTWMurl = location.search.indexOf('purl') >= 0 && purl == 'twm' ? true : false;
@@ -25,6 +27,13 @@
                 $("#Fet").show();
                 $("#cht").show();
                 $("#cht").show();
+            }
+
+            if (checkedHsurl) {
+                $(".Demo").hide();
+            }
+            else {
+                $(".Demo").show();
             }
 
             if (location.search.indexOf('twm') >= 0) {
@@ -359,7 +368,7 @@
         }
 
     </style>
-        <footer>
+        <footer class="Demo">
              <hr style="padding-bottom: 5px;" />
             <div class="footer">
                 <div class="footMenu">

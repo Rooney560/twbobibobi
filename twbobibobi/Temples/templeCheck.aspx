@@ -1402,6 +1402,13 @@
                         break;
                 }
                 break;
+            case "21":
+                switch (url.searchParams.get('a')) {
+                    case "31":
+                        window.location = 'templeService_huaguo_wjsan.aspx' + window.location.search;
+                        break;
+                }
+                break;
         }
     }
 </script>

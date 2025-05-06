@@ -701,7 +701,7 @@
                   <div class="form-group">
                     <label for="input-name" class="">被祈福者市話</label>
                     <div class="text-input">
-                      <input id="bless_homenum_1" name="bless_homenum_1" type="text" placeholder="請輸入祈福人市話(可不填)" aria-label="請輸入姓名" maxlength="200" value="" />
+                      <input id="bless_homenum_1" name="bless_homenum_1" type="tel" placeholder="請輸入祈福人市話(可不填)" aria-label="請輸入姓名" maxlength="200" value="" />
                     </div>
                   </div>
                 </div>
@@ -730,7 +730,7 @@
                             <div data-role="county" data-style="addr-county required" data-name="bless_county_1" data-id="bless_county_1"></div>
                             <div data-role="district" data-style="addr-district required" data-name="bless_district_1" data-id="bless_district_1"></div>
                             <div class="long-grid">
-                                <input id="bless_address_1" name="bless_address_1" type="text" placeholder="請輸入地址" aria-label="請輸入地址" maxlength="200" value="" class="mw">
+                                <input id="bless_address_1" name="bless_address_1" type="text" placeholder="請輸入地址" aria-label="請輸入地址" maxlength="200" value="" class="mw required" />
                             </div>
                         </div>
                     </div>

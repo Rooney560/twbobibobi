@@ -7,7 +7,7 @@ using System.Web.UI.WebControls;
 
 namespace twbobibobi.Temples
 {
-    public partial class articleColumn : System.Web.UI.Page
+    public partial class ArticleColumn : System.Web.UI.Page
     {
         protected void Page_Load(object sender, EventArgs e)
         {

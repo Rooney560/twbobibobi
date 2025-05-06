@@ -9,7 +9,7 @@
 <head runat="server">
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
     <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport" />
-    <meta property="og:title" content="天赦日是什麼？｜保必保庇" />
+    <meta property="og:title" content="天赦日是什麼？2025有哪幾天｜保必保庇" />
     <!--標題-->
     <meta property="og:url" content="https://bobibobi.tw/Temples/Supplies01.aspx" />
     <!--網址：請補上網址-->
@@ -19,7 +19,7 @@
     <meta property="og:description" content="保必保庇導讀｜天赦日是中國傳統曆法中的一個重要吉日，被視為全年最吉利的日子之一。這一天是天道赦罪之日，有「上天開恩赦罪」之意，傳說中是
         上天原諒眾生過失、赦免罪過的日子，因此被稱為「天赦日」。" />
     <!--簡介-->
-    <meta property="og:site_name" content="天赦日是什麼？｜保必保庇" />
+    <meta property="og:site_name" content="天赦日是什麼？2025有哪幾天｜保必保庇" />
     <!--標題-->
     <meta property="og:type" content="website" />
 
@@ -33,7 +33,7 @@
     <link href="images/favicon.png" rel="apple-touch-icon" sizes="192x192" />
 
 
-    <title>天赦日是什麼？｜保必保庇</title>
+    <title>天赦日是什麼？2025有哪幾天｜保必保庇</title>
     <!--標題-->
 
     <!--資源項目-->
@@ -63,6 +63,34 @@
             color: black;
             font-size: 1.2vw;
         }
+        .tablecontent {
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 0;
+            margin-top: 16px;
+            font-family: "Noto Sans TC", sans-serif;
+            background-color: #fff;
+            box-shadow: 0 0 0 1px #d1d1d1;
+        }
+
+            .tablecontent th,
+            .tablecontent td {
+                border: 1px solid #d0d0d0;
+                padding: 12px 16px;
+                text-align: center;
+                vertical-align: middle;
+                font-size: 16px;
+                background-color: #fefefe;
+                color: #333;
+                box-shadow: inset 1px 1px 0 #ffffff, inset -1px -1px 0 #cccccc;
+            }
+
+            .tablecontent th {
+                background-color: #e8edf5;
+                font-weight: bold;
+                box-shadow: inset 1px 1px 0 #ffffff, inset -1px -1px 0 #b0b0b0;
+            }
+
         @media only screen and (max-width: 720px) {
             .content_a {
                 font-size: 3.8vw;
@@ -74,6 +102,51 @@
             .title {
             font-size: 3.8vw;
             }
+            .tablecontent {
+                border: none;
+            }
+
+                .tablecontent thead {
+                    display: none;
+                }
+
+                .tablecontent tr {
+                    display: block;
+                    margin: 16px auto;
+                    width: 95%;
+                    border: 1px solid #ccc;
+                    border-radius: 8px;
+                    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.08);
+                    padding: 10px;
+                    background-color: #fff;
+                    transition: box-shadow 0.3s ease;
+                }
+
+                    .tablecontent tr:hover {
+                        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.12);
+                    }
+
+                .tablecontent td {
+                    display: flex;
+                    justify-content: space-between;
+                    padding: 10px 12px;
+                    border: none;
+                    border-bottom: 1px solid #eee;
+                    font-size: 16px;
+                    background-color: transparent;
+                }
+
+                    .tablecontent td:last-child {
+                        border-bottom: none;
+                    }
+
+                    .tablecontent td::before {
+                        content: attr(data-label);
+                        font-weight: bold;
+                        color: #800000;
+                        flex-shrink: 0;
+                        margin-right: 12px;
+                    }
         }
     </style>
     <script>
@@ -138,7 +211,8 @@
                 <div class="Here">目前位置：</div>
                 <ul>
                     <li><a href="../index.aspx" title="首頁">首頁</a></li>
-                    <li><a href="Supplies01.aspx" title="天赦日介紹">天赦日介紹</a></li>
+                    <li><a href="ArticleColumn.aspx" title="文章專欄">文章專欄</a></li>
+                    <li>天赦日介紹</li>
                 </ul>
             </nav>
 
@@ -146,7 +220,7 @@
             <section>
                 <div class="TempleServiceInfo">
                     <div class="EventServiceContent">
-                        <h1 class="TempleName">天赦日是什麼？｜保必保庇</h1>
+                        <h1 class="TempleName">天赦日是什麼？2025有哪幾天｜保必保庇</h1>
                         <div>
                             <p>
                                 <span class="title">天赦日</span>中國傳統曆法中的一個重要吉日，被視為<span class="title">全年最吉利的日子之一</span>。
@@ -199,6 +273,42 @@
                         </div>
                         <br />
                         <h1 class="TempleName">限時補運儀式開放報名，誠心參與，讓財運、福氣、貴人運全面提升！ 把握天赦日，翻轉好運勢！</h1>
+                        <br />
+                        <h2>2025天赦日有哪幾天</h2>
+                        <table class="tablecontent">
+                            <thead>
+                                <tr>
+                                    <th>日期（國曆）</th>
+                                    <th>農曆</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td data-label="日期（國曆）">2025/03/10</td>
+                                    <td data-label="農曆">二月十一</td>
+                                </tr>
+                                <tr>
+                                    <td data-label="日期（國曆）">2025/05/25</td>
+                                    <td data-label="農曆">四月二八</td>
+                                </tr>
+                                <tr>
+                                    <td data-label="日期（國曆）">2025/07/24</td>
+                                    <td data-label="農曆">六月三十</td>
+                                </tr>
+                                <tr>
+                                    <td data-label="日期（國曆）">2025/08/07</td>
+                                    <td data-label="農曆">閏六月十四</td>
+                                </tr>
+                                <tr>
+                                    <td data-label="日期（國曆）">2025/10/06</td>
+                                    <td data-label="農曆">八月十五</td>
+                                </tr>
+                                <tr>
+                                    <td data-label="日期（國曆）">2025/12/21</td>
+                                    <td data-label="農曆">十一月初三</td>
+                                </tr>
+                            </tbody>
+                        </table>
                         <br />
                         <h2>選擇宮廟：</h2>
                         <ul class="ServiceList">

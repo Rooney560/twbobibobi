@@ -155,7 +155,7 @@
         <!-----本頁內容開始----->
         <article id="Temple" class="page">
             <!--本頁路徑-->
-            <nav class="breadcrumb">
+            <nav class="breadcrumb" style="display: none;">
                 <div class="Here">目前位置：</div>
                 <ul>
                     <li><a href="../index.aspx" title="首頁">首頁</a></li>
@@ -213,6 +213,7 @@
                                         <option value="文昌燈">文昌燈 $600</option>
                                         <option value="財利燈">財利燈 $600</option>
                                         <option value="藥師燈">藥師燈 $600</option>
+                                        <option value="玉皇燈">玉皇燈 $1000</option>
                                     </select>
                                 </div>
                                 <div class="FormInput text_s">

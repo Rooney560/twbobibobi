@@ -130,8 +130,9 @@
                 <div class="Here">目前位置：</div>
                 <ul>
                     <li><a href="../index.aspx" title="首頁">首頁</a></li>
+                    <li><a href="ArticleColumn.aspx" title="文章專欄">文章專欄</a></li>
                     <li><a href="ZodiacFortune.aspx" title="2025生肖運勢">2025生肖運勢</a></li>
-                    <li><a href="Zodiac_Rat.aspx" title="鼠 (子鼠)">鼠 (子鼠)</a></li>
+                    <li>鼠 (子鼠)</li>
                 </ul>
             </nav>
 

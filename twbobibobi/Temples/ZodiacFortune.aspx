@@ -238,7 +238,8 @@
                 <div class="Here">目前位置：</div>
                 <ul>
                     <li><a href="../index.aspx" title="首頁">首頁</a></li>
-                    <li><a href="ZodiacFortune.aspx" title="2025生肖運勢">2025生肖運勢</a></li>
+                    <li><a href="ArticleColumn.aspx" title="文章專欄">文章專欄</a></li>
+                    <li>2025生肖運勢</li>
                 </ul>
             </nav>
 
@@ -281,7 +282,7 @@
                         <p>•	財運：正財穩定，偏財一般，宜謹慎投資，控制衝動消費。</p>
                         <p>•	感情：桃花運中等，單身者需主動爭取機會；有伴者需多溝通，避免冷戰。</p>
                         <p>•	健康：注意壓力管理與腸胃健康，保持作息規律。</p>
-                        <p><a href="Zodiac_Rat.aspx" target="_blank">•	看更多屬牛運勢請點這(超連結到鼠的文章)</a></p>
+                        <p><a href="Zodiac_Rat.aspx" target="_blank">•	看更多屬鼠運勢請點這(超連結到鼠的文章)</a></p>
                         <div class="TempleImg">
                             <img src="https://bobibobi.tw/Temples/images/temple/Zodiac/Rat_2025.jpg" width="1160" height="550" alt="2025屬鼠運勢" title="2025屬鼠運勢" />
                         </div>
