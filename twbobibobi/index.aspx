@@ -434,23 +434,6 @@
                         </div>
                         <div class="row gx-5">
                             <div class="col-lg-4 col-sm-12 py-3">
-                                <a href="https://bobibobi.tw/Temples/templeService_lights_ty_mom.aspx">
-                                    <div class="card shadow h-100" style="background-color: white; color: #707070;">
-                                        <%--<div class="Newsimg">--%>
-                                        <img src="https://bobibobi.tw/Temples/SiteFile/News/20250401_NewsImg_s.jpg?t=666168" class="card-img-top p-3" alt="2025桃園威天宮母親節孝親祈福謝恩活動" title="2025桃園威天宮母親節孝親祈福謝恩活動" />
-                                        <%--</div>--%>
-                                        <div class="card-body">
-                                            <div class="fs-3">2025桃園威天宮母親節孝親祈福謝恩活動</div>
-                                            <div class="fs-5">感念母愛如海，誠心為媽媽或是長輩祈福祝壽！本宮舉辦母親節孝親活動，邀您攜母親一同來廟參拜，點燈祈福、獻上祝福，傳達心中感恩。福報加持，孝心圓滿！</div>
-                                            <div class="event-ongoing fs-5">⚡ 活動進行中 ⚡</div>
-                                        </div>
-                                        <div class="card-footer pb-3" style="border-top: none; background-color: transparent;">
-                                            <div class="ReadMoreBtn"><span>&nbsp;詳情&nbsp;</span></div>
-                                        </div>
-                                    </div>
-                                </a>
-                            </div>
-                            <div class="col-lg-4 col-sm-12 py-3">
                                 <a href="https://bobibobi.tw/Temples/templeService_supplies2_sx.aspx">
                                     <div class="card shadow h-100" style="background-color: white; color: #707070;">
                                         <%--<div class="Newsimg">--%>
@@ -467,6 +450,24 @@
                                     </div>
                                 </a>
                             </div> 
+                        <div class="col-lg-4 col-sm-12 py-3">
+                            <a href="https://bobibobi.tw/Temples/templeService_huaguo_wjsan.aspx">
+                                <div class="card shadow h-100" style="background-color: white; color: #707070;">
+                                <%--<div class="Newsimg">--%>
+                                    <img src="https://bobibobi.tw/Temples/SiteFile/News/20250502_NewsImg_s.jpg?t=666168" class="card-img-top p-3" alt="斗六五路財神宮補財庫" title="斗六五路財神宮補財庫" />
+                                <%--</div>--%>
+                                    <div class="card-body">
+                                <div class="fs-3">台灣道教總廟無極三清總道院供花/供果線上報名服務</div>
+                                <div class="fs-5">忙碌生活沒時間拜拜？我們幫你搞定！<br />
+【初一十五代供花果服務】 由廟方誠心代購上供鮮花、供果 會幫你寫疏文上秉 , 為您祈求平安順利、好運連連。誠心托付，一樣靈驗！</div>
+                                <div class="event-ongoing fs-5">⚡ 活動進行中 ⚡</div>
+                                    </div>
+                                    <div class="card-footer pb-3" style="border-top: none; background-color: transparent;">
+                                        <div class="ReadMoreBtn"><span>&nbsp;詳情&nbsp;</span></div>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>      
                             <div class="col-lg-4 col-sm-12 py-3">
                                 <a href="https://bobibobi.tw/Temples/newsContent_2025andou.aspx">
                                     <div class="card shadow h-100" style="background-color: white; color: #707070;">
