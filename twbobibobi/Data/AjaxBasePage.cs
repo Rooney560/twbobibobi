@@ -2419,6 +2419,18 @@ namespace MotoSystem.Data
                 case "草屯敦和宮/沉香每台斤":
                     result = "24";
                     break;
+                case "竹山紫南宮/沉香每台斤":
+                    result = "25";
+                    break;
+                case "竹山金天宮（老袓廟）/沉香每台斤":
+                    result = "26";
+                    break;
+                case "埔里地母廟/沉香每台斤":
+                    result = "27";
+                    break;
+                case "松柏嶺受天宮/沉香每台斤":
+                    result = "28";
+                    break;
             }
 
             return result;

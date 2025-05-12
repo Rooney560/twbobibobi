@@ -201,9 +201,9 @@
             <!--本頁內容-->
             <section>
                 <div class="TempleImg">
-                    <img src="https://bobibobi.tw/Temples/images/temple/supplies2_sx.jpg?t=55282" width="1160" height="550" alt="小龍蛇年旺財氣，供香轉運好運到" title="小龍蛇年旺財氣，供香轉運好運到" />
+                    <img src="https://bobibobi.tw/Temples/images/temple/supplies2_sx.jpg?t=55828" width="1160" height="550" alt="小龍蛇年旺財氣，供香轉運好運到" title="小龍蛇年旺財氣，供香轉運好運到" />
                 </div>
-                <h1 class="TempleName">神霄玉府財神會館</h1>
+                <h1 class="TempleName">歡迎使用《神霄玉府財神會館》供香轉運線上報名服務 </h1>
                 <div class="TempleServiceInfo">                    
                     <div class="EventServiceContent">
                         <%--<div class="EventTime">
@@ -214,27 +214,26 @@
                             <div id="endTime">2025/02/03 23:59</div>
                         </div>--%>
                         <div class="EventServiceContent">
-                        <div>
-                            <h2>供香轉運</h2>
-                            <p>好香從這輩子開始燒起，廣結善緣從供香開始</p>
-                            <p>為什麼要供香？除了供給神明外，當你供香給宮廟，其他信眾也會使用到您供的香，在無形之中與人結緣，而形成一個美好的循環，久而久之您的磁場也會慢慢的改善。</p>
-                            <p>我們的香都是使用沉香，另外我們會請道長幫您念疏文，供香給神明。</p>
-                            <p>「香」，是有形的人們對無形神聖的虔心禮敬與供奉；</p>
-                            <p>「香」，上通天下達地，上可供諸天神佛，下能施六道眾生。</p>
-                            <p>「供香」，不只是您添油香的功德，每一份供香，就如同您親自在廟裡燃點上等水沉香，透過您的虔心，透過大眾的雙手，延續神祇濟世救民的香火!</p>
+                            <div>
+                                <p>好香從這輩子開始燒起，廣結善緣從供香開始</p>
+                                <p>為什麼要供香？除了供給神明外，當你供香給宮廟，其他信眾也會使用到您供的香，在無形之中與人結緣，而形成一個美好的循環，久而久之您的磁場也會慢慢的改善。</p>
+                                <p>我們的香都是使用沉香，另外我們會請道長幫您念疏文，供香給神明。</p>
+                                <p>「香」，是有形的人們對無形神聖的虔心禮敬與供奉；</p>
+                                <p>「香」，上通天下達地，上可供諸天神佛，下能施六道眾生。</p>
+                                <p>「供香」，不只是您添油香的功德，每一份供香，就如同您親自在廟裡燃點上等水沉香，透過您的虔心，透過大眾的雙手，延續神祇濟世救民的香火!</p>
+                            </div>
                         </div>
-                        <hr />
-                        <div>
-                            <h2>供香宮廟</h2>
-                            <h2>烏日神霄玉府/沉香每台斤 $1200</h2>
-                            <h2>草屯敦和宮/沉香每台斤 $1500</h2>
-                            <h2>竹山紫南宮/沉香每台斤 $1500</h2>
-                            <h2>竹山金天宮（老袓廟）/沉香每台斤 $1500</h2>
-                            <h2>埔里地母廟/沉香每台斤 $1500</h2>
-                            <h2>松柏嶺受天宮/沉香每台斤 $1500</h2>
-                            <br />
-                            <p style="color: red;">*供香流程約20個工作天（不含假日），每月統一捐贈，感謝耐心等候！<br />
-                                （供香完成後寄送供香照片至mail提供確認）</p>
+                        <div class="TempleImg">
+                            <img src="images/temple/supplies2_sx_01.jpg?t=55828" width="1160" height="550" alt="保必保庇提供神霄玉府財神會館供香轉運" 
+                                title="保必保庇提供神霄玉府財神會館供香轉運" />
+                            <img src="images/temple/supplies2_sx_02.jpg?t=55828" width="1160" height="550" alt="保必保庇提供神霄玉府財神會館供香轉運" 
+                                title="保必保庇提供神霄玉府財神會館供香轉運" />
+                            <img src="images/temple/supplies2_sx_03.jpg?t=55828" width="1160" height="550" alt="保必保庇提供神霄玉府財神會館供香轉運" 
+                                title="保必保庇提供神霄玉府財神會館供香轉運" />
+                            <img src="images/temple/supplies2_sx_04.jpg?t=55828" width="1160" height="550" alt="保必保庇提供神霄玉府財神會館供香轉運" 
+                                title="保必保庇提供神霄玉府財神會館供香轉運" />
+                            <img src="images/temple/supplies2_sx_05.jpg?t=55828" width="1160" height="550" alt="保必保庇提供神霄玉府財神會館供香轉運" 
+                                title="保必保庇提供神霄玉府財神會館供香轉運" />
                         </div>
 
                         <uc3:SocialMedia runat="server" id="SocialMedia" />
