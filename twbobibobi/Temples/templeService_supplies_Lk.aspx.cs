@@ -1,4 +1,4 @@
-﻿using MotoSystem.Data;
+﻿using twbobibobi.Data;
 using Newtonsoft.Json.Linq;
 using Read.data;
 using System;
@@ -18,7 +18,6 @@ namespace twbobibobi.Temples
     {
         public int aid = 0;
         public int a = 0;
-        public string EndDate = "2025/04/09 23:59";
         protected static string Year = "2025";
 
         protected override void InitAjaxHandler()
@@ -55,6 +54,7 @@ namespace twbobibobi.Temples
                 string AdminID = "21";
                 string AppName = basePage.Request["Appname"];                                       //購買人姓名
                 string AppMobile = basePage.Request["Appmobile"];                                   //購買人電話
+                string AppEmail = basePage.Request["AppEmail"];                                     //購買人信箱
 
                 string AppSendback = basePage.Request["AppSendback"];                               //寄送方式 N-不寄回(會轉送給弱勢團體) Y-寄回(加收運費100元)
                 string Apprname = basePage.Request["Apprname_Tag"];                                 //收件人姓名
@@ -71,13 +71,13 @@ namespace twbobibobi.Temples
                 string leapMonth_Tag = basePage.Request["leapMonth_Tag"];                           //閏月 Y-是 N-否
                 string birthtime_Tag = basePage.Request["birthtime_Tag"];                           //祈福人農曆時辰
                 string sbirth_Tag = basePage.Request["sbirth_Tag"];                                 //祈福人國曆生日
-                string email_Tag = basePage.Request["email_Tag"];                                   //祈福人信箱
                 string homenum_Tag = basePage.Request["homenum_Tag"];                               //祈福人市話
                 string oversea_Tag = basePage.Request["oversea_Tag"];                               //國內-1 國外-2
                 string zipCode_Tag = basePage.Request["zipCode_Tag"];                               //祈福人郵遞區號
                 string county_Tag = basePage.Request["county_Tag"];                                 //祈福人縣市
                 string dist_Tag = basePage.Request["dist_Tag"];                                     //祈福人區域
                 string addr_Tag = basePage.Request["addr_Tag"];                                     //祈福人部分地址
+                string remark_Tag = basePage.Request["remark_Tag"];                                 //備註
                 string SuppliesString_Tag = basePage.Request["SuppliesString_Tag"];                 //服務項目
 
                 int listcount = int.Parse(basePage.Request["listcount"]);                           //祈福人數量
@@ -90,45 +90,20 @@ namespace twbobibobi.Temples
                 JArray JleapMonth = JArray.Parse(leapMonth_Tag);
                 JArray Jbirthtime = JArray.Parse(birthtime_Tag);
                 JArray Jsbirth = JArray.Parse(sbirth_Tag);
-                JArray Jemail = JArray.Parse(email_Tag);
-                //JArray Joversea = JArray.Parse(oversea_Tag);
+                JArray Joversea = JArray.Parse(oversea_Tag);
                 JArray JzipCode = JArray.Parse(zipCode_Tag);
                 JArray Jcounty = JArray.Parse(county_Tag);
                 JArray Jdist = JArray.Parse(dist_Tag);
                 JArray Jaddr = JArray.Parse(addr_Tag);
+                JArray Jremark = JArray.Parse(remark_Tag);
                 JArray JSuppliesString_Tag = JArray.Parse(SuppliesString_Tag);
 
                 JArray Jhomenum = new JArray();
                 nullChecked(homenum_Tag, ref Jhomenum);
 
                 string postURL_Init = "Supplies_Lk_Index";
-
                 string url = HttpContext.Current.Request.Url.AbsoluteUri;
-
                 string postURL = GetRequestURL(url, postURL_Init);
-
-                //postURL += basePage.Request["twm"] != null ? "_TWM" : "";
-
-                //postURL += basePage.Request["cht"] != null ? "_CHT" : "";
-
-                //postURL += basePage.Request["line"] != null ? "_LINE" : "";
-
-                //postURL += basePage.Request["fb"] != null ? "_FB" : "";
-
-                //postURL += basePage.Request["fbLk"] != null ? "_FBLK" : "";
-
-                //postURL += basePage.Request["ig"] != null ? "_IG" : "";
-
-                //postURL += basePage.Request["fetsms"] != null ? "_fetSMS" : "";
-
-                //postURL += basePage.Request["jkos"] != null ? "_JKOS" : "";
-
-                //postURL += basePage.Request["gads"] != null ? "_GADS" : "";
-
-                //postURL += basePage.Request["inLk"] != null ? "_INLK" : "";
-
-                //postURL += basePage.Request["elv"] != null ? "_ELV" : "";
-
 
                 //string AppSendback = "Y";                                                           //寄送方式 N-不寄回(會轉送給弱勢團體) Y-寄回(加收運費120元)
                 //string Apprname = Jname[0].ToString();                                              //收件人姓名
@@ -138,9 +113,23 @@ namespace twbobibobi.Temples
                 //string Apprdist = Jdist[0].ToString();                                              //收件人區域
                 //string Appraddr = Jaddr[0].ToString();                                              //收件人部分地址
 
-                ApplicantID = objLightDAC.addapplicantinfo_Supplies_Lk(AppName, AppMobile, "0", Apprcounty, Apprdist, Appraddr, ApprzipCode, AppSendback, Apprname, Apprmobile
-                    , 0, AdminID, postURL, Year);
                 bool suppliesinfo = false;
+                ApplicantID = objLightDAC.Addapplicantinfo_supplies_Lk(
+                    Name: AppName, 
+                    Mobile: AppMobile, 
+                    Cost: "0", 
+                    County: Apprcounty, 
+                    Dist: Apprdist, 
+                    Addr: Appraddr, 
+                    ZipCode: ApprzipCode, 
+                    Sendback: AppSendback, 
+                    ReceiptName: Apprname, 
+                    ReceiptMobile: Apprmobile, 
+                    Email: AppEmail, 
+                    Status: 0, 
+                    AdminID: AdminID,
+                    PostURL: postURL, 
+                    Year: Year);
 
                 if (ApplicantID > 0)
                 {
@@ -153,7 +142,6 @@ namespace twbobibobi.Temples
                         string leapMonth = JleapMonth[i].ToString();
                         string birthTime = Jbirthtime[i].ToString();
                         string sBirth = Jsbirth[i].ToString();
-                        string email = Jemail.Count > 0 ? Jemail[i].ToString() : "";
                         string homenum = Jhomenum.Count > 0 ? Jhomenum[i].ToString() : "";
                         string suppliesString = JSuppliesString_Tag[i].ToString(); ;
                         string suppliesType = GetSuppliesType(suppliesString);
@@ -161,8 +149,9 @@ namespace twbobibobi.Temples
                         string county = Jcounty[i].ToString();
                         string dist = Jdist[i].ToString();
                         string zipCode = JzipCode[i].ToString();
-                        //string oversea = Joversea[i].ToString();
-                        string oversea = "1";
+                        string oversea = Joversea[i].ToString();
+                        string remark = Jremark.Count > 0 ? Jremark[i].ToString() : "";
+                        //string oversea = "1";
                         string birthMonth = "0";
                         string age = "0";
                         string Zodiac = string.Empty;
@@ -264,24 +253,54 @@ namespace twbobibobi.Temples
 
                         birthMonth = CheckedDateZero(birthMonth, 1);
 
+                        int cost = GetSuppliesCost(21, suppliesType);
+
                         if (name != "")
                         {
                             suppliesinfo = true;
-                            SuppliesID = objLightDAC.addSupplies_Lk(ApplicantID, name, mobile, sex, suppliesType, suppliesString, oversea, Birth, leapMonth, birthTime,
-                                birthMonth, age, Zodiac, sBirth, email, homenum, 1, addr, county, dist, zipCode, Year);
+                            SuppliesID = objLightDAC.Addsupplies_Lk(
+                                ApplicantID: ApplicantID, 
+                                Name: name, 
+                                Mobile: mobile, 
+                                Cost: cost,
+                                Sex: sex, 
+                                SuppliesType: suppliesType, 
+                                SuppliesString: suppliesString, 
+                                Oversea: oversea, 
+                                Birth: Birth, 
+                                LeapMonth: leapMonth, 
+                                BirthTime: birthTime,
+                                BirthMonth: birthMonth, 
+                                Age: age, 
+                                Zodiac: Zodiac, 
+                                sBirth: sBirth, 
+                                Email: "", 
+                                HomeNum: homenum, 
+                                Count: 1, 
+                                Remark: remark, 
+                                Addr: addr, 
+                                County: county, 
+                                Dist: dist, 
+                                ZipCode: zipCode, 
+                                Year: Year);
                         }
-
                     }
                 }
 
                 if (ApplicantID > 0 && SuppliesID > 0 && suppliesinfo)
                 {
                     basePage.mJSonHelper.AddContent("StatusCode", 1);
-                    basePage.mJSonHelper.AddContent("redirect", "templeCheck.aspx?kind=16&a=" + AdminID + "&aid=" + ApplicantID +
-                        (basePage.Request["ad"] != null ? "&ad=" + basePage.Request["ad"] : "") +
-                        (basePage.Request["jkos"] != null ? "&jkos=1" : "") +
-                        (basePage.Request["pxpayplues"] != null ? "&pxpayplues=1" : "") +
-                        (basePage.Request["twm"] != null ? "&twm=1" : ""));
+
+                    string redirectUrl = BuildRedirectUrl(
+                        "templeCheck.aspx",
+                        16,
+                        AdminID,
+                        ApplicantID,
+                        basePage.Request
+                    );
+
+                    // 加入 JSON 回傳內容
+                    basePage.mJSonHelper.AddContent("redirect", redirectUrl);
 
                     basePage.Session["ApplicantID"] = ApplicantID;
                 }
@@ -298,7 +317,7 @@ namespace twbobibobi.Temples
 
                 string AdminID = basePage.Request["a"];
 
-                dtData = objLightDAC.Getsupplies_Lk_info(applicantID, Year);
+                dtData = objLightDAC.Getsupplies_Lk_Info(applicantID, Year);
 
                 if (dtData.Rows.Count > 0)
                 {
@@ -308,6 +327,12 @@ namespace twbobibobi.Temples
                     basePage.mJSonHelper.AddContent("a", AdminID);
                     basePage.mJSonHelper.AddContent("AppName", dtData.Rows[0]["AppName"].ToString());
                     basePage.mJSonHelper.AddContent("AppMobile", dtData.Rows[0]["AppMobile"].ToString());
+                    basePage.mJSonHelper.AddContent("AppEmail", dtData.Rows[0]["AppEmail"].ToString());
+                    basePage.mJSonHelper.AddContent("ReceiptName", dtData.Rows[0]["ReceiptName"].ToString());
+                    basePage.mJSonHelper.AddContent("ReceiptMobile", dtData.Rows[0]["ReceiptMobile"].ToString());
+                    basePage.mJSonHelper.AddContent("AppCounty", dtData.Rows[0]["ApprCounty"].ToString());
+                    basePage.mJSonHelper.AddContent("Appdist", dtData.Rows[0]["Apprdist"].ToString());
+                    basePage.mJSonHelper.AddContent("AppAddr", dtData.Rows[0]["ApprAddr"].ToString());
 
                     basePage.mJSonHelper.AddDataTable("DataSource", dtData);
                 }

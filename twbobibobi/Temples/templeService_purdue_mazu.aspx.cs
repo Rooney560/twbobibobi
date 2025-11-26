@@ -1,4 +1,4 @@
-﻿using MotoSystem.Data;
+﻿using twbobibobi.Data;
 using Newtonsoft.Json.Linq;
 using Read.data;
 using System;
@@ -89,67 +89,67 @@ namespace Temple.Temples
 
                 postURL += basePage.Request["fb"] != null ? "_FB" : "";
 
-                ApplicantID = objLightDAC.addapplicantinfo_purdue_mazu(AppName, AppMobile, "0", Appcounty, Appdist, Appaddr, AppzipCode, "Y", AppName, AppMobile, 0, AdminID, postURL, Year);
-                bool purdueinfo = false;
+                //ApplicantID = objLightDAC.addapplicantinfo_purdue_mazu(AppName, AppMobile, "0", Appcounty, Appdist, Appaddr, AppzipCode, "Y", AppName, AppMobile, 0, AdminID, postURL, Year);
+                //bool purdueinfo = false;
 
-                if (ApplicantID > 0)
-                {
-                    for (int i = 0; i < listcount; i++)
-                    {
-                        string name = Jname[i].ToString();
-                        string mobile = Jmobile[i].ToString();
-                        string leapMonth = JleapMonth[i].ToString();
-                        string birthTime = Jbirthtime[i].ToString();
-                        string purdueType = Jpurduetype[i].ToString();
+                //if (ApplicantID > 0)
+                //{
+                //    for (int i = 0; i < listcount; i++)
+                //    {
+                //        string name = Jname[i].ToString();
+                //        string mobile = Jmobile[i].ToString();
+                //        string leapMonth = JleapMonth[i].ToString();
+                //        string birthTime = Jbirthtime[i].ToString();
+                //        string purdueType = Jpurduetype[i].ToString();
 
-                        string purdueString = PurdueType2String(Jpurduetype[i].ToString(), "30");
+                //        string purdueString = PurdueType2String(Jpurduetype[i].ToString(), "30");
 
-                        string Birth = string.Empty;
-                        string birthMonth = string.Empty;
-                        string age = string.Empty;
-                        string Zodiac = string.Empty;
+                //        string Birth = string.Empty;
+                //        string birthMonth = string.Empty;
+                //        string age = string.Empty;
+                //        string Zodiac = string.Empty;
 
-                        string year = string.Empty;
-                        string month = string.Empty;
-                        string day = string.Empty;
+                //        string year = string.Empty;
+                //        string month = string.Empty;
+                //        string day = string.Empty;
 
-                        string birth = Jbirth[i].ToString();
-                        int s1 = birth.IndexOf("民國");
-                        int s2 = birth.IndexOf("年");
-                        int s3 = birth.IndexOf("月");
-                        int s4 = birth.IndexOf("日");
-                        if (birth.IndexOf("民國") >= 0 && birth.IndexOf("年") > 0 && birth.IndexOf("月") > 0 && birth.IndexOf("日") > 0)
-                        {
-                            int year_index = birth.IndexOf("年");
-                            int month_index = birth.IndexOf("月");
-                            year = (int.Parse(birth.Substring(2, year_index - 2)) + 1911).ToString();
-                            month = birthMonth = birth.Substring(year_index + 1, month_index - year_index - 1);
-                            day = birth.Substring(month_index + 1, birth.Length - month_index - 2);
+                //        string birth = Jbirth[i].ToString();
+                //        int s1 = birth.IndexOf("民國");
+                //        int s2 = birth.IndexOf("年");
+                //        int s3 = birth.IndexOf("月");
+                //        int s4 = birth.IndexOf("日");
+                //        if (birth.IndexOf("民國") >= 0 && birth.IndexOf("年") > 0 && birth.IndexOf("月") > 0 && birth.IndexOf("日") > 0)
+                //        {
+                //            int year_index = birth.IndexOf("年");
+                //            int month_index = birth.IndexOf("月");
+                //            year = (int.Parse(birth.Substring(2, year_index - 2)) + 1911).ToString();
+                //            month = birthMonth = birth.Substring(year_index + 1, month_index - year_index - 1);
+                //            day = birth.Substring(month_index + 1, birth.Length - month_index - 2);
 
-                            Birth = year + "-" + month + "-" + day;
-                            LunarSolarConverter.shuxiang(int.Parse(year), ref Zodiac);
-                            age = GetAge(int.Parse(year), int.Parse(month), int.Parse(day)).ToString();
-                        }
+                //            Birth = year + "-" + month + "-" + day;
+                //            LunarSolarConverter.shuxiang(int.Parse(year), ref Zodiac);
+                //            age = GetAge(int.Parse(year), int.Parse(month), int.Parse(day)).ToString();
+                //        }
 
-                        birthMonth = birthMonth.Length < 2 ? "0" + birthMonth : birthMonth;
+                //        birthMonth = birthMonth.Length < 2 ? "0" + birthMonth : birthMonth;
 
-                        if (name != "")
-                        {
-                            purdueinfo = true;
-                            PurdueID = objLightDAC.addpurdue_mazu(ApplicantID, name, mobile, "善男", purdueType, purdueString, "1", birth , leapMonth, birthTime, birthMonth, age, 
-                                Zodiac, 1, "", "", "", "0", Year);
+                //        if (name != "")
+                //        {
+                //            purdueinfo = true;
+                //            PurdueID = objLightDAC.addpurdue_mazu(ApplicantID, name, mobile, "善男", purdueType, purdueString, "1", birth , leapMonth, birthTime, birthMonth, age, 
+                //                Zodiac, 1, "", "", "", "0", Year);
 
-                        }
-                    }
-                }
+                //        }
+                //    }
+                //}
 
-                if (ApplicantID > 0 && purdueinfo)
-                {
-                    basePage.mJSonHelper.AddContent("StatusCode", 1);
-                    basePage.mJSonHelper.AddContent("redirect", "templeCheck.aspx?kind=2&a=" + AdminID + "&aid=" + ApplicantID + (basePage.Request["ad"] != null ? "&ad=1" : "") + (basePage.Request["twm"] != null ? "&twm=1" : ""));
+                //if (ApplicantID > 0 && purdueinfo)
+                //{
+                //    basePage.mJSonHelper.AddContent("StatusCode", 1);
+                //    basePage.mJSonHelper.AddContent("redirect", "templeCheck.aspx?kind=2&a=" + AdminID + "&aid=" + ApplicantID + (basePage.Request["ad"] != null ? "&ad=1" : "") + (basePage.Request["twm"] != null ? "&twm=1" : ""));
 
-                    basePage.Session["ApplicantID"] = ApplicantID;
-                }
+                //    basePage.Session["ApplicantID"] = ApplicantID;
+                //}
             }
 
             public void editinfo(BasePage basePage)
@@ -167,7 +167,7 @@ namespace Temple.Temples
 
                 string AdminID = basePage.Request["a"];
 
-                dtData = objLightDAC.Getpurdue_mazu_info(applicantID, Year);
+                //dtData = objLightDAC.Getpurdue_mazu_info(applicantID, Year);
 
                 if (dtData.Rows.Count > 0)
                 {

@@ -5,7 +5,7 @@ using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 using System.Data;
-using MotoSystem.Data;
+using twbobibobi.Data;
 using Temple.data;
 using System.Globalization;
 using System.Web.Services;
@@ -374,6 +374,8 @@ namespace Temple
             lightslist += addData_Content("狀態", Status2String(int.Parse(AppStatus)));
             lightslist += addData_Content("受理日期", ChargeDate);
 
+            lightslist += addLightImg2_Content("大甲鎮瀾宮", LightsString, name);
+
             //lightslist += GetLightsImg(LightsString, name);
 
             lightslist += "</li>";
@@ -411,6 +413,8 @@ namespace Temple
             lightslist += addData_Content("金額", cost.ToString());
             lightslist += addData_Content("狀態", Status2String(int.Parse(AppStatus)));
             lightslist += addData_Content("受理日期", ChargeDate);
+
+            lightslist += addLightImg2_Content("新港奉天宮", LightsString, name);
 
             lightslist += "</li>";
 
@@ -461,6 +465,8 @@ namespace Temple
             lightslist += addData_Content("受理日期", ChargeDate);
             lightslist += addData_Content("備註", Remark.Replace("\n", "<br>").Replace(" ", "").Replace("\t", "").Replace("\r", ""));
 
+            lightslist += addLightImg2_Content("北港武德宮", LightsString, name);
+
             lightslist += "</li>";
 
             return lightslist;
@@ -496,6 +502,8 @@ namespace Temple
             lightslist += addData_Content("金額", cost.ToString());
             lightslist += addData_Content("狀態", Status2String(int.Parse(AppStatus)));
             lightslist += addData_Content("受理日期", ChargeDate);
+
+            lightslist += addLightImg2_Content("西螺福興宮", LightsString, name);
 
             lightslist += "</li>";
 
@@ -567,6 +575,8 @@ namespace Temple
             lightslist += addData_Content("狀態", Status2String(int.Parse(AppStatus)));
             lightslist += addData_Content("受理日期", ChargeDate);
 
+            lightslist += addLightImg2_Content("台南正統鹿耳門聖母廟", LightsString, name);
+
             lightslist += "</li>";
 
             return lightslist;
@@ -602,6 +612,8 @@ namespace Temple
             lightslist += addData_Content("金額", cost.ToString());
             lightslist += addData_Content("狀態", Status2String(int.Parse(AppStatus)));
             lightslist += addData_Content("受理日期", ChargeDate);
+
+            lightslist += addLightImg2_Content("桃園威天宮", LightsString, name);
 
             lightslist += "</li>";
 
@@ -640,6 +652,8 @@ namespace Temple
             lightslist += addData_Content("金額", cost.ToString());
             lightslist += addData_Content("狀態", Status2String(int.Parse(AppStatus)));
             lightslist += addData_Content("受理日期", ChargeDate);
+
+            lightslist += addLightImg2_Content("桃園威天宮", LightsString, name);
 
             lightslist += "</li>";
 
@@ -689,6 +703,8 @@ namespace Temple
             lightslist += addData_Content("金額", cost.ToString());
             lightslist += addData_Content("狀態", Status2String(int.Parse(AppStatus)));
             lightslist += addData_Content("受理日期", ChargeDate);
+
+            lightslist += addLightImg2_Content("斗六五路財神宮", LightsString, name);
 
             lightslist += "</li>";
 
@@ -775,6 +791,8 @@ namespace Temple
             lightslist += addData_Content("狀態", Status2String(int.Parse(AppStatus)));
             lightslist += addData_Content("受理日期", ChargeDate);
 
+            lightslist += addLightImg2_Content("台東東海龍門天聖宮", LightsString, name);
+
             lightslist += "</li>";
 
             return lightslist;
@@ -810,6 +828,8 @@ namespace Temple
             lightslist += addData_Content("金額", cost.ToString());
             lightslist += addData_Content("狀態", Status2String(int.Parse(AppStatus)));
             lightslist += addData_Content("受理日期", ChargeDate);
+
+            lightslist += addLightImg2_Content("五股賀聖宮", LightsString, name);
 
             lightslist += "</li>";
 
@@ -860,6 +880,8 @@ namespace Temple
             lightslist += addData_Content("狀態", Status2String(int.Parse(AppStatus)));
             lightslist += addData_Content("受理日期", ChargeDate);
 
+            lightslist += addLightImg2_Content("鹿港城隍廟", LightsString, name);
+
             lightslist += "</li>";
 
             return lightslist;
@@ -898,6 +920,8 @@ namespace Temple
             lightslist += addData_Content("金額", cost.ToString());
             lightslist += addData_Content("狀態", Status2String(int.Parse(AppStatus)));
             lightslist += addData_Content("受理日期", ChargeDate);
+
+            lightslist += addLightImg2_Content("玉敕大樹朝天宮", LightsString, Name);
 
             lightslist += "</li>";
 
@@ -976,6 +1000,8 @@ namespace Temple
             lightslist += addData_Content("金額", cost.ToString());
             lightslist += addData_Content("狀態", Status2String(int.Parse(AppStatus)));
             lightslist += addData_Content("受理日期", ChargeDate);
+
+            lightslist += addLightImg2_Content("台灣道教總廟無極三清總道院", LightsString, Name);
 
             lightslist += "</li>";
 
@@ -1060,6 +1086,119 @@ namespace Temple
             return lightslist;
         }
 
+        public static string add_Blessing_st_blessed(
+            string AppName, 
+            string AppMobile, 
+            string AppEmail, 
+            string Name, 
+            string Mobile,
+            string Sex,
+            string Birth,
+            string LeapMonth,
+            string BirthTime,
+            string Count, 
+            string Address, 
+            int numZampBlessed, 
+            string AppStatus, 
+            string Num2String, 
+            string BlessingType, 
+            string BlessingString, 
+            string ChargeDate, 
+            ref int total)
+        {
+            string lightslist = string.Empty;
+            int cost = GetBlessingCost(35, BlessingType);
+
+            cost = cost * int.Parse(Count);
+
+            total += cost;
+
+            lightslist = "<li>";
+
+            if (AppName != "" && AppMobile != "")
+            {
+                lightslist += addData_Content("購買人姓名", AppName);
+                lightslist += addData_Content("購買人電話", AppMobile);
+                lightslist += addData_Content("購買人信箱", AppEmail);
+            }
+
+
+            lightslist += addData_Content("宮廟名稱", "松柏嶺受天宮");
+            lightslist += addData_Content("訂單編號", Num2String);
+            lightslist += addData_Content("祈福人姓名", Name);
+            lightslist += addData_Content("祈福人電話", Mobile);
+            lightslist += addData_Content("祈福人性別", Sex);
+            lightslist += addData_Content("農曆生日", Birth + (LeapMonth == "Y" ? " 閏月" : ""));
+            lightslist += addData_Content("農曆時辰", BirthTime);
+            lightslist += addData_Content("祈福人地址", Address);
+            lightslist += addData_Content("服務項目", BlessingString);
+
+            lightslist += addData_Content("金額", cost.ToString());
+            lightslist += addData_Content("狀態", Status2String(int.Parse(AppStatus)));
+            lightslist += addData_Content("受理日期", ChargeDate);
+
+            lightslist += "</li>";
+
+            return lightslist;
+        }
+
+        public static string add_QnLight_ty_blessed(
+            string AppName,
+            string AppMobile,
+            string AppsBirth,
+            string AppEmail,
+            string AppAddress,
+            string Name,
+            string Mobile,
+            string sBirth,
+            string Count,
+            string Address,
+            string Remark,
+            int numZampBlessed,
+            string AppStatus,
+            string Num2String,
+            string QnLightType,
+            string QnLightString,
+            string ChargeDate,
+            ref int total)
+        {
+            string lightslist = string.Empty;
+            int cost = GetQnLightCost(14, QnLightType);
+
+            cost = cost * int.Parse(Count);
+
+            total += cost;
+
+            lightslist = "<li>";
+
+            if (AppName != "" && AppMobile != "")
+            {
+                lightslist += addData_Content("購買人姓名", AppName);
+                lightslist += addData_Content("購買人電話", AppMobile);
+                lightslist += addData_Content("購買人信箱", AppEmail);
+                lightslist += addData_Content("國曆生日", sBirth);
+                lightslist += addData_Content("購買人地址", AppAddress);
+            }
+
+
+            lightslist += addData_Content("宮廟名稱", "桃園威天宮");
+            lightslist += addData_Content("訂單編號", Num2String);
+            lightslist += addData_Content("祈福人姓名", Name);
+            lightslist += addData_Content("祈福人電話", Mobile);
+            lightslist += addData_Content("國曆生日", sBirth);
+            lightslist += addData_Content("祈福人地址", Address);
+            lightslist += addData_Content("服務項目", QnLightString);
+
+            lightslist += addData_Content("金額", cost.ToString());
+            lightslist += addData_Content("狀態", Status2String(int.Parse(AppStatus)));
+            lightslist += addData_Content("受理日期", ChargeDate);
+            lightslist += addData_Content("備註", Remark.Replace("\n", "<br>").Replace(" ", "").Replace("\t", "").Replace("\r", ""));
+
+            lightslist += "</li>";
+
+            return lightslist;
+        }
+
         public static string add_Lights_ld_blessed(string AppName, string AppMobile, string Name, string Mobile, string Sex, string Birth, string LeapMonth, string BirthTime,
             string Email, string Count, string Address, int numZampBlessed, string AppStatus, string Num2String, string LightsType, string LightsString, string ChargeDate, ref int total)
         {
@@ -1093,6 +1232,252 @@ namespace Temple
             lightslist += addData_Content("金額", cost.ToString());
             lightslist += addData_Content("狀態", Status2String(int.Parse(AppStatus)));
             lightslist += addData_Content("受理日期", ChargeDate);
+
+            lightslist += addLightImg2_Content("桃園龍德宮", LightsString, Name);
+
+            lightslist += "</li>";
+
+            return lightslist;
+        }
+
+        public static string add_Lights_wh_blessed(string AppName, string AppMobile, string Name, string Mobile, string Sex, string Birth, string LeapMonth, string BirthTime,
+            string Email, string Count, string Address, int numZampBlessed, string AppStatus, string Num2String, string LightsType, string LightsString, string ChargeDate, ref int total)
+        {
+            string lightslist = string.Empty;
+            int cost = GetLightsCost(34, LightsType);
+
+            cost = cost * int.Parse(Count);
+
+            total += cost;
+
+            lightslist = "<li>";
+
+            if (AppName != "" && AppMobile != "")
+            {
+                lightslist += addData_Content("購買人姓名", AppName);
+                lightslist += addData_Content("購買人電話", AppMobile);
+            }
+
+
+            lightslist += addData_Content("宮廟名稱", "基隆悟玄宮");
+            lightslist += addData_Content("訂單編號", Num2String);
+            lightslist += addData_Content("祈福人姓名", Name);
+            lightslist += addData_Content("祈福人電話", Mobile);
+            lightslist += addData_Content("祈福人性別", Sex);
+            lightslist += addData_Content("農曆生日", Birth + (LeapMonth == "Y" ? " 閏月" : ""));
+            lightslist += addData_Content("農曆時辰", BirthTime);
+            lightslist += addData_Content("祈福人Email", Email);
+            lightslist += addData_Content("祈福人地址", Address);
+            lightslist += addData_Content("服務項目", LightsString);
+
+            lightslist += addData_Content("金額", cost.ToString());
+            lightslist += addData_Content("狀態", Status2String(int.Parse(AppStatus)));
+            lightslist += addData_Content("受理日期", ChargeDate);
+
+            lightslist += "</li>";
+
+            return lightslist;
+        }
+
+        public static string add_Lights_st_blessed(string AppName, string AppMobile, string Name, string Mobile, string Sex, string Birth, string LeapMonth, string BirthTime,
+            string Email, string Count, string Address, int numZampBlessed, string AppStatus, string Num2String, string LightsType, string LightsString, string ChargeDate, ref int total)
+        {
+            string lightslist = string.Empty;
+            int cost = GetLightsCost(35, LightsType);
+
+            cost = cost * int.Parse(Count);
+
+            total += cost;
+
+            lightslist = "<li>";
+
+            if (AppName != "" && AppMobile != "")
+            {
+                lightslist += addData_Content("購買人姓名", AppName);
+                lightslist += addData_Content("購買人電話", AppMobile);
+            }
+
+
+            lightslist += addData_Content("宮廟名稱", "松柏嶺受天宮");
+            lightslist += addData_Content("訂單編號", Num2String);
+            lightslist += addData_Content("祈福人姓名", Name);
+            lightslist += addData_Content("祈福人電話", Mobile);
+            lightslist += addData_Content("祈福人性別", Sex);
+            lightslist += addData_Content("農曆生日", Birth + (LeapMonth == "Y" ? " 閏月" : ""));
+            lightslist += addData_Content("農曆時辰", BirthTime);
+            lightslist += addData_Content("祈福人Email", Email);
+            lightslist += addData_Content("祈福人地址", Address);
+            lightslist += addData_Content("服務項目", LightsString);
+
+            lightslist += addData_Content("金額", cost.ToString());
+            lightslist += addData_Content("狀態", Status2String(int.Parse(AppStatus)));
+            lightslist += addData_Content("受理日期", ChargeDate);
+
+            lightslist += addLightImg2_Content("松柏嶺受天宮", LightsString, Name);
+
+            lightslist += "</li>";
+
+            return lightslist;
+        }
+
+        public static string add_Lights_bj_blessed(string AppName, string AppMobile, string Name, string Mobile, string Sex, string Birth, string LeapMonth, string BirthTime,
+            string Email, string Count, string Address, int numZampBlessed, string AppStatus, string Num2String, string LightsType, string LightsString, string ChargeDate, ref int total)
+        {
+            string lightslist = string.Empty;
+            int cost = GetLightsCost(38, LightsType);
+
+            cost = cost * int.Parse(Count);
+
+            total += cost;
+
+            lightslist = "<li>";
+
+            if (AppName != "" && AppMobile != "")
+            {
+                lightslist += addData_Content("購買人姓名", AppName);
+                lightslist += addData_Content("購買人電話", AppMobile);
+            }
+
+
+            lightslist += addData_Content("宮廟名稱", "池上北極玄天宮");
+            lightslist += addData_Content("訂單編號", Num2String);
+            lightslist += addData_Content("祈福人姓名", Name);
+            lightslist += addData_Content("祈福人電話", Mobile);
+            lightslist += addData_Content("祈福人性別", Sex);
+            lightslist += addData_Content("農曆生日", Birth + (LeapMonth == "Y" ? " 閏月" : ""));
+            lightslist += addData_Content("農曆時辰", BirthTime);
+            lightslist += addData_Content("祈福人Email", Email);
+            lightslist += addData_Content("祈福人地址", Address);
+            lightslist += addData_Content("服務項目", LightsString);
+
+            lightslist += addData_Content("金額", cost.ToString());
+            lightslist += addData_Content("狀態", Status2String(int.Parse(AppStatus)));
+            lightslist += addData_Content("受理日期", ChargeDate);
+
+            lightslist += addLightImg2_Content("池上北極玄天宮", LightsString, Name);
+
+            lightslist += "</li>";
+
+            return lightslist;
+        }
+
+        public static string add_Lights_sbbt_blessed(string AppName, string AppMobile, string Name, string Mobile, string Sex, string Birth, string LeapMonth, string BirthTime,
+            string Email, string Count, string Address, int numZampBlessed, string AppStatus, string Num2String, string LightsType, string LightsString, string ChargeDate, ref int total)
+        {
+            string lightslist = string.Empty;
+            int cost = GetLightsCost(39, LightsType);
+
+            cost = cost * int.Parse(Count);
+
+            total += cost;
+
+            lightslist = "<li>";
+
+            if (AppName != "" && AppMobile != "")
+            {
+                lightslist += addData_Content("購買人姓名", AppName);
+                lightslist += addData_Content("購買人電話", AppMobile);
+            }
+
+
+            lightslist += addData_Content("宮廟名稱", "慈惠石壁部堂");
+            lightslist += addData_Content("訂單編號", Num2String);
+            lightslist += addData_Content("祈福人姓名", Name);
+            lightslist += addData_Content("祈福人電話", Mobile);
+            lightslist += addData_Content("祈福人性別", Sex);
+            lightslist += addData_Content("農曆生日", Birth + (LeapMonth == "Y" ? " 閏月" : ""));
+            lightslist += addData_Content("農曆時辰", BirthTime);
+            lightslist += addData_Content("祈福人Email", Email);
+            lightslist += addData_Content("祈福人地址", Address);
+            lightslist += addData_Content("服務項目", LightsString);
+
+            lightslist += addData_Content("金額", cost.ToString());
+            lightslist += addData_Content("狀態", Status2String(int.Parse(AppStatus)));
+            lightslist += addData_Content("受理日期", ChargeDate);
+
+            lightslist += addLightImg2_Content("慈惠石壁部堂", LightsString, Name);
+
+            lightslist += "</li>";
+
+            return lightslist;
+        }
+
+        public static string add_Lights_bpy_blessed(string AppName, string AppMobile, string Name, string Mobile, string Sex, string Birth, string LeapMonth, string BirthTime,
+            string Email, string Count, string Address, int numZampBlessed, string AppStatus, string Num2String, string LightsType, string LightsString, string ChargeDate, ref int total)
+        {
+            string lightslist = string.Empty;
+            int cost = GetLightsCost(40, LightsType);
+
+            cost = cost * int.Parse(Count);
+
+            total += cost;
+
+            lightslist = "<li>";
+
+            if (AppName != "" && AppMobile != "")
+            {
+                lightslist += addData_Content("購買人姓名", AppName);
+                lightslist += addData_Content("購買人電話", AppMobile);
+            }
+
+
+            lightslist += addData_Content("宮廟名稱", "真武山受玄宮");
+            lightslist += addData_Content("訂單編號", Num2String);
+            lightslist += addData_Content("祈福人姓名", Name);
+            lightslist += addData_Content("祈福人電話", Mobile);
+            lightslist += addData_Content("祈福人性別", Sex);
+            lightslist += addData_Content("農曆生日", Birth + (LeapMonth == "Y" ? " 閏月" : ""));
+            lightslist += addData_Content("農曆時辰", BirthTime);
+            lightslist += addData_Content("祈福人Email", Email);
+            lightslist += addData_Content("祈福人地址", Address);
+            lightslist += addData_Content("服務項目", LightsString);
+
+            lightslist += addData_Content("金額", cost.ToString());
+            lightslist += addData_Content("狀態", Status2String(int.Parse(AppStatus)));
+            lightslist += addData_Content("受理日期", ChargeDate);
+
+            lightslist += addLightImg2_Content("松柏嶺受天宮", LightsString, Name);
+
+            lightslist += "</li>";
+
+            return lightslist;
+        }
+
+        public static string add_Lights_ssy_blessed(string AppName, string AppMobile, string Name, string Mobile, string Sex, string Birth, string LeapMonth, string BirthTime,
+            string Email, string Count, string Address, int numZampBlessed, string AppStatus, string Num2String, string LightsType, string LightsString, string ChargeDate, ref int total)
+        {
+            string lightslist = string.Empty;
+            int cost = GetLightsCost(35, LightsType);
+
+            cost = cost * int.Parse(Count);
+
+            total += cost;
+
+            lightslist = "<li>";
+
+            if (AppName != "" && AppMobile != "")
+            {
+                lightslist += addData_Content("購買人姓名", AppName);
+                lightslist += addData_Content("購買人電話", AppMobile);
+            }
+
+
+            lightslist += addData_Content("宮廟名稱", "松柏嶺受天宮");
+            lightslist += addData_Content("訂單編號", Num2String);
+            lightslist += addData_Content("祈福人姓名", Name);
+            lightslist += addData_Content("祈福人電話", Mobile);
+            lightslist += addData_Content("祈福人性別", Sex);
+            lightslist += addData_Content("農曆生日", Birth + (LeapMonth == "Y" ? " 閏月" : ""));
+            lightslist += addData_Content("農曆時辰", BirthTime);
+            lightslist += addData_Content("祈福人Email", Email);
+            lightslist += addData_Content("祈福人地址", Address);
+            lightslist += addData_Content("服務項目", LightsString);
+
+            lightslist += addData_Content("金額", cost.ToString());
+            lightslist += addData_Content("狀態", Status2String(int.Parse(AppStatus)));
+            lightslist += addData_Content("受理日期", ChargeDate);
+
+            lightslist += addLightImg2_Content("松柏嶺受天宮", LightsString, Name);
 
             lightslist += "</li>";
 
@@ -2270,6 +2655,104 @@ namespace Temple
             return Purduelist;
         }
 
+        public static string add_Purdue_wjsan_blessed(string AppName, string AppMobile, string AppEmail, string Name, string Mobile, string Sex, string Birth, string LeapMonth,
+            string BirthTime, string PurdueType, string PurdueString, string Count, string Address, int numZampBlessed, string AppStatus, string Num2String, string ChargeDate, 
+            ref int total)
+        {
+            string Purduelist = string.Empty;
+
+            int cost = 0;
+
+            switch (PurdueType)
+            {
+                default:
+                    cost = 1500 * int.Parse(Count);
+                    break;
+            }
+
+            total += cost;
+
+            Purduelist = "<li>";
+
+            if (AppName != "" && AppMobile != "")
+            {
+                Purduelist += addData_Content("購買人姓名", AppName);
+                Purduelist += addData_Content("購買人電話", AppMobile);
+            }
+
+            if (AppEmail != "")
+            {
+                Purduelist += addData_Content("購買人信箱", AppEmail);
+            }
+
+            Purduelist += addData_Content("宮廟名稱", "台灣道教總廟無極三清總道院");
+            Purduelist += addData_Content("訂單編號", Num2String);
+            Purduelist += addData_Content("普度項目", PurdueString);
+
+            Purduelist += addData_Content("祈福人姓名", Name);
+            Purduelist += addData_Content("祈福人電話", Mobile);
+            Purduelist += addData_Content("性別", Sex);
+            Purduelist += addData_Content("農曆生日", Birth + (LeapMonth == "Y" ? " 閏月" : ""));
+            Purduelist += addData_Content("農曆時辰", BirthTime);
+            Purduelist += addData_Content("祈福人地址", Address);
+            Purduelist += addData_Content("金額", cost.ToString());
+            Purduelist += addData_Content("狀態", Status2String(int.Parse(AppStatus)));
+            Purduelist += addData_Content("受理日期", ChargeDate);
+
+            Purduelist += "</li>";
+
+            return Purduelist;
+        }
+
+        public static string add_Purdue_ld_blessed(string AppName, string AppMobile, string Name, string Mobile, string Sex, string Birth, string LeapMonth, string BirthTime, 
+            string PurdueType, string PurdueString, string Count, string GoldPaperCount, string Address, string FirstName, string DeathName, string CompanyName, string PetName, 
+            string PetType, string PetDeathday, int numZampBlessed, string AppStatus, string Num2String, string ChargeDate, ref int total)
+        {
+            string Purduelist = string.Empty;
+
+            int cost = 0;
+
+            switch (PurdueType)
+            {
+                default:
+                    cost = 1500 * int.Parse(Count);
+                    break;
+            }
+
+            total += cost;
+
+            Purduelist = "<li>";
+
+            if (AppName != "" && AppMobile != "")
+            {
+                Purduelist += addData_Content("購買人姓名", AppName);
+                Purduelist += addData_Content("購買人電話", AppMobile);
+            }
+
+            //if (AppEmail != "")
+            //{
+            //    Purduelist += addData_Content("購買人信箱", AppEmail);
+            //}
+
+            Purduelist += addData_Content("宮廟名稱", "桃園龍德宮");
+            Purduelist += addData_Content("訂單編號", Num2String);
+            Purduelist += addData_Content("普度項目", PurdueString);
+
+            Purduelist += addData_Content("祈福人姓名", Name);
+            Purduelist += addData_Content("祈福人電話", Mobile);
+            Purduelist += addData_Content("性別", Sex);
+            Purduelist += addData_Content("農曆生日", Birth + (LeapMonth == "Y" ? " 閏月" : ""));
+            Purduelist += addData_Content("農曆時辰", BirthTime);
+            Purduelist += addData_Content("祈福人地址", Address);
+            Purduelist += addData_Content("金額", cost.ToString());
+            Purduelist += addData_Content("狀態", Status2String(int.Parse(AppStatus)));
+            Purduelist += addData_Content("受理日期", ChargeDate);
+
+            Purduelist += "</li>";
+
+            return Purduelist;
+        }
+
         //public static string add_product_blessed(int applicantID, int adminID, string num2string, string name, string Mobile, string address, string zipcodes, int numproductBlessed, string productname, string ItemName, string Count, string cost, int status)
         //{
         //    string productlist = string.Empty;
@@ -2724,6 +3207,44 @@ namespace Temple
             return lightslist;
         }
 
+        public static string add_Supplies_wh_blessed(string AppName, string AppMobile, string AppBirth, string AppLeapMonth, string AppBirthTime, string AppEmail, string AppAddress, 
+            string AppRemark, string Name, string Mobile, string Birth, string LeapMonth, string BirthTime, string address, string SuppliesType, int numZampBlessed, 
+            string AppStatus, string Num2String, string ChargeDate, string SuppliesString, ref int total)
+        {
+            string lightslist = string.Empty;
+            int cost = GetSuppliesCost(34, SuppliesType);
+
+            total += cost;
+
+            lightslist = "<li>";
+
+            if (AppName != "" && AppMobile != "")
+            {
+                lightslist += addData_Content("購買人姓名", AppName);
+                lightslist += addData_Content("購買人電話", AppMobile);
+                lightslist += addData_Content("購買人農曆生日", AppBirth + (AppLeapMonth == "Y" ? " 閏月" : ""));
+                lightslist += addData_Content("購買人農曆時辰", AppBirthTime);
+                lightslist += addData_Content("購買人信箱", AppEmail);
+                lightslist += addData_Content("購買人地址", AppAddress);
+            }
+
+            lightslist += addData_Content("宮廟名稱", "基隆悟玄宮");
+            lightslist += addData_Content("訂單編號", Num2String);
+            lightslist += addData_Content("祈福人姓名", Name);
+            lightslist += addData_Content("祈福人電話", Mobile);
+            lightslist += addData_Content("農曆生日", Birth + (LeapMonth == "Y" ? " 閏月" : ""));
+            lightslist += addData_Content("農曆時辰", BirthTime);
+            lightslist += addData_Content("祈福人地址", address);
+            lightslist += addData_Content("服務項目", SuppliesString);
+            lightslist += addData_Content("金額", cost.ToString());
+            lightslist += addData_Content("狀態", Status2String(int.Parse(AppStatus)));
+            lightslist += addData_Content("受理日期", ChargeDate);
+
+            lightslist += "</li>";
+
+            return lightslist;
+        }
+
         public static string add_Supplies_blessed(int AdminID, string AppName, string AppMobile, string AppEmail, string name, string Mobile, string Num2String, string ChargeDate, 
             string SuppliesType, string SuppliesString, string Sex, string Birth, string LeapMonth, string BirthTime, string Homenum, string Email, string address, string zipCode, 
             int numZampBlessed, string AppStatus, string Count, string Remark, ref int total)
@@ -2944,7 +3465,7 @@ namespace Temple
             string LybcType, int numZampBlessed, string AppStatus, string Num2String, string ChargeDate, string LybcString, ref int total)
         {
             string lightslist = string.Empty;
-            int cost = GetLybcCost(LybcType, 16);
+            int cost = GetLybcCost(16, LybcType);
 
             total += cost;
 
@@ -3156,6 +3677,33 @@ namespace Temple
             return result;
         }
 
+        public static string addLightImg_Content(string LightString, string Name)
+        {
+            string result = string.Empty;
+
+            if (!string.IsNullOrWhiteSpace(Name) && 
+                !string.IsNullOrWhiteSpace(LightString))
+            {
+                result = $"<div class=\"lights\"><div><span class=\"lightsType\">{LightString}<br />{Name}</span><img src=\"images/lights.png?t=77777\" alt=\"\" ><div class=\"Light2 Light\"><img src=\"images/lights_Light.png?t=77777\" alt=\"\"></div></div></div>";
+            }
+
+            return result;
+        }
+
+        public static string addLightImg2_Content(string TempleName, string LightString, string Name)
+        {
+            string result = string.Empty;
+
+            if (!string.IsNullOrWhiteSpace(TempleName) &&
+                !string.IsNullOrWhiteSpace(Name) &&
+                !string.IsNullOrWhiteSpace(LightString))
+            {
+                result = $"<div class=\"lights2\"><div><span class=\"lightsType\">{TempleName}<br />{LightString}<br />{Name}</span><img src=\"images/lights2.png?t=77777\" alt= \"\" ><div class=\"Light2 Light\"><img src=\"images/lights2_Light.png?t=77777\" alt=\"\"></div></div></div>";
+            }
+    
+            return result;
+        }
+
         public static void TabletChecked(string purdueItem, string deathName, string firstName, string momName, string lastName, string reason, string licenseNum, 
             string deathaddress, string purdueItem1, string deathName1, string firstName1, string momName1, string lastName1, string reason1, string licenseNum1, 
             string deathaddress1, ref string Purduelist)
@@ -3271,7 +3819,7 @@ namespace Temple
                 string Datalist = string.Empty;
                 int Total = 0;
                 string Year = dtNow.Year.ToString();
-                string[] Yearlist = { "2025", "2024" };
+                string[] Yearlist = { "2026", "2025" };
 
                 LightDAC objLightDAC = new LightDAC(basePage);
                 DataTable dtAdminID = new DataTable();
@@ -3293,114 +3841,18 @@ namespace Temple
                                 if (adminID > 0)
                                 {
                                     //點燈服務
-                                    //Year = "2024";
-                                    //dtapplecantinfo = objLightDAC.Getapplicantinfo_LightsInfo(m_Mobile, adminID);
-                                    //switch (adminID)
+                                    GetLightsInfo(basePage, dtapplecantinfo, m_Name, m_Mobile, adminID, Yearlist[y], ref Datalist, ref Total);
+                                    //if (adminID > 0 && adminID == 14)
                                     //{
-                                    //    //case 10:
-                                    //    //    //台南正統鹿耳門聖母廟 l=1:一般點燈 l=2:月老姻緣燈 l=3:月老姻緣燈-台哥大專屬
-                                    //    //    for (int l = 1; l < 3; l++)
-                                    //    //    {
-                                    //    //        dtapplecantinfo = objLightDAC.Getapplicantinfo_LightsInfo(m_Name, m_Mobile, adminID, l, Year);
-                                    //    //    }
-                                    //    //    break;
-                                    //    //case 14:
-                                    //    //    //桃園威天宮 l=1:一般點燈 l=2:孝親祈福燈
-                                    //    //    for (int l = 1; l < 3; l++)
-                                    //    //    {
-                                    //    //        dtapplecantinfo = objLightDAC.Getapplicantinfo_LightsInfo(m_Name, m_Mobile, adminID, l, Year);
-                                    //    //        if (dtapplecantinfo.Rows.Count > 0)
-                                    //    //        {
-                                    //    //            for (int i = 0; i < dtapplecantinfo.Rows.Count; i++)
-                                    //    //            {
-                                    //    //                string LightsType = dtapplecantinfo.Rows[i]["LightsType"].ToString();
-
-                                    //    //                if (LightsType == "21")
-                                    //    //                {
-                                    //    //                    string AppName = UtilDataMask.MaskName(dtapplecantinfo.Rows[i]["AppName"].ToString());
-                                    //    //                    string AppMobile = UtilDataMask.MaskMobile(dtapplecantinfo.Rows[i]["AppMobile"].ToString(), 5, 3);
-                                    //    //                    string AppBirth = dtapplecantinfo.Rows[i]["AppBirth"].ToString();
-                                    //    //                    string AppLeapMonth = dtapplecantinfo.Rows[i]["AppLeapMonth"].ToString();
-                                    //    //                    string AppBirthTime = dtapplecantinfo.Rows[i]["AppBirthTime"].ToString();
-                                    //    //                    string AppAddress = UtilDataMask.MaskTWAddr(dtapplecantinfo.Rows[i]["AppAddress"].ToString());
-                                    //    //                    string AppZipCode = dtapplecantinfo.Rows[i]["AppZipCode"].ToString();
-                                    //    //                    string Name = UtilDataMask.MaskName(dtapplecantinfo.Rows[i]["Name"].ToString());
-                                    //    //                    string Mobile = UtilDataMask.MaskMobile(dtapplecantinfo.Rows[i]["Mobile"].ToString(), 5, 3);
-                                    //    //                    string Address = UtilDataMask.MaskTWAddr(dtapplecantinfo.Rows[i]["Address"].ToString());
-                                    //    //                    string ZipCode = dtapplecantinfo.Rows[i]["ZipCode"].ToString();
-                                    //    //                    string Birth = dtapplecantinfo.Rows[i]["Birth"].ToString();
-                                    //    //                    string LeapMonth = dtapplecantinfo.Rows[i]["LeapMonth"].ToString();
-                                    //    //                    string BirthTime = dtapplecantinfo.Rows[i]["BirthTime"].ToString();
-                                    //    //                    string AppStatus = dtapplecantinfo.Rows[i]["AppStatus"].ToString();
-                                    //    //                    string Num2String = dtapplecantinfo.Rows[i]["Num2String"].ToString();
-                                    //    //                    string LightsString = dtapplecantinfo.Rows[i]["LightsString"].ToString();
-                                    //    //                    string Count = dtapplecantinfo.Rows[i]["Count"].ToString();
-                                    //    //                    Datalist += add_Lights_ty_mom_blessed(AppName, AppMobile, AppBirth, AppLeapMonth, AppBirthTime, AppZipCode, AppAddress, Name, Mobile, Birth, LeapMonth, BirthTime, ZipCode, Address, LightsType, i, AppStatus, Num2String, LightsString, ref Total);
-                                    //    //                }
-                                    //    //                else
-                                    //    //                {
-                                    //    //                    string AppName = UtilDataMask.MaskName(dtapplecantinfo.Rows[i]["AppName"].ToString());
-                                    //    //                    string AppMobile = UtilDataMask.MaskMobile(dtapplecantinfo.Rows[i]["AppMobile"].ToString(), 5, 3);
-                                    //    //                    string Name = UtilDataMask.MaskName(dtapplecantinfo.Rows[i]["Name"].ToString());
-                                    //    //                    string Mobile = UtilDataMask.MaskMobile(dtapplecantinfo.Rows[i]["Mobile"].ToString(), 5, 3);
-                                    //    //                    string Count = dtapplecantinfo.Rows[i]["Count"].ToString();
-                                    //    //                    string Address = UtilDataMask.MaskTWAddr(dtapplecantinfo.Rows[i]["Address"].ToString());
-                                    //    //                    string ZipCode = dtapplecantinfo.Rows[i]["ZipCode"].ToString();
-                                    //    //                    string Birth = dtapplecantinfo.Rows[i]["Birth"].ToString();
-                                    //    //                    string LeapMonth = dtapplecantinfo.Rows[i]["LeapMonth"].ToString();
-                                    //    //                    string AppStatus = dtapplecantinfo.Rows[i]["AppStatus"].ToString();
-                                    //    //                    string Num2String = dtapplecantinfo.Rows[i]["Num2String"].ToString();
-                                    //    //                    string LightsString = dtapplecantinfo.Rows[i]["LightsString"].ToString();
-                                    //    //                    Datalist += add_Lights_ty_blessed(AppName, AppMobile, Name, Count, Mobile, Address, Birth, LeapMonth, ZipCode, LightsType, i, AppStatus, Num2String, LightsString, ref Total);
-                                    //    //                }
-
-                                    //    //            }
-                                    //    //        }
-                                    //    //    }
-                                    //    //    break;
-                                    //    default:
-                                    //        //bool checkedyear = false;
-                                    //        //string[] yearlist = { "2025", "2024" };
-                                    //        //string startDate = "2024/11/01 00:00:00";
-                                    //        //int ijj = DateTime.Compare(DateTime.Parse(startDate), dtNow);
-                                    //        //if (DateTime.Compare(DateTime.Parse(startDate), dtNow) < 0 || basePage.Request["ad"] == "2")
-                                    //        //{
-                                    //        //    checkedyear = true;
-                                    //        //}
-
-                                    //        //if (checkedyear)
-                                    //        //{
-                                    //        //    for (int i = 0; i < yearlist.Length; i++)
-                                    //        //    {
-                                    //        //        GetLightsInfo(basePage, dtapplecantinfo, m_Name, m_Mobile, adminID, yearlist[i], ref Datalist, ref Total);
-                                    //        //    }
-                                    //        //}
-                                    //        //else
-                                    //        //{
-                                    //        //    GetLightsInfo(basePage, dtapplecantinfo, m_Name, m_Mobile, adminID, Year, ref Datalist, ref Total);
-                                    //        //}
-                                    //        break;
+                                    //    GetLightsInfo(basePage, dtapplecantinfo, m_Name, m_Mobile, 1, adminID, Yearlist[y], ref Datalist, ref Total);
+                                    //    GetLightsInfo(basePage, dtapplecantinfo, m_Name, m_Mobile, 2, adminID, Yearlist[y], ref Datalist, ref Total);
                                     //}
-
-                                    if (adminID > 0 && adminID == 14)
-                                    {
-                                        GetLightsInfo(basePage, dtapplecantinfo, m_Name, m_Mobile, 1, adminID, Yearlist[y], ref Datalist, ref Total);
-                                        GetLightsInfo(basePage, dtapplecantinfo, m_Name, m_Mobile, 2, adminID, Yearlist[y], ref Datalist, ref Total);
-                                    }
-                                    else
-                                    {
-                                        GetLightsInfo(basePage, dtapplecantinfo, m_Name, m_Mobile, 1, adminID, Yearlist[y], ref Datalist, ref Total);
-                                    }
 
                                     //安斗服務
                                     GetAnDouInfo(basePage, dtapplecantinfo, m_Name, m_Mobile, 1, adminID, Yearlist[y], ref Datalist, ref Total);
 
                                     //普度服務
                                     GetPurdueInfo(basePage, dtapplecantinfo, m_Name, m_Mobile, adminID, Yearlist[y], ref Datalist, ref Total);
-                                    //for (int i = 0; i < Yearlist.Length; i++)
-                                    //{
-                                    //    GetPurdueInfo(basePage, dtapplecantinfo, m_Name, m_Mobile, adminID, Yearlist[i], ref Datalist, ref Total);
-                                    //}
 
                                     //下元補庫-北港武德宮
                                     GetSuppliesInfo(basePage, dtapplecantinfo, m_Name, m_Mobile, adminID, 1, Yearlist[y], ref Datalist, ref Total);
@@ -3409,47 +3861,12 @@ namespace Temple
                                     GetSuppliesInfo(basePage, dtapplecantinfo, m_Name, m_Mobile, adminID, 2, Yearlist[y], ref Datalist, ref Total);
 
                                     //企業補財庫-北港武德宮
-                                    //for (int i = 0; i < Yearlist.Length; i++)
-                                    //{
-                                    //    GetSuppliesInfo(basePage, dtapplecantinfo, m_Name, m_Mobile, adminID, 3, Yearlist[i], ref Datalist, ref Total);
-                                    //}
                                     GetSuppliesInfo(basePage, dtapplecantinfo, m_Name, m_Mobile, adminID, 3, Yearlist[y], ref Datalist, ref Total);
 
                                     //補財庫服務 (天赦日補運)
-                                    //dtapplecantinfo = objLightDAC.Getapplicantinfo_Supplies_ty(m_Name, m_Mobile, adminID, 2);
-                                    //dtapplecantinfo = objLightDAC.Getapplicantinfo_SuppliesInfo(m_Name, m_Mobile, adminID, 4, Yearlist[y]);
-                                    //dtapplecantinfo = objLightDAC.Getapplicantinfo_Supplies_tyfromNum2String(m_Num2String, adminID, 1, Year);
-                                    //if (dtapplecantinfo.Rows.Count > 0)
-                                    //{
-                                    //    //桃園威天宮
-                                    //    for (int i = 0; i < dtapplecantinfo.Rows.Count; i++)
-                                    //    {
-                                    //        string AppName = UtilDataMask.MaskName(dtapplecantinfo.Rows[i]["AppName"].ToString());
-                                    //        string AppMobile = UtilDataMask.MaskMobile(dtapplecantinfo.Rows[i]["AppMobile"].ToString(), 5, 3);
-                                    //        string AppsBirth = dtapplecantinfo.Rows[i]["AppsBirth"].ToString();
-                                    //        string AppAddress = UtilDataMask.MaskTWAddr(dtapplecantinfo.Rows[i]["AppAddress"].ToString());
-                                    //        string Name = UtilDataMask.MaskName(dtapplecantinfo.Rows[i]["Name"].ToString());
-                                    //        string Mobile = UtilDataMask.MaskMobile(dtapplecantinfo.Rows[i]["Mobile"].ToString(), 5, 3);
-                                    //        string Address = UtilDataMask.MaskTWAddr(dtapplecantinfo.Rows[i]["Address"].ToString());
-                                    //        string Birth = dtapplecantinfo.Rows[i]["Birth"].ToString();
-                                    //        string AppStatus = dtapplecantinfo.Rows[i]["AppStatus"].ToString();
-                                    //        string Num2String = dtapplecantinfo.Rows[i]["Num2String"].ToString();
-                                    //        string SuppliesType = dtapplecantinfo.Rows[i]["SuppliesType"].ToString();
-                                    //        string SuppliesString = dtapplecantinfo.Rows[i]["SuppliesString"].ToString();
-                                    //        string Count = dtapplecantinfo.Rows[i]["Count"].ToString();
-                                    //        string ChargeDate = dtapplecantinfo.Rows[i]["ChargeDateString"].ToString();
-
-                                    //        if (Yearlist[])
-                                    //        Datalist += add_Supplies_ty_blessed(AppName, AppMobile, AppsBirth, AppAddress, Name, Mobile, Birth, LeapMonth, BirthTime, ZipCode, Address, SuppliesType, i, AppStatus, Num2String, ChargeDate, SuppliesString, ref Total);
-                                    //    }
-                                    //}
                                     GetSuppliesInfo(basePage, dtapplecantinfo, m_Name, m_Mobile, adminID, 4, Yearlist[y], ref Datalist, ref Total);
 
                                     //法會服務 (天赦日祭改)
-                                    //for (int i = 0; i < Yearlist.Length; i++)
-                                    //{
-                                    //    GetSuppliesInfo(basePage, dtapplecantinfo, m_Name, m_Mobile, adminID, 5, Yearlist[i], ref Datalist, ref Total);
-                                    //}
                                     GetSuppliesInfo(basePage, dtapplecantinfo, m_Name, m_Mobile, adminID, 5, Yearlist[y], ref Datalist, ref Total);
 
                                     //關聖帝君聖誕
@@ -3612,7 +4029,7 @@ namespace Temple
                                     }
 
                                     //護國息災梁皇大法會
-                                    dtapplecantinfo = objLightDAC.Getapplicantinfo_Lybc(m_Name, m_Mobile, adminID, Yearlist[y]);
+                                    dtapplecantinfo = objLightDAC.Getapplicantinfo_LybcInfo(m_Name, m_Mobile, adminID, Yearlist[y]);
                                     if (dtapplecantinfo.Rows.Count > 0)
                                     {
                                         //大甲鎮瀾宮
@@ -3734,7 +4151,7 @@ namespace Temple
                                     }
 
                                     //補財庫服務 (天公生招財補運)
-                                    dtapplecantinfo = objLightDAC.Getapplicantinfo_SuppliesInfo(m_Name, m_Mobile, adminID, 18, Yearlist[y]);
+                                    dtapplecantinfo = objLightDAC.Getapplicantinfo_SuppliesInfo(m_Name, m_Mobile, adminID, 20, Yearlist[y]);
                                     if (dtapplecantinfo.Rows.Count > 0)
                                     {
                                         //桃園威天宮
@@ -3765,7 +4182,7 @@ namespace Temple
                                     }
 
                                     //供香轉運服務
-                                    dtapplecantinfo = objLightDAC.Getapplicantinfo_SuppliesInfo(m_Name, m_Mobile, adminID, 121, Yearlist[y]);
+                                    dtapplecantinfo = objLightDAC.Getapplicantinfo_SuppliesInfo(m_Name, m_Mobile, adminID, 231, Yearlist[y]);
                                     if (dtapplecantinfo.Rows.Count > 0)
                                     {
                                         //神霄玉府財神會館
@@ -3797,6 +4214,55 @@ namespace Temple
 
                                     //供花供果服務
                                     GetHuaguoInfo(basePage, dtapplecantinfo, m_Name, m_Mobile, 1, adminID, Yearlist[y], ref Datalist, ref Total);
+
+                                    //孝親祈福燈
+                                    GetLightsInfo_mom(
+                                        basePage,
+                                        dtapplecantinfo,
+                                        m_Name,
+                                        m_Mobile,
+                                        adminID,
+                                        Yearlist[y],
+                                        ref Datalist,
+                                        ref Total);
+
+                                    //祈安植福服務
+                                    GetBlessingInfo(basePage, dtapplecantinfo, m_Name, m_Mobile, 1, adminID, Yearlist[y], ref Datalist, ref Total);
+
+                                    //祈安禮斗運服務
+                                    dtapplecantinfo = objLightDAC.Getapplicantinfo_SuppliesInfo(m_Name, m_Mobile, adminID, 29, Yearlist[y]);
+                                    if (dtapplecantinfo.Rows.Count > 0)
+                                    {
+                                        //基隆悟玄宮
+                                        for (int i = 0; i < dtapplecantinfo.Rows.Count; i++)
+                                        {
+                                            string AppName = UtilDataMask.MaskName(dtapplecantinfo.Rows[i]["AppName"].ToString());
+                                            string AppMobile = UtilDataMask.MaskMobile(dtapplecantinfo.Rows[i]["AppMobile"].ToString(), 5, 3);
+                                            string AppBirth = dtapplecantinfo.Rows[i]["AppBirth"].ToString();
+                                            string AppLeapMonth = dtapplecantinfo.Rows[i]["AppLeapMonth"].ToString();
+                                            string AppBirthTime = dtapplecantinfo.Rows[i]["AppBirthTime"].ToString();
+                                            string AppEmail = dtapplecantinfo.Rows[i]["AppEmail"].ToString();
+                                            string AppAddress = UtilDataMask.MaskTWAddr(dtapplecantinfo.Rows[i]["AppAddress"].ToString());
+                                            string Name = UtilDataMask.MaskName(dtapplecantinfo.Rows[i]["Name"].ToString());
+                                            string Mobile = UtilDataMask.MaskMobile(dtapplecantinfo.Rows[i]["Mobile"].ToString(), 5, 3);
+                                            string Birth = dtapplecantinfo.Rows[i]["Birth"].ToString();
+                                            string LeapMonth = dtapplecantinfo.Rows[i]["LeapMonth"].ToString();
+                                            string BirthTime = dtapplecantinfo.Rows[i]["BirthTime"].ToString();
+                                            string Address = UtilDataMask.MaskTWAddr(dtapplecantinfo.Rows[i]["Address"].ToString());
+                                            string AppRemark = dtapplecantinfo.Rows[i]["AppRemark"].ToString().Replace("\n", "<br>").Replace(" ", "").Replace("\t", "").Replace("\r", "");
+                                            string AppStatus = dtapplecantinfo.Rows[i]["AppStatus"].ToString();
+                                            string Num2String = dtapplecantinfo.Rows[i]["Num2String"].ToString();
+                                            string SuppliesType = dtapplecantinfo.Rows[i]["SuppliesType"].ToString();
+                                            string SuppliesString = dtapplecantinfo.Rows[i]["SuppliesString"].ToString();
+                                            string Count = dtapplecantinfo.Rows[i]["Count"].ToString();
+                                            string ChargeDate = dtapplecantinfo.Rows[i]["ChargeDateString"].ToString();
+                                            Datalist += add_Supplies_wh_blessed(AppName, AppMobile, AppBirth, AppLeapMonth, AppBirthTime, AppEmail, AppAddress, AppRemark, Name, Mobile, Birth, LeapMonth, BirthTime, Address, SuppliesType, i, AppStatus,
+                                                Num2String, ChargeDate, SuppliesString, ref Total);
+                                        }
+                                    }
+
+                                    //千手觀音千燈迎佛法會
+                                    GetQnLightInfo(basePage, dtapplecantinfo, m_Name, m_Mobile, 1, adminID, Yearlist[y], ref Datalist, ref Total);
                                 }
                             }
                         }
@@ -3840,12 +4306,563 @@ namespace Temple
             }
         }
 
-        protected static void GetLightsInfo(BasePage basePage, DataTable dtapplecantinfo, string m_Name, string m_Mobile, int type, int adminID, string Year, ref string Datalist, 
+        //protected static void GetLightsInfo(BasePage basePage, DataTable dtapplecantinfo, string m_Name, string m_Mobile, int type, int adminID, string Year, ref string Datalist, 
+        //    ref int Total)
+        //{
+        //    LightDAC objLightDAC = new LightDAC(basePage);
+
+        //    dtapplecantinfo = objLightDAC.Getapplicantinfo_LightsInfo(m_Name, m_Mobile, type, adminID, Year);
+        //    //dtapplecantinfo = objLightDAC.Getapplicantinfo_LightsInfofromNum2String(m_Num2String, adminID);
+        //    if (dtapplecantinfo.Rows.Count > 0)
+        //    {
+        //        switch (adminID)
+        //        {
+        //            case 3:
+        //                //大甲鎮瀾宮
+        //                for (int i = 0; i < dtapplecantinfo.Rows.Count; i++)
+        //                {
+        //                    string AppName = UtilDataMask.MaskName(dtapplecantinfo.Rows[i]["AppName"].ToString());
+        //                    string AppMobile = UtilDataMask.MaskMobile(dtapplecantinfo.Rows[i]["AppMobile"].ToString(), 5, 3);
+        //                    string Name = UtilDataMask.MaskName(dtapplecantinfo.Rows[i]["Name"].ToString());
+        //                    string Mobile = UtilDataMask.MaskMobile(dtapplecantinfo.Rows[i]["Mobile"].ToString(), 5, 3);
+        //                    string Count = dtapplecantinfo.Rows[i]["Count"].ToString();
+        //                    string Address = UtilDataMask.MaskTWAddr(dtapplecantinfo.Rows[i]["Address"].ToString());
+        //                    string ZipCode = dtapplecantinfo.Rows[i]["ZipCode"].ToString();
+        //                    string Birth = dtapplecantinfo.Rows[i]["Birth"].ToString();
+        //                    string LeapMonth = dtapplecantinfo.Rows[i]["LeapMonth"].ToString();
+        //                    string BirthTime = dtapplecantinfo.Rows[i]["BirthTime"].ToString() != "" ? dtapplecantinfo.Rows[i]["BirthTime"].ToString() : "吉";
+        //                    string AppStatus = dtapplecantinfo.Rows[i]["AppStatus"].ToString();
+        //                    string Num2String = dtapplecantinfo.Rows[i]["Num2String"].ToString();
+        //                    string LightsType = dtapplecantinfo.Rows[i]["LightsType"].ToString();
+        //                    string LightsString = dtapplecantinfo.Rows[i]["LightsString"].ToString();
+        //                    string discountType = dtapplecantinfo.Rows[i]["DiscountType"].ToString();
+        //                    string ChargeDate = dtapplecantinfo.Rows[i]["ChargeDateString"].ToString();
+        //                    Datalist += add_Lights_da_blessed(AppName, AppMobile, Name, Count, Mobile, Address, Birth, LeapMonth, BirthTime, ZipCode, LightsType, i,
+        //                        AppStatus, Num2String, LightsString, ChargeDate, discountType, ref Total);
+        //                }
+        //                break;
+        //            case 4:
+        //                //新港奉天宮
+        //                for (int i = 0; i < dtapplecantinfo.Rows.Count; i++)
+        //                {
+        //                    string AppName = UtilDataMask.MaskName(dtapplecantinfo.Rows[i]["AppName"].ToString());
+        //                    string AppMobile = UtilDataMask.MaskMobile(dtapplecantinfo.Rows[i]["AppMobile"].ToString(), 5, 3);
+        //                    string Name = UtilDataMask.MaskName(dtapplecantinfo.Rows[i]["Name"].ToString());
+        //                    string Mobile = UtilDataMask.MaskMobile(dtapplecantinfo.Rows[i]["Mobile"].ToString(), 5, 3);
+        //                    string Count = dtapplecantinfo.Rows[i]["Count"].ToString();
+        //                    string Address = UtilDataMask.MaskTWAddr(dtapplecantinfo.Rows[i]["Address"].ToString());
+        //                    string ZipCode = dtapplecantinfo.Rows[i]["ZipCode"].ToString();
+        //                    string Birth = dtapplecantinfo.Rows[i]["Birth"].ToString();
+        //                    string LeapMonth = dtapplecantinfo.Rows[i]["LeapMonth"].ToString();
+        //                    string BirthTime = dtapplecantinfo.Rows[i]["BirthTime"].ToString() != "" ? dtapplecantinfo.Rows[i]["BirthTime"].ToString() : "吉";
+        //                    string AppStatus = dtapplecantinfo.Rows[i]["AppStatus"].ToString();
+        //                    string Num2String = dtapplecantinfo.Rows[i]["Num2String"].ToString();
+        //                    string LightsType = dtapplecantinfo.Rows[i]["LightsType"].ToString();
+        //                    string LightsString = dtapplecantinfo.Rows[i]["LightsString"].ToString();
+        //                    string ChargeDate = dtapplecantinfo.Rows[i]["ChargeDateString"].ToString();
+        //                    Datalist += add_Lights_h_blessed(AppName, AppMobile, Name, Count, Mobile, Address, Birth, LeapMonth, BirthTime, ZipCode, LightsType, i,
+        //                        AppStatus, Num2String, LightsString, ChargeDate, ref Total);
+        //                }
+        //                break;
+        //            case 6:
+        //                //北港武德宮
+        //                for (int i = 0; i < dtapplecantinfo.Rows.Count; i++)
+        //                {
+        //                    string AppName = UtilDataMask.MaskName(dtapplecantinfo.Rows[i]["AppName"].ToString());
+        //                    string AppMobile = UtilDataMask.MaskMobile(dtapplecantinfo.Rows[i]["AppMobile"].ToString(), 5, 3);
+        //                    string Name = UtilDataMask.MaskName(dtapplecantinfo.Rows[i]["Name"].ToString());
+        //                    string Homenum = dtapplecantinfo.Rows[i]["Homenum"].ToString();
+        //                    string Sex = dtapplecantinfo.Rows[i]["Sex"].ToString();
+        //                    string Count = dtapplecantinfo.Rows[i]["Count"].ToString();
+        //                    string Remark = dtapplecantinfo.Rows[i]["Remark"].ToString();
+        //                    string Mobile = UtilDataMask.MaskMobile(dtapplecantinfo.Rows[i]["Mobile"].ToString(), 5, 3);
+        //                    string Address = UtilDataMask.MaskTWAddr(dtapplecantinfo.Rows[i]["Address"].ToString());
+        //                    string ZipCode = dtapplecantinfo.Rows[i]["ZipCode"].ToString();
+        //                    string Birth = dtapplecantinfo.Rows[i]["Birth"].ToString();
+        //                    string LeapMonth = dtapplecantinfo.Rows[i]["LeapMonth"].ToString();
+        //                    string BirthTime = dtapplecantinfo.Rows[i]["BirthTime"].ToString() != "" ? dtapplecantinfo.Rows[i]["BirthTime"].ToString() : "吉";
+        //                    string Email = dtapplecantinfo.Rows[i]["Email"].ToString();
+        //                    string AppStatus = dtapplecantinfo.Rows[i]["AppStatus"].ToString();
+        //                    string Num2String = dtapplecantinfo.Rows[i]["Num2String"].ToString();
+        //                    string LightsType = dtapplecantinfo.Rows[i]["LightsType"].ToString();
+        //                    string LightsString = dtapplecantinfo.Rows[i]["LightsString"].ToString();
+        //                    string ChargeDate = dtapplecantinfo.Rows[i]["ChargeDateString"].ToString();
+        //                    Datalist += add_Lights_wu_blessed(AppName, AppMobile, Name, Homenum, Sex, Count, Remark, Mobile, Address, Birth, LeapMonth,
+        //                        BirthTime, Email, ZipCode, LightsType, i, AppStatus, Num2String, LightsString, ChargeDate, ref Total);
+        //                }
+        //                break;
+        //            case 8:
+        //                //西螺福興宮
+        //                for (int i = 0; i < dtapplecantinfo.Rows.Count; i++)
+        //                {
+        //                    string AppName = UtilDataMask.MaskName(dtapplecantinfo.Rows[i]["AppName"].ToString());
+        //                    string AppMobile = UtilDataMask.MaskMobile(dtapplecantinfo.Rows[i]["AppMobile"].ToString(), 5, 3);
+        //                    string Name = UtilDataMask.MaskName(dtapplecantinfo.Rows[i]["Name"].ToString());
+        //                    string Mobile = UtilDataMask.MaskMobile(dtapplecantinfo.Rows[i]["Mobile"].ToString(), 5, 3);
+        //                    string Count = dtapplecantinfo.Rows[i]["Count"].ToString();
+        //                    string Address = UtilDataMask.MaskTWAddr(dtapplecantinfo.Rows[i]["Address"].ToString());
+        //                    string ZipCode = dtapplecantinfo.Rows[i]["ZipCode"].ToString();
+        //                    string Birth = dtapplecantinfo.Rows[i]["Birth"].ToString();
+        //                    string LeapMonth = dtapplecantinfo.Rows[i]["LeapMonth"].ToString();
+        //                    string BirthTime = dtapplecantinfo.Rows[i]["BirthTime"].ToString() != "" ? dtapplecantinfo.Rows[i]["BirthTime"].ToString() : "吉";
+        //                    string AppStatus = dtapplecantinfo.Rows[i]["AppStatus"].ToString();
+        //                    string Num2String = dtapplecantinfo.Rows[i]["Num2String"].ToString();
+        //                    string LightsType = dtapplecantinfo.Rows[i]["LightsType"].ToString();
+        //                    string LightsString = dtapplecantinfo.Rows[i]["LightsString"].ToString();
+        //                    string ChargeDate = dtapplecantinfo.Rows[i]["ChargeDateString"].ToString();
+        //                    Datalist += add_Lights_Fu_blessed(AppName, AppMobile, Name, Count, Mobile, Address, Birth, LeapMonth, BirthTime, ZipCode, LightsType, i,
+        //                        AppStatus, Num2String, LightsString, ChargeDate, ref Total);
+        //                }
+        //                break;
+        //            case 10:
+        //                //台南正統鹿耳門聖母廟
+        //                for (int i = 0; i < dtapplecantinfo.Rows.Count; i++)
+        //                {
+        //                    string AppName = UtilDataMask.MaskName(dtapplecantinfo.Rows[i]["AppName"].ToString());
+        //                    string AppMobile = UtilDataMask.MaskMobile(dtapplecantinfo.Rows[i]["AppMobile"].ToString(), 5, 3);
+        //                    string Name = UtilDataMask.MaskName(dtapplecantinfo.Rows[i]["Name"].ToString());
+        //                    string Count = dtapplecantinfo.Rows[i]["Count"].ToString();
+        //                    string Mobile = UtilDataMask.MaskMobile(dtapplecantinfo.Rows[i]["Mobile"].ToString(), 5, 3);
+        //                    string Address = UtilDataMask.MaskTWAddr(dtapplecantinfo.Rows[i]["Address"].ToString());
+        //                    string ZipCode = dtapplecantinfo.Rows[i]["ZipCode"].ToString();
+        //                    string Birth = dtapplecantinfo.Rows[i]["Birth"].ToString();
+        //                    string LeapMonth = dtapplecantinfo.Rows[i]["LeapMonth"].ToString();
+        //                    string BirthTime = dtapplecantinfo.Rows[i]["BirthTime"].ToString() != "" ? dtapplecantinfo.Rows[i]["BirthTime"].ToString() : "吉";
+        //                    string AppStatus = dtapplecantinfo.Rows[i]["AppStatus"].ToString();
+        //                    string Num2String = dtapplecantinfo.Rows[i]["Num2String"].ToString();
+        //                    string LightsType = dtapplecantinfo.Rows[i]["LightsType"].ToString();
+        //                    string LightsString = dtapplecantinfo.Rows[i]["LightsString"].ToString();
+        //                    string PetName = dtapplecantinfo.Rows[i]["PetName"].ToString();
+        //                    string PetType = dtapplecantinfo.Rows[i]["PetType"].ToString();
+        //                    string Msg = dtapplecantinfo.Rows[i]["Msg"].ToString();
+        //                    string ChargeDate = dtapplecantinfo.Rows[i]["ChargeDateString"].ToString();
+        //                    Datalist += add_Lights_Luer_blessed(AppName, AppMobile, Name, Count, Mobile, Address, Birth, LeapMonth, BirthTime, ZipCode,
+        //                        LightsType, i, AppStatus, Num2String, LightsString, ChargeDate, PetName, PetType, Msg, ref Total);
+        //                }
+        //                break;
+        //            case 14:
+        //                //桃園威天宮
+        //                for (int i = 0; i < dtapplecantinfo.Rows.Count; i++)
+        //                {
+        //                    string LightsType = dtapplecantinfo.Rows[i]["LightsType"].ToString();
+
+        //                    if (LightsType == "21")
+        //                    {
+        //                        string AppName = UtilDataMask.MaskName(dtapplecantinfo.Rows[i]["AppName"].ToString());
+        //                        string AppMobile = UtilDataMask.MaskMobile(dtapplecantinfo.Rows[i]["AppMobile"].ToString(), 5, 3);
+        //                        string AppBirth = dtapplecantinfo.Rows[i]["AppBirth"].ToString();
+        //                        string AppLeapMonth = dtapplecantinfo.Rows[i]["AppLeapMonth"].ToString();
+        //                        string AppBirthTime = dtapplecantinfo.Rows[i]["AppBirthTime"].ToString();
+        //                        string AppAddress = UtilDataMask.MaskTWAddr(dtapplecantinfo.Rows[i]["AppAddress"].ToString());
+        //                        string AppZipCode = dtapplecantinfo.Rows[i]["AppZipCode"].ToString();
+        //                        string Name = UtilDataMask.MaskName(dtapplecantinfo.Rows[i]["Name"].ToString());
+        //                        string Mobile = UtilDataMask.MaskMobile(dtapplecantinfo.Rows[i]["Mobile"].ToString(), 5, 3);
+        //                        string Address = UtilDataMask.MaskTWAddr(dtapplecantinfo.Rows[i]["Address"].ToString());
+        //                        string ZipCode = dtapplecantinfo.Rows[i]["ZipCode"].ToString();
+        //                        string Birth = dtapplecantinfo.Rows[i]["Birth"].ToString();
+        //                        string LeapMonth = dtapplecantinfo.Rows[i]["LeapMonth"].ToString();
+        //                        string BirthTime = dtapplecantinfo.Rows[i]["BirthTime"].ToString() != "" ? dtapplecantinfo.Rows[i]["BirthTime"].ToString() : "吉";
+        //                        string AppStatus = dtapplecantinfo.Rows[i]["AppStatus"].ToString();
+        //                        string Num2String = dtapplecantinfo.Rows[i]["Num2String"].ToString();
+        //                        string LightsString = dtapplecantinfo.Rows[i]["LightsString"].ToString();
+        //                        string Count = dtapplecantinfo.Rows[i]["Count"].ToString();
+        //                        string ChargeDate = dtapplecantinfo.Rows[i]["ChargeDateString"].ToString();
+        //                        Datalist += add_Lights_ty_mom_blessed(AppName, AppMobile, AppBirth, AppLeapMonth, AppBirthTime, AppZipCode, AppAddress,
+        //                            Name, Mobile, Birth, LeapMonth, BirthTime, ZipCode, Address, LightsType, i, AppStatus, Num2String, LightsString, ChargeDate,
+        //                            ref Total);
+        //                    }
+        //                    else
+        //                    {
+        //                        string AppName = UtilDataMask.MaskName(dtapplecantinfo.Rows[i]["AppName"].ToString());
+        //                        string AppMobile = UtilDataMask.MaskMobile(dtapplecantinfo.Rows[i]["AppMobile"].ToString(), 5, 3);
+        //                        string Name = UtilDataMask.MaskName(dtapplecantinfo.Rows[i]["Name"].ToString());
+        //                        string Mobile = UtilDataMask.MaskMobile(dtapplecantinfo.Rows[i]["Mobile"].ToString(), 5, 3);
+        //                        string Count = dtapplecantinfo.Rows[i]["Count"].ToString();
+        //                        string Address = UtilDataMask.MaskTWAddr(dtapplecantinfo.Rows[i]["Address"].ToString());
+        //                        string ZipCode = dtapplecantinfo.Rows[i]["ZipCode"].ToString();
+        //                        string Birth = dtapplecantinfo.Rows[i]["Birth"].ToString();
+        //                        string LeapMonth = dtapplecantinfo.Rows[i]["LeapMonth"].ToString();
+        //                        string BirthTime = dtapplecantinfo.Rows[i]["BirthTime"].ToString() != "" ? dtapplecantinfo.Rows[i]["BirthTime"].ToString() : "吉";
+        //                        string AppStatus = dtapplecantinfo.Rows[i]["AppStatus"].ToString();
+        //                        string Num2String = dtapplecantinfo.Rows[i]["Num2String"].ToString();
+        //                        string LightsString = dtapplecantinfo.Rows[i]["LightsString"].ToString();
+        //                        string ChargeDate = dtapplecantinfo.Rows[i]["ChargeDateString"].ToString();
+        //                        Datalist += add_Lights_ty_blessed(AppName, AppMobile, Name, Count, Mobile, Address, Birth, LeapMonth, BirthTime, ZipCode, LightsType,
+        //                            i, AppStatus, Num2String, LightsString, ChargeDate, ref Total);
+        //                    }
+
+        //                }
+        //                //for (int i = 0; i < dtapplecantinfo.Rows.Count; i++)
+        //                //{
+        //                //    string AppName = UtilDataMask.MaskName(dtapplecantinfo.Rows[i]["AppName"].ToString());
+        //                //    string AppMobile = UtilDataMask.MaskMobile(dtapplecantinfo.Rows[i]["AppMobile"].ToString(), 5, 3);
+        //                //    string Name = UtilDataMask.MaskName(dtapplecantinfo.Rows[i]["Name"].ToString());
+        //                //    string Mobile = UtilDataMask.MaskMobile(dtapplecantinfo.Rows[i]["Mobile"].ToString(), 5, 3);
+        //                //    string Count = dtapplecantinfo.Rows[i]["Count"].ToString();
+        //                //    string Address = UtilDataMask.MaskTWAddr(dtapplecantinfo.Rows[i]["Address"].ToString());
+        //                //    string ZipCode = dtapplecantinfo.Rows[i]["ZipCode"].ToString();
+        //                //    string Birth = dtapplecantinfo.Rows[i]["Birth"].ToString();
+        //                //    string LeapMonth = dtapplecantinfo.Rows[i]["LeapMonth"].ToString();
+        //                //string BirthTime = dtapplecantinfo.Rows[i]["BirthTime"].ToString() != "" ? dtapplecantinfo.Rows[i]["BirthTime"].ToString() : "吉";
+        //                //    string AppStatus = dtapplecantinfo.Rows[i]["AppStatus"].ToString();
+        //                //    string Num2String = dtapplecantinfo.Rows[i]["Num2String"].ToString();
+        //                //    string LightsType = dtapplecantinfo.Rows[i]["LightsType"].ToString();
+        //                //    string LightsString = dtapplecantinfo.Rows[i]["LightsString"].ToString();
+        //                //    Datalist += add_Lights_ty_blessed(AppName, AppMobile, Name, Count, Mobile, Address, Birth, LeapMonth, BirthTime, ZipCode, LightsType, i,
+        //                //    AppStatus, Num2String, LightsString, ChargeDate, ref Total);
+        //                //}
+        //                break;
+        //            case 15:
+        //                //斗六五路財神宮
+        //                for (int i = 0; i < dtapplecantinfo.Rows.Count; i++)
+        //                {
+        //                    string AppName = UtilDataMask.MaskName(dtapplecantinfo.Rows[i]["AppName"].ToString());
+        //                    string AppMobile = UtilDataMask.MaskMobile(dtapplecantinfo.Rows[i]["AppMobile"].ToString(), 5, 3);
+        //                    string Name = UtilDataMask.MaskName(dtapplecantinfo.Rows[i]["Name"].ToString());
+        //                    string Mobile = UtilDataMask.MaskMobile(dtapplecantinfo.Rows[i]["Mobile"].ToString(), 5, 3);
+        //                    string Count = dtapplecantinfo.Rows[i]["Count"].ToString();
+        //                    string Address = UtilDataMask.MaskTWAddr(dtapplecantinfo.Rows[i]["Address"].ToString());
+        //                    string ZipCode = dtapplecantinfo.Rows[i]["ZipCode"].ToString();
+        //                    string Birth = dtapplecantinfo.Rows[i]["Birth"].ToString();
+        //                    string LeapMonth = dtapplecantinfo.Rows[i]["LeapMonth"].ToString();
+        //                    string BirthTime = dtapplecantinfo.Rows[i]["BirthTime"].ToString() != "" ? dtapplecantinfo.Rows[i]["BirthTime"].ToString() : "吉";
+        //                    string AppStatus = dtapplecantinfo.Rows[i]["AppStatus"].ToString();
+        //                    string Num2String = dtapplecantinfo.Rows[i]["Num2String"].ToString();
+        //                    string LightsType = dtapplecantinfo.Rows[i]["LightsType"].ToString();
+        //                    string LightsString = dtapplecantinfo.Rows[i]["LightsString"].ToString();
+        //                    string PetName = dtapplecantinfo.Rows[i]["PetName"].ToString();
+        //                    string PetType = dtapplecantinfo.Rows[i]["PetType"].ToString();
+        //                    string ChargeDate = dtapplecantinfo.Rows[i]["ChargeDateString"].ToString();
+        //                    Datalist += add_Lights_Fw_blessed(AppName, AppMobile, Name, Count, Mobile, Address, Birth, LeapMonth, BirthTime, ZipCode, LightsType, i,
+        //                        AppStatus, Num2String, LightsString, ChargeDate, PetName, PetType, ref Total);
+        //                }
+        //                break;
+        //            case 16:
+        //                //台東東海龍門天聖宮
+        //                for (int i = 0; i < dtapplecantinfo.Rows.Count; i++)
+        //                {
+        //                    string AppName = UtilDataMask.MaskName(dtapplecantinfo.Rows[i]["AppName"].ToString());
+        //                    string AppMobile = UtilDataMask.MaskMobile(dtapplecantinfo.Rows[i]["AppMobile"].ToString(), 5, 3);
+        //                    string Name = UtilDataMask.MaskName(dtapplecantinfo.Rows[i]["Name"].ToString());
+        //                    string Mobile = UtilDataMask.MaskMobile(dtapplecantinfo.Rows[i]["Mobile"].ToString(), 5, 3);
+        //                    string Count = dtapplecantinfo.Rows[i]["Count"].ToString();
+        //                    string Address = UtilDataMask.MaskTWAddr(dtapplecantinfo.Rows[i]["Address"].ToString());
+        //                    string ZipCode = dtapplecantinfo.Rows[i]["ZipCode"].ToString();
+        //                    string Birth = dtapplecantinfo.Rows[i]["Birth"].ToString();
+        //                    string LeapMonth = dtapplecantinfo.Rows[i]["LeapMonth"].ToString();
+        //                    string BirthTime = dtapplecantinfo.Rows[i]["BirthTime"].ToString() != "" ? dtapplecantinfo.Rows[i]["BirthTime"].ToString() : "吉";
+        //                    string AppStatus = dtapplecantinfo.Rows[i]["AppStatus"].ToString();
+        //                    string Num2String = dtapplecantinfo.Rows[i]["Num2String"].ToString();
+        //                    string LightsType = dtapplecantinfo.Rows[i]["LightsType"].ToString();
+        //                    string LightsString = dtapplecantinfo.Rows[i]["LightsString"].ToString();
+        //                    string ChargeDate = dtapplecantinfo.Rows[i]["ChargeDateString"].ToString();
+        //                    Datalist += add_Lights_dh_blessed(AppName, AppMobile, Name, Count, Mobile, Address, Birth, LeapMonth, BirthTime, ZipCode, LightsType, i,
+        //                        AppStatus, Num2String, LightsString, ChargeDate, ref Total);
+        //                }
+        //                break;
+        //            case 17:
+        //                //五股賀聖宮
+        //                for (int i = 0; i < dtapplecantinfo.Rows.Count; i++)
+        //                {
+        //                    string AppName = UtilDataMask.MaskName(dtapplecantinfo.Rows[i]["AppName"].ToString());
+        //                    string AppMobile = UtilDataMask.MaskMobile(dtapplecantinfo.Rows[i]["AppMobile"].ToString(), 5, 3);
+        //                    string Name = UtilDataMask.MaskName(dtapplecantinfo.Rows[i]["Name"].ToString());
+        //                    string Mobile = UtilDataMask.MaskMobile(dtapplecantinfo.Rows[i]["Mobile"].ToString(), 5, 3);
+        //                    string Count = dtapplecantinfo.Rows[i]["Count"].ToString();
+        //                    string Address = UtilDataMask.MaskTWAddr(dtapplecantinfo.Rows[i]["Address"].ToString());
+        //                    string ZipCode = dtapplecantinfo.Rows[i]["ZipCode"].ToString();
+        //                    string Birth = dtapplecantinfo.Rows[i]["Birth"].ToString();
+        //                    string LeapMonth = dtapplecantinfo.Rows[i]["LeapMonth"].ToString();
+        //                    string BirthTime = dtapplecantinfo.Rows[i]["BirthTime"].ToString() != "" ? dtapplecantinfo.Rows[i]["BirthTime"].ToString() : "吉";
+        //                    string AppStatus = dtapplecantinfo.Rows[i]["AppStatus"].ToString();
+        //                    string Num2String = dtapplecantinfo.Rows[i]["Num2String"].ToString();
+        //                    string LightsType = dtapplecantinfo.Rows[i]["LightsType"].ToString();
+        //                    string LightsString = dtapplecantinfo.Rows[i]["LightsString"].ToString();
+        //                    string ChargeDate = dtapplecantinfo.Rows[i]["ChargeDateString"].ToString();
+        //                    Datalist += add_Lights_Hs_blessed(AppName, AppMobile, Name, Count, Mobile, Address, Birth, LeapMonth, BirthTime, ZipCode, LightsType, i,
+        //                        AppStatus, Num2String, LightsString, ChargeDate, ref Total);
+        //                }
+        //                break;
+        //            case 21:
+        //                //鹿港城隍廟
+        //                for (int i = 0; i < dtapplecantinfo.Rows.Count; i++)
+        //                {
+        //                    string AppName = UtilDataMask.MaskName(dtapplecantinfo.Rows[i]["AppName"].ToString());
+        //                    string AppMobile = UtilDataMask.MaskMobile(dtapplecantinfo.Rows[i]["AppMobile"].ToString(), 5, 3);
+        //                    string Name = UtilDataMask.MaskName(dtapplecantinfo.Rows[i]["Name"].ToString());
+        //                    string Mobile = UtilDataMask.MaskMobile(dtapplecantinfo.Rows[i]["Mobile"].ToString(), 5, 3);
+        //                    string Count = dtapplecantinfo.Rows[i]["Count"].ToString();
+        //                    string ZipCode = dtapplecantinfo.Rows[i]["ZipCode"].ToString();
+        //                    string Address = UtilDataMask.MaskTWAddr(dtapplecantinfo.Rows[i]["Address"].ToString());
+        //                    string Sex = dtapplecantinfo.Rows[i]["Sex"].ToString();
+        //                    string HomeNum = dtapplecantinfo.Rows[i]["HomeNum"].ToString();
+        //                    string Birth = dtapplecantinfo.Rows[i]["Birth"].ToString();
+        //                    string LeapMonth = dtapplecantinfo.Rows[i]["LeapMonth"].ToString();
+        //                    string BirthTime = dtapplecantinfo.Rows[i]["BirthTime"].ToString() != "" ? dtapplecantinfo.Rows[i]["BirthTime"].ToString() : "吉";
+        //                    string AppStatus = dtapplecantinfo.Rows[i]["AppStatus"].ToString();
+        //                    string Num2String = dtapplecantinfo.Rows[i]["Num2String"].ToString();
+        //                    string LightsType = dtapplecantinfo.Rows[i]["LightsType"].ToString();
+        //                    string LightsString = dtapplecantinfo.Rows[i]["LightsString"].ToString();
+        //                    string Sendback = dtapplecantinfo.Rows[i]["AppSendback"].ToString();
+        //                    string rName = dtapplecantinfo.Rows[i]["ReceiptName"].ToString();
+        //                    string rMobile = UtilDataMask.MaskMobile(dtapplecantinfo.Rows[i]["ReceiptMobile"].ToString(), 5, 3);
+        //                    string rZipCode = "0";
+        //                    string rAddress = UtilDataMask.MaskTWAddr(dtapplecantinfo.Rows[i]["ApprAddress"].ToString());
+        //                    string ChargeDate = dtapplecantinfo.Rows[i]["ChargeDateString"].ToString();
+        //                    Datalist += add_Lights_Lk_blessed(AppName, AppMobile, Name, Count, Mobile, Sex, HomeNum, Address, Birth, LeapMonth, BirthTime, ZipCode,
+        //                        LightsType, i, AppStatus, Num2String, LightsString, ChargeDate, Sendback, rName, rMobile, rAddress, rZipCode, ref Total);
+        //                }
+        //                break;
+        //            case 23:
+        //                //玉敕大樹朝天宮
+        //                for (int i = 0; i < dtapplecantinfo.Rows.Count; i++)
+        //                {
+        //                    string AppName = UtilDataMask.MaskName(dtapplecantinfo.Rows[i]["AppName"].ToString());
+        //                    string AppMobile = UtilDataMask.MaskMobile(dtapplecantinfo.Rows[i]["AppMobile"].ToString(), 5, 3);
+        //                    string Name = UtilDataMask.MaskName(dtapplecantinfo.Rows[i]["Name"].ToString());
+        //                    string Mobile = UtilDataMask.MaskMobile(dtapplecantinfo.Rows[i]["Mobile"].ToString(), 5, 3);
+        //                    string Sex = dtapplecantinfo.Rows[i]["Sex"].ToString();
+        //                    string Birth = dtapplecantinfo.Rows[i]["Birth"].ToString();
+        //                    string LeapMonth = dtapplecantinfo.Rows[i]["LeapMonth"].ToString();
+        //                    string BirthTime = dtapplecantinfo.Rows[i]["BirthTime"].ToString() != "" ? dtapplecantinfo.Rows[i]["BirthTime"].ToString() : "吉";
+        //                    string Email = dtapplecantinfo.Rows[i]["Email"].ToString();
+        //                    string Count = dtapplecantinfo.Rows[i]["Count"].ToString();
+        //                    string Address = UtilDataMask.MaskTWAddr(dtapplecantinfo.Rows[i]["Address"].ToString());
+        //                    string AppStatus = dtapplecantinfo.Rows[i]["AppStatus"].ToString();
+        //                    string Num2String = dtapplecantinfo.Rows[i]["Num2String"].ToString();
+        //                    string LightsType = dtapplecantinfo.Rows[i]["LightsType"].ToString();
+        //                    string LightsString = dtapplecantinfo.Rows[i]["LightsString"].ToString();
+        //                    string ChargeDate = dtapplecantinfo.Rows[i]["ChargeDateString"].ToString();
+        //                    Datalist += add_Lights_ma_blessed(AppName, AppMobile, Name, Mobile, Sex, Birth, LeapMonth, BirthTime, Email, Count,
+        //                        Address, i, AppStatus, Num2String, LightsType, LightsString, ChargeDate, ref Total);
+        //                }
+        //                break;
+        //            case 29:
+        //                //進寶財神廟
+        //                for (int i = 0; i < dtapplecantinfo.Rows.Count; i++)
+        //                {
+        //                    string AppName = UtilDataMask.MaskName(dtapplecantinfo.Rows[i]["AppName"].ToString());
+        //                    string AppMobile = UtilDataMask.MaskMobile(dtapplecantinfo.Rows[i]["AppMobile"].ToString(), 5, 3);
+        //                    string Name = UtilDataMask.MaskName(dtapplecantinfo.Rows[i]["Name"].ToString());
+        //                    string Mobile = UtilDataMask.MaskMobile(dtapplecantinfo.Rows[i]["Mobile"].ToString(), 5, 3);
+        //                    string Sex = dtapplecantinfo.Rows[i]["Sex"].ToString();
+        //                    string Birth = dtapplecantinfo.Rows[i]["Birth"].ToString();
+        //                    string LeapMonth = dtapplecantinfo.Rows[i]["LeapMonth"].ToString();
+        //                    string BirthTime = dtapplecantinfo.Rows[i]["BirthTime"].ToString() != "" ? dtapplecantinfo.Rows[i]["BirthTime"].ToString() : "吉";
+        //                    string Email = dtapplecantinfo.Rows[i]["Email"].ToString();
+        //                    string Count = dtapplecantinfo.Rows[i]["Count"].ToString();
+        //                    string Address = UtilDataMask.MaskTWAddr(dtapplecantinfo.Rows[i]["Address"].ToString());
+        //                    string AppStatus = dtapplecantinfo.Rows[i]["AppStatus"].ToString();
+        //                    string Num2String = dtapplecantinfo.Rows[i]["Num2String"].ToString();
+        //                    string LightsType = dtapplecantinfo.Rows[i]["LightsType"].ToString();
+        //                    string LightsString = dtapplecantinfo.Rows[i]["LightsString"].ToString();
+        //                    string ChargeDate = dtapplecantinfo.Rows[i]["ChargeDateString"].ToString();
+        //                    Datalist += add_Lights_jb_blessed(AppName, AppMobile, Name, Mobile, Sex, Birth, LeapMonth, BirthTime, Email, Count,
+        //                        Address, i, AppStatus, Num2String, LightsType, LightsString, ChargeDate, ref Total);
+        //                }
+        //                break;
+        //            case 31:
+        //                //台灣道教總廟無極三清總道院
+        //                for (int i = 0; i < dtapplecantinfo.Rows.Count; i++)
+        //                {
+        //                    string AppName = UtilDataMask.MaskName(dtapplecantinfo.Rows[i]["AppName"].ToString());
+        //                    string AppMobile = UtilDataMask.MaskMobile(dtapplecantinfo.Rows[i]["AppMobile"].ToString(), 5, 3);
+        //                    string Name = UtilDataMask.MaskName(dtapplecantinfo.Rows[i]["Name"].ToString());
+        //                    string Mobile = UtilDataMask.MaskMobile(dtapplecantinfo.Rows[i]["Mobile"].ToString(), 5, 3);
+        //                    string Sex = dtapplecantinfo.Rows[i]["Sex"].ToString();
+        //                    string Birth = dtapplecantinfo.Rows[i]["Birth"].ToString();
+        //                    string LeapMonth = dtapplecantinfo.Rows[i]["LeapMonth"].ToString();
+        //                    string BirthTime = dtapplecantinfo.Rows[i]["BirthTime"].ToString() != "" ? dtapplecantinfo.Rows[i]["BirthTime"].ToString() : "吉";
+        //                    string Email = dtapplecantinfo.Rows[i]["Email"].ToString();
+        //                    string Count = dtapplecantinfo.Rows[i]["Count"].ToString();
+        //                    string Address = UtilDataMask.MaskTWAddr(dtapplecantinfo.Rows[i]["Address"].ToString());
+        //                    string AppStatus = dtapplecantinfo.Rows[i]["AppStatus"].ToString();
+        //                    string Num2String = dtapplecantinfo.Rows[i]["Num2String"].ToString();
+        //                    string LightsType = dtapplecantinfo.Rows[i]["LightsType"].ToString();
+        //                    string LightsString = dtapplecantinfo.Rows[i]["LightsString"].ToString();
+        //                    string ChargeDate = dtapplecantinfo.Rows[i]["ChargeDateString"].ToString();
+        //                    Datalist += add_Lights_wjsan_blessed(AppName, AppMobile, Name, Mobile, Sex, Birth, LeapMonth, BirthTime, Email, Count,
+        //                        Address, i, AppStatus, Num2String, LightsType, LightsString, ChargeDate, ref Total);
+        //                }
+        //                break;
+        //            case 32:
+        //                //桃園龍德宮
+        //                for (int i = 0; i < dtapplecantinfo.Rows.Count; i++)
+        //                {
+        //                    string AppName = UtilDataMask.MaskName(dtapplecantinfo.Rows[i]["AppName"].ToString());
+        //                    string AppMobile = UtilDataMask.MaskMobile(dtapplecantinfo.Rows[i]["AppMobile"].ToString(), 5, 3);
+        //                    string Name = UtilDataMask.MaskName(dtapplecantinfo.Rows[i]["Name"].ToString());
+        //                    string Mobile = UtilDataMask.MaskMobile(dtapplecantinfo.Rows[i]["Mobile"].ToString(), 5, 3);
+        //                    string Sex = dtapplecantinfo.Rows[i]["Sex"].ToString();
+        //                    string Birth = dtapplecantinfo.Rows[i]["Birth"].ToString();
+        //                    string LeapMonth = dtapplecantinfo.Rows[i]["LeapMonth"].ToString();
+        //                    string BirthTime = dtapplecantinfo.Rows[i]["BirthTime"].ToString() != "" ? dtapplecantinfo.Rows[i]["BirthTime"].ToString() : "吉";
+        //                    string Email = dtapplecantinfo.Rows[i]["Email"].ToString();
+        //                    string Count = dtapplecantinfo.Rows[i]["Count"].ToString();
+        //                    string Address = UtilDataMask.MaskTWAddr(dtapplecantinfo.Rows[i]["Address"].ToString());
+        //                    string AppStatus = dtapplecantinfo.Rows[i]["AppStatus"].ToString();
+        //                    string Num2String = dtapplecantinfo.Rows[i]["Num2String"].ToString();
+        //                    string LightsType = dtapplecantinfo.Rows[i]["LightsType"].ToString();
+        //                    string LightsString = dtapplecantinfo.Rows[i]["LightsString"].ToString();
+        //                    string ChargeDate = dtapplecantinfo.Rows[i]["ChargeDateString"].ToString();
+        //                    Datalist += add_Lights_ld_blessed(AppName, AppMobile, Name, Mobile, Sex, Birth, LeapMonth, BirthTime, Email, Count,
+        //                        Address, i, AppStatus, Num2String, LightsType, LightsString, ChargeDate, ref Total);
+        //                }
+        //                break;
+        //            case 34:
+        //                //基隆悟玄宮
+        //                for (int i = 0; i < dtapplecantinfo.Rows.Count; i++)
+        //                {
+        //                    string AppName = UtilDataMask.MaskName(dtapplecantinfo.Rows[i]["AppName"].ToString());
+        //                    string AppMobile = UtilDataMask.MaskMobile(dtapplecantinfo.Rows[i]["AppMobile"].ToString(), 5, 3);
+        //                    string Name = UtilDataMask.MaskName(dtapplecantinfo.Rows[i]["Name"].ToString());
+        //                    string Mobile = UtilDataMask.MaskMobile(dtapplecantinfo.Rows[i]["Mobile"].ToString(), 5, 3);
+        //                    string Sex = dtapplecantinfo.Rows[i]["Sex"].ToString();
+        //                    string Birth = dtapplecantinfo.Rows[i]["Birth"].ToString();
+        //                    string LeapMonth = dtapplecantinfo.Rows[i]["LeapMonth"].ToString();
+        //                    string BirthTime = dtapplecantinfo.Rows[i]["BirthTime"].ToString() != "" ? dtapplecantinfo.Rows[i]["BirthTime"].ToString() : "吉";
+        //                    string Email = dtapplecantinfo.Rows[i]["Email"].ToString();
+        //                    string Count = dtapplecantinfo.Rows[i]["Count"].ToString();
+        //                    string Address = UtilDataMask.MaskTWAddr(dtapplecantinfo.Rows[i]["Address"].ToString());
+        //                    string AppStatus = dtapplecantinfo.Rows[i]["AppStatus"].ToString();
+        //                    string Num2String = dtapplecantinfo.Rows[i]["Num2String"].ToString();
+        //                    string LightsType = dtapplecantinfo.Rows[i]["LightsType"].ToString();
+        //                    string LightsString = dtapplecantinfo.Rows[i]["LightsString"].ToString();
+        //                    string ChargeDate = dtapplecantinfo.Rows[i]["ChargeDateString"].ToString();
+        //                    Datalist += add_Lights_wh_blessed(AppName, AppMobile, Name, Mobile, Sex, Birth, LeapMonth, BirthTime, Email, Count,
+        //                        Address, i, AppStatus, Num2String, LightsType, LightsString, ChargeDate, ref Total);
+        //                }
+        //                break;
+        //            case 35:
+        //                //松柏嶺受天宮
+        //                for (int i = 0; i < dtapplecantinfo.Rows.Count; i++)
+        //                {
+        //                    string AppName = UtilDataMask.MaskName(dtapplecantinfo.Rows[i]["AppName"].ToString());
+        //                    string AppMobile = UtilDataMask.MaskMobile(dtapplecantinfo.Rows[i]["AppMobile"].ToString(), 5, 3);
+        //                    string Name = UtilDataMask.MaskName(dtapplecantinfo.Rows[i]["Name"].ToString());
+        //                    string Mobile = UtilDataMask.MaskMobile(dtapplecantinfo.Rows[i]["Mobile"].ToString(), 5, 3);
+        //                    string Sex = dtapplecantinfo.Rows[i]["Sex"].ToString();
+        //                    string Birth = dtapplecantinfo.Rows[i]["Birth"].ToString();
+        //                    string LeapMonth = dtapplecantinfo.Rows[i]["LeapMonth"].ToString();
+        //                    string BirthTime = dtapplecantinfo.Rows[i]["BirthTime"].ToString() != "" ? dtapplecantinfo.Rows[i]["BirthTime"].ToString() : "吉";
+        //                    string Email = dtapplecantinfo.Rows[i]["Email"].ToString();
+        //                    string Count = dtapplecantinfo.Rows[i]["Count"].ToString();
+        //                    string Address = UtilDataMask.MaskTWAddr(dtapplecantinfo.Rows[i]["Address"].ToString());
+        //                    string AppStatus = dtapplecantinfo.Rows[i]["AppStatus"].ToString();
+        //                    string Num2String = dtapplecantinfo.Rows[i]["Num2String"].ToString();
+        //                    string LightsType = dtapplecantinfo.Rows[i]["LightsType"].ToString();
+        //                    string LightsString = dtapplecantinfo.Rows[i]["LightsString"].ToString();
+        //                    string ChargeDate = dtapplecantinfo.Rows[i]["ChargeDateString"].ToString();
+        //                    Datalist += add_Lights_st_blessed(AppName, AppMobile, Name, Mobile, Sex, Birth, LeapMonth, BirthTime, Email, Count,
+        //                        Address, i, AppStatus, Num2String, LightsType, LightsString, ChargeDate, ref Total);
+        //                }
+        //                break;
+        //            case 38:
+        //                //池上北極玄天宮
+        //                for (int i = 0; i < dtapplecantinfo.Rows.Count; i++)
+        //                {
+        //                    string AppName = UtilDataMask.MaskName(dtapplecantinfo.Rows[i]["AppName"].ToString());
+        //                    string AppMobile = UtilDataMask.MaskMobile(dtapplecantinfo.Rows[i]["AppMobile"].ToString(), 5, 3);
+        //                    string Name = UtilDataMask.MaskName(dtapplecantinfo.Rows[i]["Name"].ToString());
+        //                    string Mobile = UtilDataMask.MaskMobile(dtapplecantinfo.Rows[i]["Mobile"].ToString(), 5, 3);
+        //                    string Sex = dtapplecantinfo.Rows[i]["Sex"].ToString();
+        //                    string Birth = dtapplecantinfo.Rows[i]["Birth"].ToString();
+        //                    string LeapMonth = dtapplecantinfo.Rows[i]["LeapMonth"].ToString();
+        //                    string BirthTime = dtapplecantinfo.Rows[i]["BirthTime"].ToString() != "" ? dtapplecantinfo.Rows[i]["BirthTime"].ToString() : "吉";
+        //                    string Email = dtapplecantinfo.Rows[i]["Email"].ToString();
+        //                    string Count = dtapplecantinfo.Rows[i]["Count"].ToString();
+        //                    string Address = UtilDataMask.MaskTWAddr(dtapplecantinfo.Rows[i]["Address"].ToString());
+        //                    string AppStatus = dtapplecantinfo.Rows[i]["AppStatus"].ToString();
+        //                    string Num2String = dtapplecantinfo.Rows[i]["Num2String"].ToString();
+        //                    string LightsType = dtapplecantinfo.Rows[i]["LightsType"].ToString();
+        //                    string LightsString = dtapplecantinfo.Rows[i]["LightsString"].ToString();
+        //                    string ChargeDate = dtapplecantinfo.Rows[i]["ChargeDateString"].ToString();
+        //                    Datalist += add_Lights_bj_blessed(AppName, AppMobile, Name, Mobile, Sex, Birth, LeapMonth, BirthTime, Email, Count,
+        //                        Address, i, AppStatus, Num2String, LightsType, LightsString, ChargeDate, ref Total);
+        //                }
+        //                break;
+        //            case 39:
+        //                //慈惠石壁部堂
+        //                for (int i = 0; i < dtapplecantinfo.Rows.Count; i++)
+        //                {
+        //                    string AppName = UtilDataMask.MaskName(dtapplecantinfo.Rows[i]["AppName"].ToString());
+        //                    string AppMobile = UtilDataMask.MaskMobile(dtapplecantinfo.Rows[i]["AppMobile"].ToString(), 5, 3);
+        //                    string Name = UtilDataMask.MaskName(dtapplecantinfo.Rows[i]["Name"].ToString());
+        //                    string Mobile = UtilDataMask.MaskMobile(dtapplecantinfo.Rows[i]["Mobile"].ToString(), 5, 3);
+        //                    string Sex = dtapplecantinfo.Rows[i]["Sex"].ToString();
+        //                    string Birth = dtapplecantinfo.Rows[i]["Birth"].ToString();
+        //                    string LeapMonth = dtapplecantinfo.Rows[i]["LeapMonth"].ToString();
+        //                    string BirthTime = dtapplecantinfo.Rows[i]["BirthTime"].ToString() != "" ? dtapplecantinfo.Rows[i]["BirthTime"].ToString() : "吉";
+        //                    string Email = dtapplecantinfo.Rows[i]["Email"].ToString();
+        //                    string Count = dtapplecantinfo.Rows[i]["Count"].ToString();
+        //                    string Address = UtilDataMask.MaskTWAddr(dtapplecantinfo.Rows[i]["Address"].ToString());
+        //                    string AppStatus = dtapplecantinfo.Rows[i]["AppStatus"].ToString();
+        //                    string Num2String = dtapplecantinfo.Rows[i]["Num2String"].ToString();
+        //                    string LightsType = dtapplecantinfo.Rows[i]["LightsType"].ToString();
+        //                    string LightsString = dtapplecantinfo.Rows[i]["LightsString"].ToString();
+        //                    string ChargeDate = dtapplecantinfo.Rows[i]["ChargeDateString"].ToString();
+        //                    Datalist += add_Lights_sbbt_blessed(AppName, AppMobile, Name, Mobile, Sex, Birth, LeapMonth, BirthTime, Email, Count,
+        //                        Address, i, AppStatus, Num2String, LightsType, LightsString, ChargeDate, ref Total);
+        //                }
+        //                break;
+        //            case 40:
+        //                //真武山受玄宮
+        //                for (int i = 0; i < dtapplecantinfo.Rows.Count; i++)
+        //                {
+        //                    string AppName = UtilDataMask.MaskName(dtapplecantinfo.Rows[i]["AppName"].ToString());
+        //                    string AppMobile = UtilDataMask.MaskMobile(dtapplecantinfo.Rows[i]["AppMobile"].ToString(), 5, 3);
+        //                    string Name = UtilDataMask.MaskName(dtapplecantinfo.Rows[i]["Name"].ToString());
+        //                    string Mobile = UtilDataMask.MaskMobile(dtapplecantinfo.Rows[i]["Mobile"].ToString(), 5, 3);
+        //                    string Sex = dtapplecantinfo.Rows[i]["Sex"].ToString();
+        //                    string Birth = dtapplecantinfo.Rows[i]["Birth"].ToString();
+        //                    string LeapMonth = dtapplecantinfo.Rows[i]["LeapMonth"].ToString();
+        //                    string BirthTime = dtapplecantinfo.Rows[i]["BirthTime"].ToString() != "" ? dtapplecantinfo.Rows[i]["BirthTime"].ToString() : "吉";
+        //                    string Email = dtapplecantinfo.Rows[i]["Email"].ToString();
+        //                    string Count = dtapplecantinfo.Rows[i]["Count"].ToString();
+        //                    string Address = UtilDataMask.MaskTWAddr(dtapplecantinfo.Rows[i]["Address"].ToString());
+        //                    string AppStatus = dtapplecantinfo.Rows[i]["AppStatus"].ToString();
+        //                    string Num2String = dtapplecantinfo.Rows[i]["Num2String"].ToString();
+        //                    string LightsType = dtapplecantinfo.Rows[i]["LightsType"].ToString();
+        //                    string LightsString = dtapplecantinfo.Rows[i]["LightsString"].ToString();
+        //                    string ChargeDate = dtapplecantinfo.Rows[i]["ChargeDateString"].ToString();
+        //                    Datalist += add_Lights_bpy_blessed(AppName, AppMobile, Name, Mobile, Sex, Birth, LeapMonth, BirthTime, Email, Count,
+        //                        Address, i, AppStatus, Num2String, LightsType, LightsString, ChargeDate, ref Total);
+        //                }
+        //                break;
+        //            case 41:
+        //                //壽山巖觀音寺
+        //                for (int i = 0; i < dtapplecantinfo.Rows.Count; i++)
+        //                {
+        //                    string AppName = UtilDataMask.MaskName(dtapplecantinfo.Rows[i]["AppName"].ToString());
+        //                    string AppMobile = UtilDataMask.MaskMobile(dtapplecantinfo.Rows[i]["AppMobile"].ToString(), 5, 3);
+        //                    string Name = UtilDataMask.MaskName(dtapplecantinfo.Rows[i]["Name"].ToString());
+        //                    string Mobile = UtilDataMask.MaskMobile(dtapplecantinfo.Rows[i]["Mobile"].ToString(), 5, 3);
+        //                    string Sex = dtapplecantinfo.Rows[i]["Sex"].ToString();
+        //                    string Birth = dtapplecantinfo.Rows[i]["Birth"].ToString();
+        //                    string LeapMonth = dtapplecantinfo.Rows[i]["LeapMonth"].ToString();
+        //                    string BirthTime = dtapplecantinfo.Rows[i]["BirthTime"].ToString() != "" ? dtapplecantinfo.Rows[i]["BirthTime"].ToString() : "吉";
+        //                    string Email = dtapplecantinfo.Rows[i]["Email"].ToString();
+        //                    string Count = dtapplecantinfo.Rows[i]["Count"].ToString();
+        //                    string Address = UtilDataMask.MaskTWAddr(dtapplecantinfo.Rows[i]["Address"].ToString());
+        //                    string AppStatus = dtapplecantinfo.Rows[i]["AppStatus"].ToString();
+        //                    string Num2String = dtapplecantinfo.Rows[i]["Num2String"].ToString();
+        //                    string LightsType = dtapplecantinfo.Rows[i]["LightsType"].ToString();
+        //                    string LightsString = dtapplecantinfo.Rows[i]["LightsString"].ToString();
+        //                    string ChargeDate = dtapplecantinfo.Rows[i]["ChargeDateString"].ToString();
+        //                    Datalist += add_Lights_ssy_blessed(AppName, AppMobile, Name, Mobile, Sex, Birth, LeapMonth, BirthTime, Email, Count,
+        //                        Address, i, AppStatus, Num2String, LightsType, LightsString, ChargeDate, ref Total);
+        //                }
+        //                break;
+        //        }
+        //    }
+        //}
+
+        protected static void GetLightsInfo(BasePage basePage, DataTable dtapplecantinfo, string m_Name, string m_Mobile, int adminID, string Year, ref string Datalist,
             ref int Total)
         {
             LightDAC objLightDAC = new LightDAC(basePage);
 
-            dtapplecantinfo = objLightDAC.Getapplicantinfo_LightsInfo(m_Name, m_Mobile, type, adminID, Year);
+            dtapplecantinfo = objLightDAC.Getapplicantinfo_LightsInfo(m_Name, m_Mobile, adminID, Year);
             //dtapplecantinfo = objLightDAC.Getapplicantinfo_LightsInfofromNum2String(m_Num2String, adminID);
             if (dtapplecantinfo.Rows.Count > 0)
             {
@@ -4243,7 +5260,199 @@ namespace Temple
                                 Address, i, AppStatus, Num2String, LightsType, LightsString, ChargeDate, ref Total);
                         }
                         break;
+                    case 34:
+                        //基隆悟玄宮
+                        for (int i = 0; i < dtapplecantinfo.Rows.Count; i++)
+                        {
+                            string AppName = UtilDataMask.MaskName(dtapplecantinfo.Rows[i]["AppName"].ToString());
+                            string AppMobile = UtilDataMask.MaskMobile(dtapplecantinfo.Rows[i]["AppMobile"].ToString(), 5, 3);
+                            string Name = UtilDataMask.MaskName(dtapplecantinfo.Rows[i]["Name"].ToString());
+                            string Mobile = UtilDataMask.MaskMobile(dtapplecantinfo.Rows[i]["Mobile"].ToString(), 5, 3);
+                            string Sex = dtapplecantinfo.Rows[i]["Sex"].ToString();
+                            string Birth = dtapplecantinfo.Rows[i]["Birth"].ToString();
+                            string LeapMonth = dtapplecantinfo.Rows[i]["LeapMonth"].ToString();
+                            string BirthTime = dtapplecantinfo.Rows[i]["BirthTime"].ToString() != "" ? dtapplecantinfo.Rows[i]["BirthTime"].ToString() : "吉";
+                            string Email = dtapplecantinfo.Rows[i]["Email"].ToString();
+                            string Count = dtapplecantinfo.Rows[i]["Count"].ToString();
+                            string Address = UtilDataMask.MaskTWAddr(dtapplecantinfo.Rows[i]["Address"].ToString());
+                            string AppStatus = dtapplecantinfo.Rows[i]["AppStatus"].ToString();
+                            string Num2String = dtapplecantinfo.Rows[i]["Num2String"].ToString();
+                            string LightsType = dtapplecantinfo.Rows[i]["LightsType"].ToString();
+                            string LightsString = dtapplecantinfo.Rows[i]["LightsString"].ToString();
+                            string ChargeDate = dtapplecantinfo.Rows[i]["ChargeDateString"].ToString();
+                            Datalist += add_Lights_wh_blessed(AppName, AppMobile, Name, Mobile, Sex, Birth, LeapMonth, BirthTime, Email, Count,
+                                Address, i, AppStatus, Num2String, LightsType, LightsString, ChargeDate, ref Total);
+                        }
+                        break;
+                    case 35:
+                        //松柏嶺受天宮
+                        for (int i = 0; i < dtapplecantinfo.Rows.Count; i++)
+                        {
+                            string AppName = UtilDataMask.MaskName(dtapplecantinfo.Rows[i]["AppName"].ToString());
+                            string AppMobile = UtilDataMask.MaskMobile(dtapplecantinfo.Rows[i]["AppMobile"].ToString(), 5, 3);
+                            string Name = UtilDataMask.MaskName(dtapplecantinfo.Rows[i]["Name"].ToString());
+                            string Mobile = UtilDataMask.MaskMobile(dtapplecantinfo.Rows[i]["Mobile"].ToString(), 5, 3);
+                            string Sex = dtapplecantinfo.Rows[i]["Sex"].ToString();
+                            string Birth = dtapplecantinfo.Rows[i]["Birth"].ToString();
+                            string LeapMonth = dtapplecantinfo.Rows[i]["LeapMonth"].ToString();
+                            string BirthTime = dtapplecantinfo.Rows[i]["BirthTime"].ToString() != "" ? dtapplecantinfo.Rows[i]["BirthTime"].ToString() : "吉";
+                            string Email = dtapplecantinfo.Rows[i]["Email"].ToString();
+                            string Count = dtapplecantinfo.Rows[i]["Count"].ToString();
+                            string Address = UtilDataMask.MaskTWAddr(dtapplecantinfo.Rows[i]["Address"].ToString());
+                            string AppStatus = dtapplecantinfo.Rows[i]["AppStatus"].ToString();
+                            string Num2String = dtapplecantinfo.Rows[i]["Num2String"].ToString();
+                            string LightsType = dtapplecantinfo.Rows[i]["LightsType"].ToString();
+                            string LightsString = dtapplecantinfo.Rows[i]["LightsString"].ToString();
+                            string ChargeDate = dtapplecantinfo.Rows[i]["ChargeDateString"].ToString();
+                            Datalist += add_Lights_st_blessed(AppName, AppMobile, Name, Mobile, Sex, Birth, LeapMonth, BirthTime, Email, Count,
+                                Address, i, AppStatus, Num2String, LightsType, LightsString, ChargeDate, ref Total);
+                        }
+                        break;
+                    case 38:
+                        //池上北極玄天宮
+                        for (int i = 0; i < dtapplecantinfo.Rows.Count; i++)
+                        {
+                            string AppName = UtilDataMask.MaskName(dtapplecantinfo.Rows[i]["AppName"].ToString());
+                            string AppMobile = UtilDataMask.MaskMobile(dtapplecantinfo.Rows[i]["AppMobile"].ToString(), 5, 3);
+                            string Name = UtilDataMask.MaskName(dtapplecantinfo.Rows[i]["Name"].ToString());
+                            string Mobile = UtilDataMask.MaskMobile(dtapplecantinfo.Rows[i]["Mobile"].ToString(), 5, 3);
+                            string Sex = dtapplecantinfo.Rows[i]["Sex"].ToString();
+                            string Birth = dtapplecantinfo.Rows[i]["Birth"].ToString();
+                            string LeapMonth = dtapplecantinfo.Rows[i]["LeapMonth"].ToString();
+                            string BirthTime = dtapplecantinfo.Rows[i]["BirthTime"].ToString() != "" ? dtapplecantinfo.Rows[i]["BirthTime"].ToString() : "吉";
+                            string Email = dtapplecantinfo.Rows[i]["Email"].ToString();
+                            string Count = dtapplecantinfo.Rows[i]["Count"].ToString();
+                            string Address = UtilDataMask.MaskTWAddr(dtapplecantinfo.Rows[i]["Address"].ToString());
+                            string AppStatus = dtapplecantinfo.Rows[i]["AppStatus"].ToString();
+                            string Num2String = dtapplecantinfo.Rows[i]["Num2String"].ToString();
+                            string LightsType = dtapplecantinfo.Rows[i]["LightsType"].ToString();
+                            string LightsString = dtapplecantinfo.Rows[i]["LightsString"].ToString();
+                            string ChargeDate = dtapplecantinfo.Rows[i]["ChargeDateString"].ToString();
+                            Datalist += add_Lights_bj_blessed(AppName, AppMobile, Name, Mobile, Sex, Birth, LeapMonth, BirthTime, Email, Count,
+                                Address, i, AppStatus, Num2String, LightsType, LightsString, ChargeDate, ref Total);
+                        }
+                        break;
+                    case 39:
+                        //慈惠石壁部堂
+                        for (int i = 0; i < dtapplecantinfo.Rows.Count; i++)
+                        {
+                            string AppName = UtilDataMask.MaskName(dtapplecantinfo.Rows[i]["AppName"].ToString());
+                            string AppMobile = UtilDataMask.MaskMobile(dtapplecantinfo.Rows[i]["AppMobile"].ToString(), 5, 3);
+                            string Name = UtilDataMask.MaskName(dtapplecantinfo.Rows[i]["Name"].ToString());
+                            string Mobile = UtilDataMask.MaskMobile(dtapplecantinfo.Rows[i]["Mobile"].ToString(), 5, 3);
+                            string Sex = dtapplecantinfo.Rows[i]["Sex"].ToString();
+                            string Birth = dtapplecantinfo.Rows[i]["Birth"].ToString();
+                            string LeapMonth = dtapplecantinfo.Rows[i]["LeapMonth"].ToString();
+                            string BirthTime = dtapplecantinfo.Rows[i]["BirthTime"].ToString() != "" ? dtapplecantinfo.Rows[i]["BirthTime"].ToString() : "吉";
+                            string Email = dtapplecantinfo.Rows[i]["Email"].ToString();
+                            string Count = dtapplecantinfo.Rows[i]["Count"].ToString();
+                            string Address = UtilDataMask.MaskTWAddr(dtapplecantinfo.Rows[i]["Address"].ToString());
+                            string AppStatus = dtapplecantinfo.Rows[i]["AppStatus"].ToString();
+                            string Num2String = dtapplecantinfo.Rows[i]["Num2String"].ToString();
+                            string LightsType = dtapplecantinfo.Rows[i]["LightsType"].ToString();
+                            string LightsString = dtapplecantinfo.Rows[i]["LightsString"].ToString();
+                            string ChargeDate = dtapplecantinfo.Rows[i]["ChargeDateString"].ToString();
+                            Datalist += add_Lights_sbbt_blessed(AppName, AppMobile, Name, Mobile, Sex, Birth, LeapMonth, BirthTime, Email, Count,
+                                Address, i, AppStatus, Num2String, LightsType, LightsString, ChargeDate, ref Total);
+                        }
+                        break;
+                    case 40:
+                        //真武山受玄宮
+                        for (int i = 0; i < dtapplecantinfo.Rows.Count; i++)
+                        {
+                            string AppName = UtilDataMask.MaskName(dtapplecantinfo.Rows[i]["AppName"].ToString());
+                            string AppMobile = UtilDataMask.MaskMobile(dtapplecantinfo.Rows[i]["AppMobile"].ToString(), 5, 3);
+                            string Name = UtilDataMask.MaskName(dtapplecantinfo.Rows[i]["Name"].ToString());
+                            string Mobile = UtilDataMask.MaskMobile(dtapplecantinfo.Rows[i]["Mobile"].ToString(), 5, 3);
+                            string Sex = dtapplecantinfo.Rows[i]["Sex"].ToString();
+                            string Birth = dtapplecantinfo.Rows[i]["Birth"].ToString();
+                            string LeapMonth = dtapplecantinfo.Rows[i]["LeapMonth"].ToString();
+                            string BirthTime = dtapplecantinfo.Rows[i]["BirthTime"].ToString() != "" ? dtapplecantinfo.Rows[i]["BirthTime"].ToString() : "吉";
+                            string Email = dtapplecantinfo.Rows[i]["Email"].ToString();
+                            string Count = dtapplecantinfo.Rows[i]["Count"].ToString();
+                            string Address = UtilDataMask.MaskTWAddr(dtapplecantinfo.Rows[i]["Address"].ToString());
+                            string AppStatus = dtapplecantinfo.Rows[i]["AppStatus"].ToString();
+                            string Num2String = dtapplecantinfo.Rows[i]["Num2String"].ToString();
+                            string LightsType = dtapplecantinfo.Rows[i]["LightsType"].ToString();
+                            string LightsString = dtapplecantinfo.Rows[i]["LightsString"].ToString();
+                            string ChargeDate = dtapplecantinfo.Rows[i]["ChargeDateString"].ToString();
+                            Datalist += add_Lights_bpy_blessed(AppName, AppMobile, Name, Mobile, Sex, Birth, LeapMonth, BirthTime, Email, Count,
+                                Address, i, AppStatus, Num2String, LightsType, LightsString, ChargeDate, ref Total);
+                        }
+                        break;
+                    case 41:
+                        //壽山巖觀音寺
+                        for (int i = 0; i < dtapplecantinfo.Rows.Count; i++)
+                        {
+                            string AppName = UtilDataMask.MaskName(dtapplecantinfo.Rows[i]["AppName"].ToString());
+                            string AppMobile = UtilDataMask.MaskMobile(dtapplecantinfo.Rows[i]["AppMobile"].ToString(), 5, 3);
+                            string Name = UtilDataMask.MaskName(dtapplecantinfo.Rows[i]["Name"].ToString());
+                            string Mobile = UtilDataMask.MaskMobile(dtapplecantinfo.Rows[i]["Mobile"].ToString(), 5, 3);
+                            string Sex = dtapplecantinfo.Rows[i]["Sex"].ToString();
+                            string Birth = dtapplecantinfo.Rows[i]["Birth"].ToString();
+                            string LeapMonth = dtapplecantinfo.Rows[i]["LeapMonth"].ToString();
+                            string BirthTime = dtapplecantinfo.Rows[i]["BirthTime"].ToString() != "" ? dtapplecantinfo.Rows[i]["BirthTime"].ToString() : "吉";
+                            string Email = dtapplecantinfo.Rows[i]["Email"].ToString();
+                            string Count = dtapplecantinfo.Rows[i]["Count"].ToString();
+                            string Address = UtilDataMask.MaskTWAddr(dtapplecantinfo.Rows[i]["Address"].ToString());
+                            string AppStatus = dtapplecantinfo.Rows[i]["AppStatus"].ToString();
+                            string Num2String = dtapplecantinfo.Rows[i]["Num2String"].ToString();
+                            string LightsType = dtapplecantinfo.Rows[i]["LightsType"].ToString();
+                            string LightsString = dtapplecantinfo.Rows[i]["LightsString"].ToString();
+                            string ChargeDate = dtapplecantinfo.Rows[i]["ChargeDateString"].ToString();
+                            Datalist += add_Lights_ssy_blessed(AppName, AppMobile, Name, Mobile, Sex, Birth, LeapMonth, BirthTime, Email, Count,
+                                Address, i, AppStatus, Num2String, LightsType, LightsString, ChargeDate, ref Total);
+                        }
+                        break;
                 }
+            }
+        }
+
+        protected static void GetLightsInfo_mom(
+            BasePage basePage,
+            DataTable dtapplecantinfo,
+            string m_Name,
+            string m_Mobile,
+            int adminID,
+            string Year,
+            ref string Datalist,
+            ref int Total)
+        {
+            LightDAC objLightDAC = new LightDAC(basePage);
+
+            dtapplecantinfo = objLightDAC.Getapplicantinfo_Lights_mom_Info(m_Name, m_Mobile, adminID, Year);
+            switch (adminID)
+            {
+                case 14:
+                    // 桃園威天宮
+                    for (int i = 0; i < dtapplecantinfo.Rows.Count; i++)
+                    {
+                        string LightsType = dtapplecantinfo.Rows[i]["LightsType"].ToString();
+
+                        string AppName = UtilDataMask.MaskName(dtapplecantinfo.Rows[i]["AppName"].ToString());
+                        string AppMobile = UtilDataMask.MaskMobile(dtapplecantinfo.Rows[i]["AppMobile"].ToString(), 5, 3);
+                        string AppBirth = dtapplecantinfo.Rows[i]["AppBirth"].ToString();
+                        string AppLeapMonth = dtapplecantinfo.Rows[i]["AppLeapMonth"].ToString();
+                        string AppBirthTime = dtapplecantinfo.Rows[i]["AppBirthTime"].ToString();
+                        string AppAddress = UtilDataMask.MaskTWAddr(dtapplecantinfo.Rows[i]["AppAddress"].ToString());
+                        string AppZipCode = dtapplecantinfo.Rows[i]["AppZipCode"].ToString();
+                        string Name = UtilDataMask.MaskName(dtapplecantinfo.Rows[i]["Name"].ToString());
+                        string Mobile = UtilDataMask.MaskMobile(dtapplecantinfo.Rows[i]["Mobile"].ToString(), 5, 3);
+                        string Address = UtilDataMask.MaskTWAddr(dtapplecantinfo.Rows[i]["Address"].ToString());
+                        string ZipCode = dtapplecantinfo.Rows[i]["ZipCode"].ToString();
+                        string Birth = dtapplecantinfo.Rows[i]["Birth"].ToString();
+                        string LeapMonth = dtapplecantinfo.Rows[i]["LeapMonth"].ToString();
+                        string BirthTime = dtapplecantinfo.Rows[i]["BirthTime"].ToString() != "" ? dtapplecantinfo.Rows[i]["BirthTime"].ToString() : "吉";
+                        string AppStatus = dtapplecantinfo.Rows[i]["AppStatus"].ToString();
+                        string Num2String = dtapplecantinfo.Rows[i]["Num2String"].ToString();
+                        string LightsString = dtapplecantinfo.Rows[i]["LightsString"].ToString();
+                        string Count = dtapplecantinfo.Rows[i]["Count"].ToString();
+                        string ChargeDate = dtapplecantinfo.Rows[i]["ChargeDateString"].ToString();
+                        Datalist += add_Lights_ty_mom_blessed(AppName, AppMobile, AppBirth, AppLeapMonth, AppBirthTime, AppZipCode, AppAddress,
+                            Name, Mobile, Birth, LeapMonth, BirthTime, ZipCode, Address, LightsType, i, AppStatus, Num2String, LightsString, ChargeDate,
+                            ref Total);
+                    }
+                    break;
             }
         }
 
@@ -4343,6 +5552,116 @@ namespace Temple
                             string ChargeDate = dtapplecantinfo.Rows[i]["ChargeDateString"].ToString();
                             Datalist += add_Huaguo_wjsan_blessed(AppName, AppMobile, Name, Mobile, Sex, Birth, LeapMonth, BirthTime, Email, Count,
                                 Address, i, AppStatus, Num2String, HuaguoType, HuaguoString, ChargeDate, ref Total);
+                        }
+                        break;
+                }
+            }
+        }
+
+        protected static void GetBlessingInfo(BasePage basePage, DataTable dtapplecantinfo, string m_Name, string m_Mobile, int type, int adminID, string Year, ref string Datalist,
+            ref int Total)
+        {
+            LightDAC objLightDAC = new LightDAC(basePage);
+
+            dtapplecantinfo = objLightDAC.Getapplicantinfo_BlessingInfo(m_Name, m_Mobile, adminID, Year);
+            if (dtapplecantinfo.Rows.Count > 0)
+            {
+                switch (adminID)
+                {
+                    case 35:
+                        //松柏嶺受天宮
+                        for (int i = 0; i < dtapplecantinfo.Rows.Count; i++)
+                        {
+                            string AppName = UtilDataMask.MaskName(dtapplecantinfo.Rows[i]["AppName"].ToString());
+                            string AppMobile = UtilDataMask.MaskMobile(dtapplecantinfo.Rows[i]["AppMobile"].ToString(), 5, 3);
+                            string AppEmail = dtapplecantinfo.Rows[i]["AppEmail"].ToString();
+                            string Name = UtilDataMask.MaskName(dtapplecantinfo.Rows[i]["Name"].ToString());
+                            string Mobile = UtilDataMask.MaskMobile(dtapplecantinfo.Rows[i]["Mobile"].ToString(), 5, 3);
+                            string Sex = dtapplecantinfo.Rows[i]["Sex"].ToString();
+                            string Birth = dtapplecantinfo.Rows[i]["Birth"].ToString();
+                            string LeapMonth = dtapplecantinfo.Rows[i]["LeapMonth"].ToString();
+                            string BirthTime = dtapplecantinfo.Rows[i]["BirthTime"].ToString() != "" ? dtapplecantinfo.Rows[i]["BirthTime"].ToString() : "吉";
+                            string Count = dtapplecantinfo.Rows[i]["Count"].ToString();
+                            string Address = UtilDataMask.MaskTWAddr(dtapplecantinfo.Rows[i]["Address"].ToString());
+                            string AppStatus = dtapplecantinfo.Rows[i]["AppStatus"].ToString();
+                            string Num2String = dtapplecantinfo.Rows[i]["Num2String"].ToString();
+                            string BlessingType = dtapplecantinfo.Rows[i]["BlessingType"].ToString();
+                            string BlessingString = dtapplecantinfo.Rows[i]["BlessingString"].ToString();
+                            string ChargeDate = dtapplecantinfo.Rows[i]["ChargeDateString"].ToString();
+                            Datalist += add_Blessing_st_blessed(
+                                AppName, 
+                                AppMobile,
+                                AppEmail, 
+                                Name, 
+                                Mobile, 
+                                Sex, 
+                                Birth, 
+                                LeapMonth, 
+                                BirthTime, 
+                                Count,
+                                Address, 
+                                i, 
+                                AppStatus, 
+                                Num2String, 
+                                BlessingType, 
+                                BlessingString, 
+                                ChargeDate, 
+                                ref Total);
+                        }
+                        break;
+                }
+            }
+        }
+
+        protected static void GetQnLightInfo(BasePage basePage, DataTable dtapplecantinfo, string m_Name, string m_Mobile, int type, int adminID, string Year, ref string Datalist,
+            ref int Total)
+        {
+            LightDAC objLightDAC = new LightDAC(basePage);
+
+            dtapplecantinfo = objLightDAC.Getapplicantinfo_QnLightInfo(m_Name, m_Mobile, adminID, Year);
+            if (dtapplecantinfo.Rows.Count > 0)
+            {
+                switch (adminID)
+                {
+                    case 14:
+                        //桃園威天宮
+                        for (int i = 0; i < dtapplecantinfo.Rows.Count; i++)
+                        {
+                            string AppName = UtilDataMask.MaskName(dtapplecantinfo.Rows[i]["AppName"].ToString());
+                            string AppMobile = UtilDataMask.MaskMobile(dtapplecantinfo.Rows[i]["AppMobile"].ToString(), 5, 3);
+                            string AppEmail = dtapplecantinfo.Rows[i]["AppEmail"].ToString();
+                            string AppsBirth = dtapplecantinfo.Rows[i]["AppsBirth"].ToString();
+                            string AppAddress = UtilDataMask.MaskTWAddr(dtapplecantinfo.Rows[i]["AppAddress"].ToString());
+                            string Name = UtilDataMask.MaskName(dtapplecantinfo.Rows[i]["Name"].ToString());
+                            string Mobile = UtilDataMask.MaskMobile(dtapplecantinfo.Rows[i]["Mobile"].ToString(), 5, 3);
+                            string sBirth = dtapplecantinfo.Rows[i]["sBirth"].ToString();
+                            string Count = dtapplecantinfo.Rows[i]["Count"].ToString();
+                            string Address = UtilDataMask.MaskTWAddr(dtapplecantinfo.Rows[i]["Address"].ToString());
+                            string Remark = dtapplecantinfo.Rows[i]["Remark"].ToString();
+                            string AppStatus = dtapplecantinfo.Rows[i]["AppStatus"].ToString();
+                            string Num2String = dtapplecantinfo.Rows[i]["Num2String"].ToString();
+                            string QnLightType = dtapplecantinfo.Rows[i]["QnLightType"].ToString();
+                            string QnLightString = dtapplecantinfo.Rows[i]["QnLightString"].ToString();
+                            string ChargeDate = dtapplecantinfo.Rows[i]["ChargeDateString"].ToString();
+                            Datalist += add_QnLight_ty_blessed(
+                                AppName,
+                                AppMobile,
+                                AppEmail,
+                                AppsBirth,
+                                AppAddress,
+                                Name,
+                                Mobile,
+                                sBirth,
+                                Count,
+                                Address,
+                                Remark,
+                                i,
+                                AppStatus,
+                                Num2String,
+                                QnLightType,
+                                QnLightString,
+                                ChargeDate,
+                                ref Total);
                         }
                         break;
                 }
@@ -4727,6 +6046,63 @@ namespace Temple
                                 PurdueString, Count, i, AppStatus, Num2String, ChargeDate,ref Total);
                         }
                         break;
+                    case 31:
+                        //台灣道教總廟無極三清總道院
+                        for (int i = 0; i < dtapplecantinfo.Rows.Count; i++)
+                        {
+                            string AppName = UtilDataMask.MaskName(dtapplecantinfo.Rows[i]["AppName"].ToString());
+                            string AppMobile = UtilDataMask.MaskMobile(dtapplecantinfo.Rows[i]["AppMobile"].ToString(), 5, 3);
+
+                            string AppEmail = "";
+                            string appEmailText = dtapplecantinfo.Rows[i].Field<string>("AppEmail");
+                            if (string.IsNullOrWhiteSpace(appEmailText))
+                            {
+                                AppEmail = UtilDataMask.MaskEmail(dtapplecantinfo.Rows[i]["AppEmail"].ToString());
+                            }
+
+                            string PurdueType = dtapplecantinfo.Rows[i]["PurdueType"].ToString();
+                            string PurdueString = dtapplecantinfo.Rows[i]["PurdueString"].ToString();
+
+                            string Name = UtilDataMask.MaskName(dtapplecantinfo.Rows[i]["Name"].ToString());
+                            string Mobile = UtilDataMask.MaskMobile(dtapplecantinfo.Rows[i]["Mobile"].ToString(), 5, 3);
+                            string Sex = dtapplecantinfo.Rows[i]["Sex"].ToString();
+                            string Birth = dtapplecantinfo.Rows[i]["Birth"].ToString();
+                            string LeapMonth = dtapplecantinfo.Rows[i]["LeapMonth"].ToString();
+                            string BirthTime = dtapplecantinfo.Rows[i]["BirthTime"].ToString();
+                            string Count = dtapplecantinfo.Rows[i]["Count"].ToString();
+                            string Address = UtilDataMask.MaskTWAddr(dtapplecantinfo.Rows[i]["Address"].ToString());
+                            string AppStatus = dtapplecantinfo.Rows[i]["AppStatus"].ToString();
+                            string Num2String = dtapplecantinfo.Rows[i]["Num2String"].ToString();
+                            string ChargeDate = dtapplecantinfo.Rows[i]["ChargeDateString"].ToString();
+                            Datalist += add_Purdue_wjsan_blessed(AppName, AppMobile, AppEmail, Name, Mobile, Sex, Birth, LeapMonth, BirthTime, PurdueType,
+                                PurdueString, Count, Address, i, AppStatus, Num2String, ChargeDate, ref Total);
+                        }
+                        break;
+                    case 32:
+                        //桃園龍德宮
+                        for (int i = 0; i < dtapplecantinfo.Rows.Count; i++)
+                        {
+                            string AppName = UtilDataMask.MaskName(dtapplecantinfo.Rows[i]["AppName"].ToString());
+                            string AppMobile = UtilDataMask.MaskMobile(dtapplecantinfo.Rows[i]["AppMobile"].ToString(), 5, 3);
+
+                            string PurdueType = dtapplecantinfo.Rows[i]["PurdueType"].ToString();
+                            string PurdueString = dtapplecantinfo.Rows[i]["PurdueString"].ToString();
+
+                            string Name = UtilDataMask.MaskName(dtapplecantinfo.Rows[i]["Name"].ToString());
+                            string Mobile = UtilDataMask.MaskMobile(dtapplecantinfo.Rows[i]["Mobile"].ToString(), 5, 3);
+                            string Sex = dtapplecantinfo.Rows[i]["Sex"].ToString();
+                            string Birth = dtapplecantinfo.Rows[i]["Birth"].ToString();
+                            string LeapMonth = dtapplecantinfo.Rows[i]["LeapMonth"].ToString();
+                            string BirthTime = dtapplecantinfo.Rows[i]["BirthTime"].ToString();
+                            string Count = dtapplecantinfo.Rows[i]["Count"].ToString();
+                            string Address = UtilDataMask.MaskTWAddr(dtapplecantinfo.Rows[i]["Address"].ToString());
+                            string AppStatus = dtapplecantinfo.Rows[i]["AppStatus"].ToString();
+                            string Num2String = dtapplecantinfo.Rows[i]["Num2String"].ToString();
+                            string ChargeDate = dtapplecantinfo.Rows[i]["ChargeDateString"].ToString();
+                            //Datalist += add_Purdue_ld_blessed(AppName, AppMobile, Name, Mobile, Sex, Birth, LeapMonth, BirthTime, PurdueType,
+                            //    PurdueString, Count, Address, i, AppStatus, Num2String, ChargeDate, ref Total);
+                        }
+                        break;
                 }
             }
         }
@@ -5033,7 +6409,15 @@ namespace Temple
 
                             string Num2String = dtapplecantinfo.Rows[i]["Num2String"].ToString();
                             string AppName = UtilDataMask.MaskName(dtapplecantinfo.Rows[i]["Name"].ToString());
-                            string AppMobile = UtilDataMask.MaskMobile(dtapplecantinfo.Rows[i]["Mobile"].ToString(), 5, 3);
+                            string AppMobile = "";
+                            if (dtapplecantinfo.Columns.Contains("AppMobile"))
+                            {
+                                AppMobile = UtilDataMask.MaskMobile(dtapplecantinfo.Rows[i]["AppMobile"].ToString(), 5, 3);
+                            }
+                            else if (dtapplecantinfo.Columns.Contains("Mobile"))
+                            {
+                                AppMobile = UtilDataMask.MaskMobile(dtapplecantinfo.Rows[i]["Mobile"].ToString(), 5, 3);
+                            }
                             string Address = UtilDataMask.MaskTWAddr(dtapplecantinfo.Rows[i]["Address"].ToString());
                             string ChargeDate = dtapplecantinfo.Rows[i]["ChargeDateString"].ToString();
 
@@ -5056,123 +6440,12 @@ namespace Temple
                             Datalist += add_product_blessed(Num2String, ChargeDate, AppName, AppMobile, Address, name_A, name_B, cost_B, count_B, pd_B_img);
                         }
                     }
-
-                    //dtapplecantinfo = objLightDAC.Getapplicantinfo_Product(m_Name, m_Mobile, adminID, Year);
-                    //dtapplecantinfo = objLightDAC.Getapplicantinfo_Product(m_Num2String);
-                    //if (dtapplecantinfo.Rows.Count > 0)
-                    //{
-                    //    for (int i = 0; i < dtapplecantinfo.Rows.Count; i++)
-                    //    {
-                    //        int applicantID = 0;
-                    //        int.TryParse(dtapplecantinfo.Rows[i]["ApplicantID"].ToString(), out applicantID);
-
-                    //        string Num2String = dtapplecantinfo.Rows[i]["Num2String"].ToString();
-                    //        string AppName = UtilDataMask.MaskName(dtapplecantinfo.Rows[i]["Name"].ToString());
-                    //        string AppMobile = UtilDataMask.MaskMobile(dtapplecantinfo.Rows[i]["Mobile"].ToString(), 5, 3);
-                    //        string Address =UtilDataMask.MaskTWAddr(dtapplecantinfo.Rows[i]["Address"].ToString());
-
-                    //        string name_A = dtapplecantinfo.Rows[i]["productName"].ToString();
-                    //        string name_B = dtapplecantinfo.Rows[i]["ItemName"].ToString();
-                    //        string cost_B = dtapplecantinfo.Rows[i]["Cost"].ToString();
-                    //        int count_B = 0;
-                    //        int.TryParse(dtapplecantinfo.Rows[0]["Count"].ToString(), out count_B);
-
-                    //        Total += int.Parse(cost_B) * count_B;
-
-                    //        ProductDAC objProductDAC = new ProductDAC(basePage);
-                    //        string pd_B_img = objProductDAC.GetProductImgages(int.Parse(dtapplecantinfo.Rows[i]["ProductID"].ToString()));
-
-                    //        Datalist += add_product_blessed(Num2String, AppName, AppMobile, Address, name_A, name_B, cost_B, count_B, pd_B_img);
-                    //    }
-                    //}
-                    //else
-                    //{
-                    //    dtapplecantinfo = objLightDAC.Getapplicantinfo_Product(m_Name, m_Mobile, adminID, Year);
-                    //    if (dtapplecantinfo.Rows.Count > 0)
-                    //    {
-                    //        for (int i = 0; i < dtapplecantinfo.Rows.Count; i++)
-                    //        {
-                    //            int applicantID = 0;
-                    //            int.TryParse(dtapplecantinfo.Rows[i]["ApplicantID"].ToString(), out applicantID);
-
-                    //            string Num2String = dtapplecantinfo.Rows[i]["Num2String"].ToString();
-                    //            string AppName = UtilDataMask.MaskName(dtapplecantinfo.Rows[i]["Name"].ToString());
-                    //            string AppMobile = UtilDataMask.MaskMobile(dtapplecantinfo.Rows[i]["Mobile"].ToString(), 5, 3);
-                    //            string Address = UtilDataMask.MaskTWAddr(dtapplecantinfo.Rows[i]["Address"].ToString());
-
-                    //            string name_A = dtapplecantinfo.Rows[i]["productName"].ToString();
-                    //            string name_B = dtapplecantinfo.Rows[i]["ItemName"].ToString();
-                    //            string cost_B = dtapplecantinfo.Rows[i]["Cost"].ToString();
-                    //            int count_B = 0;
-                    //            int.TryParse(dtapplecantinfo.Rows[0]["Count"].ToString(), out count_B);
-
-                    //            Total += int.Parse(cost_B) * count_B;
-
-                    //            ProductDAC objProductDAC = new ProductDAC(basePage);
-                    //            string pd_B_img = objProductDAC.GetProductImgages(int.Parse(dtapplecantinfo.Rows[i]["ProductID"].ToString()));
-
-                    //            Datalist += add_product_blessed(Num2String, AppName, AppMobile, Address, name_A, name_B, cost_B, count_B, pd_B_img);
-                    //        }
-                    //    }
-                    //}
                     break;
                 case 7:
                     //繞境商品販賣服務
-                    //dtapplecantinfo = objLightDAC.Getapplicantinfo_Pilgrimage(m_Name, m_Mobile);
-                    //dtapplecantinfo = objLightDAC.Getapplicantinfo_Product(m_Name, m_Mobile, adminID);
-                    //if (dtapplecantinfo.Rows.Count > 0)
-                    //{
-                    //    for (int i = 0; i < dtapplecantinfo.Rows.Count; i++)
-                    //    {
-                    //        int applicantID = 0;
-                    //        int.TryParse(dtapplecantinfo.Rows[i]["ApplicantID"].ToString(), out applicantID);
-
-                    //        string Num2String = dtapplecantinfo.Rows[i]["Num2String"].ToString();
-                    //        string AppName = UtilDataMask.MaskName(dtapplecantinfo.Rows[i]["Name"].ToString());
-                    //        string AppMobile = UtilDataMask.MaskMobile(dtapplecantinfo.Rows[i]["Mobile"].ToString(), 5, 3);
-                    //        string Address = dtapplecantinfo.Rows[i]["ZipCode"].ToString() + " " + UtilDataMask.MaskTWAddr(dtapplecantinfo.Rows[i]["Address"].ToString());
-
-                    //        DataTable dtProductInfo_A = objLightDAC.GetProduct_Pilgrimage(applicantID, 1);
-                    //        string name_A = "鎮宅、開運錢母擺件";
-                    //        string cost_A = "1680";
-                    //        string pd_A_img = "https://bobibobi.tw/Pilgrimage/images/products/products_A_1.jpg";
-                    //        int count_A = 0;
-                    //        string[] SculptureName = new string[0];
-
-                    //        if (dtProductInfo_A.Rows.Count > 0)
-                    //        {
-                    //           count_A = dtProductInfo_A.Rows.Count;
-
-                    //            SculptureName = new string[dtProductInfo_A.Rows.Count];
-                    //            for (int j = 0; j < dtProductInfo_A.Rows.Count; j++)
-                    //            {
-                    //                SculptureName[j] = dtProductInfo_A.Rows[j]["SculptureName"].ToString();
-
-                    //                Total += 1680;
-                    //            }
-                    //        }
-
-                    //        string name_B = "開運隨身御守";
-                    //        string cost_B = "499";
-                    //        DataTable dtProductInfo_B = objLightDAC.GetProduct_Pilgrimage(applicantID, 2);
-                    //        string pd_B_img = "https://bobibobi.tw/Pilgrimage/images/products/products_B_1.jpg";
-                    //        int count_B = 0;
-
-                    //        if (dtProductInfo_B.Rows.Count > 0)
-                    //        {
-                    //            int.TryParse(dtProductInfo_B.Rows[0]["Count"].ToString(), out count_B);
-
-                    //            Total += 499 * count_B;
-                    //        }
-
-                    //        Datalist += add_product_Pilgrimage_blessed(Num2String, AppName, AppMobile, Address, SculptureName, name_A, cost_A, count_A, pd_A_img, name_B, cost_B, count_B, pd_B_img);
-                    //    }
-                    //}
                     break;
                 case 11:
                     //錢母商品販賣服務
-                    //dtapplecantinfo = objLightDAC.Getapplicantinfo_Moneymother(m_Name, m_Mobile);
-                    //dtapplecantinfo = objLightDAC.Getapplicantinfo_Product(m_Name, m_Mobile, adminID);
                     dtapplecantinfo = objLightDAC.Getapplicantinfo_Moneymother(m_Name, m_Mobile, Year);
                     if (dtapplecantinfo.Rows.Count > 0)
                     {
@@ -5183,7 +6456,15 @@ namespace Temple
 
                             string Num2String = dtapplecantinfo.Rows[i]["Num2String"].ToString();
                             string AppName = UtilDataMask.MaskName(dtapplecantinfo.Rows[i]["AppName"].ToString());
-                            string AppMobile = UtilDataMask.MaskMobile(dtapplecantinfo.Rows[i]["Mobile"].ToString(), 5, 3);
+                            string AppMobile = "";
+                            if (dtapplecantinfo.Columns.Contains("AppMobile"))
+                            {
+                                AppMobile = UtilDataMask.MaskMobile(dtapplecantinfo.Rows[i]["AppMobile"].ToString(), 5, 3);
+                            }
+                            else if (dtapplecantinfo.Columns.Contains("Mobile"))
+                            {
+                                AppMobile = UtilDataMask.MaskMobile(dtapplecantinfo.Rows[i]["Mobile"].ToString(), 5, 3);
+                            }
                             string Address = UtilDataMask.MaskTWAddr(dtapplecantinfo.Rows[i]["Address"].ToString());
                             string ChargeDate = dtapplecantinfo.Rows[i]["ChargeDateString"].ToString();
                             string typpe = dtapplecantinfo.Rows[i]["Type"].ToString();
@@ -5301,7 +6582,15 @@ namespace Temple
 
                             string Num2String = dtapplecantinfo.Rows[i]["Num2String"].ToString();
                             string AppName = UtilDataMask.MaskName(dtapplecantinfo.Rows[i]["Name"].ToString());
-                            string AppMobile = UtilDataMask.MaskMobile(dtapplecantinfo.Rows[i]["Mobile"].ToString(), 5, 3);
+                            string AppMobile = "";
+                            if (dtapplecantinfo.Columns.Contains("AppMobile"))
+                            {
+                                AppMobile = UtilDataMask.MaskMobile(dtapplecantinfo.Rows[i]["AppMobile"].ToString(), 5, 3);
+                            }
+                            else if (dtapplecantinfo.Columns.Contains("Mobile"))
+                            {
+                                AppMobile = UtilDataMask.MaskMobile(dtapplecantinfo.Rows[i]["Mobile"].ToString(), 5, 3);
+                            }
                             string Address = UtilDataMask.MaskTWAddr(dtapplecantinfo.Rows[i]["Address"].ToString());
                             string ChargeDate = dtapplecantinfo.Rows[i]["ChargeDateString"].ToString();
 
@@ -5324,64 +6613,6 @@ namespace Temple
                             Datalist += add_product_blessed(Num2String, ChargeDate, AppName, AppMobile, Address, name_A, name_B, cost_B, count_B, pd_B_img);
                         }
                     }
-                    //dtapplecantinfo = objLightDAC.Getapplicantinfo_Product(m_Name, m_Mobile, adminID);
-                    //dtapplecantinfo = objLightDAC.Getapplicantinfo_Product(m_Num2String);
-                    //if (dtapplecantinfo.Rows.Count > 0)
-                    //{
-                    //    for (int i = 0; i < dtapplecantinfo.Rows.Count; i++)
-                    //    {
-                    //        int applicantID = 0;
-                    //        int.TryParse(dtapplecantinfo.Rows[i]["ApplicantID"].ToString(), out applicantID);
-
-                    //        string Num2String = dtapplecantinfo.Rows[i]["Num2String"].ToString();
-                    //        string AppName = UtilDataMask.MaskName(dtapplecantinfo.Rows[i]["Name"].ToString());
-                    //        string AppMobile = UtilDataMask.MaskMobile(dtapplecantinfo.Rows[i]["Mobile"].ToString(), 5, 3);
-                    //        string Address = UtilDataMask.MaskTWAddr(dtapplecantinfo.Rows[i]["Address"].ToString());
-
-                    //        string name_A = dtapplecantinfo.Rows[i]["productName"].ToString();
-                    //        string name_B = dtapplecantinfo.Rows[i]["ItemName"].ToString();
-                    //        string cost_B = dtapplecantinfo.Rows[i]["Cost"].ToString();
-                    //        int count_B = 0;
-                    //        int.TryParse(dtapplecantinfo.Rows[0]["Count"].ToString(), out count_B);
-
-                    //        Total += int.Parse(cost_B) * count_B;
-
-                    //        ProductDAC objProductDAC = new ProductDAC(basePage);
-                    //        string pd_B_img = objProductDAC.GetProductImgages(int.Parse(dtapplecantinfo.Rows[i]["ProductID"].ToString()));
-
-                    //        Datalist += add_product_blessed(Num2String, AppName, AppMobile, Address, name_A, name_B, cost_B, count_B, pd_B_img);
-                    //    }
-                    //}
-                    //else
-                    //{
-                    //    //dtapplecantinfo = objLightDAC.Getapplicantinfo_Product(m_Name, m_Mobile, adminID, Year);
-                    //    if (dtapplecantinfo.Rows.Count > 0)
-                    //    {
-                    //        for (int i = 0; i < dtapplecantinfo.Rows.Count; i++)
-                    //        {
-                    //            int applicantID = 0;
-                    //            int.TryParse(dtapplecantinfo.Rows[i]["ApplicantID"].ToString(), out applicantID);
-
-                    //            string Num2String = dtapplecantinfo.Rows[i]["Num2String"].ToString();
-                    //            string AppName = UtilDataMask.MaskName(dtapplecantinfo.Rows[i]["Name"].ToString());
-                    //            string AppMobile = UtilDataMask.MaskMobile(dtapplecantinfo.Rows[i]["Mobile"].ToString(), 5, 3);
-                    //            string Address = UtilDataMask.MaskTWAddr(dtapplecantinfo.Rows[i]["Address"].ToString());
-
-                    //            string name_A = dtapplecantinfo.Rows[i]["productName"].ToString();
-                    //            string name_B = dtapplecantinfo.Rows[i]["ItemName"].ToString();
-                    //            string cost_B = dtapplecantinfo.Rows[i]["Cost"].ToString();
-                    //            int count_B = 0;
-                    //            int.TryParse(dtapplecantinfo.Rows[0]["Count"].ToString(), out count_B);
-
-                    //            Total += int.Parse(cost_B) * count_B;
-
-                    //            ProductDAC objProductDAC = new ProductDAC(basePage);
-                    //            string pd_B_img = objProductDAC.GetProductImgages(int.Parse(dtapplecantinfo.Rows[i]["ProductID"].ToString()));
-
-                    //            Datalist += add_product_blessed(Num2String, AppName, AppMobile, Address, name_A, name_B, cost_B, count_B, pd_B_img);
-                    //        }
-                    //    }
-                    //}
                     break;
                 case 22:
                     //流金富貴販賣服務
@@ -5396,7 +6627,15 @@ namespace Temple
 
                             string Num2String = dtapplecantinfo.Rows[i]["Num2String"].ToString();
                             string AppName = UtilDataMask.MaskName(dtapplecantinfo.Rows[i]["Name"].ToString());
-                            string AppMobile = UtilDataMask.MaskMobile(dtapplecantinfo.Rows[i]["Mobile"].ToString(), 5, 3);
+                            string AppMobile = "";
+                            if (dtapplecantinfo.Columns.Contains("AppMobile"))
+                            {
+                                AppMobile = UtilDataMask.MaskMobile(dtapplecantinfo.Rows[i]["AppMobile"].ToString(), 5, 3);
+                            }
+                            else if (dtapplecantinfo.Columns.Contains("Mobile"))
+                            {
+                                AppMobile = UtilDataMask.MaskMobile(dtapplecantinfo.Rows[i]["Mobile"].ToString(), 5, 3);
+                            }
                             string Address = UtilDataMask.MaskTWAddr(dtapplecantinfo.Rows[i]["Address"].ToString());
                             string ChargeDate = dtapplecantinfo.Rows[i]["ChargeDateString"].ToString();
 
@@ -5419,64 +6658,6 @@ namespace Temple
                             Datalist += add_product_blessed(Num2String, ChargeDate, AppName, AppMobile, Address, name_A, name_B, cost_B, count_B, pd_B_img);
                         }
                     }
-                    //dtapplecantinfo = objLightDAC.Getapplicantinfo_Product(m_Name, m_Mobile, adminID);
-                    //dtapplecantinfo = objLightDAC.Getapplicantinfo_Product(m_Num2String);
-                    //if (dtapplecantinfo.Rows.Count > 0)
-                    //{
-                    //    for (int i = 0; i < dtapplecantinfo.Rows.Count; i++)
-                    //    {
-                    //        int applicantID = 0;
-                    //        int.TryParse(dtapplecantinfo.Rows[i]["ApplicantID"].ToString(), out applicantID);
-
-                    //        string Num2String = dtapplecantinfo.Rows[i]["Num2String"].ToString();
-                    //        string AppName = UtilDataMask.MaskName(dtapplecantinfo.Rows[i]["Name"].ToString());
-                    //        string AppMobile = UtilDataMask.MaskMobile(dtapplecantinfo.Rows[i]["Mobile"].ToString(), 5, 3);
-                    //        string Address = UtilDataMask.MaskTWAddr(dtapplecantinfo.Rows[i]["Address"].ToString());
-
-                    //        string name_A = dtapplecantinfo.Rows[i]["productName"].ToString();
-                    //        string name_B = dtapplecantinfo.Rows[i]["ItemName"].ToString();
-                    //        string cost_B = dtapplecantinfo.Rows[i]["Cost"].ToString();
-                    //        int count_B = 0;
-                    //        int.TryParse(dtapplecantinfo.Rows[0]["Count"].ToString(), out count_B);
-
-                    //        Total += int.Parse(cost_B) * count_B;
-
-                    //        ProductDAC objProductDAC = new ProductDAC(basePage);
-                    //        string pd_B_img = objProductDAC.GetProductImgages(int.Parse(dtapplecantinfo.Rows[i]["ProductID"].ToString()));
-
-                    //        Datalist += add_product_blessed(Num2String, AppName, AppMobile, Address, name_A, name_B, cost_B, count_B, pd_B_img);
-                    //    }
-                    //}
-                    //else
-                    //{
-                    //    //dtapplecantinfo = objLightDAC.Getapplicantinfo_Product(m_Name, m_Mobile, adminID, Year);
-                    //    if (dtapplecantinfo.Rows.Count > 0)
-                    //    {
-                    //        for (int i = 0; i < dtapplecantinfo.Rows.Count; i++)
-                    //        {
-                    //            int applicantID = 0;
-                    //            int.TryParse(dtapplecantinfo.Rows[i]["ApplicantID"].ToString(), out applicantID);
-
-                    //            string Num2String = dtapplecantinfo.Rows[i]["Num2String"].ToString();
-                    //            string AppName = UtilDataMask.MaskName(dtapplecantinfo.Rows[i]["Name"].ToString());
-                    //            string AppMobile = UtilDataMask.MaskMobile(dtapplecantinfo.Rows[i]["Mobile"].ToString(), 5, 3);
-                    //            string Address = UtilDataMask.MaskTWAddr(dtapplecantinfo.Rows[i]["Address"].ToString());
-
-                    //            string name_A = dtapplecantinfo.Rows[i]["productName"].ToString();
-                    //            string name_B = dtapplecantinfo.Rows[i]["ItemName"].ToString();
-                    //            string cost_B = dtapplecantinfo.Rows[i]["Cost"].ToString();
-                    //            int count_B = 0;
-                    //            int.TryParse(dtapplecantinfo.Rows[0]["Count"].ToString(), out count_B);
-
-                    //            Total += int.Parse(cost_B) * count_B;
-
-                    //            ProductDAC objProductDAC = new ProductDAC(basePage);
-                    //            string pd_B_img = objProductDAC.GetProductImgages(int.Parse(dtapplecantinfo.Rows[i]["ProductID"].ToString()));
-
-                    //            Datalist += add_product_blessed(Num2String, AppName, AppMobile, Address, name_A, name_B, cost_B, count_B, pd_B_img);
-                    //        }
-                    //    }
-                    //}
                     break;
                 case 28:
                     //流金富貴販賣服務
@@ -5491,7 +6672,15 @@ namespace Temple
 
                             string Num2String = dtapplecantinfo.Rows[i]["Num2String"].ToString();
                             string AppName = UtilDataMask.MaskName(dtapplecantinfo.Rows[i]["Name"].ToString());
-                            string AppMobile = UtilDataMask.MaskMobile(dtapplecantinfo.Rows[i]["Mobile"].ToString(), 5, 3);
+                            string AppMobile = "";
+                            if (dtapplecantinfo.Columns.Contains("AppMobile"))
+                            {
+                                AppMobile = UtilDataMask.MaskMobile(dtapplecantinfo.Rows[i]["AppMobile"].ToString(), 5, 3);
+                            }
+                            else if (dtapplecantinfo.Columns.Contains("Mobile"))
+                            {
+                                AppMobile = UtilDataMask.MaskMobile(dtapplecantinfo.Rows[i]["Mobile"].ToString(), 5, 3);
+                            }
                             string Address = UtilDataMask.MaskTWAddr(dtapplecantinfo.Rows[i]["Address"].ToString());
                             string ChargeDate = dtapplecantinfo.Rows[i]["ChargeDateString"].ToString();
 

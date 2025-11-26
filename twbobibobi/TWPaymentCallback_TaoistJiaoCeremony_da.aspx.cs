@@ -5,7 +5,6 @@ using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 using System.Data;
-using BCFBaseLibrary.Web;
 using Read.data;
 using BCFBaseLibrary.Security;
 using System.Collections;
@@ -17,6 +16,7 @@ using System.Net.Security;
 using System.Net;
 using System.Security.Cryptography.X509Certificates;
 using System.Text;
+using twbobibobi.Data;
 
 namespace twbobibobi
 {
@@ -41,6 +41,7 @@ namespace twbobibobi
 
                 string mac = MD5.Encode(uid + tid + oid + Timestamp + ValidationKey).Replace("-", "");
 
+                string[] taoistJiaoCeremonylist = new string[0];
                 string[] TaoistJiaoCeremonylist = new string[0];
 
                 //mac = MD5.Encode(uid + tid + Timestamp + ValidationKey).Replace("-", "");
@@ -66,12 +67,12 @@ namespace twbobibobi
                 //resp = "1|18062216041218500003|100|TELEPAY|twm|0918101710|20180622160559423|F6C5E389052469CC441A402A3F0D0C9F";
                 string orderId = oid;
                 string CallbackLog = tid + "," + resp;
-                DatabaseHelper objDatabaseHelper = new DatabaseHelper(this);
+                LightDAC objLightDAC = new LightDAC(this);
                 int aid = int.Parse(m1);
                 int status = 999;
-                int adminID = objDatabaseHelper.GetAdminID_TaoistJiaoCeremony_da(aid, Year);
+                int adminID = 3;
 
-                DataTable dtCharge = objDatabaseHelper.GetChargeLog_TaoistJiaoCeremony_da(orderId, Year);
+                DataTable dtCharge = objLightDAC.GetChargeLog_TaoistJiaoCeremony_da(orderId, Year);
 
                 if (dtCharge.Rows.Count > 0)
                 {
@@ -97,23 +98,23 @@ namespace twbobibobi
                         {
                             string mobile = result[5];
 
-                            objDatabaseHelper.UpdateTaoistJiaoCeremony_da_Info(aid, Year, ref TaoistJiaoCeremonylist);
-                            //DataTable dtapplicantinfo = objDatabaseHelper.Getapplicantinfo_TaoistJiaoCeremony_da(aid, adminID, Year);
-                            //int cost = dtapplicantinfo.Rows.Count > 0 ? int.Parse(dtapplicantinfo.Rows[0]["Cost"].ToString()) : 0;
-                            objDatabaseHelper.Updateapplicantinfo_TaoistJiaoCeremony_da(aid, cost, 2, Year); //更新購買表內購買人狀態為已付款(Status=2)
-
                             string msg = "感謝購買,已成功付款" + cost + "元,您的訂單編號 ";
 
-                            for (int i = 0; i < TaoistJiaoCeremonylist.Length; i++)
-                            {
-                                msg += TaoistJiaoCeremonylist[i];
-                                if (i < TaoistJiaoCeremonylist.Length - 1)
-                                {
-                                    msg += ",";
-                                }
-                            }
+                            objLightDAC.UpdateTaoistJiaoCeremony_da_Info(aid, Year, ref msg, ref taoistJiaoCeremonylist, ref TaoistJiaoCeremonylist);
+                            //DataTable dtapplicantinfo = objLightDAC.Getapplicantinfo_TaoistJiaoCeremony_da(aid, adminID, Year);
+                            //int cost = dtapplicantinfo.Rows.Count > 0 ? int.Parse(dtapplicantinfo.Rows[0]["Cost"].ToString()) : 0;
+                            objLightDAC.Updateapplicantinfo_TaoistJiaoCeremony_da(aid, cost, 2, Year); //更新購買表內購買人狀態為已付款(Status=2)
 
-                            msg += "。客服電話：04-36092299。";
+                            //for (int i = 0; i < TaoistJiaoCeremonylist.Length; i++)
+                            //{
+                            //    msg += TaoistJiaoCeremonylist[i];
+                            //    if (i < TaoistJiaoCeremonylist.Length - 1)
+                            //    {
+                            //        msg += ",";
+                            //    }
+                            //}
+
+                            //msg += "。客服電話：04-36092299。";
 
 
                             //msg = "感謝大德參與線上點燈,茲收您1960元功德金,訂單編號 光明燈:T2204, 安太歲:25351, 文昌燈:六1214。";
@@ -121,9 +122,10 @@ namespace twbobibobi
 
                             SMSHepler objSMSHepler = new SMSHepler();
                             string ChargeType = string.Empty;
+                            int uStatus = 0;
 
                             //更新流水付費表資訊(付費成功)
-                            if (objDatabaseHelper.UpdateChargeLog_TaoistJiaoCeremony_da(orderId, tid, msg, Request.UserHostAddress, CallbackLog, Year, ref ChargeType))
+                            if (objLightDAC.UpdateChargeLog_TaoistJiaoCeremony_da(orderId, tid, msg, Request.UserHostAddress, CallbackLog, Year, ref ChargeType, ref uStatus))
                             {
                                 if (objSMSHepler.SendMsg_SL(mobile, msg))
                                 {
@@ -143,14 +145,14 @@ namespace twbobibobi
                         }
                         else if (result[0] == "4")
                         {
-                            if (objDatabaseHelper.UpdateChargeStatus_TaoistJiaoCeremony_da(orderId, -2, Request.UserHostAddress, CallbackLog, Year))
+                            if (objLightDAC.UpdateChargeStatus_TaoistJiaoCeremony_da(orderId, -2, Request.UserHostAddress, CallbackLog, Year))
                             {
                                 Response.Write("<script>alert('此用戶已退款。');window.location.href='" + rebackURL + "'</script>");
                             }
                         }
                         else
                         {
-                            objDatabaseHelper.UpdateChargeStatus_TaoistJiaoCeremony_da(orderId, -1, Request.UserHostAddress, CallbackLog, Year);
+                            objLightDAC.UpdateChargeStatus_TaoistJiaoCeremony_da(orderId, -1, Request.UserHostAddress, CallbackLog, Year);
 
                             if (m2.IndexOf("APPPaymentResult") > 0)
                             {

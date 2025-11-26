@@ -1,4 +1,4 @@
-﻿using MotoSystem.Data;
+﻿using twbobibobi.Data;
 using Newtonsoft.Json.Linq;
 using Read.data;
 using System;
@@ -19,15 +19,22 @@ namespace twbobibobi.Temples
     {
         public int aid = 0;
         public int a = 0;
-        public string EndDate = "2024/10/20 23:59";
-        protected static string Year = "2024";
+        public static string Year = "2025";
 
+        /// <summary>
+        /// 
+        /// </summary>
         protected override void InitAjaxHandler()
         {
             AddAjaxHandler(typeof(AjaxPageHandler), "gotochecked");
             AddAjaxHandler(typeof(AjaxPageHandler), "editinfo");
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         protected void Page_Load(object sender, EventArgs e)
         {
             if (!IsPostBack)
@@ -41,34 +48,36 @@ namespace twbobibobi.Temples
                 }
 
                 int adminID = a = 23;
-                //this.lingbaolidou1.Visible = true;
                 this.lingbaolidou2.Visible = false;
                 this.lingbaolidou3.Visible = false;
-
-                //if (Request["twm"] != null)
-                //{
-                //    Response.Write("<script>alert('訪問網址錯誤。');window.location.href='https://bobibobi.tw/Temples/templeService_lingbaolidou_ma.aspx'</script>");
-                //}
             }
         }
+
+        /// <summary>
+        /// 
+        /// </summary>
         public class AjaxPageHandler
         {
             public int ApplicantID = 0;
             public int LingbaolidouID = 0;
 
+            /// <summary>
+            /// 
+            /// </summary>
+            /// <param name="basePage"></param>
             public void gotochecked(BasePage basePage)
             {
                 basePage.mJSonHelper.AddContent("StatusCode", 0);
 
                 LightDAC objLightDAC = new LightDAC(basePage);
                 string AdminID = "23";
-                string AppName = basePage.Request["Appname"];                                       //申請人姓名
-                string AppMobile = basePage.Request["Appmobile"];                                   //申請人電話
-                string Appemail = basePage.Request["Appemail"];                                     //申請人Email
-                string AppzipCode = basePage.Request["AppzipCode"];                                 //申請人郵遞區號
-                string Appcounty = basePage.Request["Appcounty"];                                   //申請人縣市
-                string Appdist = basePage.Request["Appdist"];                                       //申請人區域
-                string Appaddr = basePage.Request["Appaddr"];                                       //申請人部分地址
+                string AppName = basePage.Request["Appname"];                                       //購買人姓名
+                string AppMobile = basePage.Request["Appmobile"];                                   //購買人電話
+                string AppEmail = basePage.Request["AppEmail"];                                     //購買人信箱
+                string AppzipCode = basePage.Request["AppzipCode"];                                 //購買人郵遞區號
+                string Appcounty = basePage.Request["Appcounty"];                                   //購買人縣市
+                string Appdist = basePage.Request["Appdist"];                                       //購買人區域
+                string Appaddr = basePage.Request["Appaddr"];                                       //購買人部分地址
 
                 string name_Tag = basePage.Request["name_Tag"];                                     //祈福人姓名
                 string mobile_Tag = basePage.Request["mobile_Tag"];                                 //祈福人電話
@@ -77,13 +86,16 @@ namespace twbobibobi.Temples
                 string leapMonth_Tag = basePage.Request["leapMonth_Tag"];                           //閏月 Y-是 N-否
                 string birthtime_Tag = basePage.Request["birthtime_Tag"];                           //祈福人農曆時辰
                 string sbirth_Tag = basePage.Request["sbirth_Tag"];                                 //祈福人國曆生日
+                string oversea_Tag = basePage.Request["oversea_Tag"];                               //國內-1 國外-2
                 string zipCode_Tag = basePage.Request["zipCode_Tag"];                               //祈福人郵遞區號
                 string county_Tag = basePage.Request["county_Tag"];                                 //祈福人縣市
                 string dist_Tag = basePage.Request["dist_Tag"];                                     //祈福人區域
                 string addr_Tag = basePage.Request["addr_Tag"];                                     //祈福人部分地址
+                string remark_Tag = basePage.Request["remark_Tag"];                                 //備註
                 string LingbaolidouString_Tag = basePage.Request["LingbaolidouString_Tag"];         //服務項目
 
                 int listcount = int.Parse(basePage.Request["listcount"]);                           //祈福人數量
+
 
                 JArray Jname = JArray.Parse(name_Tag);
                 JArray Jmobile = JArray.Parse(mobile_Tag);
@@ -92,34 +104,44 @@ namespace twbobibobi.Temples
                 JArray JleapMonth = JArray.Parse(leapMonth_Tag);
                 JArray Jbirthtime = JArray.Parse(birthtime_Tag);
                 JArray Jsbirth = JArray.Parse(sbirth_Tag);
+                JArray Joversea = JArray.Parse(oversea_Tag);
                 JArray JzipCode = JArray.Parse(zipCode_Tag);
                 JArray Jcounty = JArray.Parse(county_Tag);
                 JArray Jdist = JArray.Parse(dist_Tag);
                 JArray Jaddr = JArray.Parse(addr_Tag);
+                JArray Jremark = JArray.Parse(remark_Tag);
                 JArray JLingbaolidouString_Tag = JArray.Parse(LingbaolidouString_Tag);
 
-                string postURL = "Lingbaolidou_ma_Index";
+                string postURL_Init = "Lingbaolidou_ma_Index";
 
-                postURL += basePage.Request["twm"] != null ? "_TWM" : "";
+                string url = HttpContext.Current.Request.Url.AbsoluteUri;
 
-                postURL += basePage.Request["cht"] != null ? "_CHT" : "";
-
-                postURL += basePage.Request["line"] != null ? "_LINE" : "";
-
-                postURL += basePage.Request["fb"] != null ? "_FB" : "";
-
-                postURL += basePage.Request["ig"] != null ? "_IG" : "";
-
-                postURL += basePage.Request["fetsms"] != null ? "_fetSMS" : "";
-
-                postURL += basePage.Request["jkos"] != null ? "_JKOS" : "";
+                string postURL = GetRequestURL(url, postURL_Init);
 
                 bool checkednum_ma = true;
 
                 if (checkednum_ma)
                 {
-                    ApplicantID = objLightDAC.addapplicantinfo_Lingbaolidou_ma(AppName, AppMobile, Appemail, "0", AppzipCode, Appcounty, Appdist, Appaddr, "Y", AppName,
-                        AppMobile, 0, AdminID, postURL, Year);
+                    string AppSendback = "Y";                                                           //寄送方式 N-不寄回(會轉送給弱勢團體) Y-寄回()
+                    string Apprname = AppName;                                                          //收件人姓名
+                    string Apprmobile = AppMobile;                                                      //收件人電話
+
+                    ApplicantID = objLightDAC.Addapplicantinfo_Lingbaolidou_ma(
+                        Name: AppName, 
+                        Mobile: AppMobile, 
+                        Cost: "0", 
+                        County: Appcounty, 
+                        Dist: Appdist, 
+                        Addr: Appaddr, 
+                        ZipCode: AppzipCode, 
+                        Sendback: AppSendback, 
+                        ReceiptName: Apprname, 
+                        ReceiptMobile: Apprmobile, 
+                        Email: AppEmail, 
+                        Status: 0, 
+                        AdminID: AdminID, 
+                        PostURL: postURL, 
+                        Year: Year);
                     bool lingbaolidouinfo = false;
 
                     if (ApplicantID > 0)
@@ -142,6 +164,8 @@ namespace twbobibobi.Temples
                             string county = Jcounty[i].ToString();
                             string dist = Jdist[i].ToString();
                             string zipCode = JzipCode[i].ToString();
+                            string oversea = Joversea[i].ToString();
+                            string remark = Jremark[i].ToString();
                             string birthMonth = "0";
                             string age = "0";
                             string Zodiac = string.Empty;
@@ -243,11 +267,34 @@ namespace twbobibobi.Temples
 
                             birthMonth = CheckedDateZero(birthMonth, 1);
 
+                            int cost = GetLingbaolidouCost(23, lingbaolidouType);
+
                             if (name != "")
                             {
                                 lingbaolidouinfo = true;
-                                LingbaolidouID = objLightDAC.addLingbaolidou_ma(ApplicantID, name, mobile, sex, lingbaolidouType, lingbaolidouString,
-                                    "1", Birth, leapMonth, birthTime, birthMonth, age, Zodiac, sBirth, 1, addr, county, dist, zipCode, Year);
+                                LingbaolidouID = objLightDAC.AddLingbaolidou_ma(
+                                    ApplicantID: ApplicantID, 
+                                    Name: name, 
+                                    Mobile: mobile, 
+                                    Cost: cost,
+                                    Sex: sex, 
+                                    LingbaolidouType: lingbaolidouType, 
+                                    LingbaolidouString: lingbaolidouString,
+                                    Oversea: oversea, 
+                                    Birth: Birth, 
+                                    LeapMonth: leapMonth, 
+                                    BirthTime: birthTime, 
+                                    BirthMonth: birthMonth, 
+                                    Age: age, 
+                                    Zodiac: Zodiac, 
+                                    sBirth: sBirth, 
+                                    Count: 1, 
+                                    Remark: remark, 
+                                    Addr: addr, 
+                                    County: county, 
+                                    Dist: dist, 
+                                    ZipCode: zipCode, 
+                                    Year: Year);
                             }
 
                         }
@@ -256,13 +303,27 @@ namespace twbobibobi.Temples
                     if (ApplicantID > 0 && lingbaolidouinfo)
                     {
                         basePage.mJSonHelper.AddContent("StatusCode", 1);
-                        basePage.mJSonHelper.AddContent("redirect", "templeCheck.aspx?kind=12&a=" + AdminID + "&aid=" + ApplicantID + (basePage.Request["ad"] != null ? "&ad=1" : "") + (basePage.Request["twm"] != null ? "&twm=1" : ""));
+
+                        string redirectUrl = BuildRedirectUrl(
+                            "templeCheck.aspx",
+                            12,
+                            AdminID,
+                            ApplicantID,
+                            basePage.Request
+                        );
+
+                        // 加入 JSON 回傳內容
+                        basePage.mJSonHelper.AddContent("redirect", redirectUrl);
 
                         basePage.Session["ApplicantID"] = ApplicantID;
                     }
                 }
             }
 
+            /// <summary>
+            /// 
+            /// </summary>
+            /// <param name="basePage"></param>
             public void editinfo(BasePage basePage)
             {
                 basePage.mJSonHelper.AddContent("StatusCode", 0);
@@ -274,7 +335,7 @@ namespace twbobibobi.Temples
 
                 string AdminID = basePage.Request["a"];
 
-                dtData = objLightDAC.Getlingbaolidou_ma_info(applicantID, Year);
+                dtData = objLightDAC.Getlingbaolidou_ma_Info(applicantID, Year);
 
                 if (dtData.Rows.Count > 0)
                 {

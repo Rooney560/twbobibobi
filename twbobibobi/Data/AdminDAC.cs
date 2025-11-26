@@ -1,3490 +1,2509 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data;
-using System.Diagnostics;
-using System.IO;
-using System.Linq;
-using System.Web;
-using System.Web.UI.WebControls;
+﻿/***************************************************************************************************
+ * 專案名稱：twbobibobi
+ * 檔案名稱：AdminDAC.cs
+ * 類別說明：後台管理者資料存取層，提供管理員帳號查詢、新增、修改、刪除與系統設定操作
+ * 建立日期：2025-11-14
+ * 建立人員：Rooney
+ * 修改記錄：2025-11-14 全面改用 DatabaseAdapter.ExecuteSql / ExecuteScalar，移除 Fill + Update；依新版 DatabaseAdapter 重構，加入錯誤記錄與分區結構
+ * 目前維護人員：Rooney
+ ***************************************************************************************************/
 
-namespace MotoSystem.Data
+using System;
+using System.Data;
+using twbobibobi.Helpers;
+
+namespace twbobibobi.Data
 {
+    /// <summary>
+    /// AdminDAC：負責管理者資料的新增、修改、查詢與登入驗證邏輯。
+    /// </summary>
     public class AdminDAC : SqlClientBase
     {
-        protected bool result = false;
-        public AdminDAC(BasePage basePage) : base(basePage)
-        {
+        /// <summary>
+        /// 建構子，繼承自 <see cref="SqlClientBase"/>，用於前端頁面注入資料庫連線來源。
+        /// </summary>
+        /// <param name="basePage">目前執行的 BasePage 實例，其內含資料庫連線物件 DBSource。</param>
+        public AdminDAC(BasePage basePage) : base(basePage) { }
 
-        }
 
+        //==================================================
+        #region 共用(Common)
+        //==================================================
+
+        /// <summary>
+        /// 取得指定系統設定項目值。
+        /// </summary>
+        /// <param name="paramName">設定項目名稱。</param>
+        /// <returns>設定值字串。</returns>
         public static string GetConfigValue(string paramName)
         {
             try
             {
                 return System.Configuration.ConfigurationManager.AppSettings[paramName];
             }
-            catch (System.Configuration.ConfigurationErrorsException e)
+            catch (System.Configuration.ConfigurationErrorsException error)
             {
+                string detailedError = ErrorLogger.FormatError(error, typeof(AdminDAC).FullName);
+                twbobibobi.Data.BasePage basePage = new twbobibobi.Data.BasePage();
+                basePage.SaveErrorLog("AdminDAC.GetConfigValue：\r\n" + detailedError);
                 return string.Empty;
             }
         }
 
-        public bool UpdateAdmin(string AdminID, string Username, string Password, string Nickname, string Permission, int status)
+        /// <summary>
+        /// 共用方法：依活動種類刪除對應申請資料。
+        /// </summary>
+        /// <param name="applicantId">購買人主鍵編號。</param>
+        /// <param name="adminId">管理員編號(宮廟編號)。</param>
+        /// <param name="kind">
+        /// 活動種類：
+        /// 1-點燈 
+        /// 2-普度 
+        /// 4-下元補庫 
+        /// 5-呈疏補庫(天官武財神聖誕補財庫) 
+        /// 6-企業補財庫 
+        /// 7-天赦日補運 
+        /// 8-天赦日祭改 
+        /// 9-關聖帝君聖誕 
+        /// 10-代燒金紙 
+        /// 11-天貺納福添運法會 
+        /// 12-靈寶禮斗 
+        /// 13-七朝清醮 
+        /// 14-九九重陽天赦日補運 
+        /// 15-護國息災梁皇大法會 
+        /// 16-補財庫 
+        /// 17-赦罪補庫 
+        /// 18-天公生招財補運 
+        /// 19-供香轉運 
+        /// 20-安斗 
+        /// 21-供花供果 
+        /// 22-孝親祈福燈 
+        /// 23-祈安植福
+        /// 24-祈安禮斗
+        /// 25-千手觀音千燈迎佛法會
+        /// <param name="type">類型，用於部分分支（例如桃園威天宮燈別）。</param>
+        /// <param name="Year">資料年份。</param>
+        /// <returns>更新與刪除皆成功回傳 true，否則 false。</returns>
+        private bool DeleteLinkedApplicantData(
+            int applicantId, 
+            string adminId, 
+            string kind, 
+            int type, 
+            string year)
         {
-            int rs;
-
-            rs = this.ExecuteSql("  update Admin set Username='" + Username  + "'  , Password='" + Password + "'  , Nickname=N'" + Nickname + "'  , Permission='" + Permission + "'  , Status='" + status + "'  where AdminID='" + AdminID + "'");
-
-            if (rs > 0)
+            bool bResult = false;
+            switch (kind)
             {
-                result = true;
+                case "1": bResult = DeleteLightsInfo(applicantId, adminId, type, year); break;
+                case "2": bResult = DeletePurdueInfo(applicantId, adminId, year); break;
+                case "3": bResult = DeleteProductInfo(applicantId, adminId, year); break;
+                case "4": bResult = DeleteSuppliesInfo(applicantId, adminId, 1, year); break;
+                case "5": bResult = DeleteSuppliesInfo(applicantId, adminId, 2, year); break;
+                case "6": bResult = DeleteSuppliesInfo(applicantId, adminId, 3, year); break;
+                case "7": bResult = DeleteSuppliesInfo(applicantId, adminId, 4, year); break;
+                case "8": bResult = DeleteSuppliesInfo(applicantId, adminId, 5, year); break;
+                case "9": bResult = DeleteEmperorGuanshengInfo(applicantId, adminId, year); break;
+                case "10": bResult = DeleteBPOInfo(applicantId, adminId, year); break;
+                case "12": bResult = DeleteLingbaolidouInfo(applicantId, adminId, year); break;
+                case "13": bResult = DeleteTaoistJiaoCeremonyInfo(applicantId, adminId, year); break;
+                case "16": bResult = DeleteSuppliesInfo(applicantId, adminId, 9, year); break;
+                case "18": bResult = DeleteSuppliesInfo(applicantId, adminId, 18, year); break;
+                case "20": bResult = DeleteAnDouInfo(applicantId, adminId, year); break;
+                case "21": bResult = DeleteHuaguoInfo(applicantId, adminId, year); break;
+                case "22": bResult = DeleteLightsInfo(applicantId, adminId, 2, year); break;
+                case "23": bResult = DeleteBlessingInfo(applicantId, adminId, year); break;
+                case "24": bResult = DeleteSuppliesInfo(applicantId, adminId, 24, year); break;
+                case "25": bResult = DeleteQnLightInfo(applicantId, adminId, year); break;
             }
-
-            return result;
+            return bResult;
         }
 
-        public bool UpdateMotoInfo(string MotoID, int BrandID, string Name, int DepartmentType, string Department, string LicenseNum, string Model, string CCNum, string Cost, int PromissoryNote, int Level)
+        /// <summary>
+        /// 將宮廟 Content 欄位進行解碼與樣式優化。
+        /// Decode temple HTML content and adjust table style.
+        /// </summary>
+        /// <param name="dtData">包含 Content 欄位的 DataTable。</param>
+        private void AddDecodedTempleContent(DataTable dtData)
         {
-            int rs;
+            if (!dtData.Columns.Contains("Content1"))
+                dtData.Columns.Add("Content1", typeof(string));
 
-            rs = this.ExecuteSql("  update MotoInfo set Name=N'" + Name + "'  , DepartmentType='" + DepartmentType + "'  , Department=N'" + Department + "'  , LicenseNum='" + LicenseNum + "'  , Model='" + Model + "'  , CCNum='" + CCNum + "'  , Cost='" + Cost + "'  , PromissoryNote='" + PromissoryNote + "'  , BrandID='" + BrandID + "'  , Level='" + Level + "'  where MotoID='" + MotoID + "'");
-
-            if (rs > 0)
+            foreach (DataRow row in dtData.Rows)
             {
-                result = true;
-            }
+                if (row["Content"] != DBNull.Value)
+                {
+                    string content = System.Text.UnicodeEncoding.Unicode.GetString((byte[])row["Content"]);
 
-            return result;
+                    // 修正 <table> 標籤樣式
+                    content = System.Text.RegularExpressions.Regex.Replace(
+                        content,
+                        "<table",
+                        "<table style=\"max-width:100%; height:auto\"",
+                        System.Text.RegularExpressions.RegexOptions.IgnoreCase
+                    );
+
+                    // 修正 width 屬性
+                    string valEx = @"width=""\d+""";
+                    content = System.Text.RegularExpressions.Regex.Replace(
+                        content,
+                        valEx,
+                        "width=\"640px\" height=\"auto\"",
+                        System.Text.RegularExpressions.RegexOptions.IgnoreCase
+                    );
+
+                    row["Content1"] = content;
+                }
+            }
         }
 
-        public bool UpdateBrandInfo(string BrandID, string Name)
+        #endregion
+
+
+        //==================================================
+        #region 建立(Create)
+        //==================================================
+
+
+        #endregion
+
+
+        //==================================================
+        #region 查詢(Select)
+        //==================================================
+
+        /// <summary>
+        /// 取得管理員列表（分頁版本）。
+        /// </summary>
+        /// <param name="PageIndex">頁索引（從 1 起算）。</param>
+        /// <param name="PageSize">每頁筆數。</param>
+        /// <param name="permission">權限等級。</param>
+        /// <param name="adminID">管理員編號(宮廟編號)。</param>
+        /// <returns>管理員資料表。</returns>
+        /// <summary>
+        public DataTable GetAdminList(
+            int PageIndex, 
+            int PageSize, 
+            int permission, 
+            int adminID)
         {
-            int rs;
-
-            rs = this.ExecuteSql("  update BrandInfo set Name=N'" + Name + "'  where BrandID='" + BrandID + "'");
-
-            if (rs > 0)
+            try
             {
-                result = true;
+                string sql = "SELECT * FROM Admin";
+                if (permission != 0)
+                {
+                    sql += " WHERE AdminID = @AdminID OR UpperAdminID = @UpperAdminID";
+                }
+
+                using (var adapter = new DatabaseAdapter(sql, this.DBSource))
+                {
+                    if (permission != 0)
+                    {
+                        adapter.AddParameterToSelectCommand("@AdminID", adminID);
+                        adapter.AddParameterToSelectCommand("@UpperAdminID", adminID);
+                    }
+
+                    // 建立 DataSet 接收分頁結果
+                    DataSet ds = new DataSet();
+                    adapter.Fill(ds, (PageIndex - 1) * PageSize, PageSize, "dtGetData");
+                    return ds.Tables["dtGetData"];
+                }
             }
-
-            return result;
-        }
-
-        public bool UpdateDiscountInfo(string DiscountID, string Cost)
-        {
-            int rs;
-
-            rs = this.ExecuteSql("  update DiscountInfo set Cost='" + Cost + "'  where DiscountID='" + DiscountID + "'");
-
-            if (rs > 0)
+            catch (Exception error)
             {
-                result = true;
+                string detailedError = ErrorLogger.FormatError(error, typeof(AdminDAC).FullName);
+                twbobibobi.Data.BasePage basePage = new twbobibobi.Data.BasePage();
+                basePage.SaveErrorLog("AdminDAC.GetAdminList(PageIndex)：\r\n" + detailedError);
+                throw;
             }
-
-            return result;
-        }
-
-        public bool UpdateVendorInfo(string VendorID, int AdminID, string Name)
-        {
-            int rs;
-
-            rs = this.ExecuteSql("  update VendorInfo set Name=N'" + Name + "', AdminID = '" + AdminID +"'  where VendorID='" + VendorID + "'");
-
-            if(rs > 0)
-            {
-                result = true;
-            }
-
-            return result;
-        }
-
-        public bool UpdateBookkeepingInfo(int BookID, string AdminID, int MotoID, string CustomerID, string RentTime, string Money, string PayType, int Share, string ContractAddress)
-        {
-            int rs;
-
-            rs = this.ExecuteSql("  update BookkeepingInfo set AdminID='" + AdminID + "'  , MotoID='" + MotoID + "'  , CustomerID='" + CustomerID + "'  , RentTime='" + RentTime + "'  , Money='" + Money + "'  , PayType='" + PayType + "'  , Share='" + Share + "'  , ContractAddress='" + ContractAddress + "'  where BookID='" + BookID + "'");
-
-            if (rs > 0)
-            {
-                result = true;
-            }
-
-            return result;
-        }
-
-        public bool UpdateCustomerInfo(string CustomerID, string Name, string MobileNum, string IDNum, string HomeNum, string Address, string Birthday, string Gender, string Permission, string EmergencyNum, string Relation, string Remark, string Email)
-        {
-            int rs;
-
-            rs = this.ExecuteSql("  update Customer set Name=N'" + Name + "'  , MobileNum='" + MobileNum + "'  , Address=N'" + Address + "'  , IDNum='" + IDNum + "'  , HomeNum='" + HomeNum + "'  , Birthday='" + Birthday + "'  , Gender='" + Gender + "'  , Permission='" + Permission + "'  , EmergencyNum='" + EmergencyNum + "'  , Relation='" + Relation + "'  , Email='" + Email + "'  , Remark=N'" + Remark + "'  where CustomerID='" + CustomerID + "'");
-
-            if (rs > 0)
-            {
-                result = true;
-            }
-
-            return result;
-        }
-
-        public bool UpdateReservation(string ReservationID, string StartDate, string EndDate)
-        {
-            int rs;
-
-            rs = this.ExecuteSql("  update Reservation set StartDate='" + StartDate + "'  , EndDate='" + EndDate + "'  where ReservationID='" + ReservationID + "'");
-
-            if (rs > 0)
-            {
-                result = true;
-            }
-
-            return result;
         }
 
         /// <summary>
-        /// 建立管理員資料
-        /// <param name="UserName">UserName=帳號</param>
-        /// <param name="NickName">NickName=暱稱</param>
-        /// <param name="Permission">Permission=權限 0-超級管理員 1-廠商最高管理員 2-廠商一般管理員 3-打卡系統管理員</param>
+        /// 取得管理員列表（依權限等級）。
         /// </summary>
-        public int InsertAdmindata(string UserName, string Password, string NickName, string Permission)
-        {
-            TimeZoneInfo info = TimeZoneInfo.FindSystemTimeZoneById("Taipei Standard Time");
-            DateTime dt = TimeZoneInfo.ConvertTime(DateTime.Now, info);
-            string sql = "Insert into Admin(UserName, Password, NickName, Permission, CreateDate) values(@UserName, @Password, @NickName, @Permission, @CreateDate)";
-            DatabaseAdapter Adapter = new DatabaseAdapter(sql, this.DBSource);
-            DataTable dtdata = new DataTable();
-            Adapter.AddParameterToSelectCommand("@UserName", UserName);
-            Adapter.AddParameterToSelectCommand("@Password", Password);
-            Adapter.AddParameterToSelectCommand("@NickName", NickName);
-            Adapter.AddParameterToSelectCommand("@Permission", Permission);
-            Adapter.AddParameterToSelectCommand("@CreateDate", dt);
-            Adapter.SetSqlCommandBuilder();
-            Adapter.Fill(dtdata);
-            Adapter.Update(dtdata);
-
-            return this.GetIdentity();
-        }
-
-        /// <summary>
-        /// 建立車籍資料
-        /// <param name="BrandID">BrandID=廠牌編號</param>
-        /// <param name="Name">Name=重機名稱</param>
-        /// <param name="DepartmentType">DepartmentType=所屬店家類別: 0-大喵店家 1-合作店家</param>
-        /// <param name="Department">Department=所屬店家 ex:大喵重機</param>
-        /// <param name="LicenseNum">LicenseNum=牌照號碼</param>
-        /// <param name="Model">Model=重車型號</param>
-        /// <param name="CCNum">CCNum=CC數</param>
-        /// <param name="Level">Level=權限 0-A級 1-B級 2-C級 3-D級 4-E級 5-特級</param>
-        /// <param name="Cost">Cost=價錢</param>
-        /// <param name="PromissoryNote">PromissoryNote=本票金額</param>
-        /// </summary>
-        public int InsertMotoInfo(int BrandID, string Name, int DepartmentType, string Department, string LicenseNum, string Model, string CCNum, int Level, string Cost, int PromissoryNote)
-        {
-            TimeZoneInfo info = TimeZoneInfo.FindSystemTimeZoneById("Taipei Standard Time");
-            DateTime dt = TimeZoneInfo.ConvertTime(DateTime.Now, info);
-
-            string sql = "Insert into MotoInfo(BrandID, Name, DepartmentType, Department, LicenseNum, Model, CCNum, Level, Cost, PromissoryNote, CreateDate) values(@BrandID, @Name, @DepartmentType, @Department, @LicenseNum, @Model, @CCNum, @Level, @Cost, @PromissoryNote, @CreateDate)";
-            DatabaseAdapter Adapter = new DatabaseAdapter(sql, this.DBSource);
-            DataTable dtdata = new DataTable();
-            Adapter.AddParameterToSelectCommand("@BrandID", BrandID);
-            Adapter.AddParameterToSelectCommand("@Name", Name);
-            Adapter.AddParameterToSelectCommand("@DepartmentType", DepartmentType);
-            Adapter.AddParameterToSelectCommand("@Department", Department);
-            Adapter.AddParameterToSelectCommand("@LicenseNum", LicenseNum);
-            Adapter.AddParameterToSelectCommand("@CCNum", CCNum);
-            Adapter.AddParameterToSelectCommand("@Model", Model);
-            Adapter.AddParameterToSelectCommand("@Level", Level);
-            Adapter.AddParameterToSelectCommand("@Cost", Cost);
-            Adapter.AddParameterToSelectCommand("@PromissoryNote", PromissoryNote);
-            Adapter.AddParameterToSelectCommand("@CreateDate", dt);
-            Adapter.SetSqlCommandBuilder();
-            Adapter.Fill(dtdata);
-            Adapter.Update(dtdata);
-
-            return this.GetIdentity();
-        }
-
-        /// <summary>
-        /// 建立出車資料
-        /// <param name="AdminID">AdminID=管理員編號</param>
-        /// <param name="MotoID">MotoID=車籍編號</param>
-        /// <param name="CustomerID">CustomerID=會員編號</param>
-        /// <param name="RentTime">RentTime=租車時間</param>
-        /// <param name="Money">Money=價錢</param>
-        /// <param name="PayType">PayType=付款方式: 0-現金 1-刷卡</param>
-        /// <param name="Share">Share=他店拆帳</param>
-        /// <param name="ContractAddress">ContractAddress=合約書路徑</param>
-        /// </summary>
-        public int InsertBookkeepingInfo(string AdminID, int MotoID, string CustomerID, string RentTime, string Money, string PayType, int Share, string ContractAddress)
-        {
-            TimeZoneInfo info = TimeZoneInfo.FindSystemTimeZoneById("Taipei Standard Time");
-            DateTime dt = TimeZoneInfo.ConvertTime(DateTime.Now, info);
-
-            string sql = "Insert into BookkeepingInfo(AdminID, MotoID, CustomerID, RentTime, Money, PayType, Share, ContractAddress, CreateDate) values(@AdminID, @MotoID, @CustomerID, @RentTime, @Money, @PayType, @Share, @ContractAddress, @CreateDate)";
-            DatabaseAdapter Adapter = new DatabaseAdapter(sql, this.DBSource);
-            DataTable dtdata = new DataTable();
-            Adapter.AddParameterToSelectCommand("@AdminID", AdminID);
-            Adapter.AddParameterToSelectCommand("@MotoID", MotoID);
-            Adapter.AddParameterToSelectCommand("@CustomerID", CustomerID);
-            Adapter.AddParameterToSelectCommand("@RentTime", RentTime);
-            Adapter.AddParameterToSelectCommand("@Money", Money);
-            Adapter.AddParameterToSelectCommand("@PayType", PayType);
-            Adapter.AddParameterToSelectCommand("@Share", Share);
-            Adapter.AddParameterToSelectCommand("@ContractAddress", ContractAddress);
-            Adapter.AddParameterToSelectCommand("@CreateDate", dt);
-            Adapter.SetSqlCommandBuilder();
-            Adapter.Fill(dtdata);
-            Adapter.Update(dtdata);
-
-            return this.GetIdentity();
-        }
-
-        /// <summary>
-        /// 建立會員資料
-        /// </summary>
-        public int InsertCustomerInfo(string Name, string MobileNum, string IDNum, string HomeNum, string Address, string Birthday, string Gender, string Permission, string EmergencyNum, string Relation, string Remark, string Email)
-        {
-            TimeZoneInfo info = TimeZoneInfo.FindSystemTimeZoneById("Taipei Standard Time");
-            DateTime dt = TimeZoneInfo.ConvertTime(DateTime.Now, info);
-
-            string sql = "Insert into Customer(Name, MobileNum, IDNum, HomeNum, Address, Birthday, Gender, Permission, EmergencyNum, Relation, Remark, Email, CreateDate) values(@Name, @MobileNum, @IDNum, @HomeNum, @Address, @Birthday, @Gender, @Permission, @EmergencyNum, @Relation, @Remark, @Email, @CreateDate)";
-            DatabaseAdapter Adapter = new DatabaseAdapter(sql, this.DBSource);
-            DataTable dtdata = new DataTable();
-            Adapter.AddParameterToSelectCommand("@Name", Name);
-            Adapter.AddParameterToSelectCommand("@MobileNum", MobileNum);
-            Adapter.AddParameterToSelectCommand("@IDNum", IDNum);
-            Adapter.AddParameterToSelectCommand("@HomeNum", HomeNum);
-            Adapter.AddParameterToSelectCommand("@Address", Address);
-            Adapter.AddParameterToSelectCommand("@Birthday", Birthday);
-            Adapter.AddParameterToSelectCommand("@Gender", Gender);
-            Adapter.AddParameterToSelectCommand("@Permission", Permission);
-            Adapter.AddParameterToSelectCommand("@EmergencyNum", EmergencyNum);
-            Adapter.AddParameterToSelectCommand("@Relation", Relation);
-            Adapter.AddParameterToSelectCommand("@Remark", Remark);
-            Adapter.AddParameterToSelectCommand("@Email", Email);
-            Adapter.AddParameterToSelectCommand("@CreateDate", dt);
-            Adapter.SetSqlCommandBuilder();
-            Adapter.Fill(dtdata);
-            Adapter.Update(dtdata);
-
-            return this.GetIdentity();
-        }
-
-        /// <summary>
-        /// 建立廠商資料
-        /// <param name="Name">Name=廠商名稱</param>
-        /// </summary>
-        public int InsertBrandInfo(string Name)
-        {
-            TimeZoneInfo info = TimeZoneInfo.FindSystemTimeZoneById("Taipei Standard Time");
-            DateTime dt = TimeZoneInfo.ConvertTime(DateTime.Now, info);
-
-            string sql = "Insert into BrandInfo(Name, CreateDate) values(@Name, @CreateDate)";
-            DatabaseAdapter Adapter = new DatabaseAdapter(sql, this.DBSource);
-            DataTable dtdata = new DataTable();
-            Adapter.AddParameterToSelectCommand("@Name", Name);
-            Adapter.AddParameterToSelectCommand("@CreateDate", dt);
-            Adapter.SetSqlCommandBuilder();
-            Adapter.Fill(dtdata);
-            Adapter.Update(dtdata);
-
-            return this.GetIdentity();
-        }
-
-        /// <summary>
-        /// 建立預約資料
-        /// </summary>
-        /// <param name="MotoID">MotoID=車籍編號</param>
-        /// <param name="StartDate">StartDate=開始日期</param>
-        /// <param name="EndDate">EndDate=結束日期</param>
-        /// <returns></returns>
-        public int InsertReservation(string MotoID, string StartDate, string EndDate)
-        {
-            string sql = "Insert into Reservation(MotoID, StartDate, EndDate) values(@MotoID, @StartDate, @EndDate)";
-            DatabaseAdapter Adapter = new DatabaseAdapter(sql, this.DBSource);
-            DataTable dtdata = new DataTable();
-            Adapter.AddParameterToSelectCommand("@MotoID", MotoID);
-            Adapter.AddParameterToSelectCommand("@StartDate", StartDate);
-            Adapter.AddParameterToSelectCommand("@EndDate", EndDate);
-            Adapter.SetSqlCommandBuilder();
-            Adapter.Fill(dtdata);
-            Adapter.Update(dtdata);
-
-            return this.GetIdentity();
-        }
-        /// <summary>
-        /// 建立折扣資料
-        /// <param name="Cost">Cost=折扣價錢</param>
-        /// </summary>
-        public int InsertDiscountInfo(string Cost)
-        {
-            TimeZoneInfo info = TimeZoneInfo.FindSystemTimeZoneById("Taipei Standard Time");
-            DateTime dt = TimeZoneInfo.ConvertTime(DateTime.Now, info);
-
-            string sql = "Insert into DiscountInfo(Cost, CreateDate) values(@Cost, @CreateDate)";
-            DatabaseAdapter Adapter = new DatabaseAdapter(sql, this.DBSource);
-            DataTable dtdata = new DataTable();
-            Adapter.AddParameterToSelectCommand("@Cost", Cost);
-            Adapter.AddParameterToSelectCommand("@CreateDate", dt);
-            Adapter.SetSqlCommandBuilder();
-            Adapter.Fill(dtdata);
-            Adapter.Update(dtdata);
-
-            return this.GetIdentity();
-        }
-
-        /// <summary>
-        /// 建立廠商資料
-        /// <param name="AdminID">AdminID=管理員編號</param>
-        /// <param name="Name">Name=廠商名稱</param>
-        /// </summary>
-        public int InsertVendorInfo(int AdminID, string Name)
-        {
-            TimeZoneInfo info = TimeZoneInfo.FindSystemTimeZoneById("Taipei Standard Time");
-            DateTime dt = TimeZoneInfo.ConvertTime(DateTime.Now, info);
-
-            string sql = "Insert into VendorInfo(AdminID, Name, CreateDate) values(@AdminID, @Name, @CreateDate)";
-            DatabaseAdapter Adapter = new DatabaseAdapter(sql, this.DBSource);
-            DataTable dtdata = new DataTable();
-            Adapter.AddParameterToSelectCommand("@AdminID", AdminID);
-            Adapter.AddParameterToSelectCommand("@Name", Name);
-            Adapter.AddParameterToSelectCommand("@CreateDate", dt);
-            Adapter.SetSqlCommandBuilder();
-            Adapter.Fill(dtdata);
-            Adapter.Update(dtdata);
-
-            return this.GetIdentity();
-        }
-
-        /// <summary>
-        /// 確認帳號重複性
-        /// <param name="UserName">UserName=帳號</param>
-        /// </summary>
-        public bool CheckedUserName(string UserName)
-        {
-            bool username = true;
-            string sql = string.Empty;
-
-            sql = "Select * from Admin Where UserName = @UserName";
-
-            DatabaseAdapter objDatabaseAdapter = new DatabaseAdapter(sql, this.DBSource);
-            objDatabaseAdapter.AddParameterToSelectCommand("@UserName", UserName);
-            DataTable dtGetData = new DataTable();
-            objDatabaseAdapter.Fill(dtGetData);
-
-            if (dtGetData.Rows.Count > 0)
-            {
-                username = false;
-            }
-            return username;
-        }
-
-        /// <summary>
-        /// 確認預約重複性
-        /// </summary>
-        /// <param name="ReservationID">預約編號</param>
-        /// <returns></returns>
-        public bool CheckedReservation(string ReservationID)
-        {
-            bool result = false;
-            string sql = string.Empty;
-
-            sql = "Select * from Reservation Where ReservationID = @ReservationID and Status = 0";
-
-            DatabaseAdapter objDatabaseAdapter = new DatabaseAdapter(sql, this.DBSource);
-            objDatabaseAdapter.AddParameterToSelectCommand("@ReservationID", ReservationID);
-            DataTable dtGetData = new DataTable();
-            objDatabaseAdapter.Fill(dtGetData);
-
-            if (dtGetData.Rows.Count > 0)
-            {
-                result = true;
-            }
-            return result;
-        }
-        /// <summary>
-        /// 取得管理員資訊
-        /// <param name="UserName">UserName=帳號</param>
-        /// <param name="password">password=密碼</param>
-        /// </summary>
-        public DataTable GetAdminInfo(string UserName, string password)
-        {
-            string sql = string.Empty;
-
-            sql = "Select * from Admin Where UserName = @UserName and Password = @Password and Status = 0";
-
-            DatabaseAdapter objDatabaseAdapter = new DatabaseAdapter(sql, this.DBSource);
-            objDatabaseAdapter.AddParameterToSelectCommand("@UserName", UserName);
-            objDatabaseAdapter.AddParameterToSelectCommand("@Password", password);
-
-            DataTable dtGetData = new DataTable();
-            objDatabaseAdapter.Fill(dtGetData);
-
-            return dtGetData;
-        }
-
-        /// <summary>
-        /// 取得管理員資訊
-        /// <param name="AdminID">AdminID=管理員編號</param>
-        /// </summary>
-        public DataTable GetAdminInfo(int AdminID)
-        {
-            string sql = string.Empty;
-
-            sql = "Select * from Admin Where AdminID = @AdminID and Status = 0";
-
-            DatabaseAdapter objDatabaseAdapter = new DatabaseAdapter(sql, this.DBSource);
-            objDatabaseAdapter.AddParameterToSelectCommand("@AdminID", AdminID);
-
-            DataTable dtGetData = new DataTable();
-            objDatabaseAdapter.Fill(dtGetData);
-
-            return dtGetData;
-        }
-
-        /// <summary>
-        /// 取得管理員列表
-        /// <param name="permission">permission=權限</param>
-        /// <param name="adminID">adminID=管理員編號</param>
-        /// </summary>
-        public DataTable GetAdminList(int PageIndex, int PageSize, int permission, int adminID)
-        {
-            string sql = string.Empty;
-
-            sql = "Select * from Admin";
-            if(permission != 0)
-            {
-                sql += " Where AdminID = @AdminID or UpperAdminID = @UpperAdminID";
-            }
-
-            DatabaseAdapter objDatabaseAdapter = new DatabaseAdapter(sql, this.DBSource);
-            if(permission != 0)
-            {
-                objDatabaseAdapter.AddParameterToSelectCommand("@AdminID", adminID);
-                objDatabaseAdapter.AddParameterToSelectCommand("@UpperAdminID", adminID);
-            }
-            DataSet dsGetData = new DataSet();
-            objDatabaseAdapter.Fill(dsGetData, ((PageIndex - 1) * PageSize), PageSize, "dtGetData");
-            DataTable dtGetData = dsGetData.Tables["dtGetData"];
-
-            return dtGetData;
-        }
-
-        /// <summary>
-        /// 取得管理員列表
-        /// </summary>
+        /// <param name="permission">權限等級。</param>
+        /// <returns>管理員資料表。</returns>
         public DataTable GetAdminList(int permission)
         {
-            string sql = string.Empty;
+            try
+            {
+                string sql = "SELECT * FROM Admin WHERE Permission = @Permission";
 
-            sql = "Select * from Admin Where Permission = @Permission";
-
-            DatabaseAdapter objDatabaseAdapter = new DatabaseAdapter(sql, this.DBSource);
-            objDatabaseAdapter.AddParameterToSelectCommand("@Permission", permission);
-            DataTable dtGetData = new DataTable();
-            objDatabaseAdapter.Fill(dtGetData);
-
-            return dtGetData;
+                using (var adapter = new DatabaseAdapter(sql, this.DBSource))
+                {
+                    adapter.AddParameterToSelectCommand("@Permission", permission);
+                    DataTable dt = new DataTable();
+                    adapter.Fill(dt);
+                    return dt;
+                }
+            }
+            catch (Exception error)
+            {
+                string detailedError = ErrorLogger.FormatError(error, typeof(AdminDAC).FullName);
+                twbobibobi.Data.BasePage basePage = new twbobibobi.Data.BasePage();
+                basePage.SaveErrorLog("AdminDAC.GetAdminList(permission)：\r\n" + detailedError);
+                throw;
+            }
         }
 
         /// <summary>
-        /// 取得管理員列表
+        /// 取得所有正常（Status = 0）的管理員列表。
         /// </summary>
+        /// <returns>管理員資料表。</returns>
         public DataTable GetAdminList()
         {
-            string sql = string.Empty;
-
-            sql = "Select * from Admin Where Status = 0";
-
-            DatabaseAdapter objDatabaseAdapter = new DatabaseAdapter(sql, this.DBSource);
-            DataTable dtGetData = new DataTable();
-            objDatabaseAdapter.Fill(dtGetData);
-
-            return dtGetData;
-        }
-
-        /// <summary>
-        /// 取得人員名稱列表
-        /// </summary>
-        public DataTable GetCustomerList(int Permission)
-        {
-            string sql = string.Empty;
-
-            sql = "Select UserName from Customer";
-            if (Permission > 0)
+            try
             {
-                sql += " where Permission = @Permission";
+                string sql = "SELECT * FROM Admin WHERE Status = 0";
+
+                using (var adapter = new DatabaseAdapter(sql, this.DBSource))
+                {
+                    DataTable dt = new DataTable();
+                    adapter.Fill(dt);
+                    return dt;
+                }
             }
-
-            DatabaseAdapter objDatabaseAdapter = new DatabaseAdapter(sql, this.DBSource);
-            if (Permission > 0)
-                objDatabaseAdapter.AddParameterToSelectCommand("@Permission", Permission);
-            DataTable dtGetData = new DataTable();
-            objDatabaseAdapter.Fill(dtGetData);
-
-            return dtGetData;
-        }
-
-        /// <summary>
-        /// 取得重機列表
-        /// <param name="AdminID">AdminID=店家編號</param>
-        /// </summary>
-        public DataTable GetMotoList(int AdminID)
-        {
-            string sql = "Select * From MotoInfo Where Status = 0 and AdminID = @AdminID Order By CreateDate Desc";
-
-            DatabaseAdapter objDatabaseAdapter = new DatabaseAdapter(sql, this.DBSource);
-            objDatabaseAdapter.AddParameterToSelectCommand("@AdminID", AdminID);
-            DataTable dtGetData = new DataTable();
-            objDatabaseAdapter.Fill(dtGetData);
-
-            return dtGetData;
-        }
-
-        /// <summary>
-        /// 取得重機列表
-        /// </summary>
-        public DataTable GetMotoList()
-        {
-            string sql = "Select * From view_MotoInfo Where Status = 0 Order By Level";
-
-            DatabaseAdapter objDatabaseAdapter = new DatabaseAdapter(sql, this.DBSource);
-            DataTable dtGetData = new DataTable();
-            objDatabaseAdapter.Fill(dtGetData);
-
-            return dtGetData;
-        }
-
-        /// <summary>
-        /// 取得重機資訊
-        /// <param name="MotoID">MotoID=重機編號</param>
-        /// </summary>
-        public DataTable GetMotoInfo()
-        {
-            string sql = "Select * from view_MotoInfo Where Status = 0 Order by CreateDate Desc";
-
-            DatabaseAdapter objDatabaseAdapter = new DatabaseAdapter(sql, this.DBSource);
-            DataTable dtGetData = new DataTable();
-            objDatabaseAdapter.Fill(dtGetData);
-
-            return dtGetData;
-        }
-        /// <summary>
-        /// 取得重機資訊
-        /// <param name="MotoID">MotoID=重機編號</param>
-        /// </summary>
-        public DataTable GetMotoInfo(int MotoID)
-        {
-            string sql = "Select * from view_MotoInfo Where Status = 0 and MotoID = @MotoID";
-
-            DatabaseAdapter objDatabaseAdapter = new DatabaseAdapter(sql, this.DBSource);
-            objDatabaseAdapter.AddParameterToSelectCommand("@MotoID", MotoID);
-            DataTable dtGetData = new DataTable();
-            objDatabaseAdapter.Fill(dtGetData);
-
-            return dtGetData;
-        }
-
-        /// <summary>
-        /// 取得廠牌列表
-        /// <param name="AdminID">AdminID=店家編號</param>
-        /// </summary>
-        public DataTable GetBrandList(int AdminID)
-        {
-            string sql = "Select * From BrandInfo Where Status = 0 and AdminID = @AdminID Order By CreateDate Desc";
-
-            DatabaseAdapter objDatabaseAdapter = new DatabaseAdapter(sql, this.DBSource);
-            objDatabaseAdapter.AddParameterToSelectCommand("@AdminID", AdminID);
-            DataTable dtGetData = new DataTable();
-            objDatabaseAdapter.Fill(dtGetData);
-
-            return dtGetData;
-        }
-
-        /// <summary>
-        /// 取得廠牌列表
-        /// </summary>
-        public DataTable GetBrandList()
-        {
-            string sql = "Select * From BrandInfo Where Status = 0 Order By CreateDate Desc";
-
-            DatabaseAdapter objDatabaseAdapter = new DatabaseAdapter(sql, this.DBSource);
-            DataTable dtGetData = new DataTable();
-            objDatabaseAdapter.Fill(dtGetData);
-
-            return dtGetData;
-        }
-
-        /// <summary>
-        /// 取得折扣列表
-        /// <param name="AdminID">AdminID=店家編號</param>
-        /// </summary>
-        public DataTable GetDiscountList(int AdminID)
-        {
-            string sql = "Select * From DiscountInfo Where Status = 0 and AdminID = @AdminID Order By CreateDate Desc";
-
-            DatabaseAdapter objDatabaseAdapter = new DatabaseAdapter(sql, this.DBSource);
-            objDatabaseAdapter.AddParameterToSelectCommand("@AdminID", AdminID);
-            DataTable dtGetData = new DataTable();
-            objDatabaseAdapter.Fill(dtGetData);
-
-            return dtGetData;
-        }
-
-        /// <summary>
-        /// 取得折扣列表
-        /// </summary>
-        public DataTable GetDiscountList()
-        {
-            string sql = "Select * From DiscountInfo Where Status = 0 Order By CreateDate Desc";
-
-            DatabaseAdapter objDatabaseAdapter = new DatabaseAdapter(sql, this.DBSource);
-            DataTable dtGetData = new DataTable();
-            objDatabaseAdapter.Fill(dtGetData);
-
-            return dtGetData;
-        }
-
-        /// <summary>
-        /// 取得廠商列表
-        /// <param name="AdminID">AdminID=店家編號</param>
-        /// <param name="Permission">Permission=管理員權限</param>
-        /// </summary>
-        public DataTable GetVendorList(int AdminID, int Permission)
-        {
-            string sql = "Select * From view_VendorInfo Where Status = 0";
-            if (Permission != 0)
+            catch (Exception error)
             {
-                sql += " and AdminID = '" + AdminID + "'";
+                string detailedError = ErrorLogger.FormatError(error, typeof(AdminDAC).FullName);
+                twbobibobi.Data.BasePage basePage = new twbobibobi.Data.BasePage();
+                basePage.SaveErrorLog("AdminDAC.GetAdminList()：\r\n" + detailedError);
+                throw;
             }
-            sql += " Order By CreateDate Desc";
-
-            DatabaseAdapter objDatabaseAdapter = new DatabaseAdapter(sql, this.DBSource);
-            DataTable dtGetData = new DataTable();
-            objDatabaseAdapter.Fill(dtGetData);
-
-            return dtGetData;
         }
 
         /// <summary>
-        /// 取得宮廟內容
+        /// 取得全部宮廟資訊 (Get all temple info)
         /// </summary>
-        /// <param name="AdminID"></param>
-        /// <returns></returns>
+        /// <returns>回傳包含宮廟資料的 DataTable。</returns>
+        public DataTable GetTempleInfo()
+        {
+            try
+            {
+                DataTable dtData = new DataTable();
+                string sql = "SELECT * FROM view_TempleInfo WHERE Status = 0 ORDER BY Sort";
+
+                using (var adapter = new DatabaseAdapter(sql, this.DBSource))
+                {
+                    adapter.Fill(dtData);
+                }
+
+                // 若有資料，解碼 Content 欄位
+                if (dtData.Rows.Count > 0)
+                {
+                    AddDecodedTempleContent(dtData);
+                }
+
+                return dtData;
+            }
+            catch (Exception error)
+            {
+                string detailedError = ErrorLogger.FormatError(error, typeof(AdminDAC).FullName);
+                twbobibobi.Data.BasePage basePage = new twbobibobi.Data.BasePage();
+                basePage.SaveErrorLog("AdminDAC.GetTempleInfo：\r\n" + detailedError);
+                throw;
+            }
+        }
+
+        /// <summary>
+        /// 依據指定宮廟編號取得宮廟內容 (Get temple info by AdminID)
+        /// </summary>
+        /// <param name="AdminID">宮廟編號（例如：3=大甲鎮瀾宮、4=新港奉天宮）。</param>
+        /// <returns>回傳包含指定宮廟資料的 DataTable。</returns>
         public DataTable GetTempleInfo(string AdminID)
         {
-            DataTable dtData = new DataTable();
-            string sql = "Select * From view_TempleInfo Where AdminID = @AdminID and Status = 0";
-            DatabaseAdapter AdapterObj = new DatabaseAdapter(sql, this.DBSource);
-            AdapterObj.AddParameterToSelectCommand("@AdminID", AdminID);
-            AdapterObj.Fill(dtData);
-            if (dtData.Rows.Count > 0)
+            try
             {
-                dtData.Columns.Add("Content1", typeof(string));
-                if (dtData.Rows[0]["Content"] != DBNull.Value)
+                DataTable dtData = new DataTable();
+                string sql = "SELECT * FROM view_TempleInfo WHERE AdminID=@AdminID AND Status=0";
+
+                using (var adapter = new DatabaseAdapter(sql, this.DBSource))
                 {
-                    string content;
-                    content = System.Text.UnicodeEncoding.Unicode.GetString((byte[])dtData.Rows[0]["Content"]);
-                    content = System.Text.RegularExpressions.Regex.Replace(content, "<table", "<table style=\"max-width:100%; height:auto\"", System.Text.RegularExpressions.RegexOptions.IgnoreCase);
-                    string valEx = @"width=""\d+""";
-                    content = System.Text.RegularExpressions.Regex.Replace(content, valEx, "width=\"640px\" height=\"auto\"", System.Text.RegularExpressions.RegexOptions.IgnoreCase);
-                    dtData.Rows[0]["Content1"] = content;
+                    adapter.AddParameterToSelectCommand("@AdminID", AdminID);
+                    adapter.Fill(dtData);
                 }
+
+                if (dtData.Rows.Count > 0)
+                {
+                    AddDecodedTempleContent(dtData);
+                }
+
+                return dtData;
             }
-            return dtData;
+            catch (Exception error)
+            {
+                string detailedError = ErrorLogger.FormatError(error, typeof(AdminDAC).FullName);
+                twbobibobi.Data.BasePage basePage = new twbobibobi.Data.BasePage();
+                basePage.SaveErrorLog("AdminDAC.GetTempleInfo(AdminID)：\r\n" + detailedError);
+                throw;
+            }
         }
 
         /// <summary>
-        /// 取得廠商列表
+        /// 取得管理員資訊 (Get administrator info by username and password)
         /// </summary>
-        public DataTable GetVendorList()
+        /// <param name="UserName">管理員帳號。</param>
+        /// <param name="Password">管理員密碼。</param>
+        /// <returns>回傳符合條件的管理員資料表。</returns>
+        public DataTable GetAdminInfo(string UserName, string Password)
         {
-            string sql = "Select * From view_VendorInfo Where Status = 0";
+            try
+            {
+                string sql = "SELECT * FROM Admin WHERE UserName=@UserName AND Password=@Password AND Status=0";
+                DataTable dtGetData = new DataTable();
 
-            DatabaseAdapter objDatabaseAdapter = new DatabaseAdapter(sql, this.DBSource);
-            DataTable dtGetData = new DataTable();
-            objDatabaseAdapter.Fill(dtGetData);
+                using (var adapter = new DatabaseAdapter(sql, this.DBSource))
+                {
+                    adapter.AddParameterToSelectCommand("@UserName", UserName);
+                    adapter.AddParameterToSelectCommand("@Password", Password);
+                    adapter.Fill(dtGetData);
+                }
 
-            return dtGetData;
+                return dtGetData;
+            }
+            catch (Exception error)
+            {
+                string detailedError = ErrorLogger.FormatError(error, typeof(AdminDAC).FullName);
+                twbobibobi.Data.BasePage basePage = new twbobibobi.Data.BasePage();
+                basePage.SaveErrorLog("AdminDAC.GetAdminInfo(UserName, Password)：\r\n" + detailedError);
+                throw;
+            }
         }
-        
+
         /// <summary>
-        /// 取得出車列表
+        /// 取得管理員資訊 (Get administrator info by AdminID)
         /// </summary>
-        public DataTable GetBookList(string StartDate, string EndDate, string MobileNum, string MotoID, string Department, ref DataSet dsPages)
+        /// <param name="AdminID">管理員編號。</param>
+        /// <returns>回傳符合管理員編號的資料表。</returns>
+        public DataTable GetAdminInfo(int AdminID)
         {
-            string sql = "Select * From view_BookkeepingInfo Where Status = 0";
-            if (MobileNum != "")
+            try
             {
-                sql += " and MobileNum ='" + MobileNum + "'";
-            }
-            if (MotoID != "")
-            {
-                sql += " and MotoID ='" + MotoID + "'";
-            }
-            if (Department != "")
-            {
-                sql += " and Department ='" + Department + "'";
-            }
-            if (StartDate != "" && EndDate != "")
-            {
-                sql += " and CreateDate between '" + StartDate + "' and '" + EndDate + "'";
-            }
-            else if (StartDate != "")
-            {
-                sql += " and CreateDate >= '" + StartDate + "'";
-            }
-            else if (EndDate != "")
-            {
-                sql += " and CreateDate <= '" + EndDate + "'";
-            }
+                string sql = "SELECT * FROM Admin WHERE AdminID=@AdminID AND Status=0";
+                DataTable dtGetData = new DataTable();
 
-            sql += " Order By CreateDate Desc";
+                using (var adapter = new DatabaseAdapter(sql, this.DBSource))
+                {
+                    adapter.AddParameterToSelectCommand("@AdminID", AdminID);
+                    adapter.Fill(dtGetData);
+                }
 
-            DatabaseAdapter objDatabaseAdapter = new DatabaseAdapter(sql, this.DBSource);
-            DataTable dtGetData = new DataTable();
-            objDatabaseAdapter.Fill(dsPages, "Pages");
-            dtGetData = dsPages.Tables["Pages"];
-
-            return dtGetData;
+                return dtGetData;
+            }
+            catch (Exception error)
+            {
+                string detailedError = ErrorLogger.FormatError(error, typeof(AdminDAC).FullName);
+                twbobibobi.Data.BasePage basePage = new twbobibobi.Data.BasePage();
+                basePage.SaveErrorLog("AdminDAC.GetAdminInfo(AdminID)：\r\n" + detailedError);
+                throw;
+            }
         }
 
+
+        #endregion
+
+
+        //==================================================
+        #region 更新(Update)
+        //==================================================
+
         /// <summary>
-        /// 取得出車列表
+        /// 更新管理員資訊。
         /// </summary>
-        public DataTable GetBookList(string StartDate, string EndDate, string MobileNum, string MotoID, string Department, int AdminID, ref DataSet dsPages)
+        public int UpdateAdmin(
+            string adminId, 
+            string Username, 
+            string Password, 
+            string Nickname, 
+            string Permission,
+            int status)
         {
-            string sql = "Select * From view_BookkeepingInfo Where Status = 0";
-            if(AdminID != 0)
+            string sql = @"
+                UPDATE Admin 
+                SET Username=@Username, Password=@Password, Nickname=@Nickname, Permission=@Permission, Status=@Status 
+                WHERE AdminID=@AdminID";
+
+            using (var adapter = new DatabaseAdapter(sql, this.DBSource))
             {
-                sql += " and AdminID = '" + AdminID + "'";
-            }
-            if (MobileNum != "")
-            {
-                sql += " and MobileNum ='" + MobileNum + "'";
-            }
-            if (MotoID != "")
-            {
-                sql += " and MotoID ='" + MotoID + "'";
-            }
-            if (Department != "")
-            {
-                sql += " and Department ='" + Department + "'";
-            }
-            if (StartDate != "" && EndDate != "")
-            {
-                sql += " and CreateDate between '" + StartDate + "' and '" + EndDate + "'";
-            }
-            else if (StartDate != "")
-            {
-                sql += " and CreateDate >= '" + StartDate + "'";
-            }
-            else if (EndDate != "")
-            {
-                sql += " and CreateDate <= '" + EndDate + "'";
-            }
-
-            sql += " Order By CreateDate Desc";
-
-            DatabaseAdapter objDatabaseAdapter = new DatabaseAdapter(sql, this.DBSource);
-            DataTable dtGetData = new DataTable();
-            objDatabaseAdapter.Fill(dsPages, "Pages");
-            dtGetData = dsPages.Tables["Pages"];
-
-            return dtGetData;
-        }
-
-        /// <summary>
-        /// 取得出車資訊
-        /// <param name="BookID">BookID=出車編號</param>
-        /// </summary>
-        public DataTable GetBookInfo(int BookID)
-        {
-            string sql = "Select * from view_BookkeepingInfo Where Status = 0 and BookID = @BookID";
-
-            DatabaseAdapter objDatabaseAdapter = new DatabaseAdapter(sql, this.DBSource);
-            objDatabaseAdapter.AddParameterToSelectCommand("@BookID", BookID);
-            DataTable dtGetData = new DataTable();
-            objDatabaseAdapter.Fill(dtGetData);
-
-            return dtGetData;
-        }
-
-        /// <summary>
-        /// 取得預約資訊
-        /// <param name="MotoID">MotoID=車籍編號</param>
-        /// <param name="Date">Date=日期</param>
-        /// </summary>
-        public DataTable GetReservationInfo(int MotoID, string Date)
-        {
-            DateTime StartDate = DateTime.Parse(Date);
-            DateTime EndDate = StartDate.AddDays(1);
-            string StartDate_half = StartDate.ToString("yyyy-MM-dd 12:00:00");
-            string sql = "Select * from Reservation Where MotoID = @MotoID and Status = 0 and ((StartDate BETWEEN @StartDate and @EndDate or @StartDate_half BETWEEN StartDate and EndDate) or (EndDate BETWEEN @StartDate_half and @EndDate))";
-
-            DatabaseAdapter objDatabaseAdapter = new DatabaseAdapter(sql, this.DBSource);
-            objDatabaseAdapter.AddParameterToSelectCommand("@MotoID", MotoID);
-            objDatabaseAdapter.AddParameterToSelectCommand("@StartDate", StartDate);
-            objDatabaseAdapter.AddParameterToSelectCommand("@EndDate", EndDate);
-            objDatabaseAdapter.AddParameterToSelectCommand("@StartDate_half", StartDate_half);
-            DataTable dtGetData = new DataTable();
-            objDatabaseAdapter.Fill(dtGetData);
-
-            return dtGetData;
-        }
-        ///// <summary>
-        ///// 取得出車資訊
-        ///// <param name="MotoID">MotoID=車籍編號</param>
-        ///// <param name="Date">Date=日期</param>
-        ///// </summary>
-        //public DataTable GetBookInfo(int MotoID, DateTime Date)
-        //{
-        //    string sql = "Select * from view_BookkeepingInfo Where Status = 0 and MotoID = @MotoID and EndDate > @Date";
-
-        //    DatabaseAdapter objDatabaseAdapter = new DatabaseAdapter(sql, this.DBSource);
-        //    objDatabaseAdapter.AddParameterToSelectCommand("@MotoID", MotoID);
-        //    objDatabaseAdapter.AddParameterToSelectCommand("@Date", Date);
-        //    DataTable dtGetData = new DataTable();
-        //    objDatabaseAdapter.Fill(dtGetData);
-
-        //    return dtGetData;
-        //}
-
-        /// <summary>
-        /// 取得會員列表
-        /// </summary>
-        public DataTable GetCustomerList()
-        {
-            string sql = "Select * From Customer Where Status = 0 Order By CreateDate Desc";
-
-            DatabaseAdapter objDatabaseAdapter = new DatabaseAdapter(sql, this.DBSource);
-            DataTable dtGetData = new DataTable();
-            objDatabaseAdapter.Fill(dtGetData);
-
-            return dtGetData;
-        }
-
-        /// <summary>
-        /// 取得會員資訊
-        /// <param name="CustomerID">CustomerID=會員編號</param>
-        /// </summary>
-        public DataTable GetCustomerInfo(int CustomerID)
-        {
-            string sql = "Select * from Customer Where Status = 0 and CustomerID = @CustomerID";
-
-            DatabaseAdapter objDatabaseAdapter = new DatabaseAdapter(sql, this.DBSource);
-            objDatabaseAdapter.AddParameterToSelectCommand("@CustomerID", CustomerID);
-            DataTable dtGetData = new DataTable();
-            objDatabaseAdapter.Fill(dtGetData);
-
-            return dtGetData;
-        }
-
-        /// <summary>
-        /// 取得會員資訊
-        /// <param name="MobileNum">MobileNum=電話號碼</param>
-        /// </summary>
-        public DataTable GetCustomerInfo(string MobileNum)
-        {
-            string sql = "Select * from Customer Where Status = 0 and MobileNum = @MobileNum";
-
-            DatabaseAdapter objDatabaseAdapter = new DatabaseAdapter(sql, this.DBSource);
-            objDatabaseAdapter.AddParameterToSelectCommand("@MobileNum", MobileNum);
-            DataTable dtGetData = new DataTable();
-            objDatabaseAdapter.Fill(dtGetData);
-
-            return dtGetData;
-        }
-
-        /// <summary>
-        /// 取得會員資訊
-        /// <param name="MobileNum">MobileNum=電話號碼</param>
-        /// <param name="Name">Name=姓名</param>
-        /// </summary>
-        public DataTable GetCustomerInfo(string MobileNum, string Name, ref DataSet dsPages)
-        {
-            string sql = "Select * from Customer Where Status = 0";
-            
-            if (MobileNum != "")
-            {
-                sql += " and MobileNum ='" + MobileNum + "'";
-            }
-            if (Name != "")
-            {
-                sql += " and Name = N'" + Name + "'";
-            }
-
-            DatabaseAdapter objDatabaseAdapter = new DatabaseAdapter(sql, this.DBSource);
-            DataTable dtGetData = new DataTable();
-            objDatabaseAdapter.Fill(dsPages, "Pages");
-            dtGetData = dsPages.Tables["Pages"];
-
-            return dtGetData;
-        }
-
-        /// <summary>
-        /// 刪除管理者
-        /// <param name="AdminID">AdminID=管理員編號</param>
-        /// </summary>
-        public void DeleteAdmin(int AdminID)
-        {
-            string sql = "Select * From Admin Where AdminID = @AdminID and Status = 0";
-            DatabaseAdapter Adapter = new DatabaseAdapter(sql, this.DBSource);
-            DataTable dtUpdateStatus = new DataTable();
-            Adapter.AddParameterToSelectCommand("@AdminID", AdminID);
-            Adapter.SetSqlCommandBuilder();
-            Adapter.Fill(dtUpdateStatus);
-            if (dtUpdateStatus.Rows.Count > 0)
-            {
-                dtUpdateStatus.Rows[0]["Status"] = -1;
-                Adapter.Update(dtUpdateStatus);
+                adapter.AddParameterToSelectCommand("@AdminID", adminId);
+                adapter.AddParameterToSelectCommand("@Username", Username);
+                adapter.AddParameterToSelectCommand("@Password", Password);
+                adapter.AddParameterToSelectCommand("@Nickname", Nickname);
+                adapter.AddParameterToSelectCommand("@Permission", Permission);
+                adapter.AddParameterToSelectCommand("@Status", status);
+                return adapter.ExecuteSql();
             }
         }
 
         /// <summary>
-        /// 刪除車籍資料
-        /// <param name="MotoID">MotoID=車籍編號</param>
+        /// 更新 APPCharge 狀態，並依據活動種類（kind）同步刪除對應申請人資料。
         /// </summary>
-        public void DeleteMotoData(int MotoID)
-        {
-            string sql = "Select * From MotoInfo Where MotoID = @MotoID and Status = 0";
-            DatabaseAdapter Adapter = new DatabaseAdapter(sql, this.DBSource);
-            DataTable dtUpdateStatus = new DataTable();
-            Adapter.AddParameterToSelectCommand("@MotoID", MotoID);
-            Adapter.SetSqlCommandBuilder();
-            Adapter.Fill(dtUpdateStatus);
-            if (dtUpdateStatus.Rows.Count > 0)
-            {
-                dtUpdateStatus.Rows[0]["Status"] = -1;
-                Adapter.Update(dtUpdateStatus);
-            }
-        }
-
-        /// <summary>
-        /// 刪除廠牌資料
-        /// <param name="BrandID">BrandID=廠牌編號</param>
-        /// </summary>
-        public void DeleteBrandData(int BrandID)
-        {
-            string sql = "Select * From BrandInfo Where BrandID = @BrandID and Status = 0";
-            DatabaseAdapter Adapter = new DatabaseAdapter(sql, this.DBSource);
-            DataTable dtUpdateStatus = new DataTable();
-            Adapter.AddParameterToSelectCommand("@BrandID", BrandID);
-            Adapter.SetSqlCommandBuilder();
-            Adapter.Fill(dtUpdateStatus);
-            if (dtUpdateStatus.Rows.Count > 0)
-            {
-                dtUpdateStatus.Rows[0]["Status"] = -1;
-                Adapter.Update(dtUpdateStatus);
-            }
-        }
-
-        /// <summary>
-        /// 刪除折扣資料
-        /// <param name="DiscountID">DiscountID=廠牌編號</param>
-        /// </summary>
-        public void DeleteDiscountData(int DiscountID)
-        {
-            string sql = "Select * From DiscountInfo Where DiscountID = @DiscountID and Status = 0";
-            DatabaseAdapter Adapter = new DatabaseAdapter(sql, this.DBSource);
-            DataTable dtUpdateStatus = new DataTable();
-            Adapter.AddParameterToSelectCommand("@DiscountID", DiscountID);
-            Adapter.SetSqlCommandBuilder();
-            Adapter.Fill(dtUpdateStatus);
-            if (dtUpdateStatus.Rows.Count > 0)
-            {
-                dtUpdateStatus.Rows[0]["Status"] = -1;
-                Adapter.Update(dtUpdateStatus);
-            }
-        }
-
-        /// <summary>
-        /// 刪除廠商資料
-        /// <param name="VendorID">VendorID=廠商編號</param>
-        /// </summary>
-        public void DeleteVendorData(int VendorID)
-        {
-            string sql = "Select * From VendorInfo Where VendorID = @VendorID and Status = 0";
-            DatabaseAdapter Adapter = new DatabaseAdapter(sql, this.DBSource);
-            DataTable dtUpdateStatus = new DataTable();
-            Adapter.AddParameterToSelectCommand("@VendorID", VendorID);
-            Adapter.SetSqlCommandBuilder();
-            Adapter.Fill(dtUpdateStatus);
-            if (dtUpdateStatus.Rows.Count > 0)
-            {
-                dtUpdateStatus.Rows[0]["Status"] = -1;
-                Adapter.Update(dtUpdateStatus);
-            }
-        }
-
-        /// <summary>
-        /// 刪除出車資料
-        /// <param name="BookID">BookID=出車編號</param>
-        /// </summary>
-        public void DeleteBookData(int BookID)
-        {
-            string sql = "Select * From BookkeepingInfo Where BookID = @BookID and Status = 0";
-            DatabaseAdapter Adapter = new DatabaseAdapter(sql, this.DBSource);
-            DataTable dtUpdateStatus = new DataTable();
-            Adapter.AddParameterToSelectCommand("@BookID", BookID);
-            Adapter.SetSqlCommandBuilder();
-            Adapter.Fill(dtUpdateStatus);
-            if (dtUpdateStatus.Rows.Count > 0)
-            {
-                dtUpdateStatus.Rows[0]["Status"] = -1;
-                Adapter.Update(dtUpdateStatus);
-            }
-        }
-
-        /// <summary>
-        /// 刪除會員資料
-        /// <param name="CustomerID">CustomerID=會員編號</param>
-        /// </summary>
-        public void DeleteCustomerData(int CustomerID)
-        {
-            string sql = "Select * From Customer Where CustomerID = @CustomerID and Status = 0";
-            DatabaseAdapter Adapter = new DatabaseAdapter(sql, this.DBSource);
-            DataTable dtUpdateStatus = new DataTable();
-            Adapter.AddParameterToSelectCommand("@CustomerID", CustomerID);
-            Adapter.SetSqlCommandBuilder();
-            Adapter.Fill(dtUpdateStatus);
-            if (dtUpdateStatus.Rows.Count > 0)
-            {
-                dtUpdateStatus.Rows[0]["Status"] = -1;
-                Adapter.Update(dtUpdateStatus);
-            }
-        }
-
-        /// <summary>
-        /// 刪除預約資料
-        /// <param name="ReservationID">ReservationID=預約編號</param>
-        /// </summary>
-        public bool DeleteReservation(string ReservationID)
+        /// <param name="UniqueID">對應 APPCharge 表的主鍵編號。</param>
+        /// <param name="Status">要更新的狀態值。</param>
+        /// <param name="AdminID">管理員編號(宮廟編號)。</param>
+        /// <param name="kind">活動種類： 
+        /// 1-點燈 
+        /// 2-普度 
+        /// 4-下元補庫 
+        /// 5-呈疏補庫(天官武財神聖誕補財庫) 
+        /// 6-企業補財庫 
+        /// 7-天赦日補運 
+        /// 8-天赦日祭改 
+        /// 9-關聖帝君聖誕 
+        /// 10-代燒金紙 
+        /// 11-天貺納福添運法會 
+        /// 12-靈寶禮斗 
+        /// 13-七朝清醮 
+        /// 14-九九重陽天赦日補運 
+        /// 15-護國息災梁皇大法會 
+        /// 16-補財庫 
+        /// 17-赦罪補庫 
+        /// 18-天公生招財補運 
+        /// 19-供香轉運 
+        /// 20-安斗 
+        /// 21-供花供果 
+        /// 22-孝親祈福燈 
+        /// 23-祈安植福
+        /// 24-祈安禮斗
+        /// 25-千手觀音千燈迎佛法會
+        /// </param>
+        /// <param name="type">類型，用於部分分支（例如桃園威天宮燈別）。</param>
+        /// <param name="Year">資料年份。</param>
+        /// <returns>更新與刪除皆成功回傳 true，否則 false。</returns>
+        public bool Updatestatus2appcharge(
+            int UniqueID, 
+            int Status, 
+            string AdminID, 
+            string kind, 
+            int type, 
+            string Year)
         {
             bool result = false;
-            string sql = "Select * From Reservation Where ReservationID = @ReservationID and Status = 0";
-            DatabaseAdapter Adapter = new DatabaseAdapter(sql, this.DBSource);
-            DataTable dtUpdateStatus = new DataTable();
-            Adapter.AddParameterToSelectCommand("@ReservationID", ReservationID);
-            Adapter.SetSqlCommandBuilder();
-            Adapter.Fill(dtUpdateStatus);
-            if (dtUpdateStatus.Rows.Count > 0)
+            try
             {
-                dtUpdateStatus.Rows[0]["Status"] = -1;
-                Adapter.Update(dtUpdateStatus);
-                result = true;
-            }
-            return result;
-        }
+                TimeZoneInfo info = TimeZoneInfo.FindSystemTimeZoneById("Taipei Standard Time");
+                DateTime dtNow = TimeZoneInfo.ConvertTime(DateTime.Now, info);
+                string sql = string.Empty;
+                string view = string.Empty;
+                DataTable dtDataList = new DataTable();
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="UniqueID"></param>
-        /// <param name="Status"></param>
-        /// <param name="AdminID"></param>
-        /// <param name="kind">kind=活動名稱: 1-點燈 2-普度 4-下元補庫 5-呈疏補庫 6-企業補財庫 7-天赦日補運 8-天赦日祭改 9-關聖帝君聖誕 10-代燒金紙 11-天貺納福添運法會 12-靈寶禮斗</param>
-        /// <param name="Year"></param>
-        /// <returns></returns>
-        public bool Updatestatus2appcharge_test(int UniqueID, int Status, string AdminID, string kind)
-        {
-            TimeZoneInfo info = TimeZoneInfo.FindSystemTimeZoneById("Taipei Standard Time");
-            DateTime dt = TimeZoneInfo.ConvertTime(DateTime.Now, info);
-            bool bResult = false;
-            DataTable dtDataList = new DataTable();
-            string sql = string.Empty;
-            string view = string.Empty;
-
-            switch (kind)
-            {
-                case "1":
-                    //點燈
-                    switch (AdminID)
-                    {
-                        case "3":
-                            //大甲鎮瀾宮
-                            view = "Temple_TEST..APPCharge_da_Lights";
-                            sql = "Select * from Temple_TEST..APPCharge_da_Lights Where Status = 1 and UniqueID = @UniqueID";
-                            break;
-                        case "4":
-                            //新港奉天宮
-                            view = "Temple_TEST..APPCharge_h_Lights";
-                            sql = "Select * from Temple_TEST..APPCharge_h_Lights Where Status = 1 and UniqueID = @UniqueID";
-                            break;
-                        case "6":
-                            //北港武德宮
-                            view = "Temple_TEST..APPCharge_wu_Lights";
-                            sql = "Select * from Temple_TEST..APPCharge_wu_Lights Where Status = 1 and UniqueID = @UniqueID";
-                            break;
-                        case "8":
-                            //西螺福興宮
-                            view = "Temple_TEST..APPCharge_Fu_Lights";
-                            sql = "Select * from Temple_TEST..APPCharge_Fu_Lights Where Status = 1 and UniqueID = @UniqueID";
-                            break;
-                        case "10":
-                            //台南正統鹿耳門聖母廟
-                            view = "Temple_TEST..APPCharge_Luer_Lights";
-                            sql = "Select * from Temple_TEST..APPCharge_Luer_Lights Where Status = 1 and UniqueID = @UniqueID";
-                            break;
-                        case "14":
-                            //桃園威天宮
-                            view = "Temple_TEST..APPCharge_ty_Lights";
-                            sql = "Select * from Temple_TEST..APPCharge_ty_Lights Where Status = 1 and UniqueID = @UniqueID";
-                            break;
-                        case "15":
-                            //斗六五路財神宮
-                            view = "Temple_TEST..APPCharge_Fw_Lights";
-                            sql = "Select * from Temple_TEST..APPCharge_Fw_Lights Where Status = 1 and UniqueID = @UniqueID";
-                            break;
-                        case "16":
-                            //台東東海龍門天聖宮
-                            view = "Temple_TEST..APPCharge_dh_Lights";
-                            sql = "Select * from Temple_TEST..APPCharge_dh_Lights Where Status = 1 and UniqueID = @UniqueID";
-                            break;
-                        case "21":
-                            //鹿港城隍廟
-                            view = "Temple_TEST..APPCharge_Lk_Lights";
-                            sql = "Select * from Temple_TEST..APPCharge_Lk_Lights Where Status = 1 and UniqueID = @UniqueID";
-                            break;
-                    }
-                    break;
-                case "2":
-                    //普度
-                    switch (AdminID)
-                    {
-                        case "3":
-                            //大甲鎮瀾宮
-                            view = "Temple_TEST..APPCharge_da_Purdue";
-                            sql = "Select * from Temple_TEST..APPCharge_da_Purdue Where Status = 1 and UniqueID = @UniqueID";
-                            break;
-                        case "4":
-                            //新港奉天宮
-                            view = "Temple_TEST..APPCharge_h_Purdue";
-                            sql = "Select * from Temple_TEST..APPCharge_h_Purdue Where Status = 1 and UniqueID = @UniqueID";
-                            break;
-                        case "6":
-                            //北港武德宮
-                            view = "Temple_TEST..APPCharge_wu_Purdue";
-                            sql = "Select * from Temple_TEST..APPCharge_wu_Purdue Where Status = 1 and UniqueID = @UniqueID";
-                            break;
-                        case "8":
-                            //西螺福興宮
-                            view = "Temple_TEST..APPCharge_Fu_Purdue";
-                            sql = "Select * from Temple_TEST..APPCharge_Fu_Purdue Where Status = 1 and UniqueID = @UniqueID";
-                            break;
-                        case "9":
-                            //桃園大廟景福宮
-                            view = "Temple_TEST..APPCharge_Jing_Purdue";
-                            sql = "Select * from Temple_TEST..APPCharge_Jing_Purdue Where Status = 1 and UniqueID = @UniqueID";
-                            break;
-                        case "10":
-                            //台南正統鹿耳門聖母廟
-                            view = "Temple_TEST..APPCharge_Luer_Purdue";
-                            sql = "Select * from Temple_TEST..APPCharge_Luer_Purdue Where Status = 1 and UniqueID = @UniqueID";
-                            break;
-                    }
-                    break;
-                case "3":
-                    //商品小舖
-                    switch (AdminID)
-                    {
-                        case "5":
-                            //文創商品-新港奉天宮
-                            view = "Temple_TEST..APPCharge_Product";
-                            sql = "Select * from Temple_TEST..APPCharge_Product Where Status = 1 and UniqueID = @UniqueID";
-                            break;
-                        case "7":
-                            //大甲鎮瀾宮繞境商品小舖
-                            view = "Temple_TEST..APPCharge_Pilgrimage";
-                            sql = "Select * from Temple_TEST..APPCharge_Pilgrimage Where Status = 1 and UniqueID = @UniqueID";
-                            break;
-                        case "11":
-                            //新港奉天宮錢母商品小舖
-                            view = "Temple_TEST..APPCharge_Moneymother";
-                            sql = "Select * from Temple_TEST..APPCharge_Moneymother Where Status = 1 and UniqueID = @UniqueID";
-                            break;
-                    }
-                    break;
-            }
-
-            if (sql != "")
-            {
-                DatabaseAdapter AdapterObj = new DatabaseAdapter(sql, this.DBSource);
-                AdapterObj.SetSqlCommandBuilder();
-                AdapterObj.AddParameterToSelectCommand("@UniqueID", UniqueID);
-                AdapterObj.Fill(dtDataList);
-
-                if (dtDataList.Rows.Count > 0 && (int)dtDataList.Rows[0]["Status"] == 1)
+                //===============================================
+                // 各廟別、活動類別分支
+                //===============================================
+                switch (kind)
                 {
-                    //dtDataList.Rows[0]["Status"] = Status;
-                    //AdapterObj.Update(dtDataList);
-                    if (view != "")
-                    {
-                        int res = ExecuteSql("Update " + view + " Set Status = " + Status + " Where UniqueID=" + UniqueID);
-
-                        if (res > 0)
+                    case "1":
+                        // 點燈
+                        switch (AdminID)
                         {
-                            if (Updatestatus2applicantinfo_test(int.Parse(dtDataList.Rows[0]["ApplicantID"].ToString()), Status, AdminID, kind))
-                            {
-                                switch (kind)
-                                {
-                                    case "1":
-                                        //點燈
-                                        if (DeleteLightsinfo_test(int.Parse(dtDataList.Rows[0]["ApplicantID"].ToString()), AdminID))
-                                        {
-                                            bResult = true;
-                                        }
-                                        break;
-                                    case "2":
-                                        //普度
-                                        if (DeletePurdueNum_test(int.Parse(dtDataList.Rows[0]["ApplicantID"].ToString()), AdminID))
-                                        {
-                                            bResult = true;
-                                        }
-                                        break;
-                                    case "3":
-                                        //商品小舖
-                                        if (DeleteProductNum_test(int.Parse(dtDataList.Rows[0]["ApplicantID"].ToString()), AdminID))
-                                        {
-                                            bResult = true;
-                                        }
-                                        break;
-                                }
-                            }
+                            case "3":
+                                //大甲鎮瀾宮
+                                view = $"Temple_{Year}..APPCharge_da_Lights";
+                                sql = $"SELECT * FROM {view} WHERE Status=1 AND UniqueID=@UniqueID";
+                                break;
+                            case "4":
+                                //新港奉天宮
+                                view = $"Temple_{Year}..APPCharge_h_Lights";
+                                sql = $"SELECT * FROM {view} WHERE Status=1 AND UniqueID=@UniqueID";
+                                break;
+                            case "6":
+                                //北港武德宮
+                                view = $"Temple_{Year}..APPCharge_wu_Lights";
+                                sql = $"SELECT * FROM {view} WHERE Status=1 AND UniqueID=@UniqueID";
+                                break;
+                            case "8":
+                                //西螺福興宮
+                                view = $"Temple_{Year}..APPCharge_Fu_Lights";
+                                sql = $"SELECT * FROM {view} WHERE Status=1 AND UniqueID=@UniqueID";
+                                break;
+                            case "10":
+                                //台南正統鹿耳門聖母廟
+                                view = $"Temple_{Year}..APPCharge_Luer_Lights";
+                                sql = $"SELECT * FROM {view} WHERE Status=1 AND UniqueID=@UniqueID";
+                                break;
+                            case "14":
+                                //桃園威天宮
+                                if (type == 2)
+                                    view = $"Temple_{Year}..APPCharge_ty_mom_Lights";
+                                else
+                                    view = $"Temple_{Year}..APPCharge_ty_Lights";
+                                sql = $"SELECT * FROM {view} WHERE Status=1 AND UniqueID=@UniqueID";
+                                break;
+                            case "15":
+                                //斗六五路財神宮
+                                view = $"Temple_{Year}..APPCharge_Fw_Lights";
+                                sql = $"SELECT * FROM {view} WHERE Status=1 AND UniqueID=@UniqueID";
+                                break;
+                            case "16":
+                                //台東東海龍門天聖宮
+                                view = $"Temple_{Year}..APPCharge_dh_Lights";
+                                sql = $"SELECT * FROM {view} WHERE Status=1 AND UniqueID=@UniqueID";
+                                break;
+                            case "21":
+                                //鹿港城隍廟
+                                view = $"Temple_{Year}..APPCharge_Lk_Lights";
+                                sql = $"SELECT * FROM {view} WHERE Status=1 AND UniqueID=@UniqueID";
+                                break;
+                            case "23":
+                                //玉敕大樹朝天宮
+                                view = $"Temple_{Year}..APPCharge_ma_Lights";
+                                sql = $"SELECT * FROM {view} WHERE Status=1 AND UniqueID=@UniqueID";
+                                break;
+                            case "29":
+                                //進寶財神廟
+                                view = $"Temple_{Year}..APPCharge_jb_Lights";
+                                sql = $"SELECT * FROM {view} WHERE Status=1 AND UniqueID=@UniqueID";
+                                break;
+                            case "31":
+                                //台灣道教總廟無極三清總道院
+                                view = $"Temple_{Year}..APPCharge_wjsan_Lights";
+                                sql = $"SELECT * FROM {view} WHERE Status=1 AND UniqueID=@UniqueID";
+                                break;
+                            case "32":
+                                //桃園龍德宮
+                                view = $"Temple_{Year}..APPCharge_ld_Lights";
+                                sql = $"SELECT * FROM {view} WHERE Status=1 AND UniqueID=@UniqueID";
+                                break;
+                            case "34":
+                                //基隆悟玄宮
+                                view = $"Temple_{Year}..APPCharge_wh_Lights";
+                                sql = $"SELECT * FROM {view} WHERE Status=1 AND UniqueID=@UniqueID";
+                                break;
+                            case "35":
+                                //松柏嶺受天宮
+                                view = $"Temple_{Year}..APPCharge_st_Lights";
+                                sql = $"SELECT * FROM {view} WHERE Status=1 AND UniqueID=@UniqueID";
+                                break;
+                            case "38":
+                                //池上北極玄天宮
+                                view = $"Temple_{Year}..APPCharge_bj_Lights";
+                                sql = $"SELECT * FROM {view} WHERE Status=1 AND UniqueID=@UniqueID";
+                                break;
+                            case "39":
+                                //慈惠石壁部堂
+                                view = $"Temple_{Year}..APPCharge_sbbt_Lights";
+                                sql = $"SELECT * FROM {view} WHERE Status=1 AND UniqueID=@UniqueID";
+                                break;
+                            case "40":
+                                //真武山受玄宮
+                                view = $"Temple_{Year}..APPCharge_bpy_Lights";
+                                sql = $"SELECT * FROM {view} WHERE Status=1 AND UniqueID=@UniqueID";
+                                break;
+                            case "41":
+                                //壽山巖觀音寺
+                                view = $"Temple_{Year}..APPCharge_ssy_Lights";
+                                sql = $"SELECT * FROM {view} WHERE Status=1 AND UniqueID=@UniqueID";
+                                break;
                         }
-                    }
-                }
-
-            }
-
-            return bResult;
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="ApplicantID"></param>
-        /// <param name="Status"></param>
-        /// <param name="AdminID"></param>
-        /// <param name="kind">kind=活動名稱: 1-點燈 2-普度 4-下元補庫 5-呈疏補庫 6-企業補財庫 7-天赦日補運 8-天赦日祭改 9-關聖帝君聖誕 10-代燒金紙 11-天貺納福添運法會 12-靈寶禮斗</param>
-        /// <param name="Year"></param>
-        /// <returns></returns>
-        public bool Updatestatus2applicantinfo_test(int ApplicantID, int Status, string AdminID, string kind)
-        {
-            TimeZoneInfo info = TimeZoneInfo.FindSystemTimeZoneById("Taipei Standard Time");
-            DateTime dt = TimeZoneInfo.ConvertTime(DateTime.Now, info);
-            bool bResult = false;
-            DataTable dtDataList = new DataTable();
-            string sql = string.Empty;
-            string view = string.Empty;
-
-            switch (kind)
-            {
-                case "1":
-                    //點燈
-                    switch (AdminID)
-                    {
-                        case "3":
-                            //大甲鎮瀾宮
-                            view = "Temple_TEST..ApplicantInfo_da_Lights";
-                            sql = "Select * from Temple_TEST..ApplicantInfo_da_Lights Where Status = 2 and ApplicantID = @ApplicantID";
-                            break;
-                        case "4":
-                            //新港奉天宮
-                            view = "Temple_TEST..ApplicantInfo_h_Lights";
-                            sql = "Select * from Temple_TEST..ApplicantInfo_h_Lights Where Status = 2 and ApplicantID = @ApplicantID";
-                            break;
-                        case "6":
-                            //北港武德宮
-                            view = "Temple_TEST..ApplicantInfo_wu_Lights";
-                            sql = "Select * from Temple_TEST..ApplicantInfo_wu_Lights Where Status = 2 and ApplicantID = @ApplicantID";
-                            break;
-                        case "8":
-                            //西螺福興宮
-                            view = "Temple_TEST..ApplicantInfo_Fu_Lights";
-                            sql = "Select * from Temple_TEST..ApplicantInfo_Fu_Lights Where Status = 2 and ApplicantID = @ApplicantID";
-                            break;
-                        case "10":
-                            //台南正統鹿耳門聖母廟
-                            view = "Temple_TEST..ApplicantInfo_Luer_Lights";
-                            sql = "Select * from Temple_TEST..ApplicantInfo_Luer_Lights Where Status = 2 and ApplicantID = @ApplicantID";
-                            break;
-                        case "14":
-                            //桃園威天宮
-                            view = "Temple_TEST..ApplicantInfo_ty_Lights";
-                            sql = "Select * from Temple_TEST..ApplicantInfo_ty_Lights Where Status = 2 and ApplicantID = @ApplicantID";
-                            break;
-                        case "15":
-                            //斗六五路財神宮
-                            view = "Temple_TEST..ApplicantInfo_Fw_Lights";
-                            sql = "Select * from Temple_TEST..ApplicantInfo_Fw_Lights Where Status = 2 and ApplicantID = @ApplicantID";
-                            break;
-                        case "16":
-                            //台東東海龍門天聖宮
-                            view = "Temple_TEST..ApplicantInfo_dh_Lights";
-                            sql = "Select * from Temple_TEST..ApplicantInfo_dh_Lights Where Status = 2 and ApplicantID = @ApplicantID";
-                            break;
-                        case "21":
-                            //鹿港城隍廟
-                            view = "Temple_TEST..ApplicantInfo_Lk_Lights";
-                            sql = "Select * from Temple_TEST..ApplicantInfo_Lk_Lights Where Status = 2 and ApplicantID = @ApplicantID";
-                            break;
-                    }
-                    break;
-                case "2":
-                    //普度
-                    switch (AdminID)
-                    {
-                        case "3":
-                            //大甲鎮瀾宮
-                            view = "Temple_TEST..ApplicantInfo_da_Purdue";
-                            sql = "Select * from Temple_TEST..ApplicantInfo_da_Purdue Where Status = 2 and ApplicantID = @ApplicantID";
-                            break;
-                        case "4":
-                            //新港奉天宮
-                            view = "Temple_TEST..ApplicantInfo_h_Purdue";
-                            sql = "Select * from Temple_TEST..ApplicantInfo_h_Purdue Where Status = 2 and ApplicantID = @ApplicantID";
-                            break;
-                        case "6":
-                            //北港武德宮
-                            view = "Temple_TEST..ApplicantInfo_wu_Purdue";
-                            sql = "Select * from Temple_TEST..ApplicantInfo_wu_Purdue Where Status = 2 and ApplicantID = @ApplicantID";
-                            break;
-                        case "8":
-                            //西螺福興宮
-                            view = "Temple_TEST..ApplicantInfo_Fu_Purdue";
-                            sql = "Select * from Temple_TEST..ApplicantInfo_Fu_Purdue Where Status = 2 and ApplicantID = @ApplicantID";
-                            break;
-                        case "9":
-                            //桃園大廟景福宮
-                            view = "Temple_TEST..ApplicantInfo_Jing_Purdue";
-                            sql = "Select * from Temple_TEST..ApplicantInfo_Jing_Purdue Where Status = 2 and ApplicantID = @ApplicantID";
-                            break;
-                        case "10":
-                            //台南正統鹿耳門聖母廟
-                            view = "Temple_TEST..ApplicantInfo_Luer_Purdue";
-                            sql = "Select * from Temple_TEST..ApplicantInfo_Luer_Purdue Where Status = 2 and ApplicantID = @ApplicantID";
-                            break;
-                    }
-                    break;
-                case "3":
-                    //商品小舖
-                    switch (AdminID)
-                    {
-                        case "5":
-                            //文創商品-新港奉天宮
-                            view = "Temple_TEST..ApplicantInfo_Product";
-                            sql = "Select * from Temple_TEST..ApplicantInfo_Product Where Status = 2 and ApplicantID = @ApplicantID";
-                            break;
-                        case "7":
-                            //大甲鎮瀾宮繞境商品小舖
-                            view = "Temple_TEST..ApplicantInfo_Pilgrimage";
-                            sql = "Select * from Temple_TEST..ApplicantInfo_Pilgrimage Where Status = 2 and ApplicantID = @ApplicantID";
-                            break;
-                        case "11":
-                            //新港奉天宮錢母商品小舖
-                            view = "Temple_TEST..ApplicantInfo_Moneymother";
-                            sql = "Select * from Temple_TEST..ApplicantInfo_Moneymother Where Status = 2 and ApplicantID = @ApplicantID";
-                            break;
-                    }
-                    break;
-            }
-
-            if (sql != "")
-            {
-                DatabaseAdapter AdapterObj = new DatabaseAdapter(sql, this.DBSource);
-                AdapterObj.SetSqlCommandBuilder();
-                AdapterObj.AddParameterToSelectCommand("@ApplicantID", ApplicantID);
-                AdapterObj.Fill(dtDataList);
-
-                if (dtDataList.Rows.Count > 0 && (int)dtDataList.Rows[0]["Status"] == 2)
-                {
-                    //dtDataList.Rows[0]["Status"] = Status;
-                    //dtDataList.Rows[0]["UpdateinfoDate"] = dt;
-                    //dtDataList.Rows[0]["UpdateinfoDateString"] = dt.ToString("yyyy-MM-dd");
-                    //AdapterObj.Update(dtDataList);
-                    if (view != "")
-                    {
-                        int res = ExecuteSql("Update " + view + " Set Status = " + Status + ", UpdateinfoDate = '" + dt + "', UpdateinfoDateString = '" + dt.ToString("yyyy-MM-dd") + "' Where ApplicantID=" + ApplicantID);
-
-                        if (res > 0)
+                        break;
+                    case "2":
+                        // 普度
+                        switch (AdminID)
                         {
-                            bResult = true;
+                            case "3":
+                                //大甲鎮瀾宮
+                                view = $"Temple_{Year}..APPCharge_da_Purdue";
+                                sql = $"SELECT * FROM {view} WHERE Status=1 AND UniqueID=@UniqueID";
+                                break;
+                            case "4":
+                                //新港奉天宮
+                                view = $"Temple_{Year}..APPCharge_h_Purdue";
+                                sql = $"SELECT * FROM {view} WHERE Status=1 AND UniqueID=@UniqueID";
+                                break;
+                            case "6":
+                                //北港武德宮
+                                view = $"Temple_{Year}..APPCharge_wu_Purdue";
+                                sql = $"SELECT * FROM {view} WHERE Status=1 AND UniqueID=@UniqueID";
+                                break;
+                            case "8":
+                                //西螺福興宮
+                                view = $"Temple_{Year}..APPCharge_Fu_Purdue";
+                                sql = $"SELECT * FROM {view} WHERE Status=1 AND UniqueID=@UniqueID";
+                                break;
+                            case "10":
+                                //台南正統鹿耳門聖母廟
+                                view = $"Temple_{Year}..APPCharge_Luer_Purdue";
+                                sql = $"SELECT * FROM {view} WHERE Status=1 AND UniqueID=@UniqueID";
+                                break;
+                            case "14":
+                                //桃園威天宮
+                                view = $"Temple_{Year}..APPCharge_ty_Purdue";
+                                sql = $"SELECT * FROM {view} WHERE Status=1 AND UniqueID=@UniqueID";
+                                break;
+                            case "15":
+                                //斗六五路財神宮
+                                view = $"Temple_{Year}..APPCharge_Fw_Purdue";
+                                sql = $"SELECT * FROM {view} WHERE Status=1 AND UniqueID=@UniqueID";
+                                break;
+                            case "16":
+                                //台東東海龍門天聖宮
+                                view = $"Temple_{Year}..APPCharge_dh_Purdue";
+                                sql = $"SELECT * FROM {view} WHERE Status=1 AND UniqueID=@UniqueID";
+                                break;
+                            case "21":
+                                //鹿港城隍廟
+                                view = $"Temple_{Year}..APPCharge_Lk_Purdue";
+                                sql = $"SELECT * FROM {view} WHERE Status=1 AND UniqueID=@UniqueID";
+                                break;
+                            case "23":
+                                //玉敕大樹朝天宮
+                                view = $"Temple_{Year}..APPCharge_ma_Purdue";
+                                sql = $"SELECT * FROM {view} WHERE Status=1 AND UniqueID=@UniqueID";
+                                break;
+                            case "29":
+                                //進寶財神廟
+                                view = $"Temple_{Year}..APPCharge_jb_Purdue";
+                                sql = $"SELECT * FROM {view} WHERE Status=1 AND UniqueID=@UniqueID";
+                                break;
+                            case "31":
+                                //台灣道教總廟無極三清總道院
+                                view = $"Temple_{Year}..APPCharge_wjsan_Purdue";
+                                sql = $"SELECT * FROM {view} WHERE Status=1 AND UniqueID=@UniqueID";
+                                break;
+                            case "32":
+                                //桃園龍德宮
+                                view = $"Temple_{Year}..APPCharge_ld_Purdue";
+                                sql = $"SELECT * FROM {view} WHERE Status=1 AND UniqueID=@UniqueID";
+                                break;
+                            case "34":
+                                //基隆悟玄宮
+                                view = $"Temple_{Year}..APPCharge_wh_Purdue";
+                                sql = $"SELECT * FROM {view} WHERE Status=1 AND UniqueID=@UniqueID";
+                                break;
                         }
-                    }
-                }
-            }
-
-            return bResult;
-        }
-
-        /// <summary>
-        /// 刪除點燈訂單編號
-        /// <param name="ApplicantID">ApplicantID=申請人編號</param>
-        /// <param name="AdminID">AdminID=廟宇編號 3-大甲鎮瀾宮 4-新港奉天宮 5-文創商品(新港奉天宮) 6-北港武德宮</param>
-        /// </summary>
-        public bool DeleteLightsinfo_test(int ApplicantID, string AdminID)
-        {
-            bool result = false;
-            string sql = string.Empty;
-            string view = string.Empty;
-
-            switch (AdminID)
-            {
-                case "3":
-                    //大甲鎮瀾宮
-                    view = "Temple_TEST..Lights_da_info";
-                    sql = "Select * from Temple_TEST..Lights_da_info Where ApplicantID = @ApplicantID and Status = 0";
-                    break;
-                case "4":
-                    //新港奉天宮
-                    view = "Temple_TEST..Lights_h_info";
-                    sql = "Select * from Temple_TEST..Lights_h_info Where ApplicantID = @ApplicantID and Status = 0";
-                    break;
-                case "6":
-                    //北港武德宮
-                    view = "Temple_TEST..Lights_wu_info";
-                    sql = "Select * from Temple_TEST..Lights_wu_info Where Status = 0 and ApplicantID = @ApplicantID";
-                    break;
-                case "8":
-                    //西螺福興宮
-                    view = "Temple_TEST..Lights_Fu_info";
-                    sql = "Select * from Temple_TEST..Lights_Fu_info Where Status = 0 and ApplicantID = @ApplicantID";
-                    break;
-                case "10":
-                    //台南正統鹿耳門聖母廟
-                    view = "Temple_TEST..Lights_Luer_info";
-                    sql = "Select * from Temple_TEST..Lights_Luer_info Where Status = 0 and ApplicantID = @ApplicantID";
-                    break;
-                case "14":
-                    //桃園威天宮
-                    view = "Temple_TEST..Lights_ty_info";
-                    sql = "Select * from Temple_TEST..Lights_ty_info Where Status = 0 and ApplicantID = @ApplicantID";
-                    break;
-                case "15":
-                    //斗六五路財神宮
-                    view = "Temple_TEST..Lights_Fw_info";
-                    sql = "Select * from Temple_TEST..Lights_Fw_info Where Status = 0 and ApplicantID = @ApplicantID";
-                    break;
-                case "16":
-                    //台東東海龍門天聖宮
-                    view = "Temple_TEST..Lights_dh_info";
-                    sql = "Select * from Temple_TEST..Lights_dh_info Where Status = 0 and ApplicantID = @ApplicantID";
-                    break;
-            }
-
-            if (sql != "")
-            {
-                DatabaseAdapter Adapter = new DatabaseAdapter(sql, this.DBSource);
-                DataTable dtUpdateStatus = new DataTable();
-                Adapter.AddParameterToSelectCommand("@ApplicantID", ApplicantID);
-                Adapter.SetSqlCommandBuilder();
-                Adapter.Fill(dtUpdateStatus);
-                if (dtUpdateStatus.Rows.Count > 0)
-                {
-                    for (int i = 0; i < dtUpdateStatus.Rows.Count; i++)
-                    {
-                        int LightsID = int.Parse(dtUpdateStatus.Rows[i]["LightsID"].ToString());
-                        //dtUpdateStatus.Rows[i]["Num2String"] = "";
-                        //dtUpdateStatus.Rows[i]["Num"] = 0;
-                        //Adapter.Update(dtUpdateStatus);
-                        int res = ExecuteSql("Update " + view + " Set Num2String = '', Num = 0 Where LightsID=" + LightsID);
-
-                        if (res > 0)
+                        break;
+                    case "3":
+                        //商品小舖
+                        Year = dtNow.Year.ToString();
+                        switch (AdminID)
                         {
-                            result = true;
+                            case "5":
+                                //文創商品-新港奉天宮
+                                view = $"Temple_{Year}..APPCharge_Product";
+                                sql = $"SELECT * FROM {view} WHERE Status=1 AND UniqueID=@UniqueID";
+                                break;
+                            case "7":
+                                //大甲鎮瀾宮繞境商品小舖
+                                view = $"Temple_{Year}..APPCharge_Pilgrimage";
+                                sql = $"SELECT * FROM {view} WHERE Status=1 AND UniqueID=@UniqueID";
+                                break;
+                            case "11":
+                                //新港奉天宮錢母商品小舖
+                                view = $"Temple_{Year}..APPCharge_Moneymother";
+                                sql = $"SELECT * FROM {view} WHERE Status=1 AND UniqueID=@UniqueID";
+                                break;
+                            case "20":
+                                //文創商品-西螺福興宮
+                                view = $"Temple_{Year}..APPCharge_Product";
+                                sql = $"SELECT * FROM {view} WHERE Status=1 AND UniqueID=@UniqueID";
+                                break;
+                            case "22":
+                                //流金富貴商品小舖
+                                view = $"Temple_{Year}..APPCharge_Product";
+                                sql = $"SELECT * FROM {view} WHERE Status=1 AND UniqueID=@UniqueID";
+                                break;
+                            case "28":
+                                //財神小舖商品小舖
+                                view = $"Temple_{Year}..APPCharge_Product";
+                                sql = $"SELECT * FROM {view} WHERE Status=1 AND UniqueID=@UniqueID";
+                                break;
                         }
-                    }
-                }
-            }
-
-            return result;
-        }
-
-        /// <summary>
-        /// 刪除普度訂單編號
-        /// <param name="ApplicantID">ApplicantID=申請人編號</param>
-        /// <param name="AdminID">AdminID=廟宇編號 3-大甲鎮瀾宮 4-新港奉天宮 5-文創商品(新港奉天宮) 6-北港武德宮 8-西螺福興宮 9-桃園大廟景福宮 10-台南正統鹿耳門聖母廟</param>
-        /// </summary>
-        public bool DeletePurdueNum_test(int ApplicantID, string AdminID)
-        {
-            bool result = false;
-            string sql = string.Empty;
-
-            switch (AdminID)
-            {
-                case "3":
-                    //大甲鎮瀾宮
-                    sql = "Select * from Purdue_da_info Where Status = 0 and ApplicantID = @ApplicantID";
-                    break;
-                case "4":
-                    //新港奉天宮
-                    sql = "Select * from Purdue_h_info Where Status = 0 and ApplicantID = @ApplicantID";
-                    break;
-                case "5":
-                    //文創商品-新港奉天宮
-                    sql = "Select * from ProductInfo Where Status = 0 and ApplicantID = @ApplicantID";
-                    break;
-                case "6":
-                    //北港武德宮
-                    sql = "Select * from Purdue_wu_info Where Status = 0 and ApplicantID = @ApplicantID";
-                    break;
-                case "8":
-                    //西螺福興宮
-                    sql = "Select * from Purdue_Fu_info Where Status = 0 and ApplicantID = @ApplicantID";
-                    break;
-                case "9":
-                    //桃園大廟景福宮
-                    sql = "Select * from Purdue_Jing_info Where Status = 0 and ApplicantID = @ApplicantID";
-                    break;
-                case "10":
-                    //台南正統鹿耳門聖母廟
-                    sql = "Select * from Purdue_Luer_info Where Status = 0 and ApplicantID = @ApplicantID";
-                    break;
-            }
-
-            if (sql != "")
-            {
-                DatabaseAdapter Adapter = new DatabaseAdapter(sql, this.DBSource);
-                DataTable dtUpdateStatus = new DataTable();
-                Adapter.AddParameterToSelectCommand("@ApplicantID", ApplicantID);
-                Adapter.SetSqlCommandBuilder();
-                Adapter.Fill(dtUpdateStatus);
-                if (dtUpdateStatus.Rows.Count > 0)
-                {
-                    for (int i = 0; i < dtUpdateStatus.Rows.Count; i++)
-                    {
-                        dtUpdateStatus.Rows[i]["Num2String"] = "";
-                        dtUpdateStatus.Rows[i]["Num"] = 0;
-                        Adapter.Update(dtUpdateStatus);
-                    }
-                    result = true;
-                }
-            }
-
-            return result;
-        }
-
-        /// <summary>
-        /// 刪除商品小舖訂單編號
-        /// <param name="ApplicantID">ApplicantID=申請人編號</param>
-        /// <param name="AdminID">AdminID=廟宇編號 3-大甲鎮瀾宮 4-新港奉天宮 5-文創商品(新港奉天宮) 6-北港武德宮 7-繞境商品小舖</param>
-        /// </summary>
-        public bool DeleteProductNum_test(int ApplicantID, string AdminID)
-        {
-            bool result = false;
-            string sql = string.Empty;
-
-            switch (AdminID)
-            {
-                case "5":
-                    //文創商品-新港奉天宮
-                    sql = "Select * from ApplicantInfo_ProductInfo Where Status = -2 and ApplicantID = @ApplicantID";
-                    break;
-                case "7":
-                    //繞境商品小舖
-                    sql = "Select * from ApplicantInfo_Pilgrimage Where Status = -2 and ApplicantID = @ApplicantID";
-                    break;
-                case "11":
-                    //錢母商品小舖
-                    sql = "Select * from ApplicantInfo_Moneymother Where Status = -2 and ApplicantID = @ApplicantID";
-                    break;
-            }
-
-            if (sql != "")
-            {
-                DatabaseAdapter Adapter = new DatabaseAdapter(sql, this.DBSource);
-                DataTable dtUpdateStatus = new DataTable();
-                Adapter.AddParameterToSelectCommand("@ApplicantID", ApplicantID);
-                Adapter.SetSqlCommandBuilder();
-                Adapter.Fill(dtUpdateStatus);
-                if (dtUpdateStatus.Rows.Count > 0)
-                {
-                    for (int i = 0; i < dtUpdateStatus.Rows.Count; i++)
-                    {
-                        dtUpdateStatus.Rows[i]["Num2String"] = "";
-                        dtUpdateStatus.Rows[i]["Num"] = 0;
-                        Adapter.Update(dtUpdateStatus);
-                    }
-                    result = true;
-                }
-            }
-
-            return result;
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="UniqueID"></param>
-        /// <param name="Status"></param>
-        /// <param name="AdminID"></param>
-        /// <param name="kind">kind=活動名稱: 1-點燈 2-普度 4-下元補庫 5-呈疏補庫 6-企業補財庫 7-天赦日補運 8-天赦日祭改 9-關聖帝君聖誕 10-代燒金紙 11-天貺納福添運法會 12-靈寶禮斗</param>
-        /// <param name="Year"></param>
-        /// <returns></returns>
-        public bool Updatestatus2appcharge(int UniqueID, int Status, string AdminID, string kind, int type, string Year)
-        {
-            TimeZoneInfo info = TimeZoneInfo.FindSystemTimeZoneById("Taipei Standard Time");
-            DateTime dt = TimeZoneInfo.ConvertTime(DateTime.Now, info);
-            bool bResult = false;
-            DataTable dtDataList = new DataTable();
-            string sql = string.Empty;
-            string view = string.Empty;
-
-            switch (kind)
-            {
-                case "1":
-                    //點燈
-                    switch (AdminID)
-                    {
-                        case "3":
-                            //大甲鎮瀾宮
-                            view = "Temple_" + Year + "..APPCharge_da_Lights";
-                            sql = "Select * from Temple_" + Year + "..APPCharge_da_Lights Where Status = 1 and UniqueID = @UniqueID";
-                            break;
-                        case "4":
-                            //新港奉天宮
-                            view = "Temple_" + Year + "..APPCharge_h_Lights";
-                            sql = "Select * from Temple_" + Year + "..APPCharge_h_Lights Where Status = 1 and UniqueID = @UniqueID";
-                            break;
-                        case "6":
-                            //北港武德宮
-                            view = "Temple_" + Year + "..APPCharge_wu_Lights";
-                            sql = "Select * from Temple_" + Year + "..APPCharge_wu_Lights Where Status = 1 and UniqueID = @UniqueID";
-                            break;
-                        case "8":
-                            //西螺福興宮
-                            view = "Temple_" + Year + "..APPCharge_Fu_Lights";
-                            sql = "Select * from Temple_" + Year + "..APPCharge_Fu_Lights Where Status = 1 and UniqueID = @UniqueID";
-                            break;
-                        case "10":
-                            //台南正統鹿耳門聖母廟
-                            view = "Temple_" + Year + "..APPCharge_Luer_Lights";
-                            sql = "Select * from Temple_" + Year + "..APPCharge_Luer_Lights Where Status = 1 and UniqueID = @UniqueID";
-                            break;
-                        case "14":
-                            //桃園威天宮
-                            if (type == 2)
-                            {
-                                view = "Temple_" + Year + "..APPCharge_ty_mom_Lights";
-                                sql = "Select * from Temple_" + Year + "..APPCharge_ty_mom_Lights Where Status = 1 and UniqueID = @UniqueID";
-                            }
-                            else
-                            {
-                                view = "Temple_" + Year + "..APPCharge_ty_Lights";
-                                sql = "Select * from Temple_" + Year + "..APPCharge_ty_Lights Where Status = 1 and UniqueID = @UniqueID";
-                            }
-                            break;
-                        case "15":
-                            //斗六五路財神宮
-                            view = "Temple_" + Year + "..APPCharge_Fw_Lights";
-                            sql = "Select * from Temple_" + Year + "..APPCharge_Fw_Lights Where Status = 1 and UniqueID = @UniqueID";
-                            break;
-                        case "16":
-                            //台東東海龍門天聖宮
-                            view = "Temple_" + Year + "..APPCharge_dh_Lights";
-                            sql = "Select * from Temple_" + Year + "..APPCharge_dh_Lights Where Status = 1 and UniqueID = @UniqueID";
-                            break;
-                        case "21":
-                            //鹿港城隍廟
-                            view = "Temple_" + Year + "..APPCharge_Lk_Lights";
-                            sql = "Select * from Temple_" + Year + "..APPCharge_Lk_Lights Where Status = 1 and UniqueID = @UniqueID";
-                            break;
-                        case "23":
-                            //玉敕大樹朝天宮
-                            view = "Temple_" + Year + "..APPCharge_ma_Lights";
-                            sql = "Select * from Temple_" + Year + "..APPCharge_ma_Lights Where Status = 1 and UniqueID = @UniqueID";
-                            break;
-                        case "29":
-                            //進寶財神廟
-                            view = "Temple_" + Year + "..APPCharge_jb_Lights";
-                            sql = "Select * from Temple_" + Year + "..APPCharge_jb_Lights Where Status = 1 and UniqueID = @UniqueID";
-                            break;
-                        case "31":
-                            //台灣道教總廟無極三清總道院
-                            view = "Temple_" + Year + "..APPCharge_wjsan_Lights";
-                            sql = "Select * from Temple_" + Year + "..APPCharge_wjsan_Lights Where Status = 1 and UniqueID = @UniqueID";
-                            break;
-                        case "32":
-                            //桃園龍德宮
-                            view = "Temple_" + Year + "..APPCharge_ld_Lights";
-                            sql = "Select * from Temple_" + Year + "..APPCharge_ld_Lights Where Status = 1 and UniqueID = @UniqueID";
-                            break;
-                        case "34":
-                            //基隆悟玄宮
-                            view = "Temple_" + Year + "..APPCharge_wh_Lights";
-                            sql = "Select * from Temple_" + Year + "..APPCharge_wh_Lights Where Status = 1 and UniqueID = @UniqueID";
-                            break;
-                    }
-                    break;
-                case "2":
-                    //普度
-                    switch (AdminID)
-                    {
-                        case "3":
-                            //大甲鎮瀾宮
-                            view = "Temple_" + Year + "..APPCharge_da_Purdue";
-                            sql = "Select * from Temple_" + Year + "..APPCharge_da_Purdue Where Status = 1 and UniqueID = @UniqueID";
-                            break;
-                        case "4":
-                            //新港奉天宮
-                            view = "Temple_" + Year + "..APPCharge_h_Purdue";
-                            sql = "Select * from Temple_" + Year + "..APPCharge_h_Purdue Where Status = 1 and UniqueID = @UniqueID";
-                            break;
-                        case "6":
-                            //北港武德宮
-                            view = "Temple_" + Year + "..APPCharge_wu_Purdue";
-                            sql = "Select * from Temple_" + Year + "..APPCharge_wu_Purdue Where Status = 1 and UniqueID = @UniqueID";
-                            break;
-                        case "8":
-                            //西螺福興宮
-                            view = "Temple_" + Year + "..APPCharge_Fu_Purdue";
-                            sql = "Select * from Temple_" + Year + "..APPCharge_Fu_Purdue Where Status = 1 and UniqueID = @UniqueID";
-                            break;
-                        case "9":
-                            //桃園大廟景福宮
-                            view = "Temple_" + Year + "..APPCharge_Jing_Purdue";
-                            sql = "Select * from Temple_" + Year + "..APPCharge_Jing_Purdue Where Status = 1 and UniqueID = @UniqueID";
-                            break;
-                        case "10":
-                            //台南正統鹿耳門聖母廟
-                            view = "Temple_" + Year + "..APPCharge_Luer_Purdue";
-                            sql = "Select * from Temple_" + Year + "..APPCharge_Luer_Purdue Where Status = 1 and UniqueID = @UniqueID";
-                            break;
-                        case "14":
-                            //桃園威天宮
-                            view = "Temple_" + Year + "..APPCharge_ty_Purdue";
-                            sql = "Select * from Temple_" + Year + "..APPCharge_ty_Purdue Where Status = 1 and UniqueID = @UniqueID";
-                            break;
-                        case "15":
-                            //斗六五路財神宮
-                            view = "Temple_" + Year + "..APPCharge_Fw_Purdue";
-                            sql = "Select * from Temple_" + Year + "..APPCharge_Fw_Purdue Where Status = 1 and UniqueID = @UniqueID";
-                            break;
-                        case "16":
-                            //台東東海龍門天聖宮
-                            view = "Temple_" + Year + "..APPCharge_dh_Purdue";
-                            sql = "Select * from Temple_" + Year + "..APPCharge_dh_Purdue Where Status = 1 and UniqueID = @UniqueID";
-                            break;
-                        case "21":
-                            //鹿港城隍廟
-                            view = "Temple_" + Year + "..APPCharge_Lk_Purdue";
-                            sql = "Select * from Temple_" + Year + "..APPCharge_Lk_Purdue Where Status = 1 and UniqueID = @UniqueID";
-                            break;
-                        case "23":
-                            //玉敕大樹朝天宮
-                            view = "Temple_" + Year + "..APPCharge_ma_Purdue";
-                            sql = "Select * from Temple_" + Year + "..APPCharge_ma_Purdue Where Status = 1 and UniqueID = @UniqueID";
-                            break;
-                        case "30":
-                            //鎮瀾買足
-                            view = "Temple_" + Year + "..APPCharge_mazu_Purdue";
-                            sql = "Select * from Temple_" + Year + "..APPCharge_mazu_Purdue Where Status = 1 and UniqueID = @UniqueID";
-                            break;
-                    }
-                    break;
-                case "3":
-                    //商品小舖
-                    Year = dt.Year.ToString();
-                    switch (AdminID)
-                    {
-                        case "5":
-                            //文創商品-新港奉天宮
-                            view = "Temple_" + Year + "..APPCharge_Product";
-                            sql = "Select * from Temple_" + Year + "..APPCharge_Product Where Status = 1 and UniqueID = @UniqueID";
-                            break;
-                        case "7":
-                            //大甲鎮瀾宮繞境商品小舖
-                            view = "Temple_" + Year + "..APPCharge_Pilgrimage";
-                            sql = "Select * from Temple_" + Year + "..APPCharge_Pilgrimage Where Status = 1 and UniqueID = @UniqueID";
-                            break;
-                        case "11":
-                            //新港奉天宮錢母商品小舖
-                            view = "Temple_" + Year + "..APPCharge_Moneymother";
-                            sql = "Select * from Temple_" + Year + "..APPCharge_Moneymother Where Status = 1 and UniqueID = @UniqueID";
-                            break;
-                        case "20":
-                            //文創商品-西螺福興宮
-                            view = "Temple_" + Year + "..APPCharge_Product";
-                            sql = "Select * from Temple_" + Year + "..APPCharge_Product Where Status = 1 and UniqueID = @UniqueID";
-                            break;
-                        case "22":
-                            //流金富貴商品小舖
-                            view = "Temple_" + Year + "..APPCharge_Product";
-                            sql = "Select * from Temple_" + Year + "..APPCharge_Product Where Status = 1 and UniqueID = @UniqueID";
-                            break;
-                        case "28":
-                            //財神小舖商品小舖
-                            view = "Temple_" + Year + "..APPCharge_Product";
-                            sql = "Select * from Temple_" + Year + "..APPCharge_Product Where Status = 1 and UniqueID = @UniqueID";
-                            break;
-                    }
-                    break;
-                case "4":
-                    //下元補庫
-                    switch (AdminID)
-                    {
-                        case "6":
-                            //北港武德宮
-                            view = "Temple_" + Year + "..APPCharge_wu_Supplies";
-                            sql = "Select * from Temple_" + Year + "..APPCharge_wu_Supplies Where Status = 1 and UniqueID = @UniqueID";
-                            break;
-                    }
-                    break;
-                case "5":
-                    //呈疏補庫
-                    switch (AdminID)
-                    {
-                        case "6":
-                            //北港武德宮
-                            view = "Temple_" + Year + "..APPCharge_wu_Supplies2";
-                            sql = "Select * from Temple_" + Year + "..APPCharge_wu_Supplies2 Where Status = 1 and UniqueID = @UniqueID";
-                            break;
-                    }
-                    break;
-                case "6":
-                    //企業補財庫
-                    switch (AdminID)
-                    {
-                        case "6":
-                            //北港武德宮
-                            view = "Temple_" + Year + "..APPCharge_wu_Supplies3";
-                            sql = "Select * from Temple_" + Year + "..APPCharge_wu_Supplies3 Where Status = 1 and UniqueID = @UniqueID";
-                            break;
-                    }
-                    break;
-                case "7":
-                    //天赦日補運
-                    switch (AdminID)
-                    {
-                        case "14":
-                            //桃園威天宮
-                            view = "Temple_" + Year + "..APPCharge_ty_Supplies";
-                            sql = "Select * from Temple_" + Year + "..APPCharge_ty_Supplies Where Status = 1 and UniqueID = @UniqueID";
-                            break;
-                        case "23":
-                            //桃園威天宮
-                            view = "Temple_" + Year + "..APPCharge_ma_Supplies";
-                            sql = "Select * from Temple_" + Year + "..APPCharge_ma_Supplies Where Status = 1 and UniqueID = @UniqueID";
-                            break;
-                    }
-                    break;
-                case "8":
-                    //天赦日祭改
-                    switch (AdminID)
-                    {
-                        case "29":
-                            //進寶財神廟
-                            view = "Temple_" + Year + "..APPCharge_jb_Supplies";
-                            sql = "Select * from Temple_" + Year + "..APPCharge_jb_Supplies Where Status = 1 and UniqueID = @UniqueID";
-                            break;
-                    }
-                    break;
-                case "10":
-                    //代燒金紙
-                    switch (AdminID)
-                    {
-                        case "29":
-                            //進寶財神廟
-                            view = "Temple_" + Year + "..APPCharge_jb_BPO";
-                            sql = "Select * from Temple_" + Year + "..APPCharge_jb_BPO Where Status = 1 and UniqueID = @UniqueID";
-                            break;
-                    }
-                    break;
-                case "12":
-                    //靈寶禮斗
-                    switch (AdminID)
-                    {
-                        case "23":
-                            //桃園威天宮
-                            view = "Temple_" + Year + "..APPCharge_ma_Lingbaolidou";
-                            sql = "Select * from Temple_" + Year + "..APPCharge_ma_Lingbaolidou Where Status = 1 and UniqueID = @UniqueID";
-                            break;
-                    }
-                    break;
-                case "13":
-                    //七朝清醮
-                    switch (AdminID)
-                    {
-                        case "3":
-                            //大甲鎮瀾宮
-                            view = "Temple_" + Year + "..APPCharge_da_TaoistJiaoCeremony";
-                            sql = "Select * from Temple_" + Year + "..APPCharge_da_TaoistJiaoCeremony Where Status = 1 and UniqueID = @UniqueID";
-                            break;
-                    }
-                    break;
-                case "16":
-                    //補財庫
-                    switch (AdminID)
-                    {
-                        case "15":
-                            //斗六五路財神公
-                            view = "Temple_" + Year + "..APPCharge_Fw_Supplies";
-                            sql = "Select * from Temple_" + Year + "..APPCharge_Fw_Supplies Where Status = 1 and UniqueID = @UniqueID";
-                            break;
-                        case "21":
-                            //鹿港城隍廟
-                            view = "Temple_" + Year + "..APPCharge_Lk_Supplies";
-                            sql = "Select * from Temple_" + Year + "..APPCharge_Lk_Supplies Where Status = 1 and UniqueID = @UniqueID";
-                            break;
-                    }
-                    break;
-                case "17":
-                    //赦罪補庫
-                    switch (AdminID)
-                    {
-                        case "33":
-                            //神霄玉府財神會館
-                            view = "Temple_" + Year + "..APPCharge_sx_Supplies";
-                            sql = "Select * from Temple_" + Year + "..APPCharge_sx_Supplies Where Status = 1 and UniqueID = @UniqueID";
-                            break;
-                    }
-                    break;
-                case "18":
-                    //招財補運
-                    switch (AdminID)
-                    {
-                        case "14":
-                            //桃園威天宮
-                            view = "Temple_" + Year + "..APPCharge_ty_Supplies3";
-                            sql = "Select * from Temple_" + Year + "..APPCharge_ty_Supplies3 Where Status = 1 and UniqueID = @UniqueID";
-                            break;
-                    }
-                    break;
-                case "20":
-                    //安斗
-                    switch (AdminID)
-                    {
-                        case "15":
-                            //斗六五路財神宮
-                            view = "Temple_" + Year + "..APPCharge_Fw_AnDou";
-                            sql = "Select * from Temple_" + Year + "..APPCharge_Fw_AnDou Where Status = 1 and UniqueID = @UniqueID";
-                            break;
-                        case "31":
-                            //台灣道教總廟無極三清總道院
-                            view = "Temple_" + Year + "..APPCharge_wjsan_AnDou";
-                            sql = "Select * from Temple_" + Year + "..APPCharge_wjsan_AnDou Where Status = 1 and UniqueID = @UniqueID";
-                            break;
-                    }
-                    break;
-            }
-
-            if (sql != "")
-            {
-                DatabaseAdapter AdapterObj = new DatabaseAdapter(sql, this.DBSource);
-                AdapterObj.SetSqlCommandBuilder();
-                AdapterObj.AddParameterToSelectCommand("@UniqueID", UniqueID);
-                AdapterObj.Fill(dtDataList);
-
-                if (dtDataList.Rows.Count > 0 && (int)dtDataList.Rows[0]["Status"] == 1)
-                {
-                    //dtDataList.Rows[0]["Status"] = Status;
-                    //AdapterObj.Update(dtDataList);
-                    if (view != "")
-                    {
-                        int res = ExecuteSql("Update " + view + " Set Status = " + Status + " Where UniqueID=" + UniqueID);
-
-                        if (res > 0)
-                        {
-                            if (Updatestatus2applicantinfo(int.Parse(dtDataList.Rows[0]["ApplicantID"].ToString()), Status, AdminID, kind, type, Year))
-                            {
-                                switch (kind)
-                                {
-                                    case "1":
-                                        //點燈
-                                        if (DeleteLightsinfo(int.Parse(dtDataList.Rows[0]["ApplicantID"].ToString()), AdminID, type, Year))
-                                        {
-                                            bResult = true;
-                                        }
-                                        break;
-                                    case "2":
-                                        //普度
-                                        if (DeletePurdueinfo(int.Parse(dtDataList.Rows[0]["ApplicantID"].ToString()), AdminID, Year))
-                                        {
-                                            bResult = true;
-                                        }
-                                        break;
-                                    case "3":
-                                        //商品小舖
-                                        if (DeleteProductInfo(int.Parse(dtDataList.Rows[0]["ApplicantID"].ToString()), AdminID, Year))
-                                        {
-                                            bResult = true;
-                                        }
-                                        break;
-                                    case "4":
-                                        //下元補庫
-                                        if (DeleteSuppliesNum(int.Parse(dtDataList.Rows[0]["ApplicantID"].ToString()), AdminID, 1, Year))
-                                        {
-                                            bResult = true;
-                                        }
-                                        break;
-                                    case "5":
-                                        //呈疏補庫
-                                        if (DeleteSuppliesNum(int.Parse(dtDataList.Rows[0]["ApplicantID"].ToString()), AdminID, 2, Year))
-                                        {
-                                            bResult = true;
-                                        }
-                                        break;
-                                    case "6":
-                                        //企業補財庫
-                                        if (DeleteSuppliesNum(int.Parse(dtDataList.Rows[0]["ApplicantID"].ToString()), AdminID, 3, Year))
-                                        {
-                                            bResult = true;
-                                        }
-                                        break;
-                                    case "7":
-                                        //天赦日補運
-                                        if (DeleteSuppliesNum(int.Parse(dtDataList.Rows[0]["ApplicantID"].ToString()), AdminID, 4, Year))
-                                        {
-                                            bResult = true;
-                                        }
-                                        break;
-                                    case "8":
-                                        //天赦日祭改
-                                        if (DeleteSuppliesNum(int.Parse(dtDataList.Rows[0]["ApplicantID"].ToString()), AdminID, 5, Year))
-                                        {
-                                            bResult = true;
-                                        }
-                                        break;
-                                    case "10":
-                                        //代燒金紙
-                                        if (DeleteBPONum(int.Parse(dtDataList.Rows[0]["ApplicantID"].ToString()), AdminID, Year))
-                                        {
-                                            bResult = true;
-                                        }
-                                        break;
-                                    case "12":
-                                        //靈寶禮斗
-                                        if (DeleteLingbaolidouNum(int.Parse(dtDataList.Rows[0]["ApplicantID"].ToString()), AdminID, Year))
-                                        {
-                                            bResult = true;
-                                        }
-                                        break;
-                                    case "13":
-                                        //七朝清醮
-                                        if (DeleteTaoistJiaoCeremonyNum(int.Parse(dtDataList.Rows[0]["ApplicantID"].ToString()), AdminID, Year))
-                                        {
-                                            bResult = true;
-                                        }
-                                        break;
-                                    case "16":
-                                        //補財庫
-                                        if (DeleteSuppliesNum(int.Parse(dtDataList.Rows[0]["ApplicantID"].ToString()), AdminID, 9, Year))
-                                        {
-                                            bResult = true;
-                                        }
-                                        break;
-                                    case "18":
-                                        //招財補運
-                                        if (DeleteSuppliesNum(int.Parse(dtDataList.Rows[0]["ApplicantID"].ToString()), AdminID, 18, Year))
-                                        {
-                                            bResult = true;
-                                        }
-                                        break;
-                                    case "20":
-                                        //安斗
-                                        if (DeleteAnDouinfo(int.Parse(dtDataList.Rows[0]["ApplicantID"].ToString()), AdminID, Year))
-                                        {
-                                            bResult = true;
-                                        }
-                                        break;
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-
-
-            return bResult;
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="ApplicantID"></param>
-        /// <param name="Status"></param>
-        /// <param name="AdminID"></param>
-        /// <param name="kind">kind=活動名稱: 1-點燈 2-普度 4-下元補庫 5-呈疏補庫 6-企業補財庫 7-天赦日補運 8-天赦日祭改 9-關聖帝君聖誕 10-代燒金紙 11-天貺納福添運法會 12-靈寶禮斗</param>
-        /// <param name="Year"></param>
-        /// <returns></returns>
-        public bool Updatestatus2applicantinfo(int ApplicantID, int Status, string AdminID, string kind, int type, string Year)
-        {
-            TimeZoneInfo info = TimeZoneInfo.FindSystemTimeZoneById("Taipei Standard Time");
-            DateTime dt = TimeZoneInfo.ConvertTime(DateTime.Now, info);
-            bool bResult = false;
-            DataTable dtDataList = new DataTable();
-            string sql = string.Empty;
-            string view = string.Empty;
-
-            switch (kind)
-            {
-                case "1":
-                    //點燈
-                    switch (AdminID)
-                    {
-                        case "3":
-                            //大甲鎮瀾宮
-                            view = "Temple_" + Year + "..ApplicantInfo_da_Lights";
-                            sql = "Select * from Temple_" + Year + "..ApplicantInfo_da_Lights Where Status = 2 and ApplicantID = @ApplicantID";
-                            break;
-                        case "4":
-                            //新港奉天宮
-                            view = "Temple_" + Year + "..ApplicantInfo_h_Lights";
-                            sql = "Select * from Temple_" + Year + "..ApplicantInfo_h_Lights Where Status = 2 and ApplicantID = @ApplicantID";
-                            break;
-                        case "6":
-                            //北港武德宮
-                            view = "Temple_" + Year + "..ApplicantInfo_wu_Lights";
-                            sql = "Select * from Temple_" + Year + "..ApplicantInfo_wu_Lights Where Status = 2 and ApplicantID = @ApplicantID";
-                            break;
-                        case "8":
-                            //西螺福興宮
-                            view = "Temple_" + Year + "..ApplicantInfo_Fu_Lights";
-                            sql = "Select * from Temple_" + Year + "..ApplicantInfo_Fu_Lights Where Status = 2 and ApplicantID = @ApplicantID";
-                            break;
-                        case "10":
-                            //台南正統鹿耳門聖母廟
-                            view = "Temple_" + Year + "..ApplicantInfo_Luer_Lights";
-                            sql = "Select * from Temple_" + Year + "..ApplicantInfo_Luer_Lights Where Status = 2 and ApplicantID = @ApplicantID";
-                            break;
-                        case "14":
-                            //桃園威天宮
-                            if (type == 2)
-                            {
-                                view = "Temple_" + Year + "..ApplicantInfo_ty_mom_Lights";
-                                sql = "Select * from Temple_" + Year + "..ApplicantInfo_ty_mom_Lights Where Status = 2 and ApplicantID = @ApplicantID";
-                            }
-                            else
-                            {
-                                view = "Temple_" + Year + "..ApplicantInfo_ty_Lights";
-                                sql = "Select * from Temple_" + Year + "..ApplicantInfo_ty_Lights Where Status = 2 and ApplicantID = @ApplicantID";
-                            }
-                            break;
-                        case "15":
-                            //斗六五路財神宮
-                            view = "Temple_" + Year + "..ApplicantInfo_Fw_Lights";
-                            sql = "Select * from Temple_" + Year + "..ApplicantInfo_Fw_Lights Where Status = 2 and ApplicantID = @ApplicantID";
-                            break;
-                        case "16":
-                            //台東東海龍門天聖宮
-                            view = "Temple_" + Year + "..ApplicantInfo_dh_Lights";
-                            sql = "Select * from Temple_" + Year + "..ApplicantInfo_dh_Lights Where Status = 2 and ApplicantID = @ApplicantID";
-                            break;
-                        case "17":
-                            //五股賀聖宮
-                            view = "Temple_" + Year + "..ApplicantInfo_Hs_Lights";
-                            sql = "Select * from Temple_" + Year + "..ApplicantInfo_Hs_Lights Where Status = 2 and ApplicantID = @ApplicantID";
-                            break;
-                        case "18":
-                            //外澳接天宮
-                            view = "Temple_" + Year + "..ApplicantInfo_Jt_Lights";
-                            sql = "Select * from Temple_" + Year + "..ApplicantInfo_Jt_Lights Where Status = 2 and ApplicantID = @ApplicantID";
-                            break;
-                        case "19":
-                            //安平開台天后宮
-                            view = "Temple_" + Year + "..ApplicantInfo_Am_Lights";
-                            sql = "Select * from Temple_" + Year + "..ApplicantInfo_Am_Lights Where Status = 2 and ApplicantID = @ApplicantID";
-                            break;
-                        case "21":
-                            //鹿港城隍廟
-                            view = "Temple_" + Year + "..ApplicantInfo_Lk_Lights";
-                            sql = "Select * from Temple_" + Year + "..ApplicantInfo_Lk_Lights Where Status = 2 and ApplicantID = @ApplicantID";
-                            break;
-                        case "23":
-                            //玉敕大樹朝天宮
-                            view = "Temple_" + Year + "..ApplicantInfo_ma_Lights";
-                            sql = "Select * from Temple_" + Year + "..ApplicantInfo_ma_Lights Where Status = 2 and ApplicantID = @ApplicantID";
-                            break;
-                        case "29":
-                            //進寶財神廟
-                            view = "Temple_" + Year + "..ApplicantInfo_jb_Lights";
-                            sql = "Select * from Temple_" + Year + "..ApplicantInfo_jb_Lights Where Status = 2 and ApplicantID = @ApplicantID";
-                            break;
-                        case "31":
-                            //台灣道教總廟無極三清總道院
-                            view = "Temple_" + Year + "..ApplicantInfo_wjsan_Lights";
-                            sql = "Select * from Temple_" + Year + "..ApplicantInfo_wjsan_Lights Where Status = 2 and ApplicantID = @ApplicantID";
-                            break;
-                        case "32":
-                            //桃園龍德宮
-                            view = "Temple_" + Year + "..ApplicantInfo_ld_Lights";
-                            sql = "Select * from Temple_" + Year + "..ApplicantInfo_ld_Lights Where Status = 2 and ApplicantID = @ApplicantID";
-                            break;
-                        case "34":
-                            //基隆悟玄宮
-                            view = "Temple_" + Year + "..ApplicantInfo_wh_Lights";
-                            sql = "Select * from Temple_" + Year + "..ApplicantInfo_wh_Lights Where Status = 2 and ApplicantID = @ApplicantID";
-                            break;
-                    }
-                    break;
-                case "2":
-                    //普度
-                    switch (AdminID)
-                    {
-                        case "3":
-                            //大甲鎮瀾宮
-                            view = "Temple_" + Year + "..ApplicantInfo_da_Purdue";
-                            sql = "Select * from Temple_" + Year + "..ApplicantInfo_da_Purdue Where Status = 2 and ApplicantID = @ApplicantID";
-                            break;
-                        case "4":
-                            //新港奉天宮
-                            view = "Temple_" + Year + "..ApplicantInfo_h_Purdue";
-                            sql = "Select * from Temple_" + Year + "..ApplicantInfo_h_Purdue Where Status = 2 and ApplicantID = @ApplicantID";
-                            break;
-                        case "6":
-                            //北港武德宮
-                            view = "Temple_" + Year + "..ApplicantInfo_wu_Purdue";
-                            sql = "Select * from Temple_" + Year + "..ApplicantInfo_wu_Purdue Where Status = 2 and ApplicantID = @ApplicantID";
-                            break;
-                        case "8":
-                            //西螺福興宮
-                            view = "Temple_" + Year + "..ApplicantInfo_Fu_Purdue";
-                            sql = "Select * from Temple_" + Year + "..ApplicantInfo_Fu_Purdue Where Status = 2 and ApplicantID = @ApplicantID";
-                            break;
-                        case "9":
-                            //桃園大廟景福宮
-                            view = "Temple_" + Year + "..ApplicantInfo_Jing_Purdue";
-                            sql = "Select * from Temple_" + Year + "..ApplicantInfo_Jing_Purdue Where Status = 2 and ApplicantID = @ApplicantID";
-                            break;
-                        case "10":
-                            //台南正統鹿耳門聖母廟
-                            view = "Temple_" + Year + "..ApplicantInfo_Luer_Purdue";
-                            sql = "Select * from Temple_" + Year + "..ApplicantInfo_Luer_Purdue Where Status = 2 and ApplicantID = @ApplicantID";
-                            break;
-                        case "14":
-                            //桃園威天宮
-                            view = "Temple_" + Year + "..ApplicantInfo_ty_Purdue";
-                            sql = "Select * from Temple_" + Year + "..ApplicantInfo_ty_Purdue Where Status = 2 and ApplicantID = @ApplicantID";
-                            break;
-                        case "15":
-                            //斗六五路財神宮
-                            view = "Temple_" + Year + "..ApplicantInfo_Fw_Purdue";
-                            sql = "Select * from Temple_" + Year + "..ApplicantInfo_Fw_Purdue Where Status = 2 and ApplicantID = @ApplicantID";
-                            break;
-                        case "16":
-                            //台東東海龍門天聖宮
-                            view = "Temple_" + Year + "..ApplicantInfo_dh_Purdue";
-                            sql = "Select * from Temple_" + Year + "..ApplicantInfo_dh_Purdue Where Status = 2 and ApplicantID = @ApplicantID";
-                            break;
-                        case "18":
-                            //外澳接天宮
-                            view = "Temple_" + Year + "..ApplicantInfo_Jt_Purdue";
-                            sql = "Select * from Temple_" + Year + "..ApplicantInfo_Jt_Purdue Where Status = 2 and ApplicantID = @ApplicantID";
-                            break;
-                        case "21":
-                            //鹿港城隍廟
-                            view = "Temple_" + Year + "..ApplicantInfo_Lk_Purdue";
-                            sql = "Select * from Temple_" + Year + "..ApplicantInfo_Lk_Purdue Where Status = 2 and ApplicantID = @ApplicantID";
-                            break;
-                        case "23":
-                            //玉敕大樹朝天宮
-                            view = "Temple_" + Year + "..ApplicantInfo_ma_Purdue";
-                            sql = "Select * from Temple_" + Year + "..ApplicantInfo_ma_Purdue Where Status = 2 and ApplicantID = @ApplicantID";
-                            break;
-                        case "30":
-                            //鎮瀾買足
-                            view = "Temple_" + Year + "..ApplicantInfo_mazu_Purdue";
-                            sql = "Select * from Temple_" + Year + "..ApplicantInfo_mazu_Purdue Where Status = 2 and ApplicantID = @ApplicantID";
-                            break;
-                    }
-                    break;
-                case "3":
-                    //商品小舖
-                    switch (AdminID)
-                    {
-                        case "5":
-                            //文創商品-新港奉天宮
-                            view = "Temple_" + Year + "..ApplicantInfo_Product";
-                            sql = "Select * from Temple_" + Year + "..ApplicantInfo_Product Where Status = 2 and ApplicantID = @ApplicantID";
-                            break;
-                        case "7":
-                            //大甲鎮瀾宮繞境商品小舖
-                            view = "Temple_" + Year + "..ApplicantInfo_Pilgrimage";
-                            sql = "Select * from Temple_" + Year + "..ApplicantInfo_Pilgrimage Where Status = 2 and ApplicantID = @ApplicantID";
-                            break;
-                        case "11":
-                            //新港奉天宮錢母商品小舖
-                            view = "Temple_" + Year + "..ApplicantInfo_Moneymother";
-                            sql = "Select * from Temple_" + Year + "..ApplicantInfo_Moneymother Where Status = 2 and ApplicantID = @ApplicantID";
-                            break;
-                        case "20":
-                            //文創商品-西螺福興宮
-                            view = "Temple_" + Year + "..ApplicantInfo_Product";
-                            sql = "Select * from Temple_" + Year + "..ApplicantInfo_Product Where Status = 2 and ApplicantID = @ApplicantID";
-                            break;
-                        case "22":
-                            //流金富貴商品小舖
-                            view = "Temple_" + Year + "..ApplicantInfo_Product";
-                            sql = "Select * from Temple_" + Year + "..ApplicantInfo_Product Where Status = 2 and ApplicantID = @ApplicantID";
-                            break;
-                        case "28":
-                            //財神小舖商品小舖
-                            view = "Temple_" + Year + "..ApplicantInfo_Product";
-                            sql = "Select * from Temple_" + Year + "..ApplicantInfo_Product Where Status = 2 and ApplicantID = @ApplicantID";
-                            break;
-                    }
-                    break;
-                case "4":
-                    //下元補庫
-                    switch (AdminID)
-                    {
-                        case "6":
-                            //北港武德宮
-                            view = "Temple_" + Year + "..ApplicantInfo_wu_Supplies";
-                            sql = "Select * from Temple_" + Year + "..ApplicantInfo_wu_Supplies Where Status = 2 and ApplicantID = @ApplicantID";
-                            break;
-                    }
-                    break;
-                case "5":
-                    //呈疏補庫
-                    switch (AdminID)
-                    {
-                        case "6":
-                            //北港武德宮
-                            view = "Temple_" + Year + "..ApplicantInfo_wu_Supplies2";
-                            sql = "Select * from Temple_" + Year + "..ApplicantInfo_wu_Supplies2 Where Status = 2 and ApplicantID = @ApplicantID";
-                            break;
-                    }
-                    break;
-                case "6":
-                    //企業補財庫
-                    switch (AdminID)
-                    {
-                        case "6":
-                            //北港武德宮
-                            view = "Temple_" + Year + "..ApplicantInfo_wu_Supplies3";
-                            sql = "Select * from Temple_" + Year + "..ApplicantInfo_wu_Supplies3 Where Status = 2 and ApplicantID = @ApplicantID";
-                            break;
-                    }
-                    break;
-                case "7":
-                    //天赦日補運
-                    switch (AdminID)
-                    {
-                        case "14":
-                            //桃園威天宮
-                            view = "Temple_" + Year + "..ApplicantInfo_ty_Supplies";
-                            sql = "Select * from Temple_" + Year + "..ApplicantInfo_ty_Supplies Where Status = 2 and ApplicantID = @ApplicantID";
-                            break;
-                        case "23":
-                            //桃園威天宮
-                            view = "Temple_" + Year + "..ApplicantInfo_ma_Supplies";
-                            sql = "Select * from Temple_" + Year + "..ApplicantInfo_ma_Supplies Where Status = 2 and ApplicantID = @ApplicantID";
-                            break;
-                    }
-                    break;
-                case "8":
-                    //天赦日祭改
-                    switch (AdminID)
-                    {
-                        case "29":
-                            //進寶財神廟
-                            view = "Temple_" + Year + "..ApplicantInfo_jb_Supplies";
-                            sql = "Select * from Temple_" + Year + "..ApplicantInfo_jb_Supplies Where Status = 2 and ApplicantID = @ApplicantID";
-                            break;
-                    }
-                    break;
-                case "10":
-                    //代燒金紙
-                    switch (AdminID)
-                    {
-                        case "29":
-                            //進寶財神廟
-                            view = "Temple_" + Year + "..ApplicantInfo_jb_BPO";
-                            sql = "Select * from Temple_" + Year + "..ApplicantInfo_jb_BPO Where Status = 2 and ApplicantID = @ApplicantID";
-                            break;
-                    }
-                    break;
-                case "12":
-                    //靈寶禮斗
-                    switch (AdminID)
-                    {
-                        case "23":
-                            //玉敕大樹朝天宮
-                            view = "Temple_" + Year + "..ApplicantInfo_ma_Lingbaolidou";
-                            sql = "Select * from Temple_" + Year + "..ApplicantInfo_ma_Lingbaolidou Where Status = 2 and ApplicantID = @ApplicantID";
-                            break;
-                    }
-                    break;
-                case "13":
-                    //七朝清醮
-                    switch (AdminID)
-                    {
-                        case "3":
-                            //大甲鎮瀾宮
-                            view = "Temple_" + Year + "..ApplicantInfo_da_TaoistJiaoCeremony";
-                            sql = "Select * from Temple_" + Year + "..ApplicantInfo_da_TaoistJiaoCeremony Where Status = 2 and ApplicantID = @ApplicantID";
-                            break;
-                    }
-                    break;
-                case "16":
-                    //補財庫
-                    switch (AdminID)
-                    {
-                        case "15":
-                            //斗六五路財神宮
-                            view = "Temple_" + Year + "..ApplicantInfo_Fw_Supplies";
-                            sql = "Select * from Temple_" + Year + "..ApplicantInfo_Fw_Supplies Where Status = 2 and ApplicantID = @ApplicantID";
-                            break;
-                        case "21":
-                            //鹿港城隍廟
-                            view = "Temple_" + Year + "..ApplicantInfo_Lk_Supplies";
-                            sql = "Select * from Temple_" + Year + "..ApplicantInfo_Lk_Supplies Where Status = 2 and ApplicantID = @ApplicantID";
-                            break;
-                    }
-                    break;
-                case "17":
-                    //赦罪補庫
-                    switch (AdminID)
-                    {
-                        case "33":
-                            //神霄玉府財神會館
-                            view = "Temple_" + Year + "..ApplicantInfo_sx_Supplies";
-                            sql = "Select * from Temple_" + Year + "..ApplicantInfo_sx_Supplies Where Status = 2 and ApplicantID = @ApplicantID";
-                            break;
-                    }
-                    break;
-                case "18":
-                    //招財補運
-                    switch (AdminID)
-                    {
-                        case "14":
-                            //桃園威天宮
-                            view = "Temple_" + Year + "..ApplicantInfo_ty_Supplies3";
-                            sql = "Select * from Temple_" + Year + "..ApplicantInfo_ty_Supplies3 Where Status = 2 and ApplicantID = @ApplicantID";
-                            break;
-                    }
-                    break;
-                case "20":
-                    //安斗
-                    switch (AdminID)
-                    {
-                        case "15":
-                            //斗六五路財神宮
-                            view = "Temple_" + Year + "..ApplicantInfo_Fw_AnDou";
-                            sql = "Select * from Temple_" + Year + "..ApplicantInfo_Fw_AnDou Where Status = 2 and ApplicantID = @ApplicantID";
-                            break;
-                        case "31":
-                            //台灣道教總廟無極三清總道院
-                            view = "Temple_" + Year + "..ApplicantInfo_wjsan_AnDou";
-                            sql = "Select * from Temple_" + Year + "..ApplicantInfo_wjsan_AnDou Where Status = 2 and ApplicantID = @ApplicantID";
-                            break;
-                    }
-                    break;
-            }
-
-            if (sql != "")
-            {
-                DatabaseAdapter AdapterObj = new DatabaseAdapter(sql, this.DBSource);
-                AdapterObj.SetSqlCommandBuilder();
-                AdapterObj.AddParameterToSelectCommand("@ApplicantID", ApplicantID);
-                AdapterObj.Fill(dtDataList);
-
-                if (dtDataList.Rows.Count > 0)
-                {
-                    //dtDataList.Rows[0]["Status"] = Status;
-                    //dtDataList.Rows[0]["UpdateinfoDate"] = dt;
-                    //dtDataList.Rows[0]["UpdateinfoDateString"] = dt.ToString("yyyy-MM-dd");
-                    //AdapterObj.Update(dtDataList);
-                    if (view != "")
-                    {
-                        int res = ExecuteSql("Update " + view + " Set Status = " + Status + ", UpdateinfoDate = '" + dt + "', UpdateinfoDateString = '" + dt.ToString("yyyy-MM-dd") + "' Where ApplicantID=" + ApplicantID);
-
-                        if (res > 0)
-                        {
-                            bResult = true;
-                        }
-                    }
-                }
-            }
-
-            return bResult;
-        }
-
-        /// <summary>
-        /// 刪除點燈訂單編號
-        /// <param name="ApplicantID">ApplicantID=申請人編號</param>
-        /// <param name="AdminID">AdminID=廟宇編號 3-大甲鎮瀾宮 4-新港奉天宮 5-文創商品(新港奉天宮) 6-北港武德宮</param>
-        /// </summary>
-        public bool DeleteLightsinfo(int ApplicantID, string AdminID, int type, string Year)
-        {
-            bool result = false;
-            string sql = string.Empty;
-            string view = string.Empty;
-
-            switch (AdminID)
-            {
-                case "3":
-                    //大甲鎮瀾宮
-                    view = "Temple_" + Year + "..Lights_da_info";
-                    sql = "Select * from Temple_" + Year + "..Lights_da_info Where ApplicantID = @ApplicantID and Status = 0";
-                    break;
-                case "4":
-                    //新港奉天宮
-                    view = "Temple_" + Year + "..Lights_h_info";
-                    sql = "Select * from Temple_" + Year + "..Lights_h_info Where ApplicantID = @ApplicantID and Status = 0";
-                    break;
-                case "6":
-                    //北港武德宮
-                    view = "Temple_" + Year + "..Lights_wu_info";
-                    sql = "Select * from Temple_" + Year + "..Lights_wu_info Where Status = 0 and ApplicantID = @ApplicantID";
-                    break;
-                case "8":
-                    //西螺福興宮
-                    view = "Temple_" + Year + "..Lights_Fu_info";
-                    sql = "Select * from Temple_" + Year + "..Lights_Fu_info Where Status = 0 and ApplicantID = @ApplicantID";
-                    break;
-                case "10":
-                    //台南正統鹿耳門聖母廟
-                    view = "Temple_" + Year + "..Lights_Luer_info";
-                    sql = "Select * from Temple_" + Year + "..Lights_Luer_info Where Status = 0 and ApplicantID = @ApplicantID";
-                    break;
-                case "14":
-                    //桃園威天宮
-                    if (type == 2)
-                    {
-                        view = "Temple_" + Year + "..Lights_ty_mom_info";
-                        sql = "Select * from Temple_" + Year + "..Lights_ty_mom_info Where Status = 0 and ApplicantID = @ApplicantID";
-                    }
-                    else
-                    {
-                        view = "Temple_" + Year + "..Lights_ty_info";
-                        sql = "Select * from Temple_" + Year + "..Lights_ty_info Where Status = 0 and ApplicantID = @ApplicantID";
-                    }
-                    break;
-                case "15":
-                    //斗六五路財神宮
-                    view = "Temple_" + Year + "..Lights_Fw_info";
-                    sql = "Select * from Temple_" + Year + "..Lights_Fw_info Where Status = 0 and ApplicantID = @ApplicantID";
-                    break;
-                case "16":
-                    //台東東海龍門天聖宮
-                    view = "Temple_" + Year + "..Lights_dh_info";
-                    sql = "Select * from Temple_" + Year + "..Lights_dh_info Where Status = 0 and ApplicantID = @ApplicantID";
-                    break;
-                case "17":
-                    //五股賀聖宮
-                    view = "Temple_" + Year + "..Lights_Hs_info";
-                    sql = "Select * from Temple_" + Year + "..Lights_Hs_info Where ApplicantID = @ApplicantID and Status = 0";
-                    break;
-                case "18":
-                    //外澳接天宮
-                    view = "Temple_" + Year + "..Lights_Jt_info";
-                    sql = "Select * from Temple_" + Year + "..Lights_Jt_info Where ApplicantID = @ApplicantID and Status = 0";
-                    break;
-                case "19":
-                    //安平開台天后宮
-                    view = "Temple_" + Year + "..Lights_Am_info";
-                    sql = "Select * from Temple_" + Year + "..Lights_Am_info Where ApplicantID = @ApplicantID and Status = 0";
-                    break;
-                case "21":
-                    //鹿港城隍廟
-                    view = "Temple_" + Year + "..Lights_Lk_info";
-                    sql = "Select * from Temple_" + Year + "..Lights_Lk_info Where ApplicantID = @ApplicantID and Status = 0";
-                    break;
-                case "23":
-                    //玉敕大樹朝天宮
-                    view = "Temple_" + Year + "..Lights_ma_info";
-                    sql = "Select * from Temple_" + Year + "..Lights_ma_info Where ApplicantID = @ApplicantID and Status = 0";
-                    break;
-                case "29":
-                    //進寶財神廟
-                    view = "Temple_" + Year + "..Lights_jb_info";
-                    sql = "Select * from Temple_" + Year + "..Lights_jb_info Where ApplicantID = @ApplicantID and Status = 0";
-                    break;
-                case "31":
-                    //台灣道教總廟無極三清總道院
-                    view = "Temple_" + Year + "..Lights_wjsan_info";
-                    sql = "Select * from Temple_" + Year + "..Lights_wjsan_info Where ApplicantID = @ApplicantID and Status = 0";
-                    break;
-                case "32":
-                    //桃園龍德宮
-                    view = "Temple_" + Year + "..Lights_ld_info";
-                    sql = "Select * from Temple_" + Year + "..Lights_ld_info Where ApplicantID = @ApplicantID and Status = 0";
-                    break;
-                case "34":
-                    //基隆悟玄宮
-                    view = "Temple_" + Year + "..Lights_wh_info";
-                    sql = "Select * from Temple_" + Year + "..Lights_wh_info Where ApplicantID = @ApplicantID and Status = 0";
-                    break;
-            }
-
-            if (sql != "")
-            {
-                DatabaseAdapter Adapter = new DatabaseAdapter(sql, this.DBSource);
-                DataTable dtUpdateStatus = new DataTable();
-                Adapter.AddParameterToSelectCommand("@ApplicantID", ApplicantID);
-                Adapter.SetSqlCommandBuilder();
-                Adapter.Fill(dtUpdateStatus);
-                if (dtUpdateStatus.Rows.Count > 0)
-                {
-                    for (int i = 0; i < dtUpdateStatus.Rows.Count; i++)
-                    {
-                        int LightsID = int.Parse(dtUpdateStatus.Rows[i]["LightsID"].ToString());
-                        //dtUpdateStatus.Rows[i]["Num2String"] = "";
-                        //dtUpdateStatus.Rows[i]["Num"] = 0;
-                        //Adapter.Update(dtUpdateStatus);
-
-                        if (view != "")
-                        {
-                            int res = ExecuteSql("Update " + view + " Set Num2String = '', Num = 0 Where LightsID=" + LightsID);
-
-                            if (res > 0)
-                            {
-                                result = true;
-                            }
-                        }
-                    }
-                }
-            }
-
-            return result;
-        }
-
-        /// <summary>
-        /// 刪除普度訂單編號
-        /// <param name="ApplicantID">ApplicantID=申請人編號</param>
-        /// <param name="AdminID">AdminID=廟宇編號 3-大甲鎮瀾宮 4-新港奉天宮 5-文創商品(新港奉天宮) 6-北港武德宮</param>
-        /// </summary>
-        public bool DeletePurdueinfo(int ApplicantID, string AdminID, string Year)
-        {
-            bool result = false;
-            string sql = string.Empty;
-            string view = string.Empty;
-
-            switch (AdminID)
-            {
-                case "3":
-                    //大甲鎮瀾宮
-                    view = "Temple_" + Year + "..Purdue_da_info";
-                    sql = "Select * from Temple_" + Year + "..Purdue_da_info Where ApplicantID = @ApplicantID and Status = 0";
-                    break;
-                case "4":
-                    //新港奉天宮
-                    view = "Temple_" + Year + "..Purdue_h_info";
-                    sql = "Select * from Temple_" + Year + "..Purdue_h_info Where ApplicantID = @ApplicantID and Status = 0";
-                    break;
-                case "6":
-                    //北港武德宮
-                    view = "Temple_" + Year + "..Purdue_wu_info";
-                    sql = "Select * from Temple_" + Year + "..Purdue_wu_info Where Status = 0 and ApplicantID = @ApplicantID";
-                    break;
-                case "8":
-                    //西螺福興宮
-                    view = "Temple_" + Year + "..Purdue_Fu_info";
-                    sql = "Select * from Temple_" + Year + "..Purdue_Fu_info Where Status = 0 and ApplicantID = @ApplicantID";
-                    break;
-                case "10":
-                    //台南正統鹿耳門聖母廟
-                    view = "Temple_" + Year + "..Purdue_Luer_info";
-                    sql = "Select * from Temple_" + Year + "..Purdue_Luer_info Where Status = 0 and ApplicantID = @ApplicantID";
-                    break;
-                case "14":
-                    //桃園威天宮
-                    view = "Temple_" + Year + "..Purdue_ty_info";
-                    sql = "Select * from Temple_" + Year + "..Purdue_ty_info Where Status = 0 and ApplicantID = @ApplicantID";
-                    break;
-                case "15":
-                    //斗六五路財神宮
-                    view = "Temple_" + Year + "..Purdue_Fw_info";
-                    sql = "Select * from Temple_" + Year + "..Purdue_Fw_info Where Status = 0 and ApplicantID = @ApplicantID";
-                    break;
-                case "16":
-                    //台東東海龍門天聖宮
-                    view = "Temple_" + Year + "..Purdue_dh_info";
-                    sql = "Select * from Temple_" + Year + "..Purdue_dh_info Where Status = 0 and ApplicantID = @ApplicantID";
-                    break;
-                case "18":
-                    //外澳接天宮
-                    view = "Temple_" + Year + "..Purdue_Jt_info";
-                    sql = "Select * from Temple_" + Year + "..Purdue_Jt_info Where ApplicantID = @ApplicantID and Status = 0";
-                    break;
-                case "21":
-                    //鹿港城隍廟
-                    view = "Temple_" + Year + "..Purdue_Lk_info";
-                    sql = "Select * from Temple_" + Year + "..Purdue_Lk_info Where ApplicantID = @ApplicantID and Status = 0";
-                    break;
-                case "23":
-                    //玉敕大樹朝天宮
-                    view = "Temple_" + Year + "..Purdue_ma_info";
-                    sql = "Select * from Temple_" + Year + "..Purdue_ma_info Where ApplicantID = @ApplicantID and Status = 0";
-                    break;
-                case "30":
-                    //鎮瀾買足
-                    view = "Temple_" + Year + "..Purdue_mazu_info";
-                    sql = "Select * from Temple_" + Year + "..Purdue_mazu_info Where ApplicantID = @ApplicantID and Status = 0";
-                    break;
-            }
-
-            if (sql != "")
-            {
-                DatabaseAdapter Adapter = new DatabaseAdapter(sql, this.DBSource);
-                DataTable dtUpdateStatus = new DataTable();
-                Adapter.AddParameterToSelectCommand("@ApplicantID", ApplicantID);
-                Adapter.SetSqlCommandBuilder();
-                Adapter.Fill(dtUpdateStatus);
-                if (dtUpdateStatus.Rows.Count > 0)
-                {
-                    for (int i = 0; i < dtUpdateStatus.Rows.Count; i++)
-                    {
-                        int PurdueID = int.Parse(dtUpdateStatus.Rows[i]["PurdueID"].ToString());
-                        //dtUpdateStatus.Rows[i]["Num2String"] = "";
-                        //dtUpdateStatus.Rows[i]["Num"] = 0;
-                        //Adapter.Update(dtUpdateStatus);
-
-                        if (view != "")
-                        {
-                            int res = ExecuteSql("Update " + view + " Set Num2String = '', Num = 0 Where PurdueID=" + PurdueID);
-
-                            if (res > 0)
-                            {
-                                result = true;
-                            }
-                        }
-                    }
-                }
-            }
-
-            return result;
-        }
-
-        /// <summary>
-        /// 刪除普度訂單編號
-        /// <param name="ApplicantID">ApplicantID=申請人編號</param>
-        /// <param name="AdminID">AdminID=廟宇編號 3-大甲鎮瀾宮 4-新港奉天宮 5-文創商品(新港奉天宮) 6-北港武德宮 8-西螺福興宮 9-桃園大廟景福宮 10-台南正統鹿耳門聖母廟</param>
-        /// </summary>
-        public bool DeletePurdueNum(int ApplicantID, string AdminID, string Year)
-        {
-            bool result = false;
-            string sql = string.Empty;
-
-            switch (AdminID)
-            {
-                case "3":
-                    //大甲鎮瀾宮
-                    sql = "Select * from Purdue_da_info Where Status = 0 and ApplicantID = @ApplicantID";
-                    break;
-                case "4":
-                    //新港奉天宮
-                    sql = "Select * from Purdue_h_info Where Status = 0 and ApplicantID = @ApplicantID";
-                    break;
-                case "5":
-                    //文創商品-新港奉天宮
-                    sql = "Select * from ProductInfo Where Status = 0 and ApplicantID = @ApplicantID";
-                    break;
-                case "6":
-                    //北港武德宮
-                    sql = "Select * from Purdue_wu_info Where Status = 0 and ApplicantID = @ApplicantID";
-                    break;
-                case "8":
-                    //西螺福興宮
-                    sql = "Select * from Purdue_Fu_info Where Status = 0 and ApplicantID = @ApplicantID";
-                    break;
-                case "9":
-                    //桃園大廟景福宮
-                    sql = "Select * from Purdue_Jing_info Where Status = 0 and ApplicantID = @ApplicantID";
-                    break;
-                case "10":
-                    //台南正統鹿耳門聖母廟
-                    sql = "Select * from Purdue_Luer_info Where Status = 0 and ApplicantID = @ApplicantID";
-                    break;
-            }
-
-            if (sql != "")
-            {
-                DatabaseAdapter Adapter = new DatabaseAdapter(sql, this.DBSource);
-                DataTable dtUpdateStatus = new DataTable();
-                Adapter.AddParameterToSelectCommand("@ApplicantID", ApplicantID);
-                Adapter.SetSqlCommandBuilder();
-                Adapter.Fill(dtUpdateStatus);
-                if (dtUpdateStatus.Rows.Count > 0)
-                {
-                    for (int i = 0; i < dtUpdateStatus.Rows.Count; i++)
-                    {
-                        dtUpdateStatus.Rows[i]["Num2String"] = "";
-                        dtUpdateStatus.Rows[i]["Num"] = 0;
-                        Adapter.Update(dtUpdateStatus);
-                    }
-                    result = true;
-                }
-            }
-
-            return result;
-        }
-
-        /// <summary>
-        /// 刪除商品小舖訂單編號
-        /// <param name="ApplicantID">ApplicantID=申請人編號</param>
-        /// <param name="AdminID">AdminID=廟宇編號 3-大甲鎮瀾宮 4-新港奉天宮 5-文創商品(新港奉天宮) 6-北港武德宮 7-繞境商品小舖</param>
-        /// </summary>
-        public bool DeleteProductNum(int ApplicantID, string AdminID, string Status, string Year)
-        {
-            bool result = false;
-            string sql = string.Empty;
-            string view = string.Empty;
-
-            switch (AdminID)
-            {
-                case "5":
-                    //文創商品-新港奉天宮
-                    view = "Temple_" + Year + "..ApplicantInfo_Product";
-                    sql = "Select * from Temple_" + Year + "..ApplicantInfo_Product Where Status = @Status and ApplicantID = @ApplicantID and AdminID = @AdminID";
-                    break;
-                case "7":
-                    //繞境商品小舖
-                    view = "Temple_" + Year + "..ApplicantInfo_Pilgrimage";
-                    sql = "Select * from Temple_" + Year + "..ApplicantInfo_Pilgrimage Where Status = @Status and ApplicantID = @ApplicantID and AdminID = @AdminID";
-                    break;
-                case "11":
-                    //錢母商品小舖
-                    view = "Temple_" + Year + "..ApplicantInfo_Moneymother";
-                    sql = "Select * from Temple_" + Year + "..ApplicantInfo_Moneymother Where Status = @Status and ApplicantID = @ApplicantID and AdminID = @AdminID";
-                    break;
-                case "20":
-                    //文創商品-西螺福興宮
-                    view = "Temple_" + Year + "..ApplicantInfo_Product";
-                    sql = "Select * from Temple_" + Year + "..ApplicantInfo_Product Where Status = @Status and ApplicantID = @ApplicantID and AdminID = @AdminID";
-                    break;
-                case "22":
-                    //文創商品-琉金富貴
-                    view = "Temple_" + Year + "..ApplicantInfo_Product";
-                    sql = "Select * from Temple_" + Year + "..ApplicantInfo_Product Where Status = @Status and ApplicantID = @ApplicantID and AdminID = @AdminID";
-                    break;
-                case "29":
-                    //文創商品-財神小舖
-                    view = "Temple_" + Year + "..ApplicantInfo_Product";
-                    sql = "Select * from Temple_" + Year + "..ApplicantInfo_Product Where Status = @Status and ApplicantID = @ApplicantID and AdminID = @AdminID";
-                    break;
-            }
-
-            if (sql != "")
-            {
-                DatabaseAdapter Adapter = new DatabaseAdapter(sql, this.DBSource);
-                DataTable dtUpdateStatus = new DataTable();
-                Adapter.AddParameterToSelectCommand("@ApplicantID", ApplicantID);
-                Adapter.AddParameterToSelectCommand("@AdminID", AdminID);
-                Adapter.AddParameterToSelectCommand("@Status", Status);
-                Adapter.SetSqlCommandBuilder();
-                Adapter.Fill(dtUpdateStatus);
-                if (dtUpdateStatus.Rows.Count > 0)
-                {
-                    for (int i = 0; i < dtUpdateStatus.Rows.Count; i++)
-                    {
-                        int res = ExecuteSql("Update " + view + " Set Num2String = '', Num = 0 Where ApplicantID=" + ApplicantID);
-
-                        if (res > 0)
-                        {
-                            result = true;
-                        }
-                    }
-                }
-            }
-
-            return result;
-        }
-
-        /// <summary>
-        /// 刪除繞境商品訂單編號
-        /// <param name="ApplicantID">ApplicantID=申請人編號</param>
-        /// <param name="AdminID">AdminID=廟宇編號 3-大甲鎮瀾宮 4-新港奉天宮 5-文創商品(新港奉天宮) 6-北港武德宮 7-繞境商品小舖</param>
-        /// </summary>
-        public bool DeletePilgrimageNum(int ApplicantID, string AdminID)
-        {
-            bool result = false;
-            string sql = string.Empty;
-
-            switch (AdminID)
-            {
-                case "5":
-                    //文創商品-新港奉天宮
-                    sql = "Select * from ProductInfo Where Status = 0 and ApplicantID = @ApplicantID";
-                    break;
-                case "7":
-                    //繞境商品小舖
-                    sql = "Select * from ApplicantInfo_Pilgrimage Where Status = -2 and ApplicantID = @ApplicantID";
-                    break;
-            }
-
-            DatabaseAdapter Adapter = new DatabaseAdapter(sql, this.DBSource);
-            DataTable dtUpdateStatus = new DataTable();
-            Adapter.AddParameterToSelectCommand("@ApplicantID", ApplicantID);
-            Adapter.SetSqlCommandBuilder();
-            Adapter.Fill(dtUpdateStatus);
-            if (dtUpdateStatus.Rows.Count > 0)
-            {
-                for (int i = 0; i < dtUpdateStatus.Rows.Count; i++)
-                {
-                    dtUpdateStatus.Rows[i]["Num2String"] = "";
-                    dtUpdateStatus.Rows[i]["Num"] = 0;
-                    Adapter.Update(dtUpdateStatus);
-                }
-                result = true;
-            }
-
-            return result;
-        }
-
-        /// <summary>
-        /// 刪除錢母商品訂單編號
-        /// <param name="ApplicantID">ApplicantID=申請人編號</param>
-        /// <param name="AdminID">AdminID=廟宇編號 3-大甲鎮瀾宮 4-新港奉天宮 5-文創商品(新港奉天宮) 6-北港武德宮 7-繞境商品小舖</param>
-        /// </summary>
-        public bool DeleteMoneymotherNum(int ApplicantID, string AdminID, string Year)
-        {
-            bool result = false;
-            string view = "Temple_" + Year + "..ApplicantInfo_Moneymother";
-            string sql = "Select * from Temple_" + Year + "..ApplicantInfo_Moneymother Where Status = -2 and ApplicantID = @ApplicantID";
-
-            DatabaseAdapter Adapter = new DatabaseAdapter(sql, this.DBSource);
-            DataTable dtUpdateStatus = new DataTable();
-            Adapter.AddParameterToSelectCommand("@ApplicantID", ApplicantID);
-            Adapter.SetSqlCommandBuilder();
-            Adapter.Fill(dtUpdateStatus);
-
-            if (dtUpdateStatus.Rows.Count > 0)
-            {
-                for (int i = 0; i < dtUpdateStatus.Rows.Count; i++)
-                {
-                    int res = ExecuteSql("Update " + view + " Set Num2String = '', Num = 0 Where ApplicantID=" + ApplicantID);
-
-                    if (res > 0)
-                    {
-                        result = true;
-                    }
-                }
-            }
-
-            return result;
-        }
-
-        /// <summary>
-        /// 刪除錢母商品訂單編號
-        /// <param name="ApplicantID">ApplicantID=申請人編號</param>
-        /// <param name="AdminID">AdminID=廟宇編號 3-大甲鎮瀾宮 4-新港奉天宮 5-文創商品(新港奉天宮) 6-北港武德宮 7-繞境商品小舖</param>
-        /// </summary>
-        public bool DeleteMoneymotherNum(int ApplicantID, string AdminID)
-        {
-            bool result = false;
-            string sql = "Select * from ApplicantInfo_Moneymother Where Status = -2 and ApplicantID = @ApplicantID";
-
-            DatabaseAdapter Adapter = new DatabaseAdapter(sql, this.DBSource);
-            DataTable dtUpdateStatus = new DataTable();
-            Adapter.AddParameterToSelectCommand("@ApplicantID", ApplicantID);
-            Adapter.SetSqlCommandBuilder();
-            Adapter.Fill(dtUpdateStatus);
-            if (dtUpdateStatus.Rows.Count > 0)
-            {
-                for (int i = 0; i < dtUpdateStatus.Rows.Count; i++)
-                {
-                    dtUpdateStatus.Rows[i]["Num2String"] = "";
-                    dtUpdateStatus.Rows[i]["Num"] = 0;
-                    Adapter.Update(dtUpdateStatus);
-                }
-                result = true;
-            }
-
-            return result;
-        }
-
-        /// <summary>
-        /// 刪除商品小舖訂單編號
-        /// <param name="ApplicantID">ApplicantID=申請人編號</param>
-        /// <param name="AdminID">AdminID=廟宇編號 3-大甲鎮瀾宮 4-新港奉天宮 5-文創商品(新港奉天宮) 6-北港武德宮 7-繞境商品小舖</param>
-        /// </summary>
-        public bool DeleteProductInfo(int ApplicantID, string AdminID, string Year)
-        {
-            bool result = false;
-            string sql = string.Empty;
-            string view = string.Empty;
-
-            switch (AdminID)
-            {
-                case "5":
-                    //文創商品-新港奉天宮
-                    view = "Temple_" + Year + "..ProductInfo";
-                    sql = "Select * from Temple_" + Year + "..ProductInfo Where Status = 0 and ApplicantID = @ApplicantID";
-                    break;
-                case "7":
-                    //繞境商品小舖
-                    view = "Temple_" + Year + "..Lights_Am_info";
-                    sql = "Select * from ApplicantInfo_Pilgrimage Where Status = 0 and ApplicantID = @ApplicantID";
-                    break;
-                case "11":
-                    //錢母商品小舖
-                    view = "Temple_" + Year + "..Lights_Am_info";
-                    sql = "Select * from ApplicantInfo_Moneymother Where Status = 0 and ApplicantID = @ApplicantID";
-                    break;
-                case "20":
-                    //文創商品-西螺福興宮
-                    view = "Temple_" + Year + "..ProductInfo";
-                    sql = "Select * from Temple_" + Year + "..ProductInfo Where Status = 0 and ApplicantID = @ApplicantID";
-                    break;
-                case "22":
-                    //流金富貴商品小舖
-                    view = "Temple_" + Year + "..ProductInfo";
-                    sql = "Select * from Temple_" + Year + "..ProductInfo Where Status = 0 and ApplicantID = @ApplicantID";
-                    break;
-                case "28":
-                    //財神小舖商品小舖
-                    view = "Temple_" + Year + "..ProductInfo";
-                    sql = "Select * from Temple_" + Year + "..ProductInfo Where Status = 0 and ApplicantID = @ApplicantID";
-                    break;
-            }
-
-            if (sql != "")
-            {
-                DatabaseAdapter Adapter = new DatabaseAdapter(sql, this.DBSource);
-                DataTable dtUpdateStatus = new DataTable();
-                Adapter.AddParameterToSelectCommand("@ApplicantID", ApplicantID);
-                Adapter.SetSqlCommandBuilder();
-                Adapter.Fill(dtUpdateStatus);
-                if (dtUpdateStatus.Rows.Count > 0)
-                {
-                    for (int i = 0; i < dtUpdateStatus.Rows.Count; i++)
-                    {
-                        int BuyID = int.Parse(dtUpdateStatus.Rows[i]["BuyID"].ToString());
-                        //dtUpdateStatus.Rows[i]["Num2String"] = "";
-                        //dtUpdateStatus.Rows[i]["Num"] = 0;
-                        //Adapter.Update(dtUpdateStatus);
-
-                        if (view != "")
-                        {
-                            int res = ExecuteSql("Update " + view + " Set Num2String = '', Num = 0 Where BuyID=" + BuyID);
-
-                            if (res > 0)
-                            {
-                                result = true;
-                            }
-                        }
-                    }
-                }
-            }
-
-            return result;
-        }
-
-        /// <summary>
-        /// 刪除補財庫訂單編號
-        /// <param name="ApplicantID">ApplicantID=申請人編號</param>
-        /// <param name="AdminID">AdminID=廟宇編號 3-大甲鎮瀾宮 4-新港奉天宮 5-文創商品(新港奉天宮) 6-北港武德宮</param>
-        /// </summary>
-        public bool DeleteSuppliesNum(int ApplicantID, string AdminID, int Suppliestype, string Year)
-        {
-            bool result = false;
-            string sql = string.Empty;
-            string view = string.Empty;
-
-            switch (AdminID)
-            {
-                case "6":
-                    //北港武德宮
-                    if (Suppliestype == 1)
-                    {
+                        break;
+                    case "4":
                         //下元補庫
-                        view = "Temple_" + Year + "..Supplies_wu_info";
-                        sql = "Select * from Temple_" + Year + "..Supplies_wu_info Where Status = 0 and ApplicantID = @ApplicantID";
-                    }
-                    else if (Suppliestype == 2)
-                    {
+                        switch (AdminID)
+                        {
+                            case "6":
+                                //北港武德宮
+                                view = $"Temple_{Year}..APPCharge_wu_Supplies";
+                                sql = $"SELECT * FROM {view} WHERE Status=1 AND UniqueID=@UniqueID";
+                                break;
+                        }
+                        break;
+                    case "5":
                         //呈疏補庫
-                        view = "Temple_" + Year + "..Supplies_wu_info2";
-                        sql = "Select * from Temple_" + Year + "..Supplies_wu_info2 Where Status = 0 and ApplicantID = @ApplicantID";
-                    }
-                    else if (Suppliestype == 3)
-                    {
+                        switch (AdminID)
+                        {
+                            case "6":
+                                //北港武德宮
+                                view = $"Temple_{Year}..APPCharge_wu_Supplies2";
+                                sql = $"SELECT * FROM {view} WHERE Status=1 AND UniqueID=@UniqueID";
+                                break;
+                        }
+                        break;
+                    case "6":
                         //企業補財庫
-                        view = "Temple_" + Year + "..Supplies_wu_info3";
-                        sql = "Select * from Temple_" + Year + "..Supplies_wu_info3 Where Status = 0 and ApplicantID = @ApplicantID";
-                    }
-                    break;
-                case "14":
-                    //桃園威天宮
-                    if (Suppliestype == 4)
-                    {
+                        switch (AdminID)
+                        {
+                            case "6":
+                                //北港武德宮
+                                view = $"Temple_{Year}..APPCharge_wu_Supplies3";
+                                sql = $"SELECT * FROM {view} WHERE Status=1 AND UniqueID=@UniqueID";
+                                break;
+                        }
+                        break;
+                    case "7":
                         //天赦日補運
-                        view = "Temple_" + Year + "..Supplies_ty_info";
-                        sql = "Select * from Temple_" + Year + "..Supplies_ty_info Where Status = 0 and ApplicantID = @ApplicantID";
-                    }
-                    else if (Suppliestype == 18)
-                    {
-                        //天赦日補運
-                        view = "Temple_" + Year + "..Supplies3_ty_info";
-                        sql = "Select * from Temple_" + Year + "..Supplies3_ty_info Where Status = 0 and ApplicantID = @ApplicantID";
-                    }
-                    break;
-                case "15":
-                    //斗六五路財神宮
-                    if (Suppliestype == 9)
-                    {
-                        //補財庫
-                        view = "Temple_" + Year + "..Supplies_Fw_info";
-                        sql = "Select * from Temple_" + Year + "..Supplies_Fw_info Where Status = 0 and ApplicantID = @ApplicantID";
-                    }
-                    break;
-                case "21":
-                    //鹿港城隍廟
-                    if (Suppliestype == 9)
-                    {
-                        //補財庫
-                        view = "Temple_" + Year + "..Supplies_Lk_info";
-                        sql = "Select * from Temple_" + Year + "..Supplies_Lk_info Where Status = 0 and ApplicantID = @ApplicantID";
-                    }
-                    break;
-                case "23":
-                    //桃園威天宮
-                    if (Suppliestype == 4)
-                    {
-                        //天赦日補運
-                        view = "Temple_" + Year + "..Supplies_ma_info";
-                        sql = "Select * from Temple_" + Year + "..Supplies_ma_info Where Status = 0 and ApplicantID = @ApplicantID";
-                    }
-                    break;
-                case "29":
-                    //進寶財神廟
-                    if (Suppliestype == 5)
-                    {
+                        switch (AdminID)
+                        {
+                            case "14":
+                                //桃園威天宮
+                                view = $"Temple_{Year}..APPCharge_ty_Supplies";
+                                sql = $"SELECT * FROM {view} WHERE Status=1 AND UniqueID=@UniqueID";
+                                break;
+                            case "23":
+                                //桃園威天宮
+                                view = $"Temple_{Year}..APPCharge_ma_Supplies";
+                                sql = $"SELECT * FROM {view} WHERE Status=1 AND UniqueID=@UniqueID";
+                                break;
+                        }
+                        break;
+                    case "8":
                         //天赦日祭改
-                        view = "Temple_" + Year + "..Supplies_jb_info";
-                        sql = "Select * from Temple_" + Year + "..Supplies_jb_info Where Status = 0 and ApplicantID = @ApplicantID";
-                    }
-                    break;
-                case "33":
-                    //神霄玉府財神會館
-                    if (Suppliestype == 11)
-                    {
+                        switch (AdminID)
+                        {
+                            case "29":
+                                //進寶財神廟
+                                view = $"Temple_{Year}..APPCharge_jb_Supplies";
+                                sql = $"SELECT * FROM {view} WHERE Status=1 AND UniqueID=@UniqueID";
+                                break;
+                        }
+                        break;
+                    case "9":
+                        //關帝聖君聖誕
+                        switch (AdminID)
+                        {
+                            case "14":
+                                //桃園威天宮
+                                view = $"Temple_{Year}..APPCharge_ty_EmperorGuansheng";
+                                sql = $"SELECT * FROM {view} WHERE Status=1 AND UniqueID=@UniqueID";
+                                break;
+                        }
+                        break;
+                    case "10":
+                        //代燒金紙
+                        switch (AdminID)
+                        {
+                            case "29":
+                                //進寶財神廟
+                                view = $"Temple_{Year}..APPCharge_jb_BPO";
+                                sql = $"SELECT * FROM {view} WHERE Status=1 AND UniqueID=@UniqueID";
+                                break;
+                        }
+                        break;
+                    case "12":
+                        //靈寶禮斗
+                        switch (AdminID)
+                        {
+                            case "23":
+                                //玉敕大樹朝天宮
+                                view = $"Temple_{Year}..APPCharge_ma_Lingbaolidou";
+                                sql = $"SELECT * FROM {view} WHERE Status=1 AND UniqueID=@UniqueID";
+                                break;
+                        }
+                        break;
+                    case "13":
+                        //七朝清醮
+                        switch (AdminID)
+                        {
+                            case "3":
+                                //大甲鎮瀾宮
+                                view = $"Temple_{Year}..APPCharge_da_TaoistJiaoCeremony";
+                                sql = $"SELECT * FROM {view} WHERE Status=1 AND UniqueID=@UniqueID";
+                                break;
+                        }
+                        break;
+                    case "16":
+                        //補財庫
+                        switch (AdminID)
+                        {
+                            case "15":
+                                //斗六五路財神宮
+                                view = $"Temple_{Year}..APPCharge_Fw_Supplies";
+                                sql = $"SELECT * FROM {view} WHERE Status=1 AND UniqueID=@UniqueID";
+                                break;
+                            case "21":
+                                //鹿港城隍廟
+                                view = $"Temple_{Year}..APPCharge_Lk_Supplies";
+                                sql = $"SELECT * FROM {view} WHERE Status=1 AND UniqueID=@UniqueID";
+                                break;
+                        }
+                        break;
+                    case "17":
                         //赦罪補庫
-                        view = "Temple_" + Year + "..Supplies_sx_info";
-                        sql = "Select * from Temple_" + Year + "..Supplies_sx_info Where Status = 0 and ApplicantID = @ApplicantID";
-                    }
-                    break;
-            }
-
-            if (sql != "")
-            {
-                DatabaseAdapter Adapter = new DatabaseAdapter(sql, this.DBSource);
-                DataTable dtUpdateStatus = new DataTable();
-                Adapter.AddParameterToSelectCommand("@ApplicantID", ApplicantID);
-                Adapter.SetSqlCommandBuilder();
-                Adapter.Fill(dtUpdateStatus);
-                if (dtUpdateStatus.Rows.Count > 0)
-                {
-                    for (int i = 0; i < dtUpdateStatus.Rows.Count; i++)
-                    {
-                        int SuppliesID = int.Parse(dtUpdateStatus.Rows[i]["SuppliesID"].ToString());
-                        //dtUpdateStatus.Rows[i]["Num2String"] = "";
-                        //dtUpdateStatus.Rows[i]["Num"] = 0;
-                        //Adapter.Update(dtUpdateStatus);
-                        if (view != "")
+                        switch (AdminID)
                         {
-                            int res = ExecuteSql("Update " + view + " Set Num2String = '', Num = 0 Where SuppliesID=" + SuppliesID);
+                            case "33":
+                                //神霄玉府財神會館
+                                view = $"Temple_{Year}..APPCharge_sx_Supplies";
+                                sql = $"SELECT * FROM {view} WHERE Status=1 AND UniqueID=@UniqueID";
+                                break;
+                        }
+                        break;
+                    case "18":
+                        //招財補運
+                        switch (AdminID)
+                        {
+                            case "14":
+                                //桃園威天宮
+                                view = $"Temple_{Year}..APPCharge_ty_Supplies3";
+                                sql = $"SELECT * FROM {view} WHERE Status=1 AND UniqueID=@UniqueID";
+                                break;
+                        }
+                        break;
+                    case "20":
+                        //安斗
+                        switch (AdminID)
+                        {
+                            case "15":
+                                //斗六五路財神宮
+                                view = $"Temple_{Year}..APPCharge_Fw_AnDou";
+                                sql = $"SELECT * FROM {view} WHERE Status=1 AND UniqueID=@UniqueID";
+                                break;
+                            case "31":
+                                //台灣道教總廟無極三清總道院
+                                view = $"Temple_{Year}..APPCharge_wjsan_AnDou";
+                                sql = $"SELECT * FROM {view} WHERE Status=1 AND UniqueID=@UniqueID";
+                                break;
+                        }
+                        break;
+                    case "21":
+                        //供花供果
+                        switch (AdminID)
+                        {
+                            case "31":
+                                //台灣道教總廟無極三清總道院
+                                view = $"Temple_{Year}..APPCharge_wjsan_Huaguo";
+                                sql = $"SELECT * FROM {view} WHERE Status=1 AND UniqueID=@UniqueID";
+                                break;
+                        }
+                        break;
+                    case "22":
+                        //孝親祈福燈
+                        switch (AdminID)
+                        {
+                            case "14":
+                                //桃園威天宮
+                                view = $"Temple_{Year}..APPCharge_ty_mom_Lights";
+                                sql = $"SELECT * FROM {view} WHERE Status=1 AND UniqueID=@UniqueID";
+                                break;
+                        }
+                        break;
+                    case "23":
+                        //祈安植福
+                        switch (AdminID)
+                        {
+                            case "35":
+                                //松柏嶺受天宮
+                                view = $"Temple_{Year}..APPCharge_st_Blessing";
+                                sql = $"SELECT * FROM {view} WHERE Status=1 AND UniqueID=@UniqueID";
+                                break;
+                        }
+                        break;
+                    case "24":
+                        //祈安禮斗
+                        switch (AdminID)
+                        {
+                            case "34":
+                                //基隆悟玄宮
+                                view = $"Temple_{Year}..APPCharge_wh_Supplies";
+                                sql = $"SELECT * FROM {view} WHERE Status=1 AND UniqueID=@UniqueID";
+                                break;
+                        }
+                        break;
+                    case "25":
+                        //千手觀音千燈迎佛法會
+                        switch (AdminID)
+                        {
+                            case "14":
+                                //桃園威天宮
+                                view = $"Temple_{Year}..APPCharge_ty_QnLight";
+                                sql = $"SELECT * FROM {view} WHERE Status=1 AND UniqueID=@UniqueID";
+                                break;
+                        }
+                        break;
+                }
 
-                            if (res > 0)
+                //===============================================
+                // 讀取 APPCharge 資料
+                //===============================================
+                if (!string.IsNullOrEmpty(sql))
+                {
+                    using (var adapter = new DatabaseAdapter(sql, this.DBSource))
+                    {
+                        adapter.AddParameterToSelectCommand("@UniqueID", UniqueID);
+                        adapter.Fill(dtDataList);
+                    }
+
+                    if (dtDataList.Rows.Count > 0 && Convert.ToInt32(dtDataList.Rows[0]["Status"]) == 1)
+                    {
+                        if (!string.IsNullOrEmpty(view))
+                        {
+                            // 使用參數化 SQL 更新 Status
+                            string updateSql = $"UPDATE {view} SET Status=@Status WHERE UniqueID=@UniqueID";
+                            using (var updateAdapter = new DatabaseAdapter(updateSql, this.DBSource))
                             {
-                                result = true;
+                                updateAdapter.AddParameterToSelectCommand("@Status", Status);
+                                updateAdapter.AddParameterToSelectCommand("@UniqueID", UniqueID);
+                                int res = updateAdapter.ExecuteSql();
+
+                                if (res > 0)
+                                {
+                                    int applicantId = Convert.ToInt32(dtDataList.Rows[0]["ApplicantID"]);
+                                    if (Updatestatus2applicantInfo(applicantId, Status, AdminID, kind, type, Year))
+                                    {
+                                        // 刪除對應資料
+                                        result = DeleteLinkedApplicantData(applicantId, AdminID, kind, type, Year);
+                                    }
+                                }
                             }
                         }
                     }
-                    result = true;
                 }
-            }
 
-            return result;
+                return result;
+            }
+            catch (Exception error)
+            {
+                string detailedError = ErrorLogger.FormatError(error, typeof(AdminDAC).FullName);
+                twbobibobi.Data.BasePage basePage = new twbobibobi.Data.BasePage();
+                basePage.SaveErrorLog("AdminDAC.Updatestatus2appcharge：\r\n" + detailedError);
+                throw;
+            }
         }
 
         /// <summary>
-        /// 刪除安斗訂單編號
-        /// <param name="ApplicantID">ApplicantID=申請人編號</param>
-        /// <param name="AdminID">AdminID=廟宇編號 3-大甲鎮瀾宮 4-新港奉天宮 5-文創商品(新港奉天宮) 6-北港武德宮</param>
+        /// 更新 ApplicantInfo 狀態（由 APPCharge 同步呼叫）。
         /// </summary>
-        public bool DeleteAnDouinfo(int ApplicantID, string AdminID, string Year)
+        /// <param name="ApplicantID">購買人主鍵編號。</param>
+        /// <param name="Status">要更新的狀態值。</param>
+        /// <param name="AdminID">管理員編號(宮廟編號)。</param>
+        /// <param name="kind">活動種類： 
+        /// 1-點燈 
+        /// 2-普度 
+        /// 4-下元補庫 
+        /// 5-呈疏補庫(天官武財神聖誕補財庫) 
+        /// 6-企業補財庫 
+        /// 7-天赦日補運 
+        /// 8-天赦日祭改 
+        /// 9-關聖帝君聖誕 
+        /// 10-代燒金紙 
+        /// 11-天貺納福添運法會 
+        /// 12-靈寶禮斗 
+        /// 13-七朝清醮 
+        /// 14-九九重陽天赦日補運 
+        /// 15-護國息災梁皇大法會 
+        /// 16-補財庫 
+        /// 17-赦罪補庫 
+        /// 18-天公生招財補運 
+        /// 19-供香轉運 
+        /// 20-安斗 
+        /// 21-供花供果 
+        /// 22-孝親祈福燈 
+        /// 23-祈安植福
+        /// 24-祈安禮斗
+        /// 25-千手觀音千燈迎佛法會
+        /// </param>
+        /// <param name="type">類別參數，用於特例（例如桃園威天宮的燈別）。</param>
+        /// <param name="Year">資料年份。</param>
+        /// <returns>更新成功回傳 true，否則 false。</returns>
+        public bool Updatestatus2applicantInfo(
+            int ApplicantID, 
+            int Status, 
+            string AdminID, 
+            string kind, 
+            int type, 
+            string Year)
         {
             bool result = false;
-            string sql = string.Empty;
-            string view = string.Empty;
-
-            switch (AdminID)
+            try
             {
-                case "15":
-                    //斗六五路財神宮
-                    view = "Temple_" + Year + "..AnDou_Fw_info";
-                    sql = "Select * from Temple_" + Year + "..AnDou_Fw_info Where ApplicantID = @ApplicantID";
-                    break;
-                case "31":
-                    //台灣道教總廟無極三清總道院
-                    view = "Temple_" + Year + "..AnDou_wjsan_info";
-                    sql = "Select * from Temple_" + Year + "..AnDou_wjsan_info Where ApplicantID = @ApplicantID";
-                    break;
-            }
+                TimeZoneInfo info = TimeZoneInfo.FindSystemTimeZoneById("Taipei Standard Time");
+                DateTime dtNow = TimeZoneInfo.ConvertTime(DateTime.Now, info);
+                string sql = string.Empty;
+                string view = string.Empty;
+                DataTable dtDataList = new DataTable();
 
-            if (sql != "")
-            {
-                DatabaseAdapter Adapter = new DatabaseAdapter(sql, this.DBSource);
-                DataTable dtUpdateStatus = new DataTable();
-                Adapter.AddParameterToSelectCommand("@ApplicantID", ApplicantID);
-                Adapter.SetSqlCommandBuilder();
-                Adapter.Fill(dtUpdateStatus);
-                if (dtUpdateStatus.Rows.Count > 0)
+                //===============================================
+                // 根據 kind + AdminID 決定 ApplicantInfo 目標資料表
+                //===============================================
+                switch (kind)
                 {
-                    for (int i = 0; i < dtUpdateStatus.Rows.Count; i++)
-                    {
-                        int AnDouID = int.Parse(dtUpdateStatus.Rows[i]["AnDouID"].ToString());
-                        //dtUpdateStatus.Rows[i]["Num2String"] = "";
-                        //dtUpdateStatus.Rows[i]["Num"] = 0;
-                        //Adapter.Update(dtUpdateStatus);
-
-                        if (view != "")
+                    case "1":
+                        // 點燈
+                        switch (AdminID)
                         {
-                            int res = ExecuteSql("Update " + view + " Set Num2String = '', Num = 0 Where AnDouID=" + AnDouID);
+                            case "3":
+                                //大甲鎮瀾宮
+                                view = $"Temple_{Year}..ApplicantInfo_da_Lights";
+                                sql = $"SELECT * FROM {view} WHERE Status=2 AND ApplicantID=@ApplicantID";
+                                break;
+                            case "4":
+                                //新港奉天宮
+                                view = $"Temple_{Year}..ApplicantInfo_h_Lights";
+                                sql = $"SELECT * FROM {view} WHERE Status=2 AND ApplicantID=@ApplicantID";
+                                break;
+                            case "6":
+                                //北港武德宮
+                                view = $"Temple_{Year}..ApplicantInfo_wu_Lights";
+                                sql = $"SELECT * FROM {view} WHERE Status=2 AND ApplicantID=@ApplicantID";
+                                break;
+                            case "8":
+                                //西螺福興宮
+                                view = $"Temple_{Year}..ApplicantInfo_Fu_Lights";
+                                sql = $"SELECT * FROM {view} WHERE Status=2 AND ApplicantID=@ApplicantID";
+                                break;
+                            case "10":
+                                //台南正統鹿耳門聖母廟
+                                view = $"Temple_{Year}..ApplicantInfo_Luer_Lights";
+                                sql = $"SELECT * FROM {view} WHERE Status=2 AND ApplicantID=@ApplicantID";
+                                break;
+                            case "14":
+                                //桃園威天宮
+                                if (type == 2)
+                                    view = $"Temple_{Year}..ApplicantInfo_ty_mom_Lights";
+                                else
+                                    view = $"Temple_{Year}..ApplicantInfo_ty_Lights";
+                                sql = $"SELECT * FROM {view} WHERE Status=2 AND ApplicantID=@ApplicantID";
+                                break;
+                            case "15":
+                                //斗六五路財神宮
+                                view = $"Temple_{Year}..ApplicantInfo_Fw_Lights";
+                                sql = $"SELECT * FROM {view} WHERE Status=2 AND ApplicantID=@ApplicantID";
+                                break;
+                            case "16":
+                                //台東東海龍門天聖宮
+                                view = $"Temple_{Year}..ApplicantInfo_dh_Lights";
+                                sql = $"SELECT * FROM {view} WHERE Status=2 AND ApplicantID=@ApplicantID";
+                                break;
+                            case "21":
+                                //鹿港城隍廟
+                                view = $"Temple_{Year}..ApplicantInfo_Lk_Lights";
+                                sql = $"SELECT * FROM {view} WHERE Status=2 AND ApplicantID=@ApplicantID";
+                                break;
+                            case "23":
+                                //玉敕大樹朝天宮
+                                view = $"Temple_{Year}..ApplicantInfo_ma_Lights";
+                                sql = $"SELECT * FROM {view} WHERE Status=2 AND ApplicantID=@ApplicantID";
+                                break;
+                            case "29":
+                                //進寶財神廟
+                                view = $"Temple_{Year}..ApplicantInfo_jb_Lights";
+                                sql = $"SELECT * FROM {view} WHERE Status=2 AND ApplicantID=@ApplicantID";
+                                break;
+                            case "31":
+                                //台灣道教總廟無極三清總道院
+                                view = $"Temple_{Year}..ApplicantInfo_wjsan_Lights";
+                                sql = $"SELECT * FROM {view} WHERE Status=2 AND ApplicantID=@ApplicantID";
+                                break;
+                            case "32":
+                                //桃園龍德宮
+                                view = $"Temple_{Year}..ApplicantInfo_ld_Lights";
+                                sql = $"SELECT * FROM {view} WHERE Status=2 AND ApplicantID=@ApplicantID";
+                                break;
+                            case "34":
+                                //基隆悟玄宮
+                                view = $"Temple_{Year}..ApplicantInfo_wh_Lights";
+                                sql = $"SELECT * FROM {view} WHERE Status=2 AND ApplicantID=@ApplicantID";
+                                break;
+                            case "35":
+                                //松柏嶺受天宮
+                                view = $"Temple_{Year}..ApplicantInfo_st_Lights";
+                                sql = $"SELECT * FROM {view} WHERE Status=2 AND ApplicantID=@ApplicantID";
+                                break;
+                            case "38":
+                                //池上北極玄天宮
+                                view = $"Temple_{Year}..ApplicantInfo_bj_Lights";
+                                sql = $"SELECT * FROM {view} WHERE Status=2 AND ApplicantID=@ApplicantID";
+                                break;
+                            case "39":
+                                //慈惠石壁部堂
+                                view = $"Temple_{Year}..ApplicantInfo_sbbt_Lights";
+                                sql = $"SELECT * FROM {view} WHERE Status=2 AND ApplicantID=@ApplicantID";
+                                break;
+                            case "40":
+                                //真武山受玄宮
+                                view = $"Temple_{Year}..ApplicantInfo_bpy_Lights";
+                                sql = $"SELECT * FROM {view} WHERE Status=2 AND ApplicantID=@ApplicantID";
+                                break;
+                            case "41":
+                                //壽山巖觀音寺
+                                view = $"Temple_{Year}..ApplicantInfo_ssy_Lights";
+                                sql = $"SELECT * FROM {view} WHERE Status=2 AND ApplicantID=@ApplicantID";
+                                break;
+                        }
+                        break;
+                    case "2":
+                        // 普度
+                        switch (AdminID)
+                        {
+                            case "3":
+                                //大甲鎮瀾宮
+                                view = $"Temple_{Year}..ApplicantInfo_da_Purdue";
+                                sql = $"SELECT * FROM {view} WHERE Status=2 AND ApplicantID=@ApplicantID";
+                                break;
+                            case "4":
+                                //新港奉天宮
+                                view = $"Temple_{Year}..ApplicantInfo_h_Purdue";
+                                sql = $"SELECT * FROM {view} WHERE Status=2 AND ApplicantID=@ApplicantID";
+                                break;
+                            case "6":
+                                //北港武德宮
+                                view = $"Temple_{Year}..ApplicantInfo_wu_Purdue";
+                                sql = $"SELECT * FROM {view} WHERE Status=2 AND ApplicantID=@ApplicantID";
+                                break;
+                            case "8":
+                                //西螺福興宮
+                                view = $"Temple_{Year}..ApplicantInfo_Fu_Purdue";
+                                sql = $"SELECT * FROM {view} WHERE Status=2 AND ApplicantID=@ApplicantID";
+                                break;
+                            case "10":
+                                //台南正統鹿耳門聖母廟
+                                view = $"Temple_{Year}..ApplicantInfo_Luer_Purdue";
+                                sql = $"SELECT * FROM {view} WHERE Status=2 AND ApplicantID=@ApplicantID";
+                                break;
+                            case "14":
+                                //桃園威天宮
+                                view = $"Temple_{Year}..ApplicantInfo_ty_Purdue";
+                                sql = $"SELECT * FROM {view} WHERE Status=2 AND ApplicantID=@ApplicantID";
+                                break;
+                            case "15":
+                                //斗六五路財神宮
+                                view = $"Temple_{Year}..ApplicantInfo_Fw_Purdue";
+                                sql = $"SELECT * FROM {view} WHERE Status=2 AND ApplicantID=@ApplicantID";
+                                break;
+                            case "16":
+                                //台東東海龍門天聖宮
+                                view = $"Temple_{Year}..ApplicantInfo_dh_Purdue";
+                                sql = $"SELECT * FROM {view} WHERE Status=2 AND ApplicantID=@ApplicantID";
+                                break;
+                            case "21":
+                                //鹿港城隍廟
+                                view = $"Temple_{Year}..ApplicantInfo_Lk_Purdue";
+                                sql = $"SELECT * FROM {view} WHERE Status=2 AND ApplicantID=@ApplicantID";
+                                break;
+                            case "23":
+                                //玉敕大樹朝天宮
+                                view = $"Temple_{Year}..ApplicantInfo_ma_Purdue";
+                                sql = $"SELECT * FROM {view} WHERE Status=2 AND ApplicantID=@ApplicantID";
+                                break;
+                            case "29":
+                                //進寶財神廟
+                                view = $"Temple_{Year}..ApplicantInfo_jb_Purdue";
+                                sql = $"SELECT * FROM {view} WHERE Status=2 AND ApplicantID=@ApplicantID";
+                                break;
+                            case "31":
+                                //台灣道教總廟無極三清總道院
+                                view = $"Temple_{Year}..ApplicantInfo_wjsan_Purdue";
+                                sql = $"SELECT * FROM {view} WHERE Status=2 AND ApplicantID=@ApplicantID";
+                                break;
+                            case "32":
+                                //桃園龍德宮
+                                view = $"Temple_{Year}..ApplicantInfo_ld_Purdue";
+                                sql = $"SELECT * FROM {view} WHERE Status=2 AND ApplicantID=@ApplicantID";
+                                break;
+                            case "34":
+                                //基隆悟玄宮
+                                view = $"Temple_{Year}..ApplicantInfo_wh_Purdue";
+                                sql = $"SELECT * FROM {view} WHERE Status=2 AND ApplicantID=@ApplicantID";
+                                break;
+                        }
+                        break;
+                    case "3":
+                        //商品小舖
+                        Year = dtNow.Year.ToString();
+                        switch (AdminID)
+                        {
+                            case "5":
+                                //文創商品-新港奉天宮
+                                view = $"Temple_{Year}..ApplicantInfo_Product";
+                                sql = $"SELECT * FROM {view} WHERE Status=2 AND ApplicantID=@ApplicantID";
+                                break;
+                            case "7":
+                                //大甲鎮瀾宮繞境商品小舖
+                                view = $"Temple_{Year}..ApplicantInfo_Pilgrimage";
+                                sql = $"SELECT * FROM {view} WHERE Status=2 AND ApplicantID=@ApplicantID";
+                                break;
+                            case "11":
+                                //新港奉天宮錢母商品小舖
+                                view = $"Temple_{Year}..ApplicantInfo_Moneymother";
+                                sql = $"SELECT * FROM {view} WHERE Status=2 AND ApplicantID=@ApplicantID";
+                                break;
+                            case "20":
+                                //文創商品-西螺福興宮
+                                view = $"Temple_{Year}..ApplicantInfo_Product";
+                                sql = $"SELECT * FROM {view} WHERE Status=2 AND ApplicantID=@ApplicantID";
+                                break;
+                            case "22":
+                                //流金富貴商品小舖
+                                view = $"Temple_{Year}..ApplicantInfo_Product";
+                                sql = $"SELECT * FROM {view} WHERE Status=2 AND ApplicantID=@ApplicantID";
+                                break;
+                            case "28":
+                                //財神小舖商品小舖
+                                view = $"Temple_{Year}..ApplicantInfo_Product";
+                                sql = $"SELECT * FROM {view} WHERE Status=2 AND ApplicantID=@ApplicantID";
+                                break;
+                        }
+                        break;
+                    case "4":
+                        //下元補庫
+                        switch (AdminID)
+                        {
+                            case "6":
+                                //北港武德宮
+                                view = $"Temple_{Year}..ApplicantInfo_wu_Supplies";
+                                sql = $"SELECT * FROM {view} WHERE Status=2 AND ApplicantID=@ApplicantID";
+                                break;
+                        }
+                        break;
+                    case "5":
+                        //呈疏補庫
+                        switch (AdminID)
+                        {
+                            case "6":
+                                //北港武德宮
+                                view = $"Temple_{Year}..ApplicantInfo_wu_Supplies2";
+                                sql = $"SELECT * FROM {view} WHERE Status=2 AND ApplicantID=@ApplicantID";
+                                break;
+                        }
+                        break;
+                    case "6":
+                        //企業補財庫
+                        switch (AdminID)
+                        {
+                            case "6":
+                                //北港武德宮
+                                view = $"Temple_{Year}..ApplicantInfo_wu_Supplies3";
+                                sql = $"SELECT * FROM {view} WHERE Status=2 AND ApplicantID=@ApplicantID";
+                                break;
+                        }
+                        break;
+                    case "7":
+                        //天赦日補運
+                        switch (AdminID)
+                        {
+                            case "14":
+                                //桃園威天宮
+                                view = $"Temple_{Year}..ApplicantInfo_ty_Supplies";
+                                sql = $"SELECT * FROM {view} WHERE Status=2 AND ApplicantID=@ApplicantID";
+                                break;
+                            case "23":
+                                //桃園威天宮
+                                view = $"Temple_{Year}..ApplicantInfo_ma_Supplies";
+                                sql = $"SELECT * FROM {view} WHERE Status=2 AND ApplicantID=@ApplicantID";
+                                break;
+                        }
+                        break;
+                    case "8":
+                        //天赦日祭改
+                        switch (AdminID)
+                        {
+                            case "29":
+                                //進寶財神廟
+                                view = $"Temple_{Year}..ApplicantInfo_jb_Supplies";
+                                sql = $"SELECT * FROM {view} WHERE Status=2 AND ApplicantID=@ApplicantID";
+                                break;
+                        }
+                        break;
+                    case "9":
+                        //關帝聖君聖誕
+                        switch (AdminID)
+                        {
+                            case "14":
+                                //桃園威天宮
+                                view = $"Temple_{Year}..ApplicantInfo_ty_EmperorGuansheng";
+                                sql = $"SELECT * FROM {view} WHERE Status=2 AND ApplicantID=@ApplicantID";
+                                break;
+                        }
+                        break;
+                    case "10":
+                        //代燒金紙
+                        switch (AdminID)
+                        {
+                            case "29":
+                                //進寶財神廟
+                                view = $"Temple_{Year}..ApplicantInfo_jb_BPO";
+                                sql = $"SELECT * FROM {view} WHERE Status=2 AND ApplicantID=@ApplicantID";
+                                break;
+                        }
+                        break;
+                    case "12":
+                        //靈寶禮斗
+                        switch (AdminID)
+                        {
+                            case "23":
+                                //玉敕大樹朝天宮
+                                view = $"Temple_{Year}..ApplicantInfo_ma_Lingbaolidou";
+                                sql = $"SELECT * FROM {view} WHERE Status=2 AND ApplicantID=@ApplicantID";
+                                break;
+                        }
+                        break;
+                    case "13":
+                        //七朝清醮
+                        switch (AdminID)
+                        {
+                            case "3":
+                                //大甲鎮瀾宮
+                                view = $"Temple_{Year}..ApplicantInfo_da_TaoistJiaoCeremony";
+                                sql = $"SELECT * FROM {view} WHERE Status=2 AND ApplicantID=@ApplicantID";
+                                break;
+                        }
+                        break;
+                    case "16":
+                        //補財庫
+                        switch (AdminID)
+                        {
+                            case "15":
+                                //斗六五路財神宮
+                                view = $"Temple_{Year}..ApplicantInfo_Fw_Supplies";
+                                sql = $"SELECT * FROM {view} WHERE Status=2 AND ApplicantID=@ApplicantID";
+                                break;
+                            case "21":
+                                //鹿港城隍廟
+                                view = $"Temple_{Year}..ApplicantInfo_Lk_Supplies";
+                                sql = $"SELECT * FROM {view} WHERE Status=2 AND ApplicantID=@ApplicantID";
+                                break;
+                        }
+                        break;
+                    case "17":
+                        //赦罪補庫
+                        switch (AdminID)
+                        {
+                            case "33":
+                                //神霄玉府財神會館
+                                view = $"Temple_{Year}..ApplicantInfo_sx_Supplies";
+                                sql = $"SELECT * FROM {view} WHERE Status=2 AND ApplicantID=@ApplicantID";
+                                break;
+                        }
+                        break;
+                    case "18":
+                        //招財補運
+                        switch (AdminID)
+                        {
+                            case "14":
+                                //桃園威天宮
+                                view = $"Temple_{Year}..ApplicantInfo_ty_Supplies3";
+                                sql = $"SELECT * FROM {view} WHERE Status=2 AND ApplicantID=@ApplicantID";
+                                break;
+                        }
+                        break;
+                    case "20":
+                        //安斗
+                        switch (AdminID)
+                        {
+                            case "15":
+                                //斗六五路財神宮
+                                view = $"Temple_{Year}..ApplicantInfo_Fw_AnDou";
+                                sql = $"SELECT * FROM {view} WHERE Status=2 AND ApplicantID=@ApplicantID";
+                                break;
+                            case "31":
+                                //台灣道教總廟無極三清總道院
+                                view = $"Temple_{Year}..ApplicantInfo_wjsan_AnDou";
+                                sql = $"SELECT * FROM {view} WHERE Status=2 AND ApplicantID=@ApplicantID";
+                                break;
+                        }
+                        break;
+                    case "21":
+                        //供花供果
+                        switch (AdminID)
+                        {
+                            case "31":
+                                //台灣道教總廟無極三清總道院
+                                view = $"Temple_{Year}..ApplicantInfo_wjsan_Huaguo";
+                                sql = $"SELECT * FROM {view} WHERE Status=2 AND ApplicantID=@ApplicantID";
+                                break;
+                        }
+                        break;
+                    case "22":
+                        //孝親祈福燈
+                        switch (AdminID)
+                        {
+                            case "14":
+                                //桃園威天宮
+                                view = $"Temple_{Year}..ApplicantInfo_ty_mom_Lights";
+                                sql = $"SELECT * FROM {view} WHERE Status=2 AND ApplicantID=@ApplicantID";
+                                break;
+                        }
+                        break;
+                    case "23":
+                        //祈安植福
+                        switch (AdminID)
+                        {
+                            case "35":
+                                //松柏嶺受天宮
+                                view = $"Temple_{Year}..ApplicantInfo_st_Blessing";
+                                sql = $"SELECT * FROM {view} WHERE Status=2 AND ApplicantID=@ApplicantID";
+                                break;
+                        }
+                        break;
+                    case "24":
+                        //祈安禮斗
+                        switch (AdminID)
+                        {
+                            case "34":
+                                //基隆悟玄宮
+                                view = $"Temple_{Year}..ApplicantInfo_wh_Supplies";
+                                sql = $"SELECT * FROM {view} WHERE Status=2 AND ApplicantID=@ApplicantID";
+                                break;
+                        }
+                        break;
+                    case "25":
+                        //千手觀音千燈迎佛法會
+                        switch (AdminID)
+                        {
+                            case "14":
+                                //桃園威天宮
+                                view = $"Temple_{Year}..ApplicantInfo_ty_QnLight";
+                                sql = $"SELECT * FROM {view} WHERE Status=2 AND ApplicantID=@ApplicantID";
+                                break;
+                        }
+                        break;
+                }
 
-                            if (res > 0)
+                if (!string.IsNullOrEmpty(view))
+                {
+                    // 讀取現有 ApplicantInfo 狀態
+                    using (var adapter = new DatabaseAdapter(sql, this.DBSource))
+                    {
+                        adapter.AddParameterToSelectCommand("@ApplicantID", ApplicantID);
+                        adapter.Fill(dtDataList);
+                    }
+
+                    // 若有資料，執行狀態更新
+                    if (dtDataList.Rows.Count > 0)
+                    {
+                        string updateSql = $@"
+                            UPDATE {view}
+                            SET Status=@Status,
+                                UpdateinfoDate=@UpdateinfoDate,
+                                UpdateinfoDateString=@UpdateinfoDateString
+                            WHERE ApplicantID=@ApplicantID";
+
+                        using (var updateAdapter = new DatabaseAdapter(updateSql, this.DBSource))
+                        {
+                            updateAdapter.AddParameterToSelectCommand("@Status", Status);
+                            updateAdapter.AddParameterToSelectCommand("@UpdateinfoDate", dtNow);
+                            updateAdapter.AddParameterToSelectCommand("@UpdateinfoDateString", dtNow.ToString("yyyy-MM-dd"));
+                            updateAdapter.AddParameterToSelectCommand("@ApplicantID", ApplicantID);
+
+                            int res = updateAdapter.ExecuteSql();
+                            if (res > 0) result = true;
+                        }
+                    }
+                }
+
+                return result;
+            }
+            catch (Exception error)
+            {
+                string detailedError = ErrorLogger.FormatError(error, typeof(AdminDAC).FullName);
+                twbobibobi.Data.BasePage basePage = new twbobibobi.Data.BasePage();
+                basePage.SaveErrorLog("AdminDAC.Updatestatus2applicantInfo：\r\n" + detailedError);
+                throw;
+            }
+        }
+
+
+        #endregion
+
+
+        //==================================================
+        #region 刪除(Delete)
+        //==================================================
+
+        /// <summary>
+        /// 刪除點燈訂單編號（將 Num 與 Num2String 清空為 0 與空字串）。
+        /// </summary>
+        /// <param name="ApplicantID">購買人編號。</param>
+        /// <param name="AdminID">廟宇編號（例如：3=大甲鎮瀾宮、4=新港奉天宮、6=北港武德宮等）。</param>
+        /// <param name="type">燈別類型（用於特殊廟別，如桃園威天宮孝親祈福燈）。</param>
+        /// <param name="Year">資料年份。</param>
+        /// <returns>清除成功回傳 true，否則 false。</returns>
+        public bool DeleteLightsInfo(
+            int ApplicantID, 
+            string AdminID, 
+            int type, 
+            string Year)
+        {
+            bool result = false;
+            try
+            {
+                string sql = string.Empty;
+                string view = string.Empty;
+                DataTable dtUpdateStatus = new DataTable();
+
+                //──────────────────────────────
+                // 根據 AdminID 指定正確的 Temple 資料表
+                //──────────────────────────────
+                switch (AdminID)
+                {
+                    case "3":
+                        view = $"Temple_{Year}..Lights_da_info"; break;
+                    case "4":
+                        view = $"Temple_{Year}..Lights_h_info"; break;
+                    case "6":
+                        view = $"Temple_{Year}..Lights_wu_info"; break;
+                    case "8":
+                        view = $"Temple_{Year}..Lights_Fu_info"; break;
+                    case "10":
+                        view = $"Temple_{Year}..Lights_Luer_info"; break;
+                    case "14":
+                        view = type == 2
+                            ? $"Temple_{Year}..Lights_ty_mom_info"
+                            : $"Temple_{Year}..Lights_ty_info";
+                        break;
+                    case "15":
+                        view = $"Temple_{Year}..Lights_Fw_info"; break;
+                    case "16":
+                        view = $"Temple_{Year}..Lights_dh_info"; break;
+                    case "17":
+                        view = $"Temple_{Year}..Lights_Hs_info"; break;
+                    case "21":
+                        view = $"Temple_{Year}..Lights_Lk_info"; break;
+                    case "23":
+                        view = $"Temple_{Year}..Lights_ma_info"; break;
+                    case "29":
+                        view = $"Temple_{Year}..Lights_jb_info"; break;
+                    case "31":
+                        view = $"Temple_{Year}..Lights_wjsan_info"; break;
+                    case "32":
+                        view = $"Temple_{Year}..Lights_ld_info"; break;
+                    case "34":
+                        view = $"Temple_{Year}..Lights_wh_info"; break;
+                    case "35":
+                        view = $"Temple_{Year}..Lights_st_info"; break;
+                    case "38":
+                        view = $"Temple_{Year}..Lights_bj_info"; break;
+                    case "39":
+                        view = $"Temple_{Year}..Lights_sbbt_info"; break;
+                    case "40":
+                        view = $"Temple_{Year}..Lights_bpy_info"; break;
+                    case "41":
+                        view = $"Temple_{Year}..Lights_ssy_info"; break;
+                }
+
+                if (!string.IsNullOrEmpty(view))
+                {
+                    sql = $"SELECT LightsID FROM {view} WHERE ApplicantID=@ApplicantID AND Status=0";
+
+                    // 讀取對應燈號
+                    using (var adapter = new DatabaseAdapter(sql, this.DBSource))
+                    {
+                        adapter.AddParameterToSelectCommand("@ApplicantID", ApplicantID);
+                        adapter.Fill(dtUpdateStatus);
+                    }
+
+                    if (dtUpdateStatus.Rows.Count > 0)
+                    {
+                        foreach (DataRow row in dtUpdateStatus.Rows)
+                        {
+                            int lightsId = Convert.ToInt32(row["LightsID"]);
+
+                            // 使用參數化 SQL 清除 Num 與 Num2String
+                            string updateSql = $"UPDATE {view} SET Num2String=@Num2String, Num=@Num WHERE LightsID=@LightsID";
+                            using (var updateAdapter = new DatabaseAdapter(updateSql, this.DBSource))
                             {
-                                result = true;
+                                updateAdapter.AddParameterToSelectCommand("@Num2String", string.Empty);
+                                updateAdapter.AddParameterToSelectCommand("@Num", 0);
+                                updateAdapter.AddParameterToSelectCommand("@LightsID", lightsId);
+
+                                int res = updateAdapter.ExecuteSql();
+                                if (res > 0)
+                                    result = true;
                             }
                         }
                     }
                 }
-            }
 
-            return result;
+                return result;
+            }
+            catch (Exception error)
+            {
+                string detailedError = ErrorLogger.FormatError(error, typeof(AdminDAC).FullName);
+                twbobibobi.Data.BasePage basePage = new twbobibobi.Data.BasePage();
+                basePage.SaveErrorLog("AdminDAC.DeleteLightsInfo：\r\n" + detailedError);
+                throw;
+            }
         }
 
         /// <summary>
-        /// 刪除代燒金紙訂單編號
-        /// <param name="ApplicantID">ApplicantID=申請人編號</param>
-        /// <param name="AdminID">AdminID=廟宇編號 3-大甲鎮瀾宮 4-新港奉天宮 5-文創商品(新港奉天宮) 6-北港武德宮</param>
+        /// 刪除普度訂單編號（將 Num 與 Num2String 清空為 0 與空字串）。
         /// </summary>
-        public bool DeleteBPONum(int ApplicantID, string AdminID, string Year)
+        /// <param name="ApplicantID">購買人編號。</param>
+        /// <param name="AdminID">廟宇編號（例如：3=大甲鎮瀾宮、4=新港奉天宮、6=北港武德宮等）。</param>
+        /// <param name="Year">資料年份。</param>
+        /// <returns>清除成功回傳 true，否則 false。</returns>
+        public bool DeletePurdueInfo(
+            int ApplicantID, 
+            string AdminID, 
+            string Year)
         {
             bool result = false;
-            string sql = string.Empty;
-            string view = string.Empty;
-
-            switch (AdminID)
+            try
             {
-                case "29":
-                    //進寶財神廟
-                    view = "Temple_" + Year + "..BPO_jb_info";
-                    sql = "Select * from Temple_" + Year + "..BPO_jb_info Where Status = 0 and ApplicantID = @ApplicantID";
-                    break;
-            }
-
-            if (sql != "")
-            {
-                DatabaseAdapter Adapter = new DatabaseAdapter(sql, this.DBSource);
+                string sql = string.Empty;
+                string view = string.Empty;
                 DataTable dtUpdateStatus = new DataTable();
-                Adapter.AddParameterToSelectCommand("@ApplicantID", ApplicantID);
-                Adapter.SetSqlCommandBuilder();
-                Adapter.Fill(dtUpdateStatus);
-                if (dtUpdateStatus.Rows.Count > 0)
-                {
-                    for (int i = 0; i < dtUpdateStatus.Rows.Count; i++)
-                    {
-                        int BPOID = int.Parse(dtUpdateStatus.Rows[i]["BPOID"].ToString());
-                        //dtUpdateStatus.Rows[i]["Num2String"] = "";
-                        //dtUpdateStatus.Rows[i]["Num"] = 0;
-                        //Adapter.Update(dtUpdateStatus);
-                        if (view != "")
-                        {
-                            int res = ExecuteSql("Update " + view + " Set Num2String = '', Num = 0 Where BPOID=" + BPOID);
 
-                            if (res > 0)
+                //──────────────────────────────
+                // 根據 AdminID 指定正確的 Temple 資料表
+                //──────────────────────────────
+                switch (AdminID)
+                {
+                    case "3": view = $"Temple_{Year}..Purdue_da_info"; break;
+                    case "4": view = $"Temple_{Year}..Purdue_h_info"; break;
+                    case "6": view = $"Temple_{Year}..Purdue_wu_info"; break;
+                    case "8": view = $"Temple_{Year}..Purdue_Fu_info"; break;
+                    case "10": view = $"Temple_{Year}..Purdue_Luer_info"; break;
+                    case "14": view = $"Temple_{Year}..Purdue_ty_info"; break;
+                    case "15": view = $"Temple_{Year}..Purdue_Fw_info"; break;
+                    case "16": view = $"Temple_{Year}..Purdue_dh_info"; break;
+                    case "21": view = $"Temple_{Year}..Purdue_Lk_info"; break;
+                    case "23": view = $"Temple_{Year}..Purdue_ma_info"; break;
+                    case "29": view = $"Temple_{Year}..Purdue_jb_info"; break;
+                    case "31": view = $"Temple_{Year}..Purdue_wjsan_info"; break;
+                    case "32": view = $"Temple_{Year}..Purdue_ld_info"; break;
+                    case "34": view = $"Temple_{Year}..Purdue_wh_info"; break;
+                }
+
+                if (!string.IsNullOrEmpty(view))
+                {
+                    sql = $"SELECT PurdueID FROM {view} WHERE ApplicantID=@ApplicantID AND Status=0";
+
+                    // 讀取對應普度記錄
+                    using (var adapter = new DatabaseAdapter(sql, this.DBSource))
+                    {
+                        adapter.AddParameterToSelectCommand("@ApplicantID", ApplicantID);
+                        adapter.Fill(dtUpdateStatus);
+                    }
+
+                    if (dtUpdateStatus.Rows.Count > 0)
+                    {
+                        foreach (DataRow row in dtUpdateStatus.Rows)
+                        {
+                            int purdueId = Convert.ToInt32(row["PurdueID"]);
+
+                            // 使用參數化 SQL 清除 Num 與 Num2String
+                            string updateSql = $"UPDATE {view} SET Num2String=@Num2String, Num=@Num WHERE PurdueID=@PurdueID";
+                            using (var updateAdapter = new DatabaseAdapter(updateSql, this.DBSource))
                             {
-                                result = true;
+                                updateAdapter.AddParameterToSelectCommand("@Num2String", string.Empty);
+                                updateAdapter.AddParameterToSelectCommand("@Num", 0);
+                                updateAdapter.AddParameterToSelectCommand("@PurdueID", purdueId);
+
+                                int res = updateAdapter.ExecuteSql();
+                                if (res > 0)
+                                    result = true;
                             }
                         }
                     }
-                    result = true;
                 }
-            }
 
-            return result;
+                return result;
+            }
+            catch (Exception error)
+            {
+                string detailedError = ErrorLogger.FormatError(error, typeof(AdminDAC).FullName);
+                twbobibobi.Data.BasePage basePage = new twbobibobi.Data.BasePage();
+                basePage.SaveErrorLog("AdminDAC.DeletePurdueInfo：\r\n" + detailedError);
+                throw;
+            }
         }
 
         /// <summary>
-        /// 刪除靈寶禮斗訂單編號
-        /// <param name="ApplicantID">ApplicantID=申請人編號</param>
-        /// <param name="AdminID">AdminID=廟宇編號 3-大甲鎮瀾宮 4-新港奉天宮 5-文創商品(新港奉天宮) 6-北港武德宮</param>
+        /// 刪除商品小舖訂單編號（將 Num 與 Num2String 清空為 0 與空字串）。
         /// </summary>
-        public bool DeleteLingbaolidouNum(int ApplicantID, string AdminID, string Year)
+        /// <param name="ApplicantID">購買人編號。</param>
+        /// <param name="AdminID">廟宇編號（例如：5=文創商品、7=繞境商品小舖、11=錢母商品小舖）。</param>
+        /// <param name="Year">資料年份。</param>
+        /// <returns>清除成功回傳 true，否則 false。</returns>
+        public bool DeleteProductInfo(
+            int ApplicantID, 
+            string AdminID, 
+            string Year)
         {
             bool result = false;
-            string sql = string.Empty;
-            string view = string.Empty;
-
-            switch (AdminID)
+            try
             {
-                case "23":
-                    //玉敕大樹朝天宮
-                    view = "Temple_" + Year + "..Lingbaolidou_ma_info";
-                    sql = "Select * from Temple_" + Year + "..Lingbaolidou_ma_info Where Status = 0 and ApplicantID = @ApplicantID";
-                    break;
-            }
-
-            if (sql != "")
-            {
-                DatabaseAdapter Adapter = new DatabaseAdapter(sql, this.DBSource);
+                string sql = string.Empty;
+                string view = string.Empty;
                 DataTable dtUpdateStatus = new DataTable();
-                Adapter.AddParameterToSelectCommand("@ApplicantID", ApplicantID);
-                Adapter.SetSqlCommandBuilder();
-                Adapter.Fill(dtUpdateStatus);
-                if (dtUpdateStatus.Rows.Count > 0)
-                {
-                    for (int i = 0; i < dtUpdateStatus.Rows.Count; i++)
-                    {
-                        int LingbaolidouID = int.Parse(dtUpdateStatus.Rows[i]["LingbaolidouID"].ToString());
-                        //dtUpdateStatus.Rows[i]["Num2String"] = "";
-                        //dtUpdateStatus.Rows[i]["Num"] = 0;
-                        //Adapter.Update(dtUpdateStatus);
-                        if (view != "")
-                        {
-                            int res = ExecuteSql("Update " + view + " Set Num2String = '', Num = 0 Where LingbaolidouID=" + LingbaolidouID);
 
-                            if (res > 0)
+                //──────────────────────────────
+                // 根據 AdminID 指定正確的 Temple 資料表
+                //──────────────────────────────
+                switch (AdminID)
+                {
+                    case "5":
+                        // 文創商品-新港奉天宮
+                        view = $"Temple_{Year}..ProductInfo";
+                        break;
+                    case "7":
+                        // 繞境商品小舖
+                        view = $"Temple_{Year}..ApplicantInfo_Pilgrimage";
+                        break;
+                    case "11":
+                        // 錢母商品小舖
+                        view = $"Temple_{Year}..ApplicantInfo_Moneymother";
+                        break;
+                    case "20":
+                        //文創商品-西螺福興宮
+                        view = $"Temple_{Year}..ProductInfo";
+                        break;
+                    case "22":
+                        //流金富貴商品小舖
+                        view = $"Temple_{Year}..ProductInfo";
+                        break;
+                    case "28":
+                        //財神小舖商品小舖
+                        view = $"Temple_{Year}..ProductInfo";
+                        break;
+                }
+
+                if (!string.IsNullOrEmpty(view))
+                {
+                    sql = $"SELECT * FROM {view} WHERE ApplicantID=@ApplicantID AND Status=0";
+
+                    // 讀取對應商品記錄
+                    using (var adapter = new DatabaseAdapter(sql, this.DBSource))
+                    {
+                        adapter.AddParameterToSelectCommand("@ApplicantID", ApplicantID);
+                        adapter.Fill(dtUpdateStatus);
+                    }
+
+                    if (dtUpdateStatus.Rows.Count > 0)
+                    {
+                        foreach (DataRow row in dtUpdateStatus.Rows)
+                        {
+                            int buyId = Convert.ToInt32(row["BuyID"]);
+
+                            // 使用參數化 SQL 清除 Num 與 Num2String
+                            string updateSql = $"UPDATE {view} SET Num2String=@Num2String, Num=@Num WHERE BuyID=@BuyID";
+                            using (var updateAdapter = new DatabaseAdapter(updateSql, this.DBSource))
                             {
-                                result = true;
+                                updateAdapter.AddParameterToSelectCommand("@Num2String", string.Empty);
+                                updateAdapter.AddParameterToSelectCommand("@Num", 0);
+                                updateAdapter.AddParameterToSelectCommand("@BuyID", buyId);
+
+                                int res = updateAdapter.ExecuteSql();
+                                if (res > 0)
+                                    result = true;
                             }
                         }
                     }
-                    result = true;
                 }
-            }
 
-            return result;
+                return result;
+            }
+            catch (Exception error)
+            {
+                string detailedError = ErrorLogger.FormatError(error, typeof(AdminDAC).FullName);
+                twbobibobi.Data.BasePage basePage = new twbobibobi.Data.BasePage();
+                basePage.SaveErrorLog("AdminDAC.DeleteProductInfo：\r\n" + detailedError);
+                throw;
+            }
         }
 
         /// <summary>
-        /// 刪除七朝清醮訂單編號
-        /// <param name="ApplicantID">ApplicantID=申請人編號</param>
-        /// <param name="AdminID">AdminID=廟宇編號 3-大甲鎮瀾宮 4-新港奉天宮 5-文創商品(新港奉天宮) 6-北港武德宮</param>
+        /// 刪除法會訂單編號（將 Num 與 Num2String 清空為 0 與空字串）。
         /// </summary>
-        public bool DeleteTaoistJiaoCeremonyNum(int ApplicantID, string AdminID, string Year)
+        /// <param name="ApplicantID">購買人編號。</param>
+        /// <param name="AdminID">廟宇編號（例如：6=北港武德宮、14=桃園威天宮、15=斗六五路財神宮等）。</param>
+        /// <param name="SuppliesType">法會類型（1=下元補庫、2=呈疏補庫、3=企業補財庫、4=天赦日補運、9=補財庫、11=赦罪補庫、18=天公生招財補運）。</param>
+        /// <param name="Year">資料年份。</param>
+        /// <returns>清除成功回傳 true，否則 false。</returns>
+        public bool DeleteSuppliesInfo(
+            int ApplicantID, 
+            string AdminID, 
+            int SuppliesType, 
+            string Year)
         {
             bool result = false;
-            string sql = string.Empty;
-            string view = string.Empty;
-
-            switch (AdminID)
+            try
             {
-                case "3":
-                    //大甲鎮瀾宮
-                    view = "Temple_" + Year + "..TaoistJiaoCeremony_da_info";
-                    sql = "Select * from Temple_" + Year + "..TaoistJiaoCeremony_da_info Where Status = 0 and ApplicantID = @ApplicantID";
-                    break;
-            }
-
-            if (sql != "")
-            {
-                DatabaseAdapter Adapter = new DatabaseAdapter(sql, this.DBSource);
+                string sql = string.Empty;
+                string view = string.Empty;
                 DataTable dtUpdateStatus = new DataTable();
-                Adapter.AddParameterToSelectCommand("@ApplicantID", ApplicantID);
-                Adapter.SetSqlCommandBuilder();
-                Adapter.Fill(dtUpdateStatus);
-                if (dtUpdateStatus.Rows.Count > 0)
-                {
-                    for (int i = 0; i < dtUpdateStatus.Rows.Count; i++)
-                    {
-                        int TaoistJiaoCeremonyID = int.Parse(dtUpdateStatus.Rows[i]["TaoistJiaoCeremonyID"].ToString());
-                        //dtUpdateStatus.Rows[i]["Num2String"] = "";
-                        //dtUpdateStatus.Rows[i]["Num"] = 0;
-                        //Adapter.Update(dtUpdateStatus);
-                        if (view != "")
-                        {
-                            int res = ExecuteSql("Update " + view + " Set Num2String = '', Num = 0 Where TaoistJiaoCeremonyID=" + TaoistJiaoCeremonyID);
 
-                            if (res > 0)
+                //──────────────────────────────
+                // 根據 AdminID + SuppliesType 決定資料表名稱
+                //──────────────────────────────
+                switch (AdminID)
+                {
+                    case "6": // 北港武德宮
+                        if (SuppliesType == 1)
+                            view = $"Temple_{Year}..Supplies_wu_info";
+                        else if (SuppliesType == 2)
+                            view = $"Temple_{Year}..Supplies_wu_info2";
+                        else if (SuppliesType == 3)
+                            view = $"Temple_{Year}..Supplies_wu_info3";
+                        break;
+
+                    case "14": // 桃園威天宮
+                        if (SuppliesType == 4)
+                            view = $"Temple_{Year}..Supplies_ty_info";
+                        else if (SuppliesType == 18)
+                            view = $"Temple_{Year}..Supplies3_ty_info";
+                        break;
+
+                    case "15": // 斗六五路財神宮（補財庫）
+                        if (SuppliesType == 9)
+                            view = $"Temple_{Year}..Supplies_Fw_info";
+                        break;
+
+                    case "21": // 鹿港城隍廟（補財庫）
+                        if (SuppliesType == 9)
+                            view = $"Temple_{Year}..Supplies_Lk_info";
+                        break;
+
+                    case "23": // 玉敕大樹朝天宮（天赦日補運）
+                        if (SuppliesType == 4)
+                            view = $"Temple_{Year}..Supplies_ma_info";
+                        break;
+
+                    case "29": // 進寶財神廟（天赦日祭改）
+                        if (SuppliesType == 5)
+                            view = $"Temple_{Year}..Supplies_jb_info";
+                        break;
+
+                    case "33": // 神霄玉府財神會館（赦罪補庫）
+                        if (SuppliesType == 11)
+                            view = $"Temple_{Year}..Supplies_sx_info";
+                        break;
+
+                    case "34": // 基隆悟玄宮（祈安禮斗）
+                        view = $"Temple_{Year}..Supplies_wh_info";
+                        break;
+                }
+
+                if (!string.IsNullOrEmpty(view))
+                {
+                    sql = $"SELECT * FROM {view} WHERE ApplicantID=@ApplicantID AND Status=0";
+
+                    // 讀取對應補財庫記錄
+                    using (var adapter = new DatabaseAdapter(sql, this.DBSource))
+                    {
+                        adapter.AddParameterToSelectCommand("@ApplicantID", ApplicantID);
+                        adapter.Fill(dtUpdateStatus);
+                    }
+
+                    if (dtUpdateStatus.Rows.Count > 0)
+                    {
+                        foreach (DataRow row in dtUpdateStatus.Rows)
+                        {
+                            int suppliesId = Convert.ToInt32(row["SuppliesID"]);
+
+                            // 使用參數化 SQL 清除 Num 與 Num2String
+                            string updateSql = $"UPDATE {view} SET Num2String=@Num2String, Num=@Num WHERE SuppliesID=@SuppliesID";
+                            using (var updateAdapter = new DatabaseAdapter(updateSql, this.DBSource))
                             {
-                                result = true;
+                                updateAdapter.AddParameterToSelectCommand("@Num2String", string.Empty);
+                                updateAdapter.AddParameterToSelectCommand("@Num", 0);
+                                updateAdapter.AddParameterToSelectCommand("@SuppliesID", suppliesId);
+
+                                int res = updateAdapter.ExecuteSql();
+                                if (res > 0)
+                                    result = true;
                             }
                         }
                     }
-                    result = true;
                 }
+
+                return result;
             }
-
-            return result;
-        }
-
-        public bool Updatestatus2appcharge_fet_test(string ClientOrderNumber, int Status, string AdminID)
-        {
-            TimeZoneInfo info = TimeZoneInfo.FindSystemTimeZoneById("Taipei Standard Time");
-            DateTime dt = TimeZoneInfo.ConvertTime(DateTime.Now, info);
-            bool bResult = false;
-            DataTable dtDataList = new DataTable();
-            string sql = "Select * from APPCharge_fet_test Where Status = 1 and ClientOrderNumber = @ClientOrderNumber";
-
-            DatabaseAdapter AdapterObj = new DatabaseAdapter(sql, this.DBSource);
-            AdapterObj.SetSqlCommandBuilder();
-            AdapterObj.AddParameterToSelectCommand("@ClientOrderNumber", ClientOrderNumber);
-            AdapterObj.Fill(dtDataList);
-            if (dtDataList.Rows.Count > 0 && (int)dtDataList.Rows[0]["Status"] == 1)
+            catch (Exception error)
             {
-                dtDataList.Rows[0]["Status"] = Status;
-                AdapterObj.Update(dtDataList);
-
-                if (Updatestatus2applicantinfo_fet_test(int.Parse(dtDataList.Rows[0]["ApplicantID"].ToString()), Status, AdminID))
-                {
-                    if (DeletePurdue_fet_test(int.Parse(dtDataList.Rows[0]["ApplicantID"].ToString()), AdminID))
-                    {
-                        bResult = true;
-                    }
-                }
+                string detailedError = ErrorLogger.FormatError(error, typeof(AdminDAC).FullName);
+                twbobibobi.Data.BasePage basePage = new twbobibobi.Data.BasePage();
+                basePage.SaveErrorLog("AdminDAC.DeleteSuppliesInfo：\r\n" + detailedError);
+                throw;
             }
-
-            return bResult;
         }
 
-        public bool Updatestatus2applicantinfo_fet_test(int ApplicantID, int Status, string AdminID)
-        {
-            TimeZoneInfo info = TimeZoneInfo.FindSystemTimeZoneById("Taipei Standard Time");
-            DateTime dt = TimeZoneInfo.ConvertTime(DateTime.Now, info);
-            bool bResult = false;
-            DataTable dtDataList = new DataTable();
-            string sql = "Select * from ApplicantInfo_fet_test Where Status = 2 and ApplicantID = @ApplicantID and AdminID = 3";
-
-            DatabaseAdapter AdapterObj = new DatabaseAdapter(sql, this.DBSource);
-            AdapterObj.SetSqlCommandBuilder();
-            AdapterObj.AddParameterToSelectCommand("@ApplicantID", ApplicantID);
-            AdapterObj.Fill(dtDataList);
-
-            if (dtDataList.Rows.Count > 0 && (int)dtDataList.Rows[0]["Status"] == 2)
-            {
-                dtDataList.Rows[0]["Status"] = Status;
-                dtDataList.Rows[0]["UpdateinfoDate"] = dt;
-                dtDataList.Rows[0]["UpdateinfoDateString"] = dt.ToString("yyyy-MM-dd");
-                AdapterObj.Update(dtDataList);
-
-                bResult = true;
-            }
-
-
-            return bResult;
-        }
-
-        public bool DeletePurdue_fet_test(int ApplicantID, string AdminID)
+        /// <summary>
+        /// 刪除關帝聖君聖誕訂單編號（將 Num 與 Num2String 清空為 0 與空字串）。
+        /// </summary>
+        /// <param name="ApplicantID">購買人編號。</param>
+        /// <param name="AdminID">廟宇編號（例如：14=桃園威天宮）。</param>
+        /// <param name="Year">資料年份。</param>
+        /// <returns>清除成功回傳 true，否則 false。</returns>
+        public bool DeleteEmperorGuanshengInfo(
+            int ApplicantID, 
+            string AdminID, 
+            string Year)
         {
             bool result = false;
-            string sql = "Select * From Purdue_fet_test Where ApplicantID = @ApplicantID and Status = 0";
-
-            DatabaseAdapter Adapter = new DatabaseAdapter(sql, this.DBSource);
-            DataTable dtUpdateStatus = new DataTable();
-            Adapter.AddParameterToSelectCommand("@ApplicantID", ApplicantID);
-            Adapter.SetSqlCommandBuilder();
-            Adapter.Fill(dtUpdateStatus);
-            if (dtUpdateStatus.Rows.Count > 0)
+            try
             {
-                for (int i = 0; i < dtUpdateStatus.Rows.Count; i++)
-                {
-                    dtUpdateStatus.Rows[i]["Num2String"] = "";
-                    dtUpdateStatus.Rows[i]["Num"] = 0;
-                    Adapter.Update(dtUpdateStatus);
-                }
-                result = true;
-            }
+                string sql = string.Empty;
+                string view = string.Empty;
+                DataTable dtUpdateStatus = new DataTable();
 
-            return result;
+                //──────────────────────────────
+                // 根據 AdminID 決定資料表名稱
+                //──────────────────────────────
+                switch (AdminID)
+                {
+
+                    case "14": 
+                        // 桃園威天宮
+                        view = $"Temple_{Year}..EmperorGuansheng_ty_info";
+                        break;
+                }
+
+                if (!string.IsNullOrEmpty(view))
+                {
+                    sql = $"SELECT * FROM {view} WHERE ApplicantID=@ApplicantID AND Status=0";
+
+                    // 讀取對應補財庫記錄
+                    using (var adapter = new DatabaseAdapter(sql, this.DBSource))
+                    {
+                        adapter.AddParameterToSelectCommand("@ApplicantID", ApplicantID);
+                        adapter.Fill(dtUpdateStatus);
+                    }
+
+                    if (dtUpdateStatus.Rows.Count > 0)
+                    {
+                        foreach (DataRow row in dtUpdateStatus.Rows)
+                        {
+                            int EmperorGuanshengID = Convert.ToInt32(row["EmperorGuanshengID"]);
+
+                            // 使用參數化 SQL 清除 Num 與 Num2String
+                            string updateSql = $"UPDATE {view} SET Num2String=@Num2String, Num=@Num WHERE EmperorGuanshengID=@EmperorGuanshengID";
+                            using (var updateAdapter = new DatabaseAdapter(updateSql, this.DBSource))
+                            {
+                                updateAdapter.AddParameterToSelectCommand("@Num2String", string.Empty);
+                                updateAdapter.AddParameterToSelectCommand("@Num", 0);
+                                updateAdapter.AddParameterToSelectCommand("@EmperorGuanshengID", EmperorGuanshengID);
+
+                                int res = updateAdapter.ExecuteSql();
+                                if (res > 0)
+                                    result = true;
+                            }
+                        }
+                    }
+                }
+
+                return result;
+            }
+            catch (Exception error)
+            {
+                string detailedError = ErrorLogger.FormatError(error, typeof(AdminDAC).FullName);
+                twbobibobi.Data.BasePage basePage = new twbobibobi.Data.BasePage();
+                basePage.SaveErrorLog("AdminDAC.DeleteEmperorGuanshengInfo：\r\n" + detailedError);
+                throw;
+            }
         }
 
+        /// <summary>
+        /// 刪除代燒金紙訂單編號（將 Num 與 Num2String 清空為 0 與空字串）。
+        /// </summary>
+        /// <param name="ApplicantID">購買人編號。</param>
+        /// <param name="AdminID">廟宇編號（例如：29=進寶財神廟等）。</param>
+        /// <param name="Year">資料年份。</param>
+        /// <returns>清除成功回傳 true，否則 false。</returns>
+        public bool DeleteBPOInfo(
+            int ApplicantID,
+            string AdminID,
+            string Year)
+        {
+            bool result = false;
+            try
+            {
+                string sql = string.Empty;
+                string view = string.Empty;
+                DataTable dtUpdateStatus = new DataTable();
+
+                //──────────────────────────────
+                // 根據 AdminID 指定正確的 Temple 資料表
+                //──────────────────────────────
+                switch (AdminID)
+                {
+                    case "29":
+                        view = $"Temple_{Year}..BPO_jb_info"; break;
+                }
+
+                if (!string.IsNullOrEmpty(view))
+                {
+                    sql = $"SELECT * FROM {view} WHERE ApplicantID=@ApplicantID AND Status=0";
+
+                    // 讀取對應燈號
+                    using (var adapter = new DatabaseAdapter(sql, this.DBSource))
+                    {
+                        adapter.AddParameterToSelectCommand("@ApplicantID", ApplicantID);
+                        adapter.Fill(dtUpdateStatus);
+                    }
+
+                    if (dtUpdateStatus.Rows.Count > 0)
+                    {
+                        foreach (DataRow row in dtUpdateStatus.Rows)
+                        {
+                            int bpoId = Convert.ToInt32(row["BPOID"]);
+
+                            // 使用參數化 SQL 清除 Num 與 Num2String
+                            string updateSql = $"UPDATE {view} SET Num2String=@Num2String, Num=@Num WHERE BPOID=@BPOID";
+                            using (var updateAdapter = new DatabaseAdapter(updateSql, this.DBSource))
+                            {
+                                updateAdapter.AddParameterToSelectCommand("@Num2String", string.Empty);
+                                updateAdapter.AddParameterToSelectCommand("@Num", 0);
+                                updateAdapter.AddParameterToSelectCommand("@BPOID", bpoId);
+
+                                int res = updateAdapter.ExecuteSql();
+                                if (res > 0)
+                                    result = true;
+                            }
+                        }
+                    }
+                }
+
+                return result;
+            }
+            catch (Exception error)
+            {
+                string detailedError = ErrorLogger.FormatError(error, typeof(AdminDAC).FullName);
+                twbobibobi.Data.BasePage basePage = new twbobibobi.Data.BasePage();
+                basePage.SaveErrorLog("AdminDAC.DeleteBPOInfo：\r\n" + detailedError);
+                throw;
+            }
+        }
+
+        /// <summary>
+        /// 刪除靈寶禮斗訂單編號（將 Num 與 Num2String 清空為 0 與空字串）。
+        /// </summary>
+        /// <param name="ApplicantID">購買人編號。</param>
+        /// <param name="AdminID">廟宇編號（例如：23=玉敕大樹朝天宮等）。</param>
+        /// <param name="Year">資料年份。</param>
+        /// <returns>清除成功回傳 true，否則 false。</returns>
+        public bool DeleteLingbaolidouInfo(
+            int ApplicantID,
+            string AdminID,
+            string Year)
+        {
+            bool result = false;
+            try
+            {
+                string sql = string.Empty;
+                string view = string.Empty;
+                DataTable dtUpdateStatus = new DataTable();
+
+                //──────────────────────────────
+                // 根據 AdminID 指定正確的 Temple 資料表
+                //──────────────────────────────
+                switch (AdminID)
+                {
+                    case "23":
+                        //玉敕大樹朝天宮
+                        view = $"Temple_{Year}..Lingbaolidou_ma_info"; break;
+                }
+
+                if (!string.IsNullOrEmpty(view))
+                {
+                    sql = $"SELECT * FROM {view} WHERE ApplicantID=@ApplicantID AND Status=0";
+
+                    // 讀取對應燈號
+                    using (var adapter = new DatabaseAdapter(sql, this.DBSource))
+                    {
+                        adapter.AddParameterToSelectCommand("@ApplicantID", ApplicantID);
+                        adapter.Fill(dtUpdateStatus);
+                    }
+
+                    if (dtUpdateStatus.Rows.Count > 0)
+                    {
+                        foreach (DataRow row in dtUpdateStatus.Rows)
+                        {
+                            int lingbaolidouId = Convert.ToInt32(row["LingbaolidouID"]);
+
+                            // 使用參數化 SQL 清除 Num 與 Num2String
+                            string updateSql = $"UPDATE {view} SET Num2String=@Num2String, Num=@Num WHERE LingbaolidouID=@LingbaolidouID";
+                            using (var updateAdapter = new DatabaseAdapter(updateSql, this.DBSource))
+                            {
+                                updateAdapter.AddParameterToSelectCommand("@Num2String", string.Empty);
+                                updateAdapter.AddParameterToSelectCommand("@Num", 0);
+                                updateAdapter.AddParameterToSelectCommand("@LingbaolidouID", lingbaolidouId);
+
+                                int res = updateAdapter.ExecuteSql();
+                                if (res > 0)
+                                    result = true;
+                            }
+                        }
+                    }
+                }
+
+                return result;
+            }
+            catch (Exception error)
+            {
+                string detailedError = ErrorLogger.FormatError(error, typeof(AdminDAC).FullName);
+                twbobibobi.Data.BasePage basePage = new twbobibobi.Data.BasePage();
+                basePage.SaveErrorLog("AdminDAC.DeleteLingbaolidouInfo：\r\n" + detailedError);
+                throw;
+            }
+        }
+
+        /// <summary>
+        /// 刪除七朝清醮訂單編號（將 Num 與 Num2String 清空為 0 與空字串）。
+        /// </summary>
+        /// <param name="ApplicantID">購買人編號。</param>
+        /// <param name="AdminID">廟宇編號（例如：3=大甲鎮瀾宮等）。</param>
+        /// <param name="Year">資料年份。</param>
+        /// <returns>清除成功回傳 true，否則 false。</returns>
+        public bool DeleteTaoistJiaoCeremonyInfo(
+            int ApplicantID,
+            string AdminID,
+            string Year)
+        {
+            bool result = false;
+            try
+            {
+                string sql = string.Empty;
+                string view = string.Empty;
+                DataTable dtUpdateStatus = new DataTable();
+
+                //──────────────────────────────
+                // 根據 AdminID 指定正確的 Temple 資料表
+                //──────────────────────────────
+                switch (AdminID)
+                {
+                    case "3":
+                        //大甲鎮瀾宮
+                        view = $"Temple_{Year}..TaoistJiaoCeremony_da_info"; break;
+                }
+
+                if (!string.IsNullOrEmpty(view))
+                {
+                    sql = $"SELECT * FROM {view} WHERE ApplicantID=@ApplicantID AND Status=0";
+
+                    // 讀取對應燈號
+                    using (var adapter = new DatabaseAdapter(sql, this.DBSource))
+                    {
+                        adapter.AddParameterToSelectCommand("@ApplicantID", ApplicantID);
+                        adapter.Fill(dtUpdateStatus);
+                    }
+
+                    if (dtUpdateStatus.Rows.Count > 0)
+                    {
+                        foreach (DataRow row in dtUpdateStatus.Rows)
+                        {
+                            int taoistJiaoCeremonyId = Convert.ToInt32(row["TaoistJiaoCeremonyID"]);
+
+                            // 使用參數化 SQL 清除 Num 與 Num2String
+                            string updateSql = $"UPDATE {view} SET Num2String=@Num2String, Num=@Num WHERE TaoistJiaoCeremonyID=@TaoistJiaoCeremonyID";
+                            using (var updateAdapter = new DatabaseAdapter(updateSql, this.DBSource))
+                            {
+                                updateAdapter.AddParameterToSelectCommand("@Num2String", string.Empty);
+                                updateAdapter.AddParameterToSelectCommand("@Num", 0);
+                                updateAdapter.AddParameterToSelectCommand("@TaoistJiaoCeremonyID", taoistJiaoCeremonyId);
+
+                                int res = updateAdapter.ExecuteSql();
+                                if (res > 0)
+                                    result = true;
+                            }
+                        }
+                    }
+                }
+
+                return result;
+            }
+            catch (Exception error)
+            {
+                string detailedError = ErrorLogger.FormatError(error, typeof(AdminDAC).FullName);
+                twbobibobi.Data.BasePage basePage = new twbobibobi.Data.BasePage();
+                basePage.SaveErrorLog("AdminDAC.DeleteTaoistJiaoCeremonyInfo：\r\n" + detailedError);
+                throw;
+            }
+        }
+
+        /// <summary>
+        /// 刪除安斗訂單編號（將 Num 與 Num2String 清空為 0 與空字串）。
+        /// </summary>
+        /// <param name="ApplicantID">購買人編號。</param>
+        /// <param name="AdminID">廟宇編號（例如：15=斗六五路財神宮、31=台灣道教總廟無極三清總道院等）。</param>
+        /// <param name="Year">資料年份。</param>
+        /// <returns>清除成功回傳 true，否則 false。</returns>
+        public bool DeleteAnDouInfo(
+            int ApplicantID,
+            string AdminID,
+            string Year)
+        {
+            bool result = false;
+            try
+            {
+                string sql = string.Empty;
+                string view = string.Empty;
+                DataTable dtUpdateStatus = new DataTable();
+
+                //──────────────────────────────
+                // 根據 AdminID 指定正確的 Temple 資料表
+                //──────────────────────────────
+                switch (AdminID)
+                {
+                    case "15":
+                        view = $"Temple_{Year}..AnDou_Fw_info"; break;
+                    case "31":
+                        view = $"Temple_{Year}..AnDou_wjsan_info"; break;
+                }
+
+                if (!string.IsNullOrEmpty(view))
+                {
+                    sql = $"SELECT * FROM {view} WHERE ApplicantID=@ApplicantID AND Status=0";
+
+                    // 讀取對應燈號
+                    using (var adapter = new DatabaseAdapter(sql, this.DBSource))
+                    {
+                        adapter.AddParameterToSelectCommand("@ApplicantID", ApplicantID);
+                        adapter.Fill(dtUpdateStatus);
+                    }
+
+                    if (dtUpdateStatus.Rows.Count > 0)
+                    {
+                        foreach (DataRow row in dtUpdateStatus.Rows)
+                        {
+                            int andouId = Convert.ToInt32(row["AnDouID"]);
+
+                            // 使用參數化 SQL 清除 Num 與 Num2String
+                            string updateSql = $"UPDATE {view} SET Num2String=@Num2String, Num=@Num WHERE AnDouID=@AnDouID";
+                            using (var updateAdapter = new DatabaseAdapter(updateSql, this.DBSource))
+                            {
+                                updateAdapter.AddParameterToSelectCommand("@Num2String", string.Empty);
+                                updateAdapter.AddParameterToSelectCommand("@Num", 0);
+                                updateAdapter.AddParameterToSelectCommand("@AnDouID", andouId);
+
+                                int res = updateAdapter.ExecuteSql();
+                                if (res > 0)
+                                    result = true;
+                            }
+                        }
+                    }
+                }
+
+                return result;
+            }
+            catch (Exception error)
+            {
+                string detailedError = ErrorLogger.FormatError(error, typeof(AdminDAC).FullName);
+                twbobibobi.Data.BasePage basePage = new twbobibobi.Data.BasePage();
+                basePage.SaveErrorLog("AdminDAC.DeleteAnDouInfo：\r\n" + detailedError);
+                throw;
+            }
+        }
+
+        /// <summary>
+        /// 刪除供花供果訂單編號（將 Num 與 Num2String 清空為 0 與空字串）。
+        /// </summary>
+        /// <param name="ApplicantID">購買人編號。</param>
+        /// <param name="AdminID">廟宇編號（例如：31=台灣道教總廟無極三清總道院等）。</param>
+        /// <param name="Year">資料年份。</param>
+        /// <returns>清除成功回傳 true，否則 false。</returns>
+        public bool DeleteHuaguoInfo(
+            int ApplicantID,
+            string AdminID,
+            string Year)
+        {
+            bool result = false;
+            try
+            {
+                string sql = string.Empty;
+                string view = string.Empty;
+                DataTable dtUpdateStatus = new DataTable();
+
+                //──────────────────────────────
+                // 根據 AdminID 指定正確的 Temple 資料表
+                //──────────────────────────────
+                switch (AdminID)
+                {
+                    case "31":
+                        view = $"Temple_{Year}..Huaguo_wjsan_info"; break;
+                }
+
+                if (!string.IsNullOrEmpty(view))
+                {
+                    sql = $"SELECT * FROM {view} WHERE ApplicantID=@ApplicantID AND Status=0";
+
+                    // 讀取對應燈號
+                    using (var adapter = new DatabaseAdapter(sql, this.DBSource))
+                    {
+                        adapter.AddParameterToSelectCommand("@ApplicantID", ApplicantID);
+                        adapter.Fill(dtUpdateStatus);
+                    }
+
+                    if (dtUpdateStatus.Rows.Count > 0)
+                    {
+                        foreach (DataRow row in dtUpdateStatus.Rows)
+                        {
+                            int huaguoId = Convert.ToInt32(row["HuaguoID"]);
+
+                            // 使用參數化 SQL 清除 Num 與 Num2String
+                            string updateSql = $"UPDATE {view} SET Num2String=@Num2String, Num=@Num WHERE HuaguoID=@HuaguoID";
+                            using (var updateAdapter = new DatabaseAdapter(updateSql, this.DBSource))
+                            {
+                                updateAdapter.AddParameterToSelectCommand("@Num2String", string.Empty);
+                                updateAdapter.AddParameterToSelectCommand("@Num", 0);
+                                updateAdapter.AddParameterToSelectCommand("@HuaguoID", huaguoId);
+
+                                int res = updateAdapter.ExecuteSql();
+                                if (res > 0)
+                                    result = true;
+                            }
+                        }
+                    }
+                }
+
+                return result;
+            }
+            catch (Exception error)
+            {
+                string detailedError = ErrorLogger.FormatError(error, typeof(AdminDAC).FullName);
+                twbobibobi.Data.BasePage basePage = new twbobibobi.Data.BasePage();
+                basePage.SaveErrorLog("AdminDAC.DeleteHuaguoInfo：\r\n" + detailedError);
+                throw;
+            }
+        }
+
+        /// <summary>
+        /// 刪除祈安植福訂單編號（將 Num 與 Num2String 清空為 0 與空字串）。
+        /// </summary>
+        /// <param name="ApplicantID">購買人編號。</param>
+        /// <param name="AdminID">廟宇編號（例如：35=松柏嶺受天宮等）。</param>
+        /// <param name="Year">資料年份。</param>
+        /// <returns>清除成功回傳 true，否則 false。</returns>
+        public bool DeleteBlessingInfo(
+            int ApplicantID,
+            string AdminID,
+            string Year)
+        {
+            bool result = false;
+            try
+            {
+                string sql = string.Empty;
+                string view = string.Empty;
+                DataTable dtUpdateStatus = new DataTable();
+
+                //──────────────────────────────
+                // 根據 AdminID 指定正確的 Temple 資料表
+                //──────────────────────────────
+                switch (AdminID)
+                {
+                    case "35":
+                        //松柏嶺受天宮
+                        view = $"Temple_{Year}..Blessing_st_info"; break;
+                }
+
+                if (!string.IsNullOrEmpty(view))
+                {
+                    sql = $"SELECT * FROM {view} WHERE ApplicantID=@ApplicantID AND Status=0";
+
+                    // 讀取對應燈號
+                    using (var adapter = new DatabaseAdapter(sql, this.DBSource))
+                    {
+                        adapter.AddParameterToSelectCommand("@ApplicantID", ApplicantID);
+                        adapter.Fill(dtUpdateStatus);
+                    }
+
+                    if (dtUpdateStatus.Rows.Count > 0)
+                    {
+                        foreach (DataRow row in dtUpdateStatus.Rows)
+                        {
+                            int blessingId = Convert.ToInt32(row["BlessingID"]);
+
+                            // 使用參數化 SQL 清除 Num 與 Num2String
+                            string updateSql = $"UPDATE {view} SET Num2String=@Num2String, Num=@Num WHERE BlessingID=@BlessingID";
+                            using (var updateAdapter = new DatabaseAdapter(updateSql, this.DBSource))
+                            {
+                                updateAdapter.AddParameterToSelectCommand("@Num2String", string.Empty);
+                                updateAdapter.AddParameterToSelectCommand("@Num", 0);
+                                updateAdapter.AddParameterToSelectCommand("@BlessingID", blessingId);
+
+                                int res = updateAdapter.ExecuteSql();
+                                if (res > 0)
+                                    result = true;
+                            }
+                        }
+                    }
+                }
+
+                return result;
+            }
+            catch (Exception error)
+            {
+                string detailedError = ErrorLogger.FormatError(error, typeof(AdminDAC).FullName);
+                twbobibobi.Data.BasePage basePage = new twbobibobi.Data.BasePage();
+                basePage.SaveErrorLog("AdminDAC.DeleteBlessingInfo：\r\n" + detailedError);
+                throw;
+            }
+        }
+
+        /// <summary>
+        /// 刪除千手觀音千燈迎佛法會訂單編號（將 Num 與 Num2String 清空為 0 與空字串）。
+        /// </summary>
+        /// <param name="ApplicantID">購買人編號。</param>
+        /// <param name="AdminID">廟宇編號（例如：14=桃園威天宮等）。</param>
+        /// <param name="Year">資料年份。</param>
+        /// <returns>清除成功回傳 true，否則 false。</returns>
+        public bool DeleteQnLightInfo(
+            int ApplicantID,
+            string AdminID,
+            string Year)
+        {
+            bool result = false;
+            try
+            {
+                string sql = string.Empty;
+                string view = string.Empty;
+                DataTable dtUpdateStatus = new DataTable();
+
+                //──────────────────────────────
+                // 根據 AdminID 指定正確的 Temple 資料表
+                //──────────────────────────────
+                switch (AdminID)
+                {
+                    case "14":
+                        view = $"Temple_{Year}..QnLight_ty_info"; break;
+                }
+
+                if (!string.IsNullOrEmpty(view))
+                {
+                    sql = $"SELECT * FROM {view} WHERE ApplicantID=@ApplicantID AND Status=0";
+
+                    // 讀取對應燈號
+                    using (var adapter = new DatabaseAdapter(sql, this.DBSource))
+                    {
+                        adapter.AddParameterToSelectCommand("@ApplicantID", ApplicantID);
+                        adapter.Fill(dtUpdateStatus);
+                    }
+
+                    if (dtUpdateStatus.Rows.Count > 0)
+                    {
+                        foreach (DataRow row in dtUpdateStatus.Rows)
+                        {
+                            int qnlightId = Convert.ToInt32(row["QnLightID"]);
+
+                            // 使用參數化 SQL 清除 Num 與 Num2String
+                            string updateSql = $"UPDATE {view} SET Num2String=@Num2String, Num=@Num WHERE QnLightID=@QnLightID";
+                            using (var updateAdapter = new DatabaseAdapter(updateSql, this.DBSource))
+                            {
+                                updateAdapter.AddParameterToSelectCommand("@Num2String", string.Empty);
+                                updateAdapter.AddParameterToSelectCommand("@Num", 0);
+                                updateAdapter.AddParameterToSelectCommand("@QnLightID", qnlightId);
+
+                                int res = updateAdapter.ExecuteSql();
+                                if (res > 0)
+                                    result = true;
+                            }
+                        }
+                    }
+                }
+
+                return result;
+            }
+            catch (Exception error)
+            {
+                string detailedError = ErrorLogger.FormatError(error, typeof(AdminDAC).FullName);
+                twbobibobi.Data.BasePage basePage = new twbobibobi.Data.BasePage();
+                basePage.SaveErrorLog("AdminDAC.DeleteQnLightInfo：\r\n" + detailedError);
+                throw;
+            }
+        }
+
+        #endregion
     }
 }

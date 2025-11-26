@@ -73,7 +73,7 @@
             color: #242424;
             font-weight: bold;
         }
-       .event-ongoing {
+       .event-ongoend {
           margin-top: 10px;
           font-weight: 900;
           font-size: 1.1rem;
@@ -82,6 +82,22 @@
           display: inline-block;
           animation: pulseClear 1.2s ease-in-out infinite;
           text-shadow: 0 1px 0 #fff, 0 0 2px #ff3b00;
+        }
+
+       .event-ongoing {
+          margin-top: 10px;
+          font-weight: 900;
+          font-size: 1.1rem;
+          color: #2E7D32;                      /* 深森林绿 */
+          text-align: center;
+          display: inline-block;
+          animation: pulseClear 1.2s ease-in-out infinite;
+          text-shadow: 
+            0 1px 0 #E8F5E9,                   /* 浅薄荷绿高光 */
+            0 0 2px #2E7D32;                   /* 深绿晕染 */
+          background-color: #E8F5E9;           /* 可选：加个浅底 */
+          padding: 0.2em 0.6em;                /* 可选：增加点内边距 */
+          border-radius: 0.25rem;              /* 可选：圆角 */
         }
 
         @keyframes pulseClear {
@@ -197,8 +213,8 @@
                                         <div>訂單查詢</div>
                                     </a>
                                 </li>
-                                <li id="shop2">
-                                    <a href="https://shop.bobibobi.tw/" target="_blank" title="開運商品">
+                                <li id="shop2" class="Demo">
+                                    <a href="https://shop.bobibobi.tw" target="_blank" title="開運商品">
                                         <div>
                                             <img src="https://bobibobi.tw/Temples/images/menu_05.png" width="75" height="75" alt="" />
                                         </div>
@@ -381,15 +397,32 @@
                         </div>
                         <div class="row gx-5">
                             <div class="col-lg-4 col-sm-12 py-3">
-                                <a href="https://bobibobi.tw/Temples/newsContent_2025lights.aspx">
+                                <a href="https://bobibobi.tw/Temples/newsContent_2026lights.aspx">
                                     <div class="card shadow h-100" style="background-color: white; color: #707070;">
                                     <%--<div class="Newsimg">--%>
-                                        <img src="https://bobibobi.tw/Temples/SiteFile/News/20241029_NewsImg_s.jpg" class="card-img-top p-3" alt="保必保庇２０２５乙巳蛇年新春線上點燈" title="保必保庇２０２５乙巳蛇年新春線上點燈" />
+                                        <img src="https://bobibobi.tw/Temples/SiteFile/News/20251105_NewsImg_s.jpg" class="card-img-top p-3" alt="保必保庇２０２６丙午馬早鳥點燈福先至，神光庇佑迎好運！" title="保必保庇２０２６丙午馬早鳥點燈福先至，神光庇佑迎好運！" />
                                     <%--</div>--%>
                                         <div class="card-body">
-                                    <div class="fs-3">２０２５乙巳蛇年新春線上點燈報名開始囉~</div>
-                                    <div class="fs-5">『保必保庇』今年與11家全台知名宮廟配合線上點燈服務，提供信眾更多元化的選擇，讓您在忙碌之餘也可以輕鬆完成點燈保平安，為自己與家人祈福。</div>
-                                    <div class="event-ongoing fs-5">⚡ 活動進行中 ⚡</div>
+                                            <div class="fs-3">２０２６丙午馬年早鳥點燈福先至，神光庇佑迎好運！</div>
+                                            <div class="fs-5">歲末感恩回饋，線上點燈早鳥報名熱烈開放中！提早預約新年點燈，讓神明保佑一路順遂、平安富貴。加碼贈送【7-11禮券】一份，快來搶先點亮你的福氣！</div>
+                                            <%=Status_Lights_2026 %>
+                                        </div>
+                                        <div class="card-footer pb-3" style="border-top: none; background-color: transparent;">
+                                            <div class="ReadMoreBtn"><span>&nbsp;詳情&nbsp;</span></div>
+                                        </div>
+                                    </div>
+                                </a>
+                            </div>  
+                            <div class="col-lg-4 col-sm-12 py-3">
+                                <a href="https://bobibobi.tw/Temples/templeService_supplies.aspx">
+                                    <div class="card shadow h-100" style="background-color: white; color: #707070;">
+                                    <%--<div class="Newsimg">--%>
+                                        <img src="https://bobibobi.tw/Temples/SiteFile/News/20251017_NewsImg.jpg" class="card-img-top p-3" alt="" />
+                                    <%--</div>--%>
+                                        <div class="card-body">
+                                    <div class="fs-3">２０２５北港武德宮下元補庫活動</div>
+                                    <div class="fs-5">財是流量，庫則是存量，有財無庫，財來則財去，累積不了多少，總是剩餘不多。也因此十方善信來到財神祖廟，最嚮往的一個法門，就是“補財庫”。</div>
+                                            <%=Status_Supplies_wu_2025 %>
                                         </div>
                                         <div class="card-footer pb-3" style="border-top: none; background-color: transparent;">
                                             <div class="ReadMoreBtn"><span>&nbsp;詳情&nbsp;</span></div>
@@ -397,6 +430,42 @@
                                     </div>
                                 </a>
                             </div>
+                            <div class="col-lg-4 col-sm-12 py-3">
+                                <a href="https://bobibobi.tw/Temples/newsContent_2025suppliesBF.aspx">
+                                    <div class="card shadow h-100" style="background-color: white; color: #707070;">
+                                    <%--<div class="Newsimg">--%>
+                                        <img src="https://bobibobi.tw/Temples/SiteFile/News/20250221_NewsImg_s.jpg?t=666168" class="card-img-top p-3" alt="2025乙巳蛇年首個天赦日招財補運活動" title="2025乙巳蛇年首個天赦日招財補運活動" />
+                                    <%--</div>--%>
+                                        <div class="card-body">
+                                            <div class="fs-3">２０２５乙巳蛇年天赦日招財補運活動</div>
+                                            <div class="fs-5">天赦日是傳統民俗中的四大吉日之一，屬於天時大吉之日，意指上天赦罪、萬物得以更新。這一天，無論過去犯下何種有意或無意的過失，只要誠心懺悔，皆能得到上天的赦免與庇佑，因此被視為消災解厄、補運轉運的最佳時機。</div>
+                                            <%=Status_SuppliesBF_2025 %>
+                                        </div>
+                                        <div class="card-footer pb-3" style="border-top: none; background-color: transparent;">
+                                            <div class="ReadMoreBtn"><span>&nbsp;詳情&nbsp;</span></div>
+                                        </div>
+                                    </div>
+                                </a>
+                            </div>  
+                        </div>
+                        <div class="row gx-5">
+                            <div class="col-lg-4 col-sm-12 py-3">
+                                <a href="https://bobibobi.tw/Temples/templeService_blessing_st.aspx">
+                                    <div class="card shadow h-100" style="background-color: white; color: #707070;">
+                                    <%--<div class="Newsimg">--%>
+                                        <img src="https://bobibobi.tw/Temples/SiteFile/News/20250909_NewsImg_s.jpg" class="card-img-top p-3" alt="保必保庇２０２５松柏嶺受天宮祈安植福線上報名服務" title="保必保庇２０２５松柏嶺受天宮祈安植福線上報名服務" />
+                                    <%--</div>--%>
+                                        <div class="card-body">
+                                            <div class="fs-3">松柏嶺受天宮祈安植福線上報名服務</div>
+                                            <div class="fs-5">忙碌生活沒時間拜拜？ 初一、十五受天宮為每一位報名者準備一函專屬疏文、一份金紙，由道經團師姐逐一宣讀，仰仗道力呈疏化財，祈求玄天上帝與合宮眾神鑑納賜福！</div>
+                                            <%=Status_Blessing_st_2025 %>
+                                        </div>
+                                        <div class="card-footer pb-3" style="border-top: none; background-color: transparent;">
+                                            <div class="ReadMoreBtn"><span>&nbsp;詳情&nbsp;</span></div>
+                                        </div>
+                                    </div>
+                                </a>
+                            </div>      
                             <div class="col-lg-4 col-sm-12 py-3">
                                 <a href="https://bobibobi.tw/Temples/templeService_supplies_Fw.aspx">
                                     <div class="card shadow h-100" style="background-color: white; color: #707070;">
@@ -404,45 +473,9 @@
                                         <img src="https://bobibobi.tw/Temples/SiteFile/News/20250306_NewsImg_s.jpg?t=666168" class="card-img-top p-3" alt="斗六五路財神宮補財庫" title="斗六五路財神宮補財庫" />
                                     <%--</div>--%>
                                         <div class="card-body">
-                                    <div class="fs-3">斗六五路財神宮２０２５補財庫</div>
-                                    <div class="fs-5">全台少數24小時營業的財神廟開放線上報名補財庫了！使用催財符打開你的財庫，並且先赦罪後再補財庫！改善正財、偏財運勢，助事業順遂，累積福報，讓財富源源不絕。</div>
-                                    <div class="event-ongoing fs-5">⚡ 活動進行中 ⚡</div>
-                                        </div>
-                                        <div class="card-footer pb-3" style="border-top: none; background-color: transparent;">
-                                            <div class="ReadMoreBtn"><span>&nbsp;詳情&nbsp;</span></div>
-                                        </div>
-                                    </div>
-                                </a>
-                            </div>   
-                            <div class="col-lg-4 col-sm-12 py-3">
-                                <a href="https://bobibobi.tw/Temples/newsContent_2025suppliesBF.aspx">
-                                    <div class="card shadow h-100" style="background-color: white; color: #707070;">
-                                        <%--<div class="Newsimg">--%>
-                                        <img src="https://bobibobi.tw/Temples/SiteFile/News/20250221_NewsImg_s.jpg?t=666168" class="card-img-top p-3" alt="2025乙巳蛇年天赦日招財補運活動" title="2025乙巳蛇年天赦日招財補運活動" />
-                                        <%--</div>--%>
-                                        <div class="card-body">
-                                            <div class="fs-3">2025乙巳蛇年天赦日招財補運活動</div>
-                                            <div class="fs-5">天赦日是傳統民俗中的四大吉日之一，屬於天時大吉之日，意指上天赦罪、萬物得以更新。這一天，無論過去犯下何種有意或無意的過失，只要誠心懺悔，皆能得到上天的赦免與庇佑，因此被視為消災解厄、補運轉運的最佳時機。</div>
-                                            <div class="event-ongoing fs-5">⚡ 活動進行中 ⚡</div>
-                                        </div>
-                                        <div class="card-footer pb-3" style="border-top: none; background-color: transparent;">
-                                            <div class="ReadMoreBtn"><span>&nbsp;詳情&nbsp;</span></div>
-                                        </div>
-                                    </div>
-                                </a>
-                            </div>
-                        </div>
-                        <div class="row gx-5">
-                            <div class="col-lg-4 col-sm-12 py-3">
-                                <a href="https://bobibobi.tw/Temples/templeService_supplies2_sx.aspx">
-                                    <div class="card shadow h-100" style="background-color: white; color: #707070;">
-                                        <%--<div class="Newsimg">--%>
-                                        <img src="https://bobibobi.tw/Temples/SiteFile/News/20250407_NewsImg_s.jpg?t=55282" class="card-img-top p-3" alt="2025神霄玉府財神會館供香轉運活動" title="2025神霄玉府財神會館供香轉運活動" />
-                                        <%--</div>--%>
-                                        <div class="card-body">
-                                            <div class="fs-3">２０２５神霄玉府財神會館供香轉運活動</div>
-                                            <div class="fs-5">一炷清香傳心意，一份供香轉運勢。誠心供香，功德無量，祈求神明庇佑、傳達願力、消災解厄、福運綿延。供香敬神，更是為自己與家人種下平安與好運的種子。</div>
-                                            <div class="event-ongoing fs-5">⚡ 活動進行中 ⚡</div>    
+                                            <div class="fs-3">斗六五路財神宮２０２５補財庫</div>
+                                            <div class="fs-5">全台少數24小時營業的財神廟開放線上報名補財庫了！使用催財符打開你的財庫，並且先赦罪後再補財庫！改善正財、偏財運勢，助事業順遂，累積福報，讓財富源源不絕。</div>
+                                            <%=Status_Supplies_Fw_2025 %>
                                         </div>
                                         <div class="card-footer pb-3" style="border-top: none; background-color: transparent;">
                                             <div class="ReadMoreBtn"><span>&nbsp;詳情&nbsp;</span></div>
@@ -450,43 +483,24 @@
                                     </div>
                                 </a>
                             </div> 
-                        <div class="col-lg-4 col-sm-12 py-3">
-                            <a href="https://bobibobi.tw/Temples/templeService_huaguo_wjsan.aspx">
-                                <div class="card shadow h-100" style="background-color: white; color: #707070;">
-                                <%--<div class="Newsimg">--%>
-                                    <img src="https://bobibobi.tw/Temples/SiteFile/News/20250502_NewsImg_s.jpg?t=666168" class="card-img-top p-3" alt="斗六五路財神宮補財庫" title="斗六五路財神宮補財庫" />
-                                <%--</div>--%>
-                                    <div class="card-body">
-                                <div class="fs-3">台灣道教總廟無極三清總道院供花/供果線上報名服務</div>
-                                <div class="fs-5">忙碌生活沒時間拜拜？我們幫你搞定！<br />
-【初一十五代供花果服務】 由廟方誠心代購上供鮮花、供果 會幫你寫疏文上秉 , 為您祈求平安順利、好運連連。誠心托付，一樣靈驗！</div>
-                                <div class="event-ongoing fs-5">⚡ 活動進行中 ⚡</div>
-                                    </div>
-                                    <div class="card-footer pb-3" style="border-top: none; background-color: transparent;">
-                                        <div class="ReadMoreBtn"><span>&nbsp;詳情&nbsp;</span></div>
-                                    </div>
-                                </div>
-                            </a>
-                        </div>      
                             <div class="col-lg-4 col-sm-12 py-3">
-                                <a href="https://bobibobi.tw/Temples/newsContent_2025andou.aspx">
+                                <a href="https://bobibobi.tw/Temples/templeService_lybc_dh.aspx">
                                     <div class="card shadow h-100" style="background-color: white; color: #707070;">
-                                        <%--<div class="Newsimg">--%>
-                                        <img src="https://bobibobi.tw/Temples/SiteFile/News/20250422_NewsImg_s.jpg" class="card-img-top p-3" alt="保必保庇２０２５乙巳蛇年安奉斗燈" title="保必保庇２０２５乙巳蛇年安奉斗燈" />
-                                        <%--</div>--%>
+                                    <%--<div class="Newsimg">--%>
+                                        <img src="https://bobibobi.tw/Temples/SiteFile/News/20251014_NewsImg.jpg" class="card-img-top p-3" alt="台東東海龍門天聖宮２０２５護國息災梁皇大法會" title="台東東海龍門天聖宮２０２５護國息災梁皇大法會" />
+                                    <%--</div>--%>
                                         <div class="card-body">
-                                            <div class="fs-3">安奉斗燈補元神，祈福轉運避災厄，神明庇佑照光明</div>
-                                            <div class="fs-5">安奉斗燈，為自己在天上安一盞護身之燈！向天界上奏元神，祈求神明庇佑、消災解厄、補運轉運。不論是祈求平安、財運、事業、健康或學業，皆可依所願安奉專屬斗燈，護佑全年。</div>
-                                            <div class="event-ongoing fs-5">⚡ 活動進行中 ⚡</div>
+                                    <div class="fs-3">台東東海龍門天聖宮２０２５護國息災梁皇大法會</div>
+                                    <div class="fs-5">『#梁皇寶懺』乃是大乘佛教中最具威力的懺悔法門之一，它不僅能夠消除眾生的業障、還能夠增長智慧、培養慈悲心』護國息災梁皇大法會</div>
+                                            <%=Status_Lybc_dh_2025 %>
                                         </div>
                                         <div class="card-footer pb-3" style="border-top: none; background-color: transparent;">
                                             <div class="ReadMoreBtn"><span>&nbsp;詳情&nbsp;</span></div>
                                         </div>
                                     </div>
                                 </a>
-                            </div>
+                            </div> 
                         </div>
-
                     </div>
                 </div>
             </div>
@@ -768,7 +782,7 @@
 
                 <div class="TempleList">
 
-                    <% =Templelist %>
+                    <% =TempleList %>
 
 
                     <%--<div>

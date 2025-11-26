@@ -1,4 +1,4 @@
-﻿using MotoSystem.Data;
+﻿using twbobibobi.Data;
 using Newtonsoft.Json.Linq;
 using Read.data;
 using System;
@@ -162,8 +162,30 @@ namespace twbobibobi.Temples
 
                     AppbirthMonth = CheckedDateZero(AppbirthMonth, 1);
 
-                    ApplicantID = objLightDAC.addapplicantinfo_Supplies3_ty(AppName, AppMobile, AppBirth, "N", "吉", AppbirthMonth, Appage, AppZodiac, AppsBirth, AppEmail, "0",
-                        AppzipCode, Appcounty, Appdist, Appaddr, "Y", AppName, AppMobile, 0, AdminID, postURL, Year);
+                    ApplicantID = objLightDAC.Addapplicantinfo_supplies3_ty(
+                        Name: AppName,
+                        Mobile: AppMobile,
+                        Birth: AppBirth,
+                        LeapMonth: "N",
+                        BirthTime: "吉",
+                        BirthMonth: AppbirthMonth,
+                        Age: Appage,
+                        Zodiac: AppZodiac,
+                        sBirth: AppsBirth,
+                        Cost: "0",
+                        Email: AppEmail,
+                        ZipCode: AppzipCode,
+                        County: Appcounty,
+                        Dist: Appdist,
+                        Addr: Appaddr,
+                        Sendback: "Y",
+                        ReceiptName: AppName,
+                        ReceiptMobile: AppMobile,
+                        Status: 0,
+                        AdminID: AdminID,
+                        PostURL: postURL,
+                        Year: Year);
+
                     bool suppliesinfo = false;
 
                     if (ApplicantID > 0)
@@ -231,13 +253,35 @@ namespace twbobibobi.Temples
 
                             birthMonth = CheckedDateZero(birthMonth, 1);
 
+                            int cost = GetSuppliesCost(14, suppliesType);
+
                             if (name != "")
                             {
                                 suppliesinfo = true;
-                                SuppliesID = objLightDAC.addSupplies3_ty(ApplicantID, name, mobile, sex, suppliesType, suppliesString, oversea, Birth, leapMonth, birthTime, birthMonth,
-                                    age, Zodiac, sBirth, 1, remark, addr, county, dist, zipCode, Year);
+                                SuppliesID = objLightDAC.Addsupplies3_ty(
+                                    ApplicantID: ApplicantID,
+                                    Name: name,
+                                    Mobile: mobile,
+                                    Cost: cost,
+                                    Sex: "善男",
+                                    SuppliesType: suppliesType,
+                                    SuppliesString: suppliesString,
+                                    Oversea: oversea,
+                                    Birth: Birth,
+                                    LeapMonth: leapMonth,
+                                    BirthTime: birthTime,
+                                    BirthMonth: birthMonth,
+                                    Age: age,
+                                    Zodiac: Zodiac,
+                                    sBirth: sBirth,
+                                    Count: 1,
+                                    Remark: remark,
+                                    Addr: addr,
+                                    County: county,
+                                    Dist: dist,
+                                    ZipCode: zipCode,
+                                    Year: Year);
                             }
-
                         }
                     }
 
@@ -265,7 +309,7 @@ namespace twbobibobi.Temples
 
                 string AdminID = basePage.Request["a"];
 
-                dtData = objLightDAC.Getsupplies3_ty_info(applicantID, Year);
+                dtData = objLightDAC.Getsupplies3_ty_Info(applicantID, Year);
 
                 if (dtData.Rows.Count > 0)
                 {

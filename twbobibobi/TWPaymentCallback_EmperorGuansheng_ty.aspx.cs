@@ -1,15 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using System.Web.UI;
-using System.Web.UI.WebControls;
-using System.Data;
-using BCFBaseLibrary.Web;
+﻿using BCFBaseLibrary.Security;
 using Read.data;
-using BCFBaseLibrary.Security;
+using System;
 using System.Collections;
+using System.Collections.Generic;
+using System.Data;
 using Temple.data;
+using TempleAdmin.Helper;
+using twbobibobi.Data;
+using twbobibobi.Helpers;
+using twbobibobi.Model;
+using twbobibobi.Services;
 
 namespace Temple
 {
@@ -21,155 +21,387 @@ namespace Temple
             DateTime dtNow = TimeZoneInfo.ConvertTime(DateTime.Now, info);
             if (Request["uid"] != null && Request["oid"] != null && Request["tid"] != null && Request["mac"] != null)
             {
-                string Year = dtNow.Year.ToString();
-                string uid = "Temple";
-                //string Sid = "Temple-LightUp";
-                string tid = Request["tid"];
-                string oid = Request["oid"];
-                string ValidationKey = "Ov7BmaT5l1C89t5FNj0cEsR";
-                string Timestamp = dtNow.ToString("yyyyMMddHHmmssfff");
-
-                string m1 = Request["m1"];
-                string m2 = Request["m2"];
-
-                string mac = MD5.Encode(uid + tid + oid + Timestamp + ValidationKey).Replace("-", "");
-
-                string[] EmperorGuanshenglist = new string[0];
-
-                //mac = MD5.Encode(uid + tid + Timestamp + ValidationKey).Replace("-", "");
-                string url = "https://paygate.tw/xpay/committrans?uid=" + uid + "&tid=" + tid + "&oid=" + oid + "&timestamp=" + Timestamp + "&mac=" + mac;
-
-                string resp = "";
-                if (!BCFBaseLibrary.Net.HTTPClient.Get(url, string.Empty, ref resp))
+                try
                 {
-                    //resp = "交易網址連結失敗";
-                    SaveErrorLog(resp + ", 取得API錯誤。");
-                }
+                    string uid = "Temple";
+                    string tid = Request["tid"];
+                    string oid = Request["oid"];
+                    string ValidationKey = "Ov7BmaT5l1C89t5FNj0cEsR";
+                    string Timestamp = dtNow.ToString("yyyyMMddHHmmssfff");
 
-                if (Request["ad"] != null)
-                {
-                    resp = "1|18062216041218500003|100|TELEPAY|twm|0934315020|20180622160559423|F6C5E389052469CC441A402A3F0D0C9F";
-                }
-                //resp = "1|18062216041218500003|100|TELEPAY|twm|0918101710|20180622160559423|F6C5E389052469CC441A402A3F0D0C9F";
-                string orderId = oid;
-                string CallbackLog = tid + "," + resp;
-                DatabaseHelper objDatabaseHelper = new DatabaseHelper(this);
-                int aid = int.Parse(m1);
-                int status = 999;
-                int adminID = objDatabaseHelper.GetAdminID_EmperorGuansheng_ty(aid, Year);
+                    string Year = dtNow.Year.ToString();
 
-                DataTable dtCharge = objDatabaseHelper.GetChargeLog_EmperorGuansheng_ty(orderId, Year);
+                    string m1 = Request["m1"];
+                    string m2 = Request["m2"];
 
-                if (dtCharge.Rows.Count > 0)
-                {
-                    string rebackURL = "https://bobibobi.tw/Temples/templeService_EmperorGuansheng_ty.aspx";
+                    string mac = MD5.Encode(uid + tid + oid + Timestamp + ValidationKey).Replace("-", "");
 
-                    if (dtCharge.Rows[0]["PayChannelLog"].ToString().IndexOf("bobi") > 0)
+                    string[] emperorguanshenglist = new string[0];
+                    string[] EmperorGuanshenglist = new string[0];
+
+                    string url = "https://paygate.tw/xpay/committrans?uid=" + uid + "&tid=" + tid + "&oid=" + oid + "&timestamp=" + Timestamp + "&mac=" + mac;
+
+                    string resp = "";
+                    if (!BCFBaseLibrary.Net.HTTPClient.Get(url, string.Empty, ref resp))
                     {
-                        rebackURL = "https://bobibobi.tw/Temples/templeService_EmperorGuansheng_bobi_ty.aspx";
+                        //resp = "交易網址連結失敗";
+                        SaveErrorLog(resp + ", CommitTransAPI 錯誤!");
                     }
 
-                    if (dtCharge.Rows[0]["ChargeType"].ToString() == "Twm")
-                    {
-                        rebackURL = rebackURL.IndexOf("?") > 0 ? rebackURL + "&twm=1" : rebackURL + "?twm=1";
-                    }
+                    //if (Request["ad"] != null)
+                    //{
+                    //    resp = "1|18062216041218500003|100|TELEPAY|twm|0934315020|20180622160559423|F6C5E389052469CC441A402A3F0D0C9F";
+                    //}
 
-                    int cost = 0;
-                    int.TryParse(dtCharge.Rows[0]["Amount"].ToString(), out cost);
-                    int.TryParse(dtCharge.Rows[0]["Status"].ToString(), out status);
-                    if (status == 0)
+                    string orderId = oid;
+                    string CallbackLog = tid + "," + resp;
+                    LightDAC objLightDAC = new LightDAC(this);
+                    int aid = int.Parse(m1);
+                    int status = 999;
+                    string kind = "9";
+                    int adminID = 14;
+                    Session.Remove("PaymentAuthKey"); // ✅ 看完一次就失效
+                    Session["PaymentAuthKey"] = "?kind=" + kind + "&a=14&aid=" + aid;
+
+                    DataTable dtCharge = objLightDAC.GetChargeLog_EmperorGuansheng_ty(orderId, Year);
+
+                    if (dtCharge.Rows.Count > 0)
                     {
-                        string[] result = resp.Split("|".ToCharArray());
-                        if (result[0] == "1" || result[0] == "2")
+                        bool invStatus = true;
+                        if (dtCharge.Rows[0]["ChargeType"].ToString() == "Twm" || dtCharge.Rows[0]["ChargeType"].ToString() == "Cht" || dtCharge.Rows[0]["ChargeType"].ToString() == "FetCSP")
                         {
-                            string mobile = result[5];
+                            invStatus = false;
+                        }
 
-                            objDatabaseHelper.UpdateEmperorGuansheng_ty_Info(aid, Year, ref EmperorGuanshenglist);
-                            //DataTable dtapplicantinfo = objDatabaseHelper.Getapplicantinfo_EmperorGuansheng_ty(aid, adminID, Year);
-                            //int cost = dtapplicantinfo.Rows.Count > 0 ? int.Parse(dtapplicantinfo.Rows[0]["Cost"].ToString()) : 0;
-                            objDatabaseHelper.Updateapplicantinfo_EmperorGuansheng_ty(aid, cost, 2, Year); //更新購買表內購買人狀態為已付款(Status=2)
+                        string rebackURL = "https://bobibobi.tw/Temples/templeService_EmperorGuansheng_ty.aspx";
 
-                            string msg = "感謝購買,已成功付款" + cost + "元,您的訂單編號 ";
+                        if (dtCharge.Rows[0]["PayChannelLog"].ToString().IndexOf("bobi") > 0)
+                        {
+                            rebackURL = "https://bobibobi.tw/Temples/templeService_EmperorGuansheng_bobi_ty.aspx";
+                        }
 
-                            for (int i = 0; i < EmperorGuanshenglist.Length; i++)
+                        if (dtCharge.Rows[0]["ChargeType"].ToString() == "Twm")
+                        {
+                            rebackURL = rebackURL.IndexOf("?") > 0 ? rebackURL + "&twm=1" : rebackURL + "?twm=1";
+                        }
+
+                        int cost = 0;
+                        int.TryParse(dtCharge.Rows[0]["Amount"].ToString(), out cost);
+                        int.TryParse(dtCharge.Rows[0]["Status"].ToString(), out status);
+                        if (status == 0)
+                        {
+                            string[] result = resp.Split("|".ToCharArray());
+                            if (result[0] == "1" || result[0] == "2")
                             {
-                                msg += EmperorGuanshenglist[i];
-                                if (i < EmperorGuanshenglist.Length - 1)
+                                string mobile = result[5];
+
+                                string msg = "感謝購買,已成功付款" + cost + "元,您的訂單編號 ";
+
+                                //更新關帝聖君資料表並取得訂單編號
+                                objLightDAC.UpdateEmperorGuansheng_ty_Info(aid, Year, ref msg, ref emperorguanshenglist, ref EmperorGuanshenglist);
+
+                                objLightDAC.Updateapplicantinfo_EmperorGuansheng_ty(aid, cost, 2, Year); //更新購買表內購買人狀態為已付款(Status=2)
+
+                                SMSHepler objSMSHepler = new SMSHepler();
+                                string ChargeType = string.Empty;
+                                int uStatus = 0;
+
+                                //更新流水付費表資訊(付費成功)
+                                if (objLightDAC.UpdateChargeLog_EmperorGuansheng_ty(orderId, tid, msg, Request.UserHostAddress, CallbackLog, Year, ref ChargeType, ref uStatus))
                                 {
-                                    msg += ",";
+                                    if (invStatus)
+                                    {
+                                        try
+                                        {
+                                            twbobibobi.Data.BasePage _basePage = new twbobibobi.Data.BasePage();
+                                            LightDAC objALightDAC = new LightDAC(_basePage);
+                                            DataTable dtApplicantInfo = objALightDAC.GetAPPCharge_ty_EmperorGuansheng(aid, Year);
+
+                                            if (dtApplicantInfo.Rows.Count > 0)
+                                            {
+                                                DataRow invoiceRow = dtApplicantInfo.Rows[0]; // 只取代表開發票的那一筆（通常是第一筆）
+
+                                                // 宮廟名稱
+                                                int adminId = Convert.ToInt32(invoiceRow["AdminID"]);
+                                                string templeName = TempleHelper.GetTempleName(adminId, _basePage);
+
+                                                // 組發票商品項目（你可以根據多筆資料彙總計算）
+                                                List<ProductItem> items = new List<ProductItem>();
+
+                                                List<InvoiceItem> Emailitems = new List<InvoiceItem>();
+
+                                                //訂單編號
+                                                string NumString = "";
+
+                                                NumString += string.Join(",", EmperorGuanshenglist);
+
+                                                foreach (DataRow row in dtApplicantInfo.Rows)
+                                                {
+                                                    string EmperorGuanshengType = row["EmperorGuanshengType"].ToString();
+                                                    string EmperorGuanshengString = row["EmperorGuanshengString"].ToString();
+                                                    string description = $"線上服務費({templeName}-{EmperorGuanshengString})";
+                                                    int count = int.TryParse(row["Count"].ToString(), out int tmp) ? tmp : 1;
+                                                    string unit = InvoiceHelper.GetUnitByKind(int.Parse(kind));
+
+                                                    int quantity = count;
+
+                                                    // 保證至少有數量
+                                                    if (quantity <= 0) quantity = 1;
+
+                                                    // 取單價
+                                                    int price = InvoiceHelper.GetUnitPrice(adminId, int.Parse(kind), EmperorGuanshengType);
+
+                                                    // 驗證：單筆金額
+                                                    decimal calcAmount = quantity * price;
+                                                    decimal rowCost = Convert.ToDecimal(row["Cost"]);
+
+                                                    if (calcAmount != rowCost)
+                                                    {
+                                                        string errormsg = $"❌ 金額不符，OrderID={row["OrderID"]}, Kind={kind}, Service={EmperorGuanshengString}, " +
+                                                                     $"數量={quantity}, 單價={price}, 計算金額={calcAmount}, DB金額={rowCost}";
+                                                        InvoiceHelper.SaveErrorLog(errormsg);
+                                                    }
+
+                                                    items.Add(new ProductItem
+                                                    {
+                                                        Description = description,
+                                                        Quantity = quantity,
+                                                        Unit = unit,
+                                                        UnitPrice = price,
+                                                        Amount = calcAmount,
+                                                        TaxType = 1
+                                                    });
+
+                                                    Emailitems.Add(new InvoiceItem
+                                                    {
+                                                        Description = "線上服務費",
+                                                        ProductName = $"{templeName}-{EmperorGuanshengString}",
+                                                        Quantity = quantity,
+                                                        UnitPrice = calcAmount,
+                                                        Taxable = true
+                                                    });
+                                                }
+
+                                                // 載具欄位
+                                                string carrierId = invoiceRow["CarrierCode"]?.ToString() ?? "";
+                                                string carrierType = string.IsNullOrEmpty(carrierId) ? "" : "3J0002";
+
+                                                // 處理購買人聯絡資訊 fallback
+                                                string buyerName = !string.IsNullOrEmpty(invoiceRow["AppName"]?.ToString())
+                                                    ? invoiceRow["AppName"].ToString()
+                                                    : (!string.IsNullOrEmpty(invoiceRow["Name"]?.ToString())
+                                                        ? invoiceRow["Name"].ToString()
+                                                        : "");
+
+                                                string buyerMobile = !string.IsNullOrEmpty(invoiceRow["AppMobile"]?.ToString())
+                                                    ? invoiceRow["AppMobile"].ToString()
+                                                    : (!string.IsNullOrEmpty(invoiceRow["Mobile"]?.ToString())
+                                                        ? invoiceRow["Mobile"].ToString()
+                                                        : "");
+
+                                                string buyerEmail = !string.IsNullOrEmpty(invoiceRow["AppEmail"]?.ToString())
+                                                    ? invoiceRow["AppEmail"].ToString()
+                                                    : (!string.IsNullOrEmpty(invoiceRow["Email"]?.ToString())
+                                                        ? invoiceRow["Email"].ToString()
+                                                        : "");
+
+                                                // 組發票輸入資料
+                                                var input = new InvoiceWrapperInput
+                                                {
+                                                    OrderId = orderId,
+                                                    Scenario = InvoiceProcessor.GetScenario(invoiceRow["InvoiceType"].ToString()),
+                                                    Items = items,
+                                                    BuyerIdentifier = invoiceRow["BuyerIdentifier"]?.ToString() ?? "0000000000",
+                                                    BuyerName = string.IsNullOrEmpty(invoiceRow["BuyerName"]?.ToString()) ? buyerName : invoiceRow["BuyerName"].ToString(),
+                                                    BuyerAddress = "",
+                                                    BuyerTelephoneNumber = buyerMobile,
+                                                    BuyerEmailAddress = buyerEmail,
+                                                    MainRemark = "",
+                                                    CarrierType = carrierType,
+                                                    CarrierId = carrierId,
+                                                    NPOBAN = ""
+                                                };
+
+                                                // 呼叫共用發票處理器
+                                                var rs = InvoiceProcessor.ProcessInvoice(input);
+
+                                                if (rs.Success)
+                                                {
+                                                    // 成功：準備寫入 InvoiceDetail
+                                                    // ✅ 成功：可以從 result 中取出你要寫入 DB 的資料
+                                                    string invoiceNo = rs.InvoiceNumber;
+                                                    string barcode = rs.Barcode;
+                                                    string random = rs.RandomNumber;
+                                                    string qrcode1 = rs.QrCodeLeft;
+                                                    string qrcode2 = rs.QrCodeRight;
+                                                    string rawJson = rs.RawJson;
+
+                                                    string YearROC = (dtNow.Year - 1911).ToString("000");
+                                                    string Month = dtNow.Month.ToString("00"); ;
+                                                    string Date = dtNow.ToString("yyyy-MM-dd");
+                                                    string Time = dtNow.ToString("HH:mm:ss");
+
+                                                    if (objLightDAC.UpdateInvoiceDetail(aid, adminId, 9, invoiceNo, rawJson, "1", Year))
+                                                    {
+                                                        if (InvoiceEmailSender.Send(rs, Emailitems, buyerEmail, buyerName, invoiceRow["BuyerIdentifier"]?.ToString() ?? "0000000000", NumString, cost, dtNow, YearROC, Month, Date, Time))
+                                                        {
+                                                            if (objSMSHepler.SendMsg_SL(mobile, msg))
+                                                            {
+                                                                m2 = "https://bobibobi.tw/Temples/templeComplete.aspx?kind=" + kind +
+                                                                    "&a=" + adminID +
+                                                                    "&aid=" + aid +
+                                                                    (ChargeType == "Cht" ? "&cht=1" : "") +
+                                                                    (ChargeType == "Twm" ? "&twm=1" : "");
+
+                                                                Response.Redirect(m2, false);
+                                                                Context.ApplicationInstance.CompleteRequest();
+                                                                invStatus = false;
+                                                            }
+                                                            else
+                                                            {
+                                                                // ❌ 傳送簡訊失敗，記錄錯誤
+                                                                SaveErrorLog("TWPaymentCallback_EmperorGuansheng_ty" + $"傳送簡訊失敗");
+                                                                Response.Write("<script>alert('傳送簡訊失敗。請聯繫管理員。客服電話：04-36092299。');window.location.href='" + rebackURL + "'</script>");
+                                                            }
+                                                        }
+                                                        else
+                                                        {
+                                                            // ❌ 寄送EMAIL失敗，記錄錯誤
+                                                            SaveErrorLog("TWPaymentCallback_EmperorGuansheng_ty" + $"寄送EMAIL失敗");
+                                                        }
+                                                    }
+                                                    else
+                                                    {
+                                                        // ❌ 發票失敗，記錄錯誤
+                                                        SaveErrorLog("TWPaymentCallback_EmperorGuansheng_ty" + $"更新發票失敗 AdminID: {adminId}" + new Exception(rs.ErrorMessage));
+                                                    }
+                                                }
+                                                else
+                                                {
+                                                    // ❌ 發票開立失敗 → 只寫 Log，不影響訂單流程
+                                                    SaveErrorLog("TWPaymentCallback_EmperorGuansheng_ty 開立發票失敗 AdminID="
+                                                                 + adminId + ", OrderID=" + orderId + ", Error=" + rs.ErrorMessage);
+                                                }
+                                            }
+                                            else
+                                            {
+                                                // ❌ 個別筆數處理例外錯誤
+                                                SaveErrorLog("TWPaymentCallback_EmperorGuansheng_ty" + $"開立發票處理例外, 取得訂單錯誤。");
+                                            }
+
+                                        }
+                                        catch (Exception ex)
+                                        {
+                                            // ❌ 個別筆數處理例外錯誤
+                                            SaveErrorLog("TWPaymentCallback_EmperorGuansheng_ty" + $"開立發票處理例外 ex: " + ex.InnerException.Message);
+                                        }
+
+                                        if (invStatus)
+                                        {
+                                            if (objSMSHepler.SendMsg_SL(mobile, msg))
+                                            {
+                                                m2 = "https://bobibobi.tw/Temples/templeComplete.aspx?kind=" + kind +
+                                                    "&a=" + adminID +
+                                                    "&aid=" + aid +
+                                                    (ChargeType == "Cht" ? "&cht=1" : "") +
+                                                    (ChargeType == "Twm" ? "&twm=1" : "");
+
+                                                Response.Redirect(m2, false);
+                                                Context.ApplicationInstance.CompleteRequest();
+                                            }
+                                            else
+                                            {
+                                                // ❌ 傳送簡訊失敗，記錄錯誤
+                                                SaveErrorLog("TWPaymentCallback_EmperorGuansheng_ty" + $"傳送簡訊失敗");
+                                                Response.Write("<script>alert('傳送簡訊失敗。請聯繫管理員。客服電話：04-36092299。');window.location.href='" + rebackURL + "'</script>");
+                                            }
+                                        }
+                                    }
+                                    else
+                                    {
+                                        if (objSMSHepler.SendMsg_SL(mobile, msg))
+                                        {
+                                            m2 = "https://bobibobi.tw/Temples/templeComplete.aspx?kind=" + kind +
+                                                "&a=" + adminID +
+                                                "&aid=" + aid +
+                                                (ChargeType == "Cht" ? "&cht=1" : "") +
+                                                (ChargeType == "Twm" ? "&twm=1" : "");
+
+                                            Response.Redirect(m2, false);
+                                            Context.ApplicationInstance.CompleteRequest();
+                                        }
+                                        else
+                                        {
+                                            // ❌ 傳送簡訊失敗，記錄錯誤
+                                            SaveErrorLog("TWPaymentCallback_EmperorGuansheng_ty" + $"傳送簡訊失敗");
+                                            Response.Write("<script>alert('傳送簡訊失敗。請聯繫管理員。客服電話：04-36092299。');window.location.href='" + rebackURL + "'</script>");
+                                        }
+                                    }
+                                }
+                                else
+                                {
+                                    // ❌ 更新流水付費表資訊失敗，記錄錯誤
+                                    SaveErrorLog("TWPaymentCallback_EmperorGuansheng_ty" + $"更新流水付費表資訊失敗");
+                                    Response.Write("<script>alert('付款過程失敗。請聯繫管理員。客服電話：04-36092299。');window.location.href='" + rebackURL + "'</script>");
                                 }
                             }
-
-                            msg += "。客服電話：04-36092299。";
-
-
-                            //msg = "感謝大德參與線上點燈,茲收您1960元功德金,訂單編號 光明燈:T2204, 安太歲:25351, 文昌燈:六1214。";
-                            //mobile = "0903002568";
-
-                            SMSHepler objSMSHepler = new SMSHepler();
-                            string ChargeType = string.Empty;
-
-                            //更新流水付費表資訊(付費成功)
-                            if (objDatabaseHelper.UpdateChargeLog_EmperorGuansheng_ty(orderId, tid, msg, Request.UserHostAddress, CallbackLog, Year, ref ChargeType))
+                            else if (result[0] == "4")
                             {
-                                if (objSMSHepler.SendMsg_SL(mobile, msg))
+                                if (objLightDAC.UpdateChargeStatus_EmperorGuansheng_ty(orderId, -2, Request.UserHostAddress, CallbackLog, Year))
                                 {
-                                    //m2 = m2.IndexOf("aid=") > 0 ? m2 : (m2.IndexOf("?") > 0 ? m2 + "&aid=" + m1 : m2 + "?aid=" + m1 + "&a=" + adminID);
-                                    m2 = "https://bobibobi.tw/Temples/templeComplete.aspx?a=" + adminID + "&aid=" + aid + "&kind=9" + (dtCharge.Rows[0]["ChargeType"].ToString() == "Twm" ? "&twm=1" : "");
+                                    // ❌ 此用戶已退款，記錄錯誤
+                                    SaveErrorLog("TWPaymentCallback_EmperorGuansheng_ty" + $"此用戶已退款");
+                                    Response.Write("<script>alert('此用戶已退款。');window.location.href='" + rebackURL + "'</script>");
+                                }
+                            }
+                            else
+                            {
+                                objLightDAC.UpdateChargeStatus_EmperorGuansheng_ty(orderId, -1, Request.UserHostAddress, CallbackLog, Year);
+
+                                if (m2.IndexOf("APPPaymentResult") > 0)
+                                {
                                     Response.Redirect(m2, true);
                                 }
                                 else
                                 {
-                                    Response.Write("<script>alert('傳送簡訊失敗。請聯繫管理員。客服電話：04-36092299。');window.location.href='" + rebackURL + "'</script>");
+                                    // ❌ 付款失敗，記錄錯誤
+                                    SaveErrorLog("TWPaymentCallback_EmperorGuansheng_ty" + $"付款失敗。錯誤代碼：" + result[0]);
+                                    Response.Write("<script>alert('付款失敗。錯誤代碼：" + result[0] + "，請聯繫管理員。');window.location.href='" + rebackURL + "'</script>");
                                 }
                             }
-                            else
-                            {
-                                Response.Write("<script>alert('付款過程失敗。請聯繫管理員。錯誤代碼：109');window.location.href='" + rebackURL + "'</script>");
-                            }
                         }
-                        else if (result[0] == "4")
+                        else if (status == 1)
                         {
-                            if (objDatabaseHelper.UpdateChargeStatus_EmperorGuansheng_ty(orderId, -2, Request.UserHostAddress, CallbackLog, Year))
-                            {
-                                Response.Write("<script>alert('此用戶已退款。');window.location.href='" + rebackURL + "'</script>");
-                            }
+                            //已經付費成功。
+                            m2 = "https://bobibobi.tw/Temples/templeComplete.aspx?kind=" + kind + "&a=" + adminID + "&aid=" + aid + (dtCharge.Rows[0]["ChargeType"].ToString() == "Twm" ? "&twm=1" : "");
+                            Response.Redirect(m2, true);
+                        }
+                        else if (status == -2)
+                        {
+                            // ❌ 此用戶已退款，記錄錯誤
+                            SaveErrorLog("TWPaymentCallback_EmperorGuansheng_ty" + $"此用戶已退款");
+                            Response.Write("<script>alert('此用戶已退款。');window.location.href='https://bobibobi.tw/Temples/templeInfo.aspx?a=14'</script>");
                         }
                         else
                         {
-                            objDatabaseHelper.UpdateChargeStatus_EmperorGuansheng_ty(orderId, -1, Request.UserHostAddress, CallbackLog, Year);
-                            //objDatabaseHelper.UpdateChargeErrLog_EmperorGuansheng_ty(orderId, "", Request.UserHostAddress, CallbackLog, Year);
-
-                            if (m2.IndexOf("APPPaymentResult") > 0)
-                            {
-                                Response.Redirect(m2, true);
-                            }
-                            else
-                            {
-                                Response.Write("<script>alert('付款失敗。錯誤代碼：" + result[0] + "，請聯繫管理員。');window.location.href='" + rebackURL + "'</script>");
-                            }
-
-                            //Response.Redirect(m2, true);
+                            SaveErrorLog(resp + ", 此訂單已交易失敗!");
+                            Response.Write("<script>alert('此訂單已交易失敗，交易代碼：" + resp + "如有疑問。請洽客服電話：04-36092299。');window.location.href='https://bobibobi.tw/Temples/templeInfo.aspx?a=" + adminID + "'</script>");
                         }
-                    }
-                    else if (status == 1)
-                    {
-                        //已經付費成功。
-                        m2 = "https://bobibobi.tw/Temples/templeComplete.aspx?kind=9&a=" + adminID + "&aid=" + aid + (dtCharge.Rows[0]["ChargeType"].ToString() == "Twm" ? "&twm=1" : "");
-                        Response.Redirect(m2, true);
                     }
                     else
                     {
-                        Response.Write("<script>alert('此訂單已交易失敗，交易代碼：" + resp + "如有疑問。請洽客服電話：04-36092299。');window.location.href='https://bobibobi.tw/Temples/templeInfo.aspx?a=" + adminID + "'</script>");
+                        SaveErrorLog(resp + ", 取得付款資料失敗!");
+                        Response.Write("<script>alert('取得付款資料失敗，錯誤代碼：" + resp + "。客服電話：04-36092299。');window.location.href='https://bobibobi.tw/Temples/templeInfo.aspx?a=" + adminID + "'</script>");
                     }
                 }
-                else
+                catch (System.Threading.ThreadAbortException)
                 {
-                    //resp = "invalid_orderid";
-                    Response.Write("<script>alert('取得付款資料失敗，錯誤代碼：" + resp + "。客服電話：04-36092299。');window.location.href='https://bobibobi.tw/Temples/templeInfo.aspx?a=" + adminID + "'</script>");
+                    //忽略
                 }
-
-                //Response.Write(resp);
+                catch (Exception ex)
+                {
+                    SaveErrorLog(ex.InnerException.Message + ", 不知道哪裡錯誤!");
+                }
             }
             else
             {

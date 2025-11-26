@@ -1,15 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using System.Web.UI;
-using System.Web.UI.WebControls;
-using System.Data;
-using BCFBaseLibrary.Web;
+﻿using BCFBaseLibrary.Security;
 using Read.data;
-using BCFBaseLibrary.Security;
+using System;
 using System.Collections;
+using System.Collections.Generic;
+using System.Data;
 using Temple.data;
+using TempleAdmin.Helper;
+using twbobibobi.Data;
+using twbobibobi.Helpers;
+using twbobibobi.Model;
+using twbobibobi.Services;
 
 namespace Temple.FET.Supplies
 {
@@ -37,6 +37,7 @@ namespace Temple.FET.Supplies
 
                 string mac = MD5.Encode(uid + tid + oid + Timestamp + ValidationKey).Replace("-", "");
 
+                string[] suplieslist = new string[0];
                 string[] Supplieslist = new string[0];
 
                 //mac = MD5.Encode(uid + tid + Timestamp + ValidationKey).Replace("-", "");
@@ -55,9 +56,9 @@ namespace Temple.FET.Supplies
                 //resp = "1|18062216041218500003|100|TELEPAY|twm|0934315020|20180622160559423|F6C5E389052469CC441A402A3F0D0C9F";
                 string orderId = oid;
                 string CallbackLog = tid + "," + resp;
-                DatabaseHelper objDatabaseHelper = new DatabaseHelper(this);
+                LightDAC objLightDAC = new LightDAC(this);
 
-                DataTable dtCharge = objDatabaseHelper.GetChargeLog_Supplies_wu3(orderId, Year);
+                DataTable dtCharge = objLightDAC.GetChargeLog_Supplies_wu3(orderId, Year);
 
                 if (dtCharge.Rows.Count > 0)
                 {
@@ -70,36 +71,27 @@ namespace Temple.FET.Supplies
 
                             int aid = int.Parse(m1);
 
-                            int adminID = objDatabaseHelper.GetAdminID_Supplies_wu3(aid, Year);
+                            int adminID = 6;
 
+                            string msg = string.Empty;
 
-                            objDatabaseHelper.UpdateSupplies_wu_Info3(aid, Year, ref Supplieslist);
-                            DataTable dtapplicantinfo = objDatabaseHelper.Getapplicantinfo_Supplies_wu3(aid, adminID, Year);
-                            int cost = int.Parse(dtapplicantinfo.Rows[0]["Cost"].ToString());
-                            objDatabaseHelper.Updateapplicantinfo_Supplies_wu3(aid, cost, 2, Year); //更新購買表內購買人狀態為已付款(Status=2)
+                            int cost = 0;
+                            int.TryParse(dtCharge.Rows[0]["Amount"].ToString(), out cost);
 
-                            string msg = "感謝購買,已成功付款" + dtapplicantinfo.Rows[0]["Cost"].ToString() + "元,您的訂單編號 ";
+                            objLightDAC.UpdateSupplies_wu_Info3(aid, Year, ref msg, ref suplieslist, ref Supplieslist);
+                            objLightDAC.Updateapplicantinfo_Supplies_wu3(aid, cost, 2, Year); //更新購買表內購買人狀態為已付款(Status=2)
 
-                            for (int i = 0; i < Supplieslist.Length; i++)
-                            {
-                                msg += Supplieslist[i];
-                                if (i < Supplieslist.Length - 1)
-                                {
-                                    msg += ",";
-                                }
-                            }
-
-                            msg += "。客服電話：04-36092299。";
-
+                            msg = "【遠傳交易成功通知】您購買遠傳祈福法會企業補財庫服務，每月交易金額1300元，購買後可至【訂單查詢】查詢交易紀錄,遠傳祝您順心平安!";
 
                             //msg = "感謝大德參與線上點燈,茲收您1960元功德金,訂單編號 光明燈:T2204, 安太歲:25351, 文昌燈:六1214。";
                             //mobile = "0903002568";
 
                             SMSHepler objSMSHepler = new SMSHepler();
                             string ChargeType = string.Empty;
+                            int uStatus = 0;
 
                             //更新流水付費表資訊(付費成功)
-                            if (objDatabaseHelper.UpdateChargeLog_Supplies_wu3(orderId, tid, msg, Request.UserHostAddress, CallbackLog, Year, ref ChargeType))
+                            if (objLightDAC.UpdateChargeLog_Supplies_wu3(orderId, tid, msg, Request.UserHostAddress, CallbackLog, Year, ref ChargeType, ref uStatus))
                             {
                                 m2 = "https://bobibobi.tw/FET/Supplies/SuppliesComplete.aspx?a=" + adminID + "&aid=" + aid + "&kind=6";
                                 //m2 = "https://localhost:44329/FET/Supplies/SuppliesComplete.aspx?a=" + adminID + "&aid=" + aid + "&kind=6";
@@ -120,15 +112,15 @@ namespace Temple.FET.Supplies
                         }
                         else if (result[0] == "4")
                         {
-                            if (objDatabaseHelper.UpdateChargeStatus_Supplies_wu3(orderId, -2, Request.UserHostAddress, CallbackLog, Year))
+                            if (objLightDAC.UpdateChargeStatus_Supplies_wu3(orderId, -2, Request.UserHostAddress, CallbackLog, Year))
                             {
                                 Response.Write("<script>alert('此用戶已退款。');window.location.href='" + rebackURL + "'</script>");
                             }
                         }
                         else
                         {
-                            objDatabaseHelper.UpdateChargeStatus_Supplies_wu3(orderId, -1, Request.UserHostAddress, CallbackLog, Year);
-                            //objDatabaseHelper.UpdateChargeErrLog_Supplies_wu3(orderId, "", Request.UserHostAddress, CallbackLog, Year);
+                            objLightDAC.UpdateChargeStatus_Supplies_wu3(orderId, -1, Request.UserHostAddress, CallbackLog, Year);
+                            //objLightDAC.UpdateChargeErrLog_Supplies_wu3(orderId, "", Request.UserHostAddress, CallbackLog, Year);
 
                             if (m2.IndexOf("APPPaymentResult") > 0)
                             {

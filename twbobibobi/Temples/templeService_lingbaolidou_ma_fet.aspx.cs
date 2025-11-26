@@ -1,4 +1,4 @@
-﻿using MotoSystem.Data;
+﻿using twbobibobi.Data;
 using Newtonsoft.Json.Linq;
 using Read.data;
 using System;
@@ -118,8 +118,26 @@ namespace twbobibobi.Temples
 
                 if (checkednum_ty)
                 {
-                    ApplicantID = objLightDAC.addapplicantinfo_Lingbaolidou_ma(AppName, AppMobile, Appemail, "0", AppzipCode, Appcounty, Appdist, Appaddr, "Y", AppName,
-                        AppMobile, 0, AdminID, postURL, Year);
+                    string AppSendback = "Y";                                                           //寄送方式 N-不寄回(會轉送給弱勢團體) Y-寄回()
+                    string Apprname = AppName;                                                          //收件人姓名
+                    string Apprmobile = AppMobile;                                                      //收件人電話
+
+                    ApplicantID = objLightDAC.Addapplicantinfo_Lingbaolidou_ma(
+                        Name: AppName,
+                        Mobile: AppMobile,
+                        Cost: "0",
+                        County: Appcounty,
+                        Dist: Appdist,
+                        Addr: Appaddr,
+                        ZipCode: AppzipCode,
+                        Sendback: AppSendback,
+                        ReceiptName: Apprname,
+                        ReceiptMobile: Apprmobile,
+                        Email: "",
+                        Status: 0,
+                        AdminID: AdminID,
+                        PostURL: postURL,
+                        Year: Year);
                     bool lingbaolidouinfo = false;
 
                     if (ApplicantID > 0)
@@ -243,11 +261,34 @@ namespace twbobibobi.Temples
 
                             birthMonth = CheckedDateZero(birthMonth, 1);
 
+                            int cost = GetLingbaolidouCost(23, lingbaolidouType);
+
                             if (name != "")
                             {
                                 lingbaolidouinfo = true;
-                                LingbaolidouID = objLightDAC.addLingbaolidou_ma(ApplicantID, name, mobile, sex, lingbaolidouType, lingbaolidouString,
-                                    "1", Birth, leapMonth, birthTime, birthMonth, age, Zodiac, sBirth, 1, addr, county, dist, zipCode, Year);
+                                LingbaolidouID = objLightDAC.AddLingbaolidou_ma(
+                                    ApplicantID: ApplicantID,
+                                    Name: name,
+                                    Mobile: mobile,
+                                    Cost: cost,
+                                    Sex: sex,
+                                    LingbaolidouType: lingbaolidouType,
+                                    LingbaolidouString: lingbaolidouString,
+                                    Oversea: "1",
+                                    Birth: Birth,
+                                    LeapMonth: leapMonth,
+                                    BirthTime: birthTime,
+                                    BirthMonth: birthMonth,
+                                    Age: age,
+                                    Zodiac: Zodiac,
+                                    sBirth: sBirth,
+                                    Count: 1,
+                                    Remark: "",
+                                    Addr: addr,
+                                    County: county,
+                                    Dist: dist,
+                                    ZipCode: zipCode,
+                                    Year: Year);
                             }
 
                         }
@@ -274,7 +315,7 @@ namespace twbobibobi.Temples
 
                 string AdminID = basePage.Request["a"];
 
-                dtData = objLightDAC.Getlingbaolidou_ma_info(applicantID, Year);
+                dtData = objLightDAC.Getlingbaolidou_ma_Info(applicantID, Year);
 
                 if (dtData.Rows.Count > 0)
                 {

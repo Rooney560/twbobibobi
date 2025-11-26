@@ -1,4 +1,4 @@
-﻿using MotoSystem.Data;
+﻿using twbobibobi.Data;
 using Newtonsoft.Json.Linq;
 using Read.data;
 using System;
@@ -113,29 +113,6 @@ namespace Temple.Temples
 
                 string postURL = GetRequestURL(url, postURL_Init);
 
-                //postURL += basePage.Request["twm"] != null ? "_TWM" : "";
-
-                //postURL += basePage.Request["cht"] != null ? "_CHT" : "";
-
-                //postURL += basePage.Request["line"] != null ? "_LINE" : "";
-
-                //postURL += basePage.Request["fb"] != null ? "_FB" : "";
-
-                //postURL += basePage.Request["fbwu"] != null ? "_FBWU" : "";
-
-                //postURL += basePage.Request["ig"] != null ? "_IG" : "";
-
-                //postURL += basePage.Request["fetssms"] != null ? "_fetSMS" : "";
-
-                //postURL += basePage.Request["jkos"] != null ? "_JKOS" : "";
-
-                //postURL += basePage.Request["gads"] != null ? "_GADS" : "";
-
-                //postURL += basePage.Request["inwu"] != null ? "_INWU" : "";
-
-                //postURL += basePage.Request["elv"] != null ? "_ELV" : "";
-
-
                 string AppSendback = "N";                                                           //寄送方式 N-不寄回(會轉送給弱勢團體) Y-寄回(加收運費120元)
                 string Apprname = "";                                                               //收件人姓名
                 string Apprmobile = "";                                                             //收件人電話
@@ -144,8 +121,22 @@ namespace Temple.Temples
                 string Apprdist = "";                                                               //收件人區域
                 string Appraddr = "";                                                               //收件人部分地址
 
-                ApplicantID = objLightDAC.addapplicantinfo_Supplies_wu2(AppName, AppMobile, "0", AppEmail, Apprcounty, Apprdist, Appraddr, ApprzipCode, AppSendback, Apprname, 
-                    Apprmobile, 0, AdminID, postURL, Add_year);
+                ApplicantID = objLightDAC.Addapplicantinfo_supplies_wu2(
+                    Name: AppName, 
+                    Mobile: AppMobile, 
+                    Cost: "0", 
+                    County: Apprcounty, 
+                    Dist: Apprdist, 
+                    Addr: Appraddr, 
+                    ZipCode: ApprzipCode, 
+                    Sendback: AppSendback, 
+                    ReceiptName: Apprname, 
+                    ReceiptMobile: Apprmobile, 
+                    Email: AppEmail,
+                    Status: 0, 
+                    AdminID: AdminID, 
+                    PostURL: postURL, 
+                    Year: Add_year);
                 bool suppliesinfo = false;
 
                 if (ApplicantID > 0)
@@ -270,11 +261,36 @@ namespace Temple.Temples
 
                         birthMonth = CheckedDateZero(birthMonth, 1);
 
+                        int cost = GetSuppliesCost(6, "2");
+
                         if (name != "")
                         {
                             suppliesinfo = true;
-                            SuppliesID = objLightDAC.addsupplies_wu2(ApplicantID, name, mobile, suppliesType, suppliesString, sex, oversea, Birth, leapMonth, birthTime,
-                                birthMonth, age, Zodiac, sBirth, homenum, email, addr, county, dist, zipCode, remark, "1", Add_year);
+                            SuppliesID = objLightDAC.Addsupplies_wu2(
+                                ApplicantID: ApplicantID, 
+                                Name: name, 
+                                Mobile: mobile, 
+                                Cost: cost,
+                                Sex: sex,
+                                SuppliesType: suppliesType, 
+                                SuppliesString: suppliesString, 
+                                Oversea: oversea, 
+                                Birth: Birth, 
+                                LeapMonth: leapMonth, 
+                                BirthTime: birthTime,
+                                BirthMonth: birthMonth, 
+                                Age: age, 
+                                Zodiac: Zodiac, 
+                                sBirth: sBirth, 
+                                Email: email,
+                                HomeNum: homenum, 
+                                Count: 1,
+                                Remark: remark,
+                                Addr: addr, 
+                                County: county, 
+                                Dist: dist, 
+                                ZipCode: zipCode, 
+                                Year: Add_year);
                         }
 
                     }
@@ -304,7 +320,7 @@ namespace Temple.Temples
 
                 string AdminID = basePage.Request["a"];
 
-                dtData = objLightDAC.Getsupplies_wu_info2(applicantID, Add_year);
+                dtData = objLightDAC.Getsupplies_wu_Info2(applicantID, Add_year);
 
                 if (dtData.Rows.Count > 0)
                 {

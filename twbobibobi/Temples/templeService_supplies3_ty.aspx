@@ -306,7 +306,7 @@
                                 <input type="checkbox" class="checkedbox" id="checkedprivate" />
                                 <label for="checkedprivate">本人同意
                                     <a href="PrivacyPolicy.aspx" target="_blank">隱私權政策</a>
-                                    並已取得當事人同意，為「保必保庇線上宮廟服務平台」之所有交易行為，新薪網元得基於
+                                    並已取得當事人同意，為「保必保庇線上宮廟服務平台」之所有交易行為，九九商通得基於
                                     <a href="PrivacyPolicy.aspx" target="_blank">隱私權政策</a>
                                     蒐集、處理及利用本人所提供之資料，並提供予合作廠商及服務宮廟。</label>
                             </div>

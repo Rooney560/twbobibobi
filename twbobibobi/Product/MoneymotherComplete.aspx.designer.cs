@@ -60,6 +60,51 @@ namespace twbobibobi.Product
         protected global::System.Web.UI.HtmlControls.HtmlGenericControl OrderItemG;
 
         /// <summary>
+        /// OrderItemH 控制項。
+        /// </summary>
+        /// <remarks>
+        /// 自動產生的欄位。
+        /// 若要修改，請將欄位宣告從設計工具檔案移到程式碼後置檔案。
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl OrderItemH;
+
+        /// <summary>
+        /// OrderItemI 控制項。
+        /// </summary>
+        /// <remarks>
+        /// 自動產生的欄位。
+        /// 若要修改，請將欄位宣告從設計工具檔案移到程式碼後置檔案。
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl OrderItemI;
+
+        /// <summary>
+        /// OrderItemJ 控制項。
+        /// </summary>
+        /// <remarks>
+        /// 自動產生的欄位。
+        /// 若要修改，請將欄位宣告從設計工具檔案移到程式碼後置檔案。
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl OrderItemJ;
+
+        /// <summary>
+        /// orderCompany 控制項。
+        /// </summary>
+        /// <remarks>
+        /// 自動產生的欄位。
+        /// 若要修改，請將欄位宣告從設計工具檔案移到程式碼後置檔案。
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl orderCompany;
+
+        /// <summary>
+        /// orderCCode 控制項。
+        /// </summary>
+        /// <remarks>
+        /// 自動產生的欄位。
+        /// 若要修改，請將欄位宣告從設計工具檔案移到程式碼後置檔案。
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl orderCCode;
+
+        /// <summary>
         /// SocialMedia 控制項。
         /// </summary>
         /// <remarks>

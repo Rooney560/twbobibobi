@@ -1,4 +1,4 @@
-﻿using MotoSystem.Data;
+﻿using twbobibobi.Data;
 using Newtonsoft.Json.Linq;
 using Read.data;
 using System;
@@ -14,19 +14,29 @@ using Temple.data;
 
 namespace twbobibobi.Temples
 {
+    /// <summary>
+    /// 
+    /// </summary>
     public partial class templeService_lybc_dh : AjaxBasePage
     {
         public int aid = 0;
         public int a = 0;
-        public string EndDate = "2024/12/15 23:59";
-        protected static string Year = "2024";
+        protected static string Year = "2025";
 
+        /// <summary>
+        /// 
+        /// </summary>
         protected override void InitAjaxHandler()
         {
             AddAjaxHandler(typeof(AjaxPageHandler), "gotochecked");
             AddAjaxHandler(typeof(AjaxPageHandler), "editinfo");
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         protected void Page_Load(object sender, EventArgs e)
         {
             if (!IsPostBack)
@@ -46,43 +56,44 @@ namespace twbobibobi.Temples
                 this.lybc4.Visible = false;
                 this.lybc5.Visible = false;
                 this.lybc6.Visible = false;
-
-                //if (Request["twm"] != null)
-                //{
-                //    Response.Write("<script>alert('訪問網址錯誤。');window.location.href='https://bobibobi.tw/Temples/templeService_lybc_dh.aspx'</script>");
-                //}
             }
         }
+
+        /// <summary>
+        /// 
+        /// </summary>
         public class AjaxPageHandler
         {
             public int ApplicantID = 0;
             public int LybcID = 0;
 
+            //
             public void gotochecked(BasePage basePage)
             {
                 basePage.mJSonHelper.AddContent("StatusCode", 0);
 
                 LightDAC objLightDAC = new LightDAC(basePage);
                 string AdminID = "16";
-                string AppName = basePage.Request["Appname"];                                               //購買人姓名
-                string AppMobile = basePage.Request["Appmobile"];                                           //購買人電話
+                string AppName = basePage.Request["Appname"];                                       //購買人姓名
+                string AppMobile = basePage.Request["Appmobile"];                                   //購買人電話
+                string AppEmail = basePage.Request["AppEmail"];                                     //購買人信箱
 
-                string name_Tag = basePage.Request["name_Tag"];                                             //祈福人姓名
-                string mobile_Tag = basePage.Request["mobile_Tag"];                                         //祈福人電話
-                string sex_Tag = basePage.Request["sex_Tag"];                                               //祈福人性別
-                string birth_Tag = basePage.Request["birth_Tag"];                                           //祈福人農歷生日
-                string leapMonth_Tag = basePage.Request["leapMonth_Tag"];                                   //閏月 Y-是 N-否
-                string birthtime_Tag = basePage.Request["birthtime_Tag"];                                   //祈福人農曆時辰
-                string sbirth_Tag = basePage.Request["sbirth_Tag"];                                         //祈福人國曆生日
-                string email_Tag = basePage.Request["email_Tag"];                                           //祈福人信箱
-                string zipCode_Tag = basePage.Request["zipCode_Tag"];                                       //祈福人郵遞區號
-                string county_Tag = basePage.Request["county_Tag"];                                         //祈福人縣市
-                string dist_Tag = basePage.Request["dist_Tag"];                                             //祈福人區域
-                string addr_Tag = basePage.Request["addr_Tag"];                                             //祈福人部分地址
-                string LybcType_Tag = basePage.Request["LybcType_Tag"];                                     //服務項目
-                string remark_Tag = basePage.Request["remark_Tag"];                                         //備註
+                string name_Tag = basePage.Request["name_Tag"];                                     //祈福人姓名
+                string mobile_Tag = basePage.Request["mobile_Tag"];                                 //祈福人電話
+                string sex_Tag = basePage.Request["sex_Tag"];                                       //祈福人性別
+                string birth_Tag = basePage.Request["birth_Tag"];                                   //祈福人農歷生日
+                string leapMonth_Tag = basePage.Request["leapMonth_Tag"];                           //閏月 Y-是 N-否
+                string birthtime_Tag = basePage.Request["birthtime_Tag"];                           //祈福人農曆時辰
+                string sbirth_Tag = basePage.Request["sbirth_Tag"];                                 //祈福人國曆生日
+                string oversea_Tag = basePage.Request["oversea_Tag"];                               //國內-1 國外-2
+                string zipCode_Tag = basePage.Request["zipCode_Tag"];                               //祈福人郵遞區號
+                string county_Tag = basePage.Request["county_Tag"];                                 //祈福人縣市
+                string dist_Tag = basePage.Request["dist_Tag"];                                     //祈福人區域
+                string addr_Tag = basePage.Request["addr_Tag"];                                     //祈福人部分地址
+                string remark_Tag = basePage.Request["remark_Tag"];                                 //備註
+                string LybcType_Tag = basePage.Request["LybcType_Tag"];                             //服務項目
 
-                int listcount = int.Parse(basePage.Request["listcount"]);                                   //祈福人數量
+                int listcount = int.Parse(basePage.Request["listcount"]);                           //祈福人數量
 
 
                 JArray Jname = JArray.Parse(name_Tag);
@@ -92,43 +103,48 @@ namespace twbobibobi.Temples
                 JArray JleapMonth = JArray.Parse(leapMonth_Tag);
                 JArray Jbirthtime = JArray.Parse(birthtime_Tag);
                 JArray Jsbirth = JArray.Parse(sbirth_Tag);
+                JArray Joversea = JArray.Parse(oversea_Tag);
                 JArray JzipCode = JArray.Parse(zipCode_Tag);
                 JArray Jcounty = JArray.Parse(county_Tag);
                 JArray Jdist = JArray.Parse(dist_Tag);
                 JArray Jaddr = JArray.Parse(addr_Tag);
+                JArray Jremark = JArray.Parse(remark_Tag);
                 JArray JLybcType_Tag = JArray.Parse(LybcType_Tag);
 
-                JArray Jemail = new JArray();
-                JArray Jremark = new JArray();
+                string postURL_Init = "Lybc_dh_Index";
 
-                nullChecked(email_Tag, ref Jemail);
-                nullChecked(remark_Tag, ref Jremark);
+                string url = HttpContext.Current.Request.Url.AbsoluteUri;
 
-                string postURL = "Lybc_dh_Index";
-
-                postURL += basePage.Request["twm"] != null ? "_TWM" : "";
-
-                postURL += basePage.Request["cht"] != null ? "_CHT" : "";
-
-                postURL += basePage.Request["line"] != null ? "_LINE" : "";
-
-                postURL += basePage.Request["fb"] != null ? "_FB" : "";
-
-                postURL += basePage.Request["ig"] != null ? "_IG" : "";
-
-                postURL += basePage.Request["fbda"] != null ? "_FBDA" : "";
-
-                postURL += basePage.Request["fetsms"] != null ? "_fetSMS" : "";
-
-                postURL += basePage.Request["jkos"] != null ? "_JKOS" : "";
-
-                postURL += basePage.Request["gads"] != null ? "_GADS" : "";
+                string postURL = GetRequestURL(url, postURL_Init);
 
                 bool checkednum_dh = true;
 
                 if (checkednum_dh)
                 {
-                    ApplicantID = objLightDAC.addapplicantinfo_Lybc_dh(AppName, AppMobile, "0", "", "", "", "0", "N", "", "", 0, AdminID, postURL, Year);
+                    string AppSendback = "N";                                                           //寄送方式 N-不寄回(會轉送給弱勢團體) Y-寄回(加收運費120元)
+                    string Apprname = AppName;                                                          //收件人姓名
+                    string Apprmobile = AppMobile;                                                      //收件人電話
+                    string Appcounty = "";
+                    string Appdist = "";
+                    string Appaddr = "";
+                    string AppzipCode = "0";
+
+                    ApplicantID = objLightDAC.Addapplicantinfo_Lybc_dh(
+                        Name: AppName, 
+                        Mobile: AppMobile,
+                        Cost: "0", 
+                        County: Appcounty, 
+                        Dist: Appdist, 
+                        Addr: Appaddr, 
+                        ZipCode: AppzipCode, 
+                        Sendback: AppSendback, 
+                        ReceiptName: Apprname, 
+                        ReceiptMobile: Apprmobile, 
+                        Email: AppEmail, 
+                        Status: 0, 
+                        AdminID: AdminID, 
+                        PostURL: postURL, 
+                        Year: Year);
                     bool lybcinfo = false;
 
                     if (ApplicantID > 0)
@@ -145,14 +161,14 @@ namespace twbobibobi.Temples
                             string leapMonth = JleapMonth[i].ToString();
                             string birthTime = Jbirthtime[i].ToString();
                             string sBirth = Jsbirth[i].ToString();
-                            string email = Jemail.Count > 0 ? Jemail[i].ToString() : "";
                             string lybcType = JLybcType_Tag[i].ToString();
                             string lybcString = GetLybcType2String(lybcType, "16");
                             string addr = Jaddr[i].ToString();
                             string county = Jcounty[i].ToString();
                             string dist = Jdist[i].ToString();
                             string zipCode = JzipCode[i].ToString();
-                            string remark = Jremark.Count > 0 ? Jremark[i].ToString() : "";
+                            string oversea = Joversea[i].ToString();
+                            string remark = Jremark[i].ToString();
                             string birthMonth = "0";
                             string age = "0";
                             string Zodiac = string.Empty;
@@ -254,11 +270,35 @@ namespace twbobibobi.Temples
 
                             birthMonth = CheckedDateZero(birthMonth, 1);
 
+                            int cost = GetLybcCost(16, lybcType);
+
                             if (name != "")
                             {
                                 lybcinfo = true;
-                                LybcID = objLightDAC.addLybc_dh(ApplicantID, name, mobile, sex, lybcType, lybcString,
-                                    "1", Birth, leapMonth, birthTime, birthMonth, age, Zodiac, sBirth, email, 1, addr, county, dist, zipCode, remark, Year);
+                                LybcID = objLightDAC.AddLybc_dh(
+                                    ApplicantID: ApplicantID, 
+                                    Name: name, 
+                                    Mobile: mobile, 
+                                    Cost: cost,
+                                    Sex: sex, 
+                                    LybcType: lybcType, 
+                                    LybcString: lybcString,
+                                    Oversea: oversea, 
+                                    Birth: Birth, 
+                                    LeapMonth: leapMonth, 
+                                    BirthTime: birthTime, 
+                                    BirthMonth: birthMonth, 
+                                    Age: age, 
+                                    Zodiac: Zodiac, 
+                                    sBirth: sBirth, 
+                                    Email: "", 
+                                    Count: 1, 
+                                    Addr: addr, 
+                                    County: county, 
+                                    Dist: dist, 
+                                    ZipCode: zipCode, 
+                                    Remark: remark, 
+                                    Year: Year);
                             }
 
                         }
@@ -267,17 +307,27 @@ namespace twbobibobi.Temples
                     if (ApplicantID > 0 && lybcinfo)
                     {
                         basePage.mJSonHelper.AddContent("StatusCode", 1);
-                        basePage.mJSonHelper.AddContent("redirect", "templeCheck.aspx?kind=15&a=" + AdminID + "&aid=" + ApplicantID +
-                            (basePage.Request["ad"] != null ? "&ad=1" : "") +
-                            (basePage.Request["jkos"] != null ? "&jkos=1" : "") +
-                            (basePage.Request["twm"] != null ? "&twm=1" : "") +
-                            (basePage.Request["fetsms"] != null ? "&fetsms=1" : ""));
+
+                        string redirectUrl = BuildRedirectUrl(
+                            "templeCheck.aspx",
+                            15,
+                            AdminID,
+                            ApplicantID,
+                            basePage.Request
+                        );
+
+                        // 加入 JSON 回傳內容
+                        basePage.mJSonHelper.AddContent("redirect", redirectUrl);
 
                         basePage.Session["ApplicantID"] = ApplicantID;
                     }
                 }
             }
 
+            /// <summary>
+            /// 
+            /// </summary>
+            /// <param name="basePage"></param>
             public void editinfo(BasePage basePage)
             {
                 basePage.mJSonHelper.AddContent("StatusCode", 0);
@@ -289,7 +339,7 @@ namespace twbobibobi.Temples
 
                 string AdminID = basePage.Request["a"];
 
-                dtData = objLightDAC.Getlybc_dh_info(applicantID, Year);
+                dtData = objLightDAC.Getlybc_dh_Info(applicantID, Year);
 
                 if (dtData.Rows.Count > 0)
                 {
@@ -299,11 +349,17 @@ namespace twbobibobi.Temples
                     basePage.mJSonHelper.AddContent("a", AdminID);
                     basePage.mJSonHelper.AddContent("AppName", dtData.Rows[0]["AppName"].ToString());
                     basePage.mJSonHelper.AddContent("AppMobile", dtData.Rows[0]["AppMobile"].ToString());
+                    basePage.mJSonHelper.AddContent("AppEmail", dtData.Rows[0]["AppEmail"].ToString());
 
                     basePage.mJSonHelper.AddDataTable("DataSource", dtData);
                 }
             }
 
+            /// <summary>
+            /// 
+            /// </summary>
+            /// <param name="str"></param>
+            /// <param name="jArry"></param>
             public void nullChecked(string str, ref JArray jArry)
             {
                 if (str != null)

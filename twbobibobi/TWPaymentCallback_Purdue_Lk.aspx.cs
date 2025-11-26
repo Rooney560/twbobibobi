@@ -1,15 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using System.Web.UI;
-using System.Web.UI.WebControls;
-using System.Data;
-using BCFBaseLibrary.Web;
+﻿using BCFBaseLibrary.Security;
 using Read.data;
-using BCFBaseLibrary.Security;
+using System;
 using System.Collections;
+using System.Collections.Generic;
+using System.Data;
 using Temple.data;
+using TempleAdmin.Helper;
+using twbobibobi.Data;
+using twbobibobi.Helpers;
+using twbobibobi.Model;
+using twbobibobi.Services;
 
 namespace Temple
 {
@@ -48,27 +48,36 @@ namespace Temple
                         SaveErrorLog(resp + ", CommitTransAPI 錯誤!");
                     }
 
-                    if (Request["ad"] != null)
-                    {
-                        resp = "1|18062216041218500003|100|TELEPAY|twm|0934315020|20180622160559423|F6C5E389052469CC441A402A3F0D0C9F";
-                    }
-                    //resp = "1|18062216041218500003|100|TELEPAY|twm|0934315020|20180622160559423|F6C5E389052469CC441A402A3F0D0C9F";
+                    //if (Request["ad"] != null)
+                    //{
+                    //    resp = "1|18062216041218500003|100|TELEPAY|twm|0934315020|20180622160559423|F6C5E389052469CC441A402A3F0D0C9F";
+                    //}
+
                     string orderId = oid;
                     string CallbackLog = tid + "," + resp;
-                    DatabaseHelper objDatabaseHelper = new DatabaseHelper(this);
+                    LightDAC objLightDAC = new LightDAC(this);
                     int aid = int.Parse(m1);
                     int status = 999;
+                    string kind = "2";
+                    Session.Remove("PaymentAuthKey"); // ✅ 看完一次就失效
+                    Session["PaymentAuthKey"] = "?kind=" + kind + "&a=21&aid=" + aid;
 
-                    DataTable dtCharge = objDatabaseHelper.GetChargeLog_Purdue_Lk(orderId, Year);
+                    DataTable dtCharge = objLightDAC.GetChargeLog_Purdue_Lk(orderId, Year);
 
                     if (dtCharge.Rows.Count > 0)
                     {
+                        bool invStatus = true;
+                        if (dtCharge.Rows[0]["ChargeType"].ToString() == "Twm" || dtCharge.Rows[0]["ChargeType"].ToString() == "Cht" || dtCharge.Rows[0]["ChargeType"].ToString() == "FetCSP")
+                        {
+                            invStatus = false;
+                        }
+
                         int cost = 0;
                         int.TryParse(dtCharge.Rows[0]["Amount"].ToString(), out cost);
                         int.TryParse(dtCharge.Rows[0]["Status"].ToString(), out status);
                         if (status == 0)
                         {
-                            int purduetype = objDatabaseHelper.GetPurdueType_Lk(aid, Year);
+                            int purduetype = objLightDAC.GetPurdueType_Lk(aid, Year);
 
                             string rebackURL = "https://bobibobi.tw/Temples/templeService_purdue_Lk.aspx";
 
@@ -86,50 +95,252 @@ namespace Temple
 
                                     int adminID = 21;
 
+                                    string msg = string.Empty;
+
                                     //更新普渡資料表並取得訂單編號
-                                    objDatabaseHelper.UpdatePurdue_Lk_Info(aid, purduetype, Year, ref purduelist, ref Purduelist);
-                                    //取得申請人資料表
-                                    //DataTable dtapplicantinfo = objDatabaseHelper.Getapplicantinfo_Purdue_Lk(aid, adminID, Year);
+                                    objLightDAC.UpdatePurdue_Lk_Info(aid, Year, ref msg, ref purduelist, ref Purduelist);
                                     ////更新購買表內購買人狀態為已付款(Status=2)
-                                    //int cost = dtapplicantinfo.Rows.Count > 0 ? int.Parse(dtapplicantinfo.Rows[0]["Cost"].ToString()) : 0;
-                                    objDatabaseHelper.Updateapplicantinfo_Purdue_Lk(aid, cost, 2, Year);
-
-                                    string msg = "感謝購買,已成功付款" + cost + "元,您的訂單編號 ";
-
-                                    for (int i = 0; i < purduelist.Length; i++)
-                                    {
-                                        msg += purduelist[i];
-                                        if (i < purduelist.Length - 1)
-                                        {
-                                            msg += ",";
-                                        }
-                                    }
-
-                                    msg += "。客服電話：04-36092299。";
-
-
-                                    //msg = "感謝大德參與線上點燈,茲收您1960元功德金,訂單編號 光明燈:T2204, 安太歲:25351, 文昌燈:六1214。";
-                                    //mobile = "0903002568";
+                                    objLightDAC.Updateapplicantinfo_Purdue_Lk(aid, cost, 2, Year);
 
                                     SMSHepler objSMSHepler = new SMSHepler();
                                     string ChargeType = string.Empty;
+                                    int uStatus = 0;
                                     //更新流水付費表資訊(付費成功)
-                                    if (objDatabaseHelper.UpdateChargeLog_Purdue_Lk(orderId, tid, msg, Request.UserHostAddress, CallbackLog, Year, ref ChargeType))
+                                    if (objLightDAC.UpdateChargeLog_Purdue_Lk(orderId, tid, msg, Request.UserHostAddress, CallbackLog, Year, ref ChargeType, ref uStatus))
                                     {
-                                        if (objSMSHepler.SendMsg_SL(mobile, msg))
+                                        if (invStatus)
                                         {
+                                            try
+                                            {
+                                                twbobibobi.Data.BasePage _basePage = new twbobibobi.Data.BasePage();
+                                                LightDAC objALightDAC = new LightDAC(_basePage);
+                                                DataTable dtApplicantInfo = objALightDAC.GetAPPCharge_Lk_Purdue(aid, Year);
 
-                                            //m2 = m2.IndexOf("aid=") > 0 ? m2 : (m2.IndexOf("?") > 0 ? m2 + "&aid=" + m1 : m2 + "?aid=" + m1 + "&a=" + adminID);
-                                            m2 = "https://bobibobi.tw/Temples/templeComplete.aspx?kind=2&a=" + adminID + "&aid=" + aid + (ChargeType == "Twm" ? "&twm=1" : "");
-                                            Response.Redirect(m2, true);
+                                                if (dtApplicantInfo.Rows.Count > 0)
+                                                {
+                                                    DataRow invoiceRow = dtApplicantInfo.Rows[0]; // 只取代表開發票的那一筆（通常是第一筆）
+
+                                                    // 宮廟名稱
+                                                    int adminId = Convert.ToInt32(invoiceRow["AdminID"]);
+                                                    string templeName = TempleHelper.GetTempleName(adminId, _basePage);
+
+                                                    // 組發票商品項目（你可以根據多筆資料彙總計算）
+                                                    List<ProductItem> items = new List<ProductItem>();
+
+                                                    List<InvoiceItem> Emailitems = new List<InvoiceItem>();
+
+                                                    //訂單編號
+                                                    string NumString = "";
+
+                                                    NumString += string.Join(",", Purduelist);
+
+                                                    foreach (DataRow row in dtApplicantInfo.Rows)
+                                                    {
+                                                        string PurdueType = row["PurdueType"].ToString();
+                                                        string PurdueString = row["PurdueString"].ToString();
+                                                        string description = $"線上服務費({templeName}-{PurdueString})";
+                                                        int count = int.TryParse(row["Count"].ToString(), out int tmp) ? tmp : 1;
+                                                        string unit = InvoiceHelper.GetUnitByKind(int.Parse(kind));
+
+                                                        int quantity = count;
+
+                                                        // 保證至少有數量
+                                                        if (quantity <= 0) quantity = 1;
+
+                                                        // 取單價
+                                                        int price = InvoiceHelper.GetUnitPrice(adminId, int.Parse(kind), PurdueType);
+
+                                                        // 驗證：單筆金額
+                                                        decimal calcAmount = quantity * price;
+                                                        decimal rowCost = Convert.ToDecimal(row["Cost"]);
+
+                                                        if (calcAmount != rowCost)
+                                                        {
+                                                            string errormsg = $"❌ 金額不符，OrderID={row["OrderID"]}, Kind={kind}, Service={PurdueString}, " +
+                                                                         $"數量={quantity}, 單價={price}, 計算金額={calcAmount}, DB金額={rowCost}";
+                                                            InvoiceHelper.SaveErrorLog(errormsg);
+                                                        }
+
+                                                        items.Add(new ProductItem
+                                                        {
+                                                            Description = description,
+                                                            Quantity = quantity,
+                                                            Unit = unit,
+                                                            UnitPrice = price,
+                                                            Amount = calcAmount,
+                                                            TaxType = 1
+                                                        });
+
+                                                        Emailitems.Add(new InvoiceItem
+                                                        {
+                                                            Description = "線上服務費",
+                                                            ProductName = $"{templeName}-{PurdueString}",
+                                                            Quantity = quantity,
+                                                            UnitPrice = calcAmount,
+                                                            Taxable = true
+                                                        });
+                                                    }
+
+                                                    // 載具欄位
+                                                    string carrierId = invoiceRow["CarrierCode"]?.ToString() ?? "";
+                                                    string carrierType = string.IsNullOrEmpty(carrierId) ? "" : "3J0002";
+
+                                                    // 處理購買人聯絡資訊 fallback
+                                                    string buyerName = !string.IsNullOrEmpty(invoiceRow["AppName"]?.ToString())
+                                                        ? invoiceRow["AppName"].ToString()
+                                                        : (!string.IsNullOrEmpty(invoiceRow["Name"]?.ToString())
+                                                            ? invoiceRow["Name"].ToString()
+                                                            : "");
+
+                                                    string buyerMobile = !string.IsNullOrEmpty(invoiceRow["AppMobile"]?.ToString())
+                                                        ? invoiceRow["AppMobile"].ToString()
+                                                        : (!string.IsNullOrEmpty(invoiceRow["Mobile"]?.ToString())
+                                                            ? invoiceRow["Mobile"].ToString()
+                                                            : "");
+
+                                                    string buyerEmail = !string.IsNullOrEmpty(invoiceRow["AppEmail"]?.ToString())
+                                                        ? invoiceRow["AppEmail"].ToString()
+                                                        : (!string.IsNullOrEmpty(invoiceRow["Email"]?.ToString())
+                                                            ? invoiceRow["Email"].ToString()
+                                                            : "");
+
+                                                    // 組發票輸入資料
+                                                    var input = new InvoiceWrapperInput
+                                                    {
+                                                        OrderId = orderId,
+                                                        Scenario = InvoiceProcessor.GetScenario(invoiceRow["InvoiceType"].ToString()),
+                                                        Items = items,
+                                                        BuyerIdentifier = invoiceRow["BuyerIdentifier"]?.ToString() ?? "0000000000",
+                                                        BuyerName = string.IsNullOrEmpty(invoiceRow["BuyerName"]?.ToString()) ? buyerName : invoiceRow["BuyerName"].ToString(),
+                                                        BuyerAddress = "",
+                                                        BuyerTelephoneNumber = buyerMobile,
+                                                        BuyerEmailAddress = buyerEmail,
+                                                        MainRemark = "",
+                                                        CarrierType = carrierType,
+                                                        CarrierId = carrierId,
+                                                        NPOBAN = ""
+                                                    };
+
+                                                    // 呼叫共用發票處理器
+                                                    var rs = InvoiceProcessor.ProcessInvoice(input);
+
+                                                    if (rs.Success)
+                                                    {
+                                                        // 成功：準備寫入 InvoiceDetail
+                                                        // ✅ 成功：可以從 result 中取出你要寫入 DB 的資料
+                                                        string invoiceNo = rs.InvoiceNumber;
+                                                        string barcode = rs.Barcode;
+                                                        string random = rs.RandomNumber;
+                                                        string qrcode1 = rs.QrCodeLeft;
+                                                        string qrcode2 = rs.QrCodeRight;
+                                                        string rawJson = rs.RawJson;
+
+                                                        string YearROC = (dtNow.Year - 1911).ToString("000");
+                                                        string Month = dtNow.Month.ToString("00"); ;
+                                                        string Date = dtNow.ToString("yyyy-MM-dd");
+                                                        string Time = dtNow.ToString("HH:mm:ss");
+
+                                                        if (objLightDAC.UpdateInvoiceDetail(aid, adminId, 2, invoiceNo, rawJson, "1", Year))
+                                                        {
+                                                            if (InvoiceEmailSender.Send(rs, Emailitems, buyerEmail, buyerName, invoiceRow["BuyerIdentifier"]?.ToString() ?? "0000000000", NumString, cost, dtNow, YearROC, Month, Date, Time))
+                                                            {
+                                                                if (objSMSHepler.SendMsg_SL(mobile, msg))
+                                                                {
+                                                                    m2 = "https://bobibobi.tw/Temples/templeComplete.aspx?kind=" + kind +
+                                                                        "&a=" + adminID +
+                                                                        "&aid=" + aid +
+                                                                        (ChargeType == "Cht" ? "&cht=1" : "") +
+                                                                        (ChargeType == "Twm" ? "&twm=1" : "");
+
+                                                                    Response.Redirect(m2, false);
+                                                                    Context.ApplicationInstance.CompleteRequest();
+                                                                    invStatus = false;
+                                                                }
+                                                                else
+                                                                {
+                                                                    // ❌ 傳送簡訊失敗，記錄錯誤
+                                                                    SaveErrorLog("TWPaymentCallback_Purdue_Lk" + $"傳送簡訊失敗");
+                                                                    Response.Write("<script>alert('傳送簡訊失敗。請聯繫管理員。客服電話：04-36092299。');window.location.href='" + rebackURL + "'</script>");
+                                                                }
+                                                            }
+                                                            else
+                                                            {
+                                                                // ❌ 寄送EMAIL失敗，記錄錯誤
+                                                                SaveErrorLog("TWPaymentCallback_Purdue_Lk" + $"寄送EMAIL失敗");
+                                                            }
+                                                        }
+                                                        else
+                                                        {
+                                                            // ❌ 發票失敗，記錄錯誤
+                                                            SaveErrorLog("TWPaymentCallback_Purdue_Lk" + $"更新發票失敗");
+                                                        }
+                                                    }
+                                                    else
+                                                    {
+                                                        // ❌ 發票開立失敗 → 只寫 Log，不影響訂單流程
+                                                        SaveErrorLog("TWPaymentCallback_Purdue_Lk 開立發票失敗 AdminID="
+                                                                     + adminId + ", OrderID=" + orderId + ", Error=" + rs.ErrorMessage);
+                                                    }
+                                                }
+                                                else
+                                                {
+                                                    // ❌ 個別筆數處理例外錯誤
+                                                    SaveErrorLog("TWPaymentCallback_Purdue_Lk" + $"開立發票處理例外, 取得訂單錯誤。");
+                                                }
+
+                                            }
+                                            catch (Exception ex)
+                                            {
+                                                // ❌ 個別筆數處理例外錯誤
+                                                SaveErrorLog("TWPaymentCallback_Purdue_Lk" + $"開立發票處理例外 ex: " + ex.Message);
+                                            }
+
+                                            if (invStatus)
+                                            {
+                                                if (objSMSHepler.SendMsg_SL(mobile, msg))
+                                                {
+                                                    m2 = "https://bobibobi.tw/Temples/templeComplete.aspx?kind=" + kind +
+                                                        "&a=" + adminID +
+                                                        "&aid=" + aid +
+                                                        (ChargeType == "Cht" ? "&cht=1" : "") +
+                                                        (ChargeType == "Twm" ? "&twm=1" : "");
+
+                                                    Response.Redirect(m2, false);
+                                                    Context.ApplicationInstance.CompleteRequest();
+                                                }
+                                                else
+                                                {
+                                                    // ❌ 傳送簡訊失敗，記錄錯誤
+                                                    SaveErrorLog("TWPaymentCallback_Purdue_Lk" + $"傳送簡訊失敗");
+                                                    Response.Write("<script>alert('傳送簡訊失敗。請聯繫管理員。客服電話：04-36092299。');window.location.href='" + rebackURL + "'</script>");
+                                                }
+                                            }
                                         }
                                         else
                                         {
-                                            Response.Write("<script>alert('傳送簡訊失敗。請聯繫管理員。客服電話：04-36092299。');window.location.href='" + rebackURL + "'</script>");
+                                            if (objSMSHepler.SendMsg_SL(mobile, msg))
+                                            {
+                                                m2 = "https://bobibobi.tw/Temples/templeComplete.aspx?kind=" + kind +
+                                                    "&a=" + adminID +
+                                                    "&aid=" + aid +
+                                                    (ChargeType == "Cht" ? "&cht=1" : "") +
+                                                    (ChargeType == "Twm" ? "&twm=1" : "");
+
+                                                Response.Redirect(m2, false);
+                                                Context.ApplicationInstance.CompleteRequest();
+                                            }
+                                            else
+                                            {
+                                                // ❌ 傳送簡訊失敗，記錄錯誤
+                                                SaveErrorLog("TWPaymentCallback_Purdue_Lk" + $"傳送簡訊失敗");
+                                                Response.Write("<script>alert('傳送簡訊失敗。請聯繫管理員。客服電話：04-36092299。');window.location.href='" + rebackURL + "'</script>");
+                                            }
                                         }
                                     }
                                     else
                                     {
+                                        // ❌ 更新流水付費表資訊失敗，記錄錯誤
+                                        SaveErrorLog("TWPaymentCallback_Purdue_Lk" + $"更新流水付費表資訊失敗");
                                         Response.Write("<script>alert('付款過程失敗。請聯繫管理員。客服電話：04-36092299。');window.location.href='" + rebackURL + "'</script>");
                                     }
                                 }
@@ -141,14 +352,16 @@ namespace Temple
                             }
                             else if (result[0] == "4")
                             {
-                                if (objDatabaseHelper.UpdateChargeStatus_Purdue_Lk(orderId, -2, Request.UserHostAddress, CallbackLog, Year))
+                                if (objLightDAC.UpdateChargeStatus_Purdue_Lk(orderId, -2, Request.UserHostAddress, CallbackLog, Year))
                                 {
+                                    // ❌ 此用戶已退款，記錄錯誤
+                                    SaveErrorLog("TWPaymentCallback_Purdue_Lk" + $"此用戶已退款");
                                     Response.Write("<script>alert('此用戶已退款。');window.location.href='" + rebackURL + "'</script>");
                                 }
                             }
                             else
                             {
-                                objDatabaseHelper.UpdateChargeStatus_Purdue_Lk(orderId, -1, Request.UserHostAddress, CallbackLog, Year);
+                                objLightDAC.UpdateChargeStatus_Purdue_Lk(orderId, -1, Request.UserHostAddress, CallbackLog, Year);
 
                                 if (m2.IndexOf("APPPaymentResult") > 0)
                                 {
@@ -156,6 +369,8 @@ namespace Temple
                                 }
                                 else
                                 {
+                                    // ❌ 付款失敗，記錄錯誤
+                                    SaveErrorLog("TWPaymentCallback_Purdue_Lk" + $"付款失敗，錯誤代碼：" + result[0]);
                                     Response.Write("<script>alert('付款失敗，錯誤代碼：" + result[0] + "。客服電話：04-36092299。');window.location.href='" + rebackURL + "'</script>");
                                 }
                             }
@@ -163,8 +378,14 @@ namespace Temple
                         else if (status == 1)
                         {
                             //已經付費成功。
-                            m2 = "https://bobibobi.tw/Temples/templeComplete.aspx?kind=2&a=21&aid=" + aid + (dtCharge.Rows[0]["ChargeType"].ToString() == "Twm" ? "&twm=1" : "");
+                            m2 = "https://bobibobi.tw/Temples/templeComplete.aspx?kind=" + kind + "&a=21&aid=" + aid + (dtCharge.Rows[0]["ChargeType"].ToString() == "Twm" ? "&twm=1" : "");
                             Response.Redirect(m2, true);
+                        }
+                        else if (status == -2)
+                        {
+                            // ❌ 此用戶已退款，記錄錯誤
+                            SaveErrorLog("TWPaymentCallback_Purdue_Lk" + $"此用戶已退款");
+                            Response.Write("<script>alert('此用戶已退款。');window.location.href='https://bobibobi.tw/Temples/templeInfo.aspx?a=21'</script>");
                         }
                         else
                         {
@@ -185,7 +406,7 @@ namespace Temple
                 }
                 catch (Exception ex)
                 {
-                    SaveErrorLog(ex + ", 不知道哪裡錯誤!");
+                    SaveErrorLog(ex.InnerException.Message + ", 不知道哪裡錯誤!");
                 }
             }
             else

@@ -1,4 +1,4 @@
-﻿using MotoSystem.Data;
+﻿using twbobibobi.Data;
 using Newtonsoft.Json.Linq;
 using Org.BouncyCastle.Utilities.Encoders;
 using Read.data;
@@ -19,7 +19,6 @@ namespace Temple.Temples
     {
         public int aid = 0;
         public int a = 0;
-        public string EndDate = "2025/03/06 23:59";
         protected static string Year = "2025";
 
         protected override void InitAjaxHandler()
@@ -42,13 +41,6 @@ namespace Temple.Temples
 
                 int adminID = a = 14;
                 this.supplies1.Visible = false;
-
-                LightDAC objLightDAC = new LightDAC(this);
-
-                //if (objLightDAC.checkedSuppliesNum("3", adminID.ToString(), 1, Year))
-                //{
-                //    this.supplies1.Visible = true;
-                //}
             }
         }
         public class AjaxPageHandler
@@ -66,7 +58,7 @@ namespace Temple.Temples
                 string AdminID = "14";
                 string AppName = basePage.Request["Appname"];                                       //購買人姓名
                 string AppMobile = basePage.Request["Appmobile"];                                   //購買人電話
-                string AppEmail = basePage.Request["Appemail"];                                     //購買人Email
+                string AppEmail = basePage.Request["AppEmail"];                                     //購買人信箱
                 string appsBirth = basePage.Request["Appsbirth"];                                   //購買人國曆生日
                 string AppzipCode = basePage.Request["AppzipCode"];                                 //購買人郵遞區號
                 string Appcounty = basePage.Request["Appcounty"];                                   //購買人縣市
@@ -98,52 +90,13 @@ namespace Temple.Temples
                 JArray Jremark = JArray.Parse(remark_Tag);
                 JArray JSuppliesType_Tag = JArray.Parse(SuppliesType_Tag);
 
-                string postURL = "Supplies_ty_Index";
+                string postURL_Init = "Supplies_ty_Index";
 
-                postURL += basePage.Request["twm"] != null ? "_TWM" : "";
+                string url = HttpContext.Current.Request.Url.AbsoluteUri;
 
-                postURL += basePage.Request["cht"] != null ? "_CHT" : "";
+                string postURL = GetRequestURL(url, postURL_Init);
 
-                postURL += basePage.Request["line"] != null ? "_LINE" : "";
-
-                postURL += basePage.Request["fb"] != null ? "_FB" : "";
-
-                postURL += basePage.Request["fbty"] != null ? "_FBTY" : "";
-
-                postURL += basePage.Request["ig"] != null ? "_IG" : "";
-
-                postURL += basePage.Request["fetsms"] != null ? "_fetSMS" : "";
-
-                postURL += basePage.Request["jkos"] != null ? "_JKOS" : "";
-
-                postURL += basePage.Request["pxpayplues"] != null ? "_PXPAY" : "";
-
-                postURL += basePage.Request["gads"] != null ? "_GADS" : "";
-
-                postURL += basePage.Request["inty"] != null ? "_INTY" : "";
-
-                postURL += basePage.Request["elv"] != null ? "_ELV" : "";
-
-                //int[] count_ty_supplies = new int[1];
                 bool checkednum_ty = true;
-                //for (int i = 0; i < listcount; i++)
-                //{
-                //    //孝親祈福燈
-                //    count_ty_mom_supplies[0]++;
-                //}
-
-                //string[] Suppliestypelist = new string[] { "21"};
-                //for (int i = 0; i < 6; i++)
-                //{
-                //    if (objLightDAC.checkedSuppliesNum(Suppliestypelist[i], AdminID.ToString(), count_ty_mom_supplies[i], 2, Year))
-                //    {
-                //        checkednum_ty = false;
-
-                //        basePage.mJSonHelper.AddContent("overnumType", Suppliestypelist[i]);
-
-                //        break;
-                //    }
-                //}
 
                 if (checkednum_ty)
                 {
@@ -188,8 +141,29 @@ namespace Temple.Temples
                         AppsBirth = sROC + Appmonth + "月" + Appday + "日";
                     }
 
-                    ApplicantID = objLightDAC.addapplicantinfo_Supplies_ty(AppName, AppMobile, AppBirth, "N", "吉", AppbirthMonth, Appage, AppZodiac, AppsBirth, "0", AppEmail, 
-                        AppzipCode, Appcounty, Appdist, Appaddr, "Y", AppName, AppMobile, 0, AdminID, postURL, Year);
+                    ApplicantID = objLightDAC.Addapplicantinfo_supplies_ty(
+                        Name: AppName, 
+                        Mobile: AppMobile, 
+                        Birth: AppBirth, 
+                        LeapMonth: "N", 
+                        BirthTime: "吉", 
+                        BirthMonth: AppbirthMonth, 
+                        Age: Appage, 
+                        Zodiac: AppZodiac, 
+                        sBirth: AppsBirth, 
+                        Cost: "0", 
+                        Email: AppEmail, 
+                        ZipCode: AppzipCode, 
+                        County: Appcounty, 
+                        Dist: Appdist, 
+                        Addr: Appaddr, 
+                        Sendback: "Y", 
+                        ReceiptName: AppName, 
+                        ReceiptMobile: AppMobile, 
+                        Status: 0, 
+                        AdminID: AdminID, 
+                        PostURL: postURL, 
+                        Year: Year);
                     bool suppliesinfo = false;
 
                     if (ApplicantID > 0)
@@ -311,29 +285,65 @@ namespace Temple.Temples
 
                             birthMonth = CheckedDateZero(birthMonth, 1);
 
+                            int cost = GetSuppliesCost(14, suppliesType);
+
                             if (name != "")
                             {
                                 suppliesinfo = true;
-                                SuppliesID = objLightDAC.addSupplies_ty(ApplicantID, name, mobile, "善男", suppliesType, suppliesString, oversea, Birth, leapMonth, birthTime,
-                                    birthMonth, age, Zodiac, sBirth, "", 1, remark, addr, county, dist, zipCode, Year);
+                                SuppliesID = objLightDAC.Addsupplies_ty(
+                                    ApplicantID: ApplicantID, 
+                                    Name: name, 
+                                    Mobile: mobile, 
+                                    Cost: cost,
+                                    Sex: "善男", 
+                                    SuppliesType: suppliesType, 
+                                    SuppliesString: suppliesString, 
+                                    Oversea: oversea, 
+                                    Birth: Birth, 
+                                    LeapMonth: leapMonth, 
+                                    BirthTime: birthTime,
+                                    BirthMonth: birthMonth, 
+                                    Age: age, 
+                                    Zodiac: Zodiac, 
+                                    sBirth: sBirth, 
+                                    Email: "", 
+                                    Count: 1, 
+                                    Remark: remark, 
+                                    Addr: addr, 
+                                    County: county, 
+                                    Dist: dist, 
+                                    ZipCode: zipCode, 
+                                    Year: Year);
                             }
                         }
                     }
 
                     if (ApplicantID > 0 && suppliesinfo)
                     {
-                        basePage.mJSonHelper.AddContent("StatusCode", 1);
-                        basePage.mJSonHelper.AddContent("redirect", "templeCheck.aspx?kind=7&a=" + AdminID + "&aid=" + ApplicantID +
-                        (basePage.Request["ad"] != null ? "&ad=" + basePage.Request["ad"] : "") +
-                        (basePage.Request["jkos"] != null ? "&jkos=1" : "") +
-                        (basePage.Request["pxpayplues"] != null ? "&pxpayplues=1" : "") +
-                        (basePage.Request["twm"] != null ? "&twm=1" : ""));
+                        {
+                            basePage.mJSonHelper.AddContent("StatusCode", 1);
 
-                        basePage.Session["ApplicantID"] = ApplicantID;
+                            string redirectUrl = BuildRedirectUrl(
+                                "templeCheck.aspx",
+                                7,
+                                AdminID,
+                                ApplicantID,
+                                basePage.Request
+                            );
+
+                            // 加入 JSON 回傳內容
+                            basePage.mJSonHelper.AddContent("redirect", redirectUrl);
+
+                            basePage.Session["ApplicantID"] = ApplicantID;
+                        }
                     }
                 }
             }
 
+            /// <summary>
+            /// 
+            /// </summary>
+            /// <param name="basePage"></param>
             public void editinfo(BasePage basePage)
             {
                 basePage.mJSonHelper.AddContent("StatusCode", 0);
@@ -345,7 +355,7 @@ namespace Temple.Temples
 
                 string AdminID = basePage.Request["a"];
 
-                dtData = objLightDAC.Getsupplies_ty_info(applicantID, Year);
+                dtData = objLightDAC.Getsupplies_ty_Info(applicantID, Year);
 
                 if (dtData.Rows.Count > 0)
                 {
@@ -357,8 +367,6 @@ namespace Temple.Temples
                     basePage.mJSonHelper.AddContent("AppMobile", dtData.Rows[0]["AppMobile"].ToString());
                     basePage.mJSonHelper.AddContent("AppsBirth", dtData.Rows[0]["AppsBirth"].ToString());
                     basePage.mJSonHelper.AddContent("AppEmail", dtData.Rows[0]["AppEmail"].ToString());
-                    //basePage.mJSonHelper.AddContent("AppLeapMonth", dtData.Rows[0]["AppLeapMonth"].ToString());
-                    //basePage.mJSonHelper.AddContent("AppBirthTime", dtData.Rows[0]["AppBirthTime"].ToString());
                     basePage.mJSonHelper.AddContent("AppCounty", dtData.Rows[0]["AppCounty"].ToString());
                     basePage.mJSonHelper.AddContent("Appdist", dtData.Rows[0]["Appdist"].ToString());
                     basePage.mJSonHelper.AddContent("AppAddr", dtData.Rows[0]["AppAddr"].ToString());
@@ -367,6 +375,11 @@ namespace Temple.Temples
                 }
             }
 
+            /// <summary>
+            /// 
+            /// </summary>
+            /// <param name="str"></param>
+            /// <param name="jArry"></param>
             public void nullChecked(string str, ref JArray jArry)
             {
                 if (str != null)
@@ -375,31 +388,6 @@ namespace Temple.Temples
                 }
             }
 
-            //補庫項目 1-下元補庫 2-呈疏補庫 3-企業補財庫 4-天赦日補運 5-天赦日祭改 6-天貺納福添運法會 6-天貺納福添運法會 
-            public string GetSuppliesType(string SuppliesString)
-            {
-                string result = "-1";
-                switch (SuppliesString)
-                {
-                    case "下元補庫":
-                        result = "1";
-                        break;
-                    case "呈疏補庫":
-                        result = "2";
-                        break;
-                    case "企業補財庫":
-                        result = "3";
-                        break;
-                    case "天赦日補運":
-                        result = "4";
-                        break;
-                    case "天赦日招財補運":
-                        result = "4";
-                        break;
-                }
-
-                return result;
-            }
             private string GetSuppliesString(string v)
             {
                 switch (v)

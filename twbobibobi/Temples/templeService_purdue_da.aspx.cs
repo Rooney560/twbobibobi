@@ -1,4 +1,4 @@
-﻿using MotoSystem.Data;
+﻿using twbobibobi.Data;
 using Newtonsoft.Json.Linq;
 using Read.data;
 using System;
@@ -18,7 +18,7 @@ namespace Temple.Temples
     {
         public int aid = 0;
         public int a = 0;
-        public string EndDate = "2024/07/09 23:59";
+        protected static string Year = "2025";
 
         protected override void InitAjaxHandler()
         {
@@ -39,39 +39,6 @@ namespace Temple.Temples
                 }
 
                 int adminID = a = 3;
-
-                //switch (adminID)
-                //{
-                //    case 3:
-                //        //大甲鎮瀾宮
-                //        EndDate = "2023/08/21 23:59";
-                //        break;
-                //    case 4:
-                //        //新港奉天宮
-                //        EndDate = "2023/08/14 23:59";
-                //        break;
-                //    case 6:
-                //        //北港武德宮
-                //        EndDate = "2023/08/22 23:59";
-                //        break;
-                //    case 8:
-                //        //西螺福興宮
-                //        EndDate = "2023/08/31 23:59";
-                //        break;
-                //    case 9:
-                //        //桃園大廟景福宮
-                //        EndDate = "2023/08/25 23:59";
-                //        break;
-                //    case 10:
-                //        //台南正宗鹿耳門聖母廟
-                //        EndDate = "2023/08/20 23:59";
-                //        break;
-                //}
-
-                //if (dtNow >= DateTime.Parse(EndDate))
-                //{
-                //    Response.Write("<script>alert('親愛的大德您好\\n大甲鎮瀾宮 2023普度活動已截止！！\\n感謝您的支持, 謝謝!');</script>");
-                //}
             }
         }
         public class AjaxPageHandler
@@ -89,20 +56,25 @@ namespace Temple.Temples
                 LightDAC objLightDAC = new LightDAC(basePage);
                 string Year = dtNow.Year.ToString();
                 string AdminID = "3";
-                string AppName = basePage.Request["Appname"];                           //申請人姓名
-                string AppMobile = basePage.Request["Appmobile"];                       //申請人電話
+                string AppName = basePage.Request["Appname"];                                       //購買人姓名
+                string AppMobile = basePage.Request["Appmobile"];                                   //購買人電話
+                string AppEmail = basePage.Request["AppEmail"];                                     //購買人信箱
 
-                string name_Tag = basePage.Request["name_Tag"];                         //祈福人姓名
-                string name2_Tag = basePage.Request["name2_Tag"];                       //祈福人姓名2
-                string mobile_Tag = basePage.Request["mobile_Tag"];                     //祈福人電話
-                string birth_Tag = basePage.Request["birth_Tag"];                       //祈福人農歷生日
-                string leapMonth_Tag = basePage.Request["leapMonth_Tag"];               //閏月 Y-是 N-否
-                string birthtime_Tag = basePage.Request["birthtime_Tag"];               //祈福人農曆時辰
-                string zipCode_Tag = basePage.Request["zipCode_Tag"];                   //祈福人郵遞區號
-                string county_Tag = basePage.Request["county_Tag"];                     //祈福人縣市
-                string dist_Tag = basePage.Request["dist_Tag"];                         //祈福人區域
-                string addr_Tag = basePage.Request["addr_Tag"];                         //祈福人部分地址
-                string purduetype_Tag = basePage.Request["purduetype_Tag"];             //普度項目
+                string name_Tag = basePage.Request["name_Tag"];                                     //祈福人姓名
+                string name2_Tag = basePage.Request["name2_Tag"];                                   //祈福人姓名2
+                string mobile_Tag = basePage.Request["mobile_Tag"];                                 //祈福人電話
+                string sex_Tag = basePage.Request["sex_Tag"];                                       //祈福人性別
+                string birth_Tag = basePage.Request["birth_Tag"];                                   //祈福人農歷生日
+                string leapMonth_Tag = basePage.Request["leapMonth_Tag"];                           //閏月 Y-是 N-否
+                string birthtime_Tag = basePage.Request["birthtime_Tag"];                           //祈福人農曆時辰
+                string sbirth_Tag = basePage.Request["sbirth_Tag"];                                 //祈福人國曆生日
+                string oversea_Tag = basePage.Request["oversea_Tag"];                               //國內-1 國外-2
+                string zipCode_Tag = basePage.Request["zipCode_Tag"];                               //祈福人郵遞區號
+                string county_Tag = basePage.Request["county_Tag"];                                 //祈福人縣市
+                string dist_Tag = basePage.Request["dist_Tag"];                                     //祈福人區域
+                string addr_Tag = basePage.Request["addr_Tag"];                                     //祈福人部分地址
+                string remark_Tag = basePage.Request["remark_Tag"];                                 //備註
+                string purduetype_Tag = basePage.Request["purduetype_Tag"];                         //普度項目
 
                 string sendback_Tag = basePage.Request["sendback_Tag"];                 //寄送方式 0-不寄回(會轉送給弱勢團體) 1-寄回(加收運費250元)
                 string rname_Tag = basePage.Request["rname_Tag"];                       //收件人姓名
@@ -123,13 +95,17 @@ namespace Temple.Temples
 
                 JArray Jname = JArray.Parse(name_Tag);
                 JArray Jmobile = JArray.Parse(mobile_Tag);
+                JArray Jsex = JArray.Parse(sex_Tag);
                 JArray Jbirth = JArray.Parse(birth_Tag);
                 JArray JleapMonth = JArray.Parse(leapMonth_Tag);
                 JArray Jbirthtime = JArray.Parse(birthtime_Tag);
+                JArray Jsbirth = JArray.Parse(sbirth_Tag);
+                JArray Joversea = JArray.Parse(oversea_Tag);
                 JArray JzipCode = JArray.Parse(zipCode_Tag);
                 JArray Jcounty = JArray.Parse(county_Tag);
                 JArray Jdist = JArray.Parse(dist_Tag);
                 JArray Jaddr = JArray.Parse(addr_Tag);
+                JArray Jremark = JArray.Parse(remark_Tag);
                 JArray Jpurduetype = JArray.Parse(purduetype_Tag);
 
                 JArray Jname2 = new JArray();
@@ -164,15 +140,34 @@ namespace Temple.Temples
                 nullChecked(deathday_Tag, ref Jdeathday);
                 nullChecked(firstname_Tag, ref Jfirstname);
 
-                string postURL = "Purdue_da_Index";
+                string postURL_Init = "Purdue_da_Index";
+                string url = HttpContext.Current.Request.Url.AbsoluteUri;
+                string postURL = GetRequestURL(url, postURL_Init);
 
-                postURL += basePage.Request["twm"] != null ? "_TWM" : "";
+                string AppSendback = "N";                                                           //寄送方式 N-不寄回(會轉送給弱勢團體) Y-寄回(加收運費120元)
+                string Apprname = AppName;                                                          //收件人姓名
+                string Apprmobile = AppMobile;                                                      //收件人電話
+                string Appcounty = "";                                                              //購買人地址縣市
+                string Appdist = "";                                                                //購買人地址區域
+                string Appaddr = "";                                                                //購買人地址部分地址
+                string AppzipCode = "";                                                             //購買人地址郵遞區號
 
-                postURL += basePage.Request["line"] != null ? "_LINE" : "";
-
-                postURL += basePage.Request["fb"] != null ? "_FB" : "";
-
-                ApplicantID = objLightDAC.addapplicantinfo_purdue_da(AppName, AppMobile, "0", "", "", "", "0", "N", "", "", 0, AdminID, postURL, Year);
+                ApplicantID = objLightDAC.Addapplicantinfo_purdue_da(
+                    Name: AppName,
+                    Mobile: AppMobile,
+                    Cost: "0",
+                    County: Appcounty,
+                    Dist: Appdist,
+                    Addr: Appaddr,
+                    ZipCode: AppzipCode,
+                    Sendback: AppSendback,
+                    ReceiptName: Apprname,
+                    ReceiptMobile: Apprmobile,
+                    Email: AppEmail,
+                    Status: 0,
+                    AdminID: AdminID,
+                    PostURL: postURL,
+                    Year: Year);
                 bool purdueinfo = false;
 
                 if (ApplicantID > 0)
@@ -181,6 +176,20 @@ namespace Temple.Temples
                     {
                         string name = Jname[i].ToString();
                         string name2 = Jname2.Count > 0 ? Jname2[i].ToString() : "";
+                        string mobile = Jmobile[i].ToString();
+                        string sex = Jsex[i].ToString();
+                        string Birth = Jbirth[i].ToString();
+                        string leapMonth = JleapMonth[i].ToString();
+                        string birthTime = Jbirthtime[i].ToString();
+                        string sBirth = Jsbirth[i].ToString();
+                        string purdueType = Jpurduetype[i].ToString();
+                        string purdueString = PurdueType2String(purdueType, "3");
+                        string addr = Jaddr[i].ToString();
+                        string county = Jcounty[i].ToString();
+                        string dist = Jdist[i].ToString();
+                        string zipCode = JzipCode[i].ToString();
+                        string oversea = Joversea[i].ToString();
+                        string remark = Jremark[i].ToString();
                         string sendback = Jsendback.Count > 0 ? Jsendback[i].ToString() : "0";
                         string rname = Jrname.Count > 0 ? Jrname[i].ToString() : "";
                         string rmobile = Jrmobile.Count > 0 ? Jrmobile[i].ToString() : "";
@@ -202,52 +211,157 @@ namespace Temple.Temples
                         string deathday = Jdeathday.Count > 0 ? Jdeathday[i].ToString() : "";
                         string firstname = Jfirstname.Count > 0 ? Jfirstname[i].ToString() : "";
 
-                        string purdueString = PurdueType2String(Jpurduetype[i].ToString(), "3");
-                        //purdueString = firstname != "" && Jpurduetype[i].ToString() != "1" ? firstname + purdueString : purdueString;
-
-                        string Birth = string.Empty;
-                        string birthMonth = string.Empty;
+                        string birthMonth = "0";
                         string age = "0";
                         string Zodiac = string.Empty;
+                        string year = string.Empty;
+                        string month = string.Empty;
+                        string day = string.Empty;
+                        string syear = string.Empty;
+                        string smonth = string.Empty;
+                        string sday = string.Empty;
+
+                        if (Birth != "")
+                        {
+                            //農曆生日!=空白
+                            GetBirthDetail(Birth, ref birthMonth, ref age, ref Zodiac);
+
+                            string birth = Birth;
+                            if (birth.IndexOf("民國") >= 0 && birth.IndexOf("年") > 0 && birth.IndexOf("月") > 0 && birth.IndexOf("日") > 0)
+                            {
+                                int birth_roc_index = birth.IndexOf("民國");
+                                int birth_year_index = birth.IndexOf("年");
+                                int birth_month_index = birth.IndexOf("月");
+                                int birth_day_index = birth.IndexOf("日");
+                                year = (int.Parse(birth.Substring(2, birth_year_index - 2)) + 1911).ToString();
+                                month = birthMonth = CheckedDateZero(birth.Substring(birth_year_index + 1, birth_month_index - birth_year_index - 1), 1);
+                                day = CheckedDateZero(birth.Substring(birth_month_index + 1, birth.Length - birth_month_index - 2), 1);
+
+                                Lunar lunar = new Lunar();
+                                int.TryParse(year, out lunar.lunarYear);
+                                int.TryParse(month, out lunar.lunarMonth);
+                                int.TryParse(day, out lunar.lunarDay);
+
+                                if (sBirth == "")
+                                {
+                                    //國曆生日=空白
+                                    Solar solor = new Solar();
+                                    solor = LunarSolarConverter.LunarToSolar(lunar);
+
+                                    string sROC = solor.solarYear > 1911 ? "民國" + (solor.solarYear - 1911) + "年" : "民國" + (solor.solarYear) + "年";
+                                    sBirth = sROC + CheckedDateZero(solor.solarMonth.ToString(), 1) + "月" + CheckedDateZero(solor.solarDay.ToString(), 1) + "日";
+
+                                    string ROC = lunar.lunarYear > 1911 ? "民國" + (lunar.lunarYear - 1911) + "年" : "民國" + (lunar.lunarYear) + "年";
+                                    Birth = ROC + CheckedDateZero(lunar.lunarMonth.ToString(), 1) + "月" + CheckedDateZero(lunar.lunarDay.ToString(), 1) + "日";
+                                }
+                                else
+                                {
+                                    //國曆生日!=空白
+                                    string sbirth = sBirth;
+                                    if (sbirth.IndexOf("民國") >= 0 && sbirth.IndexOf("年") > 0 && sbirth.IndexOf("月") > 0 && sbirth.IndexOf("日") > 0)
+                                    {
+                                        int sbirth_roc_index = sbirth.IndexOf("民國");
+                                        int sbirth_year_index = sbirth.IndexOf("年");
+                                        int sbirth_month_index = sbirth.IndexOf("月");
+                                        int sbirth_day_index = sbirth.IndexOf("日");
+                                        syear = (int.Parse(sbirth.Substring(2, sbirth_year_index - 2))).ToString();
+                                        smonth = CheckedDateZero(sbirth.Substring(sbirth_year_index + 1, sbirth_month_index - sbirth_year_index - 1), 1);
+                                        sday = CheckedDateZero(sbirth.Substring(sbirth_month_index + 1, sbirth.Length - sbirth_month_index - 2), 1);
+
+                                        sBirth = "民國" + syear + "年" + smonth + "月" + sday + "日";
+
+                                        string ROC = lunar.lunarYear > 1911 ? "民國" + (lunar.lunarYear - 1911) + "年" : "民國" + (lunar.lunarYear) + "年";
+                                        Birth = ROC + CheckedDateZero(lunar.lunarMonth.ToString(), 1) + "月" + CheckedDateZero(lunar.lunarDay.ToString(), 1) + "日";
+                                    }
+                                }
+                            }
+                        }
+                        else
+                        {
+                            //農曆生日=空白
+                            string sbirth = sBirth;
+                            if (sbirth.IndexOf("民國") >= 0 && sbirth.IndexOf("年") > 0 && sbirth.IndexOf("月") > 0 && sbirth.IndexOf("日") > 0)
+                            {
+                                int sbirth_roc_index = sbirth.IndexOf("民國");
+                                int sbirth_year_index = sbirth.IndexOf("年");
+                                int sbirth_month_index = sbirth.IndexOf("月");
+                                int sbirth_day_index = sbirth.IndexOf("日");
+                                syear = (int.Parse(sbirth.Substring(2, sbirth_year_index - 2)) + 1911).ToString();
+                                smonth = CheckedDateZero(sbirth.Substring(sbirth_year_index + 1, sbirth_month_index - sbirth_year_index - 1), 1);
+                                sday = CheckedDateZero(sbirth.Substring(sbirth_month_index + 1, sbirth.Length - sbirth_month_index - 2), 1);
+
+                                Solar solor = new Solar();
+                                int.TryParse(syear, out solor.solarYear);
+                                int.TryParse(smonth, out solor.solarMonth);
+                                int.TryParse(sday, out solor.solarDay);
+
+                                Lunar lunar = new Lunar();
+                                lunar = LunarSolarConverter.SolarToLunar(solor);
+
+                                LunarSolarConverter.shuxiang(lunar.lunarYear, ref Zodiac);
+                                age = GetAge(lunar.lunarYear, lunar.lunarMonth, lunar.lunarDay).ToString();
+                                birthMonth = CheckedDateZero(lunar.lunarMonth.ToString(), 1);
+
+                                string ROC = lunar.lunarYear > 1911 ? "民國" + (lunar.lunarYear - 1911) + "年" : "民國" + (lunar.lunarYear) + "年";
+                                Birth = ROC + CheckedDateZero(lunar.lunarMonth.ToString(), 1) + "月" + CheckedDateZero(lunar.lunarDay.ToString(), 1) + "日";
+
+                                string sROC = solor.solarYear > 1911 ? "民國" + (solor.solarYear - 1911) + "年" : "民國" + (solor.solarYear) + "年";
+                                sBirth = sROC + smonth + "月" + sday + "日";
+                            }
+                        }
+
+                        birthMonth = CheckedDateZero(birthMonth, 1);
 
                         string dbirthMonth = string.Empty;
                         string deathAge = "0";
                         string dZodiac = string.Empty;
 
-                        string year = string.Empty;
-                        string month = string.Empty;
-                        string day = string.Empty;
-
-                        string birth = Jbirth[i].ToString();
-                        GetBirthDetail(birth, ref birthMonth, ref age, ref Zodiac);
-                        //int s1 = birth.IndexOf("民國");
-                        //int s2 = birth.IndexOf("年");
-                        //int s3 = birth.IndexOf("月");
-                        //int s4 = birth.IndexOf("日");
-                        //if (birth.IndexOf("民國") >= 0 && birth.IndexOf("年") > 0 && birth.IndexOf("月") > 0 && birth.IndexOf("日") > 0)
-                        //{
-                        //    int year_index = birth.IndexOf("年");
-                        //    int month_index = birth.IndexOf("月");
-                        //    year = (int.Parse(birth.Substring(2, year_index - 2)) + 1911).ToString();
-                        //    month = birthMonth = birth.Substring(year_index + 1, month_index - year_index - 1);
-                        //    day = birth.Substring(month_index + 1, birth.Length - month_index - 2);
-
-                        //    Birth = year + "-" + month + "-" + day;
-                        //    LunarSolarConverter.shuxiang(int.Parse(year), ref Zodiac);
-                        //    age = GetAge(int.Parse(year), int.Parse(month), int.Parse(day)).ToString();
-                        //}
-
-                        //birthMonth = birthMonth.Length < 2 ? "0" + birthMonth : birthMonth;
-
                         GetDeathBirthDetail(deathbirth, deathday, ref dbirthMonth, ref deathAge, ref dZodiac);
+
+                        int cost = GetPurdueCost(3, purdueType);
 
                         if (name != "")
                         {
                             purdueinfo = true;
-                            PurdueID = objLightDAC.addpurdue_da(ApplicantID, name, name2, Jmobile[i].ToString(), "善男", Jpurduetype[i].ToString(), purdueString, "1", birth, 
-                                JleapMonth[i].ToString(), Jbirthtime[i].ToString(), birthMonth, age, Zodiac, 1, Jaddr[i].ToString(), Jcounty[i].ToString(), Jdist[i].ToString(), 
-                                JzipCode[i].ToString(), sendback, rname, rmobile, raddr, rcounty, rdist, rzipCode, deathname, deathbirth, deathleapMonth, deathbirthtime, 
-                                deathday, deathAge, firstname, Year);
+
+                            PurdueID = objLightDAC.Addpurdue_da(
+                                ApplicantID: ApplicantID,
+                                Name: name,
+                                Name2: name2,
+                                Mobile: mobile,
+                                Cost: cost,
+                                Sex: sex,
+                                PurdueType: purdueType,
+                                PurdueString: purdueString,
+                                Oversea: oversea,
+                                Birth: Birth,
+                                LeapMonth: leapMonth,
+                                BirthTime: birthTime,
+                                BirthMonth: birthMonth,
+                                Age: age,
+                                Zodiac: Zodiac,
+                                sBirth: sBirth,
+                                Count: 1,
+                                Remark: remark,
+                                Addr: addr,
+                                County: county,
+                                Dist: dist,
+                                ZipCode: zipCode,
+                                Sendback: sendback, 
+                                rName: rname, 
+                                rMobile: rmobile, 
+                                rAddr: raddr, 
+                                rCounty: rcounty, 
+                                rDist: rdist, 
+                                rZipCode: rzipCode, 
+                                DeathName: deathname, 
+                                Birthday: deathbirth,
+                                DeathLeapMonth: deathleapMonth, 
+                                DeathBirthTime: deathbirthtime, 
+                                Deathday: deathday, 
+                                DeathAge: deathAge, 
+                                FirstName: firstname,
+                                Year: Year);
 
                         }
                     }
@@ -256,7 +370,17 @@ namespace Temple.Temples
                 if (ApplicantID > 0 && purdueinfo)
                 {
                     basePage.mJSonHelper.AddContent("StatusCode", 1);
-                    basePage.mJSonHelper.AddContent("redirect", "templeCheck.aspx?kind=2&a=" + AdminID + "&aid=" + ApplicantID + (basePage.Request["ad"] != null ? "&ad=1" : "") + (basePage.Request["twm"] != null ? "&twm=1" : ""));
+
+                    string redirectUrl = BuildRedirectUrl(
+                        "templeCheck.aspx",
+                        2,
+                        AdminID,
+                        ApplicantID,
+                        basePage.Request
+                    );
+
+                    // 加入 JSON 回傳內容
+                    basePage.mJSonHelper.AddContent("redirect", redirectUrl);
 
                     basePage.Session["ApplicantID"] = ApplicantID;
                 }
@@ -277,7 +401,7 @@ namespace Temple.Temples
 
                 string AdminID = basePage.Request["a"];
 
-                dtData = objLightDAC.Getpurdue_da_info(applicantID, Year);
+                dtData = objLightDAC.Getpurdue_da_Info(applicantID, Year);
 
                 if (dtData.Rows.Count > 0)
                 {
@@ -287,6 +411,7 @@ namespace Temple.Temples
                     basePage.mJSonHelper.AddContent("a", AdminID);
                     basePage.mJSonHelper.AddContent("AppName", dtData.Rows[0]["AppName"].ToString());
                     basePage.mJSonHelper.AddContent("AppMobile", dtData.Rows[0]["AppMobile"].ToString());
+                    basePage.mJSonHelper.AddContent("AppEmail", dtData.Rows[0]["AppEmail"].ToString());
 
                     basePage.mJSonHelper.AddDataTable("DataSource", dtData);
                 }

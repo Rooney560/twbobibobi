@@ -206,8 +206,6 @@
                                 <h2>報名安奉斗燈</h2>
                                 <div class="ServiceTempleList">
                                     <ul>
-                                        <li><a href="templeService_andou_Fw.aspx" target="_blank" title="斗六五路財神宮">斗六五路財神宮</a></li>
-                                        <li><a href="templeService_andou_wjsan.aspx" target="_blank" title="台灣道教總廟無極三清總道院">台灣道教總廟無極三清總道院</a></li>
                                     </ul>
                                 </div>
                             </li>

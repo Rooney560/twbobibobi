@@ -1,15 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using System.Web.UI;
-using System.Web.UI.WebControls;
-using System.Data;
-using BCFBaseLibrary.Web;
+﻿using BCFBaseLibrary.Security;
 using Read.data;
-using BCFBaseLibrary.Security;
+using System;
 using System.Collections;
+using System.Collections.Generic;
+using System.Data;
 using Temple.data;
+using TempleAdmin.Helper;
+using twbobibobi.Data;
+using twbobibobi.Helpers;
+using twbobibobi.Model;
+using twbobibobi.Services;
 
 namespace Temple.FET.Lights
 {
@@ -55,9 +55,9 @@ namespace Temple.FET.Lights
                 //resp = "1|18062216041218500003|100|TELEPAY|twm|0934315020|20180622160559423|F6C5E389052469CC441A402A3F0D0C9F";
                 string orderId = oid;
                 string CallbackLog = tid + "," + resp;
-                DatabaseHelper objDatabaseHelper = new DatabaseHelper(this);
+                LightDAC objLightDAC = new LightDAC(this);
 
-                DataTable dtCharge = objDatabaseHelper.GetChargeLog_Lights_Luer(orderId, Year);
+                DataTable dtCharge = objLightDAC.GetChargeLog_Lights_Luer(orderId, Year);
 
                 int cost = 0;
                 int.TryParse(dtCharge.Rows[0]["Amount"].ToString(), out cost);
@@ -73,25 +73,26 @@ namespace Temple.FET.Lights
 
                             int aid = int.Parse(m1);
 
-                            int type = objDatabaseHelper.GetLightsType_Luer(aid, Year);
+                            int type = objLightDAC.GetLightsType_Luer(aid, Year);
 
                             int adminID = 10;
 
                             string msg = "感謝購買,已成功付款" + cost + "元,您的訂單編號 ";
 
-                            objDatabaseHelper.UpdateLights_Luer_Info(aid, type, Year, ref msg, ref lightslist, ref Lightslist);
+                            objLightDAC.UpdateLights_Luer_Info(aid, type, Year, ref msg, ref lightslist, ref Lightslist);
                             //DataTable dtapplicantinfo = objDatabaseHelper.Getapplicantinfo_Lights_Luer(aid, adminID, Year);
                             //int cost = int.Parse(dtapplicantinfo.Rows[0]["Cost"].ToString());
-                            objDatabaseHelper.Updateapplicantinfo_Lights_Luer(aid, cost, 2, Year); //更新購買表內購買人狀態為已付款(Status=2)
+                            objLightDAC.Updateapplicantinfo_Lights_Luer(aid, cost, 2, Year); //更新購買表內購買人狀態為已付款(Status=2)
 
                             //msg = "感謝大德參與線上點燈,茲收您1960元功德金,訂單編號 光明燈:T2204, 安太歲:25351, 文昌燈:六1214。";
                             //mobile = "0903002568";
 
                             SMSHepler objSMSHepler = new SMSHepler();
                             string ChargeType = string.Empty;
+                            int uStatus = 0;
 
                             //更新流水付費表資訊(付費成功)
-                            if (objDatabaseHelper.UpdateChargeLog_Lights_Luer(orderId, tid, msg, Request.UserHostAddress, CallbackLog, Year, ref ChargeType))
+                            if (objLightDAC.UpdateChargeLog_Lights_Luer(orderId, tid, msg, Request.UserHostAddress, CallbackLog, Year, ref ChargeType, ref uStatus))
                             {
                                 m2 = "https://bobibobi.tw/FET/Lights/LightsComplete.aspx?a=" + adminID + "&aid=" + aid + "&kind=1";
                                 //m2 = "https://localhost:44329/FET/Lights/LightsComplete.aspx?a=" + adminID + "&aid=" + aid + "&kind=1";
@@ -112,14 +113,14 @@ namespace Temple.FET.Lights
                         }
                         else if (result[0] == "4")
                         {
-                            if (objDatabaseHelper.UpdateChargeStatus_Lights_Luer(orderId, -2, Request.UserHostAddress, CallbackLog, Year))
+                            if (objLightDAC.UpdateChargeStatus_Lights_Luer(orderId, -2, Request.UserHostAddress, CallbackLog, Year))
                             {
                                 Response.Write("<script>alert('此用戶已退款。');window.location.href='" + rebackURL + "'</script>");
                             }
                         }
                         else
                         {
-                            objDatabaseHelper.UpdateChargeStatus_Lights_Luer(orderId, -1, Request.UserHostAddress, CallbackLog, Year);
+                            objLightDAC.UpdateChargeStatus_Lights_Luer(orderId, -1, Request.UserHostAddress, CallbackLog, Year);
                             //objDatabaseHelper.UpdateChargeErrLog_Lights_Luer(orderId, "", Request.UserHostAddress, CallbackLog, Year);
 
                             if (m2.IndexOf("APPPaymentResult") > 0)

@@ -207,23 +207,23 @@
 
 
                 <!--頁碼示意-->
-                <div class="pageCtrl">
+                <%--<div class="pageCtrl">
                     <ul>
                         <li id="PageCtrl_F"><a href="#" title="第前頁">
                             <img src="images/pageCtrl_L1.png" width="30" height="30" alt="" /></a></li>
                         <li id="PageCtrl_P"><a href="#" title="上一頁">
                             <img src="images/pageCtrl_L2.png" width="30" height="30" alt="" /></a></li>
                         <li><a href="#" class="active" title="第1頁">1</a></li>
-                        <%--<li><a href="#" title="第2頁">2</a></li>
+                        <li><a href="#" title="第2頁">2</a></li>
                         <li><a href="#" title="第3頁">3</a></li>
                         <li><a href="#" title="第4頁">4</a></li>
-                        <li><a href="#" title="第5頁">5</a></li>--%>
+                        <li><a href="#" title="第5頁">5</a></li>
                         <li id="PageCtrl_N"><a href="#" title="下一頁">
                             <img src="images/pageCtrl_R2.png" width="30" height="30" alt="" /></a></li>
                         <li id="PageCtrl_L"><a href="#" title="最後頁">
                             <img src="images/pageCtrl_R1.png" width="30" height="30" alt="" /></a></li>
                     </ul>
-                </div>
+                </div>--%>
 
             </section>
 

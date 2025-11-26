@@ -7,7 +7,7 @@
 // </自動產生>
 //------------------------------------------------------------------------------
 
-namespace Temple.FET.APITEST
+namespace twbobibobi.FET.API
 {
 
 

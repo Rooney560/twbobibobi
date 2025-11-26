@@ -11,7 +11,7 @@
 <head runat="server">
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
     <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport" />
-    <meta property="og:title" content="靈寶禮斗活動|玉敕大樹朝天宮|合作宮廟|【保必保庇】線上宮廟服務平臺" />
+    <meta property="og:title" content="玉敕大樹朝天宮|靈寶禮斗活動|合作宮廟|【保必保庇】線上宮廟服務平臺" />
     <!--標題-->
     <meta property="og:url" content="https://bobibobi.tw/Temples/templeService_lingbaolidou_ma.aspx" />
     <!--網址：請補上網址-->
@@ -19,7 +19,7 @@
     <!--簡介-->
     <meta property="og:description" content="世代信仰，數位傳承 - 與全臺知名宮廟合作，提供宮廟服務線上報名，讓您在忙碌之餘也可以透過線上報名的方式,參與宮廟的服務。" />
     <!--簡介-->
-    <meta property="og:site_name" content="靈寶禮斗活動|玉敕大樹朝天宮|合作宮廟|【保必保庇】線上宮廟服務平臺" />
+    <meta property="og:site_name" content="玉敕大樹朝天宮|靈寶禮斗活動|合作宮廟|【保必保庇】線上宮廟服務平臺" />
     <!--標題-->
     <meta property="og:type" content="website" />
     <meta property="og:video" content="https://www.youtube.com/embed/7k0i9T1f5BY" />
@@ -29,9 +29,9 @@
 
 
     <!--抓取圖片-->
-    <meta property="og:image" content="https://bobibobi.tw/Temples/images/temple/lingbaolidou_ty.jpg" />
-    <meta name="twitter:image:src" content="https://bobibobi.tw/Temples/images/temple/lingbaolidou_ty.jpg" />
-    <link rel="image_src" href="https://bobibobi.tw/Temples/images/temple/lingbaolidou_ty.jpg" />
+    <meta property="og:image" content="https://bobibobi.tw/Temples/images/temple/lingbaolidou_ma_2025.jpg" />
+    <meta name="twitter:image:src" content="https://bobibobi.tw/Temples/images/temple/lingbaolidou_ma_2025.jpg" />
+    <link rel="image_src" href="https://bobibobi.tw/Temples/images/temple/lingbaolidou_ma_2025.jpg" />
 
 
     <link rel="shortcut icon" href="images/favicon.png" />
@@ -39,18 +39,19 @@
 
     <!-- Twitter Card -->
     <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content="玉敕大樹朝天宮｜靈寶祈福法會 線上報名中" />
+    <meta name="twitter:title" content="玉敕大樹朝天宮｜靈寶禮斗 線上報名中" />
     <meta name="twitter:description" content="參加玉敕大樹朝天宮 銀同媽祈福法會，線上報名中，附介紹影片說明流程與時間。" />
-    <meta name="twitter:image" content="https://bobibobi.tw/Temples/images/temple/lingbaolidou_ty.jpg" />
+    <meta name="twitter:image" content="https://bobibobi.tw/Temples/images/temple/lingbaolidou_ma_2025.jpg" />
 
-    <title>靈寶禮斗活動|玉敕大樹朝天宮|合作宮廟|【保必保庇】線上宮廟服務平臺</title>
+    <title>玉敕大樹朝天宮|靈寶禮斗活動|合作宮廟|【保必保庇】線上宮廟服務平臺</title>
     <!--標題-->
 
     <!--資源項目-->
     <link href="css/reset.css" rel="stylesheet" type="text/css" />
-    <link rel="stylesheet" type="text/css" href="css/style.css?t=15963258" />
+    <link rel="stylesheet" type="text/css" href="css/style.css" />
     <script type="text/javascript" src="js/jquery-3.2.1.min.js"></script>
      <script type="text/javascript" src="js/bootstrap.min.js"></script>
+    <link href="css/Activity.css?t=2589963" rel="stylesheet" />
     <style type="text/css">
         .inputBtn input {
             border: 0.2vw solid #fff;
@@ -375,6 +376,60 @@
             height: 500px;
         }
 
+        .checkedbox {
+            vertical-align: middle;
+            -webkit-transform: scale(1.2);
+            -moz-transform: scale(1.2);
+            -ms-transform: scale(1.2);
+            transform: scale(1.2);
+            -webkit-transform-origin: right;
+            -moz-transform-origin: right;
+            -ms-tranform-origin: right;
+            transform-origin: right;
+            height: 12px;
+            width: 12px;
+            margin-bottom: 4px;
+            position: relative;
+            border-radius: 2px;
+        }
+        
+        .text_s input.checkedbox, .tel input.checkedbox {
+            width: 12px;
+            margin-left: 5px;
+        }
+        
+        /* Toast 容器 ------------------------------------ */
+        .toast {
+            position: fixed;
+            bottom: 20px; /* 距離底部 20px */
+            left: 50%; /* 水平置中 */
+            transform: translateX(-50%) translateY(100px);
+            /* 初始往下隱藏 100px */
+            background: rgba(0, 0, 0, 0.8); /* 半透明黑底 */
+            color: #fff; /* 白字 */
+            padding: 10px 20px; /* 內距 */
+            border-radius: 4px; /* 圓角 */
+            opacity: 0; /* 初始透明 */
+            transition: transform .3s ease, opacity .3s ease; /* 進出場動畫 */
+            z-index: 9999; /* 最上層 */
+            box-sizing: border-box;
+            max-width: calc(100% - 40px); /* 左右各留 20px 安全邊距 */
+            overflow-wrap: break-word; /* 自動換行 */
+        }
+
+        /* Toast 顯示時 -------------------------------- */
+        .toast.visible {
+            opacity: 1;
+            transform: translateX(-50%) translateY(0);
+        }
+
+        /* 大螢幕時限制最大寬度 ------------------------ */
+        @media (min-width: 768px) {
+            .toast {
+                max-width: 300px;
+            }
+        }
+
         @media only screen and (max-width: 720px) {
             .content_a {
                 font-size: 3.8vw;
@@ -451,9 +506,8 @@
       "contentUrl": "https://bobibobi.tw/Temples/templeService_lingbaolidou_ma.aspx"
     }
     </script>
-
     <!-- Global site tag (gtag.js) - Google Analytics -->
-    <script async="" src="https://www.googletagmanager.com/gtag/js?id=G-4YWFRTFCTT"></script>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-4YWFRTFCTT"></script>
     <script>
         window.dataLayer = window.dataLayer || [];
         function gtag() { dataLayer.push(arguments); }
@@ -469,10 +523,32 @@
             }); var f = d.getElementsByTagName(s)[0],
                 j = d.createElement(s), dl = l != 'dataLayer' ? '&l=' + l : ''; j.async = true; j.src =
                     'https://www.googletagmanager.com/gtm.js?id=' + i + dl; f.parentNode.insertBefore(j, f);
+        })(window, document, 'script', 'dataLayer', 'GTM-5L2H7Z3N');</script>
+    <!-- End Google Tag Manager -->
+    <!-- Google Tag Manager -->
+    <script>(function (w, d, s, l, i) {
+            w[l] = w[l] || []; w[l].push({
+                'gtm.start':
+                    new Date().getTime(), event: 'gtm.js'
+            }); var f = d.getElementsByTagName(s)[0],
+                j = d.createElement(s), dl = l != 'dataLayer' ? '&l=' + l : ''; j.async = true; j.src =
+                    'https://www.googletagmanager.com/gtm.js?id=' + i + dl; f.parentNode.insertBefore(j, f);
         })(window, document, 'script', 'dataLayer', 'GTM-NGRZRR4V');</script>
     <!-- End Google Tag Manager -->
 </head>
 <body>
+    <!-- Google Tag Manager (noscript) -->
+    <noscript>
+        <iframe src="https://www.googletagmanager.com/ns.html?id=GTM-NGRZRR4V"
+            height="0" width="0" style="display: none; visibility: hidden"></iframe>
+    </noscript>
+    <!-- End Google Tag Manager (noscript) -->
+    <!-- Google Tag Manager (noscript) -->
+    <noscript>
+        <iframe src="https://www.googletagmanager.com/ns.html?id=GTM-5L2H7Z3N"
+            height="0" width="0" style="display: none; visibility: hidden"></iframe>
+    </noscript>
+    <!-- End Google Tag Manager (noscript) -->
     <uc4:AjaxClientControl ID="AjaxClientControl1" runat="server" />
     <div id="wrap">
         <!--#warp //start-->
@@ -488,24 +564,25 @@
                     <li><a href="../index.aspx" title="首頁">首頁</a></li>
                     <li><a href="temple.aspx" title="合作宮廟">合作宮廟</a></li>
                     <li><a href="https://bobibobi.tw/Temples/templeInfo.aspx?a=23" title="玉敕大樹朝天宮">玉敕大樹朝天宮</a></li>
-                    <li>靈寶禮斗活動</li>
+                    <li>靈寶禮斗</li>
                 </ul>
             </nav>
 
             <!--本頁內容-->
             <section>
                 <div class="TempleImg">
-                    <img src="images/temple/lingbaolidou_ty.jpg" width="1160" height="550" alt="" />
+                    <img src="images/temple/lingbaolidou_ma_2025.jpg?t=2589963" width="1160" height="550" alt="保必保庇提供玉敕大樹朝天宮靈寶禮斗線上報名服務" 
+                        title="保必保庇提供玉敕大樹朝天宮靈寶禮斗線上報名服務" />
                 </div>
                 <h1 class="TempleName">玉敕大樹朝天宮</h1>
                 <div class="TempleServiceInfo">                    
                     <div class="EventServiceContent">
                         <div class="EventTime">
                             <div>活動開始日期：</div>
-                        <div id="startTime">2024/08/27 00:00</div>
+                        <div id="startTime">2025/09/12 00:00</div>
                             <br />
                             <div>活動截止日期：</div>
-                            <div id="endTime">2024/10/15 23:59</div>
+                            <div id="endTime">2025/11/06 23:59</div>
                         </div>
                         <div class="EventServiceContent">
                             <div>
@@ -599,6 +676,8 @@
                                     </div>
                                 </div>
                                 <br />
+                                <h2>法會時間：國曆 114 年 11 月 08 日 ; 農曆 114 年 09 月 19 日 星期六</h2>
+                                <br />
                                 <%--<h2>靈寶禮斗-功德主($ 6,800)</h2><span id="lingbaolidou1" style="color:red" class="content_a" runat="server">(已額滿)</span>--%>
                                 <h2>靈寶禮斗-隨喜功德主($ 1,000)</h2><span id="lingbaolidou2" style="color:red" class="content_a" runat="server">(已額滿)</span>
                                 <h2>靈寶禮斗-消災解厄科儀($ 550)</h2><span id="lingbaolidou3" style="color:red" class="content_a" runat="server">(已額滿)</span>
@@ -617,22 +696,22 @@
                     <form>
                         <div class="FormTitle_A">購買人資料<span>（資料務必填寫正確，日後查詢訂單使用。聯絡電話請填09開頭號碼，例：0912345678。）</span></div>
                         <div class="FormInput text_s">
-                            <label>申請人姓名</label><input name="member_name" type="text" class="required" maxlength="5" id="member_name" placeholder="請輸入申請人姓名"/>
+                            <label>購買人姓名</label><input name="member_name" type="text" class="required" maxlength="5" id="member_name" placeholder="請輸入購買人姓名"/>
                         </div>
                         <div class="FormInput tel">
-                            <label>申請人電話</label><input name="member_tel" type="tel" class="required" id="member_tel" placeholder="請輸入聯絡電話"/>
+                            <label>購買人電話</label><input name="member_tel" type="tel" class="required" id="member_tel" placeholder="請輸入聯絡電話"/>
                         </div>
                         <div class="FormInput mail">
-                            <label>申請人Email</label><input name="member_mail" type="text" class="" id="member_mail" placeholder="請輸入Email(選填)"/>
+                            <label>購買人信箱</label><input name="member_mail" type="text" class="" id="member_mail" placeholder="請輸入購買人信箱"/>
                         </div>
                         <div class="FormInput address">
-                            <label>地址</label>
+                            <label>購買人地址</label>
                             <div class="MemAddress">
                                 <div data-role="zipcode" data-style="addr-zip" data-placeholder="" data-name="member_zipcode" data-id="member_zipcode"></div>
                                 <div data-role="county" data-style="addr-county required" data-name="member_county" data-id="member_county"></div>
                                 <div data-role="district" data-style="addr-district required" data-name="member_district" data-id="member_district"></div>
                             </div>
-                            <input name="member_address" type="text" class="required" id="member_address" placeholder="請輸入地址" />
+                            <input name="member_address" type="text" class="required" id="member_address" placeholder="請輸入購買人地址" />
                         </div>
 
                         <!--可複製的區塊 //start-->
@@ -643,14 +722,35 @@
                                 <div class="DeletData"><a href="javascript:;" class="deletList" title="刪除">
                                     <img src="images/deletData.svg" alt="" /></a></div>
                                 <div class="FormTitle_B">祈福人<span>（祈福人限填一位，每個靈寶禮斗對應一位祈福人。如需多位，請點選增加祈福人。）</span></div>
+                                <div class="FormInput select">
+                                    <label>活動項目</label>
+                                    <select name="bless_service_1" class="required" id="bless_service_1">
+                                        <option value>請選擇</option>
+                                        <%--<option value="靈寶禮斗-功德主">靈寶禮斗-功德主 $ 6,800</option>--%>
+                                        <option value="靈寶禮斗-隨喜功德主">靈寶禮斗-隨喜功德主 $ 1,000</option>
+                                        <option value="靈寶禮斗-消災解厄科儀">靈寶禮斗-消災解厄科儀 $ 550</option>
+                                    </select>
+                                </div>
                                 <div class="FormInput text_s">
-                                    <label>祈福人姓名</label><input name="bless_name_1" type="text" maxlength="5" class="required" id="bless_name_1" placeholder="請輸入祈福人姓名"/>
+                                    <label>祈福人姓名</label><input name="bless_name_1" type="text" class="required" maxlength="5" id="bless_name_1" placeholder="請輸入祈福人姓名"/>
+                                    <input type="checkbox" class="checkedbox" id="bless_copy_name_1" />
+                                    <label for="bless_copy_name_1" id="bless_checkednamelabel_1" style="width: auto;">同購買人姓名</label>
                                 </div>
                                 <div class="FormInput tel">
                                     <label>祈福人電話</label><input name="bless_tel_1" type="tel" class="required" id="bless_tel_1" placeholder="請輸入祈福人聯絡電話"/>
+                                    <input type="checkbox" class="checkedbox" id="bless_copy_tel_1" />
+                                    <label for="bless_copy_tel_1" id="bless_checkedtellabel_1" style="width: auto;">同購買人聯絡電話</label>
+                                </div>
+                                <div class="FormInput select">
+                                    <label>性別</label>
+                                    <select name="bless_sex_1" class="required" id="bless_sex_1">
+                                        <option selected="selected" value="">請選擇</option>
+                                        <option value="善男">善男</option>
+                                        <option value="信女">信女</option>
+                                    </select>
                                 </div>
                                 <div class="FormInput date">
-                                    <label>農歷生日</label><input name="bless_birthday_1" type="text" class="datapicker required2" id="bless_birthday_1" placeholder="請選擇農曆生日或國曆生日二擇一" />
+                                    <label>農曆生日</label><input name="bless_birthday_1" type="text" class="datapicker required2" id="bless_birthday_1" placeholder="請選擇農曆生日或國曆生日二擇一" />
                                 </div>
                                 <div class="FormInput select">
                                     <label>閏月</label>
@@ -661,7 +761,7 @@
                                     </select>
                                 </div>
                                 <div class="FormInput select">
-                                    <label>農歷時辰</label>
+                                    <label>農曆時辰</label>
                                     <select name="bless_birthtime_1" class="" id="bless_birthtime_1">
                                         <option value="吉">吉</option>
 
@@ -691,32 +791,27 @@
                                     </select>
                                 </div>
                                 <div class="FormInput date">
-                                    <label>國歷生日</label><input name="bless_sbirth_1" type="text" class="datapicker required2" id="bless_sbirth_1" placeholder="請選擇國曆生日或農曆生日二擇一" />
+                                    <label>國曆生日</label><input name="bless_sbirth_1" type="text" class="datapicker required2" id="bless_sbirth_1" placeholder="請選擇國曆生日或農曆生日二擇一" />
                                 </div>
                                 <div class="FormInput select">
-                                    <label>性別</label>
-                                    <select name="bless_sex_1" class="required" id="bless_sex_1">
-                                        <option selected="selected" value="">請選擇</option>
-                                        <option value="善男">善男</option>
-                                        <option value="信女">信女</option>
+                                    <label>祈福人地址</label>
+                                    <select name="bless_oversea_1" class="" id="bless_oversea_1">
+                                        <option value="1">國內</option>
+
+                                        <option value="2">國外</option>
                                     </select>
                                 </div>
                                 <div class="FormInput address">
-                                    <label>地址</label>
-                                    <div class="CusAddress">
+                                    <label></label>
+                                    <div class="CusAddress" id="bless_cusaddress_1">
                                         <div data-role="zipcode" data-style="addr-zip" data-placeholder="" data-name="bless_zipcode_1" data-id="bless_zipcode_1"></div>
-                                        <div data-role="county" data-style="addr-county required" data-name="bless_county_1" data-id="bless_county_1"></div>
-                                        <div data-role="district" data-style="addr-district required" data-name="bless_district_1" data-id="bless_district_1"></div>
+                                        <div data-role="county" data-style="addr-county required4" data-name="bless_county_1" data-id="bless_county_1"></div>
+                                        <div data-role="district" data-style="addr-district required4" data-name="bless_district_1" data-id="bless_district_1"></div>
                                     </div>
                                     <input name="bless_address_1" type="text" class="required" id="bless_address_1" placeholder="請輸入地址"/>
                                 </div>
-                                <div class="FormInput select">
-                                    <label>活動項目</label>
-                                    <select name="bless_service_1" class="required" id="bless_service_1">
-                                        <%--<option value="靈寶禮斗-功德主">靈寶禮斗-功德主 $ 6,800</option>--%>
-                                        <option value="靈寶禮斗-隨喜功德主">靈寶禮斗-隨喜功德主 $ 1,000</option>
-                                        <option value="靈寶禮斗-消災解厄科儀">靈寶禮斗-消災解厄科儀 $ 550</option>
-                                    </select>
+                                <div class="FormInput text_s">
+                                    <label>備註</label><textarea name="bless_Remark_1" type="text" class="" id="bless_Remark_1" placeholder="請輸入問題內容"></textarea>
                                 </div>
                             </li>
 
@@ -730,6 +825,14 @@
                         </div>
 
                         <div class="FormButtom">
+                            <div>
+                                <input type="checkbox" id="checkedprivate" />
+                                <label for="checkedprivate">本人同意
+                                    <a href="PrivacyPolicy.aspx" target="_blank">隱私權政策</a>
+                                    並已取得當事人同意，為「保必保庇線上宮廟服務平台」之所有交易行為，九九商通得基於
+                                    <a href="PrivacyPolicy.aspx" target="_blank">隱私權政策</a>
+                                    蒐集、處理及利用本人所提供之資料，並提供予合作廠商及服務宮廟。</label>
+                            </div>
                             <input type="button" id="subBtn" class="subBtn" value="下一步"/>
                         </div>
 
@@ -742,12 +845,6 @@
         <!-----本頁內容結束----->
         <uc1:footer runat="server" id="footer" />
     </div>
-    <!-- Google Tag Manager (noscript) -->
-    <noscript>
-        <iframe src="https://www.googletagmanager.com/ns.html?id=GTM-ABCDEFGH"
-            height="0" width="0" style="display: none; visibility: hidden"></iframe>
-    </noscript>
-    <!-- End Google Tag Manager (noscript) -->
 </body>
 </html>
 <!----------本頁js---------->
@@ -759,13 +856,48 @@
         $("header").addClass("active");
 
         if (!checkEndTime()) {
-            alert('親愛的大德您好\n玉敕大樹朝天宮 2024靈寶禮斗活動已截止！！\n感謝您的支持, 謝謝!');
+            alert('親愛的大德您好\n玉敕大樹朝天宮 2025靈寶禮斗活動已截止！！\n感謝您的支持, 謝謝!');
         }
 
         $("input[type='tel']").on("keypress keyup blur", function (event) {
             $(this).val($(this).val().replace(/[^\d].+/, ""));
             if ((event.which < 48 || event.which > 57)) {
                 event.preventDefault();
+            }
+        });
+
+        $("#bless_oversea_1").change(function () {
+            if ($("#bless_oversea_1").val() == 1) {
+                //alert("國內");
+                $("#bless_cusaddress_1").show();
+            }
+            else {
+                //alert("國外");
+                $("#bless_cusaddress_1").hide();
+            }
+        });
+
+        $("#bless_copy_name_1").change(function () {
+            if ($("#bless_copy_name_1").is(':checked')) {
+                //alert("選中同購買人姓名");
+                var name = $("#member_name").val().trim();
+                $("#bless_name_1").val(name);
+            }
+            else {
+                //alert("取消同購買人姓名");
+                $("#bless_name_1").val('');
+            }
+        });
+
+        $("#bless_copy_tel_1").change(function () {
+            if ($("#bless_copy_tel_1").is(':checked')) {
+                //alert("選中同購買人電話");
+                var name = $("#member_tel").val().trim();
+                $("#bless_tel_1").val(name);
+            }
+            else {
+                //alert("取消同購買人電話");
+                $("#bless_tel_1").val('');
             }
         });
 
@@ -854,11 +986,77 @@
 
 
             //更新所有動態產生的ID編號  
+            $('.InputGroup > li:last').find('div').each(function (index) {
+                var originalId = $(this).attr('id');
+                if (originalId != null) {
+                    var newId = originalId.slice(0, -1) + lastblessNum;
+                    $(this).attr('id', newId);
+                    $(this).attr('name', newId);
+
+                }
+            });
+
+            $('.InputGroup > li:last').find('label').each(function (index) {
+                var originalId = $(this).attr('id');
+                if (originalId != null) {
+                    var newId = originalId.slice(0, -1) + lastblessNum;
+
+                    if (newId.indexOf('checkednamelabel') >= 0) {
+                        $(this).attr('id', newId);
+                        $(this).attr('name', newId);
+                        $(this).attr('for', 'bless_copy_name_' + lastblessNum);
+                    }
+
+                    if (newId.indexOf('checkedtellabel') >= 0) {
+                        $(this).attr('id', newId);
+                        $(this).attr('name', newId);
+                        $(this).attr('for', 'bless_copy_tel_' + lastblessNum);
+                    }
+
+                }
+            });
+
             $('.InputGroup > li:last').find('input').each(function (index) {
                 var originalId = $(this).attr('id');
                 var newId = originalId.slice(0, -1) + lastblessNum;
                 $(this).attr('id', newId);
                 $(this).attr('name', newId);
+
+                if (newId.indexOf('copy_name') >= 0) {
+                    $("#" + newId).change(function () {
+                        if ($("#bless_copy_name_" + lastblessNum).is(':checked')) {
+                            //alert("選中同購買人姓名");
+                            var name = $("#member_name").val().trim();
+                            $("#bless_name_" + lastblessNum).val(name);
+                        }
+                        else {
+                            //alert("取消同購買人姓名");
+                            $("#bless_name_" + lastblessNum).val('');
+                        }
+                    });
+                }
+
+                if (newId.indexOf('copy_tel') >= 0) {
+                    $("#" + newId).change(function () {
+                        if ($("#bless_copy_tel_" + lastblessNum).is(':checked')) {
+                            //alert("選中同購買人電話");
+                            var name = $("#member_tel").val().trim();
+                            $("#bless_tel_" + lastblessNum).val(name);
+                        }
+                        else {
+                            //alert("取消同購買人電話");
+                            $("#bless_tel_" + lastblessNum).val('');
+                        }
+                    });
+                }
+
+                $("input[type='tel']").on("keypress keyup blur", function (event) {
+                    $(this).val($(this).val().replace(/[^\d].+/, ""));
+                    if ((event.which < 48 || event.which > 57)) {
+                        event.preventDefault();
+                    }
+                });
+
             });
             $('.InputGroup > li:last').find('select').each(function (index) {
                 var originalId = $(this).attr('id');
@@ -877,7 +1075,34 @@
                 if (newId.indexOf('birthtime') >= 0) {
                     $("#" + newId).val('吉');
                 }
+
+                if (newId.indexOf('oversea') >= 0) {
+                    $("#" + newId).val('1');
+
+                    $("#" + newId).change(function () {
+                        var oversea = $(this).val();
+                        if (oversea == 1) {
+                            //alert("國內");
+                            $("#bless_cusaddress_" + lastblessNum).show();
+                        }
+                        else {
+                            //alert("國外");
+                            $("#bless_cusaddress_" + lastblessNum).hide();
+                        }
+                    });
+                }
             });
+
+            $('.InputGroup > li:last').find('textarea').each(function (index) {
+                var originalId = $(this).attr('id');
+                if (originalId != null) {
+                    var newId = originalId.slice(0, -1) + lastblessNum;
+                    $(this).attr('id', newId);
+                    $(this).attr('name', newId);
+
+                }
+            });
+
             $('.InputGroup > li:last .CusAddress').find('div[data-role]').each(function (index) {
                 var originalId = $(this).attr('data-id');
                 var originalName = $(this).attr('data-name');
@@ -910,56 +1135,238 @@
 
 <!-----必填欄位檢查----->
 <script>
-    $("#subBtn").on("click", function () {
-        var listcount = $('.InputGroup > li').last().attr('bless-id');
-        var isValid = true;
+    // 工具：抓出所有 .required.unfilled 的 label 名稱
+    function getMissingRequiredNames() {
+        return $('.required.unfilled').map(function () {
+            const $input = $(this);
+            let $grp = $input.closest('.FormInput');
+            // 嘗試讀同層 label
+            let labelText = $grp.find('label').first().text().trim();
+            if (!labelText) {
+                // 如果是地址那種沒有 label (e.g. 祈福人地址)，就往上找前一個有 label 的群組
+                $grp.prevAll('.FormInput').each(function () {
+                    const txt = $(this).find('label').first().text().trim();
+                    if (txt) {
+                        labelText = txt;
+                        return false;  // break
+                    }
+                });
+            }
+            return labelText.replace(/：|:/g, '');
+        }).get();
+    }
 
-        // 遍歷每個必填欄位
-        $('.required').each(function () {
-            var value = $(this).val().trim();
-            //value = value.trim();
-            if (value === '') {
-                isValid = false;
-                $(this).addClass('unfilled');
-            } else if (value != '' && $(this).hasClass('unfilled')) {
-                $(this).removeClass('unfilled');
+    // 顯示 Toast，3 秒後自動消失，並在關閉時執行 callback
+    function showToast(msg, callback) {
+        const $t = $(`<div class="toast">${msg}</div>`)
+            .appendTo('body');
+        // 進場
+        requestAnimationFrame(() => $t.addClass('visible'));
+        // 3 秒後退場並呼叫 callback
+        setTimeout(() => {
+            $t.removeClass('visible');
+            $t.one('transitionend', () => {
+                $t.remove();
+                if (typeof callback === 'function') callback();
+            });
+        }, 1000);
+    }
+
+    // Toast 顯示完畢後再捲動＋聚焦
+    function showToastAndFocus($el, msg) {
+        showToast(msg, () => {
+            // 等 toast 完全隱藏之後再聚焦，不搶畫面
+            $(".Notice").text(msg).addClass("active");
+            $el.addClass("unfilled");
+            $el[0].scrollIntoView({ block: 'center' });
+            $el.focus();
+        });
+    }
+
+    function clearError($elem) {
+        $elem.removeClass("unfilled");
+    }
+
+    function clearNotice() {
+        $(".Notice").removeClass("active").text("");
+    }
+
+    // 通用驗證器清單
+    const validators = [
+        {
+            // 購買人電話：非空 + 格式
+            selector: "#member_tel",
+            checks: [
+                { fn: v => v !== "", msg: "購買人電話不能為空。" },
+                { fn: Isphone, msg: "購買人電話格式錯誤。" }
+            ]
+        },
+        {
+            // 購買人信箱：非空 + 格式
+            selector: "#member_mail",
+            checks: [
+                { fn: v => v !== "", msg: "購買人信箱不能為空。" },
+                { fn: IsEmail, msg: "購買人信箱格式錯誤。" }
+            ]
+        },
+        {
+            // 購買人區域：有縣市就一定要有區域
+            selector: "#member_district",
+            checks: [
+                {
+                    fn: v => {
+                        const county = $("#member_county").val();
+                        if (!county) return false; // 縣市未選
+                        return (v || "").trim() !== ""; // 區域必填
+                    },
+                    msg: "購買人地址未完整選擇，請重新選擇縣市與區域。"
+                }
+            ]
+        },
+        {
+            // 所有通用必填欄位
+            selector: ".required",
+            checks: [{ fn: v => (v || "").trim() !== "", msg: "上面有欄位未填寫。" }]
+        }
+    ];
+
+    // 針對每一位祈福人做驗證
+    function validateBless(i) {
+        const $li = $(`.InputGroup > li[bless-id=${i}]`);
+        // 電話
+        const tel = $li.find(`#bless_tel_${i}`).val().trim();
+        if (!tel) {
+            showToastAndFocus($li.find(`#bless_tel_${i}`), "祈福人電話不能為空。");
+            return false;
+        }
+        if (!Isphone(tel)) {
+            showToastAndFocus($li.find(`#bless_tel_${i}`), "祈福人電話格式錯誤。");
+            return false;
+        }
+        clearError($li.find(`#bless_tel_${i}`));
+
+        // 若國內才要檢查縣市 & 區域
+        if ($li.find(`#bless_oversea_${i}`).val() === "1") {
+            const county = $li.find(`#bless_county_${i}`).val();
+            if (!county) {
+                showToastAndFocus($li.find(`#bless_county_${i}`), "祈福人地址 縣市為空，請重新選擇縣市。");
+                return false;
+            }
+            clearError($li.find(`#bless_county_${i}`));
+
+            const district = $li.find(`#bless_district_${i}`).val();
+            if (!district) {
+                showToastAndFocus($li.find(`#bless_district_${i}`), "祈福人地址 區域為空，請重新選擇區域。");
+                return false;
+            }
+            clearError($li.find(`#bless_district_${i}`));
+        }
+
+        // 農曆/國曆生日二擇一
+        const birth = $li.find(`#bless_birthday_${i}`).val();
+        const sbirth = $li.find(`#bless_sbirth_${i}`).val();
+        if (!birth && !sbirth) {
+            showToastAndFocus($li.find(".required2"), "請選擇農曆或國曆生日其中一項。");
+            return false;
+        }
+        clearError($li.find(".required2"));
+
+        return true;
+    }
+
+    // 回到上一頁後若選過縣市但區域為空，強制清空縣市
+    $(window).on("pageshow", function (e) {
+        // 1. 購買人：縣市有、區域空 → 清空縣市
+        const memberCounty = $("#member_county").val();
+        const memberDistrict = $("#member_district").val();
+        if (memberCounty && !memberDistrict) {
+            $("#member_county").val("");
+        }
+
+        // 2. 祈福人：動態 N 個
+        $(".InputGroup > li[bless-id]").each(function () {
+            const $li = $(this);
+            const id = $li.attr("bless-id");              // e.g. "1", "2", ...
+            const $county = $li.find(`#bless_county_${id}`);
+            const $district = $li.find(`#bless_district_${id}`);
+
+            // 如果選了「國內」才需檢查
+            if ($li.find(`#bless_oversea_${id}`).val() === "1") {
+                if ($county.val() && !$district.val()) {
+                    // 清空縣市，迫使使用者重選才會帶出新的區域
+                    $county.val("");
+                }
             }
         });
+    });
 
-        // 遍歷每個必填欄位
-        for (var i = 1; i <= listcount; i++) {
-            var value_birth = $("#bless_birthday_" + i).val();
-            var value_sbirth = $("#bless_sbirth_" + i).val();
+    $("#subBtn").on("click", function () {
+        // 先把前一次的狀態清掉
+        clearNotice();
+        $('.required').each((_, el) => clearError($(el)));
 
-            if (value_birth == '' && value_sbirth == '') {
-                isValid = false;
-                $('.required2').addClass('unfilled');
-            } else if ((value_birth != '' || value_sbirth != '') && $('.required2').hasClass('unfilled')) {
-                $('.required2').removeClass('unfilled');
+        // 1. 先跑通用 validators，但對 .required rule 不馬上跳出，只標記 .unfilled
+        for (const rule of validators) {
+            const $eles = $(rule.selector);
+            for (let i = 0; i < $eles.length; i++) {
+                const $el = $eles.eq(i);
+                const val = $el.val();
+                clearError($el);
+
+                for (const check of rule.checks) {
+                    if (!check.fn(val)) {
+                        // 標記錯誤欄位
+                        $el.addClass('unfilled');
+                        // 如果是「非 .required」的 rule，就立刻提示並 return
+                        if (rule.selector !== '.required') {
+                            showToastAndFocus($el, check.msg);
+                            return;
+                        }
+                        // 如果是 .required 這支，就只標記，繼續跑完所有 required
+                    }
+                }
             }
         }
 
-        if (isValid) {
-            // 所有欄位都已填寫
-            console.log('所有欄位都已填寫');
-            //alert("活動尚未開始!");
+        // 2. 全部通用檢查後，看看還有哪些 .required 還是 unfilled
+        const missing = getMissingRequiredNames();
+        if (missing.length) {
+            // 去重、組字串
+            const uniq = [...new Set(missing)];
+            const msg = uniq.join('、') + ' 未填寫';
+            // 聚焦到第一個錯誤欄位
+            const $first = $('.required.unfilled').first();
+            showToastAndFocus($first, msg);
+            return;
+        }
 
-            if (location.search.indexOf('ad') >= 0 || checkedStartTime()) {
-                if (checkEndTime()) {
-                    gotoChecked_ty();
-                }
-                else {
-                    alert('親愛的大德您好\n玉敕大樹朝天宮 2024靈寶禮斗活動已截止！！\n感謝您的支持, 謝謝!'); location = 'https://bobibobi.tw/Temples/temple.aspx'
-                }
+        // 3. 驗證所有祈福人
+        const lastId = Number($('.InputGroup > li').last().attr('bless-id') || 0);
+        for (let i = 1; i <= lastId; i++) {
+            if (!validateBless(i)) {
+                return;
             }
-            else {
-                alert('親愛的大德您好\n玉敕大樹朝天宮 2024靈寶禮斗活動尚未開始！！\n感謝您的支持, 謝謝!'); location = 'https://bobibobi.tw/Temples/temple.aspx'
+        }
+
+        // 4. 隱私權同意
+        if (!$("#checkedprivate").is(":checked")) {
+            showToastAndFocus($("#checkedprivate"), "請勾選同意隱私權政策。");
+            return;
+        }
+
+        // 5. 全部通過，送出
+        console.log("所有欄位都已填寫正確，準備送出");
+        // 如果活動時間判斷...
+        if (location.search.indexOf('ad') >= 0 || checkedStartTime()) {
+            if (checkEndTime()) {
+                gotoChecked_ma();
+            } else {
+                alert('玉敕大樹朝天宮 2025靈寶禮斗活動已截止！');
+                location = 'https://bobibobi.tw/Temples/temple.aspx';
             }
         } else {
-            // 在這裡可以進行表單提交或其他相關處理
-            // 有欄位未填寫
-            $(".Notice").text("請檢查上方欄位是否都已填寫。");
-            $(".Notice").addClass("active");
+            alert('玉敕大樹朝天宮 2025靈寶禮斗活動尚未開始！');
+            location = 'https://bobibobi.tw/Temples/temple.aspx';
         }
     })
 
@@ -971,6 +1378,7 @@
                 window.location = res.redirect;
             }
         } else {
+            alert("資料錯誤！請重新再試一次，若還是不行，請洽客服。");
         }
     }
 
@@ -994,22 +1402,22 @@
                     $("#bless_name_" + index).val(item.Name);
                     $("#bless_tel_" + index).val(item.Mobile);
                     $("#bless_sex_" + index).val(item.Sex);
-
-                    if (item.Birth != "") {
-                        $("#bless_birthday_" + index).val(item.Birth);
-                    }
-
+                    //$("#bless_birthday_" + index).val(item.Birth);
                     $("#bless_leapMonth_" + index).val(item.LeapMonth);
                     $("#bless_birthtime_" + index).val(item.BirthTime);
-
-                    if (item.sBirth != "") {
-                        $("#bless_sBirth_" + index).val(item.sBirth);
+                    //$("#bless_sBirth_" + index).val(item.sBirth);
+                    $("#bless_oversea_" + index).val(item.oversea).trigger("change");
+                    if (item.oversea == 1) {
+                        $("#bless_cusaddress_" + index).show();
+                        $("#bless_county_" + index).val(item.County).trigger("change");
+                        $("#bless_district_" + index).val(item.dist).trigger("change");
                     }
-
-                    $("#bless_county_" + index).val(item.County).trigger("change");
-                    $("#bless_district_" + index).val(item.dist).trigger("change");
+                    else {
+                        $("#bless_cusaddress_" + index).hide();
+                    }
                     $("#bless_address_" + index).val(item.Addr);
                     $("#bless_service_" + index).val(item.LingbaolidouString);
+                    $("#bless_Remark_" + index).val(item.Remark);
 
                     index++;
                 });
@@ -1025,16 +1433,16 @@
         }
     });
 
-    function gotoChecked_ty() {
+    function gotoChecked_ma() {
         var listcount = $('.InputGroup > li').last().attr('bless-id');
 
-        Appname = $("#member_name").val();                      //申請人姓名
-        Appmobile = $("#member_tel").val();                     //申請人電話
-        Appemail = $("#member_mail").val();                     //申請人Email
-        AppzipCode = $("#member_zipcode").val();                //申請人郵遞區號
-        Appcounty = $("select[name='member_county']").val();    //申請人縣市
-        Appdist = $("select[name='member_district']").val();    //申請人區域
-        Appaddr = $("#member_address").val();                   //申請人部分地址
+        Appname = $("#member_name").val();                                                      //購買人姓名
+        Appmobile = $("#member_tel").val();                                                     //購買人電話
+        AppEmail = $("#member_mail").val();                                                     //購買人信箱
+        AppzipCode = $("#member_zipcode").val();                                                //購買人郵遞區號
+        Appcounty = $("select[name='member_county']").val();                                    //購買人縣市
+        Appdist = $("select[name='member_district']").val();                                    //購買人區域
+        Appaddr = $("#member_address").val();                                                   //購買人部分地址
 
         name_Tag = [];
         mobile_Tag = [];
@@ -1043,31 +1451,43 @@
         leapMonth_Tag = [];
         birthtime_Tag = [];
         sbirth_Tag = [];
+        oversea_Tag = [];
         zipCode_Tag = [];
         county_Tag = [];
         dist_Tag = [];
         addr_Tag = [];
         LingbaolidouString_Tag = [];
+        remark_Tag = [];
 
         for (var i = 1; i <= listcount; i++) {
-            name_Tag.push($("#bless_name_" + i).val());                                         //祈福人姓名
-            mobile_Tag.push($("#bless_tel_" + i).val());                                        //祈福人電話
-            sex_Tag.push($("#bless_sex_" + i).val());                                           //祈福人性別 善男 信女
-            birth_Tag.push($("#bless_birthday_" + i).val());                                    //祈福人農歷生日
-            leapMonth_Tag.push($("#bless_leapMonth_" + i).val());                               //閏月 Y-是 N-否
-            birthtime_Tag.push($("#bless_birthtime_" + i).val());                               //祈福人農曆時辰
-            sbirth_Tag.push($("#bless_sbirth_" + i).val());                                     //祈福人國曆生日
-            zipCode_Tag.push($("#bless_zipcode_" + i).val());                                   //祈福人郵遞區號
-            county_Tag.push($("select[name='bless_county_" + i + "']").val());                  //祈福人縣市
-            dist_Tag.push($("select[name='bless_district_" + i + "']").val());                  //祈福人區域
-            addr_Tag.push($("#bless_address_" + i).val());                                      //祈福人部分地址
-            LingbaolidouString_Tag.push($("#bless_service_" + i).val());                        //服務項目
+            name_Tag.push($("#bless_name_" + i).val().trim());                                          //祈福人姓名
+            mobile_Tag.push($("#bless_tel_" + i).val().trim());                                         //祈福人電話
+            sex_Tag.push($("#bless_sex_" + i).val().trim());                                            //祈福人性別 善男 信女
+            birth_Tag.push($("#bless_birthday_" + i).val().trim());                                     //祈福人農曆生日
+            leapMonth_Tag.push($("#bless_leapMonth_" + i).val().trim());                                //閏月 Y-是 N-否
+            birthtime_Tag.push($("#bless_birthtime_" + i).val().trim());                                //祈福人農曆時辰
+            sbirth_Tag.push($("#bless_sbirth_" + i).val().trim());                                      //祈福人國曆生日
+            oversea_Tag.push($("#bless_oversea_" + i).val());                                           //國內-1 國外-2
+
+            if ($("#bless_oversea_" + i).val() == "1") {
+                zipCode_Tag.push($("#bless_zipcode_" + i).val().trim());                                //祈福人郵遞區號
+                county_Tag.push($("select[name='bless_county_" + i + "']").val().trim());               //祈福人縣市
+                dist_Tag.push($("select[name='bless_district_" + i + "']").val().trim());               //祈福人區域
+            }
+            else {
+                zipCode_Tag.push("0");
+                county_Tag.push("");
+                dist_Tag.push("");
+            }
+            addr_Tag.push($("#bless_address_" + i).val().trim());                                       //祈福人部分地址
+            remark_Tag.push($("#bless_Remark_" + i).val());                                             //備註
+            LingbaolidouString_Tag.push($("#bless_service_" + i).val());                                //服務項目
         }
 
         data = {
             Appname: Appname,
             Appmobile: Appmobile,
-            Appemail: Appemail,
+            AppEmail: AppEmail,
             AppzipCode: AppzipCode,
             Appcounty: Appcounty,
             Appdist: Appdist,
@@ -1079,10 +1499,12 @@
             leapMonth_Tag: JSON.stringify(leapMonth_Tag),
             birthtime_Tag: JSON.stringify(birthtime_Tag),
             sbirth_Tag: JSON.stringify(sbirth_Tag),
+            oversea_Tag: JSON.stringify(oversea_Tag),
             zipCode_Tag: JSON.stringify(zipCode_Tag),
             county_Tag: JSON.stringify(county_Tag),
             dist_Tag: JSON.stringify(dist_Tag),
             addr_Tag: JSON.stringify(addr_Tag),
+            remark_Tag: JSON.stringify(remark_Tag),
             LingbaolidouString_Tag: JSON.stringify(LingbaolidouString_Tag),
             listcount: listcount
         };

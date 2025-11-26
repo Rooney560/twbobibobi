@@ -117,6 +117,94 @@
                 <div class="IndexNewsList2 PageNewsList Page1">
                     <div class="row gx-5">       
                         <div class="col-lg-4 col-sm-12 py-3">
+                            <a href="https://bobibobi.tw/Temples/ZodiacFortune_TaiSui_2026.aspx">
+                                <div class="card shadow h-100" style="background-color: white; color: #707070;">
+                                    <%--<div class="Newsimg">--%>
+                                    <img src="https://bobibobi.tw/Temples/SiteFile/News/20251028_ZodiacFortune_TaiSui.jpg?t=666168" class="card-img-top p-3" alt="2026年丙午年犯太歲生肖有哪些？五大生肖完整解析與開運化解建議" title="2026年丙午年犯太歲生肖有哪些？五大生肖完整解析與開運化解建議" />
+                                    <%--</div>--%>
+                                    <div class="card-body">
+                                        <div class="fs-3">2026年丙午年犯太歲生肖有哪些？五大生肖完整解析與開運化解建議</div>
+                                        <div class="fs-5">2026年為丙午年（火馬年），天干屬「丙火」、地支屬「午火」，整體氣場強烈、變化快速。這一年代表行動力與挑戰並存，象徵「烈火煉真金」——只有經過磨鍊，才能蛻變成長。</div>
+
+                                    </div>
+                                    <div class="card-footer pb-3" style="border-top: none; background-color: transparent;">
+                                        <div class="ReadMoreBtn"><span>&nbsp;詳情&nbsp;</span></div>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>    
+                        <div class="col-lg-4 col-sm-12 py-3">
+                            <a href="https://bobibobi.tw/Temples/ZodiacFortune_2026.aspx">
+                                <div class="card shadow h-100" style="background-color: white; color: #707070;">
+                                    <%--<div class="Newsimg">--%>
+                                    <img src="https://bobibobi.tw/Temples/SiteFile/News/20251027_ZodiacFortune.jpg?t=666168" class="card-img-top p-3" alt="【2026丙午年十二生肖運勢總論】火馬開局、吉凶並行" title="【2026丙午年十二生肖運勢總論】火馬開局、吉凶並行" />
+                                    <%--</div>--%>
+                                    <div class="card-body">
+                                        <div class="fs-3">【2026丙午年十二生肖運勢總論】火馬開局、吉凶並行</div>
+                                        <div class="fs-5">隨著 2026 年「丙午火馬年」的到來，新的一輪天運即將展開。今年天干為「丙火」、地支為「午火」，火氣極旺，是一個充滿熱情、行動力強、變化迅速的年份。</div>
+
+                                    </div>
+                                    <div class="card-footer pb-3" style="border-top: none; background-color: transparent;">
+                                        <div class="ReadMoreBtn"><span>&nbsp;詳情&nbsp;</span></div>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>    
+                        <div class="col-lg-4 col-sm-12 py-3">
+                            <a href="https://bobibobi.tw/Temples/LowerPrimeWaterOfficial.aspx">
+                                <div class="card shadow h-100" style="background-color: white; color: #707070;">
+                                    <%--<div class="Newsimg">--%>
+                                    <img src="https://bobibobi.tw/Temples/SiteFile/News/20251017_LowerPrimeWaterOfficial.png?t=666168" class="card-img-top p-3" alt="【關聖帝君聖誕專題】" title="【關聖帝君聖誕專題】" />
+                                    <%--</div>--%>
+                                    <div class="card-body">
+                                        <div class="fs-3">下元節是什麼？水官大帝是誰？為什麼要在水官大帝聖誕補財庫？</div>
+                                        <div class="fs-5">下元節是道教三官大帝之一「水官大帝」的聖誕，主掌解厄與財運。每年農曆十月十五日，信眾透過補財庫祈求消災解厄、財運滾滾來。一起了解下元節的由來、水官大帝的神職，以及為什麼這天補財庫最靈驗。</div>
+
+                                    </div>
+                                    <div class="card-footer pb-3" style="border-top: none; background-color: transparent;">
+                                        <div class="ReadMoreBtn"><span>&nbsp;詳情&nbsp;</span></div>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>  
+                    </div>
+                    <div class="row gx-5"> 
+                        <!--↓↓範例 (3筆一列，建議一頁放6筆或12筆)↓↓-->  
+                        <div class="col-lg-4 col-sm-12 py-3">
+                            <a href="https://bobibobi.tw/Temples/EmperorGuanshengGuide.aspx">
+                                <div class="card shadow h-100" style="background-color: white; color: #707070;">
+                                    <%--<div class="Newsimg">--%>
+                                    <img src="https://bobibobi.tw/Temples/SiteFile/News/20250705_EmperorGuanshengGuide.jpg?t=666168" class="card-img-top p-3" alt="【關聖帝君聖誕專題】" title="【關聖帝君聖誕專題】" />
+                                    <%--</div>--%>
+                                    <div class="card-body">
+                                        <div class="fs-3">【關聖帝君聖誕專題】</div>
+                                        <div class="fs-5">農曆六月廿四，是關聖帝君聖誕，也是信眾一年中最重要的祈願日之一。我們精選9篇主題文章，帶你從拜法、神格、歷史，全面掌握這位神明的神力與魅力。</div>
+
+                                    </div>
+                                    <div class="card-footer pb-3" style="border-top: none; background-color: transparent;">
+                                        <div class="ReadMoreBtn"><span>&nbsp;詳情&nbsp;</span></div>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>  
+                        <div class="col-lg-4 col-sm-12 py-3">
+                            <a href="https://bobibobi.tw/Temples/PurdueGuide.aspx">
+                                <div class="card shadow h-100" style="background-color: white; color: #707070;">
+                                    <%--<div class="Newsimg">--%>
+                                    <img src="https://bobibobi.tw/Temples/SiteFile/News/20250605_PurdueGuide_s.jpg?t=666168" class="card-img-top p-3" alt="農曆七月不只是「鬼月」——你所不知道的中元普渡文化" title="農曆七月不只是「鬼月」——你所不知道的中元普渡文化" />
+                                    <%--</div>--%>
+                                    <div class="card-body">
+                                        <div class="fs-3">農曆七月不只是「鬼月」——你所不知道的中元普渡文化</div>
+                                        <div class="fs-5">農曆七月，是敬天敬地、普渡眾生的溫柔時刻。中元節不只是鬼月，更蘊含慈悲、轉運與文化智慧，一起重新認識這段傳統的深意。</div>
+
+                                    </div>
+                                    <div class="card-footer pb-3" style="border-top: none; background-color: transparent;">
+                                        <div class="ReadMoreBtn"><span>&nbsp;詳情&nbsp;</span></div>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>  
+                        <div class="col-lg-4 col-sm-12 py-3">
                             <a href="https://bobibobi.tw/Temples/DuanWuWuShiShui.aspx">
                                 <div class="card shadow h-100" style="background-color: white; color: #707070;">
                                     <%--<div class="Newsimg">--%>
@@ -133,6 +221,9 @@
                                 </div>
                             </a>
                         </div>   
+                    </div>
+                    <div class="row gx-5">  
+                        <!--↓↓範例 (3筆一列，建議一頁放6筆或12筆)↓↓-->   
                         <div class="col-lg-4 col-sm-12 py-3">
                             <a href="https://bobibobi.tw/Temples/ZodiacFortune_Lixia.aspx">
                                 <div class="card shadow h-100" style="background-color: white; color: #707070;">
@@ -149,7 +240,7 @@
                                     </div>
                                 </div>
                             </a>
-                        </div> 
+                        </div>  
                         <div class="col-lg-4 col-sm-12 py-3">
                             <a href="https://bobibobi.tw/Temples/AnDouVsBaiDou.aspx">
                                 <div class="card shadow h-100" style="background-color: white; color: #707070;">
@@ -166,10 +257,7 @@
                                     </div>
                                 </div>
                             </a>
-                        </div>    
-                    </div>
-                    <div class="row gx-5"> 
-                        <!--↓↓範例 (3筆一列，建議一頁放6筆或12筆)↓↓--> 
+                        </div>  
                         <div class="col-lg-4 col-sm-12 py-3">
                             <a href="https://bobibobi.tw/Temples/AvalokiteshvaraInfo.aspx">
                                 <div class="card shadow h-100" style="background-color: white; color: #707070;">
@@ -187,6 +275,9 @@
                                 </div>
                             </a>
                         </div>   
+                    </div>
+                    <div class="row gx-5">  
+                        <!--↓↓範例 (3筆一列，建議一頁放6筆或12筆)↓↓-->  
                         <div class="col-lg-4 col-sm-12 py-3">
                             <a href="https://bobibobi.tw/Temples/AnDouInformation.aspx">
                                 <div class="card shadow h-100" style="background-color: white; color: #707070;">
@@ -221,9 +312,6 @@
                                 </div>
                             </a>
                         </div>  
-                    </div>
-                    <div class="row gx-5">  
-                        <!--↓↓範例 (3筆一列，建議一頁放6筆或12筆)↓↓-->   
                         <div class="col-lg-4 col-sm-12 py-3">
                             <a href="https://bobibobi.tw/Temples/Supplies01.aspx">
                                 <div class="card shadow h-100" style="background-color: white; color: #707070;">
@@ -241,6 +329,11 @@
                                 </div>
                             </a>
                         </div>   
+                    </div>
+                </div>
+                <div class="IndexNewsList2 PageNewsList Page2">
+                    <div class="row gx-5">  
+                        <!--↓↓範例 (3筆一列，建議一頁放6筆或12筆)↓↓-->   
                         <div class="col-lg-4 col-sm-12 py-3">
                             <a href="https://bobibobi.tw/Temples/NewYearNotes.aspx">
                                 <div class="card shadow h-100" style="background-color: white; color: #707070;">
@@ -257,7 +350,7 @@
                                     </div>
                                 </div>
                             </a>
-                        </div> 
+                        </div>  
                         <div class="col-lg-4 col-sm-12 py-3">
                             <a href="https://bobibobi.tw/Temples/ZodiacFortune.aspx">
                                 <div class="card shadow h-100" style="background-color: white; color: #707070;">
@@ -275,9 +368,6 @@
                                 </div>
                             </a>
                         </div> 
-                    </div>
-                    <div class="row gx-5">  
-                        <!--↓↓範例 (3筆一列，建議一頁放6筆或12筆)↓↓-->   
                         <div class="col-lg-4 col-sm-12 py-3">
                             <a href="https://bobibobi.tw/Temples/LightsGuide.aspx">
                                 <div class="card shadow h-100" style="background-color: white; color: #707070;">
@@ -295,21 +385,6 @@
                                 </div>
                             </a>
                         </div>    
-                        <div class="col-lg-4 col-sm-12 py-3">
-                        </div>      
-                        <div class="col-lg-4 col-sm-12 py-3">
-                        </div>      
-                    </div>
-                </div>
-                <%--<div class="IndexNewsList2 PageNewsList Page2">
-                    <div class="row gx-5">  
-                        <!--↓↓範例 (3筆一列，建議一頁放6筆或12筆)↓↓-->   
-                        <div class="col-lg-4 col-sm-12 py-3">
-                        </div>      
-                        <div class="col-lg-4 col-sm-12 py-3">
-                        </div>      
-                        <div class="col-lg-4 col-sm-12 py-3">
-                        </div>      
                     </div>
                     <div class="row gx-5">  
                         <!--↓↓範例 (3筆一列，建議一頁放6筆或12筆)↓↓-->   
@@ -340,7 +415,7 @@
                     </div>
                 </div>
                 <div class="IndexNewsList3 PageNewsList Page3">
-                </div>--%>
+                </div>
 
                 <!--頁碼示意-->
                 <div class="pageCtrl">

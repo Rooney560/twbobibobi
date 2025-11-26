@@ -40,6 +40,9 @@
     <link rel="stylesheet" type="text/css" href="css/style.css" />
     <script type="text/javascript" src="js/jquery-3.2.1.min.js"></script>
 
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css" />
+    <script src="//code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
+
     <style type="text/css">
         .ServiceTempleList {
             width: calc(100% - 11vw);
@@ -159,6 +162,7 @@
                                     <li><a onclick="ActivityTime(1, 21)" href="javascript: void(0)" title="鹿港城隍廟">鹿港城隍廟</a></li>
                                     <li><a onclick="ActivityTime(1, 23)" href="javascript: void(0)" title="玉敕大樹朝天宮">玉敕大樹朝天宮</a></li>
                                     <li><a onclick="ActivityTime(1, 31)" href="javascript: void(0)" title="台灣道教總廟無極三清總道院">台灣道教總廟無極三清總道院</a></li>
+                                    <li><a onclick="ActivityTime(1, 35)" href="javascript: void(0)" title="松柏嶺受天宮">松柏嶺受天宮</a></li>
                                 </ul>
                             </div>
                         </li>
@@ -193,6 +197,7 @@
                                     <li><a onclick="ActivityTime(1, 21)" href="javascript: void(0)" title="鹿港城隍廟">鹿港城隍廟</a></li>
                                     <li><a onclick="ActivityTime(1, 23)" href="javascript: void(0)" title="玉敕大樹朝天宮">玉敕大樹朝天宮</a></li>
                                     <li><a onclick="ActivityTime(1, 31)" href="javascript: void(0)" title="台灣道教總廟無極三清總道院">台灣道教總廟無極三清總道院</a></li>
+                                    <li><a onclick="ActivityTime(1, 35)" href="javascript: void(0)" title="松柏嶺受天宮">松柏嶺受天宮</a></li>
                                 </ul>
                             </div>
                         </li>
@@ -217,6 +222,7 @@
                                     <li><a onclick="ActivityTime(1, 21)" href="javascript: void(0)" title="鹿港城隍廟">鹿港城隍廟</a></li>
                                     <li><a onclick="ActivityTime(1, 23)" href="javascript: void(0)" title="玉敕大樹朝天宮">玉敕大樹朝天宮</a></li>
                                     <li><a onclick="ActivityTime(1, 31)" href="javascript: void(0)" title="台灣道教總廟無極三清總道院">台灣道教總廟無極三清總道院</a></li>
+                                    <li><a onclick="ActivityTime(1, 35)" href="javascript: void(0)" title="松柏嶺受天宮">松柏嶺受天宮</a></li>
                                 </ul>
                             </div>
                         </li>
@@ -242,6 +248,7 @@
                                     <li><a onclick="ActivityTime(1, 16)" href="javascript: void(0)" title="台東東海龍門天聖宮">台東東海龍門天聖宮</a></li>
                                     <li><a onclick="ActivityTime(1, 21)" href="javascript: void(0)" title="鹿港城隍廟">鹿港城隍廟</a></li>
                                     <li><a onclick="ActivityTime(1, 31)" href="javascript: void(0)" title="台灣道教總廟無極三清總道院">台灣道教總廟無極三清總道院</a></li>
+                                    <li><a onclick="ActivityTime(1, 35)" href="javascript: void(0)" title="松柏嶺受天宮">松柏嶺受天宮</a></li>
                                 </ul>
                             </div>
                         </li>
@@ -404,24 +411,12 @@
                                 <div>中元普渡</div>
                             </div>
                             <div class="ServiceTempleList">
-                                <ul>
-                                    <%--<li><a href="templeService_purdue_da.aspx" title="大甲鎮瀾宮">大甲鎮瀾宮</a></li>
-                                    <li><a href="templeService_purdue_h.aspx" title="新港奉天宮">新港奉天宮</a></li>
-                                    <li><a href="templeService_purdue_wu.aspx" title="北港武德宮">北港武德宮</a></li>
-                                    <li><a href="templeService_purdue_Fu.aspx" title="西螺福興宮">西螺福興宮</a></li>
-                                    <li><a href="templeService_purdue_Jing.aspx" title="桃園大廟景福宮">桃園大廟景福宮</a></li>
-                                    <li><a href="templeService_purdue_Luer.aspx" title="台南正統鹿耳門聖母廟">台南正統鹿耳門聖母廟</a></li>--%>
-                                    
-                                    <li><a onclick="ActivityTime(2, 3)" href="javascript: void(0)" title="大甲鎮瀾宮">大甲鎮瀾宮</a></li>
-                                    <li><a onclick="ActivityTime(2, 4)" href="javascript: void(0)" title="新港奉天宮">新港奉天宮</a></li>
-                                    <li><a onclick="ActivityTime(2, 6)" href="javascript: void(0)" title="北港武德宮">北港武德宮</a></li>
+                                <ul>                                    
                                     <li><a onclick="ActivityTime(2, 8)" href="javascript: void(0)" title="西螺福興宮">西螺福興宮</a></li>
-                                    <li><a onclick="ActivityTime(2, 10)" href="javascript: void(0)" title="台南正統鹿耳門聖母廟">台南正統鹿耳門聖母廟</a></li>
                                     <li><a onclick="ActivityTime(2, 14)" href="javascript: void(0)" title="桃園威天宮">桃園威天宮</a></li>
                                     <li><a onclick="ActivityTime(2, 15)" href="javascript: void(0)" title="斗六五路財神宮">斗六五路財神宮</a></li>
                                     <li><a onclick="ActivityTime(2, 16)" href="javascript: void(0)" title="台東東海龍門天聖宮">台東東海龍門天聖宮</a></li>
-                                    <li><a onclick="ActivityTime(2, 21)" href="javascript: void(0)" title="鹿港城隍廟">鹿港城隍廟</a></li>
-                                    <li><a onclick="ActivityTime(2, 23)" href="javascript: void(0)" title="玉敕大樹朝天宮">玉敕大樹朝天宮</a></li>
+                                    <li><a onclick="ActivityTime(2, 31)" href="javascript: void(0)" title="台灣道教總廟無極三清總道院">台灣道教總廟無極三清總道院</a></li>
                                 </ul>
                             </div>
                         </li>
@@ -439,8 +434,6 @@
                             </div>
                             <div class="ServiceTempleList">
                                 <ul>
-                                    <%--<li><a href="templeService_supplies.aspx" title="北港武德宮">北港武德宮</a></li>--%>
-
                                     <li><a onclick="ActivityTime(4, 6)" href="javascript: void(0)" title="北港武德宮">北港武德宮</a></li>
                                 </ul>
                             </div>
@@ -505,6 +498,48 @@
                     </ul>
                 </div>
                 
+                <div class="ServiceBk">
+                    <div class="ServiceTitle"><span>代拜服務</span></div>
+                    <ul class="ServiceList">
+                        <li>
+                            <div class="ServiceType">
+                                <div>
+                                    <img src="images/icon_06.png" width="50" height="50" alt="" /></div>
+                                <div>供香轉運</div>
+                            </div>
+                            <div class="ServiceTempleList">
+                                <ul>
+                                    <li><a onclick="ActivityTime(19, 33)" href="javascript: void(0)" title="神霄玉府財神會館">神霄玉府財神會館</a></li>
+                                </ul>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="ServiceType">
+                                <div>
+                                    <img src="images/icon_06.png" width="50" height="50" alt="" /></div>
+                                <div>供花供果</div>
+                            </div>
+                            <div class="ServiceTempleList">
+                                <ul>
+                                    <li><a onclick="ActivityTime(21, 31)" href="javascript: void(0)" title="台灣道教總廟無極三清總道院">台灣道教總廟無極三清總道院</a></li>
+                                </ul>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="ServiceType">
+                                <div>
+                                    <img src="images/icon_06.png" width="50" height="50" alt="" /></div>
+                                <div>祈安植福</div>
+                            </div>
+                            <div class="ServiceTempleList">
+                                <ul>
+                                    <li><a onclick="ActivityTime(23, 35)" href="javascript: void(0)" title="松柏嶺受天宮">松柏嶺受天宮</a></li>
+                                </ul>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+                
                 <div class="ServiceBk" style="display: none;">
                     <div class="ServiceTitle"><span>建醮</span></div>
                     <ul class="ServiceList">
@@ -538,6 +573,59 @@
 <script>
     $(function () {
         $("header").addClass("active");
+
+        var buttons = [];
+
+        // 先把所有 a[onclick^='ActivityTime'] 收集起來
+        $("a[onclick^='ActivityTime']").each(function () {
+            var onclickText = $(this).attr("onclick"); // e.g. ActivityTime(13, 3)
+            var args = onclickText.match(/ActivityTime\((\d+),\s*(\d+)\)/);
+
+            if (args && args.length >= 3) {
+                var kind = args[1];
+                var a = args[2];
+                var $btn = $(this);
+
+                buttons.push({
+                    kind: kind,
+                    a: a,
+                    $btn: $btn
+                });
+            }
+        });
+
+        // 如果沒有按鈕就不用打 API
+        if (buttons.length === 0) {
+            return;
+        }
+
+        // 組成批次請求資料
+        var requestData = buttons.map(function (b) {
+            return { Kind: parseInt(b.kind), A: parseInt(b.a) };
+        });
+
+        // 🚀 改用 JSON 專用版本
+        ac_loadServerMethodJson("getActivityTimeBatch", { list: requestData }, function (res) {
+            if (res.StatusCode === 1 && res.ActivityList) {
+                let today = new Date();
+
+                res.ActivityList.forEach(function (item) {
+                    var btnInfos = buttons.filter(function (b) {
+                        return b.kind == item.Kind && b.a == item.AdminID;
+                    });
+
+                    btnInfos.forEach(function (btnInfo) {
+                        if (btnInfo && item.StartDate !== "0" && item.EndDate !== "0") {
+                            let endday = new Date(item.EndDate);
+
+                            if (endday.getTime() < today.getTime()) {
+                                btnInfo.$btn.closest("li").hide();
+                            }
+                        }
+                    });
+                });
+            }
+        });
     })
 
     function ActivityTime(kind, a) {
@@ -557,8 +645,13 @@
             var EndDate = res.EndDate;
             var Service = res.Service;
 
+            let $btn = $("a[onclick*='ActivityTime(" + res.Kind + "," + res.A + ")']"); // 找到呼叫這個活動的按鈕
+
             if (StartDate == "0" && EndDate == "0") {
-                location.href = res.URL;
+                // 延遲導頁，避免伺服器還沒寫完 Response 就被切斷
+                setTimeout(function () {
+                    location.href = res.URL;
+                }, 150);
             }
             else {
                 let today = new Date() //現在
@@ -566,28 +659,39 @@
                 let endday = new Date(EndDate)  //活動結束
                 var diff = someday.getTime() - today.getTime(); //diff = 活動開始 - 現在
                 var diff_end = endday.getTime() - today.getTime(); //diff_end = 現在 - 活動結束
-                var month = diff / 1000 / 60 / 60 / 24 / 30; //現在與活動開始時間差幾個月
-                var month_end = diff_end / 1000 / 60 / 60 / 24 / 30; //現在與活動結束時間差幾個月
+                //var month = diff / 1000 / 60 / 60 / 24 / 30; //現在與活動開始時間差幾個月
+                //var month_end = diff_end / 1000 / 60 / 60 / 24 / 30; //現在與活動結束時間差幾個月
 
                 //alert("today:" + today + ", sDate:" + someday + ", eDate:" + endday + ", diff:" + diff + ", diff_end:" + diff_end + ", month:" + month);
 
-                if (month < 1 && diff_end >= 0) {
-                    if (diff <= 0 && diff_end >= 0) {
+                if (diff <= 0 && diff_end >= 0) {
+                    // 活動進行中 → 照常導頁（同樣加延遲）
+                    setTimeout(function () {
                         location.href = res.URL;
-                    }
-                    else {
-                        alert(Name + " " + Service + " 活動即將開始！");
-                    }
+                    }, 150);
                 }
-                else {
-                    //alert(Math.abs(month_end));
-                    if (diff_end <= 0 && Math.abs(month_end) <= 4) {
-                        alert(Name + " " + Service + " 活動已結束！");
-                    }
-                    else {
-                        alert(Name + " " + Service + " 活動尚未開始！");
-                    }
+                else if (diff_end < 0) {
+                    // 活動已結束 → 直接隱藏按鈕
+                    $btn.closest("li").hide(); // 或 $btn.remove();
                 }
+
+                //if (month < 1 && diff_end >= 0) {
+                //    if (diff <= 0 && diff_end >= 0) {
+                //        location.href = res.URL;
+                //    }
+                //    else {
+                //        alert(Name + " " + Service + " 活動即將開始！");
+                //    }
+                //}
+                //else {
+                //    //alert(Math.abs(month_end));
+                //    if (diff_end <= 0 && Math.abs(month_end) <= 4) {
+                //        alert(Name + " " + Service + " 活動已結束！");
+                //    }
+                //    else {
+                //        alert(Name + " " + Service + " 活動尚未開始！");
+                //    }
+                //}
             }
         }
     }

@@ -195,6 +195,25 @@ namespace Temple.data
         }
 
         /// <summary>
+        /// Get SHA256 hash
+        /// </summary>
+        /// <param name="str"></param>
+        /// <example>
+        /// For example:
+        /// <code>
+        ///    Sha256("Ruyut");
+        /// </code>
+        ///  results in <c>e5a47100b733b86f6fc82b9b614c4829bc9042ca3f24a65c5c2783c699ed6625</c>
+        /// </example>
+        public static string Sha256(string str)
+        {
+            byte[] sha256Bytes = Encoding.UTF8.GetBytes(str);
+            SHA256Managed sha256 = new SHA256Managed();
+            byte[] bytes = sha256.ComputeHash(sha256Bytes);
+            return BitConverter.ToString(bytes).Replace("-", "").ToLower();
+        }
+
+        /// <summary>
         /// 字串加密(非對稱式)
         /// </summary>
         /// <param name="Source">加密前字串</param>

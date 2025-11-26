@@ -243,23 +243,27 @@
                         <h2>台灣道教總廟無極三清總道院</h2>
                         <p style="color:darkslategrey">光明燈、太歲燈、事業燈、財神燈、文昌燈、藥師燈、全家光明燈<br />
                                                        財神斗、事業斗、平安斗、文昌斗、藥師斗、元神斗、福祿壽斗、觀音斗</p>
+                        <h2>松柏嶺受天宮</h2>
+                        <p style="color:darkslategrey">安奉太歲、光明燈、文昌燈、財神燈</p>
+
                         <ul class="ServiceList">
                             <!--細項服務項目-->
                             <li>
                                 <h2>選擇宮廟</h2>
                                 <div class="ServiceTempleList">
                                     <ul>
-                                        <li><a href="templeService_lights_da.aspx" target="_blank" title="大甲鎮瀾宮">大甲鎮瀾宮</a></li>
-                                        <li><a href="templeService_lights_Luer.aspx" target="_blank" title="台南正統鹿耳門聖母廟">台南正統鹿耳門聖母廟</a></li>
-                                        <li><a href="templeService_lights_h.aspx" target="_blank" title="新港奉天宮">新港奉天宮</a></li>
-                                        <li><a href="templeService_lights_wu.aspx" target="_blank" title="北港武德宮">北港武德宮</a></li>
-                                        <li><a href="templeService_lights_Fu.aspx" target="_blank" title="西螺福興宮">西螺福興宮</a></li>
-                                        <li><a href="templeService_lights_ty.aspx" target="_blank" title="桃園威天宮">桃園威天宮</a></li>
-                                        <li><a href="templeService_lights_Fw.aspx" target="_blank" title="斗六五路財神宮">斗六五路財神宮</a></li>
-                                        <li><a href="templeService_lights_dh.aspx" target="_blank" title="台東東海龍門天聖宮">台東東海龍門天聖宮</a></li>
-                                        <li><a href="templeService_lights_Lk.aspx" target="_blank" title="鹿港城隍廟">鹿港城隍廟</a></li>
-                                        <li><a href="templeService_lights_ma.aspx" target="_blank" title="玉敕大樹朝天宮">玉敕大樹朝天宮</a></li>
-                                        <li><a href="templeService_lights_wjsan.aspx" target="_blank" title="台灣道教總廟無極三清總道院">台灣道教總廟無極三清總道院</a></li>
+                                        <li><%=Status_Lights_da_2025 %></li>
+                                        <li><%=Status_Lights_Luer_2025 %></li>
+                                        <li><%=Status_Lights_h_2025 %></li>
+                                        <li><%=Status_Lights_wu_2025 %></li>
+                                        <li><%=Status_Lights_Fu_2025 %></li>
+                                        <li><%=Status_Lights_ty_2025 %></li>
+                                        <li><%=Status_Lights_Fw_2025 %></li>
+                                        <li><%=Status_Lights_dh_2025 %></li>
+                                        <li><%=Status_Lights_Lk_2025 %></li>
+                                        <li><%=Status_Lights_ma_2025 %></li>
+                                        <li><%=Status_Lights_wjsan_2025 %></li>
+                                        <li><%=Status_Lights_st_2025 %></li>
                                     </ul>
                                 </div>
                             </li>

@@ -1,4 +1,4 @@
-﻿using MotoSystem.Data;
+﻿using twbobibobi.Data;
 using Newtonsoft.Json.Linq;
 using Org.BouncyCastle.Asn1.Ocsp;
 using Read.data;
@@ -15,53 +15,112 @@ using Temple.data;
 
 namespace Temple.Temples
 {
+    /// <summary>
+    /// 台東東海龍門天聖宮點燈服務頁面 (光明燈/安太歲/文昌燈/財利燈/龍王燈/虎爺燈)
+    /// </summary>
+    /// <remarks>
+    /// 此頁面繼承自 AjaxBasePage，負責：
+    /// 1. 控制祈福燈顯示狀態（光明燈、安太歲、文昌燈、財利燈、龍王燈、虎爺燈）
+    /// 2. 初始化 Ajax 處理器（建立/修改報名資料）
+    /// 3. 處理購買人與祈福人資料寫入流程
+    /// </remarks>
     public partial class templeService_lights_dh : AjaxBasePage
     {
+        /// <summary> 購買人編號 ApplicantID </summary>
         public int aid = 0;
+        /// <summary> 宮廟代碼對應 AdminID </summary>
         public int a = 0;
-        public string EndDate = "2024/02/24 23:59";
-        protected static string Year = "2025";
+        /// <summary> 當前年份（動態設定年度資料庫名稱用） </summary>
+        protected static string Year = "2026";
 
+        /// <summary>
+        /// 初始化 Ajax Handler（綁定 gotochecked / editinfo）
+        /// </summary>
         protected override void InitAjaxHandler()
         {
             AddAjaxHandler(typeof(AjaxPageHandler), "gotochecked");
             AddAjaxHandler(typeof(AjaxPageHandler), "editinfo");
         }
 
+        /// <summary>
+        /// 頁面載入事件
+        /// </summary>
+        /// <param name="sender">觸發者物件</param>
+        /// <param name="e">事件參數</param>
         protected void Page_Load(object sender, EventArgs e)
         {
             if (!IsPostBack)
             {
-                TimeZoneInfo info = TimeZoneInfo.FindSystemTimeZoneById("Taipei Standard Time");
-                DateTime dtNow = TimeZoneInfo.ConvertTime(DateTime.Now, info);
+                // 設定時區為台北標準時間
+                DateTime dtNow = LightDAC.GetTaipeiNow();
 
+                // 取得購買人編號
                 if (Request["aid"] != null)
                 {
                     aid = int.Parse(Request["aid"]);
                 }
 
+                // 固定 台東東海龍門天聖宮 AdminID = 16
                 int adminID = a = 16;
 
-                //if (dtNow >= DateTime.Parse(EndDate))
-                //{
-                //    Response.Write("<script>alert('親愛的大德您好\\n 東海龍門天聖宮 2024點燈活動已截止！！\\n感謝您的支持, 謝謝!');</script>");
-                //}
+                // 預設六種燈種已額滿字串都隱藏
+                this.light1.Visible = false;
+                this.light2.Visible = false;
+                this.light3.Visible = false;
+                this.light4.Visible = false;
+                this.light5.Visible = false;
+                this.light6.Visible = false;
+
+
+
+                LightDAC objLightDAC = new LightDAC(this);
+
+                // 顯示 光明燈
+                this.light1.Visible = objLightDAC.CheckedLightsNum("3", adminID.ToString(), 1, Year, this);
+
+                // 顯示 安太歲
+                this.light2.Visible = objLightDAC.CheckedLightsNum("4", adminID.ToString(), 1, Year, this);
+
+                // 顯示 文昌燈
+                this.light3.Visible = objLightDAC.CheckedLightsNum("5", adminID.ToString(), 1, Year, this);
+
+                // 顯示 財利燈
+                this.light4.Visible = objLightDAC.CheckedLightsNum("9", adminID.ToString(), 1, Year, this);
+
+                // 顯示 龍王燈
+                this.light5.Visible = objLightDAC.CheckedLightsNum("13", adminID.ToString(), 1, Year, this);
+
+                // 顯示 虎爺燈
+                this.light6.Visible = objLightDAC.CheckedLightsNum("14", adminID.ToString(), 1, Year, this);
             }
         }
+        /// <summary>
+        /// 處理 AJAX 要求的內部類別
+        /// </summary>
         public class AjaxPageHandler
         {
+            /// <summary> 購買人編號 Applicant ID </summary>
             public int ApplicantID = 0;
+            /// <summary> 祈福人編號 Lights ID </summary>
             public int LightsID = 0;
 
+            /// <summary>
+            /// 建立資料（新增購買人與祈福人資料）
+            /// </summary>
+            /// <param name="basePage">基礎頁面物件 (繼承 BasePage)</param>
             public void gotochecked(BasePage basePage)
             {
                 basePage.mJSonHelper.AddContent("StatusCode", 0);
 
                 LightDAC objLightDAC = new LightDAC(basePage);
                 string AdminID = "16";
+
+                // === 購買人資料 ===
                 string AppName = basePage.Request["Appname"];                                       //購買人姓名
                 string AppMobile = basePage.Request["Appmobile"];                                   //購買人電話
+                string AppEmail = basePage.Request["AppEmail"];                                     //購買人信箱
 
+                // === 祈福人相關資料（多筆） ===
                 string name_Tag = basePage.Request["name_Tag"];                                     //祈福人姓名
                 string mobile_Tag = basePage.Request["mobile_Tag"];                                 //祈福人電話
                 string sex_Tag = basePage.Request["sex_Tag"];                                       //祈福人性別
@@ -69,17 +128,17 @@ namespace Temple.Temples
                 string leapMonth_Tag = basePage.Request["leapMonth_Tag"];                           //閏月 Y-是 N-否
                 string birthtime_Tag = basePage.Request["birthtime_Tag"];                           //祈福人農曆時辰
                 string sbirth_Tag = basePage.Request["sbirth_Tag"];                                 //祈福人國曆生日
-                string email_Tag = basePage.Request["email_Tag"];                                   //祈福人信箱
                 string oversea_Tag = basePage.Request["oversea_Tag"];                               //國內-1 國外-2
                 string zipCode_Tag = basePage.Request["zipCode_Tag"];                               //祈福人郵遞區號
                 string county_Tag = basePage.Request["county_Tag"];                                 //祈福人縣市
                 string dist_Tag = basePage.Request["dist_Tag"];                                     //祈福人區域
                 string addr_Tag = basePage.Request["addr_Tag"];                                     //祈福人部分地址
+                string remark_Tag = basePage.Request["remark_Tag"];                                 //備註
                 string LightsString_Tag = basePage.Request["LightsString_Tag"];                     //服務項目
 
                 int listcount = int.Parse(basePage.Request["listcount"]);                           //祈福人數量
 
-
+                // === 轉換為 JArray 以便後續處理 ===
                 JArray Jname = JArray.Parse(name_Tag);
                 JArray Jmobile = JArray.Parse(mobile_Tag);
                 JArray Jsex = JArray.Parse(sex_Tag);
@@ -87,194 +146,273 @@ namespace Temple.Temples
                 JArray JleapMonth = JArray.Parse(leapMonth_Tag);
                 JArray Jbirthtime = JArray.Parse(birthtime_Tag);
                 JArray Jsbirth = JArray.Parse(sbirth_Tag);
-                JArray Jemail = JArray.Parse(email_Tag);
                 JArray Joversea = JArray.Parse(oversea_Tag);
                 JArray JzipCode = JArray.Parse(zipCode_Tag);
                 JArray Jcounty = JArray.Parse(county_Tag);
                 JArray Jdist = JArray.Parse(dist_Tag);
                 JArray Jaddr = JArray.Parse(addr_Tag);
+                JArray Jremark = JArray.Parse(remark_Tag);
                 JArray JLightsString_Tag = JArray.Parse(LightsString_Tag);
 
-                string postURL = "Lights_dh_Index";
+                string postURL_Init = "Lights_dh_Index";
+                string url = HttpContext.Current.Request.Url.AbsoluteUri;
+                string postURL = GetRequestURL(url, postURL_Init);
 
-                postURL += basePage.Request["twm"] != null ? "_TWM" : "";
-
-                postURL += basePage.Request["cht"] != null ? "_CHT" : "";
-
-                postURL += basePage.Request["line"] != null ? "_LINE" : "";
-
-                postURL += basePage.Request["fb"] != null ? "_FB" : "";
-
-                postURL += basePage.Request["fbdh"] != null ? "_FBDH" : "";
-
-                postURL += basePage.Request["ig"] != null ? "_IG" : "";
-
-                postURL += basePage.Request["fetsms"] != null ? "_fetSMS" : "";
-
-                postURL += basePage.Request["jkos"] != null ? "_JKOS" : "";
-
-                postURL += basePage.Request["pxpayplues"] != null ? "_PXPAY" : "";
-
-                postURL += basePage.Request["gads"] != null ? "_GADS" : "";
-
-                postURL += basePage.Request["indh"] != null ? "_INDH" : "";
-
-                postURL += basePage.Request["elv"] != null ? "_ELV" : "";
-
-                if (basePage.Request["ad"] == "2")
+                // === 確認各燈種數量 ===
+                int[] count_dh_lights = new int[6];
+                bool checkednum_dh = true;
+                for (int i = 0; i < listcount; i++)
                 {
-                    Year = "2025";
+                    switch (JLightsString_Tag[i].ToString())
+                    {
+                        case "光明燈": count_dh_lights[0]++; break;
+                        case "安太歲": count_dh_lights[1]++; break;
+                        case "文昌燈": count_dh_lights[2]++; break;
+                        case "財利燈": count_dh_lights[3]++; break;
+                        case "龍王燈": count_dh_lights[4]++; break;
+                        case "虎爺燈": count_dh_lights[5]++; break;
+                    }
                 }
 
-                ApplicantID = objLightDAC.addapplicantinfo_lights_dh(AppName, AppMobile, "0", "", "", "", "0", "N", "", "", 0, AdminID, postURL, Year);
-                bool lightsinfo = false;
-
-                if (ApplicantID > 0)
+                // === 確認可否報名（名額檢查） ===
+                for (int i = 0; i < JLightsString_Tag.Count; i++)
                 {
-                    for (int i = 0; i < listcount; i++)
+                    string lightsType = GetLightsType(JLightsString_Tag[i].ToString(), "16");
+                    int c = 0;
+
+                    c += lightsType == "3" ? count_dh_lights[0] : 0;
+                    c += lightsType == "4" ? count_dh_lights[1] : 0;
+                    c += lightsType == "5" ? count_dh_lights[2] : 0;
+                    c += lightsType == "9" ? count_dh_lights[3] : 0;
+                    c += lightsType == "13" ? count_dh_lights[4] : 0;
+                    c += lightsType == "14" ? count_dh_lights[5] : 0;
+
+                    if (objLightDAC.CheckedLightsNum(lightsType, AdminID.ToString(), c, Year, basePage))
                     {
-                        TimeZoneInfo info = TimeZoneInfo.FindSystemTimeZoneById("Taipei Standard Time");
-                        DateTime dtNow = TimeZoneInfo.ConvertTime(DateTime.Now, info);
+                        checkednum_dh = false;
+                        basePage.mJSonHelper.AddContent("overnumType", GetLightsType(JLightsString_Tag[i].ToString(), "16"));
 
-                        string name = Jname[i].ToString();
-                        string mobile = Jmobile[i].ToString();
-                        string sex = Jsex[i].ToString();
-                        string Birth = Jbirth[i].ToString();
-                        string leapMonth = JleapMonth[i].ToString();
-                        string birthTime = Jbirthtime[i].ToString();
-                        string sBirth = Jsbirth[i].ToString();
-                        string email = Jemail[i].ToString();
-                        string lightsString = JLightsString_Tag[i].ToString(); ;
-                        string lightsType = GetLightsType(lightsString, "16");
-                        string addr = Jaddr[i].ToString();
-                        string county = Jcounty[i].ToString();
-                        string dist = Jdist[i].ToString();
-                        string zipCode = JzipCode[i].ToString();
-                        string oversea = Joversea[i].ToString();
-                        //string oversea = "1";
-                        string birthMonth = "0";
-                        string age = "0";
-                        string Zodiac = string.Empty;
-                        string year = string.Empty;
-                        string month = string.Empty;
-                        string day = string.Empty;
-                        string syear = string.Empty;
-                        string smonth = string.Empty;
-                        string sday = string.Empty;
+                        // 若有 ad 參數允許強制通過
+                        //if (basePage.Request["ad"] == "0610")
+                        //{
+                        //    checkednum_da = true;
+                        //}
 
-                        if (Birth != "")
+                        break;
+                    }
+                }
+
+                if (checkednum_dh)
+                {
+                    string AppSendback = "N";                                                           // 寄送方式 N-不寄回(會轉送給弱勢團體) Y-寄回(加收運費120元)
+                    string Apprname = AppName;                                                          // 收件人姓名
+                    string Apprmobile = AppMobile;                                                      // 收件人電話
+                    string Appcounty = string.Empty;                                                    // 購買人縣市
+                    string Appdist = string.Empty;                                                      // 購買人區域
+                    string Appaddr = string.Empty;                                                      // 購買人部分地址
+                    string AppzipCode = "0";                                                            // 購買人郵遞區號
+
+                    // === 建立購買人資料 ===
+                    ApplicantID = objLightDAC.Addapplicantinfo_lights_dh(
+                        Name: AppName,
+                        Mobile: AppMobile,
+                        Cost: "0",
+                        County: Appcounty,
+                        Dist: Appdist,
+                        Addr: Appaddr,
+                        ZipCode: AppzipCode,
+                        Sendback: AppSendback,
+                        ReceiptName: Apprname,
+                        ReceiptMobile: Apprmobile,
+                        Email: AppEmail,
+                        Status: 0,
+                        AdminID: AdminID,
+                        PostURL: postURL,
+                        Year: Year);
+                    bool lightsinfo = false;
+
+                    // === 新增祈福人資料 ===
+                    if (ApplicantID > 0)
+                    {
+                        for (int i = 0; i < listcount; i++)
                         {
-                            //農曆生日!=空白
-                            GetBirthDetail(Birth, ref birthMonth, ref age, ref Zodiac);
+                            // 設定時區為台北標準時間
+                            DateTime dtNow = LightDAC.GetTaipeiNow();
 
-                            string birth = Birth;
-                            if (birth.IndexOf("民國") >= 0 && birth.IndexOf("年") > 0 && birth.IndexOf("月") > 0 && birth.IndexOf("日") > 0)
+                            string name = Jname[i].ToString();
+                            string mobile = Jmobile[i].ToString();
+                            string sex = Jsex[i].ToString();
+                            string Birth = Jbirth[i].ToString();
+                            string leapMonth = JleapMonth[i].ToString();
+                            string birthTime = Jbirthtime[i].ToString();
+                            string sBirth = Jsbirth[i].ToString();
+                            string lightsString = JLightsString_Tag[i].ToString(); ;
+                            string lightsType = GetLightsType(lightsString, "16");
+                            string addr = Jaddr[i].ToString();
+                            string county = Jcounty[i].ToString();
+                            string dist = Jdist[i].ToString();
+                            string zipCode = JzipCode[i].ToString();
+                            string oversea = Joversea[i].ToString();
+                            string remark = Jremark[i].ToString();
+                            string birthMonth = "0";
+                            string age = "0";
+                            string Zodiac = string.Empty;
+                            string year = string.Empty;
+                            string month = string.Empty;
+                            string day = string.Empty;
+                            string syear = string.Empty;
+                            string smonth = string.Empty;
+                            string sday = string.Empty;
+
+                            if (Birth != "")
                             {
-                                int birth_roc_index = birth.IndexOf("民國");
-                                int birth_year_index = birth.IndexOf("年");
-                                int birth_month_index = birth.IndexOf("月");
-                                int birth_day_index = birth.IndexOf("日");
-                                year = (int.Parse(birth.Substring(2, birth_year_index - 2)) + 1911).ToString();
-                                month = birthMonth = CheckedDateZero(birth.Substring(birth_year_index + 1, birth_month_index - birth_year_index - 1), 1);
-                                day = CheckedDateZero(birth.Substring(birth_month_index + 1, birth.Length - birth_month_index - 2), 1);
+                                //農曆生日!=空白
+                                GetBirthDetail(Birth, ref birthMonth, ref age, ref Zodiac);
 
-                                Lunar lunar = new Lunar();
-                                int.TryParse(year, out lunar.lunarYear);
-                                int.TryParse(month, out lunar.lunarMonth);
-                                int.TryParse(day, out lunar.lunarDay);
-
-                                if (sBirth == "")
+                                string birth = Birth;
+                                if (birth.IndexOf("民國") >= 0 && birth.IndexOf("年") > 0 && birth.IndexOf("月") > 0 && birth.IndexOf("日") > 0)
                                 {
-                                    //國曆生日=空白
-                                    Solar solor = new Solar();
-                                    solor = LunarSolarConverter.LunarToSolar(lunar);
+                                    int birth_roc_index = birth.IndexOf("民國");
+                                    int birth_year_index = birth.IndexOf("年");
+                                    int birth_month_index = birth.IndexOf("月");
+                                    int birth_day_index = birth.IndexOf("日");
+                                    year = (int.Parse(birth.Substring(2, birth_year_index - 2)) + 1911).ToString();
+                                    month = birthMonth = CheckedDateZero(birth.Substring(birth_year_index + 1, birth_month_index - birth_year_index - 1), 1);
+                                    day = CheckedDateZero(birth.Substring(birth_month_index + 1, birth.Length - birth_month_index - 2), 1);
 
-                                    string sROC = solor.solarYear > 1911 ? "民國" + (solor.solarYear - 1911) + "年" : "民國" + (solor.solarYear) + "年";
-                                    sBirth = sROC + CheckedDateZero(solor.solarMonth.ToString(), 1) + "月" + CheckedDateZero(solor.solarDay.ToString(), 1) + "日";
+                                    Lunar lunar = new Lunar();
+                                    int.TryParse(year, out lunar.lunarYear);
+                                    int.TryParse(month, out lunar.lunarMonth);
+                                    int.TryParse(day, out lunar.lunarDay);
 
-                                    string ROC = lunar.lunarYear > 1911 ? "民國" + (lunar.lunarYear - 1911) + "年" : "民國" + (lunar.lunarYear) + "年";
-                                    Birth = ROC + CheckedDateZero(lunar.lunarMonth.ToString(), 1) + "月" + CheckedDateZero(lunar.lunarDay.ToString(), 1) + "日";
-                                }
-                                else
-                                {
-                                    //國曆生日!=空白
-                                    string sbirth = sBirth;
-                                    if (sbirth.IndexOf("民國") >= 0 && sbirth.IndexOf("年") > 0 && sbirth.IndexOf("月") > 0 && sbirth.IndexOf("日") > 0)
+                                    if (sBirth == "")
                                     {
-                                        int sbirth_roc_index = sbirth.IndexOf("民國");
-                                        int sbirth_year_index = sbirth.IndexOf("年");
-                                        int sbirth_month_index = sbirth.IndexOf("月");
-                                        int sbirth_day_index = sbirth.IndexOf("日");
-                                        syear = (int.Parse(sbirth.Substring(2, sbirth_year_index - 2))).ToString();
-                                        smonth = CheckedDateZero(sbirth.Substring(sbirth_year_index + 1, sbirth_month_index - sbirth_year_index - 1), 1);
-                                        sday = CheckedDateZero(sbirth.Substring(sbirth_month_index + 1, sbirth.Length - sbirth_month_index - 2), 1);
+                                        //國曆生日=空白
+                                        Solar solor = new Solar();
+                                        solor = LunarSolarConverter.LunarToSolar(lunar);
 
-                                        sBirth = "民國" + syear + "年" + smonth + "月" + sday + "日";
+                                        string sROC = solor.solarYear > 1911 ? "民國" + (solor.solarYear - 1911) + "年" : "民國" + (solor.solarYear) + "年";
+                                        sBirth = sROC + CheckedDateZero(solor.solarMonth.ToString(), 1) + "月" + CheckedDateZero(solor.solarDay.ToString(), 1) + "日";
 
                                         string ROC = lunar.lunarYear > 1911 ? "民國" + (lunar.lunarYear - 1911) + "年" : "民國" + (lunar.lunarYear) + "年";
                                         Birth = ROC + CheckedDateZero(lunar.lunarMonth.ToString(), 1) + "月" + CheckedDateZero(lunar.lunarDay.ToString(), 1) + "日";
                                     }
+                                    else
+                                    {
+                                        //國曆生日!=空白
+                                        string sbirth = sBirth;
+                                        if (sbirth.IndexOf("民國") >= 0 && sbirth.IndexOf("年") > 0 && sbirth.IndexOf("月") > 0 && sbirth.IndexOf("日") > 0)
+                                        {
+                                            int sbirth_roc_index = sbirth.IndexOf("民國");
+                                            int sbirth_year_index = sbirth.IndexOf("年");
+                                            int sbirth_month_index = sbirth.IndexOf("月");
+                                            int sbirth_day_index = sbirth.IndexOf("日");
+                                            syear = (int.Parse(sbirth.Substring(2, sbirth_year_index - 2))).ToString();
+                                            smonth = CheckedDateZero(sbirth.Substring(sbirth_year_index + 1, sbirth_month_index - sbirth_year_index - 1), 1);
+                                            sday = CheckedDateZero(sbirth.Substring(sbirth_month_index + 1, sbirth.Length - sbirth_month_index - 2), 1);
+
+                                            sBirth = "民國" + syear + "年" + smonth + "月" + sday + "日";
+
+                                            string ROC = lunar.lunarYear > 1911 ? "民國" + (lunar.lunarYear - 1911) + "年" : "民國" + (lunar.lunarYear) + "年";
+                                            Birth = ROC + CheckedDateZero(lunar.lunarMonth.ToString(), 1) + "月" + CheckedDateZero(lunar.lunarDay.ToString(), 1) + "日";
+                                        }
+                                    }
                                 }
                             }
-                        }
-                        else
-                        {
-                            //農曆生日=空白
-                            string sbirth = sBirth;
-                            if (sbirth.IndexOf("民國") >= 0 && sbirth.IndexOf("年") > 0 && sbirth.IndexOf("月") > 0 && sbirth.IndexOf("日") > 0)
+                            else
                             {
-                                int sbirth_roc_index = sbirth.IndexOf("民國");
-                                int sbirth_year_index = sbirth.IndexOf("年");
-                                int sbirth_month_index = sbirth.IndexOf("月");
-                                int sbirth_day_index = sbirth.IndexOf("日");
-                                syear = (int.Parse(sbirth.Substring(2, sbirth_year_index - 2)) + 1911).ToString();
-                                smonth = CheckedDateZero(sbirth.Substring(sbirth_year_index + 1, sbirth_month_index - sbirth_year_index - 1), 1);
-                                sday = CheckedDateZero(sbirth.Substring(sbirth_month_index + 1, sbirth.Length - sbirth_month_index - 2), 1);
+                                //農曆生日=空白
+                                string sbirth = sBirth;
+                                if (sbirth.IndexOf("民國") >= 0 && sbirth.IndexOf("年") > 0 && sbirth.IndexOf("月") > 0 && sbirth.IndexOf("日") > 0)
+                                {
+                                    int sbirth_roc_index = sbirth.IndexOf("民國");
+                                    int sbirth_year_index = sbirth.IndexOf("年");
+                                    int sbirth_month_index = sbirth.IndexOf("月");
+                                    int sbirth_day_index = sbirth.IndexOf("日");
+                                    syear = (int.Parse(sbirth.Substring(2, sbirth_year_index - 2)) + 1911).ToString();
+                                    smonth = CheckedDateZero(sbirth.Substring(sbirth_year_index + 1, sbirth_month_index - sbirth_year_index - 1), 1);
+                                    sday = CheckedDateZero(sbirth.Substring(sbirth_month_index + 1, sbirth.Length - sbirth_month_index - 2), 1);
 
-                                Solar solor = new Solar();
-                                int.TryParse(syear, out solor.solarYear);
-                                int.TryParse(smonth, out solor.solarMonth);
-                                int.TryParse(sday, out solor.solarDay);
+                                    Solar solor = new Solar();
+                                    int.TryParse(syear, out solor.solarYear);
+                                    int.TryParse(smonth, out solor.solarMonth);
+                                    int.TryParse(sday, out solor.solarDay);
 
-                                Lunar lunar = new Lunar();
-                                lunar = LunarSolarConverter.SolarToLunar(solor);
+                                    Lunar lunar = new Lunar();
+                                    lunar = LunarSolarConverter.SolarToLunar(solor);
 
-                                LunarSolarConverter.shuxiang(lunar.lunarYear, ref Zodiac);
-                                age = GetAge(lunar.lunarYear, lunar.lunarMonth, lunar.lunarDay).ToString();
-                                birthMonth = CheckedDateZero(lunar.lunarMonth.ToString(), 1);
+                                    LunarSolarConverter.shuxiang(lunar.lunarYear, ref Zodiac);
+                                    age = GetAge(lunar.lunarYear, lunar.lunarMonth, lunar.lunarDay).ToString();
+                                    birthMonth = CheckedDateZero(lunar.lunarMonth.ToString(), 1);
 
-                                string ROC = lunar.lunarYear > 1911 ? "民國" + (lunar.lunarYear - 1911) + "年" : "民國" + (lunar.lunarYear) + "年";
-                                Birth = ROC + CheckedDateZero(lunar.lunarMonth.ToString(), 1) + "月" + CheckedDateZero(lunar.lunarDay.ToString(), 1) + "日";
+                                    string ROC = lunar.lunarYear > 1911 ? "民國" + (lunar.lunarYear - 1911) + "年" : "民國" + (lunar.lunarYear) + "年";
+                                    Birth = ROC + CheckedDateZero(lunar.lunarMonth.ToString(), 1) + "月" + CheckedDateZero(lunar.lunarDay.ToString(), 1) + "日";
 
-                                string sROC = solor.solarYear > 1911 ? "民國" + (solor.solarYear - 1911) + "年" : "民國" + (solor.solarYear) + "年";
-                                sBirth = sROC + smonth + "月" + sday + "日";
+                                    string sROC = solor.solarYear > 1911 ? "民國" + (solor.solarYear - 1911) + "年" : "民國" + (solor.solarYear) + "年";
+                                    sBirth = sROC + smonth + "月" + sday + "日";
+                                }
+                            }
+
+                            birthMonth = CheckedDateZero(birthMonth, 1);
+
+                            int cost = GetLightsCost(16, lightsType);
+
+                            if (name != "")
+                            {
+                                lightsinfo = true;
+                                LightsID = objLightDAC.AddLights_dh(
+                                    ApplicantID: ApplicantID,
+                                    Name: name,
+                                    Mobile: mobile,
+                                    Cost: cost,
+                                    Sex: sex,
+                                    LightsType: lightsType,
+                                    LightsString: lightsString,
+                                    Oversea: oversea,
+                                    Birth: Birth,
+                                    LeapMonth: leapMonth,
+                                    BirthTime: birthTime,
+                                    BirthMonth: birthMonth,
+                                    Age: age,
+                                    Zodiac: Zodiac,
+                                    sBirth: sBirth,
+                                    Email: "",
+                                    Count: 1,
+                                    Remark: remark,
+                                    Addr: addr,
+                                    County: county,
+                                    Dist: dist,
+                                    ZipCode: zipCode,
+                                    Year: Year);
                             }
                         }
-
-                        birthMonth = CheckedDateZero(birthMonth, 1);
-
-                        if (name != "")
-                        {
-                            lightsinfo = true;
-                            LightsID = objLightDAC.addLights_dh(ApplicantID, name, mobile, sex, lightsType, lightsString,
-                                oversea, Birth, leapMonth, birthTime, birthMonth, age, Zodiac, sBirth, email, 1, addr, county, dist, zipCode, Year);
-                        }
                     }
-                }
 
-                if (ApplicantID > 0 && lightsinfo)
-                {
-                    basePage.mJSonHelper.AddContent("StatusCode", 1);
-                    basePage.mJSonHelper.AddContent("redirect", "templeCheck.aspx?kind=1&a=" + AdminID + "&aid=" + ApplicantID +
-                        (basePage.Request["ad"] != null ? "&ad=" + basePage.Request["ad"] : "") +
-                        (basePage.Request["jkos"] != null ? "&jkos=1" : "") +
-                            (basePage.Request["pxpayplues"] != null ? "&pxpayplues=1" : "") +
-                        (basePage.Request["twm"] != null ? "&twm=1" : ""));
+                    // === 成功建立資料，回傳前端 ===
+                    if (ApplicantID > 0 && lightsinfo)
+                    {
+                        basePage.mJSonHelper.AddContent("StatusCode", 1);
 
-                    basePage.Session["ApplicantID"] = ApplicantID;
+                        string redirectUrl = BuildRedirectUrl(
+                            "templeCheck.aspx",
+                            1,
+                            AdminID,
+                            ApplicantID,
+                            basePage.Request
+                        );
+
+                        // 加入 JSON 回傳內容
+                        basePage.mJSonHelper.AddContent("redirect", redirectUrl);
+
+                        basePage.Session["ApplicantID"] = ApplicantID;
+                    }
                 }
             }
 
+            /// <summary>
+            /// 修改資料（取得既有報名資料）
+            /// </summary>
+            /// <param name="basePage">基礎頁面物件</param>
             public void editinfo(BasePage basePage)
             {
                 basePage.mJSonHelper.AddContent("StatusCode", 0);
@@ -286,7 +424,7 @@ namespace Temple.Temples
 
                 string AdminID = basePage.Request["a"];
 
-                dtData = objLightDAC.Getlights_dh_info(applicantID, Year);
+                dtData = objLightDAC.Getlights_dh_Info(applicantID, Year);
 
                 if (dtData.Rows.Count > 0)
                 {
@@ -296,11 +434,17 @@ namespace Temple.Temples
                     basePage.mJSonHelper.AddContent("a", AdminID);
                     basePage.mJSonHelper.AddContent("AppName", dtData.Rows[0]["AppName"].ToString());
                     basePage.mJSonHelper.AddContent("AppMobile", dtData.Rows[0]["AppMobile"].ToString());
+                    basePage.mJSonHelper.AddContent("AppEmail", dtData.Rows[0]["AppEmail"].ToString());
 
                     basePage.mJSonHelper.AddDataTable("DataSource", dtData);
                 }
             }
 
+            /// <summary>
+            /// 檢查並安全轉換 JArray
+            /// </summary>
+            /// <param name="str">輸入的 JSON 字串</param>
+            /// <param name="jArry">輸出的 JArray 參照</param>
             public void nullChecked(string str, ref JArray jArry)
             {
                 if (str != null)

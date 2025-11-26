@@ -1,16 +1,6 @@
-﻿using MotoSystem.Data;
-using Org.BouncyCastle.Asn1.Ocsp;
+﻿using twbobibobi.Data;
 using Read.data;
 using System;
-using System.Collections.Generic;
-using System.Data;
-using System.Linq;
-using System.Reflection;
-using System.Reflection.Emit;
-using System.Security.Policy;
-using System.Web;
-using System.Web.UI;
-using System.Web.UI.WebControls;
 using Temple.data;
 
 namespace twbobibobi
@@ -47,7 +37,7 @@ namespace twbobibobi
         {
             TimeZoneInfo info = TimeZoneInfo.FindSystemTimeZoneById("Taipei Standard Time");
             DateTime dtNow = TimeZoneInfo.ConvertTime(DateTime.Now, info);
-            BCFBaseLibrary.Web.BasePage basePage = new BCFBaseLibrary.Web.BasePage();
+            BasePage basePage = new BasePage();
             string oid = orderid;
             string uid = "Temple";
             string Sid = "Temple-DajiaCeremony";    //大甲鎮瀾宮普渡法會(CSENT64199)
@@ -66,7 +56,6 @@ namespace twbobibobi
                                   + telco + chrgtype + msisdn + Timestamp + ValidationKey).Replace("-", "").ToLower();
 
             string paymentChannelLog = returnUrl;
-            DatabaseHelper objdatabaseHelper = new DatabaseHelper(basePage);
             string ChargeType = paytype;
             if (ChargeType == "TELEPAY")
             {

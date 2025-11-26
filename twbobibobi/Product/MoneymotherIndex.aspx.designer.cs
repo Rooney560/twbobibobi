@@ -42,22 +42,13 @@ namespace twbobibobi.Product
         protected global::System.Web.UI.HtmlControls.HtmlGenericControl type_1;
 
         /// <summary>
-        /// type_7 控制項。
+        /// type_9 控制項。
         /// </summary>
         /// <remarks>
         /// 自動產生的欄位。
         /// 若要修改，請將欄位宣告從設計工具檔案移到程式碼後置檔案。
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl type_7;
-
-        /// <summary>
-        /// type_8 控制項。
-        /// </summary>
-        /// <remarks>
-        /// 自動產生的欄位。
-        /// 若要修改，請將欄位宣告從設計工具檔案移到程式碼後置檔案。
-        /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl type_8;
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl type_9;
 
         /// <summary>
         /// product_1 控制項。
@@ -78,40 +69,58 @@ namespace twbobibobi.Product
         protected global::System.Web.UI.HtmlControls.HtmlGenericControl productCount_1;
 
         /// <summary>
-        /// product_7 控制項。
+        /// product_9 控制項。
         /// </summary>
         /// <remarks>
         /// 自動產生的欄位。
         /// 若要修改，請將欄位宣告從設計工具檔案移到程式碼後置檔案。
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl product_7;
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl product_9;
 
         /// <summary>
-        /// productCount_7 控制項。
+        /// productCount_9 控制項。
         /// </summary>
         /// <remarks>
         /// 自動產生的欄位。
         /// 若要修改，請將欄位宣告從設計工具檔案移到程式碼後置檔案。
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl productCount_7;
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl productCount_9;
 
         /// <summary>
-        /// product_8 控制項。
+        /// product_10 控制項。
         /// </summary>
         /// <remarks>
         /// 自動產生的欄位。
         /// 若要修改，請將欄位宣告從設計工具檔案移到程式碼後置檔案。
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl product_8;
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl product_10;
 
         /// <summary>
-        /// productCount_8 控制項。
+        /// productCount_10 控制項。
         /// </summary>
         /// <remarks>
         /// 自動產生的欄位。
         /// 若要修改，請將欄位宣告從設計工具檔案移到程式碼後置檔案。
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl productCount_8;
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl productCount_10;
+
+        /// <summary>
+        /// product_11 控制項。
+        /// </summary>
+        /// <remarks>
+        /// 自動產生的欄位。
+        /// 若要修改，請將欄位宣告從設計工具檔案移到程式碼後置檔案。
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl product_11;
+
+        /// <summary>
+        /// productCount_11 控制項。
+        /// </summary>
+        /// <remarks>
+        /// 自動產生的欄位。
+        /// 若要修改，請將欄位宣告從設計工具檔案移到程式碼後置檔案。
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl productCount_11;
 
         /// <summary>
         /// LINEPay 控制項。

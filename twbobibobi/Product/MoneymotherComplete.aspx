@@ -50,6 +50,35 @@
             setURL("ftg", "2290", "奉天宮");
         });
     </script>
+    <style type="text/css">
+        
+        .OrderinvoiceType, .OrderCarrierCode, .OrderinvCode, .OrderinvName, .OrderEmail, .OrderinvoiceNum{
+            font-size: 1.2vw;
+            line-height: calc(2vw + 12px);
+            text-align: left;
+        }
+        
+        /*手機板*/
+        @media only screen and (max-width: 720px) {
+            .invoice-types {
+                flex-direction: column;
+                gap: 1vw;
+            }
+            .invoice-types label {
+                font-size: 7vw;
+            }
+            .shopmemberForm label {
+                font-size: 4.5vw;
+                width: 25vw;
+                line-height: calc(5vw + 12px);
+            }
+            
+            .OrderinvoiceType, .OrderCarrierCode, .OrderinvCode, .OrderinvName, .OrderEmail, .OrderinvoiceNum{
+                font-size: 4.5vw;
+            }
+        
+        }
+    </style>
     <!-- Global site tag (gtag.js) - Google Analytics -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-4YWFRTFCTT"></script>
     <script>
@@ -207,6 +236,48 @@
                         </div>
                     </div>
                 </div>
+                <div class="OrderproductItem" id="OrderItemH" runat="server">
+                    <div class="shopProductsImg"><img src="https://bobibobi.tw/Product/images/products/products_H_1.jpg" width="1200" height="1200" alt=""/></div>
+                    <div class="shopProductsInfo">
+                        <h5>午時水/1罐</h5>
+                        <div class="ItemInfo">
+                            <label>金額</label>
+                            <div>228</div>
+                        </div>
+                        <div class="ItemInfo">
+                            <label>數量</label>
+                            <div><span id="OrderItemHcount"><%=OrderItemHcount %>&nbsp; </span>個</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="OrderproductItem" id="OrderItemI" runat="server">
+                    <div class="shopProductsImg"><img src="https://bobibobi.tw/Product/images/products/products_H_1.jpg" width="1200" height="1200" alt=""/></div>
+                    <div class="shopProductsInfo">
+                        <h5>午時水/3罐</h5>
+                        <div class="ItemInfo">
+                            <label>金額</label>
+                            <div>478</div>
+                        </div>
+                        <div class="ItemInfo">
+                            <label>數量</label>
+                            <div><span id="OrderItemIcount"><%=OrderItemIcount %>&nbsp; </span>個</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="OrderproductItem" id="OrderItemJ" runat="server">
+                    <div class="shopProductsImg"><img src="https://bobibobi.tw/Product/images/products/products_H_1.jpg" width="1200" height="1200" alt=""/></div>
+                    <div class="shopProductsInfo">
+                        <h5>午時水/6罐</h5>
+                        <div class="ItemInfo">
+                            <label>金額</label>
+                            <div>688</div>
+                        </div>
+                        <div class="ItemInfo">
+                            <label>數量</label>
+                            <div><span id="OrderItemJcount"><%=OrderItemJcount %>&nbsp; </span>個</div>
+                        </div>
+                    </div>
+                </div>
             </div>
 
             <div class="shopmemberInfo">
@@ -215,7 +286,17 @@
                     <div><label>訂單編號</label><div class="OrderName"><%=OrderNumString %></div></div>
                     <div><label>購買人</label><div class="OrderName"><%=OrderName %></div></div>
                     <div><label>聯絡電話</label><div class="OrderTel"><%=OrderTel %></div></div>
+                    <div><label>電子信箱</label><div class="OrderEmail"><%=OrderEmail %></div></div>
                     <div><label>收件地址</label><div class="OrderAdd"><%=OrderZipCode %>&nbsp; <%=OrderAdd %></div></div>
+                    <div><label>發票類型</label><div class="OrderinvoiceType"><%=OrderinvoiceType %></div></div>
+                    <div><label>發票號碼</label><div class="OrderinvoiceNum"><%=OrderinvoiceNum %></div></div>
+                    <div id="orderCompany" runat="server">
+                        <label>統一編號</label><div class="OrderinvCode"><%=OrderinvCode %></div>
+                        <label>公司名稱</label><div class="OrderinvName"><%=OrderinvName %></div>
+                    </div>
+                    <div id="orderCCode" runat="server">
+                        <label>手機載具</label><div class="OrderCarrierCode"><%=OrderCarrierCode %></div>
+                    </div>
                 </div>
 
                 <div class="OrderSum">購買總金額：<span><%=OrderTotal %>&nbsp; </span>元</div>
@@ -224,9 +305,9 @@
                         <uc3:SocialMedia runat="server" id="SocialMedia" />
                     <br />
                 <%--<div class="shopmemberInfo">
-                    <p style="color: red;">因應農曆春節連續假期及貨運公司配送問題，將於2025/1/21至2025/02/02暫停出貨作業。</p>
+                    <p style="color: red;">因應農曆春節連續假期及貨運公司配送問題，將於2026/1/21至2026/02/02暫停出貨作業。</p>
                     <br />
-                    <p style="color: red;">2025/1/20至2025/02/02成立的訂單，將於2025/02/03起陸續出貨。 祝大家小龍年行大運!</p>
+                    <p style="color: red;">2026/1/20至2026/02/02成立的訂單，將於2026/02/03起陸續出貨。 祝大家小龍年行大運!</p>
                 </div>--%>
             <div class="PayButton">
                 <a href="https://bobibobi.tw/Product/MoneymotherIndex.aspx" title="回活動頁面">回活動頁面</a>

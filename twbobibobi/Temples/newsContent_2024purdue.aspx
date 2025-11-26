@@ -119,10 +119,10 @@
                                         <li><a href="templeService_purdue_wu.aspx" title="北港武德宮">北港武德宮</a></li>
                                         <li><a href="templeService_purdue_Fu.aspx" title="西螺福興宮">西螺福興宮</a></li>
                                         <li><a href="templeService_purdue_Luer.aspx" title="台南正統鹿耳門聖母廟">台南正統鹿耳門聖母廟</a></li>
-                                        <li><a href="templeService_purdue_ty.aspx" title="桃園威天宮">桃園威天宮</a></li>--%>
+                                        <li><a href="templeService_purdue_ty.aspx" title="桃園威天宮">桃園威天宮</a></li>
                                         <li><a href="templeService_purdue_Fw.aspx" title="斗六五路財神宮">斗六五路財神宮</a></li>
                                         <li><a href="templeService_purdue_dh.aspx" title="台東東海龍門天聖宮">台東東海龍門天聖宮</a></li>
-                                        <%--<li><a href="templeService_purdue_Lk.aspx" title="鹿港城隍廟">鹿港城隍廟</a></li>
+                                        <li><a href="templeService_purdue_Lk.aspx" title="鹿港城隍廟">鹿港城隍廟</a></li>
                                         <li><a href="templeService_purdue_ma.aspx" title="玉敕大樹朝天宮">玉敕大樹朝天宮</a></li>--%>
                                     </ul>
                                 </div>

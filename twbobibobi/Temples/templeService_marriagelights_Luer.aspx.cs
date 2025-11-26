@@ -1,4 +1,4 @@
-﻿using MotoSystem.Data;
+﻿using twbobibobi.Data;
 using Newtonsoft.Json.Linq;
 using Read.data;
 using System;
@@ -129,7 +129,7 @@ namespace Temple.Temples
 
                 string AdminID = basePage.Request["a"];
 
-                dtData = objLightDAC.Getlights_Luer_info(applicantID);
+                //dtData = objLightDAC.Getlights_Luer_Info(applicantID);
 
                 if (dtData.Rows.Count > 0)
                 {

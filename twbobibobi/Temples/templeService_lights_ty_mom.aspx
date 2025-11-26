@@ -11,7 +11,7 @@
 <head runat="server">
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
     <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport" />
-    <meta property="og:title" content="孝親謝恩祈福活動|桃園威天宮|合作宮廟|【保必保庇】線上宮廟服務平臺" />
+    <meta property="og:title" content="桃園威天宮|孝親謝恩祈福活動|合作宮廟|【保必保庇】線上宮廟服務平臺" />
     <!--標題-->
     <meta property="og:url" content="https://bobibobi.tw/Temples/templeService_lights_ty_mom.aspx" />
     <!--網址：請補上網址-->
@@ -19,7 +19,7 @@
     <!--簡介-->
     <meta property="og:description" content="世代信仰，數位傳承 - 與全臺知名宮廟合作，提供宮廟服務線上報名，讓您在忙碌之餘也可以透過線上報名的方式,參與宮廟的服務。" />
     <!--簡介-->
-    <meta property="og:site_name" content="孝親謝恩祈福活動|桃園威天宮|合作宮廟|【保必保庇】線上宮廟服務平臺" />
+    <meta property="og:site_name" content="桃園威天宮|孝親謝恩祈福活動|合作宮廟|【保必保庇】線上宮廟服務平臺" />
     <!--標題-->
     <meta property="og:type" content="website" />
 
@@ -39,11 +39,11 @@
 
     <!-- Twitter Card -->
     <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content="威天宮 孝親祈福活動" />
+    <meta name="twitter:title" content="桃園威天宮 孝親祈福活動" />
     <meta name="twitter:description" content="點孝親祈福燈，為父母添壽祈福！母親節活動限時開放，加贈香氛加濕器，報名請點👉https://st.bobibobi.tw/7d8saj" />
     <meta name="twitter:image" content="https://bobibobi.tw/Temples/images/temple/lights_ty_mom_2025.jpg" />
 
-    <title>孝親謝恩祈福活動|桃園威天宮|合作宮廟|【保必保庇】線上宮廟服務平臺</title>
+    <title>桃園威天宮|孝親謝恩祈福活動|合作宮廟|【保必保庇】線上宮廟服務平臺</title>
     <!--標題-->
 
     <!--資源項目-->
@@ -93,6 +93,39 @@
             height: 550px;
             margin-bottom: -5px;
         }
+
+        /* Toast 容器 ------------------------------------ */
+        .toast {
+            position: fixed;
+            bottom: 20px; /* 距離底部 20px */
+            left: 50%; /* 水平置中 */
+            transform: translateX(-50%) translateY(100px);
+            /* 初始往下隱藏 100px */
+            background: rgba(0, 0, 0, 0.8); /* 半透明黑底 */
+            color: #fff; /* 白字 */
+            padding: 10px 20px; /* 內距 */
+            border-radius: 4px; /* 圓角 */
+            opacity: 0; /* 初始透明 */
+            transition: transform .3s ease, opacity .3s ease; /* 進出場動畫 */
+            z-index: 9999; /* 最上層 */
+            box-sizing: border-box;
+            max-width: calc(100% - 40px); /* 左右各留 20px 安全邊距 */
+            overflow-wrap: break-word; /* 自動換行 */
+        }
+
+        /* Toast 顯示時 -------------------------------- */
+        .toast.visible {
+            opacity: 1;
+            transform: translateX(-50%) translateY(0);
+        }
+
+        /* 大螢幕時限制最大寬度 ------------------------ */
+        @media (min-width: 768px) {
+            .toast {
+                max-width: 300px;
+            }
+        }
+
         @media only screen and (max-width: 720px) {
             .content_a {
                 font-size: 3.8vw;
@@ -117,7 +150,7 @@
     {
       "@context": "https://schema.org",
       "@type": "VideoObject",
-      "name": "威天宮 孝親祈福活動",
+      "name": "桃園威天宮 孝親祈福活動",
       "description": "🎁母親節獻感恩・威天宮孝親祈福🎁\n點【孝親祈福燈】，為父母恩親祈福添壽💖\n加贈【香氛加濕器】\n手刀報名👉https://st.bobibobi.tw/7d8saj",
       "thumbnailUrl": "https://img.youtube.com/vi/YLzwppX3XZ4/maxresdefault.jpg",
       "uploadDate": "2025-04-02T00:00:00+08:00",
@@ -127,7 +160,7 @@
     </script>
 
     <!-- Global site tag (gtag.js) - Google Analytics -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-4YWFRTFCTT"></script>
+    <script async="" src="https://www.googletagmanager.com/gtag/js?id=G-4YWFRTFCTT"></script>
     <script>
         window.dataLayer = window.dataLayer || [];
         function gtag() { dataLayer.push(arguments); }
@@ -235,21 +268,25 @@
                         <div class="FormInput tel">
                             <label>購買人電話</label><input name="member_tel" type="tel" class="required" id="member_tel" placeholder="請輸入聯絡電話"/>
                         </div>
-                        <div class="FormInput text_s">
-                            <label>購買人Email</label><input name="member_mail" type="text" class="" id="member_mail" placeholder="請輸入Email(選填)"/>
+                        <div class="FormInput mail">
+                            <label>購買人信箱</label><input name="member_mail" type="text" class="required" id="member_mail" placeholder="請輸入購買人信箱"/>
                         </div>
                         <div class="FormInput date">
                             <label>國歷生日</label><input name="member_birthday" type="text" class="datapicker required" id="member_birthday" placeholder="請選擇國歷生日" />
                         </div>
                         <div class="FormInput address">
-                            <label>地址</label>
+                            <label>購買人地址</label>
                             <div class="MemAddress">
                                 <div data-role="zipcode" data-style="addr-zip" data-placeholder="" data-name="member_zipcode" data-id="member_zipcode"></div>
                                 <div data-role="county" data-style="addr-county required" data-name="member_county" data-id="member_county"></div>
                                 <div data-role="district" data-style="addr-district required" data-name="member_district" data-id="member_district"></div>
                             </div>
-                            <input name="member_address" type="text" class="required" id="member_address" placeholder="請輸入地址" />
+                            <input name="member_address" type="text" class="required" id="member_address" placeholder="請輸入購買人地址。" />
                         </div>
+                       <%-- <div class="FormInput">
+                            <label class="emailalert"></label>
+                            <span style="color: red;">我們將根據購買人地址寄送發票，請填寫正確的購買人地址。</span>
+                        </div>--%>
 
                         <!--可複製的區塊 //start-->
                         <ul class="InputGroup">
@@ -295,7 +332,7 @@
                                     <input name="bless_address_1" type="text" class="required" id="bless_address_1" placeholder="請輸入地址"/>
                                 </div>
                                 <div class="FormInput text_s">
-                                    <label>備註</label><input name="bless_remark_1" type="text" class="" id="bless_remark_1" placeholder="請輸入問題內容"/>
+                                    <label>備註</label><textarea name="bless_Remark_1" type="text" class="" id="bless_Remark_1" placeholder="請輸入問題內容"></textarea>
                                 </div>
                             </li>
 
@@ -313,7 +350,7 @@
                                 <input type="checkbox" id="checkedprivate" />
                                 <label for="checkedprivate">本人同意
                                     <a href="PrivacyPolicy.aspx" target="_blank">隱私權政策</a>
-                                    並已取得當事人同意，為「保必保庇線上宮廟服務平台」之所有交易行為，新薪網元得基於
+                                    並已取得當事人同意，為「保必保庇線上宮廟服務平台」之所有交易行為，九九商通得基於
                                     <a href="PrivacyPolicy.aspx" target="_blank">隱私權政策</a>
                                     蒐集、處理及利用本人所提供之資料，並提供予合作廠商及服務宮廟。</label>
                             </div>
@@ -575,6 +612,15 @@
                     });
                 }
             });
+            $('.InputGroup > li:last').find('textarea').each(function (index) {
+                var originalId = $(this).attr('id');
+                if (originalId != null) {
+                    var newId = originalId.slice(0, -1) + lastblessNum;
+                    $(this).attr('id', newId);
+                    $(this).attr('name', newId);
+
+                }
+            });
             $('.InputGroup > li:last .CusAddress').find('div[data-role]').each(function (index) {
                 var originalId = $(this).attr('data-id');
                 var originalName = $(this).attr('data-name');
@@ -589,6 +635,7 @@
 
             dateSelect();//有日期選擇時使用
             $('.CusAddress').twzipcode({ 'readonly': true });//如果需填地址，請加這一行
+            $('.MemAddress').twzipcode({ 'readonly': true });//如果需填地址，請加這一行
         }
         else {
             alert("祈福人資料最多六位！" + $('.InputGroup > li').last().attr('bless-id'));
@@ -607,145 +654,238 @@
 
 <!-----必填欄位檢查----->
 <script>
-    $("#subBtn").on("click", function () {
-        var listcount = $('.InputGroup > li').last().attr('bless-id');
-        var isValid = true;
-        var isValid2 = true;
-        var isValid3 = true;
-        var isCheckedValid = $("#checkedprivate").is(":checked");
-
-        var value = $("#member_tel").val().trim();
-        var value2 = $("#member_district").val();
-        if (value == "") {
-            $(".Notice").text("購買人電話不能為空。");
-            $(".Notice").addClass("active");
-            $("#member_tel").addClass('unfilled');
-        }
-        else if (!Isphone(value)) {
-            $(".Notice").text("購買人電話格式錯誤。");
-            $(".Notice").addClass("active");
-            $("#member_tel").addClass('unfilled');
-        }
-        else if (value2 == '' || value2 == null) {
-            $(".Notice").text("購買人地址 區域為空，請重新選擇區域。");
-            $(".Notice").addClass("active");
-            $("#member_district").addClass('unfilled');
-        }
-        else {
-            if (value != '' && $("#member_tel").hasClass('unfilled')) {
-                $("#member_tel").removeClass('unfilled');
-            }
-
-            if (value2 != '' && $("#member_district").hasClass('unfilled')) {
-                $("#member_district").removeClass('unfilled');
-            }
-
-            for (var i = 1; i <= listcount; i++) {
-                value = $("#bless_tel_" + i).val().trim();
-                if (value == "") {
-                    $(".Notice").text("祈福人電話不能為空。");
-                    $(".Notice").addClass("active");
-                    $("#bless_tel_" + i).addClass('unfilled');
-
-                    isValid = false;
-                    isValid2 = false;
-                    break;
-                }
-                else if (!Isphone(value)) {
-                    $(".Notice").text("祈福人電話格式錯誤。");
-                    $(".Notice").addClass("active");
-                    $("#bless_tel_" + i).addClass('unfilled');
-
-                    isValid = false;
-                    isValid2 = false;
-                    break;
-                }
-                else {
-                    if (value != '' && $("#bless_tel_" + i).hasClass('unfilled')) {
-                        $("#bless_tel_" + i).removeClass('unfilled');
-                    }
-                }
-
-                if ($("#bless_oversea_" + i).val() == "1") {
-                    value = $("#bless_county_" + i).val();
-                    if (value == '' || value == null) {
-                        $(".Notice").text("祈福人地址 縣市為空，請重新選擇縣市。");
-                        $(".Notice").addClass("active");
-                        $("#bless_county_" + i).addClass('unfilled');
-
-                        isValid = false;
-                        isValid3 = false;
-                        break;
-                    }
-                    else {
-                        if (value != '' && $("#bless_county_" + i).hasClass('unfilled')) {
-                            $("#bless_county_" + i).removeClass('unfilled');
-                        }
-                    }
-
-                    value = $("#bless_district_" + i).val();
-                    if (value == '' || value == null) {
-                        $(".Notice").text("祈福人地址 區域為空，請重新選擇區域。");
-                        $(".Notice").addClass("active");
-                        $("#bless_district_" + i).addClass('unfilled');
-
-                        isValid = false;
-                        isValid3 = false;
-                        break;
-                    }
-                    else {
-                        if (value != '' && $("#bless_district_" + i).hasClass('unfilled')) {
-                            $("#bless_district_" + i).removeClass('unfilled');
-                        }
-                    }
-                }
-            }
-
-            if (isValid2 && isValid3) {
-                // 遍歷每個必填欄位
-                $('.required').each(function () {
-                    var value = $(this).val();
-                    if (value === '') {
-                        isValid = false;
-                        $(this).addClass('unfilled');
-                    } else if (value != '' && $(this).hasClass('unfilled')) {
-                        $(this).removeClass('unfilled');
+    // 工具：抓出所有 .required.unfilled 的 label 名稱
+    function getMissingRequiredNames() {
+        return $('.required.unfilled').map(function () {
+            const $input = $(this);
+            let $grp = $input.closest('.FormInput');
+            // 嘗試讀同層 label
+            let labelText = $grp.find('label').first().text().trim();
+            if (!labelText) {
+                // 如果是地址那種沒有 label (e.g. 祈福人地址)，就往上找前一個有 label 的群組
+                $grp.prevAll('.FormInput').each(function () {
+                    const txt = $(this).find('label').first().text().trim();
+                    if (txt) {
+                        labelText = txt;
+                        return false;  // break
                     }
                 });
             }
+            return labelText.replace(/：|:/g, '');
+        }).get();
+    }
 
-            if (isValid) {
-                if (!isCheckedValid) {
-                    $(".Notice").text("請勾選同意隱私權政策使用。");
-                    $(".Notice").addClass("active");
-                }
-                else {
-                    // 所有欄位都已填寫
-                    console.log('所有欄位都已填寫');
-                    //alert("活動尚未開始!");
+    // 顯示 Toast，3 秒後自動消失，並在關閉時執行 callback
+    function showToast(msg, callback) {
+        const $t = $(`<div class="toast">${msg}</div>`)
+            .appendTo('body');
+        // 進場
+        requestAnimationFrame(() => $t.addClass('visible'));
+        // 3 秒後退場並呼叫 callback
+        setTimeout(() => {
+            $t.removeClass('visible');
+            $t.one('transitionend', () => {
+                $t.remove();
+                if (typeof callback === 'function') callback();
+            });
+        }, 1000);
+    }
 
-                    if (location.search.indexOf('ad') >= 0 || checkedStartTime()) {
-                        if (checkEndTime()) {
-                            gotoChecked_ty();
-                        }
-                        else {
-                            alert('親愛的大德您好\n桃園威天宮 2025孝親謝恩祈福活動已截止！！\n感謝您的支持, 謝謝!'); location = 'https://bobibobi.tw/Temples/temple.aspx'
-                        }
-                    }
-                    else {
-                        alert('親愛的大德您好\n桃園威天宮 2025孝親謝恩祈福活動尚未開始！！\n感謝您的支持, 謝謝!'); location = 'https://bobibobi.tw/Temples/temple.aspx'
-                    }
+    // Toast 顯示完畢後再捲動＋聚焦
+    function showToastAndFocus($el, msg) {
+        showToast(msg, () => {
+            // 等 toast 完全隱藏之後再聚焦，不搶畫面
+            $(".Notice").text(msg).addClass("active");
+            $el.addClass("unfilled");
+            $el[0].scrollIntoView({ block: 'center' });
+            $el.focus();
+        });
+    }
+
+    function clearError($elem) {
+        $elem.removeClass("unfilled");
+    }
+
+    function clearNotice() {
+        $(".Notice").removeClass("active").text("");
+    }
+
+    // 通用驗證器清單
+    const validators = [
+        {
+            // 購買人電話：非空 + 格式
+            selector: "#member_tel",
+            checks: [
+                { fn: v => v !== "", msg: "購買人電話不能為空。" },
+                { fn: Isphone, msg: "購買人電話格式錯誤。" }
+            ]
+        },
+        {
+            // 購買人信箱：非空 + 格式
+            selector: "#member_mail",
+            checks: [
+                { fn: v => v !== "", msg: "購買人信箱不能為空。" },
+                { fn: IsEmail, msg: "購買人信箱格式錯誤。" }
+            ]
+        },
+        {
+            // 購買人區域：有縣市就一定要有區域
+            selector: "#member_district",
+            checks: [
+                {
+                    fn: v => {
+                        const county = $("#member_county").val();
+                        if (!county) return false; // 縣市未選
+                        return (v || "").trim() !== ""; // 區域必填
+                    },
+                    msg: "購買人地址未完整選擇，請重新選擇縣市與區域。"
                 }
-            } else {
-                // 在這裡可以進行表單提交或其他相關處理
-                // 有欄位未填寫
-                if (!isValid) {
-                    if (isValid2 && isValid3) {
-                        $(".Notice").text("請檢查上方欄位是否都已填寫。");
-                        $(".Notice").addClass("active");
+            ]
+        },
+        {
+            // 所有通用必填欄位
+            selector: ".required",
+            checks: [{ fn: v => (v || "").trim() !== "", msg: "上面有欄位未填寫。" }]
+        }
+    ];
+
+    // 針對每一位祈福人做驗證
+    function validateBless(i) {
+        const $li = $(`.InputGroup > li[bless-id=${i}]`);
+        // 電話
+        const tel = $li.find(`#bless_tel_${i}`).val().trim();
+        if (!tel) {
+            showToastAndFocus($li.find(`#bless_tel_${i}`), "祈福人電話不能為空。");
+            return false;
+        }
+        if (!Isphone(tel)) {
+            showToastAndFocus($li.find(`#bless_tel_${i}`), "祈福人電話格式錯誤。");
+            return false;
+        }
+        clearError($li.find(`#bless_tel_${i}`));
+
+        // 若國內才要檢查縣市 & 區域
+        if ($li.find(`#bless_oversea_${i}`).val() === "1") {
+            const county = $li.find(`#bless_county_${i}`).val();
+            if (!county) {
+                showToastAndFocus($li.find(`#bless_county_${i}`), "祈福人地址 縣市為空，請重新選擇縣市。");
+                return false;
+            }
+            clearError($li.find(`#bless_county_${i}`));
+
+            const district = $li.find(`#bless_district_${i}`).val();
+            if (!district) {
+                showToastAndFocus($li.find(`#bless_district_${i}`), "祈福人地址 區域為空，請重新選擇區域。");
+                return false;
+            }
+            clearError($li.find(`#bless_district_${i}`));
+        }
+
+        // 農曆/國曆生日二擇一
+        const birth = $li.find(`#bless_birthday_${i}`).val();
+        const sbirth = $li.find(`#bless_sbirthday_${i}`).val();
+        if (!birth && !sbirth) {
+            showToastAndFocus($li.find(".required2"), "請選擇農曆或國曆生日其中一項。");
+            return false;
+        }
+        clearError($li.find(".required2"));
+
+        return true;
+    }
+
+    // 回到上一頁後若選過縣市但區域為空，強制清空縣市
+    $(window).on("pageshow", function (e) {
+        // 1. 購買人：縣市有、區域空 → 清空縣市
+        const memberCounty = $("#member_county").val();
+        const memberDistrict = $("#member_district").val();
+        if (memberCounty && !memberDistrict) {
+            $("#member_county").val("");
+        }
+
+        // 2. 祈福人：動態 N 個
+        $(".InputGroup > li[bless-id]").each(function () {
+            const $li = $(this);
+            const id = $li.attr("bless-id");              // e.g. "1", "2", ...
+            const $county = $li.find(`#bless_county_${id}`);
+            const $district = $li.find(`#bless_district_${id}`);
+
+            // 如果選了「國內」才需檢查
+            if ($li.find(`#bless_oversea_${id}`).val() === "1") {
+                if ($county.val() && !$district.val()) {
+                    // 清空縣市，迫使使用者重選才會帶出新的區域
+                    $county.val("");
+                }
+            }
+        });
+    });
+
+    $("#subBtn").on("click", function () {
+        // 先把前一次的狀態清掉
+        clearNotice();
+        $('.required').each((_, el) => clearError($(el)));
+
+        // 1. 先跑通用 validators，但對 .required rule 不馬上跳出，只標記 .unfilled
+        for (const rule of validators) {
+            const $eles = $(rule.selector);
+            for (let i = 0; i < $eles.length; i++) {
+                const $el = $eles.eq(i);
+                const val = $el.val();
+                clearError($el);
+
+                for (const check of rule.checks) {
+                    if (!check.fn(val)) {
+                        // 標記錯誤欄位
+                        $el.addClass('unfilled');
+                        // 如果是「非 .required」的 rule，就立刻提示並 return
+                        if (rule.selector !== '.required') {
+                            showToastAndFocus($el, check.msg);
+                            return;
+                        }
+                        // 如果是 .required 這支，就只標記，繼續跑完所有 required
                     }
                 }
             }
+        }
+
+        // 2. 全部通用檢查後，看看還有哪些 .required 還是 unfilled
+        const missing = getMissingRequiredNames();
+        if (missing.length) {
+            // 去重、組字串
+            const uniq = [...new Set(missing)];
+            const msg = uniq.join('、') + ' 未填寫';
+            // 聚焦到第一個錯誤欄位
+            const $first = $('.required.unfilled').first();
+            showToastAndFocus($first, msg);
+            return;
+        }
+
+        // 3. 驗證所有祈福人
+        const lastId = Number($('.InputGroup > li').last().attr('bless-id') || 0);
+        for (let i = 1; i <= lastId; i++) {
+            if (!validateBless(i)) {
+                return;
+            }
+        }
+
+        // 4. 隱私權同意
+        if (!$("#checkedprivate").is(":checked")) {
+            showToastAndFocus($("#checkedprivate"), "請勾選同意隱私權政策。");
+            return;
+        }
+
+        // 5. 全部通過，送出
+        console.log("所有欄位都已填寫正確，準備送出");
+        // 如果活動時間判斷...
+        if (location.search.indexOf('ad') >= 0 || checkedStartTime()) {
+            if (checkEndTime()) {
+                gotoChecked_ty();
+            } else {
+                alert('桃園威天宮 2025孝親謝恩祈福活動已截止！');
+                location = 'https://bobibobi.tw/Temples/temple.aspx';
+            }
+        } else {
+            alert('桃園威天宮 2025孝親謝恩祈福活動尚未開始！');
+            location = 'https://bobibobi.tw/Temples/temple.aspx';
         }
     })
 
@@ -853,7 +993,7 @@
                 dist_Tag.push("");
             }
             addr_Tag.push($("#bless_address_" + i).val().trim());                                           //祈福人部分地址
-            remark_Tag.push($("#bless_remark_" + i).val());                                                 //備註
+            remark_Tag.push($("#bless_Remark_" + i).val());                                                 //備註
         }
 
         data = {
