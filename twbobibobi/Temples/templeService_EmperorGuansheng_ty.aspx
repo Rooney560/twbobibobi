@@ -11,7 +11,7 @@
 <head runat="server">
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
     <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport" />
-    <meta property="og:title" content="關聖帝君聖誕暨天赦日 招財補運活動|桃園威天宮|合作宮廟|【保必保庇】線上宮廟服務平臺" />
+    <meta property="og:title" content="桃園威天宮|關聖帝君聖誕千秋祝壽謝恩祈福活動|合作宮廟|【保必保庇】線上宮廟服務平臺" />
     <!--標題-->
     <meta property="og:url" content="https://bobibobi.tw/Temples/templeService_EmperorGuansheng_ty.aspx" />
     <!--網址：請補上網址-->
