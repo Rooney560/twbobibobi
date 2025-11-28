@@ -199,8 +199,8 @@
                             <li>
                                 <div class="ServiceTempleList">
                                     <ul>
-                                        <li><a href="templeService_supplies_ty.aspx" target="_blank" title="桃園威天宮">桃園威天宮</a></li>
-                                        <li><a href="templeService_supplies_ma.aspx" target="_blank" title="玉敕大樹朝天宮">玉敕大樹朝天宮</a></li>
+                                        <li><%=Status_Supplies_ty_2025 %></li>
+                                        <li><%=Status_Supplies_ma_2025 %></li>
                                     </ul>
                                 </div>
                             </li>

@@ -1,4 +1,4 @@
-﻿using MotoSystem.Data;
+﻿using twbobibobi.Data;
 using Newtonsoft.Json.Linq;
 using Newtonsoft.Json;
 using System;
@@ -22,10 +22,18 @@ namespace Temple.FET.APITEST
 {
     public partial class CancelOrder : AjaxBasePage
     {
+        /// <summary> </summary>
         public string key;
+        /// <summary> </summary>
         public string checkedkey;
+        /// <summary> </summary>
         public string Year = "2025";
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         protected void Page_Load(object sender, EventArgs e)
         {
             var sr = new StreamReader(Request.InputStream);//读取流
@@ -38,8 +46,7 @@ namespace Temple.FET.APITEST
             string clientOrderNumber = mJSonHelper.GetStringFromJson("clientOrderNumber", stream);
             string encryptText = mJSonHelper.GetStringFromJson("paramContent", stream);
             string URL = Request.Url.Authority;
-            TimeZoneInfo info = TimeZoneInfo.FindSystemTimeZoneById("Taipei Standard Time");
-            DateTime dtNow = TimeZoneInfo.ConvertTime(DateTime.Now, info);
+            DateTime dtNow = LightDAC.GetTaipeiNow();
 
             //channel = "FETnet";
             //clientOrderNumber = "CMPO20231019000076";
@@ -151,15 +158,14 @@ namespace Temple.FET.APITEST
                         {
                             string adminID = dtAdmin.Rows[i]["AdminID"].ToString();
 
-                            for (int j = 1; j <= 20; j++)
+                            for (int j = 1; j <= 25; j++)
                             {
-                                //if (j == 1 || j == 16)
-                                //{
-                                //}
-                                //else
-                                //{
-                                //    Year = "2024";
-                                //}
+                                string startDate = "2025/11/01 00:00:00";
+                                int ijj = DateTime.Compare(DateTime.Parse(startDate), dtNow);
+                                if (DateTime.Compare(DateTime.Parse(startDate), dtNow) < 0 && j == 1)
+                                {
+                                    Year = "2026";
+                                }
 
                                 if (URL.IndexOf("20.6.8.46") >= 0 || URL.IndexOf("fettest") >= 0)
                                 {
@@ -218,15 +224,14 @@ namespace Temple.FET.APITEST
                         {
                             string adminID = dtData.Rows[0]["AdminID"].ToString();
 
-                            //if (kind == "3")
-                            //{
-                            //    Year = dtNow.Year.ToString();
-                            //}
 
-                            //if (kind == "1")
-                            //{
-                            //    Year = "2025";
-                            //}
+                            string startDate = "2025/11/01 00:00:00";
+                            int ijj = DateTime.Compare(DateTime.Parse(startDate), dtNow);
+                            if (DateTime.Compare(DateTime.Parse(startDate), dtNow) < 0 && kind == "1")
+                            {
+                                Year = "2026";
+                            }
+
 
                             if (URL.IndexOf("20.6.8.46") >= 0 || URL.IndexOf("fettest") >= 0)
                             {

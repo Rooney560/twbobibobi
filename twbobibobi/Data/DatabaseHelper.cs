@@ -3,21 +3,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Data;
-using BCFBaseLibrary.Web;
-using BCFBaseLibrary.Database;
-using BCFBaseLibrary.Framework;
-using System.Reflection.Emit;
-using System.Reflection;
-using System.Web.UI;
-using System.Runtime.InteropServices.ComTypes;
-using System.Security.Cryptography;
+using twbobibobi.Data;
 
 namespace Read.data
 {
-    public class DatabaseHelper : SqlClientBase
+    public class DatabaseHelper2 : SqlClientBase
     {
         private static object _thisLock = new object();
-        public DatabaseHelper(BasePage basePage)
+        public DatabaseHelper2(BasePage basePage)
             : base(basePage)
         {
         }
@@ -1112,6 +1105,57 @@ namespace Read.data
         }
 
         /// <summary>
+        /// 记录產品支付请求 - 普度 - 進寶財神廟
+        /// </summary>
+        /// <param name="OrderID">订单编号</param>
+        /// <param name="ApplicantID">購買人编号</param>
+        /// <param name="Amount">支付金額</param>>
+        /// <param name="Description">支付内容说明</param>
+        /// <param name="Comment">备注</param>
+        /// <param name="PayChannelLog">支付接口日志</param>
+        /// <param name="IP">来源IP</param>
+        public long AddChargeLog_Purdue_jb(string OrderID, int ApplicantID, int Amount, string ChargeType, int Status, string Description, string Comment, string PayChannelLog,
+            string IP, string Year)
+        {
+            TimeZoneInfo info = TimeZoneInfo.FindSystemTimeZoneById("Taipei Standard Time");
+            DateTime dt = TimeZoneInfo.ConvertTime(DateTime.Now, info);
+            DataTable dtDataList = new DataTable();
+            string sql = "Insert into Temple_" + Year + "..APPCharge_jb_Purdue(OrderID, ApplicantID, Amount, Status, APPTag, Description, ChargeType, Comment, PayChannelLog, IP, " +
+                "CreateDate, CreateDateString) " +
+                "values(@OrderID, @ApplicantID, @Amount, @Status, @APPTag, @Description, @ChargeType, @Comment, @PayChannelLog, @IP, @CreateDate, @CreateDateString)";
+
+            Random i = new Random();//亂數種子
+            string APPTag = string.Empty;
+
+            for (int k = 0; k < 6; k++)
+            {
+                int index = i.Next(0, 10);
+                APPTag += index.ToString();
+            }
+
+            DatabaseAdapter Adapter = new DatabaseAdapter(sql, this.DBSource);
+            DataTable dtdata = new DataTable();
+            Adapter.AddParameterToSelectCommand("@OrderID", OrderID);
+            Adapter.AddParameterToSelectCommand("@ApplicantID", ApplicantID);
+            Adapter.AddParameterToSelectCommand("@Amount", Amount);
+            Adapter.AddParameterToSelectCommand("@Status", Status);
+            Adapter.AddParameterToSelectCommand("@APPTag", APPTag);
+            Adapter.AddParameterToSelectCommand("@Description", Description);
+            Adapter.AddParameterToSelectCommand("@ChargeType", ChargeType);
+            Adapter.AddParameterToSelectCommand("@Comment", Comment);
+            Adapter.AddParameterToSelectCommand("@PayChannelLog", PayChannelLog);
+            Adapter.AddParameterToSelectCommand("@IP", IP);
+            Adapter.AddParameterToSelectCommand("@CreateDate", dt);
+            Adapter.AddParameterToSelectCommand("@CreateDateString", dt.ToString("yyyy-MM-dd"));
+
+            Adapter.SetSqlCommandBuilder();
+            Adapter.Fill(dtdata);
+            Adapter.Update(dtdata);
+
+            return this.GetIdentity();
+        }
+
+        /// <summary>
         /// 记录產品支付请求-鎮瀾買足網普度
         /// </summary>
         /// <param name="OrderID">订单编号</param>
@@ -1181,6 +1225,261 @@ namespace Read.data
             //dtNewRow["CreateDateString"] = dt.ToString("yyyy-MM-dd");
             //dtDataList.Rows.Add(dtNewRow);
             //AdapterObj.Update(dtDataList);
+
+            return this.GetIdentity();
+        }
+
+        /// <summary>
+        /// 记录產品支付请求 - 普度 - 台灣道教總廟無極三清總道院
+        /// </summary>
+        /// <param name="OrderID">订单编号</param>
+        /// <param name="ApplicantID">購買人编号</param>
+        /// <param name="Amount">支付金額</param>>
+        /// <param name="Description">支付内容说明</param>
+        /// <param name="Comment">备注</param>
+        /// <param name="PayChannelLog">支付接口日志</param>
+        /// <param name="IP">来源IP</param>
+        public long AddChargeLog_Purdue_wjsan(string OrderID, int ApplicantID, int Amount, string ChargeType, int Status, string Description, string Comment, string PayChannelLog,
+            string IP, string Year)
+        {
+            TimeZoneInfo info = TimeZoneInfo.FindSystemTimeZoneById("Taipei Standard Time");
+            DateTime dt = TimeZoneInfo.ConvertTime(DateTime.Now, info);
+            DataTable dtDataList = new DataTable();
+            string sql = "Insert into Temple_" + Year + "..APPCharge_wjsan_Purdue(OrderID, ApplicantID, Amount, Status, APPTag, Description, ChargeType, Comment, PayChannelLog, IP, " +
+                "CreateDate, CreateDateString) " +
+                "values(@OrderID, @ApplicantID, @Amount, @Status, @APPTag, @Description, @ChargeType, @Comment, @PayChannelLog, @IP, @CreateDate, @CreateDateString)";
+
+            Random i = new Random();//亂數種子
+            string APPTag = string.Empty;
+
+            for (int k = 0; k < 6; k++)
+            {
+                int index = i.Next(0, 10);
+                APPTag += index.ToString();
+            }
+
+            DatabaseAdapter Adapter = new DatabaseAdapter(sql, this.DBSource);
+            DataTable dtdata = new DataTable();
+            Adapter.AddParameterToSelectCommand("@OrderID", OrderID);
+            Adapter.AddParameterToSelectCommand("@ApplicantID", ApplicantID);
+            Adapter.AddParameterToSelectCommand("@Amount", Amount);
+            Adapter.AddParameterToSelectCommand("@Status", Status);
+            Adapter.AddParameterToSelectCommand("@APPTag", APPTag);
+            Adapter.AddParameterToSelectCommand("@Description", Description);
+            Adapter.AddParameterToSelectCommand("@ChargeType", ChargeType);
+            Adapter.AddParameterToSelectCommand("@Comment", Comment);
+            Adapter.AddParameterToSelectCommand("@PayChannelLog", PayChannelLog);
+            Adapter.AddParameterToSelectCommand("@IP", IP);
+            Adapter.AddParameterToSelectCommand("@CreateDate", dt);
+            Adapter.AddParameterToSelectCommand("@CreateDateString", dt.ToString("yyyy-MM-dd"));
+
+            Adapter.SetSqlCommandBuilder();
+            Adapter.Fill(dtdata);
+            Adapter.Update(dtdata);
+
+            return this.GetIdentity();
+        }
+
+        /// <summary>
+        /// 记录產品支付请求 - 普度 - 桃園龍德宮
+        /// </summary>
+        /// <param name="OrderID">订单编号</param>
+        /// <param name="ApplicantID">購買人编号</param>
+        /// <param name="Amount">支付金額</param>>
+        /// <param name="Description">支付内容说明</param>
+        /// <param name="Comment">备注</param>
+        /// <param name="PayChannelLog">支付接口日志</param>
+        /// <param name="IP">来源IP</param>
+        public long AddChargeLog_Purdue_ld(string OrderID, int ApplicantID, int Amount, string ChargeType, int Status, string Description, string Comment, string PayChannelLog,
+            string IP, string Year)
+        {
+            TimeZoneInfo info = TimeZoneInfo.FindSystemTimeZoneById("Taipei Standard Time");
+            DateTime dt = TimeZoneInfo.ConvertTime(DateTime.Now, info);
+            DataTable dtDataList = new DataTable();
+            string sql = "Insert into Temple_" + Year + "..APPCharge_ld_Purdue(OrderID, ApplicantID, Amount, Status, APPTag, Description, ChargeType, Comment, PayChannelLog, IP, " +
+                "CreateDate, CreateDateString) " +
+                "values(@OrderID, @ApplicantID, @Amount, @Status, @APPTag, @Description, @ChargeType, @Comment, @PayChannelLog, @IP, @CreateDate, @CreateDateString)";
+
+            Random i = new Random();//亂數種子
+            string APPTag = string.Empty;
+
+            for (int k = 0; k < 6; k++)
+            {
+                int index = i.Next(0, 10);
+                APPTag += index.ToString();
+            }
+
+            DatabaseAdapter Adapter = new DatabaseAdapter(sql, this.DBSource);
+            DataTable dtdata = new DataTable();
+            Adapter.AddParameterToSelectCommand("@OrderID", OrderID);
+            Adapter.AddParameterToSelectCommand("@ApplicantID", ApplicantID);
+            Adapter.AddParameterToSelectCommand("@Amount", Amount);
+            Adapter.AddParameterToSelectCommand("@Status", Status);
+            Adapter.AddParameterToSelectCommand("@APPTag", APPTag);
+            Adapter.AddParameterToSelectCommand("@Description", Description);
+            Adapter.AddParameterToSelectCommand("@ChargeType", ChargeType);
+            Adapter.AddParameterToSelectCommand("@Comment", Comment);
+            Adapter.AddParameterToSelectCommand("@PayChannelLog", PayChannelLog);
+            Adapter.AddParameterToSelectCommand("@IP", IP);
+            Adapter.AddParameterToSelectCommand("@CreateDate", dt);
+            Adapter.AddParameterToSelectCommand("@CreateDateString", dt.ToString("yyyy-MM-dd"));
+
+            Adapter.SetSqlCommandBuilder();
+            Adapter.Fill(dtdata);
+            Adapter.Update(dtdata);
+
+            return this.GetIdentity();
+        }
+
+        /// <summary>
+        /// 记录產品支付请求 - 普度 - 神霄玉府財神會館
+        /// </summary>
+        /// <param name="OrderID">订单编号</param>
+        /// <param name="ApplicantID">購買人编号</param>
+        /// <param name="Amount">支付金額</param>>
+        /// <param name="Description">支付内容说明</param>
+        /// <param name="Comment">备注</param>
+        /// <param name="PayChannelLog">支付接口日志</param>
+        /// <param name="IP">来源IP</param>
+        public long AddChargeLog_Purdue_sx(string OrderID, int ApplicantID, int Amount, string ChargeType, int Status, string Description, string Comment, string PayChannelLog,
+            string IP, string Year)
+        {
+            TimeZoneInfo info = TimeZoneInfo.FindSystemTimeZoneById("Taipei Standard Time");
+            DateTime dt = TimeZoneInfo.ConvertTime(DateTime.Now, info);
+            DataTable dtDataList = new DataTable();
+            string sql = "Insert into Temple_" + Year + "..APPCharge_sx_Purdue(OrderID, ApplicantID, Amount, Status, APPTag, Description, ChargeType, Comment, PayChannelLog, IP, " +
+                "CreateDate, CreateDateString) " +
+                "values(@OrderID, @ApplicantID, @Amount, @Status, @APPTag, @Description, @ChargeType, @Comment, @PayChannelLog, @IP, @CreateDate, @CreateDateString)";
+
+            Random i = new Random();//亂數種子
+            string APPTag = string.Empty;
+
+            for (int k = 0; k < 6; k++)
+            {
+                int index = i.Next(0, 10);
+                APPTag += index.ToString();
+            }
+
+            DatabaseAdapter Adapter = new DatabaseAdapter(sql, this.DBSource);
+            DataTable dtdata = new DataTable();
+            Adapter.AddParameterToSelectCommand("@OrderID", OrderID);
+            Adapter.AddParameterToSelectCommand("@ApplicantID", ApplicantID);
+            Adapter.AddParameterToSelectCommand("@Amount", Amount);
+            Adapter.AddParameterToSelectCommand("@Status", Status);
+            Adapter.AddParameterToSelectCommand("@APPTag", APPTag);
+            Adapter.AddParameterToSelectCommand("@Description", Description);
+            Adapter.AddParameterToSelectCommand("@ChargeType", ChargeType);
+            Adapter.AddParameterToSelectCommand("@Comment", Comment);
+            Adapter.AddParameterToSelectCommand("@PayChannelLog", PayChannelLog);
+            Adapter.AddParameterToSelectCommand("@IP", IP);
+            Adapter.AddParameterToSelectCommand("@CreateDate", dt);
+            Adapter.AddParameterToSelectCommand("@CreateDateString", dt.ToString("yyyy-MM-dd"));
+
+            Adapter.SetSqlCommandBuilder();
+            Adapter.Fill(dtdata);
+            Adapter.Update(dtdata);
+
+            return this.GetIdentity();
+        }
+
+        /// <summary>
+        /// 记录產品支付请求 - 普度 - 基隆悟玄宮
+        /// </summary>
+        /// <param name="OrderID">订单编号</param>
+        /// <param name="ApplicantID">購買人编号</param>
+        /// <param name="Amount">支付金額</param>>
+        /// <param name="Description">支付内容说明</param>
+        /// <param name="Comment">备注</param>
+        /// <param name="PayChannelLog">支付接口日志</param>
+        /// <param name="IP">来源IP</param>
+        public long AddChargeLog_Purdue_wh(string OrderID, int ApplicantID, int Amount, string ChargeType, int Status, string Description, string Comment, string PayChannelLog,
+            string IP, string Year)
+        {
+            TimeZoneInfo info = TimeZoneInfo.FindSystemTimeZoneById("Taipei Standard Time");
+            DateTime dt = TimeZoneInfo.ConvertTime(DateTime.Now, info);
+            DataTable dtDataList = new DataTable();
+            string sql = "Insert into Temple_" + Year + "..APPCharge_wh_Purdue(OrderID, ApplicantID, Amount, Status, APPTag, Description, ChargeType, Comment, PayChannelLog, IP, " +
+                "CreateDate, CreateDateString) " +
+                "values(@OrderID, @ApplicantID, @Amount, @Status, @APPTag, @Description, @ChargeType, @Comment, @PayChannelLog, @IP, @CreateDate, @CreateDateString)";
+
+            Random i = new Random();//亂數種子
+            string APPTag = string.Empty;
+
+            for (int k = 0; k < 6; k++)
+            {
+                int index = i.Next(0, 10);
+                APPTag += index.ToString();
+            }
+
+            DatabaseAdapter Adapter = new DatabaseAdapter(sql, this.DBSource);
+            DataTable dtdata = new DataTable();
+            Adapter.AddParameterToSelectCommand("@OrderID", OrderID);
+            Adapter.AddParameterToSelectCommand("@ApplicantID", ApplicantID);
+            Adapter.AddParameterToSelectCommand("@Amount", Amount);
+            Adapter.AddParameterToSelectCommand("@Status", Status);
+            Adapter.AddParameterToSelectCommand("@APPTag", APPTag);
+            Adapter.AddParameterToSelectCommand("@Description", Description);
+            Adapter.AddParameterToSelectCommand("@ChargeType", ChargeType);
+            Adapter.AddParameterToSelectCommand("@Comment", Comment);
+            Adapter.AddParameterToSelectCommand("@PayChannelLog", PayChannelLog);
+            Adapter.AddParameterToSelectCommand("@IP", IP);
+            Adapter.AddParameterToSelectCommand("@CreateDate", dt);
+            Adapter.AddParameterToSelectCommand("@CreateDateString", dt.ToString("yyyy-MM-dd"));
+
+            Adapter.SetSqlCommandBuilder();
+            Adapter.Fill(dtdata);
+            Adapter.Update(dtdata);
+
+            return this.GetIdentity();
+        }
+
+        /// <summary>
+        /// 记录產品支付请求 - 普度 - 松柏嶺受天宮
+        /// </summary>
+        /// <param name="OrderID">订单编号</param>
+        /// <param name="ApplicantID">購買人编号</param>
+        /// <param name="Amount">支付金額</param>>
+        /// <param name="Description">支付内容说明</param>
+        /// <param name="Comment">备注</param>
+        /// <param name="PayChannelLog">支付接口日志</param>
+        /// <param name="IP">来源IP</param>
+        public long AddChargeLog_Purdue_st(string OrderID, int ApplicantID, int Amount, string ChargeType, int Status, string Description, string Comment, string PayChannelLog,
+            string IP, string Year)
+        {
+            TimeZoneInfo info = TimeZoneInfo.FindSystemTimeZoneById("Taipei Standard Time");
+            DateTime dt = TimeZoneInfo.ConvertTime(DateTime.Now, info);
+            DataTable dtDataList = new DataTable();
+            string sql = "Insert into Temple_" + Year + "..APPCharge_st_Purdue(OrderID, ApplicantID, Amount, Status, APPTag, Description, ChargeType, Comment, PayChannelLog, IP, " +
+                "CreateDate, CreateDateString) " +
+                "values(@OrderID, @ApplicantID, @Amount, @Status, @APPTag, @Description, @ChargeType, @Comment, @PayChannelLog, @IP, @CreateDate, @CreateDateString)";
+
+            Random i = new Random();//亂數種子
+            string APPTag = string.Empty;
+
+            for (int k = 0; k < 6; k++)
+            {
+                int index = i.Next(0, 10);
+                APPTag += index.ToString();
+            }
+
+            DatabaseAdapter Adapter = new DatabaseAdapter(sql, this.DBSource);
+            DataTable dtdata = new DataTable();
+            Adapter.AddParameterToSelectCommand("@OrderID", OrderID);
+            Adapter.AddParameterToSelectCommand("@ApplicantID", ApplicantID);
+            Adapter.AddParameterToSelectCommand("@Amount", Amount);
+            Adapter.AddParameterToSelectCommand("@Status", Status);
+            Adapter.AddParameterToSelectCommand("@APPTag", APPTag);
+            Adapter.AddParameterToSelectCommand("@Description", Description);
+            Adapter.AddParameterToSelectCommand("@ChargeType", ChargeType);
+            Adapter.AddParameterToSelectCommand("@Comment", Comment);
+            Adapter.AddParameterToSelectCommand("@PayChannelLog", PayChannelLog);
+            Adapter.AddParameterToSelectCommand("@IP", IP);
+            Adapter.AddParameterToSelectCommand("@CreateDate", dt);
+            Adapter.AddParameterToSelectCommand("@CreateDateString", dt.ToString("yyyy-MM-dd"));
+
+            Adapter.SetSqlCommandBuilder();
+            Adapter.Fill(dtdata);
+            Adapter.Update(dtdata);
 
             return this.GetIdentity();
         }
@@ -2121,6 +2420,81 @@ namespace Read.data
 
             return this.GetIdentity();
         }
+        
+        /// <summary>
+        /// 记录產品支付请求-基隆悟玄宮-祈安禮斗
+        /// </summary>
+        /// <param name="OrderID">订单编号</param>
+        /// <param name="ApplicantID">購買人编号</param>
+        /// <param name="Amount">支付金額</param>>
+        /// <param name="ChargeType"></param>
+        /// <param name="Status"></param>
+        /// <param name="Description"></param>
+        /// <param name="Comment"></param>
+        /// <param name="PayChannelLog"></param>
+        /// <param name="IP"></param>
+        /// <param name="Year"></param>
+        /// <returns></returns>
+        public long AddChargeLog_Supplies_wh(
+            string OrderID, 
+            int ApplicantID, 
+            int Amount, 
+            string ChargeType, 
+            int Status, 
+            string Description, 
+            string Comment, 
+            string PayChannelLog,
+            string IP, 
+            string Year)
+        {
+            TimeZoneInfo info = TimeZoneInfo.FindSystemTimeZoneById("Taipei Standard Time");
+            DateTime dt = TimeZoneInfo.ConvertTime(DateTime.Now, info);
+            DataTable dtDataList = new DataTable();
+            string sql = "Insert into Temple_" + Year + "..APPCharge_wh_Supplies(" +
+                "OrderID, " +
+                "ApplicantID, " +
+                "Amount, " +
+                "Status, " +
+                "Description, " +
+                "ChargeType, " +
+                "Comment, " +
+                "PayChannelLog, " +
+                "IP, " +
+                "CreateDate, " +
+                "CreateDateString" +
+                ")values(" +
+                "@OrderID, " +
+                "@ApplicantID, " +
+                "@Amount, " +
+                "@Status, " +
+                "@Description, " +
+                "@ChargeType, " +
+                "@Comment, " +
+                "@PayChannelLog, " +
+                "@IP, " +
+                "@CreateDate, " +
+                "@CreateDateString)";
+
+            DatabaseAdapter Adapter = new DatabaseAdapter(sql, this.DBSource);
+            DataTable dtdata = new DataTable();
+            Adapter.AddParameterToSelectCommand("@OrderID", OrderID);
+            Adapter.AddParameterToSelectCommand("@ApplicantID", ApplicantID);
+            Adapter.AddParameterToSelectCommand("@Amount", Amount);
+            Adapter.AddParameterToSelectCommand("@Status", Status);
+            Adapter.AddParameterToSelectCommand("@Description", Description);
+            Adapter.AddParameterToSelectCommand("@ChargeType", ChargeType);
+            Adapter.AddParameterToSelectCommand("@Comment", Comment);
+            Adapter.AddParameterToSelectCommand("@PayChannelLog", PayChannelLog);
+            Adapter.AddParameterToSelectCommand("@IP", IP);
+            Adapter.AddParameterToSelectCommand("@CreateDate", dt);
+            Adapter.AddParameterToSelectCommand("@CreateDateString", dt.ToString("yyyy-MM-dd"));
+
+            Adapter.SetSqlCommandBuilder();
+            Adapter.Fill(dtdata);
+            Adapter.Update(dtdata);
+
+            return this.GetIdentity();
+        }
 
         /// <summary>
         /// 记录產品支付请求-大甲鎮瀾宮點燈
@@ -2738,6 +3112,80 @@ namespace Read.data
         }
 
         /// <summary>
+        /// 记录產品支付请求 - 千手觀音千燈迎佛法會 - 桃園威天宮
+        /// </summary>
+        /// <param name="OrderID">订单编号</param>
+        /// <param name="ApplicantID">購買人编号</param>
+        /// <param name="Amount">支付金額</param>
+        /// <param name="ChargeType"></param>
+        /// <param name="Status"></param>
+        /// <param name="Description">支付内容说明</param>
+        /// <param name="Comment">备注</param>
+        /// <param name="PayChannelLog">支付接口日志</param>
+        /// <param name="IP">来源IP</param>
+        /// <param name="Year"></param>
+        public long AddChargeLog_QnLight_ty(
+            string OrderID, 
+            int ApplicantID, 
+            int Amount, 
+            string ChargeType, 
+            int Status, 
+            string Description, 
+            string Comment, 
+            string PayChannelLog, 
+            string IP, 
+            string Year)
+        {
+            TimeZoneInfo info = TimeZoneInfo.FindSystemTimeZoneById("Taipei Standard Time");
+            DateTime dt = TimeZoneInfo.ConvertTime(DateTime.Now, info);
+            DataTable dtDataList = new DataTable();
+            string sql = "Insert into Temple_" + Year + "..APPCharge_ty_QnLight(" +
+                "OrderID, " +
+                "ApplicantID, " +
+                "Amount, " +
+                "Status, " +
+                "Description, " +
+                "ChargeType, " +
+                "Comment, " +
+                "PayChannelLog, " +
+                "IP, " +
+                "CreateDate, " +
+                "CreateDateString" +
+                ")values(" +
+                "@OrderID, " +
+                "@ApplicantID, " +
+                "@Amount, " +
+                "@Status, " +
+                "@Description, " +
+                "@ChargeType, " +
+                "@Comment, " +
+                "@PayChannelLog, " +
+                "@IP, " +
+                "@CreateDate, " +
+                "@CreateDateString)";
+
+            DatabaseAdapter Adapter = new DatabaseAdapter(sql, this.DBSource);
+            DataTable dtdata = new DataTable();
+            Adapter.AddParameterToSelectCommand("@OrderID", OrderID);
+            Adapter.AddParameterToSelectCommand("@ApplicantID", ApplicantID);
+            Adapter.AddParameterToSelectCommand("@Amount", Amount);
+            Adapter.AddParameterToSelectCommand("@Status", Status);
+            Adapter.AddParameterToSelectCommand("@Description", Description);
+            Adapter.AddParameterToSelectCommand("@ChargeType", ChargeType);
+            Adapter.AddParameterToSelectCommand("@Comment", Comment);
+            Adapter.AddParameterToSelectCommand("@PayChannelLog", PayChannelLog);
+            Adapter.AddParameterToSelectCommand("@IP", IP);
+            Adapter.AddParameterToSelectCommand("@CreateDate", dt);
+            Adapter.AddParameterToSelectCommand("@CreateDateString", dt.ToString("yyyy-MM-dd"));
+
+            Adapter.SetSqlCommandBuilder();
+            Adapter.Fill(dtdata);
+            Adapter.Update(dtdata);
+
+            return this.GetIdentity();
+        }
+
+        /// <summary>
         /// 记录產品支付请求-台灣道教總廟無極三清總道院安斗
         /// </summary>
         /// <param name="OrderID">订单编号</param>
@@ -2877,6 +3325,264 @@ namespace Read.data
             DateTime dt = TimeZoneInfo.ConvertTime(DateTime.Now, info);
             DataTable dtDataList = new DataTable();
             string sql = "Insert into Temple_" + Year + "..APPCharge_wh_Lights(OrderID, ApplicantID, Amount, Status, Description, ChargeType, Comment, PayChannelLog, IP, " +
+                "CreateDate, CreateDateString) " +
+                "values(@OrderID, @ApplicantID, @Amount, @Status, @Description, @ChargeType, @Comment, @PayChannelLog, @IP, @CreateDate, @CreateDateString)";
+
+            DatabaseAdapter Adapter = new DatabaseAdapter(sql, this.DBSource);
+            DataTable dtdata = new DataTable();
+            Adapter.AddParameterToSelectCommand("@OrderID", OrderID);
+            Adapter.AddParameterToSelectCommand("@ApplicantID", ApplicantID);
+            Adapter.AddParameterToSelectCommand("@Amount", Amount);
+            Adapter.AddParameterToSelectCommand("@Status", Status);
+            Adapter.AddParameterToSelectCommand("@Description", Description);
+            Adapter.AddParameterToSelectCommand("@ChargeType", ChargeType);
+            Adapter.AddParameterToSelectCommand("@Comment", Comment);
+            Adapter.AddParameterToSelectCommand("@PayChannelLog", PayChannelLog);
+            Adapter.AddParameterToSelectCommand("@IP", IP);
+            Adapter.AddParameterToSelectCommand("@CreateDate", dt);
+            Adapter.AddParameterToSelectCommand("@CreateDateString", dt.ToString("yyyy-MM-dd"));
+
+            Adapter.SetSqlCommandBuilder();
+            Adapter.Fill(dtdata);
+            Adapter.Update(dtdata);
+
+            return this.GetIdentity();
+        }
+
+        /// <summary>
+        /// 记录產品支付请求-點燈-松柏嶺受天宮
+        /// </summary>
+        /// <param name="OrderID">订单编号</param>
+        /// <param name="ApplicantID">購買人编号</param>
+        /// <param name="Amount">支付金額</param>>
+        /// <param name="Description">支付内容说明</param>
+        /// <param name="Comment">备注</param>
+        /// <param name="PayChannelLog">支付接口日志</param>
+        /// <param name="IP">来源IP</param>
+        public long AddChargeLog_Lights_st(string OrderID, int ApplicantID, int Amount, string ChargeType, int Status, string Description, string Comment, string PayChannelLog,
+            string IP, string Year)
+        {
+            TimeZoneInfo info = TimeZoneInfo.FindSystemTimeZoneById("Taipei Standard Time");
+            DateTime dt = TimeZoneInfo.ConvertTime(DateTime.Now, info);
+            DataTable dtDataList = new DataTable();
+            string sql = "Insert into Temple_" + Year + "..APPCharge_st_Lights(OrderID, ApplicantID, Amount, Status, Description, ChargeType, Comment, PayChannelLog, IP, " +
+                "CreateDate, CreateDateString) " +
+                "values(@OrderID, @ApplicantID, @Amount, @Status, @Description, @ChargeType, @Comment, @PayChannelLog, @IP, @CreateDate, @CreateDateString)";
+
+            DatabaseAdapter Adapter = new DatabaseAdapter(sql, this.DBSource);
+            DataTable dtdata = new DataTable();
+            Adapter.AddParameterToSelectCommand("@OrderID", OrderID);
+            Adapter.AddParameterToSelectCommand("@ApplicantID", ApplicantID);
+            Adapter.AddParameterToSelectCommand("@Amount", Amount);
+            Adapter.AddParameterToSelectCommand("@Status", Status);
+            Adapter.AddParameterToSelectCommand("@Description", Description);
+            Adapter.AddParameterToSelectCommand("@ChargeType", ChargeType);
+            Adapter.AddParameterToSelectCommand("@Comment", Comment);
+            Adapter.AddParameterToSelectCommand("@PayChannelLog", PayChannelLog);
+            Adapter.AddParameterToSelectCommand("@IP", IP);
+            Adapter.AddParameterToSelectCommand("@CreateDate", dt);
+            Adapter.AddParameterToSelectCommand("@CreateDateString", dt.ToString("yyyy-MM-dd"));
+
+            Adapter.SetSqlCommandBuilder();
+            Adapter.Fill(dtdata);
+            Adapter.Update(dtdata);
+
+            return this.GetIdentity();
+        }
+
+        /// <summary>
+        /// 记录產品支付请求-點燈-北極玄天宮
+        /// </summary>
+        /// <param name="OrderID">订单编号</param>
+        /// <param name="ApplicantID">購買人编号</param>
+        /// <param name="Amount">支付金額</param>>
+        /// <param name="ChargeType">支付方式</param>>
+        /// <param name="Status">訂單狀態 0-帶付款 1-付款成功 -1-錯誤 -2-已退款</param>>
+        /// <param name="Description">支付内容说明</param>
+        /// <param name="Comment">备注</param>
+        /// <param name="PayChannelLog">支付接口日志</param>
+        /// <param name="IP">来源IP</param>
+        /// <param name="Year">活動年份</param>
+        public long AddChargeLog_Lights_bj(string OrderID, int ApplicantID, int Amount, string ChargeType, int Status, string Description, string Comment, string PayChannelLog,
+            string IP, string Year)
+        {
+            TimeZoneInfo info = TimeZoneInfo.FindSystemTimeZoneById("Taipei Standard Time");
+            DateTime dt = TimeZoneInfo.ConvertTime(DateTime.Now, info);
+            DataTable dtDataList = new DataTable();
+            string sql = "Insert into Temple_" + Year + "..APPCharge_bj_Lights(OrderID, ApplicantID, Amount, Status, Description, ChargeType, Comment, PayChannelLog, IP, " +
+                "CreateDate, CreateDateString) " +
+                "values(@OrderID, @ApplicantID, @Amount, @Status, @Description, @ChargeType, @Comment, @PayChannelLog, @IP, @CreateDate, @CreateDateString)";
+
+            DatabaseAdapter Adapter = new DatabaseAdapter(sql, this.DBSource);
+            DataTable dtdata = new DataTable();
+            Adapter.AddParameterToSelectCommand("@OrderID", OrderID);
+            Adapter.AddParameterToSelectCommand("@ApplicantID", ApplicantID);
+            Adapter.AddParameterToSelectCommand("@Amount", Amount);
+            Adapter.AddParameterToSelectCommand("@Status", Status);
+            Adapter.AddParameterToSelectCommand("@Description", Description);
+            Adapter.AddParameterToSelectCommand("@ChargeType", ChargeType);
+            Adapter.AddParameterToSelectCommand("@Comment", Comment);
+            Adapter.AddParameterToSelectCommand("@PayChannelLog", PayChannelLog);
+            Adapter.AddParameterToSelectCommand("@IP", IP);
+            Adapter.AddParameterToSelectCommand("@CreateDate", dt);
+            Adapter.AddParameterToSelectCommand("@CreateDateString", dt.ToString("yyyy-MM-dd"));
+
+            Adapter.SetSqlCommandBuilder();
+            Adapter.Fill(dtdata);
+            Adapter.Update(dtdata);
+
+            return this.GetIdentity();
+        }
+
+        /// <summary>
+        /// 记录產品支付请求-點燈-慈惠石壁部堂
+        /// </summary>
+        /// <param name="OrderID">订单编号</param>
+        /// <param name="ApplicantID">購買人编号</param>
+        /// <param name="Amount">支付金額</param>>
+        /// <param name="ChargeType">支付方式</param>>
+        /// <param name="Status">訂單狀態 0-帶付款 1-付款成功 -1-錯誤 -2-已退款</param>>
+        /// <param name="Description">支付内容说明</param>
+        /// <param name="Comment">备注</param>
+        /// <param name="PayChannelLog">支付接口日志</param>
+        /// <param name="IP">来源IP</param>
+        /// <param name="Year">活動年份</param>
+        public long AddChargeLog_Lights_sbbt(string OrderID, int ApplicantID, int Amount, string ChargeType, int Status, string Description, string Comment, string PayChannelLog,
+            string IP, string Year)
+        {
+            TimeZoneInfo info = TimeZoneInfo.FindSystemTimeZoneById("Taipei Standard Time");
+            DateTime dt = TimeZoneInfo.ConvertTime(DateTime.Now, info);
+            DataTable dtDataList = new DataTable();
+            string sql = "Insert into Temple_" + Year + "..APPCharge_sbbt_Lights(OrderID, ApplicantID, Amount, Status, Description, ChargeType, Comment, PayChannelLog, IP, " +
+                "CreateDate, CreateDateString) " +
+                "values(@OrderID, @ApplicantID, @Amount, @Status, @Description, @ChargeType, @Comment, @PayChannelLog, @IP, @CreateDate, @CreateDateString)";
+
+            DatabaseAdapter Adapter = new DatabaseAdapter(sql, this.DBSource);
+            DataTable dtdata = new DataTable();
+            Adapter.AddParameterToSelectCommand("@OrderID", OrderID);
+            Adapter.AddParameterToSelectCommand("@ApplicantID", ApplicantID);
+            Adapter.AddParameterToSelectCommand("@Amount", Amount);
+            Adapter.AddParameterToSelectCommand("@Status", Status);
+            Adapter.AddParameterToSelectCommand("@Description", Description);
+            Adapter.AddParameterToSelectCommand("@ChargeType", ChargeType);
+            Adapter.AddParameterToSelectCommand("@Comment", Comment);
+            Adapter.AddParameterToSelectCommand("@PayChannelLog", PayChannelLog);
+            Adapter.AddParameterToSelectCommand("@IP", IP);
+            Adapter.AddParameterToSelectCommand("@CreateDate", dt);
+            Adapter.AddParameterToSelectCommand("@CreateDateString", dt.ToString("yyyy-MM-dd"));
+
+            Adapter.SetSqlCommandBuilder();
+            Adapter.Fill(dtdata);
+            Adapter.Update(dtdata);
+
+            return this.GetIdentity();
+        }
+
+        /// <summary>
+        /// 记录產品支付请求-點燈-真武山受玄宮
+        /// </summary>
+        /// <param name="OrderID">订单编号</param>
+        /// <param name="ApplicantID">購買人编号</param>
+        /// <param name="Amount">支付金額</param>>
+        /// <param name="ChargeType">支付方式</param>>
+        /// <param name="Status">訂單狀態 0-帶付款 1-付款成功 -1-錯誤 -2-已退款</param>>
+        /// <param name="Description">支付内容说明</param>
+        /// <param name="Comment">备注</param>
+        /// <param name="PayChannelLog">支付接口日志</param>
+        /// <param name="IP">来源IP</param>
+        /// <param name="Year">活動年份</param>
+        public long AddChargeLog_Lights_bpy(string OrderID, int ApplicantID, int Amount, string ChargeType, int Status, string Description, string Comment, string PayChannelLog,
+            string IP, string Year)
+        {
+            TimeZoneInfo info = TimeZoneInfo.FindSystemTimeZoneById("Taipei Standard Time");
+            DateTime dt = TimeZoneInfo.ConvertTime(DateTime.Now, info);
+            DataTable dtDataList = new DataTable();
+            string sql = "Insert into Temple_" + Year + "..APPCharge_bpy_Lights(OrderID, ApplicantID, Amount, Status, Description, ChargeType, Comment, PayChannelLog, IP, " +
+                "CreateDate, CreateDateString) " +
+                "values(@OrderID, @ApplicantID, @Amount, @Status, @Description, @ChargeType, @Comment, @PayChannelLog, @IP, @CreateDate, @CreateDateString)";
+
+            DatabaseAdapter Adapter = new DatabaseAdapter(sql, this.DBSource);
+            DataTable dtdata = new DataTable();
+            Adapter.AddParameterToSelectCommand("@OrderID", OrderID);
+            Adapter.AddParameterToSelectCommand("@ApplicantID", ApplicantID);
+            Adapter.AddParameterToSelectCommand("@Amount", Amount);
+            Adapter.AddParameterToSelectCommand("@Status", Status);
+            Adapter.AddParameterToSelectCommand("@Description", Description);
+            Adapter.AddParameterToSelectCommand("@ChargeType", ChargeType);
+            Adapter.AddParameterToSelectCommand("@Comment", Comment);
+            Adapter.AddParameterToSelectCommand("@PayChannelLog", PayChannelLog);
+            Adapter.AddParameterToSelectCommand("@IP", IP);
+            Adapter.AddParameterToSelectCommand("@CreateDate", dt);
+            Adapter.AddParameterToSelectCommand("@CreateDateString", dt.ToString("yyyy-MM-dd"));
+
+            Adapter.SetSqlCommandBuilder();
+            Adapter.Fill(dtdata);
+            Adapter.Update(dtdata);
+
+            return this.GetIdentity();
+        }
+
+        /// <summary>
+        /// 记录產品支付请求-點燈-壽山巖觀音寺
+        /// </summary>
+        /// <param name="OrderID">订单编号</param>
+        /// <param name="ApplicantID">購買人编号</param>
+        /// <param name="Amount">支付金額</param>>
+        /// <param name="ChargeType">支付方式</param>>
+        /// <param name="Status">訂單狀態 0-帶付款 1-付款成功 -1-錯誤 -2-已退款</param>>
+        /// <param name="Description">支付内容说明</param>
+        /// <param name="Comment">备注</param>
+        /// <param name="PayChannelLog">支付接口日志</param>
+        /// <param name="IP">来源IP</param>
+        /// <param name="Year">活動年份</param>
+        public long AddChargeLog_Lights_ssy(string OrderID, int ApplicantID, int Amount, string ChargeType, int Status, string Description, string Comment, string PayChannelLog,
+            string IP, string Year)
+        {
+            TimeZoneInfo info = TimeZoneInfo.FindSystemTimeZoneById("Taipei Standard Time");
+            DateTime dt = TimeZoneInfo.ConvertTime(DateTime.Now, info);
+            DataTable dtDataList = new DataTable();
+            string sql = "Insert into Temple_" + Year + "..APPCharge_ssy_Lights(OrderID, ApplicantID, Amount, Status, Description, ChargeType, Comment, PayChannelLog, IP, " +
+                "CreateDate, CreateDateString) " +
+                "values(@OrderID, @ApplicantID, @Amount, @Status, @Description, @ChargeType, @Comment, @PayChannelLog, @IP, @CreateDate, @CreateDateString)";
+
+            DatabaseAdapter Adapter = new DatabaseAdapter(sql, this.DBSource);
+            DataTable dtdata = new DataTable();
+            Adapter.AddParameterToSelectCommand("@OrderID", OrderID);
+            Adapter.AddParameterToSelectCommand("@ApplicantID", ApplicantID);
+            Adapter.AddParameterToSelectCommand("@Amount", Amount);
+            Adapter.AddParameterToSelectCommand("@Status", Status);
+            Adapter.AddParameterToSelectCommand("@Description", Description);
+            Adapter.AddParameterToSelectCommand("@ChargeType", ChargeType);
+            Adapter.AddParameterToSelectCommand("@Comment", Comment);
+            Adapter.AddParameterToSelectCommand("@PayChannelLog", PayChannelLog);
+            Adapter.AddParameterToSelectCommand("@IP", IP);
+            Adapter.AddParameterToSelectCommand("@CreateDate", dt);
+            Adapter.AddParameterToSelectCommand("@CreateDateString", dt.ToString("yyyy-MM-dd"));
+
+            Adapter.SetSqlCommandBuilder();
+            Adapter.Fill(dtdata);
+            Adapter.Update(dtdata);
+
+            return this.GetIdentity();
+        }
+
+        /// <summary>
+        /// 记录產品支付请求-祈安植福-松柏嶺受天宮
+        /// </summary>
+        /// <param name="OrderID">订单编号</param>
+        /// <param name="ApplicantID">購買人编号</param>
+        /// <param name="Amount">支付金額</param>>
+        /// <param name="Description">支付内容说明</param>
+        /// <param name="Comment">备注</param>
+        /// <param name="PayChannelLog">支付接口日志</param>
+        /// <param name="IP">来源IP</param>
+        public long AddChargeLog_Blessing_st(string OrderID, int ApplicantID, int Amount, string ChargeType, int Status, string Description, string Comment, string PayChannelLog,
+            string IP, string Year)
+        {
+            TimeZoneInfo info = TimeZoneInfo.FindSystemTimeZoneById("Taipei Standard Time");
+            DateTime dt = TimeZoneInfo.ConvertTime(DateTime.Now, info);
+            DataTable dtDataList = new DataTable();
+            string sql = "Insert into Temple_" + Year + "..APPCharge_st_Blessing(OrderID, ApplicantID, Amount, Status, Description, ChargeType, Comment, PayChannelLog, IP, " +
                 "CreateDate, CreateDateString) " +
                 "values(@OrderID, @ApplicantID, @Amount, @Status, @Description, @ChargeType, @Comment, @PayChannelLog, @IP, @CreateDate, @CreateDateString)";
 
@@ -3190,10 +3896,76 @@ namespace Read.data
             return dtDataList;
         }
 
+        public DataTable GetChargeLog_Purdue_jb(string OrderID, string Year)
+        {
+            DataTable dtDataList = new DataTable();
+            string sql = "Select Top 1 * From Temple_" + Year + "..APPCharge_jb_Purdue Where OrderID=@OrderID";
+
+            DatabaseAdapter AdapterObj = new DatabaseAdapter(sql, this.DBSource);
+            AdapterObj.AddParameterToSelectCommand("@OrderID", OrderID);
+            AdapterObj.Fill(dtDataList);
+            return dtDataList;
+        }
+
         public DataTable GetChargeLog_Purdue_mazu(string OrderID, string Year)
         {
             DataTable dtDataList = new DataTable();
             string sql = "Select Top 1 * From Temple_" + Year + "..APPCharge_mazu_Purdue Where OrderID=@OrderID";
+
+            DatabaseAdapter AdapterObj = new DatabaseAdapter(sql, this.DBSource);
+            AdapterObj.AddParameterToSelectCommand("@OrderID", OrderID);
+            AdapterObj.Fill(dtDataList);
+            return dtDataList;
+        }
+
+        public DataTable GetChargeLog_Purdue_wjsan(string OrderID, string Year)
+        {
+            DataTable dtDataList = new DataTable();
+            string sql = "Select Top 1 * From Temple_" + Year + "..APPCharge_wjsan_Purdue Where OrderID=@OrderID";
+
+            DatabaseAdapter AdapterObj = new DatabaseAdapter(sql, this.DBSource);
+            AdapterObj.AddParameterToSelectCommand("@OrderID", OrderID);
+            AdapterObj.Fill(dtDataList);
+            return dtDataList;
+        }
+
+        public DataTable GetChargeLog_Purdue_ld(string OrderID, string Year)
+        {
+            DataTable dtDataList = new DataTable();
+            string sql = "Select Top 1 * From Temple_" + Year + "..APPCharge_ld_Purdue Where OrderID=@OrderID";
+
+            DatabaseAdapter AdapterObj = new DatabaseAdapter(sql, this.DBSource);
+            AdapterObj.AddParameterToSelectCommand("@OrderID", OrderID);
+            AdapterObj.Fill(dtDataList);
+            return dtDataList;
+        }
+
+        public DataTable GetChargeLog_Purdue_sx(string OrderID, string Year)
+        {
+            DataTable dtDataList = new DataTable();
+            string sql = "Select Top 1 * From Temple_" + Year + "..APPCharge_sx_Purdue Where OrderID=@OrderID";
+
+            DatabaseAdapter AdapterObj = new DatabaseAdapter(sql, this.DBSource);
+            AdapterObj.AddParameterToSelectCommand("@OrderID", OrderID);
+            AdapterObj.Fill(dtDataList);
+            return dtDataList;
+        }
+
+        public DataTable GetChargeLog_Purdue_wh(string OrderID, string Year)
+        {
+            DataTable dtDataList = new DataTable();
+            string sql = "Select Top 1 * From Temple_" + Year + "..APPCharge_wh_Purdue Where OrderID=@OrderID";
+
+            DatabaseAdapter AdapterObj = new DatabaseAdapter(sql, this.DBSource);
+            AdapterObj.AddParameterToSelectCommand("@OrderID", OrderID);
+            AdapterObj.Fill(dtDataList);
+            return dtDataList;
+        }
+
+        public DataTable GetChargeLog_Purdue_st(string OrderID, string Year)
+        {
+            DataTable dtDataList = new DataTable();
+            string sql = "Select Top 1 * From Temple_" + Year + "..APPCharge_st_Purdue Where OrderID=@OrderID";
 
             DatabaseAdapter AdapterObj = new DatabaseAdapter(sql, this.DBSource);
             AdapterObj.AddParameterToSelectCommand("@OrderID", OrderID);
@@ -3304,6 +4076,17 @@ namespace Read.data
         {
             DataTable dtDataList = new DataTable();
             string sql = "Select Top 1 * From APPCharge_wu_Supplies2 Where OrderID=@OrderID";
+
+            DatabaseAdapter AdapterObj = new DatabaseAdapter(sql, this.DBSource);
+            AdapterObj.AddParameterToSelectCommand("@OrderID", OrderID);
+            AdapterObj.Fill(dtDataList);
+            return dtDataList;
+        }
+
+        public DataTable GetChargeLog_Supplies_wh(string OrderID, string Year)
+        {
+            DataTable dtDataList = new DataTable();
+            string sql = "Select Top 1 * From Temple_" + Year + "..APPCharge_wh_Supplies Where OrderID=@OrderID";
 
             DatabaseAdapter AdapterObj = new DatabaseAdapter(sql, this.DBSource);
             AdapterObj.AddParameterToSelectCommand("@OrderID", OrderID);
@@ -3667,6 +4450,83 @@ namespace Read.data
         {
             DataTable dtDataList = new DataTable();
             string sql = "Select Top 1 * From Temple_" + Year + "..APPCharge_wh_Lights Where OrderID=@OrderID";
+
+            DatabaseAdapter AdapterObj = new DatabaseAdapter(sql, this.DBSource);
+            AdapterObj.AddParameterToSelectCommand("@OrderID", OrderID);
+            AdapterObj.Fill(dtDataList);
+            return dtDataList;
+        }
+
+        public DataTable GetChargeLog_Lights_st(string OrderID, string Year)
+        {
+            DataTable dtDataList = new DataTable();
+            string sql = "Select Top 1 * From Temple_" + Year + "..APPCharge_st_Lights Where OrderID=@OrderID";
+
+            DatabaseAdapter AdapterObj = new DatabaseAdapter(sql, this.DBSource);
+            AdapterObj.AddParameterToSelectCommand("@OrderID", OrderID);
+            AdapterObj.Fill(dtDataList);
+            return dtDataList;
+        }
+
+        public DataTable GetChargeLog_Lights_bj(string OrderID, string Year)
+        {
+            DataTable dtDataList = new DataTable();
+            string sql = "Select Top 1 * From Temple_" + Year + "..APPCharge_bj_Lights Where OrderID=@OrderID";
+
+            DatabaseAdapter AdapterObj = new DatabaseAdapter(sql, this.DBSource);
+            AdapterObj.AddParameterToSelectCommand("@OrderID", OrderID);
+            AdapterObj.Fill(dtDataList);
+            return dtDataList;
+        }
+
+        public DataTable GetChargeLog_Lights_sbbt(string OrderID, string Year)
+        {
+            DataTable dtDataList = new DataTable();
+            string sql = "Select Top 1 * From Temple_" + Year + "..APPCharge_sbbt_Lights Where OrderID=@OrderID";
+
+            DatabaseAdapter AdapterObj = new DatabaseAdapter(sql, this.DBSource);
+            AdapterObj.AddParameterToSelectCommand("@OrderID", OrderID);
+            AdapterObj.Fill(dtDataList);
+            return dtDataList;
+        }
+
+        public DataTable GetChargeLog_Lights_bpy(string OrderID, string Year)
+        {
+            DataTable dtDataList = new DataTable();
+            string sql = "Select Top 1 * From Temple_" + Year + "..APPCharge_bpy_Lights Where OrderID=@OrderID";
+
+            DatabaseAdapter AdapterObj = new DatabaseAdapter(sql, this.DBSource);
+            AdapterObj.AddParameterToSelectCommand("@OrderID", OrderID);
+            AdapterObj.Fill(dtDataList);
+            return dtDataList;
+        }
+
+        public DataTable GetChargeLog_Lights_ssy(string OrderID, string Year)
+        {
+            DataTable dtDataList = new DataTable();
+            string sql = "Select Top 1 * From Temple_" + Year + "..APPCharge_ssy_Lights Where OrderID=@OrderID";
+
+            DatabaseAdapter AdapterObj = new DatabaseAdapter(sql, this.DBSource);
+            AdapterObj.AddParameterToSelectCommand("@OrderID", OrderID);
+            AdapterObj.Fill(dtDataList);
+            return dtDataList;
+        }
+
+        public DataTable GetChargeLog_QnLight_ty(string OrderID, string Year)
+        {
+            DataTable dtDataList = new DataTable();
+            string sql = "Select Top 1 * From Temple_" + Year + "..APPCharge_ty_QnLight Where OrderID=@OrderID";
+
+            DatabaseAdapter AdapterObj = new DatabaseAdapter(sql, this.DBSource);
+            AdapterObj.AddParameterToSelectCommand("@OrderID", OrderID);
+            AdapterObj.Fill(dtDataList);
+            return dtDataList;
+        }
+
+        public DataTable GetChargeLog_Blessing_st(string OrderID, string Year)
+        {
+            DataTable dtDataList = new DataTable();
+            string sql = "Select Top 1 * From Temple_" + Year + "..APPCharge_st_Blessing Where OrderID=@OrderID";
 
             DatabaseAdapter AdapterObj = new DatabaseAdapter(sql, this.DBSource);
             AdapterObj.AddParameterToSelectCommand("@OrderID", OrderID);
@@ -5412,1927 +6272,11359 @@ namespace Read.data
             return bResult;
         }
 
-        public bool UpdateLights_da_Info(int applicantID, int LightsType, string Year, ref string msg, ref string[] lightslist, ref string[] Lightslist)
+
+        #region —— 點燈 —— 
+
+        /// <summary>
+        /// 更新並取得燈號資料 - 點燈 - 大甲鎮瀾宮
+        /// </summary>
+        /// <param name="applicantID">購買人編號</param>
+        /// <param name="LightsType">
+        /// 燈種代碼：
+        /// 3-光明燈、元神光明燈(鹿港城隍廟)、貴人燈(斗六五路財神宮)、平安燈(北極玄天宮、壽山巖觀音寺)
+        /// 4-安太歲、太歲燈、太歲平安符(鹿港城隍廟)、安奉太歲
+        /// 5-文昌燈、五文昌燈、文魁智慧燈(鹿港城隍廟)、文昌功名燈(桃園龍德宮)
+        /// 6-財神燈、發財燈、福財燈、正財福報燈(鹿港城隍廟)、招財燈(壽山巖觀音寺)、五路財神燈(桃園龍德宮)
+        /// 7-姻緣燈、桃花燈、月老桃花燈
+        /// 8-藥師燈 、藥師佛燈、消災延壽燈(斗六五路財神宮)、特別健康燈(石壁部堂)、健康延壽燈(桃園龍德宮)
+        /// 9-財利燈 
+        /// 10-貴人燈 、特別貴人燈(石壁部堂)
+        /// 11-福祿燈、福壽燈 
+        /// 12-寵物平安燈 
+        /// 13-龍王燈 
+        /// 14-虎爺燈 
+        /// 15-轉運納福燈 
+        /// 16-光明燈上層、玉皇燈(五股賀聖宮)
+        /// 17-偏財旺旺燈 
+        /// 18-廣進安財庫 
+        /// 19-財庫燈 
+        /// 20-月老姻緣燈
+        /// 21-孝親祈福燈 
+        /// 22-事業燈、特別事業燈(石壁部堂)
+        /// 23-全家光明燈 
+        /// 24-觀音佛祖燈 
+        /// 25-財神斗、財神斗/一個月(斗六五路財神宮)
+        /// 26-事業斗 
+        /// 27-平安斗 
+        /// 28-文昌斗 
+        /// 29-藥師斗 
+        /// 30-元神斗 
+        /// 31-福祿壽斗 
+        /// 32-觀音斗 
+        /// 33-明心智慧燈
+        /// 34-發財斗/一個月
+        /// 35-姻緣斗/一個月
+        /// 36-貴人斗/一個月
+        /// 37-消災延壽斗/一個月
+        /// 38-財神斗/三個月
+        /// 39-發財斗/三個月
+        /// 40-姻緣斗/三個月
+        /// 41-貴人斗/三個月
+        /// 42-消災延壽斗/三個月
+        /// 43-元辰斗燈、元辰燈(壽山巖觀音寺)
+        /// 44-求子燈
+        /// 45-護子燈
+        /// 46-添丁燈
+        /// 47-婚姻燈
+        /// 48-安太陰
+        /// 49-安太陽
+        /// 50-光明燈+批流年
+        /// 51-文昌燈+批流年
+        /// </param>
+        /// <param name="Year">年度字串，例如 "2025"</param>
+        /// <param name="msg">回傳給前端的訊息（各燈號編號＋客服電話）</param>
+        /// <param name="lightslist">回傳給前端的燈號清單（例如「太歲燈:TYA1001」）</param>
+        /// <param name="Lightslist">備用，可同樣回傳燈號字串陣列，視業務需求</param>
+        /// <returns>若有更新資料則回傳 true，否則回傳 false</returns>
+        public bool UpdateLights_da_Info(
+            int applicantID,
+            int LightsType,
+            string Year,
+            ref string msg,
+            ref string[] lightslist,
+            ref string[] Lightslist)
         {
             lock (_thisLock)
             {
-                TimeZoneInfo info = TimeZoneInfo.FindSystemTimeZoneById("Taipei Standard Time");
-                DateTime dt = TimeZoneInfo.ConvertTime(DateTime.Now, info);
-                bool bResult = false;
-                int lastnum = GetListNum_da_Lights(LightsType, applicantID, Year);
-                int Count = GetLightsCount_da(LightsType, 1, Year);
-                if (lastnum > 0 && Count < 3000)
-                    //if (lastnum > 0)
+                twbobibobi.Data.BasePage basePage = new twbobibobi.Data.BasePage();
+
+                // 1. 一次性取得所有已分配的編號 (Num > 0 且 Num2String 有值)
+                string sqlFetchExisting =
+                    "SELECT LightsType, Num " +
+                    "FROM Temple_" + Year + "..Lights_da_info " +
+                    "WHERE Status = 0 " +
+                    "  AND Num <> 0" +
+                    "  AND Num2String IS NOT NULL " +
+                    "  AND Num2String <> ''";
+
+                // 建立 DatabaseAdapter，並加入參數
+                DatabaseAdapter da = new DatabaseAdapter(sqlFetchExisting, this.DBSource);
+                da.SetSqlCommandBuilder();
+
+                DataTable dtExisting = new DataTable();
+                da.Fill(dtExisting);
+
+                // 建立各燈種對應的已用號碼集合
+                var usedNumsByType = new Dictionary<int, HashSet<int>>();
+                foreach (DataRow row in dtExisting.Rows)
                 {
-                    bool dhavenum = true;
-
-                    switch (LightsType)
-                    {
-                        case 3:
-                            //光明燈
-                            for (int i = 1; i < lastnum; i++)
-                            {
-                                if (CheckedNum_da_Lights(LightsType, i, Year))
-                                {
-                                    lastnum = i;
-                                    dhavenum = false;
-                                    break;
-                                }
-                            }
-
-                            break;
-                        case 4:
-                            //安太歲
-                            for (int i = 1; i < lastnum; i++)
-                            {
-                                if (CheckedNum_da_Lights(LightsType, i, Year))
-                                {
-                                    lastnum = i;
-                                    dhavenum = false;
-                                    break;
-                                }
-                            }
-
-                            break;
-                        case 5:
-                            //文昌燈
-                            for (int i = 1; i < lastnum; i++)
-                            {
-                                if (CheckedNum_da_Lights(LightsType, i, Year))
-                                {
-                                    lastnum = i;
-                                    dhavenum = false;
-                                    break;
-                                }
-                            }
-
-                            break;
-                    }
-
-                    if (dhavenum)
-                    {
-                        ++lastnum;
-                    }
+                    int type = Convert.ToInt32(row["LightsType"]);
+                    int num = Convert.ToInt32(row["Num"]);
+                    if (!usedNumsByType.ContainsKey(type))
+                        usedNumsByType[type] = new HashSet<int>();
+                    usedNumsByType[type].Add(num);
                 }
-                else if (Count >= 3000)
+
+                // 2. 一次性抓出所有需補號的列 (Num = 0)
+                DataTable dtToAssign = new DataTable();
+                string sqlFetchToAssign =
+                    "SELECT LightsID, LightsType " +
+                    "FROM Temple_" + Year + "..Lights_da_info " +
+                    "WHERE ApplicantID = @ApplicantID " +
+                    "  AND Status = 0 " +
+                    "  AND Num = 0 " +
+                    "ORDER BY LightsID";
+
                 {
-                    if (lastnum >= 3001)
+                    da = new DatabaseAdapter(sqlFetchToAssign, this.DBSource);
+                    da.SetSqlCommandBuilder();
+                    da.AddParameterToSelectCommand("ApplicantID", applicantID);
+                    da.Fill(dtToAssign);
+                }
+
+                int rowCount = dtToAssign.Rows.Count;
+                lightslist = new string[rowCount];
+                Lightslist = new string[rowCount];
+                // 用來存放要批量更新的資料 (LightsID, AssignedNum, AssignedNumString)
+                List<Tuple<int, int, string>> updatedRecords = new List<Tuple<int, int, string>>();
+
+                // 3. 逐筆在記憶體中分配「最小可用缺號」
+                for (int i = 0; i < rowCount; i++)
+                {
+                    DataRow row = dtToAssign.Rows[i];
+                    int dbLightsID = Convert.ToInt32(row["LightsID"]);
+                    int dbLightsType = Convert.ToInt32(row["LightsType"]);
+
+                    if (!usedNumsByType.ContainsKey(dbLightsType))
+                        usedNumsByType[dbLightsType] = new HashSet<int>();
+
+                    // 3.1 嘗試在 1～6000 區段找缺口
+                    var usedSet = usedNumsByType[dbLightsType];
+                    int nextNum = -1;
+                    for (int cand = 1; cand <= 6000; cand++)
                     {
-                        bool dhavenum = true;
-
-                        switch (LightsType)
+                        if (!usedSet.Contains(cand))
                         {
-                            case 3:
-                                //光明燈
-                                for (int i = 5001; i < lastnum; i++)
-                                {
-                                    if (CheckedNum_da_Lights(LightsType, i, Year))
-                                    {
-                                        lastnum = i;
-                                        dhavenum = false;
-                                        break;
-                                    }
-                                }
-
-                                break;
-                            case 4:
-                                //安太歲
-                                for (int i = 5001; i < lastnum; i++)
-                                {
-                                    if (CheckedNum_da_Lights(LightsType, i, Year))
-                                    {
-                                        lastnum = i;
-                                        dhavenum = false;
-                                        break;
-                                    }
-                                }
-
-                                break;
+                            nextNum = cand;
+                            break;
                         }
+                    }
 
-                        if (dhavenum)
-                        {
-                            ++lastnum;
-                        }
+                    // 3.2 如果 1～3000 全部已被佔滿，才進入大甲專區 5001 起
+                    //if (nextNum == -1)
+                    //{
+                    //    int cand = 5001;
+                    //    while (usedSet.Contains(cand))
+                    //    {
+                    //        cand++;
+                    //    }
+                    //    nextNum = cand;
+                    //}
+
+                    // 3.3 根據燈種決定前綴字串
+                    string prefix = "";
+                    switch (dbLightsType)
+                    {
+                        case 3: prefix = "光0"; break;  // 光明燈 → 「光0####」
+                        case 4: prefix = "太0"; break;  // 安太歲 → 「太0####」
+                        case 5: prefix = "文0"; break;  // 文昌燈 → 「文0####」
+                    }
+                    string numString = prefix + Num2String(nextNum);
+                    Lightslist[i] = numString;          // 單純存編號字串
+
+                    // 3.4 組成要返回前端的「燈種:編號」
+                    string typeName = "";
+                    switch (dbLightsType)
+                    {
+                        case 3: typeName = "光明燈"; break;
+                        case 4: typeName = "安太歲"; break;
+                        case 5: typeName = "文昌燈"; break;
+                    }
+                    lightslist[i] = $"{typeName}:{numString}";
+
+                    // 3.5 把這筆資料記錄到待批量更新集合中
+                    updatedRecords.Add(new Tuple<int, int, string>(dbLightsID, nextNum, numString));
+
+                    // 3.6 把剛分配的 nextNum 加到 usedNumsByType，避免下次迴圈重複
+                    usedSet.Add(nextNum);
+                }
+
+                // 4. 組出前端訊息字串 (例如「光明燈:光05001,安太歲:太05001,...。客服電話：04-36092299。」)
+                msg += string.Join(",", lightslist) + "。客服電話：04-36092299。";
+
+                // 5. 一次性批量 UPDATE 回資料庫
+                //    以下示範用動態 SQL 拼接多筆 UPDATE，若更新筆數很多建議改用 TVP + 存儲過程
+                System.Text.StringBuilder sb = new System.Text.StringBuilder();
+                sb.AppendLine("USE Temple_" + Year + ";");
+                foreach (var rec in updatedRecords)
+                {
+                    int id = rec.Item1;
+                    int assignedNum = rec.Item2;
+                    string assignedNumString = rec.Item3.Replace("'", "''"); // 確保單引號轉義
+                    sb.AppendLine(
+                        "UPDATE dbo.Lights_da_info " +
+                        "SET Num = " + rec.Item2 + ", " +
+                        "    Num2String = N'" + rec.Item3.Replace("'", "''") + "' " +
+                        "WHERE LightsID = " + rec.Item1 + ";"
+                    );
+                }
+                string sqlBatchUpdate = sb.ToString();
+
+                try
+                {
+                    int rowsAffected = ExecuteSql(sqlBatchUpdate);
+                    if (rowsAffected > 0)
+                    {
+                        // 若有更新任何筆，代表至少有一筆補號成功
+                        return (updatedRecords.Count > 0);
                     }
                     else
                     {
-                        switch (LightsType)
-                        {
-                            case 3:
-                                //光明燈
-                                lastnum = 5001;
-                                break;
-                            case 4:
-                                //安太歲
-                                lastnum = 5001;
-                                break;
-                        }
+                        // 防呆：SQL 執行後沒有影響到任何列，記一筆錯誤日誌，再回傳 false
+                        string err = "[UpdateLights_da_Info] 批量 UPDATE 未更新到任何記錄，SQL:\r\n" + sqlBatchUpdate;
+                        basePage.SaveErrorLog(err);
+                        return false;
                     }
                 }
-                else
+                catch (Exception ex)
                 {
-                    switch (LightsType)
-                    {
-                        case 3:
-                            //光明燈
-                            lastnum = 1;
-                            break;
-                        case 4:
-                            //安太歲
-                            lastnum = 1;
-                            break;
-                        case 5:
-                            //文昌燈
-                            lastnum = 1;
-                            break;
-                    }
+                    // 捕捉執行 SQL 時的例外，記錯誤日誌，並回傳 false
+                    basePage.SaveErrorLog("[UpdateLights_da_Info] 批量 UPDATE 時發生例外：\r\n" + ex);
+                    return false;
                 }
-
-                DataTable dtDataList = new DataTable();
-                string sql = "Select * From Temple_" + Year + "..Lights_da_info Where ApplicantID=@ApplicantID and Status = 0 and Num = 0";
-
-                DatabaseAdapter AdapterObj = new DatabaseAdapter(sql, this.DBSource);
-                AdapterObj.SetSqlCommandBuilder();
-                AdapterObj.AddParameterToSelectCommand("@ApplicantID", applicantID);
-                AdapterObj.Fill(dtDataList);
-
-                //Lightslist = new string[dtDataList.Rows.Count];
-                var tempList_lights = Lightslist.ToList();
-                lightslist = new string[dtDataList.Rows.Count];
-                for (int i = 0; i < dtDataList.Rows.Count; i++)
-                {
-                    string lid = dtDataList.Rows[i]["LightsID"].ToString();
-                    string NumString = string.Empty;
-
-                    LightsType = int.Parse(dtDataList.Rows[i]["LightsType"].ToString());
-                    switch (LightsType)
-                    {
-                        case 3:
-                            //光明燈
-                            NumString = "光0" + Num2String(lastnum);
-                            tempList_lights.Add(NumString);
-                            //dtDataList.Rows[i]["Num2String"] = "Y" + Num2String(lastnum);
-                            lightslist[i] = "光明燈:光0" + Num2String(lastnum);
-                            break;
-                        case 4:
-                            //安太歲
-                            NumString = "太0" + Num2String(lastnum);
-                            tempList_lights.Add(NumString);
-                            //dtDataList.Rows[i]["Num2String"] = "六" + Num2String(lastnum);
-                            lightslist[i] = "安太歲:太0" + Num2String(lastnum);
-                            //if (lastnum > 2001)
-                            //{
-                            //    NumString = "七" + Num2String(lastnum - 3000);
-                            //    tempList_lights.Add(NumString);
-                            //    //dtDataList.Rows[i]["Num2String"] = "六" + Num2String(lastnum);
-                            //    lightslist[i] = "安太歲:七" + Num2String(lastnum - 3000);
-                            //}
-                            //else
-                            //{
-                            //    NumString = "六" + Num2String(lastnum);
-                            //    tempList_lights.Add(NumString);
-                            //    //dtDataList.Rows[i]["Num2String"] = "六" + Num2String(lastnum);
-                            //    lightslist[i] = "安太歲:六" + Num2String(lastnum);
-                            //}
-                            break;
-                        case 5:
-                            //文昌燈
-                            NumString = "文0" + Num2String(lastnum);
-                            tempList_lights.Add(NumString);
-                            //dtDataList.Rows[i]["Num2String"] = "文" + Num2String(lastnum);
-                            lightslist[i] = "文昌燈:文0" + Num2String(lastnum);
-                            break;
-                    }
-                    Lightslist = tempList_lights.ToArray();
-                    //dtDataList.Rows[i]["Num"] = lastnum;
-                    //AdapterObj.Update(dtDataList);
-
-                    msg += lightslist[i];
-                    if (i < lightslist.Length - 1)
-                    {
-                        msg += ",";
-                    }
-
-                    //bResult = true;
-                    int res = ExecuteSql("Update Temple_" + Year + "..Lights_da_info Set Num2String = N'" + NumString + "', Num = " + lastnum + " Where LightsID=" + lid);
-
-                    if (res > 0)
-                    {
-                        bResult = true;
-                    }
-
-                    int index = dtDataList.Rows.Count - i > 1 ? i + 1 : i;
-                    LightsType = int.Parse(dtDataList.Rows[index]["LightsType"].ToString());
-
-                    lastnum = GetListNum_da_Lights(LightsType, applicantID, Year);
-                    Count = GetLightsCount_da(LightsType, 1, Year);
-                    if (lastnum > 0 && Count < 3000)
-                        //if (lastnum > 0)
-                    {
-                        bool dhavenum = true;
-
-                        switch (LightsType)
-                        {
-                            case 3:
-                                //光明燈
-                                for (int j = 1; j < lastnum; j++)
-                                {
-                                    if (CheckedNum_da_Lights(LightsType, j, Year))
-                                    {
-                                        lastnum = j;
-                                        dhavenum = false;
-                                        break;
-                                    }
-                                }
-
-                                break;
-                            case 4:
-                                //安太歲
-                                for (int j = 1; j < lastnum; j++)
-                                {
-                                    if (CheckedNum_da_Lights(LightsType, j, Year))
-                                    {
-                                        lastnum = j;
-                                        dhavenum = false;
-                                        break;
-                                    }
-                                }
-
-                                break;
-                            case 5:
-                                //文昌燈
-                                for (int j = 1; j < lastnum; j++)
-                                {
-                                    if (CheckedNum_da_Lights(LightsType, j, Year))
-                                    {
-                                        lastnum = j;
-                                        dhavenum = false;
-                                        break;
-                                    }
-                                }
-
-                                break;
-                        }
-
-                        if (dhavenum)
-                        {
-                            ++lastnum;
-                        }
-                    }
-                    else if (Count >= 3000)
-                    {
-                        if (lastnum >= 3001)
-                        {
-                            bool dhavenum = true;
-
-                            switch (LightsType)
-                            {
-                                case 3:
-                                    //光明燈
-                                    for (int j = 5001; j < lastnum; j++)
-                                    {
-                                        if (CheckedNum_da_Lights(LightsType, j, Year))
-                                        {
-                                            lastnum = j;
-                                            dhavenum = false;
-                                            break;
-                                        }
-                                    }
-
-                                    break;
-                                case 4:
-                                    //安太歲
-                                    for (int j = 5001; j < lastnum; j++)
-                                    {
-                                        if (CheckedNum_da_Lights(LightsType, j, Year))
-                                        {
-                                            lastnum = j;
-                                            dhavenum = false;
-                                            break;
-                                        }
-                                    }
-
-                                    break;
-                            }
-
-                            if (dhavenum)
-                            {
-                                ++lastnum;
-                            }
-                        }
-                        else
-                        {
-                            switch (LightsType)
-                            {
-                                case 3:
-                                    //光明燈
-                                    lastnum = 5001;
-                                    break;
-                                case 4:
-                                    //安太歲
-                                    lastnum = 5001;
-                                    break;
-                            }
-                        }
-                    }
-                    else
-                    {
-                        switch (LightsType)
-                        {
-                            case 3:
-                                //光明燈
-                                lastnum = 1;
-                                break;
-                            case 4:
-                                //安太歲
-                                lastnum = 1;
-                                break;
-                            case 5:
-                                //文昌燈
-                                lastnum = 1;
-                                break;
-                        }
-                    }
-                }
-
-                msg += "。客服電話：04-36092299。";
-
-                return bResult;
             }
         }
 
-        public bool UpdateLights_h_Info(int applicantID, int LightsType, string Year, ref string msg, ref string[] lightslist, ref string[] Lightslist)
+        /// <summary>
+        /// 更新並取得燈號資料 - 點燈 - 新港奉天宮
+        /// </summary>
+        /// <param name="applicantID">購買人編號</param>
+        /// <param name="LightsType">
+        /// 燈種代碼：
+        /// 3-光明燈、元神光明燈(鹿港城隍廟)、貴人燈(斗六五路財神宮)、平安燈(北極玄天宮、壽山巖觀音寺)
+        /// 4-安太歲、太歲燈、太歲平安符(鹿港城隍廟)、安奉太歲
+        /// 5-文昌燈、五文昌燈、文魁智慧燈(鹿港城隍廟)、文昌功名燈(桃園龍德宮)
+        /// 6-財神燈、發財燈、福財燈、正財福報燈(鹿港城隍廟)、招財燈(壽山巖觀音寺)、五路財神燈(桃園龍德宮)
+        /// 7-姻緣燈、桃花燈、月老桃花燈
+        /// 8-藥師燈 、藥師佛燈、消災延壽燈(斗六五路財神宮)、特別健康燈(石壁部堂)、健康延壽燈(桃園龍德宮)
+        /// 9-財利燈 
+        /// 10-貴人燈 、特別貴人燈(石壁部堂)
+        /// 11-福祿燈、福壽燈 
+        /// 12-寵物平安燈 
+        /// 13-龍王燈 
+        /// 14-虎爺燈 
+        /// 15-轉運納福燈 
+        /// 16-光明燈上層、玉皇燈(五股賀聖宮)
+        /// 17-偏財旺旺燈 
+        /// 18-廣進安財庫 
+        /// 19-財庫燈 
+        /// 20-月老姻緣燈
+        /// 21-孝親祈福燈 
+        /// 22-事業燈、特別事業燈(石壁部堂)
+        /// 23-全家光明燈 
+        /// 24-觀音佛祖燈 
+        /// 25-財神斗、財神斗/一個月(斗六五路財神宮)
+        /// 26-事業斗 
+        /// 27-平安斗 
+        /// 28-文昌斗 
+        /// 29-藥師斗 
+        /// 30-元神斗 
+        /// 31-福祿壽斗 
+        /// 32-觀音斗 
+        /// 33-明心智慧燈
+        /// 34-發財斗/一個月
+        /// 35-姻緣斗/一個月
+        /// 36-貴人斗/一個月
+        /// 37-消災延壽斗/一個月
+        /// 38-財神斗/三個月
+        /// 39-發財斗/三個月
+        /// 40-姻緣斗/三個月
+        /// 41-貴人斗/三個月
+        /// 42-消災延壽斗/三個月
+        /// 43-元辰斗燈、元辰燈(壽山巖觀音寺)
+        /// 44-求子燈
+        /// 45-護子燈
+        /// 46-添丁燈
+        /// 47-婚姻燈
+        /// 48-安太陰
+        /// 49-安太陽
+        /// 50-光明燈+批流年
+        /// 51-文昌燈+批流年
+        /// </param>
+        /// <param name="Year">年度字串，例如 "2025"</param>
+        /// <param name="msg">回傳給前端的訊息（各燈號編號＋客服電話）</param>
+        /// <param name="lightslist">回傳給前端的燈號清單（例如「太歲燈:TYA1001」）</param>
+        /// <param name="Lightslist">備用，可同樣回傳燈號字串陣列，視業務需求</param>
+        /// <returns>若有更新資料則回傳 true，否則回傳 false</returns>
+        public bool UpdateLights_h_Info(
+            int applicantID,
+            int LightsType,
+            string Year,
+            ref string msg,
+            ref string[] lightslist,
+            ref string[] Lightslist)
         {
             lock (_thisLock)
             {
-                TimeZoneInfo info = TimeZoneInfo.FindSystemTimeZoneById("Taipei Standard Time");
-                DateTime dt = TimeZoneInfo.ConvertTime(DateTime.Now, info);
-                bool bResult = false;
-                int lastnum = GetListNum_h_Lights(LightsType, applicantID, Year);
-                if (lastnum > 0)
+                twbobibobi.Data.BasePage basePage = new twbobibobi.Data.BasePage();
+
+                // 1. 一次性取得所有已分配的編號 (Num > 0 且 Num2String 有值)
+                string sqlFetchExisting =
+                    "SELECT LightsType, Num " +
+                    "FROM Temple_" + Year + "..Lights_h_info " +
+                    "WHERE Status = 0 " +
+                    "  AND Num <> 0" +
+                    "  AND Num2String IS NOT NULL " +
+                    "  AND Num2String <> ''";
+
+                // 建立 DatabaseAdapter，並加入參數
+                DatabaseAdapter da = new DatabaseAdapter(sqlFetchExisting, this.DBSource);
+                da.SetSqlCommandBuilder();
+                DataTable dtExisting = new DataTable();
+                da.Fill(dtExisting);
+
+                // 建立各燈種對應的已用號碼集合
+                var usedNumsByType = new Dictionary<int, HashSet<int>>();
+                foreach (DataRow row in dtExisting.Rows)
                 {
-                    bool dhavenum = true;
-
-                    switch (LightsType)
-                    {
-                        case 3:
-                            //光明燈
-                            for (int i = 1001; i < lastnum; i++)
-                            {
-                                if (CheckedNum_h_Lights(LightsType, i, Year))
-                                {
-                                    lastnum = i;
-                                    dhavenum = false;
-                                    break;
-                                }
-                            }
-
-                            break;
-                        case 4:
-                            //安太歲
-                            for (int i = 1001; i < lastnum; i++)
-                            {
-                                if (CheckedNum_h_Lights(LightsType, i, Year))
-                                {
-                                    lastnum = i;
-                                    dhavenum = false;
-                                    break;
-                                }
-                            }
-
-                            break;
-                    }
-
-                    if (dhavenum)
-                    {
-                        ++lastnum;
-                    }
-                }
-                else
-                {
-                    switch (LightsType)
-                    {
-                        case 3:
-                            //光明燈
-                            lastnum = 1001;
-                            break;
-                        case 4:
-                            //安太歲
-                            lastnum = 1001;
-                            break;
-                    }
+                    int type = Convert.ToInt32(row["LightsType"]);
+                    int num = Convert.ToInt32(row["Num"]);
+                    if (!usedNumsByType.ContainsKey(type))
+                        usedNumsByType[type] = new HashSet<int>();
+                    usedNumsByType[type].Add(num);
                 }
 
-                DataTable dtDataList = new DataTable();
-                string sql = "Select * From Temple_" + Year + "..Lights_h_info Where ApplicantID=@ApplicantID and Status = 0 and Num = 0";
+                // 2. 一次性抓出所有需補號的列 (Num = 0)
+                DataTable dtToAssign = new DataTable();
+                string sqlFetchToAssign =
+                    "SELECT LightsID, LightsType " +
+                    "FROM Temple_" + Year + "..Lights_h_info " +
+                    "WHERE ApplicantID = @ApplicantID " +
+                    "  AND Status = 0 " +
+                    "  AND Num = 0 " +
+                    "ORDER BY LightsID";
 
-                DatabaseAdapter AdapterObj = new DatabaseAdapter(sql, this.DBSource);
-                AdapterObj.SetSqlCommandBuilder();
-                AdapterObj.AddParameterToSelectCommand("@ApplicantID", applicantID);
-                AdapterObj.Fill(dtDataList);
-
-                //Lightslist = new string[dtDataList.Rows.Count];
-                var tempList_lights = Lightslist.ToList();
-                lightslist = new string[dtDataList.Rows.Count];
-                for (int i = 0; i < dtDataList.Rows.Count; i++)
                 {
-                    string lid = dtDataList.Rows[i]["LightsID"].ToString();
-                    string NumString = string.Empty;
+                    da = new DatabaseAdapter(sqlFetchToAssign, this.DBSource);
+                    da.SetSqlCommandBuilder();
+                    da.AddParameterToSelectCommand("ApplicantID", applicantID);
+                    da.Fill(dtToAssign);
+                }
 
-                    LightsType = int.Parse(dtDataList.Rows[i]["LightsType"].ToString());
-                    switch (LightsType)
+                int rowCount = dtToAssign.Rows.Count;
+                lightslist = new string[rowCount];
+                Lightslist = new string[rowCount];
+                // 用來存放要批量更新的資料 (LightsID, AssignedNum, AssignedNumString)
+                List<Tuple<int, int, string>> updatedRecords = new List<Tuple<int, int, string>>();
+
+                // 3. 逐筆在記憶體中分配「最小可用缺號」
+                for (int i = 0; i < rowCount; i++)
+                {
+                    DataRow row = dtToAssign.Rows[i];
+                    int dbLightsID = Convert.ToInt32(row["LightsID"]);
+                    int dbLightsType = Convert.ToInt32(row["LightsType"]);
+
+                    if (!usedNumsByType.ContainsKey(dbLightsType))
+                        usedNumsByType[dbLightsType] = new HashSet<int>();
+
+                    // 找下一個可用編號 (從 1001 開始往上搜尋)
+                    var usedSet = usedNumsByType[dbLightsType];
+                    int nextNum = 1001;
+                    while (usedSet.Contains(nextNum))
                     {
-                        case 3:
-                            //光明燈
-                            NumString = "S" + Num2String(lastnum);
-                            tempList_lights.Add(NumString);
-                            //dtDataList.Rows[i]["Num2String"] = "S" + Num2String(lastnum);
-                            lightslist[i] = "光明燈:S" + Num2String(lastnum);
-                            break;
-                        case 4:
-                            //安太歲
-                            NumString = "A" + Num2String(lastnum);
-                            tempList_lights.Add(NumString);
-                            //dtDataList.Rows[i]["Num2String"] = "A" + Num2String(lastnum);
-                            lightslist[i] = "安太歲:A" + Num2String(lastnum);
-                            break;
-                    }
-                    Lightslist = tempList_lights.ToArray();
-                    //dtDataList.Rows[i]["Num"] = lastnum;
-                    //AdapterObj.Update(dtDataList);
-
-                    msg += lightslist[i];
-                    if (i < lightslist.Length - 1)
-                    {
-                        msg += ",";
-                    }
-
-                    //bResult = true;
-                    int res = ExecuteSql("Update Temple_" + Year + "..Lights_h_info Set Num2String = N'" + NumString + "', Num = " + lastnum + " Where LightsID=" + lid);
-
-                    if (res > 0)
-                    {
-                        bResult = true;
+                        nextNum++;
                     }
 
-                    int index = dtDataList.Rows.Count - i > 1 ? i + 1 : i;
-                    LightsType = int.Parse(dtDataList.Rows[index]["LightsType"].ToString());
-
-                    lastnum = GetListNum_h_Lights(LightsType, applicantID, Year);
-                    if (lastnum > 0)
+                    // 根據不同燈種決定前綴字串
+                    string prefix = "";
+                    switch (dbLightsType)
                     {
-                        bool dhavenum = true;
+                        case 3: prefix = "S"; break;  // 光明燈
+                        case 4: prefix = "A"; break;  // 安太歲
+                    }
+                    string numString = prefix + nextNum.ToString();
+                    Lightslist[i] = numString;
 
-                        switch (LightsType)
-                        {
-                            case 3:
-                                //光明燈
-                                for (int j = 1001; j < lastnum; j++)
-                                {
-                                    if (CheckedNum_h_Lights(LightsType, j, Year))
-                                    {
-                                        lastnum = j;
-                                        dhavenum = false;
-                                        break;
-                                    }
-                                }
+                    // 將這筆資料加入批量更新清單
+                    updatedRecords.Add(new Tuple<int, int, string>(dbLightsID, nextNum, numString));
 
-                                break;
-                            case 4:
-                                //安太歲
-                                for (int j = 1001; j < lastnum; j++)
-                                {
-                                    if (CheckedNum_h_Lights(LightsType, j, Year))
-                                    {
-                                        lastnum = j;
-                                        dhavenum = false;
-                                        break;
-                                    }
-                                }
+                    // 準備回傳給前端的燈號字串
+                    string typeName = "";
+                    switch (dbLightsType)
+                    {
+                        case 3: typeName = "光明燈"; break;
+                        case 4: typeName = "安太歲"; break;
+                    }
+                    lightslist[i] = typeName + ":" + numString;
 
-                                break;
-                        }
+                    // 把已分配的 nextNum 加入 usedNumsByType，避免重複
+                    usedSet.Add(nextNum);
+                }
 
-                        if (dhavenum)
-                        {
-                            ++lastnum;
-                        }
+                // 組出 msg，格式為「燈種1:編號,燈種2:編號,...。客服電話：04-36092299。」
+                msg += string.Join(",", lightslist) + "。客服電話：04-36092299。";
+
+                // 5. 一次性批量 UPDATE 回資料庫
+                //    以下示範用動態 SQL 拼接多筆 UPDATE，若更新筆數很多建議改用 TVP + 存儲過程
+                System.Text.StringBuilder sb = new System.Text.StringBuilder();
+                sb.AppendLine("USE Temple_" + Year + ";");
+                foreach (var rec in updatedRecords)
+                {
+                    int id = rec.Item1;
+                    int assignedNum = rec.Item2;
+                    string assignedNumString = rec.Item3.Replace("'", "''"); // 確保單引號轉義
+                    sb.AppendLine(
+                        "UPDATE dbo.Lights_h_info " +
+                        "SET Num = " + assignedNum + ", " +
+                        "    Num2String = N'" + assignedNumString + "' " +
+                        "WHERE LightsID = " + id + ";"
+                    );
+                }
+                string sqlBatchUpdate = sb.ToString();
+
+                try
+                {
+                    int rowsAffected = ExecuteSql(sqlBatchUpdate);
+                    if (rowsAffected > 0)
+                    {
+                        // 成功更新至少一筆
+                        return (updatedRecords.Count > 0);
                     }
                     else
                     {
-                        switch (LightsType)
-                        {
-                            case 3:
-                                //光明燈
-                                lastnum = 1001;
-                                break;
-                            case 4:
-                                //安太歲
-                                lastnum = 1001;
-                                break;
-                        }
+                        // 防呆：SQL 執行後沒有影響到任何列，記一筆錯誤日誌，再回傳 false
+                        string err = "[UpdateLights_h_Info] 批量 UPDATE 未更新到任何記錄，SQL:\r\n" + sqlBatchUpdate;
+                        basePage.SaveErrorLog(err);
+                        return false;
                     }
                 }
-
-                msg += "。客服電話：04-36092299。";
-
-                return bResult;
+                catch (Exception ex)
+                {
+                    // 捕捉執行 SQL 時的例外，記錯誤日誌，並回傳 false
+                    basePage.SaveErrorLog("[UpdateLights_h_Info] 批量 UPDATE 時發生例外：\r\n" + ex);
+                    return false;
+                }
             }
         }
 
-        public bool UpdateLights_wu_Info(int applicantID, int LightsType, string Year, ref string msg, ref string[] lightslist, ref string[] Lightslist)
+        /// <summary>
+        /// 更新並取得燈號資料 - 點燈 - 北港武德宮
+        /// </summary>
+        /// <param name="applicantID">購買人編號</param>
+        /// <param name="LightsType">
+        /// 燈種代碼：
+        /// 3-光明燈、元神光明燈(鹿港城隍廟)、貴人燈(斗六五路財神宮)、平安燈(北極玄天宮、壽山巖觀音寺)
+        /// 4-安太歲、太歲燈、太歲平安符(鹿港城隍廟)、安奉太歲
+        /// 5-文昌燈、五文昌燈、文魁智慧燈(鹿港城隍廟)、文昌功名燈(桃園龍德宮)
+        /// 6-財神燈、發財燈、福財燈、正財福報燈(鹿港城隍廟)、招財燈(壽山巖觀音寺)、五路財神燈(桃園龍德宮)
+        /// 7-姻緣燈、桃花燈、月老桃花燈
+        /// 8-藥師燈 、藥師佛燈、消災延壽燈(斗六五路財神宮)、特別健康燈(石壁部堂)、健康延壽燈(桃園龍德宮)
+        /// 9-財利燈 
+        /// 10-貴人燈 、特別貴人燈(石壁部堂)
+        /// 11-福祿燈、福壽燈 
+        /// 12-寵物平安燈 
+        /// 13-龍王燈 
+        /// 14-虎爺燈 
+        /// 15-轉運納福燈 
+        /// 16-光明燈上層、玉皇燈(五股賀聖宮)
+        /// 17-偏財旺旺燈 
+        /// 18-廣進安財庫 
+        /// 19-財庫燈 
+        /// 20-月老姻緣燈
+        /// 21-孝親祈福燈 
+        /// 22-事業燈、特別事業燈(石壁部堂)
+        /// 23-全家光明燈 
+        /// 24-觀音佛祖燈 
+        /// 25-財神斗、財神斗/一個月(斗六五路財神宮)
+        /// 26-事業斗 
+        /// 27-平安斗 
+        /// 28-文昌斗 
+        /// 29-藥師斗 
+        /// 30-元神斗 
+        /// 31-福祿壽斗 
+        /// 32-觀音斗 
+        /// 33-明心智慧燈
+        /// 34-發財斗/一個月
+        /// 35-姻緣斗/一個月
+        /// 36-貴人斗/一個月
+        /// 37-消災延壽斗/一個月
+        /// 38-財神斗/三個月
+        /// 39-發財斗/三個月
+        /// 40-姻緣斗/三個月
+        /// 41-貴人斗/三個月
+        /// 42-消災延壽斗/三個月
+        /// 43-元辰斗燈、元辰燈(壽山巖觀音寺)
+        /// 44-求子燈
+        /// 45-護子燈
+        /// 46-添丁燈
+        /// 47-婚姻燈
+        /// 48-安太陰
+        /// 49-安太陽
+        /// 50-光明燈+批流年
+        /// 51-文昌燈+批流年
+        /// </param>
+        /// <param name="Year">年度字串，例如 "2025"</param>
+        /// <param name="msg">回傳給前端的訊息（各燈號編號＋客服電話）</param>
+        /// <param name="lightslist">回傳給前端的燈號清單（例如「太歲燈:TYA1001」）</param>
+        /// <param name="Lightslist">備用，可同樣回傳燈號字串陣列，視業務需求</param>
+        /// <returns>若有更新資料則回傳 true，否則回傳 false</returns>
+        public bool UpdateLights_wu_Info(
+            int applicantID,
+            int LightsType,
+            string Year,
+            ref string msg,
+            ref string[] lightslist,
+            ref string[] Lightslist)
         {
             lock (_thisLock)
             {
-                TimeZoneInfo info = TimeZoneInfo.FindSystemTimeZoneById("Taipei Standard Time");
-                DateTime dt = TimeZoneInfo.ConvertTime(DateTime.Now, info);
-                bool bResult = false;
-                int lastnum = GetListNum_wu_Lights(LightsType, applicantID, Year);
-                if (lastnum > 0)
+                twbobibobi.Data.BasePage basePage = new twbobibobi.Data.BasePage();
+
+                // 1. 一次性取得所有已分配的編號 (Num > 0 且 Num2String 有值)
+                string sqlFetchExisting =
+                    "SELECT LightsType, Num " +
+                    "FROM Temple_" + Year + "..Lights_wu_info " +
+                    "WHERE Status = 0 " +
+                    "  AND Num <> 0" +
+                    "  AND Num2String IS NOT NULL " +
+                    "  AND Num2String <> ''";
+
+                // 建立 DatabaseAdapter，並加入參數
+                DatabaseAdapter da = new DatabaseAdapter(sqlFetchExisting, this.DBSource);
+                da.SetSqlCommandBuilder();
+                DataTable dtExisting = new DataTable();
+                da.Fill(dtExisting);
+
+                // 建立各燈種對應的已用號碼集合
+                var usedNumsByType = new Dictionary<int, HashSet<int>>();
+                foreach (DataRow row in dtExisting.Rows)
                 {
-                    bool dhavenum = true;
-
-                    switch (LightsType)
-                    {
-                        case 3:
-                            //光明燈
-                            for (int i = 1001; i < lastnum; i++)
-                            {
-                                if (CheckedNum_wu_Lights(LightsType, i, Year))
-                                {
-                                    lastnum = i;
-                                    dhavenum = false;
-                                    break;
-                                }
-                            }
-
-                            break;
-                        case 4:
-                            //安太歲
-                            for (int i = 1001; i < lastnum; i++)
-                            {
-                                if (CheckedNum_wu_Lights(LightsType, i, Year))
-                                {
-                                    lastnum = i;
-                                    dhavenum = false;
-                                    break;
-                                }
-                            }
-
-                            break;
-                        case 6:
-                            //財神燈
-                            for (int i = 25001; i < lastnum; i++)
-                            {
-                                if (CheckedNum_wu_Lights(LightsType, i, Year))
-                                {
-                                    lastnum = i;
-                                    dhavenum = false;
-                                    break;
-                                }
-                            }
-
-                            break;
-                    }
-
-                    if (dhavenum)
-                    {
-                        ++lastnum;
-                    }
+                    int type = Convert.ToInt32(row["LightsType"]);
+                    int num = Convert.ToInt32(row["Num"]);
+                    if (!usedNumsByType.ContainsKey(type))
+                        usedNumsByType[type] = new HashSet<int>();
+                    usedNumsByType[type].Add(num);
                 }
-                else
+
+                // 2. 一次性抓出所有需補號的列 (Num = 0)
+                DataTable dtToAssign = new DataTable();
+                string sqlFetchToAssign =
+                    "SELECT LightsID, LightsType " +
+                    "FROM Temple_" + Year + "..Lights_wu_info " +
+                    "WHERE ApplicantID = @ApplicantID " +
+                    "  AND Status = 0 " +
+                    "  AND Num = 0 " +
+                    "ORDER BY LightsID";
+
                 {
-                    switch (LightsType)
-                    {
-                        case 3:
-                            //光明燈
-                            lastnum = 1001;
-                            break;
-                        case 4:
-                            //安太歲
-                            lastnum = 1001;
-                            break;
-                        case 6:
-                            //財神燈
-                            lastnum = 25001;
-                            break;
-                    }
+                    da = new DatabaseAdapter(sqlFetchToAssign, this.DBSource);
+                    da.SetSqlCommandBuilder();
+                    da.AddParameterToSelectCommand("ApplicantID", applicantID);
+                    da.Fill(dtToAssign);
                 }
-                DataTable dtDataList = new DataTable();
-                string sql = "Select * From Temple_" + Year + "..Lights_wu_info Where ApplicantID=@ApplicantID and Status = 0 and Num = 0";
 
-                DatabaseAdapter AdapterObj = new DatabaseAdapter(sql, this.DBSource);
-                AdapterObj.SetSqlCommandBuilder();
-                AdapterObj.AddParameterToSelectCommand("@ApplicantID", applicantID);
-                AdapterObj.Fill(dtDataList);
+                int rowCount = dtToAssign.Rows.Count;
+                lightslist = new string[rowCount];
+                Lightslist = new string[rowCount];
+                // 用來存放要批量更新的資料 (LightsID, AssignedNum, AssignedNumString)
+                List<Tuple<int, int, string>> updatedRecords = new List<Tuple<int, int, string>>();
 
-                //Lightslist = new string[dtDataList.Rows.Count];
-                var tempList_lights = Lightslist.ToList();
-                lightslist = new string[dtDataList.Rows.Count];
-                for (int i = 0; i < dtDataList.Rows.Count; i++)
+                // 3. 逐筆在記憶體中分配「最小可用缺號」
+                for (int i = 0; i < rowCount; i++)
                 {
-                    string lid = dtDataList.Rows[i]["LightsID"].ToString();
-                    string NumString = string.Empty;
+                    DataRow row = dtToAssign.Rows[i];
+                    int dbLightsID = Convert.ToInt32(row["LightsID"]);
+                    int dbLightsType = Convert.ToInt32(row["LightsType"]);
 
-                    LightsType = int.Parse(dtDataList.Rows[i]["LightsType"].ToString());
-                    switch (LightsType)
-                    {
-                        case 3:
-                            //光明燈
-                            NumString = "WLS" + Num2String(lastnum);
-                            tempList_lights.Add(NumString);
-                            //dtDataList.Rows[i]["Num2String"] = "WLS" + Num2String(lastnum);
-                            lightslist[i] = "光明燈:WLS" + Num2String(lastnum);
-                            break;
-                        case 4:
-                            //安太歲
-                            NumString = "WLA" + Num2String(lastnum);
-                            tempList_lights.Add(NumString);
-                            //dtDataList.Rows[i]["Num2String"] = "WLA" + Num2String(lastnum);
-                            lightslist[i] = "安太歲:WLA" + Num2String(lastnum);
-                            break;
-                        case 6:
-                            //財神燈
-                            NumString = Num2String(lastnum);
-                            tempList_lights.Add(NumString);
-                            //dtDataList.Rows[i]["Num2String"] = Num2String(lastnum);
-                            lightslist[i] = "財神燈:" + Num2String(lastnum);
-                            break;
-                    }
-                    Lightslist = tempList_lights.ToArray();
+                    if (!usedNumsByType.ContainsKey(dbLightsType))
+                        usedNumsByType[dbLightsType] = new HashSet<int>();
 
-                    msg += lightslist[i];
-                    if (i < lightslist.Length - 1)
+                    int nextNum = 1001;
+
+                    if (dbLightsType == 6)
                     {
-                        msg += ",";
+                        //財神燈
+                        nextNum = 25001;
                     }
 
-                    int res = ExecuteSql("Update Temple_" + Year + "..Lights_wu_info Set Num2String = N'" + NumString + "', Num = " + lastnum + " Where LightsID=" + lid);
-
-                    if (res > 0)
+                    // 找下一個可用編號 (從 1001 開始往上搜尋)
+                    var usedSet = usedNumsByType[dbLightsType];
+                    while (usedSet.Contains(nextNum))
                     {
-                        bResult = true;
+                        nextNum++;
                     }
 
-
-                    int index = dtDataList.Rows.Count - i > 1 ? i + 1 : i;
-                    LightsType = int.Parse(dtDataList.Rows[index]["LightsType"].ToString());
-
-                    lastnum = GetListNum_wu_Lights(LightsType, applicantID, Year);
-                    if (lastnum > 0)
+                    // 根據不同燈種決定前綴字串
+                    string prefix = "";
+                    switch (dbLightsType)
                     {
-                        bool dhavenum = true;
+                        case 3: prefix = "WLS"; break;  // 光明燈
+                        case 4: prefix = "WLA"; break;  // 安太歲
+                        case 6: prefix = ""; break;  // 財神燈
+                    }
+                    string numString = prefix + nextNum.ToString();
+                    Lightslist[i] = numString;
 
-                        switch (LightsType)
-                        {
-                            case 3:
-                                //光明燈
-                                for (int j = 1001; j < lastnum; j++)
-                                {
-                                    if (CheckedNum_wu_Lights(LightsType, j, Year))
-                                    {
-                                        lastnum = j;
-                                        dhavenum = false;
-                                        break;
-                                    }
-                                }
+                    // 將這筆資料加入批量更新清單
+                    updatedRecords.Add(new Tuple<int, int, string>(dbLightsID, nextNum, numString));
 
-                                break;
-                            case 4:
-                                //安太歲
-                                for (int j = 1001; j < lastnum; j++)
-                                {
-                                    if (CheckedNum_wu_Lights(LightsType, j, Year))
-                                    {
-                                        lastnum = j;
-                                        dhavenum = false;
-                                        break;
-                                    }
-                                }
+                    // 準備回傳給前端的燈號字串
+                    string typeName = "";
+                    switch (dbLightsType)
+                    {
+                        case 3: typeName = "光明燈"; break;
+                        case 4: typeName = "安太歲"; break;
+                        case 6: typeName = "財神燈"; break;
+                    }
+                    lightslist[i] = typeName + ":" + numString;
 
-                                break;
-                            case 6:
-                                //財神燈
-                                for (int j = 25001; j < lastnum; j++)
-                                {
-                                    if (CheckedNum_wu_Lights(LightsType, j, Year))
-                                    {
-                                        lastnum = j;
-                                        dhavenum = false;
-                                        break;
-                                    }
-                                }
+                    // 把已分配的 nextNum 加入 usedNumsByType，避免重複
+                    usedSet.Add(nextNum);
+                }
 
-                                break;
-                        }
+                // 組出 msg，格式為「燈種1:編號,燈種2:編號,...。客服電話：04-36092299。」
+                msg += string.Join(",", lightslist) + "。客服電話：04-36092299。";
 
-                        if (dhavenum)
-                        {
-                            ++lastnum;
-                        }
+                // 5. 一次性批量 UPDATE 回資料庫
+                //    以下示範用動態 SQL 拼接多筆 UPDATE，若更新筆數很多建議改用 TVP + 存儲過程
+                System.Text.StringBuilder sb = new System.Text.StringBuilder();
+                sb.AppendLine("USE Temple_" + Year + ";");
+                foreach (var rec in updatedRecords)
+                {
+                    int id = rec.Item1;
+                    int assignedNum = rec.Item2;
+                    string assignedNumString = rec.Item3.Replace("'", "''"); // 確保單引號轉義
+                    sb.AppendLine(
+                        "UPDATE dbo.Lights_wu_info " +
+                        "SET Num = " + assignedNum + ", " +
+                        "    Num2String = N'" + assignedNumString + "' " +
+                        "WHERE LightsID = " + id + ";"
+                    );
+                }
+                string sqlBatchUpdate = sb.ToString();
+
+                try
+                {
+                    int rowsAffected = ExecuteSql(sqlBatchUpdate);
+                    if (rowsAffected > 0)
+                    {
+                        // 成功更新至少一筆
+                        return (updatedRecords.Count > 0);
                     }
                     else
                     {
-                        switch (LightsType)
-                        {
-                            case 3:
-                                //光明燈
-                                lastnum = 1001;
-                                break;
-                            case 4:
-                                //安太歲
-                                lastnum = 1001;
-                                break;
-                            case 6:
-                                //財神燈
-                                lastnum = 25001;
-                                break;
-                        }
+                        // 防呆：SQL 執行後沒有影響到任何列，記一筆錯誤日誌，再回傳 false
+                        string err = "[UpdateLights_wu_Info] 批量 UPDATE 未更新到任何記錄，SQL:\r\n" + sqlBatchUpdate;
+                        basePage.SaveErrorLog(err);
+                        return false;
                     }
                 }
-
-                msg += "。客服電話：04-36092299。";
-
-                return bResult;
+                catch (Exception ex)
+                {
+                    // 捕捉執行 SQL 時的例外，記錯誤日誌，並回傳 false
+                    basePage.SaveErrorLog("[UpdateLights_wu_Info] 批量 UPDATE 時發生例外：\r\n" + ex);
+                    return false;
+                }
             }
         }
 
-        public bool UpdateLights_Fu_Info(int applicantID, int LightsType, string Year, ref string msg, ref string[] lightslist, ref string[] Lightslist)
+        /// <summary>
+        /// 更新並取得燈號資料 - 點燈 - 西螺福興宮
+        /// </summary>
+        /// <param name="applicantID">購買人編號</param>
+        /// <param name="LightsType">
+        /// 燈種代碼：
+        /// 3-光明燈、元神光明燈(鹿港城隍廟)、貴人燈(斗六五路財神宮)、平安燈(北極玄天宮、壽山巖觀音寺)
+        /// 4-安太歲、太歲燈、太歲平安符(鹿港城隍廟)、安奉太歲
+        /// 5-文昌燈、五文昌燈、文魁智慧燈(鹿港城隍廟)、文昌功名燈(桃園龍德宮)
+        /// 6-財神燈、發財燈、福財燈、正財福報燈(鹿港城隍廟)、招財燈(壽山巖觀音寺)、五路財神燈(桃園龍德宮)
+        /// 7-姻緣燈、桃花燈、月老桃花燈
+        /// 8-藥師燈 、藥師佛燈、消災延壽燈(斗六五路財神宮)、特別健康燈(石壁部堂)、健康延壽燈(桃園龍德宮)
+        /// 9-財利燈 
+        /// 10-貴人燈 、特別貴人燈(石壁部堂)
+        /// 11-福祿燈、福壽燈 
+        /// 12-寵物平安燈 
+        /// 13-龍王燈 
+        /// 14-虎爺燈 
+        /// 15-轉運納福燈 
+        /// 16-光明燈上層、玉皇燈(五股賀聖宮)
+        /// 17-偏財旺旺燈 
+        /// 18-廣進安財庫 
+        /// 19-財庫燈 
+        /// 20-月老姻緣燈
+        /// 21-孝親祈福燈 
+        /// 22-事業燈、特別事業燈(石壁部堂)
+        /// 23-全家光明燈 
+        /// 24-觀音佛祖燈 
+        /// 25-財神斗、財神斗/一個月(斗六五路財神宮)
+        /// 26-事業斗 
+        /// 27-平安斗 
+        /// 28-文昌斗 
+        /// 29-藥師斗 
+        /// 30-元神斗 
+        /// 31-福祿壽斗 
+        /// 32-觀音斗 
+        /// 33-明心智慧燈
+        /// 34-發財斗/一個月
+        /// 35-姻緣斗/一個月
+        /// 36-貴人斗/一個月
+        /// 37-消災延壽斗/一個月
+        /// 38-財神斗/三個月
+        /// 39-發財斗/三個月
+        /// 40-姻緣斗/三個月
+        /// 41-貴人斗/三個月
+        /// 42-消災延壽斗/三個月
+        /// 43-元辰斗燈、元辰燈(壽山巖觀音寺)
+        /// 44-求子燈
+        /// 45-護子燈
+        /// 46-添丁燈
+        /// 47-婚姻燈
+        /// 48-安太陰
+        /// 49-安太陽
+        /// 50-光明燈+批流年
+        /// 51-文昌燈+批流年
+        /// </param>
+        /// <param name="Year">年度字串，例如 "2025"</param>
+        /// <param name="msg">回傳給前端的訊息（各燈號編號＋客服電話）</param>
+        /// <param name="lightslist">回傳給前端的燈號清單（例如「太歲燈:TYA1001」）</param>
+        /// <param name="Lightslist">備用，可同樣回傳燈號字串陣列，視業務需求</param>
+        /// <returns>若有更新資料則回傳 true，否則回傳 false</returns>
+        public bool UpdateLights_Fu_Info(
+            int applicantID,
+            int LightsType,
+            string Year,
+            ref string msg,
+            ref string[] lightslist,
+            ref string[] Lightslist)
         {
             lock (_thisLock)
             {
-                TimeZoneInfo info = TimeZoneInfo.FindSystemTimeZoneById("Taipei Standard Time");
-                DateTime dt = TimeZoneInfo.ConvertTime(DateTime.Now, info);
-                bool bResult = false;
-                int lastnum = GetListNum_Fu_Lights(LightsType, applicantID, Year);
-                if (lastnum > 0)
+                twbobibobi.Data.BasePage basePage = new twbobibobi.Data.BasePage();
+
+                // 1. 一次性取得所有已分配的編號 (Num > 0 且 Num2String 有值)
+                string sqlFetchExisting =
+                    "SELECT LightsType, Num " +
+                    "FROM Temple_" + Year + "..Lights_Fu_info " +
+                    "WHERE Status = 0 " +
+                    "  AND Num <> 0" +
+                    "  AND Num2String IS NOT NULL " +
+                    "  AND Num2String <> ''";
+
+                
+                // 建立 DatabaseAdapter，並加入參數
+                DatabaseAdapter da = new DatabaseAdapter(sqlFetchExisting, this.DBSource);
+                da.SetSqlCommandBuilder();
+                DataTable dtExisting = new DataTable();
+                da.Fill(dtExisting);
+
+                // 建立各燈種對應的已用號碼集合
+                var usedNumsByType = new Dictionary<int, HashSet<int>>();
+                foreach (DataRow row in dtExisting.Rows)
                 {
-                    bool dhavenum = true;
-
-                    switch (LightsType)
-                    {
-                        case 3:
-                            //光明燈
-                            for (int i = 1001; i < lastnum; i++)
-                            {
-                                if (CheckedNum_Fu_Lights(LightsType, i, Year))
-                                {
-                                    lastnum = i;
-                                    dhavenum = false;
-                                    break;
-                                }
-                            }
-
-                            break;
-                        case 4:
-                            //安太歲
-                            for (int i = 1001; i < lastnum; i++)
-                            {
-                                if (CheckedNum_Fu_Lights(LightsType, i, Year))
-                                {
-                                    lastnum = i;
-                                    dhavenum = false;
-                                    break;
-                                }
-                            }
-
-                            break;
-                        case 5:
-                            //文昌燈
-                            for (int i = 1001; i < lastnum; i++)
-                            {
-                                if (CheckedNum_Fu_Lights(LightsType, i, Year))
-                                {
-                                    lastnum = i;
-                                    dhavenum = false;
-                                    break;
-                                }
-                            }
-
-                            break;
-                        case 6:
-                            //財神燈
-                            for (int i = 1001; i < lastnum; i++)
-                            {
-                                if (CheckedNum_Fu_Lights(LightsType, i, Year))
-                                {
-                                    lastnum = i;
-                                    dhavenum = false;
-                                    break;
-                                }
-                            }
-
-                            break;
-                        case 8:
-                            //藥師佛燈
-                            for (int i = 1001; i < lastnum; i++)
-                            {
-                                if (CheckedNum_Fu_Lights(LightsType, i, Year))
-                                {
-                                    lastnum = i;
-                                    dhavenum = false;
-                                    break;
-                                }
-                            }
-
-                            break;
-                        case 24:
-                            //觀音佛祖燈
-                            for (int i = 1001; i < lastnum; i++)
-                            {
-                                if (CheckedNum_Fu_Lights(LightsType, i, Year))
-                                {
-                                    lastnum = i;
-                                    dhavenum = false;
-                                    break;
-                                }
-                            }
-
-                            break;
-                    }
-
-                    if (dhavenum)
-                    {
-                        ++lastnum;
-                    }
-                }
-                else
-                {
-                    switch (LightsType)
-                    {
-                        case 3:
-                            //光明燈
-                            lastnum = 1001;
-                            break;
-                        case 4:
-                            //安太歲
-                            lastnum = 1001;
-                            break;
-                        case 5:
-                            //文昌燈
-                            lastnum = 1001;
-                            break;
-                        case 6:
-                            //財神燈
-                            lastnum = 1001;
-                            break;
-                        case 8:
-                            //藥師佛燈
-                            lastnum = 1001;
-                            break;
-                        case 24:
-                            //觀音佛祖燈
-                            lastnum = 1001;
-                            break;
-                    }
+                    int type = Convert.ToInt32(row["LightsType"]);
+                    int num = Convert.ToInt32(row["Num"]);
+                    if (!usedNumsByType.ContainsKey(type))
+                        usedNumsByType[type] = new HashSet<int>();
+                    usedNumsByType[type].Add(num);
                 }
 
-                DataTable dtDataList = new DataTable();
-                string sql = "Select * From Temple_" + Year + "..Lights_Fu_info Where ApplicantID=@ApplicantID and Status = 0 and Num = 0";
 
-                DatabaseAdapter AdapterObj = new DatabaseAdapter(sql, this.DBSource);
-                AdapterObj.SetSqlCommandBuilder();
-                AdapterObj.AddParameterToSelectCommand("@ApplicantID", applicantID);
-                AdapterObj.Fill(dtDataList);
+                // 2. 一次性抓出所有需補號的列 (Num = 0)
+                DataTable dtToAssign = new DataTable();
+                string sqlFetchToAssign =
+                    "SELECT LightsID, LightsType " +
+                    "FROM Temple_" + Year + "..Lights_Fu_info " +
+                    "WHERE ApplicantID = @ApplicantID " +
+                    "  AND Status = 0 " +
+                    "  AND Num = 0 " +
+                    "ORDER BY LightsID";
 
-                //Lightslist = new string[dtDataList.Rows.Count];
-                var tempList_lights = Lightslist.ToList();
-                lightslist = new string[dtDataList.Rows.Count];
-                for (int i = 0; i < dtDataList.Rows.Count; i++)
                 {
-                    string lid = dtDataList.Rows[i]["LightsID"].ToString();
-                    string NumString = string.Empty;
+                    da = new DatabaseAdapter(sqlFetchToAssign, this.DBSource);
+                    da.SetSqlCommandBuilder();
+                    da.AddParameterToSelectCommand("ApplicantID", applicantID);
+                    da.Fill(dtToAssign);
+                }
 
-                    LightsType = int.Parse(dtDataList.Rows[i]["LightsType"].ToString());
-                    switch (LightsType)
-                    {
-                        case 3:
-                            //光明燈
-                            NumString = "FUS" + lastnum;
-                            tempList_lights.Add(NumString);
-                            lightslist[i] = "光明燈:FUS" + lastnum;
-                            break;
-                        case 4:
-                            //安太歲
-                            NumString = "FUA" + lastnum;
-                            tempList_lights.Add(NumString);
-                            lightslist[i] = "安太歲:FUA" + lastnum;
-                            break;
-                        case 5:
-                            //文昌燈
-                            NumString = "FUM" + lastnum;
-                            tempList_lights.Add(NumString);
-                            lightslist[i] = "文昌燈:FUM" + lastnum;
-                            break;
-                        case 6:
-                            //財神燈
-                            NumString = "FUT" + lastnum;
-                            tempList_lights.Add(NumString);
-                            lightslist[i] = "財神燈:FUT" + lastnum;
-                            break;
-                        case 8:
-                            //藥師佛燈
-                            NumString = "FUY" + lastnum;
-                            tempList_lights.Add(NumString);
-                            lightslist[i] = "藥師佛燈:FUY" + lastnum;
-                            break;
-                        case 24:
-                            //觀音佛祖燈
-                            NumString = "FUKY" + lastnum;
-                            tempList_lights.Add(NumString);
-                            lightslist[i] = "觀音佛祖燈:FUKY" + lastnum;
-                            break;
-                    }
-                    Lightslist = tempList_lights.ToArray();
+                int rowCount = dtToAssign.Rows.Count;
+                lightslist = new string[rowCount];
+                Lightslist = new string[rowCount];
+                // 用來存放要批量更新的資料 (LightsID, AssignedNum, AssignedNumString)
+                List<Tuple<int, int, string>> updatedRecords = new List<Tuple<int, int, string>>();
 
-                    msg += lightslist[i];
-                    if (i < lightslist.Length - 1)
+                // 3. 逐筆在記憶體中分配「最小可用缺號」
+                for (int i = 0; i < rowCount; i++)
+                {
+                    DataRow row = dtToAssign.Rows[i];
+                    int dbLightsID = Convert.ToInt32(row["LightsID"]);
+                    int dbLightsType = Convert.ToInt32(row["LightsType"]);
+
+                    if (!usedNumsByType.ContainsKey(dbLightsType))
+                        usedNumsByType[dbLightsType] = new HashSet<int>();
+
+                    // 找下一個可用編號 (從 1001 開始往上搜尋)
+                    var usedSet = usedNumsByType[dbLightsType];
+                    int nextNum = 1001;
+                    while (usedSet.Contains(nextNum))
                     {
-                        msg += ",";
+                        nextNum++;
                     }
 
-                    int res = ExecuteSql("Update Temple_" + Year + "..Lights_Fu_info Set Num2String = N'" + NumString + "', Num = " + lastnum + " Where LightsID=" + lid);
-
-                    if (res > 0)
+                    // 根據不同燈種決定前綴字串
+                    string prefix = "";
+                    switch (dbLightsType)
                     {
-                        bResult = true;
+                        case 3: prefix = "FUS"; break;  // 光明燈
+                        case 4: prefix = "FUA"; break;  // 安太歲
+                        case 5: prefix = "FUM"; break;  // 文昌燈
+                        case 6: prefix = "FUT"; break;  // 財神燈
+                        case 8: prefix = "FUY"; break;  // 藥師佛燈
+                        case 24: prefix = "FUKY"; break;  // 觀音佛祖燈
                     }
+                    string numString = prefix + nextNum.ToString();
+                    Lightslist[i] = numString;
 
+                    // 將這筆資料加入批量更新清單
+                    updatedRecords.Add(new Tuple<int, int, string>(dbLightsID, nextNum, numString));
 
-                    int index = dtDataList.Rows.Count - i > 1 ? i + 1 : i;
-                    LightsType = int.Parse(dtDataList.Rows[index]["LightsType"].ToString());
-
-                    lastnum = GetListNum_Fu_Lights(LightsType, applicantID, Year);
-                    if (lastnum > 0)
+                    // 準備回傳給前端的燈號字串
+                    string typeName = "";
+                    switch (dbLightsType)
                     {
-                        bool dhavenum = true;
+                        case 3: typeName = "光明燈"; break;
+                        case 4: typeName = "安太歲"; break;
+                        case 5: typeName = "文昌燈"; break;
+                        case 6: typeName = "財神燈"; break;
+                        case 8: typeName = "藥師佛燈"; break;
+                        case 24: typeName = "觀音佛祖燈"; break;
+                    }
+                    lightslist[i] = typeName + ":" + numString;
 
-                        switch (LightsType)
-                        {
-                            case 3:
-                                //光明燈
-                                for (int j = 1001; j < lastnum; j++)
-                                {
-                                    if (CheckedNum_Fu_Lights(LightsType, j, Year))
-                                    {
-                                        lastnum = j;
-                                        dhavenum = false;
-                                        break;
-                                    }
-                                }
+                    // 把已分配的 nextNum 加入 usedNumsByType，避免重複
+                    usedSet.Add(nextNum);
+                }
 
-                                break;
-                            case 4:
-                                //安太歲
-                                for (int j = 1001; j < lastnum; j++)
-                                {
-                                    if (CheckedNum_Fu_Lights(LightsType, j, Year))
-                                    {
-                                        lastnum = j;
-                                        dhavenum = false;
-                                        break;
-                                    }
-                                }
+                // 組出 msg，格式為「燈種1:編號,燈種2:編號,...。客服電話：04-36092299。」
+                msg += string.Join(",", lightslist) + "。客服電話：04-36092299。";
 
-                                break;
-                            case 5:
-                                //文昌燈
-                                for (int j = 1001; j < lastnum; j++)
-                                {
-                                    if (CheckedNum_Fu_Lights(LightsType, j, Year))
-                                    {
-                                        lastnum = j;
-                                        dhavenum = false;
-                                        break;
-                                    }
-                                }
+                // 5. 一次性批量 UPDATE 回資料庫
+                //    以下示範用動態 SQL 拼接多筆 UPDATE，若更新筆數很多建議改用 TVP + 存儲過程
+                System.Text.StringBuilder sb = new System.Text.StringBuilder();
+                sb.AppendLine("USE Temple_" + Year + ";");
+                foreach (var rec in updatedRecords)
+                {
+                    int id = rec.Item1;
+                    int assignedNum = rec.Item2;
+                    string assignedNumString = rec.Item3.Replace("'", "''"); // 確保單引號轉義
+                    sb.AppendLine(
+                        "UPDATE dbo.Lights_Fu_info " +
+                        "SET Num = " + assignedNum + ", " +
+                        "    Num2String = N'" + assignedNumString + "' " +
+                        "WHERE LightsID = " + id + ";"
+                    );
+                }
+                string sqlBatchUpdate = sb.ToString();
 
-                                break;
-                            case 6:
-                                //財神燈
-                                for (int j = 1001; j < lastnum; j++)
-                                {
-                                    if (CheckedNum_Fu_Lights(LightsType, j, Year))
-                                    {
-                                        lastnum = j;
-                                        dhavenum = false;
-                                        break;
-                                    }
-                                }
-
-                                break;
-                            case 8:
-                                //藥師佛燈
-                                for (int j = 1001; j < lastnum; j++)
-                                {
-                                    if (CheckedNum_Fu_Lights(LightsType, j, Year))
-                                    {
-                                        lastnum = j;
-                                        dhavenum = false;
-                                        break;
-                                    }
-                                }
-
-                                break;
-                            case 24:
-                                //觀音佛祖燈
-                                for (int j = 1001; j < lastnum; j++)
-                                {
-                                    if (CheckedNum_Fu_Lights(LightsType, j, Year))
-                                    {
-                                        lastnum = j;
-                                        dhavenum = false;
-                                        break;
-                                    }
-                                }
-
-                                break;
-                        }
-
-                        if (dhavenum)
-                        {
-                            ++lastnum;
-                        }
+                try
+                {
+                    int rowsAffected = ExecuteSql(sqlBatchUpdate);
+                    if (rowsAffected > 0)
+                    {
+                        // 成功更新至少一筆
+                        return (updatedRecords.Count > 0);
                     }
                     else
                     {
-                        switch (LightsType)
+                        // 防呆：SQL 執行後沒有影響到任何列，記一筆錯誤日誌，再回傳 false
+                        string err = "[UpdateLights_Fu_Info] 批量 UPDATE 未更新到任何記錄，SQL:\r\n" + sqlBatchUpdate;
+                        basePage.SaveErrorLog(err);
+                        return false;
+                    }
+                }
+                catch (Exception ex)
+                {
+                    // 捕捉執行 SQL 時的例外，記錯誤日誌，並回傳 false
+                    basePage.SaveErrorLog("[UpdateLights_Fu_Info] 批量 UPDATE 時發生例外：\r\n" + ex);
+                    return false;
+                }
+            }
+        }
+
+        /// <summary>
+        /// 更新並取得燈號資料 - 點燈 - 台南正統鹿耳門聖母廟
+        /// </summary>
+        /// <param name="applicantID">購買人編號</param>
+        /// <param name="LightsType">
+        /// 燈種代碼：
+        /// 3-光明燈、元神光明燈(鹿港城隍廟)、貴人燈(斗六五路財神宮)、平安燈(北極玄天宮、壽山巖觀音寺)
+        /// 4-安太歲、太歲燈、太歲平安符(鹿港城隍廟)、安奉太歲
+        /// 5-文昌燈、五文昌燈、文魁智慧燈(鹿港城隍廟)、文昌功名燈(桃園龍德宮)
+        /// 6-財神燈、發財燈、福財燈、正財福報燈(鹿港城隍廟)、招財燈(壽山巖觀音寺)、五路財神燈(桃園龍德宮)
+        /// 7-姻緣燈、桃花燈、月老桃花燈
+        /// 8-藥師燈 、藥師佛燈、消災延壽燈(斗六五路財神宮)、特別健康燈(石壁部堂)、健康延壽燈(桃園龍德宮)
+        /// 9-財利燈 
+        /// 10-貴人燈 、特別貴人燈(石壁部堂)
+        /// 11-福祿燈、福壽燈 
+        /// 12-寵物平安燈 
+        /// 13-龍王燈 
+        /// 14-虎爺燈 
+        /// 15-轉運納福燈 
+        /// 16-光明燈上層、玉皇燈(五股賀聖宮)
+        /// 17-偏財旺旺燈 
+        /// 18-廣進安財庫 
+        /// 19-財庫燈 
+        /// 20-月老姻緣燈
+        /// 21-孝親祈福燈 
+        /// 22-事業燈、特別事業燈(石壁部堂)
+        /// 23-全家光明燈 
+        /// 24-觀音佛祖燈 
+        /// 25-財神斗、財神斗/一個月(斗六五路財神宮)
+        /// 26-事業斗 
+        /// 27-平安斗 
+        /// 28-文昌斗 
+        /// 29-藥師斗 
+        /// 30-元神斗 
+        /// 31-福祿壽斗 
+        /// 32-觀音斗 
+        /// 33-明心智慧燈
+        /// 34-發財斗/一個月
+        /// 35-姻緣斗/一個月
+        /// 36-貴人斗/一個月
+        /// 37-消災延壽斗/一個月
+        /// 38-財神斗/三個月
+        /// 39-發財斗/三個月
+        /// 40-姻緣斗/三個月
+        /// 41-貴人斗/三個月
+        /// 42-消災延壽斗/三個月
+        /// 43-元辰斗燈、元辰燈(壽山巖觀音寺)
+        /// 44-求子燈
+        /// 45-護子燈
+        /// 46-添丁燈
+        /// 47-婚姻燈
+        /// 48-安太陰
+        /// 49-安太陽
+        /// 50-光明燈+批流年
+        /// 51-文昌燈+批流年
+        /// </param>
+        /// <param name="Year">年度字串，例如 "2025"</param>
+        /// <param name="msg">回傳給前端的訊息（各燈號編號＋客服電話）</param>
+        /// <param name="lightslist">回傳給前端的燈號清單（例如「太歲燈:TYA1001」）</param>
+        /// <param name="Lightslist">備用，可同樣回傳燈號字串陣列，視業務需求</param>
+        /// <returns>若有更新資料則回傳 true，否則回傳 false</returns>
+        public bool UpdateLights_Luer_Info(
+            int applicantID,
+            int LightsType,
+            string Year,
+            ref string msg,
+            ref string[] lightslist,
+            ref string[] Lightslist)
+        {
+            lock (_thisLock)
+            {
+                twbobibobi.Data.BasePage basePage = new twbobibobi.Data.BasePage();
+
+                // 1. 一次性取得所有已分配的編號 (Num > 0 且 Num2String 有值)
+                string sqlFetchExisting =
+                    "SELECT LightsType, Num " +
+                    "FROM Temple_" + Year + "..Lights_Luer_info " +
+                    "WHERE Status = 0 " +
+                    "  AND Num <> 0" +
+                    "  AND Num2String IS NOT NULL " +
+                    "  AND Num2String <> ''";
+
+                // 建立 DatabaseAdapter，並加入參數
+                DatabaseAdapter da = new DatabaseAdapter(sqlFetchExisting, this.DBSource);
+                da.SetSqlCommandBuilder();
+                DataTable dtExisting = new DataTable();
+                da.Fill(dtExisting);
+
+                // 建立各燈種對應的已用號碼集合
+                var usedNumsByType = new Dictionary<int, HashSet<int>>();
+                foreach (DataRow row in dtExisting.Rows)
+                {
+                    int type = Convert.ToInt32(row["LightsType"]);
+                    int num = Convert.ToInt32(row["Num"]);
+                    if (!usedNumsByType.ContainsKey(type))
+                        usedNumsByType[type] = new HashSet<int>();
+                    usedNumsByType[type].Add(num);
+                }
+
+                // 2. 一次性抓出所有需補號的列 (Num = 0)
+                DataTable dtToAssign = new DataTable();
+                string sqlFetchToAssign =
+                    "SELECT LightsID, LightsType " +
+                    "FROM Temple_" + Year + "..Lights_Luer_info " +
+                    "WHERE ApplicantID = @ApplicantID " +
+                    "  AND Status = 0 " +
+                    "  AND Num = 0 " +
+                    "ORDER BY LightsID";
+
+                {
+                    da = new DatabaseAdapter(sqlFetchToAssign, this.DBSource);
+                    da.SetSqlCommandBuilder();
+                    da.AddParameterToSelectCommand("ApplicantID", applicantID);
+                    da.Fill(dtToAssign);
+                }
+
+                int rowCount = dtToAssign.Rows.Count;
+                lightslist = new string[rowCount];
+                Lightslist = new string[rowCount];
+                // 用來存放要批量更新的資料 (LightsID, AssignedNum, AssignedNumString)
+                List<Tuple<int, int, string>> updatedRecords = new List<Tuple<int, int, string>>();
+
+                // 3. 逐筆在記憶體中分配「最小可用缺號」
+                for (int i = 0; i < rowCount; i++)
+                {
+                    DataRow row = dtToAssign.Rows[i];
+                    int dbLightsID = Convert.ToInt32(row["LightsID"]);
+                    int dbLightsType = Convert.ToInt32(row["LightsType"]);
+
+                    if (!usedNumsByType.ContainsKey(dbLightsType))
+                        usedNumsByType[dbLightsType] = new HashSet<int>();
+
+                    // 找下一個可用編號 (從 1001 開始往上搜尋)
+                    var usedSet = usedNumsByType[dbLightsType];
+                    int nextNum = 1001;
+                    while (usedSet.Contains(nextNum))
+                    {
+                        nextNum++;
+                    }
+
+                    // 根據不同燈種決定前綴字串
+                    string prefix = "";
+                    switch (dbLightsType)
+                    {
+                        case 3: prefix = "LLS"; break;  // 光明燈
+                        case 4: prefix = "LLA"; break;  // 安太歲
+                        case 5: prefix = "LLW"; break;  // 文昌燈
+                        case 7: prefix = "LLM"; break;  // 姻緣燈
+                        case 9: prefix = "LLT"; break;  // 財利燈
+                        case 11: prefix = "LLF"; break;  // 福壽燈
+                        case 12: prefix = "LLP"; break;  // 寵物平安燈
+                        case 20: prefix = "LLYM"; break;  // 月老姻緣燈
+                    }
+                    string numString = prefix + nextNum.ToString();
+                    Lightslist[i] = numString;
+
+                    // 將這筆資料加入批量更新清單
+                    updatedRecords.Add(new Tuple<int, int, string>(dbLightsID, nextNum, numString));
+
+                    // 準備回傳給前端的燈號字串
+                    string typeName = "";
+                    switch (dbLightsType)
+                    {
+                        case 3: typeName = "光明燈"; break;
+                        case 4: typeName = "安太歲"; break;
+                        case 5: typeName = "文昌燈"; break;
+                        case 7: typeName = "姻緣燈"; break;
+                        case 9: typeName = "財利燈"; break;
+                        case 11: typeName = "福壽燈"; break;
+                        case 12: typeName = "寵物平安燈"; break;
+                        case 20: typeName = "月老姻緣燈"; break;
+                    }
+                    lightslist[i] = typeName + ":" + numString;
+
+                    // 把已分配的 nextNum 加入 usedNumsByType，避免重複
+                    usedSet.Add(nextNum);
+                }
+
+                // 組出 msg，格式為「燈種1:編號,燈種2:編號,...。客服電話：04-36092299。」
+                msg += string.Join(",", lightslist) + "。客服電話：04-36092299。";
+
+                // 5. 一次性批量 UPDATE 回資料庫
+                //    以下示範用動態 SQL 拼接多筆 UPDATE，若更新筆數很多建議改用 TVP + 存儲過程
+                System.Text.StringBuilder sb = new System.Text.StringBuilder();
+                sb.AppendLine("USE Temple_" + Year + ";");
+                foreach (var rec in updatedRecords)
+                {
+                    int id = rec.Item1;
+                    int assignedNum = rec.Item2;
+                    string assignedNumString = rec.Item3.Replace("'", "''"); // 確保單引號轉義
+                    sb.AppendLine(
+                        "UPDATE dbo.Lights_Luer_info " +
+                        "SET Num = " + assignedNum + ", " +
+                        "    Num2String = N'" + assignedNumString + "' " +
+                        "WHERE LightsID = " + id + ";"
+                    );
+                }
+                string sqlBatchUpdate = sb.ToString();
+
+                try
+                {
+                    int rowsAffected = ExecuteSql(sqlBatchUpdate);
+                    if (rowsAffected > 0)
+                    {
+                        // 成功更新至少一筆
+                        return (updatedRecords.Count > 0);
+                    }
+                    else
+                    {
+                        // 防呆：SQL 執行後沒有影響到任何列，記一筆錯誤日誌，再回傳 false
+                        string err = "[UpdateLights_Luer_Info] 批量 UPDATE 未更新到任何記錄，SQL:\r\n" + sqlBatchUpdate;
+                        basePage.SaveErrorLog(err);
+                        return false;
+                    }
+                }
+                catch (Exception ex)
+                {
+                    // 捕捉執行 SQL 時的例外，記錯誤日誌，並回傳 false
+                    basePage.SaveErrorLog("[UpdateLights_Luer_Info] 批量 UPDATE 時發生例外：\r\n" + ex);
+                    return false;
+                }
+            }
+        }
+
+        /// <summary>
+        /// 更新並取得燈號資料 - 點燈 - 桃園威天宮
+        /// </summary>
+        /// <param name="applicantID">購買人編號</param>
+        /// <param name="LightsType">
+        /// 燈種代碼：
+        /// 3-光明燈、元神光明燈(鹿港城隍廟)、貴人燈(斗六五路財神宮)、平安燈(北極玄天宮、壽山巖觀音寺)
+        /// 4-安太歲、太歲燈、太歲平安符(鹿港城隍廟)、安奉太歲
+        /// 5-文昌燈、五文昌燈、文魁智慧燈(鹿港城隍廟)、文昌功名燈(桃園龍德宮)
+        /// 6-財神燈、發財燈、福財燈、正財福報燈(鹿港城隍廟)、招財燈(壽山巖觀音寺)、五路財神燈(桃園龍德宮)
+        /// 7-姻緣燈、桃花燈、月老桃花燈
+        /// 8-藥師燈 、藥師佛燈、消災延壽燈(斗六五路財神宮)、特別健康燈(石壁部堂)、健康延壽燈(桃園龍德宮)
+        /// 9-財利燈 
+        /// 10-貴人燈 、特別貴人燈(石壁部堂)
+        /// 11-福祿燈、福壽燈 
+        /// 12-寵物平安燈 
+        /// 13-龍王燈 
+        /// 14-虎爺燈 
+        /// 15-轉運納福燈 
+        /// 16-光明燈上層、玉皇燈(五股賀聖宮)
+        /// 17-偏財旺旺燈 
+        /// 18-廣進安財庫 
+        /// 19-財庫燈 
+        /// 20-月老姻緣燈
+        /// 21-孝親祈福燈 
+        /// 22-事業燈、特別事業燈(石壁部堂)
+        /// 23-全家光明燈 
+        /// 24-觀音佛祖燈 
+        /// 25-財神斗、財神斗/一個月(斗六五路財神宮)
+        /// 26-事業斗 
+        /// 27-平安斗 
+        /// 28-文昌斗 
+        /// 29-藥師斗 
+        /// 30-元神斗 
+        /// 31-福祿壽斗 
+        /// 32-觀音斗 
+        /// 33-明心智慧燈
+        /// 34-發財斗/一個月
+        /// 35-姻緣斗/一個月
+        /// 36-貴人斗/一個月
+        /// 37-消災延壽斗/一個月
+        /// 38-財神斗/三個月
+        /// 39-發財斗/三個月
+        /// 40-姻緣斗/三個月
+        /// 41-貴人斗/三個月
+        /// 42-消災延壽斗/三個月
+        /// 43-元辰斗燈、元辰燈(壽山巖觀音寺)
+        /// 44-求子燈
+        /// 45-護子燈
+        /// 46-添丁燈
+        /// 47-婚姻燈
+        /// 48-安太陰
+        /// 49-安太陽
+        /// 50-光明燈+批流年
+        /// 51-文昌燈+批流年
+        /// </param>
+        /// <param name="Year">年度字串，例如 "2025"</param>
+        /// <param name="msg">回傳給前端的訊息（各燈號編號＋客服電話）</param>
+        /// <param name="lightslist">回傳給前端的燈號清單（例如「太歲燈:TYA1001」）</param>
+        /// <param name="Lightslist">備用，可同樣回傳燈號字串陣列，視業務需求</param>
+        /// <returns>若有更新資料則回傳 true，否則回傳 false</returns>
+        public bool UpdateLights_ty_Info(
+            int applicantID,
+            int LightsType,
+            string Year,
+            ref string msg,
+            ref string[] lightslist,
+            ref string[] Lightslist)
+        {
+            lock (_thisLock)
+            {
+                twbobibobi.Data.BasePage basePage = new twbobibobi.Data.BasePage();
+
+                // 1. 一次性取得所有已分配的編號 (Num > 0 且 Num2String 有值)
+                string sqlFetchExisting =
+                    "SELECT LightsType, Num " +
+                    "FROM Temple_" + Year + "..Lights_ty_info " +
+                    "WHERE Status = 0 " +
+                    "  AND Num <> 0" +
+                    "  AND Num2String IS NOT NULL " +
+                    "  AND Num2String <> ''";
+                                
+                // 建立 DatabaseAdapter，並加入參數
+                DatabaseAdapter da = new DatabaseAdapter(sqlFetchExisting, this.DBSource);
+                da.SetSqlCommandBuilder();
+                DataTable dtExisting = new DataTable();
+                da.Fill(dtExisting);
+
+                // 建立各燈種對應的已用號碼集合
+                var usedNumsByType = new Dictionary<int, HashSet<int>>();
+                foreach (DataRow row in dtExisting.Rows)
+                {
+                    int type = Convert.ToInt32(row["LightsType"]);
+                    int num = Convert.ToInt32(row["Num"]);
+                    if (!usedNumsByType.ContainsKey(type))
+                        usedNumsByType[type] = new HashSet<int>();
+                    usedNumsByType[type].Add(num);
+                }                
+
+                // 2. 一次性抓出所有需補號的列 (Num = 0)
+                DataTable dtToAssign = new DataTable();
+                string sqlFetchToAssign =
+                    "SELECT LightsID, LightsType " +
+                    "FROM Temple_" + Year + "..Lights_ty_info " +
+                    "WHERE ApplicantID = @ApplicantID " +
+                    "  AND Status = 0 " +
+                    "  AND Num = 0 " +
+                    "ORDER BY LightsID";
+
+                {
+                    da = new DatabaseAdapter(sqlFetchToAssign, this.DBSource);
+                    da.SetSqlCommandBuilder();
+                    da.AddParameterToSelectCommand("ApplicantID", applicantID);
+                    da.Fill(dtToAssign);
+                }
+
+                int rowCount = dtToAssign.Rows.Count;
+                lightslist = new string[rowCount];
+                Lightslist = new string[rowCount];
+                // 用來存放要批量更新的資料 (LightsID, AssignedNum, AssignedNumString)
+                List<Tuple<int, int, string>> updatedRecords = new List<Tuple<int, int, string>>();
+
+                // 3. 逐筆在記憶體中分配「最小可用缺號」
+                for (int i = 0; i < rowCount; i++)
+                {
+                    DataRow row = dtToAssign.Rows[i];
+                    int dbLightsID = Convert.ToInt32(row["LightsID"]);
+                    int dbLightsType = Convert.ToInt32(row["LightsType"]);
+
+                    if (!usedNumsByType.ContainsKey(dbLightsType))
+                        usedNumsByType[dbLightsType] = new HashSet<int>();
+
+                    // 找下一個可用編號 (從 1001 開始往上搜尋)
+                    var usedSet = usedNumsByType[dbLightsType];
+                    int nextNum = 1001;
+                    while (usedSet.Contains(nextNum))
+                    {
+                        nextNum++;
+                    }
+
+                    // 根據不同燈種決定前綴字串
+                    string prefix = "";
+                    switch (dbLightsType)
+                    {
+                        case 3: prefix = "TYS"; break;  // 光明燈
+                        case 4: prefix = "TYA"; break;  // 安太歲
+                        case 6: prefix = "TYT"; break;  // 財神燈
+                        case 8: prefix = "TYY"; break;  // 藥師燈
+                        case 10: prefix = "TYN"; break;  // 貴人燈
+                        case 11: prefix = "TYL"; break;  // 福祿燈
+                        case 21: prefix = "TYM"; break;  // 孝親祈福燈
+                        case 33: prefix = "TYSM"; break;  // 智慧燈
+                    }
+                    string numString = prefix + nextNum.ToString();
+                    Lightslist[i] = numString;
+
+                    // 將這筆資料加入批量更新清單
+                    updatedRecords.Add(new Tuple<int, int, string>(dbLightsID, nextNum, numString));
+
+                    // 準備回傳給前端的燈號字串
+                    string typeName = "";
+                    switch (dbLightsType)
+                    {
+                        case 3: typeName = "光明燈"; break;
+                        case 4: typeName = "太歲燈"; break;
+                        case 6: typeName = "財神燈"; break;
+                        case 8: typeName = "藥師燈"; break;
+                        case 10: typeName = "貴人燈"; break;
+                        case 11: typeName = "福祿燈"; break;
+                        case 21: typeName = "孝親祈福燈"; break;
+                        case 33: typeName = "智慧燈"; break;
+                    }
+                    lightslist[i] = typeName + ":" + numString;
+
+                    // 把已分配的 nextNum 加入 usedNumsByType，避免重複
+                    usedSet.Add(nextNum);
+                }
+
+                // 組出 msg，格式為「燈種1:編號,燈種2:編號,...。客服電話：04-36092299。」
+                msg += string.Join(",", lightslist) + "。客服電話：04-36092299。";
+
+                // 5. 一次性批量 UPDATE 回資料庫
+                //    以下示範用動態 SQL 拼接多筆 UPDATE，若更新筆數很多建議改用 TVP + 存儲過程
+                System.Text.StringBuilder sb = new System.Text.StringBuilder();
+                sb.AppendLine("USE Temple_" + Year + ";");
+                foreach (var rec in updatedRecords)
+                {
+                    int id = rec.Item1;
+                    int assignedNum = rec.Item2;
+                    string assignedNumString = rec.Item3.Replace("'", "''"); // 確保單引號轉義
+                    sb.AppendLine(
+                        "UPDATE dbo.Lights_ty_info " +
+                        "SET Num = " + assignedNum + ", " +
+                        "    Num2String = N'" + assignedNumString + "' " +
+                        "WHERE LightsID = " + id + ";"
+                    );
+                }
+                string sqlBatchUpdate = sb.ToString();
+
+                try
+                {
+                    int rowsAffected = ExecuteSql(sqlBatchUpdate);
+                    if (rowsAffected > 0)
+                    {
+                        // 成功更新至少一筆
+                        return (updatedRecords.Count > 0);
+                    }
+                    else
+                    {
+                        // 防呆：SQL 執行後沒有影響到任何列，記一筆錯誤日誌，再回傳 false
+                        string err = "[UpdateLights_ty_Info] 批量 UPDATE 未更新到任何記錄，SQL:\r\n" + sqlBatchUpdate;
+                        basePage.SaveErrorLog(err);
+                        return false;
+                    }
+                }
+                catch (Exception ex)
+                {
+                    // 捕捉執行 SQL 時的例外，記錯誤日誌，並回傳 false
+                    basePage.SaveErrorLog("[UpdateLights_ty_Info] 批量 UPDATE 時發生例外：\r\n" + ex);
+                    return false;
+                }
+            }
+        }
+
+        /// <summary>
+        /// 更新並取得燈號資料 - 點燈 - 斗六五路財神宮
+        /// </summary>
+        /// <param name="applicantID">購買人編號</param>
+        /// <param name="LightsType">
+        /// 燈種代碼：
+        /// 3-光明燈、元神光明燈(鹿港城隍廟)、貴人燈(斗六五路財神宮)、平安燈(北極玄天宮、壽山巖觀音寺)
+        /// 4-安太歲、太歲燈、太歲平安符(鹿港城隍廟)、安奉太歲
+        /// 5-文昌燈、五文昌燈、文魁智慧燈(鹿港城隍廟)、文昌功名燈(桃園龍德宮)
+        /// 6-財神燈、發財燈、福財燈、正財福報燈(鹿港城隍廟)、招財燈(壽山巖觀音寺)、五路財神燈(桃園龍德宮)
+        /// 7-姻緣燈、桃花燈、月老桃花燈
+        /// 8-藥師燈 、藥師佛燈、消災延壽燈(斗六五路財神宮)、特別健康燈(石壁部堂)、健康延壽燈(桃園龍德宮)
+        /// 9-財利燈 
+        /// 10-貴人燈 、特別貴人燈(石壁部堂)
+        /// 11-福祿燈、福壽燈 
+        /// 12-寵物平安燈 
+        /// 13-龍王燈 
+        /// 14-虎爺燈 
+        /// 15-轉運納福燈 
+        /// 16-光明燈上層、玉皇燈(五股賀聖宮)
+        /// 17-偏財旺旺燈 
+        /// 18-廣進安財庫 
+        /// 19-財庫燈 
+        /// 20-月老姻緣燈
+        /// 21-孝親祈福燈 
+        /// 22-事業燈、特別事業燈(石壁部堂)
+        /// 23-全家光明燈 
+        /// 24-觀音佛祖燈 
+        /// 25-財神斗、財神斗/一個月(斗六五路財神宮)
+        /// 26-事業斗 
+        /// 27-平安斗 
+        /// 28-文昌斗 
+        /// 29-藥師斗 
+        /// 30-元神斗 
+        /// 31-福祿壽斗 
+        /// 32-觀音斗 
+        /// 33-明心智慧燈
+        /// 34-發財斗/一個月
+        /// 35-姻緣斗/一個月
+        /// 36-貴人斗/一個月
+        /// 37-消災延壽斗/一個月
+        /// 38-財神斗/三個月
+        /// 39-發財斗/三個月
+        /// 40-姻緣斗/三個月
+        /// 41-貴人斗/三個月
+        /// 42-消災延壽斗/三個月
+        /// 43-元辰斗燈、元辰燈(壽山巖觀音寺)
+        /// 44-求子燈
+        /// 45-護子燈
+        /// 46-添丁燈
+        /// 47-婚姻燈
+        /// 48-安太陰
+        /// 49-安太陽
+        /// 50-光明燈+批流年
+        /// 51-文昌燈+批流年
+        /// </param>
+        /// <param name="Year">年度字串，例如 "2025"</param>
+        /// <param name="msg">回傳給前端的訊息（各燈號編號＋客服電話）</param>
+        /// <param name="lightslist">回傳給前端的燈號清單（例如「太歲燈:TYA1001」）</param>
+        /// <param name="Lightslist">備用，可同樣回傳燈號字串陣列，視業務需求</param>
+        /// <returns>若有更新資料則回傳 true，否則回傳 false</returns>
+        public bool UpdateLights_Fw_Info(
+            int applicantID,
+            int LightsType,
+            string Year,
+            ref string msg,
+            ref string[] lightslist,
+            ref string[] Lightslist)
+        {
+            lock (_thisLock)
+            {
+                twbobibobi.Data.BasePage basePage = new twbobibobi.Data.BasePage();
+
+                // 1. 一次性取得所有已分配的編號 (Num > 0 且 Num2String 有值)
+                string sqlFetchExisting =
+                    "SELECT LightsType, Num " +
+                    "FROM Temple_" + Year + "..Lights_Fw_info " +
+                    "WHERE Status = 0 " +
+                    "  AND Num <> 0" +
+                    "  AND Num2String IS NOT NULL " +
+                    "  AND Num2String <> ''";
+
+                // 建立 DatabaseAdapter，並加入參數
+                DatabaseAdapter da = new DatabaseAdapter(sqlFetchExisting, this.DBSource);
+                da.SetSqlCommandBuilder();
+                DataTable dtExisting = new DataTable();
+                da.Fill(dtExisting);
+
+                // 建立各燈種對應的已用號碼集合
+                var usedNumsByType = new Dictionary<int, HashSet<int>>();
+                foreach (DataRow row in dtExisting.Rows)
+                {
+                    int type = Convert.ToInt32(row["LightsType"]);
+                    int num = Convert.ToInt32(row["Num"]);
+                    if (!usedNumsByType.ContainsKey(type))
+                        usedNumsByType[type] = new HashSet<int>();
+                    usedNumsByType[type].Add(num);
+                }
+
+                // 2. 一次性抓出所有需補號的列 (Num = 0)
+                DataTable dtToAssign = new DataTable();
+                string sqlFetchToAssign =
+                    "SELECT LightsID, LightsType " +
+                    "FROM Temple_" + Year + "..Lights_Fw_info " +
+                    "WHERE ApplicantID = @ApplicantID " +
+                    "  AND Status = 0 " +
+                    "  AND Num = 0 " +
+                    "ORDER BY LightsID";
+
+                {
+                    da = new DatabaseAdapter(sqlFetchToAssign, this.DBSource);
+                    da.SetSqlCommandBuilder();
+                    da.AddParameterToSelectCommand("ApplicantID", applicantID);
+                    da.Fill(dtToAssign);
+                }
+
+                int rowCount = dtToAssign.Rows.Count;
+                lightslist = new string[rowCount];
+                Lightslist = new string[rowCount];
+                // 用來存放要批量更新的資料 (LightsID, AssignedNum, AssignedNumString)
+                List<Tuple<int, int, string>> updatedRecords = new List<Tuple<int, int, string>>();
+
+                // 3. 逐筆在記憶體中分配「最小可用缺號」
+                for (int i = 0; i < rowCount; i++)
+                {
+                    DataRow row = dtToAssign.Rows[i];
+                    int dbLightsID = Convert.ToInt32(row["LightsID"]);
+                    int dbLightsType = Convert.ToInt32(row["LightsType"]);
+
+                    if (!usedNumsByType.ContainsKey(dbLightsType))
+                        usedNumsByType[dbLightsType] = new HashSet<int>();
+
+                    // 找下一個可用編號 (從 1001 開始往上搜尋)
+                    var usedSet = usedNumsByType[dbLightsType];
+                    int nextNum = 1001;
+                    while (usedSet.Contains(nextNum))
+                    {
+                        nextNum++;
+                    }
+
+                    // 根據不同燈種決定前綴字串
+                    string prefix = "";
+                    switch (dbLightsType)
+                    {
+                        case 3: prefix = "FWS"; break;  // 貴人燈(光明燈)
+                        case 4: prefix = "FWA"; break;  // 安太歲
+                        case 6: prefix = "FWT"; break;  // 發財燈
+                        case 7: prefix = "FWM"; break;  // 月老桃花燈
+                        case 8: prefix = "FWY"; break;  // 消災延壽燈
+                        case 12: prefix = "FWP"; break;  // 寵物平安燈
+                        case 19: prefix = "FW2T"; break;  // 財庫燈
+                        case 25: prefix = "FWTDL"; break;  // 財神斗/一個月
+                        case 34: prefix = "FWFDL"; break;  // 發財斗/一個月
+                        case 35: prefix = "FWMDL"; break;  // 姻緣斗/一個月
+                        case 36: prefix = "FWBDL"; break;  // 貴人斗/一個月
+                        case 37: prefix = "FWYDL"; break;  // 消災延壽斗/一個月
+                        case 38: prefix = "FW3TDL"; break;  // 財神斗/三個月
+                        case 39: prefix = "FW3FDL"; break;  // 發財斗/三個月
+                        case 40: prefix = "FW3MDL"; break;  // 姻緣斗/三個月
+                        case 41: prefix = "FW3BDL"; break;  // 貴人斗/三個月
+                        case 42: prefix = "FW3YDL"; break;  // 消災延壽斗/三個月
+                    }
+                    string numString = prefix + nextNum.ToString();
+                    Lightslist[i] = numString;
+
+                    // 將這筆資料加入批量更新清單
+                    updatedRecords.Add(new Tuple<int, int, string>(dbLightsID, nextNum, numString));
+
+                    // 準備回傳給前端的燈號字串
+                    string typeName = "";
+                    switch (dbLightsType)
+                    {
+                        case 3: typeName = "貴人燈(光明燈)"; break;
+                        case 4: typeName = "安太歲"; break;
+                        case 6: typeName = "發財燈"; break;
+                        case 7: typeName = "月老桃花燈"; break;
+                        case 8: typeName = "消災延壽燈"; break;
+                        case 12: typeName = "寵物平安燈"; break;
+                        case 19: typeName = "財庫燈"; break;
+                        case 25: typeName = "財神斗/一個月"; break;
+                        case 34: typeName = "發財斗/一個月"; break;
+                        case 35: typeName = "姻緣斗/一個月"; break;
+                        case 36: typeName = "貴人斗/一個月"; break;
+                        case 37: typeName = "消災延壽斗/一個月"; break;
+                        case 38: typeName = "財神斗/三個月"; break;
+                        case 39: typeName = "發財斗/三個月"; break;
+                        case 40: typeName = "姻緣斗/三個月"; break;
+                        case 41: typeName = "貴人斗/三個月"; break;
+                        case 42: typeName = "消災延壽斗/三個月"; break;
+                    }
+                    lightslist[i] = typeName + ":" + numString;
+
+                    // 把已分配的 nextNum 加入 usedNumsByType，避免重複
+                    usedSet.Add(nextNum);
+                }
+
+                // 組出 msg，格式為「燈種1:編號,燈種2:編號,...。客服電話：04-36092299。」
+                msg += string.Join(",", lightslist) + "。客服電話：04-36092299。";
+
+                // 5. 一次性批量 UPDATE 回資料庫
+                //    以下示範用動態 SQL 拼接多筆 UPDATE，若更新筆數很多建議改用 TVP + 存儲過程
+                System.Text.StringBuilder sb = new System.Text.StringBuilder();
+                sb.AppendLine("USE Temple_" + Year + ";");
+                foreach (var rec in updatedRecords)
+                {
+                    int id = rec.Item1;
+                    int assignedNum = rec.Item2;
+                    string assignedNumString = rec.Item3.Replace("'", "''"); // 確保單引號轉義
+                    sb.AppendLine(
+                        "UPDATE dbo.Lights_Fw_info " +
+                        "SET Num = " + assignedNum + ", " +
+                        "    Num2String = N'" + assignedNumString + "' " +
+                        "WHERE LightsID = " + id + ";"
+                    );
+                }
+                string sqlBatchUpdate = sb.ToString();
+
+                try
+                {
+                    int rowsAffected = ExecuteSql(sqlBatchUpdate);
+                    if (rowsAffected > 0)
+                    {
+                        // 成功更新至少一筆
+                        return (updatedRecords.Count > 0);
+                    }
+                    else
+                    {
+                        // 防呆：SQL 執行後沒有影響到任何列，記一筆錯誤日誌，再回傳 false
+                        string err = "[UpdateLights_Fw_Info] 批量 UPDATE 未更新到任何記錄，SQL:\r\n" + sqlBatchUpdate;
+                        basePage.SaveErrorLog(err);
+                        return false;
+                    }
+                }
+                catch (Exception ex)
+                {
+                    // 捕捉執行 SQL 時的例外，記錯誤日誌，並回傳 false
+                    basePage.SaveErrorLog("[UpdateLights_Fw_Info] 批量 UPDATE 時發生例外：\r\n" + ex);
+                    return false;
+                }
+            }
+        }
+
+        /// <summary>
+        /// 更新並取得燈號資料 - 點燈 - 台東東海龍門天聖宮
+        /// </summary>
+        /// <param name="applicantID">購買人編號</param>
+        /// <param name="LightsType">
+        /// 燈種代碼：
+        /// 3-光明燈、元神光明燈(鹿港城隍廟)、貴人燈(斗六五路財神宮)、平安燈(北極玄天宮、壽山巖觀音寺)
+        /// 4-安太歲、太歲燈、太歲平安符(鹿港城隍廟)、安奉太歲
+        /// 5-文昌燈、五文昌燈、文魁智慧燈(鹿港城隍廟)、文昌功名燈(桃園龍德宮)
+        /// 6-財神燈、發財燈、福財燈、正財福報燈(鹿港城隍廟)、招財燈(壽山巖觀音寺)、五路財神燈(桃園龍德宮)
+        /// 7-姻緣燈、桃花燈、月老桃花燈
+        /// 8-藥師燈 、藥師佛燈、消災延壽燈(斗六五路財神宮)、特別健康燈(石壁部堂)、健康延壽燈(桃園龍德宮)
+        /// 9-財利燈 
+        /// 10-貴人燈 、特別貴人燈(石壁部堂)
+        /// 11-福祿燈、福壽燈 
+        /// 12-寵物平安燈 
+        /// 13-龍王燈 
+        /// 14-虎爺燈 
+        /// 15-轉運納福燈 
+        /// 16-光明燈上層、玉皇燈(五股賀聖宮)
+        /// 17-偏財旺旺燈 
+        /// 18-廣進安財庫 
+        /// 19-財庫燈 
+        /// 20-月老姻緣燈
+        /// 21-孝親祈福燈 
+        /// 22-事業燈、特別事業燈(石壁部堂)
+        /// 23-全家光明燈 
+        /// 24-觀音佛祖燈 
+        /// 25-財神斗、財神斗/一個月(斗六五路財神宮)
+        /// 26-事業斗 
+        /// 27-平安斗 
+        /// 28-文昌斗 
+        /// 29-藥師斗 
+        /// 30-元神斗 
+        /// 31-福祿壽斗 
+        /// 32-觀音斗 
+        /// 33-明心智慧燈
+        /// 34-發財斗/一個月
+        /// 35-姻緣斗/一個月
+        /// 36-貴人斗/一個月
+        /// 37-消災延壽斗/一個月
+        /// 38-財神斗/三個月
+        /// 39-發財斗/三個月
+        /// 40-姻緣斗/三個月
+        /// 41-貴人斗/三個月
+        /// 42-消災延壽斗/三個月
+        /// 43-元辰斗燈、元辰燈(壽山巖觀音寺)
+        /// 44-求子燈
+        /// 45-護子燈
+        /// 46-添丁燈
+        /// 47-婚姻燈
+        /// 48-安太陰
+        /// 49-安太陽
+        /// 50-光明燈+批流年
+        /// 51-文昌燈+批流年
+        /// </param>
+        /// <param name="Year">年度字串，例如 "2025"</param>
+        /// <param name="msg">回傳給前端的訊息（各燈號編號＋客服電話）</param>
+        /// <param name="lightslist">回傳給前端的燈號清單（例如「太歲燈:TYA1001」）</param>
+        /// <param name="Lightslist">備用，可同樣回傳燈號字串陣列，視業務需求</param>
+        /// <returns>若有更新資料則回傳 true，否則回傳 false</returns>
+        public bool UpdateLights_dh_Info(
+            int applicantID,
+            int LightsType,
+            string Year,
+            ref string msg,
+            ref string[] lightslist,
+            ref string[] Lightslist)
+        {
+            lock (_thisLock)
+            {
+                twbobibobi.Data.BasePage basePage = new twbobibobi.Data.BasePage();
+
+                // 1. 一次性取得所有已分配的編號 (Num > 0 且 Num2String 有值)
+                string sqlFetchExisting =
+                    "SELECT LightsType, Num " +
+                    "FROM Temple_" + Year + "..Lights_dh_info " +
+                    "WHERE Status = 0 " +
+                    "  AND Num <> 0" +
+                    "  AND Num2String IS NOT NULL " +
+                    "  AND Num2String <> ''";
+
+                // 建立 DatabaseAdapter，並加入參數
+                DatabaseAdapter da = new DatabaseAdapter(sqlFetchExisting, this.DBSource);
+                da.SetSqlCommandBuilder();
+                DataTable dtExisting = new DataTable();
+                da.Fill(dtExisting);
+
+                // 建立各燈種對應的已用號碼集合
+                var usedNumsByType = new Dictionary<int, HashSet<int>>();
+                foreach (DataRow row in dtExisting.Rows)
+                {
+                    int type = Convert.ToInt32(row["LightsType"]);
+                    int num = Convert.ToInt32(row["Num"]);
+                    if (!usedNumsByType.ContainsKey(type))
+                        usedNumsByType[type] = new HashSet<int>();
+                    usedNumsByType[type].Add(num);
+                }
+
+                // 2. 一次性抓出所有需補號的列 (Num = 0)
+                DataTable dtToAssign = new DataTable();
+                string sqlFetchToAssign =
+                    "SELECT LightsID, LightsType " +
+                    "FROM Temple_" + Year + "..Lights_dh_info " +
+                    "WHERE ApplicantID = @ApplicantID " +
+                    "  AND Status = 0 " +
+                    "  AND Num = 0 " +
+                    "ORDER BY LightsID";
+
+                {
+                    da = new DatabaseAdapter(sqlFetchToAssign, this.DBSource);
+                    da.SetSqlCommandBuilder();
+                    da.AddParameterToSelectCommand("ApplicantID", applicantID);
+                    da.Fill(dtToAssign);
+                }
+
+                int rowCount = dtToAssign.Rows.Count;
+                lightslist = new string[rowCount];
+                Lightslist = new string[rowCount];
+                // 用來存放要批量更新的資料 (LightsID, AssignedNum, AssignedNumString)
+                List<Tuple<int, int, string>> updatedRecords = new List<Tuple<int, int, string>>();
+
+                // 3. 逐筆在記憶體中分配「最小可用缺號」
+                for (int i = 0; i < rowCount; i++)
+                {
+                    DataRow row = dtToAssign.Rows[i];
+                    int dbLightsID = Convert.ToInt32(row["LightsID"]);
+                    int dbLightsType = Convert.ToInt32(row["LightsType"]);
+
+                    if (!usedNumsByType.ContainsKey(dbLightsType))
+                        usedNumsByType[dbLightsType] = new HashSet<int>();
+
+                    // 找下一個可用編號 (從 1001 開始往上搜尋)
+                    var usedSet = usedNumsByType[dbLightsType];
+                    int nextNum = 1001;
+                    while (usedSet.Contains(nextNum))
+                    {
+                        nextNum++;
+                    }
+
+                    // 根據不同燈種決定前綴字串
+                    string prefix = "";
+                    switch (dbLightsType)
+                    {
+                        case 3: prefix = "DHS"; break;  // 光明燈
+                        case 4: prefix = "DHA"; break;  // 安太歲
+                        case 5: prefix = "DHW"; break;  // 文昌燈
+                        case 9: prefix = "DHT"; break;  // 財利燈
+                        case 13: prefix = "DHD"; break;  // 龍王燈
+                        case 14: prefix = "DHTI"; break;  // 虎爺燈
+                    }
+                    string numString = prefix + nextNum.ToString();
+                    Lightslist[i] = numString;
+
+                    // 將這筆資料加入批量更新清單
+                    updatedRecords.Add(new Tuple<int, int, string>(dbLightsID, nextNum, numString));
+
+                    // 準備回傳給前端的燈號字串
+                    string typeName = "";
+                    switch (dbLightsType)
+                    {
+                        case 3: typeName = "光明燈"; break;
+                        case 4: typeName = "安太歲"; break;
+                        case 5: typeName = "文昌燈"; break;
+                        case 9: typeName = "財利燈"; break;
+                        case 13: typeName = "龍王燈"; break;
+                        case 14: typeName = "虎爺燈"; break;
+                    }
+                    lightslist[i] = typeName + ":" + numString;
+
+                    // 把已分配的 nextNum 加入 usedNumsByType，避免重複
+                    usedSet.Add(nextNum);
+                }
+
+                // 組出 msg，格式為「燈種1:編號,燈種2:編號,...。客服電話：04-36092299。」
+                msg += string.Join(",", lightslist) + "。客服電話：04-36092299。";
+
+                // 5. 一次性批量 UPDATE 回資料庫
+                //    以下示範用動態 SQL 拼接多筆 UPDATE，若更新筆數很多建議改用 TVP + 存儲過程
+                System.Text.StringBuilder sb = new System.Text.StringBuilder();
+                sb.AppendLine("USE Temple_" + Year + ";");
+                foreach (var rec in updatedRecords)
+                {
+                    int id = rec.Item1;
+                    int assignedNum = rec.Item2;
+                    string assignedNumString = rec.Item3.Replace("'", "''"); // 確保單引號轉義
+                    sb.AppendLine(
+                        "UPDATE dbo.Lights_dh_info " +
+                        "SET Num = " + assignedNum + ", " +
+                        "    Num2String = N'" + assignedNumString + "' " +
+                        "WHERE LightsID = " + id + ";"
+                    );
+                }
+                string sqlBatchUpdate = sb.ToString();
+
+                try
+                {
+                    int rowsAffected = ExecuteSql(sqlBatchUpdate);
+                    if (rowsAffected > 0)
+                    {
+                        // 成功更新至少一筆
+                        return (updatedRecords.Count > 0);
+                    }
+                    else
+                    {
+                        // 防呆：SQL 執行後沒有影響到任何列，記一筆錯誤日誌，再回傳 false
+                        string err = "[UpdateLights_dh_Info] 批量 UPDATE 未更新到任何記錄，SQL:\r\n" + sqlBatchUpdate;
+                        basePage.SaveErrorLog(err);
+                        return false;
+                    }
+                }
+                catch (Exception ex)
+                {
+                    // 捕捉執行 SQL 時的例外，記錯誤日誌，並回傳 false
+                    basePage.SaveErrorLog("[UpdateLights_dh_Info] 批量 UPDATE 時發生例外：\r\n" + ex);
+                    return false;
+                }
+            }
+        }
+
+        /// <summary>
+        /// 更新並取得燈號資料 - 點燈 - 五股賀勝宮
+        /// </summary>
+        /// <param name="applicantID">購買人編號</param>
+        /// <param name="LightsType">
+        /// 燈種代碼：
+        /// 3-光明燈、元神光明燈(鹿港城隍廟)、貴人燈(斗六五路財神宮)、平安燈(北極玄天宮、壽山巖觀音寺)
+        /// 4-安太歲、太歲燈、太歲平安符(鹿港城隍廟)、安奉太歲
+        /// 5-文昌燈、五文昌燈、文魁智慧燈(鹿港城隍廟)、文昌功名燈(桃園龍德宮)
+        /// 6-財神燈、發財燈、福財燈、正財福報燈(鹿港城隍廟)、招財燈(壽山巖觀音寺)、五路財神燈(桃園龍德宮)
+        /// 7-姻緣燈、桃花燈、月老桃花燈
+        /// 8-藥師燈 、藥師佛燈、消災延壽燈(斗六五路財神宮)、特別健康燈(石壁部堂)、健康延壽燈(桃園龍德宮)
+        /// 9-財利燈 
+        /// 10-貴人燈 、特別貴人燈(石壁部堂)
+        /// 11-福祿燈、福壽燈 
+        /// 12-寵物平安燈 
+        /// 13-龍王燈 
+        /// 14-虎爺燈 
+        /// 15-轉運納福燈 
+        /// 16-光明燈上層、玉皇燈(五股賀聖宮)
+        /// 17-偏財旺旺燈 
+        /// 18-廣進安財庫 
+        /// 19-財庫燈 
+        /// 20-月老姻緣燈
+        /// 21-孝親祈福燈 
+        /// 22-事業燈、特別事業燈(石壁部堂)
+        /// 23-全家光明燈 
+        /// 24-觀音佛祖燈 
+        /// 25-財神斗、財神斗/一個月(斗六五路財神宮)
+        /// 26-事業斗 
+        /// 27-平安斗 
+        /// 28-文昌斗 
+        /// 29-藥師斗 
+        /// 30-元神斗 
+        /// 31-福祿壽斗 
+        /// 32-觀音斗 
+        /// 33-明心智慧燈
+        /// 34-發財斗/一個月
+        /// 35-姻緣斗/一個月
+        /// 36-貴人斗/一個月
+        /// 37-消災延壽斗/一個月
+        /// 38-財神斗/三個月
+        /// 39-發財斗/三個月
+        /// 40-姻緣斗/三個月
+        /// 41-貴人斗/三個月
+        /// 42-消災延壽斗/三個月
+        /// 43-元辰斗燈、元辰燈(壽山巖觀音寺)
+        /// 44-求子燈
+        /// 45-護子燈
+        /// 46-添丁燈
+        /// 47-婚姻燈
+        /// 48-安太陰
+        /// 49-安太陽
+        /// 50-光明燈+批流年
+        /// 51-文昌燈+批流年
+        /// </param>
+        /// <param name="Year">年度字串，例如 "2025"</param>
+        /// <param name="msg">回傳給前端的訊息（各燈號編號＋客服電話）</param>
+        /// <param name="lightslist">回傳給前端的燈號清單（例如「太歲燈:TYA1001」）</param>
+        /// <param name="Lightslist">備用，可同樣回傳燈號字串陣列，視業務需求</param>
+        /// <returns>若有更新資料則回傳 true，否則回傳 false</returns>
+        public bool UpdateLights_Hs_Info(
+            int applicantID,
+            int LightsType,
+            string Year,
+            ref string msg,
+            ref string[] lightslist,
+            ref string[] Lightslist)
+        {
+            lock (_thisLock)
+            {
+                twbobibobi.Data.BasePage basePage = new twbobibobi.Data.BasePage();
+
+                // 1. 一次性取得所有已分配的編號 (Num > 0 且 Num2String 有值)
+                string sqlFetchExisting =
+                    "SELECT LightsType, Num " +
+                    "FROM Temple_" + Year + "..Lights_Hs_info " +
+                    "WHERE Status = 0 " +
+                    "  AND Num <> 0" +
+                    "  AND Num2String IS NOT NULL " +
+                    "  AND Num2String <> ''";
+
+                // 建立 DatabaseAdapter，並加入參數
+                DatabaseAdapter da = new DatabaseAdapter(sqlFetchExisting, this.DBSource);
+                da.SetSqlCommandBuilder();
+                DataTable dtExisting = new DataTable();
+                da.Fill(dtExisting);
+
+                // 建立各燈種對應的已用號碼集合
+                var usedNumsByType = new Dictionary<int, HashSet<int>>();
+                foreach (DataRow row in dtExisting.Rows)
+                {
+                    int type = Convert.ToInt32(row["LightsType"]);
+                    int num = Convert.ToInt32(row["Num"]);
+                    if (!usedNumsByType.ContainsKey(type))
+                        usedNumsByType[type] = new HashSet<int>();
+                    usedNumsByType[type].Add(num);
+                }
+
+                // 2. 一次性抓出所有需補號的列 (Num = 0)
+                DataTable dtToAssign = new DataTable();
+                string sqlFetchToAssign =
+                    "SELECT LightsID, LightsType " +
+                    "FROM Temple_" + Year + "..Lights_Hs_info " +
+                    "WHERE ApplicantID = @ApplicantID " +
+                    "  AND Status = 0 " +
+                    "  AND Num = 0 " +
+                    "ORDER BY LightsID";
+
+                {
+                    da = new DatabaseAdapter(sqlFetchToAssign, this.DBSource);
+                    da.SetSqlCommandBuilder();
+                    da.AddParameterToSelectCommand("ApplicantID", applicantID);
+                    da.Fill(dtToAssign);
+                }
+
+                int rowCount = dtToAssign.Rows.Count;
+                lightslist = new string[rowCount];
+                Lightslist = new string[rowCount];
+                // 用來存放要批量更新的資料 (LightsID, AssignedNum, AssignedNumString)
+                List<Tuple<int, int, string>> updatedRecords = new List<Tuple<int, int, string>>();
+
+                // 3. 逐筆在記憶體中分配「最小可用缺號」
+                for (int i = 0; i < rowCount; i++)
+                {
+                    DataRow row = dtToAssign.Rows[i];
+                    int dbLightsID = Convert.ToInt32(row["LightsID"]);
+                    int dbLightsType = Convert.ToInt32(row["LightsType"]);
+
+                    if (!usedNumsByType.ContainsKey(dbLightsType))
+                        usedNumsByType[dbLightsType] = new HashSet<int>();
+
+                    // 找下一個可用編號 (從 1001 開始往上搜尋)
+                    var usedSet = usedNumsByType[dbLightsType];
+                    int nextNum = 1001;
+                    while (usedSet.Contains(nextNum))
+                    {
+                        nextNum++;
+                    }
+
+                    // 根據不同燈種決定前綴字串
+                    string prefix = "";
+                    switch (dbLightsType)
+                    {
+                        case 3: prefix = "HSS"; break;  // 光明燈
+                        case 4: prefix = "HSA"; break;  // 安太歲
+                        case 5: prefix = "HSW"; break;  // 文昌燈
+                        case 8: prefix = "HSY"; break;  // 藥師燈
+                        case 9: prefix = "HST"; break;  // 財利燈
+                        case 16: prefix = "HS2S"; break;  // 玉皇燈
+                    }
+                    string numString = prefix + nextNum.ToString();
+                    Lightslist[i] = numString;
+
+                    // 將這筆資料加入批量更新清單
+                    updatedRecords.Add(new Tuple<int, int, string>(dbLightsID, nextNum, numString));
+
+                    // 準備回傳給前端的燈號字串
+                    string typeName = "";
+                    switch (dbLightsType)
+                    {
+                        case 3: typeName = "光明燈"; break;
+                        case 4: typeName = "太歲燈"; break;
+                        case 5: typeName = "文昌燈"; break;
+                        case 8: typeName = "藥師燈"; break;
+                        case 9: typeName = "財利燈"; break;
+                        case 16: typeName = "玉皇燈"; break;
+                    }
+                    lightslist[i] = typeName + ":" + numString;
+
+                    // 把已分配的 nextNum 加入 usedNumsByType，避免重複
+                    usedSet.Add(nextNum);
+                }
+
+                // 組出 msg，格式為「燈種1:編號,燈種2:編號,...。客服電話：04-36092299。」
+                msg += string.Join(",", lightslist) + "。客服電話：04-36092299。";
+
+                // 5. 一次性批量 UPDATE 回資料庫
+                //    以下示範用動態 SQL 拼接多筆 UPDATE，若更新筆數很多建議改用 TVP + 存儲過程
+                System.Text.StringBuilder sb = new System.Text.StringBuilder();
+                sb.AppendLine("USE Temple_" + Year + ";");
+                foreach (var rec in updatedRecords)
+                {
+                    int id = rec.Item1;
+                    int assignedNum = rec.Item2;
+                    string assignedNumString = rec.Item3.Replace("'", "''"); // 確保單引號轉義
+                    sb.AppendLine(
+                        "UPDATE dbo.Lights_Hs_info " +
+                        "SET Num = " + assignedNum + ", " +
+                        "    Num2String = N'" + assignedNumString + "' " +
+                        "WHERE LightsID = " + id + ";"
+                    );
+                }
+                string sqlBatchUpdate = sb.ToString();
+
+                try
+                {
+                    int rowsAffected = ExecuteSql(sqlBatchUpdate);
+                    if (rowsAffected > 0)
+                    {
+                        // 成功更新至少一筆
+                        return (updatedRecords.Count > 0);
+                    }
+                    else
+                    {
+                        // 防呆：SQL 執行後沒有影響到任何列，記一筆錯誤日誌，再回傳 false
+                        string err = "[UpdateLights_Hs_Info] 批量 UPDATE 未更新到任何記錄，SQL:\r\n" + sqlBatchUpdate;
+                        basePage.SaveErrorLog(err);
+                        return false;
+                    }
+                }
+                catch (Exception ex)
+                {
+                    // 捕捉執行 SQL 時的例外，記錯誤日誌，並回傳 false
+                    basePage.SaveErrorLog("[UpdateLights_Hs_Info] 批量 UPDATE 時發生例外：\r\n" + ex);
+                    return false;
+                }
+            }
+        }
+
+        /// <summary>
+        /// 更新並取得燈號資料 - 點燈 - 鹿港城隍廟
+        /// </summary>
+        /// <param name="applicantID">購買人編號</param>
+        /// <param name="LightsType">
+        /// 燈種代碼：
+        /// 3-光明燈、元神光明燈(鹿港城隍廟)、貴人燈(斗六五路財神宮)、平安燈(北極玄天宮、壽山巖觀音寺)
+        /// 4-安太歲、太歲燈、太歲平安符(鹿港城隍廟)、安奉太歲
+        /// 5-文昌燈、五文昌燈、文魁智慧燈(鹿港城隍廟)、文昌功名燈(桃園龍德宮)
+        /// 6-財神燈、發財燈、福財燈、正財福報燈(鹿港城隍廟)、招財燈(壽山巖觀音寺)、五路財神燈(桃園龍德宮)
+        /// 7-姻緣燈、桃花燈、月老桃花燈
+        /// 8-藥師燈 、藥師佛燈、消災延壽燈(斗六五路財神宮)、特別健康燈(石壁部堂)、健康延壽燈(桃園龍德宮)
+        /// 9-財利燈 
+        /// 10-貴人燈 、特別貴人燈(石壁部堂)
+        /// 11-福祿燈、福壽燈 
+        /// 12-寵物平安燈 
+        /// 13-龍王燈 
+        /// 14-虎爺燈 
+        /// 15-轉運納福燈 
+        /// 16-光明燈上層、玉皇燈(五股賀聖宮)
+        /// 17-偏財旺旺燈 
+        /// 18-廣進安財庫 
+        /// 19-財庫燈 
+        /// 20-月老姻緣燈
+        /// 21-孝親祈福燈 
+        /// 22-事業燈、特別事業燈(石壁部堂)
+        /// 23-全家光明燈 
+        /// 24-觀音佛祖燈 
+        /// 25-財神斗、財神斗/一個月(斗六五路財神宮)
+        /// 26-事業斗 
+        /// 27-平安斗 
+        /// 28-文昌斗 
+        /// 29-藥師斗 
+        /// 30-元神斗 
+        /// 31-福祿壽斗 
+        /// 32-觀音斗 
+        /// 33-明心智慧燈
+        /// 34-發財斗/一個月
+        /// 35-姻緣斗/一個月
+        /// 36-貴人斗/一個月
+        /// 37-消災延壽斗/一個月
+        /// 38-財神斗/三個月
+        /// 39-發財斗/三個月
+        /// 40-姻緣斗/三個月
+        /// 41-貴人斗/三個月
+        /// 42-消災延壽斗/三個月
+        /// 43-元辰斗燈、元辰燈(壽山巖觀音寺)
+        /// 44-求子燈
+        /// 45-護子燈
+        /// 46-添丁燈
+        /// 47-婚姻燈
+        /// 48-安太陰
+        /// 49-安太陽
+        /// 50-光明燈+批流年
+        /// 51-文昌燈+批流年
+        /// </param>
+        /// <param name="Year">年度字串，例如 "2025"</param>
+        /// <param name="msg">回傳給前端的訊息（各燈號編號＋客服電話）</param>
+        /// <param name="lightslist">回傳給前端的燈號清單（例如「太歲燈:TYA1001」）</param>
+        /// <param name="Lightslist">備用，可同樣回傳燈號字串陣列，視業務需求</param>
+        /// <returns>若有更新資料則回傳 true，否則回傳 false</returns>
+        public bool UpdateLights_Lk_Info(
+            int applicantID,
+            int LightsType,
+            string Year,
+            ref string msg,
+            ref string[] lightslist,
+            ref string[] Lightslist)
+        {
+            lock (_thisLock)
+            {
+                twbobibobi.Data.BasePage basePage = new twbobibobi.Data.BasePage();
+
+                // 1. 一次性取得所有已分配的編號 (Num > 0 且 Num2String 有值)
+                string sqlFetchExisting =
+                    "SELECT LightsType, Num " +
+                    "FROM Temple_" + Year + "..Lights_Lk_info " +
+                    "WHERE Status = 0 " +
+                    "  AND Num <> 0" +
+                    "  AND Num2String IS NOT NULL " +
+                    "  AND Num2String <> ''";
+
+                // 建立 DatabaseAdapter，並加入參數
+                DatabaseAdapter da = new DatabaseAdapter(sqlFetchExisting, this.DBSource);
+                da.SetSqlCommandBuilder();
+                DataTable dtExisting = new DataTable();
+                da.Fill(dtExisting);
+
+                // 建立各燈種對應的已用號碼集合
+                var usedNumsByType = new Dictionary<int, HashSet<int>>();
+                foreach (DataRow row in dtExisting.Rows)
+                {
+                    int type = Convert.ToInt32(row["LightsType"]);
+                    int num = Convert.ToInt32(row["Num"]);
+                    if (!usedNumsByType.ContainsKey(type))
+                        usedNumsByType[type] = new HashSet<int>();
+                    usedNumsByType[type].Add(num);
+                }
+
+                // 2. 一次性抓出所有需補號的列 (Num = 0)
+                DataTable dtToAssign = new DataTable();
+                string sqlFetchToAssign =
+                    "SELECT LightsID, LightsType " +
+                    "FROM Temple_" + Year + "..Lights_Lk_info " +
+                    "WHERE ApplicantID = @ApplicantID " +
+                    "  AND Status = 0 " +
+                    "  AND Num = 0 " +
+                    "ORDER BY LightsID";
+
+                {
+                    da = new DatabaseAdapter(sqlFetchToAssign, this.DBSource);
+                    da.SetSqlCommandBuilder();
+                    da.AddParameterToSelectCommand("ApplicantID", applicantID);
+                    da.Fill(dtToAssign);
+                }
+
+                int rowCount = dtToAssign.Rows.Count;
+                lightslist = new string[rowCount];
+                Lightslist = new string[rowCount];
+                // 用來存放要批量更新的資料 (LightsID, AssignedNum, AssignedNumString)
+                List<Tuple<int, int, string>> updatedRecords = new List<Tuple<int, int, string>>();
+
+                // 3. 逐筆在記憶體中分配「最小可用缺號」
+                for (int i = 0; i < rowCount; i++)
+                {
+                    DataRow row = dtToAssign.Rows[i];
+                    int dbLightsID = Convert.ToInt32(row["LightsID"]);
+                    int dbLightsType = Convert.ToInt32(row["LightsType"]);
+
+                    if (!usedNumsByType.ContainsKey(dbLightsType))
+                        usedNumsByType[dbLightsType] = new HashSet<int>();
+
+                    // 找下一個可用編號 (從 1001 開始往上搜尋)
+                    var usedSet = usedNumsByType[dbLightsType];
+                    int nextNum = 1001;
+                    while (usedSet.Contains(nextNum))
+                    {
+                        nextNum++;
+                    }
+
+                    // 根據不同燈種決定前綴字串
+                    string prefix = "";
+                    switch (dbLightsType)
+                    {
+                        case 3: prefix = "LKS"; break;  // 元神光明燈
+                        case 4: prefix = "LKA"; break;  // 太歲平安符
+                        case 5: prefix = "LKW"; break;  // 文魁智慧燈
+                        case 6: prefix = "LKT"; break;  // 正財福報燈
+                        case 15: prefix = "LKAA"; break;  // 轉運納福燈
+                        case 16: prefix = "LKSS"; break;  // 光明燈上層
+                        case 17: prefix = "LK2T"; break;  // 偏財旺旺燈
+                        case 18: prefix = "LK3T"; break;  // 廣進安財庫
+                    }
+                    string numString = prefix + nextNum.ToString();
+                    Lightslist[i] = numString;
+
+                    // 將這筆資料加入批量更新清單
+                    updatedRecords.Add(new Tuple<int, int, string>(dbLightsID, nextNum, numString));
+
+                    // 準備回傳給前端的燈號字串
+                    string typeName = "";
+                    switch (dbLightsType)
+                    {
+                        case 3: typeName = "元神光明燈"; break;
+                        case 4: typeName = "太歲平安符"; break;
+                        case 5: typeName = "文魁智慧燈"; break;
+                        case 6: typeName = "正財福報燈"; break;
+                        case 15: typeName = "轉運納福燈"; break;
+                        case 16: typeName = "光明燈上層"; break;
+                        case 17: typeName = "偏財旺旺燈"; break;
+                        case 18: typeName = "廣進安財庫"; break;
+                    }
+                    lightslist[i] = typeName + ":" + numString;
+
+                    // 把已分配的 nextNum 加入 usedNumsByType，避免重複
+                    usedSet.Add(nextNum);
+                }
+
+                // 組出 msg，格式為「燈種1:編號,燈種2:編號,...。客服電話：04-36092299。」
+                msg += string.Join(",", lightslist) + "。客服電話：04-36092299。";
+
+                // 5. 一次性批量 UPDATE 回資料庫
+                //    以下示範用動態 SQL 拼接多筆 UPDATE，若更新筆數很多建議改用 TVP + 存儲過程
+                System.Text.StringBuilder sb = new System.Text.StringBuilder();
+                sb.AppendLine("USE Temple_" + Year + ";");
+                foreach (var rec in updatedRecords)
+                {
+                    int id = rec.Item1;
+                    int assignedNum = rec.Item2;
+                    string assignedNumString = rec.Item3.Replace("'", "''"); // 確保單引號轉義
+                    sb.AppendLine(
+                        "UPDATE dbo.Lights_Lk_info " +
+                        "SET Num = " + assignedNum + ", " +
+                        "    Num2String = N'" + assignedNumString + "' " +
+                        "WHERE LightsID = " + id + ";"
+                    );
+                }
+                string sqlBatchUpdate = sb.ToString();
+
+                try
+                {
+                    int rowsAffected = ExecuteSql(sqlBatchUpdate);
+                    if (rowsAffected > 0)
+                    {
+                        // 成功更新至少一筆
+                        return (updatedRecords.Count > 0);
+                    }
+                    else
+                    {
+                        // 防呆：SQL 執行後沒有影響到任何列，記一筆錯誤日誌，再回傳 false
+                        string err = "[UpdateLights_Lk_Info] 批量 UPDATE 未更新到任何記錄，SQL:\r\n" + sqlBatchUpdate;
+                        basePage.SaveErrorLog(err);
+                        return false;
+                    }
+                }
+                catch (Exception ex)
+                {
+                    // 捕捉執行 SQL 時的例外，記錯誤日誌，並回傳 false
+                    basePage.SaveErrorLog("[UpdateLights_Lk_Info] 批量 UPDATE 時發生例外：\r\n" + ex);
+                    return false;
+                }
+            }
+        }
+
+        /// <summary>
+        /// 更新並取得燈號資料 - 點燈 - 玉敕大樹朝天宮
+        /// </summary>
+        /// <param name="applicantID">購買人編號</param>
+        /// <param name="LightsType">
+        /// 燈種代碼：
+        /// 3-光明燈、元神光明燈(鹿港城隍廟)、貴人燈(斗六五路財神宮)、平安燈(北極玄天宮、壽山巖觀音寺)
+        /// 4-安太歲、太歲燈、太歲平安符(鹿港城隍廟)、安奉太歲
+        /// 5-文昌燈、五文昌燈、文魁智慧燈(鹿港城隍廟)、文昌功名燈(桃園龍德宮)
+        /// 6-財神燈、發財燈、福財燈、正財福報燈(鹿港城隍廟)、招財燈(壽山巖觀音寺)、五路財神燈(桃園龍德宮)
+        /// 7-姻緣燈、桃花燈、月老桃花燈
+        /// 8-藥師燈 、藥師佛燈、消災延壽燈(斗六五路財神宮)、特別健康燈(石壁部堂)、健康延壽燈(桃園龍德宮)
+        /// 9-財利燈 
+        /// 10-貴人燈 、特別貴人燈(石壁部堂)
+        /// 11-福祿燈、福壽燈 
+        /// 12-寵物平安燈 
+        /// 13-龍王燈 
+        /// 14-虎爺燈 
+        /// 15-轉運納福燈 
+        /// 16-光明燈上層、玉皇燈(五股賀聖宮)
+        /// 17-偏財旺旺燈 
+        /// 18-廣進安財庫 
+        /// 19-財庫燈 
+        /// 20-月老姻緣燈
+        /// 21-孝親祈福燈 
+        /// 22-事業燈、特別事業燈(石壁部堂)
+        /// 23-全家光明燈 
+        /// 24-觀音佛祖燈 
+        /// 25-財神斗、財神斗/一個月(斗六五路財神宮)
+        /// 26-事業斗 
+        /// 27-平安斗 
+        /// 28-文昌斗 
+        /// 29-藥師斗 
+        /// 30-元神斗 
+        /// 31-福祿壽斗 
+        /// 32-觀音斗 
+        /// 33-明心智慧燈
+        /// 34-發財斗/一個月
+        /// 35-姻緣斗/一個月
+        /// 36-貴人斗/一個月
+        /// 37-消災延壽斗/一個月
+        /// 38-財神斗/三個月
+        /// 39-發財斗/三個月
+        /// 40-姻緣斗/三個月
+        /// 41-貴人斗/三個月
+        /// 42-消災延壽斗/三個月
+        /// 43-元辰斗燈、元辰燈(壽山巖觀音寺)
+        /// 44-求子燈
+        /// 45-護子燈
+        /// 46-添丁燈
+        /// 47-婚姻燈
+        /// 48-安太陰
+        /// 49-安太陽
+        /// 50-光明燈+批流年
+        /// 51-文昌燈+批流年
+        /// </param>
+        /// <param name="Year">年度字串，例如 "2025"</param>
+        /// <param name="msg">回傳給前端的訊息（各燈號編號＋客服電話）</param>
+        /// <param name="lightslist">回傳給前端的燈號清單（例如「太歲燈:TYA1001」）</param>
+        /// <param name="Lightslist">備用，可同樣回傳燈號字串陣列，視業務需求</param>
+        /// <returns>若有更新資料則回傳 true，否則回傳 false</returns>
+        public bool UpdateLights_ma_Info(
+            int applicantID,
+            int LightsType,
+            string Year,
+            ref string msg,
+            ref string[] lightslist,
+            ref string[] Lightslist)
+        {
+            lock (_thisLock)
+            {
+                twbobibobi.Data.BasePage basePage = new twbobibobi.Data.BasePage();
+
+                // 1. 一次性取得所有已分配的編號 (Num > 0 且 Num2String 有值)
+                string sqlFetchExisting =
+                    "SELECT LightsType, Num " +
+                    "FROM Temple_" + Year + "..Lights_ma_info " +
+                    "WHERE Status = 0 " +
+                    "  AND Num <> 0" +
+                    "  AND Num2String IS NOT NULL " +
+                    "  AND Num2String <> ''";
+
+                // 建立 DatabaseAdapter，並加入參數
+                DatabaseAdapter da = new DatabaseAdapter(sqlFetchExisting, this.DBSource);
+                da.SetSqlCommandBuilder();
+                DataTable dtExisting = new DataTable();
+                da.Fill(dtExisting);
+
+                // 建立各燈種對應的已用號碼集合
+                var usedNumsByType = new Dictionary<int, HashSet<int>>();
+                foreach (DataRow row in dtExisting.Rows)
+                {
+                    int type = Convert.ToInt32(row["LightsType"]);
+                    int num = Convert.ToInt32(row["Num"]);
+                    if (!usedNumsByType.ContainsKey(type))
+                        usedNumsByType[type] = new HashSet<int>();
+                    usedNumsByType[type].Add(num);
+                }
+
+                // 2. 一次性抓出所有需補號的列 (Num = 0)
+                DataTable dtToAssign = new DataTable();
+                string sqlFetchToAssign =
+                    "SELECT LightsID, LightsType " +
+                    "FROM Temple_" + Year + "..Lights_ma_info " +
+                    "WHERE ApplicantID = @ApplicantID " +
+                    "  AND Status = 0 " +
+                    "  AND Num = 0 " +
+                    "ORDER BY LightsID";
+
+                {
+                    da = new DatabaseAdapter(sqlFetchToAssign, this.DBSource);
+                    da.SetSqlCommandBuilder();
+                    da.AddParameterToSelectCommand("ApplicantID", applicantID);
+                    da.Fill(dtToAssign);
+                }
+
+                int rowCount = dtToAssign.Rows.Count;
+                lightslist = new string[rowCount];
+                Lightslist = new string[rowCount];
+                // 用來存放要批量更新的資料 (LightsID, AssignedNum, AssignedNumString)
+                List<Tuple<int, int, string>> updatedRecords = new List<Tuple<int, int, string>>();
+
+                // 3. 逐筆在記憶體中分配「最小可用缺號」
+                for (int i = 0; i < rowCount; i++)
+                {
+                    DataRow row = dtToAssign.Rows[i];
+                    int dbLightsID = Convert.ToInt32(row["LightsID"]);
+                    int dbLightsType = Convert.ToInt32(row["LightsType"]);
+
+                    if (!usedNumsByType.ContainsKey(dbLightsType))
+                        usedNumsByType[dbLightsType] = new HashSet<int>();
+
+                    // 找下一個可用編號 (從 1001 開始往上搜尋)
+                    var usedSet = usedNumsByType[dbLightsType];
+                    int nextNum = 1001;
+                    while (usedSet.Contains(nextNum))
+                    {
+                        nextNum++;
+                    }
+
+                    // 根據不同燈種決定前綴字串
+                    string prefix = "";
+                    switch (dbLightsType)
+                    {
+                        case 3: prefix = "MAS"; break;  // 光明燈
+                        case 4: prefix = "MAA"; break;  // 安太歲
+                        case 5: prefix = "MAW"; break;  // 五文昌燈
+                        case 6: prefix = "MAT"; break;  // 福財燈
+                    }
+                    string numString = prefix + nextNum.ToString();
+                    Lightslist[i] = numString;
+
+                    // 將這筆資料加入批量更新清單
+                    updatedRecords.Add(new Tuple<int, int, string>(dbLightsID, nextNum, numString));
+
+                    // 準備回傳給前端的燈號字串
+                    string typeName = "";
+                    switch (dbLightsType)
+                    {
+                        case 3: typeName = "光明燈"; break;
+                        case 4: typeName = "太歲燈"; break;
+                        case 5: typeName = "五文昌燈"; break;
+                        case 6: typeName = "福財燈"; break;
+                    }
+                    lightslist[i] = typeName + ":" + numString;
+
+                    // 把已分配的 nextNum 加入 usedNumsByType，避免重複
+                    usedSet.Add(nextNum);
+                }
+
+                // 組出 msg，格式為「燈種1:編號,燈種2:編號,...。客服電話：04-36092299。」
+                msg += string.Join(",", lightslist) + "。客服電話：04-36092299。";
+
+                // 5. 一次性批量 UPDATE 回資料庫
+                //    以下示範用動態 SQL 拼接多筆 UPDATE，若更新筆數很多建議改用 TVP + 存儲過程
+                System.Text.StringBuilder sb = new System.Text.StringBuilder();
+                sb.AppendLine("USE Temple_" + Year + ";");
+                foreach (var rec in updatedRecords)
+                {
+                    int id = rec.Item1;
+                    int assignedNum = rec.Item2;
+                    string assignedNumString = rec.Item3.Replace("'", "''"); // 確保單引號轉義
+                    sb.AppendLine(
+                        "UPDATE dbo.Lights_ma_info " +
+                        "SET Num = " + assignedNum + ", " +
+                        "    Num2String = N'" + assignedNumString + "' " +
+                        "WHERE LightsID = " + id + ";"
+                    );
+                }
+                string sqlBatchUpdate = sb.ToString();
+
+                try
+                {
+                    int rowsAffected = ExecuteSql(sqlBatchUpdate);
+                    if (rowsAffected > 0)
+                    {
+                        // 成功更新至少一筆
+                        return (updatedRecords.Count > 0);
+                    }
+                    else
+                    {
+                        // 防呆：SQL 執行後沒有影響到任何列，記一筆錯誤日誌，再回傳 false
+                        string err = "[UpdateLights_ma_Info] 批量 UPDATE 未更新到任何記錄，SQL:\r\n" + sqlBatchUpdate;
+                        basePage.SaveErrorLog(err);
+                        return false;
+                    }
+                }
+                catch (Exception ex)
+                {
+                    // 捕捉執行 SQL 時的例外，記錯誤日誌，並回傳 false
+                    basePage.SaveErrorLog("[UpdateLights_ma_Info] 批量 UPDATE 時發生例外：\r\n" + ex);
+                    return false;
+                }
+            }
+        }
+
+        /// <summary>
+        /// 更新並取得燈號資料 - 點燈 - 進寶財神廟
+        /// </summary>
+        /// <param name="applicantID">購買人編號</param>
+        /// <param name="LightsType">
+        /// 燈種代碼：
+        /// 3-光明燈、元神光明燈(鹿港城隍廟)、貴人燈(斗六五路財神宮)、平安燈(北極玄天宮、壽山巖觀音寺)
+        /// 4-安太歲、太歲燈、太歲平安符(鹿港城隍廟)、安奉太歲
+        /// 5-文昌燈、五文昌燈、文魁智慧燈(鹿港城隍廟)、文昌功名燈(桃園龍德宮)
+        /// 6-財神燈、發財燈、福財燈、正財福報燈(鹿港城隍廟)、招財燈(壽山巖觀音寺)、五路財神燈(桃園龍德宮)
+        /// 7-姻緣燈、桃花燈、月老桃花燈
+        /// 8-藥師燈 、藥師佛燈、消災延壽燈(斗六五路財神宮)、特別健康燈(石壁部堂)、健康延壽燈(桃園龍德宮)
+        /// 9-財利燈 
+        /// 10-貴人燈 、特別貴人燈(石壁部堂)
+        /// 11-福祿燈、福壽燈 
+        /// 12-寵物平安燈 
+        /// 13-龍王燈 
+        /// 14-虎爺燈 
+        /// 15-轉運納福燈 
+        /// 16-光明燈上層、玉皇燈(五股賀聖宮)
+        /// 17-偏財旺旺燈 
+        /// 18-廣進安財庫 
+        /// 19-財庫燈 
+        /// 20-月老姻緣燈
+        /// 21-孝親祈福燈 
+        /// 22-事業燈、特別事業燈(石壁部堂)
+        /// 23-全家光明燈 
+        /// 24-觀音佛祖燈 
+        /// 25-財神斗、財神斗/一個月(斗六五路財神宮)
+        /// 26-事業斗 
+        /// 27-平安斗 
+        /// 28-文昌斗 
+        /// 29-藥師斗 
+        /// 30-元神斗 
+        /// 31-福祿壽斗 
+        /// 32-觀音斗 
+        /// 33-明心智慧燈
+        /// 34-發財斗/一個月
+        /// 35-姻緣斗/一個月
+        /// 36-貴人斗/一個月
+        /// 37-消災延壽斗/一個月
+        /// 38-財神斗/三個月
+        /// 39-發財斗/三個月
+        /// 40-姻緣斗/三個月
+        /// 41-貴人斗/三個月
+        /// 42-消災延壽斗/三個月
+        /// 43-元辰斗燈、元辰燈(壽山巖觀音寺)
+        /// 44-求子燈
+        /// 45-護子燈
+        /// 46-添丁燈
+        /// 47-婚姻燈
+        /// 48-安太陰
+        /// 49-安太陽
+        /// 50-光明燈+批流年
+        /// 51-文昌燈+批流年
+        /// </param>
+        /// <param name="Year">年度字串，例如 "2025"</param>
+        /// <param name="msg">回傳給前端的訊息（各燈號編號＋客服電話）</param>
+        /// <param name="lightslist">回傳給前端的燈號清單（例如「太歲燈:TYA1001」）</param>
+        /// <param name="Lightslist">備用，可同樣回傳燈號字串陣列，視業務需求</param>
+        /// <returns>若有更新資料則回傳 true，否則回傳 false</returns>
+        public bool UpdateLights_jb_Info(
+            int applicantID,
+            int LightsType,
+            string Year,
+            ref string msg,
+            ref string[] lightslist,
+            ref string[] Lightslist)
+        {
+            lock (_thisLock)
+            {
+                twbobibobi.Data.BasePage basePage = new twbobibobi.Data.BasePage();
+
+                // 1. 一次性取得所有已分配的編號 (Num > 0 且 Num2String 有值)
+                string sqlFetchExisting =
+                    "SELECT LightsType, Num " +
+                    "FROM Temple_" + Year + "..Lights_jb_info " +
+                    "WHERE Status = 0 " +
+                    "  AND Num <> 0" +
+                    "  AND Num2String IS NOT NULL " +
+                    "  AND Num2String <> ''";
+
+                // 建立 DatabaseAdapter，並加入參數
+                DatabaseAdapter da = new DatabaseAdapter(sqlFetchExisting, this.DBSource);
+                da.SetSqlCommandBuilder();
+                DataTable dtExisting = new DataTable();
+                da.Fill(dtExisting);
+
+                // 建立各燈種對應的已用號碼集合
+                var usedNumsByType = new Dictionary<int, HashSet<int>>();
+                foreach (DataRow row in dtExisting.Rows)
+                {
+                    int type = Convert.ToInt32(row["LightsType"]);
+                    int num = Convert.ToInt32(row["Num"]);
+                    if (!usedNumsByType.ContainsKey(type))
+                        usedNumsByType[type] = new HashSet<int>();
+                    usedNumsByType[type].Add(num);
+                }
+
+                // 2. 一次性抓出所有需補號的列 (Num = 0)
+                DataTable dtToAssign = new DataTable();
+                string sqlFetchToAssign =
+                    "SELECT LightsID, LightsType " +
+                    "FROM Temple_" + Year + "..Lights_jb_info " +
+                    "WHERE ApplicantID = @ApplicantID " +
+                    "  AND Status = 0 " +
+                    "  AND Num = 0 " +
+                    "ORDER BY LightsID";
+
+                {
+                    da = new DatabaseAdapter(sqlFetchToAssign, this.DBSource);
+                    da.SetSqlCommandBuilder();
+                    da.AddParameterToSelectCommand("ApplicantID", applicantID);
+                    da.Fill(dtToAssign);
+                }
+
+                int rowCount = dtToAssign.Rows.Count;
+                lightslist = new string[rowCount];
+                Lightslist = new string[rowCount];
+                // 用來存放要批量更新的資料 (LightsID, AssignedNum, AssignedNumString)
+                List<Tuple<int, int, string>> updatedRecords = new List<Tuple<int, int, string>>();
+
+                // 3. 逐筆在記憶體中分配「最小可用缺號」
+                for (int i = 0; i < rowCount; i++)
+                {
+                    DataRow row = dtToAssign.Rows[i];
+                    int dbLightsID = Convert.ToInt32(row["LightsID"]);
+                    int dbLightsType = Convert.ToInt32(row["LightsType"]);
+
+                    if (!usedNumsByType.ContainsKey(dbLightsType))
+                        usedNumsByType[dbLightsType] = new HashSet<int>();
+
+                    // 找下一個可用編號 (從 1001 開始往上搜尋)
+                    var usedSet = usedNumsByType[dbLightsType];
+                    int nextNum = 1001;
+                    while (usedSet.Contains(nextNum))
+                    {
+                        nextNum++;
+                    }
+
+                    // 根據不同燈種決定前綴字串
+                    string prefix = "";
+                    switch (dbLightsType)
+                    {
+                        case 3: prefix = "JBS"; break;  // 光明燈
+                        case 4: prefix = "JBA"; break;  // 安太歲
+                        case 9: prefix = "JBT"; break;  // 財利燈
+                        case 10: prefix = "JBN"; break;  // 貴人燈
+                        case 12: prefix = "JBP"; break;  // 寵物平安燈
+                    }
+                    string numString = prefix + nextNum.ToString();
+                    Lightslist[i] = numString;
+
+                    // 將這筆資料加入批量更新清單
+                    updatedRecords.Add(new Tuple<int, int, string>(dbLightsID, nextNum, numString));
+
+                    // 準備回傳給前端的燈號字串
+                    string typeName = "";
+                    switch (dbLightsType)
+                    {
+                        case 3: typeName = "光明燈"; break;
+                        case 4: typeName = "太歲燈"; break;
+                        case 9: typeName = "財利燈"; break;
+                        case 10: typeName = "貴人燈"; break;
+                        case 12: typeName = "寵物平安燈"; break;
+                    }
+                    lightslist[i] = typeName + ":" + numString;
+
+                    // 把已分配的 nextNum 加入 usedNumsByType，避免重複
+                    usedSet.Add(nextNum);
+                }
+
+                // 組出 msg，格式為「燈種1:編號,燈種2:編號,...。客服電話：04-36092299。」
+                msg += string.Join(",", lightslist) + "。客服電話：04-36092299。";
+
+                // 5. 一次性批量 UPDATE 回資料庫
+                //    以下示範用動態 SQL 拼接多筆 UPDATE，若更新筆數很多建議改用 TVP + 存儲過程
+                System.Text.StringBuilder sb = new System.Text.StringBuilder();
+                sb.AppendLine("USE Temple_" + Year + ";");
+                foreach (var rec in updatedRecords)
+                {
+                    int id = rec.Item1;
+                    int assignedNum = rec.Item2;
+                    string assignedNumString = rec.Item3.Replace("'", "''"); // 確保單引號轉義
+                    sb.AppendLine(
+                        "UPDATE dbo.Lights_jb_info " +
+                        "SET Num = " + assignedNum + ", " +
+                        "    Num2String = N'" + assignedNumString + "' " +
+                        "WHERE LightsID = " + id + ";"
+                    );
+                }
+                string sqlBatchUpdate = sb.ToString();
+
+                try
+                {
+                    int rowsAffected = ExecuteSql(sqlBatchUpdate);
+                    if (rowsAffected > 0)
+                    {
+                        // 成功更新至少一筆
+                        return (updatedRecords.Count > 0);
+                    }
+                    else
+                    {
+                        // 防呆：SQL 執行後沒有影響到任何列，記一筆錯誤日誌，再回傳 false
+                        string err = "[UpdateLights_jb_Info] 批量 UPDATE 未更新到任何記錄，SQL:\r\n" + sqlBatchUpdate;
+                        basePage.SaveErrorLog(err);
+                        return false;
+                    }
+                }
+                catch (Exception ex)
+                {
+                    // 捕捉執行 SQL 時的例外，記錯誤日誌，並回傳 false
+                    basePage.SaveErrorLog("[UpdateLights_jb_Info] 批量 UPDATE 時發生例外：\r\n" + ex);
+                    return false;
+                }
+            }
+        }
+
+        /// <summary>
+        /// 更新並取得燈號資料 - 點燈 - 台灣道教總廟無極三清總道院
+        /// </summary>
+        /// <param name="applicantID">購買人編號</param>
+        /// <param name="LightsType">
+        /// 燈種代碼：
+        /// 3-光明燈、元神光明燈(鹿港城隍廟)、貴人燈(斗六五路財神宮)、平安燈(北極玄天宮、壽山巖觀音寺)
+        /// 4-安太歲、太歲燈、太歲平安符(鹿港城隍廟)、安奉太歲
+        /// 5-文昌燈、五文昌燈、文魁智慧燈(鹿港城隍廟)、文昌功名燈(桃園龍德宮)
+        /// 6-財神燈、發財燈、福財燈、正財福報燈(鹿港城隍廟)、招財燈(壽山巖觀音寺)、五路財神燈(桃園龍德宮)
+        /// 7-姻緣燈、桃花燈、月老桃花燈
+        /// 8-藥師燈 、藥師佛燈、消災延壽燈(斗六五路財神宮)、特別健康燈(石壁部堂)、健康延壽燈(桃園龍德宮)
+        /// 9-財利燈 
+        /// 10-貴人燈 、特別貴人燈(石壁部堂)
+        /// 11-福祿燈、福壽燈 
+        /// 12-寵物平安燈 
+        /// 13-龍王燈 
+        /// 14-虎爺燈 
+        /// 15-轉運納福燈 
+        /// 16-光明燈上層、玉皇燈(五股賀聖宮)
+        /// 17-偏財旺旺燈 
+        /// 18-廣進安財庫 
+        /// 19-財庫燈 
+        /// 20-月老姻緣燈
+        /// 21-孝親祈福燈 
+        /// 22-事業燈、特別事業燈(石壁部堂)
+        /// 23-全家光明燈 
+        /// 24-觀音佛祖燈 
+        /// 25-財神斗、財神斗/一個月(斗六五路財神宮)
+        /// 26-事業斗 
+        /// 27-平安斗 
+        /// 28-文昌斗 
+        /// 29-藥師斗 
+        /// 30-元神斗 
+        /// 31-福祿壽斗 
+        /// 32-觀音斗 
+        /// 33-明心智慧燈
+        /// 34-發財斗/一個月
+        /// 35-姻緣斗/一個月
+        /// 36-貴人斗/一個月
+        /// 37-消災延壽斗/一個月
+        /// 38-財神斗/三個月
+        /// 39-發財斗/三個月
+        /// 40-姻緣斗/三個月
+        /// 41-貴人斗/三個月
+        /// 42-消災延壽斗/三個月
+        /// 43-元辰斗燈、元辰燈(壽山巖觀音寺)
+        /// 44-求子燈
+        /// 45-護子燈
+        /// 46-添丁燈
+        /// 47-婚姻燈
+        /// 48-安太陰
+        /// 49-安太陽
+        /// 50-光明燈+批流年
+        /// 51-文昌燈+批流年
+        /// </param>
+        /// <param name="Year">年度字串，例如 "2025"</param>
+        /// <param name="msg">回傳給前端的訊息（各燈號編號＋客服電話）</param>
+        /// <param name="lightslist">回傳給前端的燈號清單（例如「太歲燈:TYA1001」）</param>
+        /// <param name="Lightslist">備用，可同樣回傳燈號字串陣列，視業務需求</param>
+        /// <returns>若有更新資料則回傳 true，否則回傳 false</returns>
+        public bool UpdateLights_wjsan_Info(
+            int applicantID,
+            int LightsType,
+            string Year,
+            ref string msg,
+            ref string[] lightslist,
+            ref string[] Lightslist)
+        {
+            lock (_thisLock)
+            {
+                twbobibobi.Data.BasePage basePage = new twbobibobi.Data.BasePage();
+
+                // 1. 一次性取得所有已分配的編號 (Num > 0 且 Num2String 有值)
+                string sqlFetchExisting =
+                    "SELECT LightsType, Num " +
+                    "FROM Temple_" + Year + "..Lights_wjsan_info " +
+                    "WHERE Status = 0 " +
+                    "  AND Num <> 0" +
+                    "  AND Num2String IS NOT NULL " +
+                    "  AND Num2String <> ''";
+
+                // 建立 DatabaseAdapter，並加入參數
+                DatabaseAdapter da = new DatabaseAdapter(sqlFetchExisting, this.DBSource);
+                da.SetSqlCommandBuilder();
+                DataTable dtExisting = new DataTable();
+                da.Fill(dtExisting);
+
+                // 建立各燈種對應的已用號碼集合
+                var usedNumsByType = new Dictionary<int, HashSet<int>>();
+                foreach (DataRow row in dtExisting.Rows)
+                {
+                    int type = Convert.ToInt32(row["LightsType"]);
+                    int num = Convert.ToInt32(row["Num"]);
+                    if (!usedNumsByType.ContainsKey(type))
+                        usedNumsByType[type] = new HashSet<int>();
+                    usedNumsByType[type].Add(num);
+                }
+
+                // 2. 一次性抓出所有需補號的列 (Num = 0)
+                DataTable dtToAssign = new DataTable();
+                string sqlFetchToAssign =
+                    "SELECT LightsID, LightsType " +
+                    "FROM Temple_" + Year + "..Lights_wjsan_info " +
+                    "WHERE ApplicantID = @ApplicantID " +
+                    "  AND Status = 0 " +
+                    "  AND Num = 0 " +
+                    "ORDER BY LightsID";
+
+                {
+                    da = new DatabaseAdapter(sqlFetchToAssign, this.DBSource);
+                    da.SetSqlCommandBuilder();
+                    da.AddParameterToSelectCommand("ApplicantID", applicantID);
+                    da.Fill(dtToAssign);
+                }
+
+                int rowCount = dtToAssign.Rows.Count;
+                lightslist = new string[rowCount];
+                Lightslist = new string[rowCount];
+                // 用來存放要批量更新的資料 (LightsID, AssignedNum, AssignedNumString)
+                List<Tuple<int, int, string>> updatedRecords = new List<Tuple<int, int, string>>();
+
+                // 3. 逐筆在記憶體中分配「最小可用缺號」
+                for (int i = 0; i < rowCount; i++)
+                {
+                    DataRow row = dtToAssign.Rows[i];
+                    int dbLightsID = Convert.ToInt32(row["LightsID"]);
+                    int dbLightsType = Convert.ToInt32(row["LightsType"]);
+
+                    if (!usedNumsByType.ContainsKey(dbLightsType))
+                        usedNumsByType[dbLightsType] = new HashSet<int>();
+
+                    // 找下一個可用編號 (從 1001 開始往上搜尋)
+                    var usedSet = usedNumsByType[dbLightsType];
+                    int nextNum = 1001;
+                    while (usedSet.Contains(nextNum))
+                    {
+                        nextNum++;
+                    }
+
+                    // 根據不同燈種決定前綴字串
+                    string prefix = "";
+                    switch (dbLightsType)
+                    {
+                        case 3: prefix = "WJSS"; break;  // 光明燈
+                        case 4: prefix = "WJSA"; break;  // 安太歲
+                        case 5: prefix = "WJSW"; break;  // 文昌燈
+                        case 6: prefix = "WJST"; break;  // 財神燈
+                        case 8: prefix = "WJSY"; break;  // 藥師燈
+                        case 22: prefix = "WJSC"; break;  // 事業燈
+                        case 23: prefix = "WJSFS"; break;  // 全家光明燈
+                        case 25: prefix = "WJSTDL"; break;  // 財神斗
+                        case 26: prefix = "WJSCDL"; break;  // 事業斗
+                        case 27: prefix = "WJSPDL"; break;  // 平安斗
+                        case 28: prefix = "WJSWDL"; break;  // 文昌斗
+                        case 29: prefix = "WJSYDL"; break;  // 藥師斗
+                        case 30: prefix = "WJSPSDL"; break;  // 元神斗
+                        case 31: prefix = "WJSLDL"; break;  // 福祿壽斗
+                        case 32: prefix = "WJSKYDL"; break;  // 觀音斗
+                    }
+                    string numString = prefix + nextNum.ToString();
+                    Lightslist[i] = numString;
+
+                    // 將這筆資料加入批量更新清單
+                    updatedRecords.Add(new Tuple<int, int, string>(dbLightsID, nextNum, numString));
+
+                    // 準備回傳給前端的燈號字串
+                    string typeName = "";
+                    switch (dbLightsType)
+                    {
+                        case 3: typeName = "光明燈"; break;
+                        case 4: typeName = "太歲燈"; break;
+                        case 5: typeName = "文昌燈"; break;
+                        case 6: typeName = "財神燈"; break;
+                        case 8: typeName = "藥師燈"; break;
+                        case 22: typeName = "事業燈"; break;
+                        case 23: typeName = "全家光明燈"; break;
+                        case 25: typeName = "財神斗"; break;
+                        case 26: typeName = "事業斗"; break;
+                        case 27: typeName = "平安斗"; break;
+                        case 28: typeName = "文昌斗"; break;
+                        case 29: typeName = "藥師斗"; break;
+                        case 30: typeName = "元神斗"; break;
+                        case 31: typeName = "福祿壽斗"; break;
+                        case 32: typeName = "觀音斗"; break;
+                    }
+                    lightslist[i] = typeName + ":" + numString;
+
+                    // 把已分配的 nextNum 加入 usedNumsByType，避免重複
+                    usedSet.Add(nextNum);
+                }
+
+                // 組出 msg，格式為「燈種1:編號,燈種2:編號,...。客服電話：04-36092299。」
+                msg += string.Join(",", lightslist) + "。客服電話：04-36092299。";
+
+                // 5. 一次性批量 UPDATE 回資料庫
+                //    以下示範用動態 SQL 拼接多筆 UPDATE，若更新筆數很多建議改用 TVP + 存儲過程
+                System.Text.StringBuilder sb = new System.Text.StringBuilder();
+                sb.AppendLine("USE Temple_" + Year + ";");
+                foreach (var rec in updatedRecords)
+                {
+                    int id = rec.Item1;
+                    int assignedNum = rec.Item2;
+                    string assignedNumString = rec.Item3.Replace("'", "''"); // 確保單引號轉義
+                    sb.AppendLine(
+                        "UPDATE dbo.Lights_wjsan_info " +
+                        "SET Num = " + assignedNum + ", " +
+                        "    Num2String = N'" + assignedNumString + "' " +
+                        "WHERE LightsID = " + id + ";"
+                    );
+                }
+                string sqlBatchUpdate = sb.ToString();
+
+                try
+                {
+                    int rowsAffected = ExecuteSql(sqlBatchUpdate);
+                    if (rowsAffected > 0)
+                    {
+                        // 成功更新至少一筆
+                        return (updatedRecords.Count > 0);
+                    }
+                    else
+                    {
+                        // 防呆：SQL 執行後沒有影響到任何列，記一筆錯誤日誌，再回傳 false
+                        string err = "[UpdateLights_wjsan_Info] 批量 UPDATE 未更新到任何記錄，SQL:\r\n" + sqlBatchUpdate;
+                        basePage.SaveErrorLog(err);
+                        return false;
+                    }
+                }
+                catch (Exception ex)
+                {
+                    // 捕捉執行 SQL 時的例外，記錯誤日誌，並回傳 false
+                    basePage.SaveErrorLog("[UpdateLights_wjsan_Info] 批量 UPDATE 時發生例外：\r\n" + ex);
+                    return false;
+                }
+            }
+        }
+
+        /// <summary>
+        /// 更新並取得燈號資料 - 點燈 - 桃園龍德宮
+        /// </summary>
+        /// <param name="applicantID">購買人編號</param>
+        /// <param name="LightsType">
+        /// 燈種代碼：
+        /// 3-光明燈、元神光明燈(鹿港城隍廟)、貴人燈(斗六五路財神宮)、平安燈(北極玄天宮、壽山巖觀音寺)
+        /// 4-安太歲、太歲燈、太歲平安符(鹿港城隍廟)、安奉太歲
+        /// 5-文昌燈、五文昌燈、文魁智慧燈(鹿港城隍廟)、文昌功名燈(桃園龍德宮)
+        /// 6-財神燈、發財燈、福財燈、正財福報燈(鹿港城隍廟)、招財燈(壽山巖觀音寺)、五路財神燈(桃園龍德宮)
+        /// 7-姻緣燈、桃花燈、月老桃花燈
+        /// 8-藥師燈 、藥師佛燈、消災延壽燈(斗六五路財神宮)、特別健康燈(石壁部堂)、健康延壽燈(桃園龍德宮)
+        /// 9-財利燈 
+        /// 10-貴人燈 、特別貴人燈(石壁部堂)
+        /// 11-福祿燈、福壽燈 
+        /// 12-寵物平安燈 
+        /// 13-龍王燈 
+        /// 14-虎爺燈 
+        /// 15-轉運納福燈 
+        /// 16-光明燈上層、玉皇燈(五股賀聖宮)
+        /// 17-偏財旺旺燈 
+        /// 18-廣進安財庫 
+        /// 19-財庫燈 
+        /// 20-月老姻緣燈
+        /// 21-孝親祈福燈 
+        /// 22-事業燈、特別事業燈(石壁部堂)
+        /// 23-全家光明燈 
+        /// 24-觀音佛祖燈 
+        /// 25-財神斗、財神斗/一個月(斗六五路財神宮)
+        /// 26-事業斗 
+        /// 27-平安斗 
+        /// 28-文昌斗 
+        /// 29-藥師斗 
+        /// 30-元神斗 
+        /// 31-福祿壽斗 
+        /// 32-觀音斗 
+        /// 33-明心智慧燈
+        /// 34-發財斗/一個月
+        /// 35-姻緣斗/一個月
+        /// 36-貴人斗/一個月
+        /// 37-消災延壽斗/一個月
+        /// 38-財神斗/三個月
+        /// 39-發財斗/三個月
+        /// 40-姻緣斗/三個月
+        /// 41-貴人斗/三個月
+        /// 42-消災延壽斗/三個月
+        /// 43-元辰斗燈、元辰燈(壽山巖觀音寺)
+        /// 44-求子燈
+        /// 45-護子燈
+        /// 46-添丁燈
+        /// 47-婚姻燈
+        /// 48-安太陰
+        /// 49-安太陽
+        /// 50-光明燈+批流年
+        /// 51-文昌燈+批流年
+        /// </param>
+        /// <param name="Year">年度字串，例如 "2025"</param>
+        /// <param name="msg">回傳給前端的訊息（各燈號編號＋客服電話）</param>
+        /// <param name="lightslist">回傳給前端的燈號清單（例如「太歲燈:TYA1001」）</param>
+        /// <param name="Lightslist">備用，可同樣回傳燈號字串陣列，視業務需求</param>
+        /// <returns>若有更新資料則回傳 true，否則回傳 false</returns>
+        public bool UpdateLights_ld_Info(
+            int applicantID,
+            int LightsType,
+            string Year,
+            ref string msg,
+            ref string[] lightslist,
+            ref string[] Lightslist)
+        {
+            lock (_thisLock)
+            {
+                twbobibobi.Data.BasePage basePage = new twbobibobi.Data.BasePage();
+
+                // 1. 一次性取得所有已分配的編號 (Num > 0 且 Num2String 有值)
+                string sqlFetchExisting =
+                    "SELECT LightsType, Num " +
+                    "FROM Temple_" + Year + "..Lights_ld_info " +
+                    "WHERE Status = 0 " +
+                    "  AND Num <> 0" +
+                    "  AND Num2String IS NOT NULL " +
+                    "  AND Num2String <> ''";
+
+                // 建立 DatabaseAdapter，並加入參數
+                DatabaseAdapter da = new DatabaseAdapter(sqlFetchExisting, this.DBSource);
+                da.SetSqlCommandBuilder();
+                DataTable dtExisting = new DataTable();
+                da.Fill(dtExisting);
+
+                // 建立各燈種對應的已用號碼集合
+                var usedNumsByType = new Dictionary<int, HashSet<int>>();
+                foreach (DataRow row in dtExisting.Rows)
+                {
+                    int type = Convert.ToInt32(row["LightsType"]);
+                    int num = Convert.ToInt32(row["Num"]);
+                    if (!usedNumsByType.ContainsKey(type))
+                        usedNumsByType[type] = new HashSet<int>();
+                    usedNumsByType[type].Add(num);
+                }
+
+                // 2. 一次性抓出所有需補號的列 (Num = 0)
+                DataTable dtToAssign = new DataTable();
+                string sqlFetchToAssign =
+                    "SELECT LightsID, LightsType " +
+                    "FROM Temple_" + Year + "..Lights_ld_info " +
+                    "WHERE ApplicantID = @ApplicantID " +
+                    "  AND Status = 0 " +
+                    "  AND Num = 0 " +
+                    "ORDER BY LightsID";
+
+                {
+                    da = new DatabaseAdapter(sqlFetchToAssign, this.DBSource);
+                    da.SetSqlCommandBuilder();
+                    da.AddParameterToSelectCommand("ApplicantID", applicantID);
+                    da.Fill(dtToAssign);
+                }
+
+                int rowCount = dtToAssign.Rows.Count;
+                lightslist = new string[rowCount];
+                Lightslist = new string[rowCount];
+                // 用來存放要批量更新的資料 (LightsID, AssignedNum, AssignedNumString)
+                List<Tuple<int, int, string>> updatedRecords = new List<Tuple<int, int, string>>();
+
+                // 3. 逐筆在記憶體中分配「最小可用缺號」
+                for (int i = 0; i < rowCount; i++)
+                {
+                    DataRow row = dtToAssign.Rows[i];
+                    int dbLightsID = Convert.ToInt32(row["LightsID"]);
+                    int dbLightsType = Convert.ToInt32(row["LightsType"]);
+
+                    if (!usedNumsByType.ContainsKey(dbLightsType))
+                        usedNumsByType[dbLightsType] = new HashSet<int>();
+
+                    // 找下一個可用編號 (從 1001 開始往上搜尋)
+                    var usedSet = usedNumsByType[dbLightsType];
+                    int nextNum = 1001;
+                    while (usedSet.Contains(nextNum))
+                    {
+                        nextNum++;
+                    }
+
+                    // 根據不同燈種決定前綴字串
+                    string prefix = "";
+                    switch (dbLightsType)
+                    {
+                        case 3: prefix = "LDS"; break;  // 元辰光明燈
+                        case 4: prefix = "LDA"; break;  // 安太歲
+                        case 5: prefix = "LDW"; break;  // 文昌功名燈
+                        case 6: prefix = "LDT"; break;  // 五路財神燈
+                        case 8: prefix = "LDY"; break;  // 健康延壽燈
+                        case 20: prefix = "LDYM"; break;  // 月老姻緣燈
+                        case 33: prefix = "LDSL"; break;  // 明心智慧燈
+                    }
+                    string numString = prefix + nextNum.ToString();
+                    Lightslist[i] = numString;
+
+                    // 將這筆資料加入批量更新清單
+                    updatedRecords.Add(new Tuple<int, int, string>(dbLightsID, nextNum, numString));
+
+                    // 準備回傳給前端的燈號字串
+                    string typeName = "";
+                    switch (dbLightsType)
+                    {
+                        case 3: typeName = "元辰光明燈"; break;
+                        case 4: typeName = "太歲燈"; break;
+                        case 5: typeName = "文昌功名燈"; break;
+                        case 6: typeName = "五路財神燈"; break;
+                        case 8: typeName = "健康延壽燈"; break;
+                        case 20: typeName = "月老姻緣燈"; break;
+                        case 33: typeName = "明心智慧燈"; break;
+                    }
+                    lightslist[i] = typeName + ":" + numString;
+
+                    // 把已分配的 nextNum 加入 usedNumsByType，避免重複
+                    usedSet.Add(nextNum);
+                }
+
+                // 組出 msg，格式為「燈種1:編號,燈種2:編號,...。客服電話：04-36092299。」
+                msg += string.Join(",", lightslist) + "。客服電話：04-36092299。";
+
+                // 5. 一次性批量 UPDATE 回資料庫
+                //    以下示範用動態 SQL 拼接多筆 UPDATE，若更新筆數很多建議改用 TVP + 存儲過程
+                System.Text.StringBuilder sb = new System.Text.StringBuilder();
+                sb.AppendLine("USE Temple_" + Year + ";");
+                foreach (var rec in updatedRecords)
+                {
+                    int id = rec.Item1;
+                    int assignedNum = rec.Item2;
+                    string assignedNumString = rec.Item3.Replace("'", "''"); // 確保單引號轉義
+                    sb.AppendLine(
+                        "UPDATE dbo.Lights_ld_info " +
+                        "SET Num = " + assignedNum + ", " +
+                        "    Num2String = N'" + assignedNumString + "' " +
+                        "WHERE LightsID = " + id + ";"
+                    );
+                }
+                string sqlBatchUpdate = sb.ToString();
+
+                try
+                {
+                    int rowsAffected = ExecuteSql(sqlBatchUpdate);
+                    if (rowsAffected > 0)
+                    {
+                        // 成功更新至少一筆
+                        return (updatedRecords.Count > 0);
+                    }
+                    else
+                    {
+                        // 防呆：SQL 執行後沒有影響到任何列，記一筆錯誤日誌，再回傳 false
+                        string err = "[UpdateLights_ld_Info] 批量 UPDATE 未更新到任何記錄，SQL:\r\n" + sqlBatchUpdate;
+                        basePage.SaveErrorLog(err);
+                        return false;
+                    }
+                }
+                catch (Exception ex)
+                {
+                    // 捕捉執行 SQL 時的例外，記錯誤日誌，並回傳 false
+                    basePage.SaveErrorLog("[UpdateLights_ld_Info] 批量 UPDATE 時發生例外：\r\n" + ex);
+                    return false;
+                }
+            }
+        }
+
+        /// <summary>
+        /// 更新並取得燈號資料 - 點燈 - 基隆悟玄宮
+        /// </summary>
+        /// <param name="applicantID">購買人編號</param>
+        /// <param name="LightsType">
+        /// 燈種代碼：
+        /// 3-光明燈、元神光明燈(鹿港城隍廟)、貴人燈(斗六五路財神宮)、平安燈(北極玄天宮、壽山巖觀音寺)
+        /// 4-安太歲、太歲燈、太歲平安符(鹿港城隍廟)、安奉太歲
+        /// 5-文昌燈、五文昌燈、文魁智慧燈(鹿港城隍廟)、文昌功名燈(桃園龍德宮)
+        /// 6-財神燈、發財燈、福財燈、正財福報燈(鹿港城隍廟)、招財燈(壽山巖觀音寺)、五路財神燈(桃園龍德宮)
+        /// 7-姻緣燈、桃花燈、月老桃花燈
+        /// 8-藥師燈 、藥師佛燈、消災延壽燈(斗六五路財神宮)、特別健康燈(石壁部堂)、健康延壽燈(桃園龍德宮)
+        /// 9-財利燈 
+        /// 10-貴人燈 、特別貴人燈(石壁部堂)
+        /// 11-福祿燈、福壽燈 
+        /// 12-寵物平安燈 
+        /// 13-龍王燈 
+        /// 14-虎爺燈 
+        /// 15-轉運納福燈 
+        /// 16-光明燈上層、玉皇燈(五股賀聖宮)
+        /// 17-偏財旺旺燈 
+        /// 18-廣進安財庫 
+        /// 19-財庫燈 
+        /// 20-月老姻緣燈
+        /// 21-孝親祈福燈 
+        /// 22-事業燈、特別事業燈(石壁部堂)
+        /// 23-全家光明燈 
+        /// 24-觀音佛祖燈 
+        /// 25-財神斗、財神斗/一個月(斗六五路財神宮)
+        /// 26-事業斗 
+        /// 27-平安斗 
+        /// 28-文昌斗 
+        /// 29-藥師斗 
+        /// 30-元神斗 
+        /// 31-福祿壽斗 
+        /// 32-觀音斗 
+        /// 33-明心智慧燈
+        /// 34-發財斗/一個月
+        /// 35-姻緣斗/一個月
+        /// 36-貴人斗/一個月
+        /// 37-消災延壽斗/一個月
+        /// 38-財神斗/三個月
+        /// 39-發財斗/三個月
+        /// 40-姻緣斗/三個月
+        /// 41-貴人斗/三個月
+        /// 42-消災延壽斗/三個月
+        /// 43-元辰斗燈、元辰燈(壽山巖觀音寺)
+        /// 44-求子燈
+        /// 45-護子燈
+        /// 46-添丁燈
+        /// 47-婚姻燈
+        /// 48-安太陰
+        /// 49-安太陽
+        /// 50-光明燈+批流年
+        /// 51-文昌燈+批流年
+        /// </param>
+        /// <param name="Year">年度字串，例如 "2025"</param>
+        /// <param name="msg">回傳給前端的訊息（各燈號編號＋客服電話）</param>
+        /// <param name="lightslist">回傳給前端的燈號清單（例如「太歲燈:TYA1001」）</param>
+        /// <param name="Lightslist">備用，可同樣回傳燈號字串陣列，視業務需求</param>
+        /// <returns>若有更新資料則回傳 true，否則回傳 false</returns>
+        public bool UpdateLights_wh_Info(
+            int applicantID,
+            int LightsType,
+            string Year,
+            ref string msg,
+            ref string[] lightslist,
+            ref string[] Lightslist)
+        {
+            lock (_thisLock)
+            {
+                twbobibobi.Data.BasePage basePage = new twbobibobi.Data.BasePage();
+
+                // 1. 一次性取得所有已分配的編號 (Num > 0 且 Num2String 有值)
+                string sqlFetchExisting =
+                    "SELECT LightsType, Num " +
+                    "FROM Temple_" + Year + "..Lights_wh_info " +
+                    "WHERE Status = 0 " +
+                    "  AND Num <> 0" +
+                    "  AND Num2String IS NOT NULL " +
+                    "  AND Num2String <> ''";
+
+                // 建立 DatabaseAdapter，並加入參數
+                DatabaseAdapter da = new DatabaseAdapter(sqlFetchExisting, this.DBSource);
+                da.SetSqlCommandBuilder();
+                DataTable dtExisting = new DataTable();
+                da.Fill(dtExisting);
+
+                // 建立各燈種對應的已用號碼集合
+                var usedNumsByType = new Dictionary<int, HashSet<int>>();
+                foreach (DataRow row in dtExisting.Rows)
+                {
+                    int type = Convert.ToInt32(row["LightsType"]);
+                    int num = Convert.ToInt32(row["Num"]);
+                    if (!usedNumsByType.ContainsKey(type))
+                        usedNumsByType[type] = new HashSet<int>();
+                    usedNumsByType[type].Add(num);
+                }                
+
+                // 2. 一次性抓出所有需補號的列 (Num = 0)
+                DataTable dtToAssign = new DataTable();
+                string sqlFetchToAssign =
+                    "SELECT LightsID, LightsType " +
+                    "FROM Temple_" + Year + "..Lights_wh_info " +
+                    "WHERE ApplicantID = @ApplicantID " +
+                    "  AND Status = 0 " +
+                    "  AND Num = 0 " +
+                    "ORDER BY LightsID";
+
+                {
+                    da = new DatabaseAdapter(sqlFetchToAssign, this.DBSource);
+                    da.SetSqlCommandBuilder();
+                    da.AddParameterToSelectCommand("ApplicantID", applicantID);
+                    da.Fill(dtToAssign);
+                }
+
+                int rowCount = dtToAssign.Rows.Count;
+                lightslist = new string[rowCount];
+                Lightslist = new string[rowCount];
+                // 用來存放要批量更新的資料 (LightsID, AssignedNum, AssignedNumString)
+                List<Tuple<int, int, string>> updatedRecords = new List<Tuple<int, int, string>>();
+
+                // 3. 逐筆在記憶體中分配「最小可用缺號」
+                for (int i = 0; i < rowCount; i++)
+                {
+                    DataRow row = dtToAssign.Rows[i];
+                    int dbLightsID = Convert.ToInt32(row["LightsID"]);
+                    int dbLightsType = Convert.ToInt32(row["LightsType"]);
+
+                    if (!usedNumsByType.ContainsKey(dbLightsType))
+                        usedNumsByType[dbLightsType] = new HashSet<int>();
+
+                    // 找下一個可用編號 (從 1001 開始往上搜尋)
+                    var usedSet = usedNumsByType[dbLightsType];
+                    int nextNum = 1001;
+                    while (usedSet.Contains(nextNum))
+                    {
+                        nextNum++;
+                    }
+
+                    // 根據不同燈種決定前綴字串
+                    string prefix = "";
+                    switch (dbLightsType)
+                    {
+                        case 3: prefix = "WHS"; break;      // 光明燈
+                        case 5: prefix = "WHW"; break;      // 文昌燈
+                        case 12: prefix = "WHP"; break;     // 寵物平安燈
+                        case 50: prefix = "WHSP"; break;    // 光明燈+批流年
+                        case 51: prefix = "WHWP"; break;    // 文昌燈+批流年
+                    }
+                    string numString = prefix + nextNum.ToString();
+                    Lightslist[i] = numString;
+
+                    // 將這筆資料加入批量更新清單
+                    updatedRecords.Add(new Tuple<int, int, string>(dbLightsID, nextNum, numString));
+
+                    // 準備回傳給前端的燈號字串
+                    string typeName = "";
+                    switch (dbLightsType)
+                    {
+                        case 3: typeName = "光明燈"; break;
+                        case 5: typeName = "文昌燈"; break;
+                        case 12: typeName = "寵物平安燈"; break;
+                        case 50: typeName = "光明燈+批流年"; break;
+                        case 51: typeName = "文昌燈+批流年"; break;
+                    }
+                    lightslist[i] = typeName + ":" + numString;
+
+                    // 把已分配的 nextNum 加入 usedNumsByType，避免重複
+                    usedSet.Add(nextNum);
+                }
+
+                // 組出 msg，格式為「燈種1:編號,燈種2:編號,...。客服電話：04-36092299。」
+                msg += string.Join(",", lightslist) + "。客服電話：04-36092299。";
+
+                // 5. 一次性批量 UPDATE 回資料庫
+                //    以下示範用動態 SQL 拼接多筆 UPDATE，若更新筆數很多建議改用 TVP + 存儲過程
+                System.Text.StringBuilder sb = new System.Text.StringBuilder();
+                sb.AppendLine("USE Temple_" + Year + ";");
+                foreach (var rec in updatedRecords)
+                {
+                    int id = rec.Item1;
+                    int assignedNum = rec.Item2;
+                    string assignedNumString = rec.Item3.Replace("'", "''"); // 確保單引號轉義
+                    sb.AppendLine(
+                        "UPDATE dbo.Lights_wh_info " +
+                        "SET Num = " + assignedNum + ", " +
+                        "    Num2String = N'" + assignedNumString + "' " +
+                        "WHERE LightsID = " + id + ";"
+                    );
+                }
+                string sqlBatchUpdate = sb.ToString();
+
+                try
+                {
+                    int rowsAffected = ExecuteSql(sqlBatchUpdate);
+                    if (rowsAffected > 0)
+                    {
+                        // 成功更新至少一筆
+                        return (updatedRecords.Count > 0);
+                    }
+                    else
+                    {
+                        // 防呆：SQL 執行後沒有影響到任何列，記一筆錯誤日誌，再回傳 false
+                        string err = "[UpdateLights_wh_Info] 批量 UPDATE 未更新到任何記錄，SQL:\r\n" + sqlBatchUpdate;
+                        basePage.SaveErrorLog(err);
+                        return false;
+                    }
+                }
+                catch (Exception ex)
+                {
+                    // 捕捉執行 SQL 時的例外，記錯誤日誌，並回傳 false
+                    basePage.SaveErrorLog("[UpdateLights_wh_Info] 批量 UPDATE 時發生例外：\r\n" + ex);
+                    return false;
+                }
+            }
+        }
+
+        /// <summary>
+        /// 更新並取得燈號資料 - 點燈 - 松柏嶺受天宮
+        /// </summary>
+        /// <param name="applicantID">購買人編號</param>
+        /// <param name="LightsType">
+        /// 燈種代碼：
+        /// 3-光明燈、元神光明燈(鹿港城隍廟)、貴人燈(斗六五路財神宮)、平安燈(北極玄天宮、壽山巖觀音寺)
+        /// 4-安太歲、太歲燈、太歲平安符(鹿港城隍廟)、安奉太歲
+        /// 5-文昌燈、五文昌燈、文魁智慧燈(鹿港城隍廟)、文昌功名燈(桃園龍德宮)
+        /// 6-財神燈、發財燈、福財燈、正財福報燈(鹿港城隍廟)、招財燈(壽山巖觀音寺)、五路財神燈(桃園龍德宮)
+        /// 7-姻緣燈、桃花燈、月老桃花燈
+        /// 8-藥師燈 、藥師佛燈、消災延壽燈(斗六五路財神宮)、特別健康燈(石壁部堂)、健康延壽燈(桃園龍德宮)
+        /// 9-財利燈 
+        /// 10-貴人燈 、特別貴人燈(石壁部堂)
+        /// 11-福祿燈、福壽燈 
+        /// 12-寵物平安燈 
+        /// 13-龍王燈 
+        /// 14-虎爺燈 
+        /// 15-轉運納福燈 
+        /// 16-光明燈上層、玉皇燈(五股賀聖宮)
+        /// 17-偏財旺旺燈 
+        /// 18-廣進安財庫 
+        /// 19-財庫燈 
+        /// 20-月老姻緣燈
+        /// 21-孝親祈福燈 
+        /// 22-事業燈、特別事業燈(石壁部堂)
+        /// 23-全家光明燈 
+        /// 24-觀音佛祖燈 
+        /// 25-財神斗、財神斗/一個月(斗六五路財神宮)
+        /// 26-事業斗 
+        /// 27-平安斗 
+        /// 28-文昌斗 
+        /// 29-藥師斗 
+        /// 30-元神斗 
+        /// 31-福祿壽斗 
+        /// 32-觀音斗 
+        /// 33-明心智慧燈
+        /// 34-發財斗/一個月
+        /// 35-姻緣斗/一個月
+        /// 36-貴人斗/一個月
+        /// 37-消災延壽斗/一個月
+        /// 38-財神斗/三個月
+        /// 39-發財斗/三個月
+        /// 40-姻緣斗/三個月
+        /// 41-貴人斗/三個月
+        /// 42-消災延壽斗/三個月
+        /// 43-元辰斗燈、元辰燈(壽山巖觀音寺)
+        /// 44-求子燈
+        /// 45-護子燈
+        /// 46-添丁燈
+        /// 47-婚姻燈
+        /// 48-安太陰
+        /// 49-安太陽
+        /// 50-光明燈+批流年
+        /// 51-文昌燈+批流年
+        /// </param>
+        /// <param name="Year">年度字串，例如 "2025"</param>
+        /// <param name="msg">回傳給前端的訊息（各燈號編號＋客服電話）</param>
+        /// <param name="lightslist">回傳給前端的燈號清單（例如「太歲燈:TYA1001」）</param>
+        /// <param name="Lightslist">備用，可同樣回傳燈號字串陣列，視業務需求</param>
+        /// <returns>若有更新資料則回傳 true，否則回傳 false</returns>
+        public bool UpdateLights_st_Info(
+            int applicantID,
+            int LightsType,
+            string Year,
+            ref string msg,
+            ref string[] lightslist,
+            ref string[] Lightslist)
+        {
+            lock (_thisLock)
+            {
+                twbobibobi.Data.BasePage basePage = new twbobibobi.Data.BasePage();
+
+                // 1. 一次性取得所有已分配的編號 (Num > 0 且 Num2String 有值)
+                string sqlFetchExisting =
+                    "SELECT LightsType, Num " +
+                    "FROM Temple_" + Year + "..Lights_st_info " +
+                    "WHERE Status = 0 " +
+                    "  AND Num <> 0" +
+                    "  AND Num2String IS NOT NULL " +
+                    "  AND Num2String <> ''";
+
+                // 建立 DatabaseAdapter，並加入參數
+                DatabaseAdapter da = new DatabaseAdapter(sqlFetchExisting, this.DBSource);
+                da.SetSqlCommandBuilder();
+                DataTable dtExisting = new DataTable();
+                da.Fill(dtExisting);
+
+                // 建立各燈種對應的已用號碼集合
+                var usedNumsByType = new Dictionary<int, HashSet<int>>();
+                foreach (DataRow row in dtExisting.Rows)
+                {
+                    int type = Convert.ToInt32(row["LightsType"]);
+                    int num = Convert.ToInt32(row["Num"]);
+                    if (!usedNumsByType.ContainsKey(type))
+                        usedNumsByType[type] = new HashSet<int>();
+                    usedNumsByType[type].Add(num);
+                }
+
+                // 2. 一次性抓出所有需補號的列 (Num = 0)
+                DataTable dtToAssign = new DataTable();
+                string sqlFetchToAssign =
+                    "SELECT LightsID, LightsType " +
+                    "FROM Temple_" + Year + "..Lights_st_info " +
+                    "WHERE ApplicantID = @ApplicantID " +
+                    "  AND Status = 0 " +
+                    "  AND Num = 0 " +
+                    "ORDER BY LightsID";
+
+                {
+                    da = new DatabaseAdapter(sqlFetchToAssign, this.DBSource);
+                    da.SetSqlCommandBuilder();
+                    da.AddParameterToSelectCommand("ApplicantID", applicantID);
+                    da.Fill(dtToAssign);
+                }
+
+                int rowCount = dtToAssign.Rows.Count;
+                lightslist = new string[rowCount];
+                Lightslist = new string[rowCount];
+                // 用來存放要批量更新的資料 (LightsID, AssignedNum, AssignedNumString)
+                List<Tuple<int, int, string>> updatedRecords = new List<Tuple<int, int, string>>();
+
+                // 3. 逐筆在記憶體中分配「最小可用缺號」
+                for (int i = 0; i < rowCount; i++)
+                {
+                    DataRow row = dtToAssign.Rows[i];
+                    int dbLightsID = Convert.ToInt32(row["LightsID"]);
+                    int dbLightsType = Convert.ToInt32(row["LightsType"]);
+
+                    if (!usedNumsByType.ContainsKey(dbLightsType))
+                        usedNumsByType[dbLightsType] = new HashSet<int>();
+
+                    // 找下一個可用編號 (從 1001 開始往上搜尋)
+                    var usedSet = usedNumsByType[dbLightsType];
+                    int nextNum = 1001;
+                    while (usedSet.Contains(nextNum))
+                    {
+                        nextNum++;
+                    }
+
+                    // 根據不同燈種決定前綴字串
+                    string prefix = "";
+                    switch (dbLightsType)
+                    {
+                        case 3: prefix = "STS"; break;  // 光明燈
+                        case 4: prefix = "STA"; break;  // 安奉太歲
+                        case 5: prefix = "STW"; break;  // 文昌燈
+                        case 6: prefix = "STT"; break;  // 財神燈
+                    }
+                    string numString = prefix + nextNum.ToString();
+                    Lightslist[i] = numString;
+
+                    // 將這筆資料加入批量更新清單
+                    updatedRecords.Add(new Tuple<int, int, string>(dbLightsID, nextNum, numString));
+
+                    // 準備回傳給前端的燈號字串
+                    string typeName = "";
+                    switch (dbLightsType)
+                    {
+                        case 3: typeName = "光明燈"; break;
+                        case 4: typeName = "安奉太歲"; break;
+                        case 5: typeName = "文昌燈"; break;
+                        case 6: typeName = "財神燈"; break;
+                    }
+                    lightslist[i] = typeName + ":" + numString;
+
+                    // 把已分配的 nextNum 加入 usedNumsByType，避免重複
+                    usedSet.Add(nextNum);
+                }
+
+                // 組出 msg，格式為「燈種1:編號,燈種2:編號,...。客服電話：04-36092299。」
+                msg += string.Join(",", lightslist) + "。客服電話：04-36092299。";
+
+                // 5. 一次性批量 UPDATE 回資料庫
+                //    以下示範用動態 SQL 拼接多筆 UPDATE，若更新筆數很多建議改用 TVP + 存儲過程
+                System.Text.StringBuilder sb = new System.Text.StringBuilder();
+                sb.AppendLine("USE Temple_" + Year + ";");
+                foreach (var rec in updatedRecords)
+                {
+                    int id = rec.Item1;
+                    int assignedNum = rec.Item2;
+                    string assignedNumString = rec.Item3.Replace("'", "''"); // 確保單引號轉義
+                    sb.AppendLine(
+                        "UPDATE dbo.Lights_st_info " +
+                        "SET Num = " + assignedNum + ", " +
+                        "    Num2String = N'" + assignedNumString + "' " +
+                        "WHERE LightsID = " + id + ";"
+                    );
+                }
+                string sqlBatchUpdate = sb.ToString();
+
+                try
+                {
+                    int rowsAffected = ExecuteSql(sqlBatchUpdate);
+                    if (rowsAffected > 0)
+                    {
+                        // 成功更新至少一筆
+                        return (updatedRecords.Count > 0);
+                    }
+                    else
+                    {
+                        // 防呆：SQL 執行後沒有影響到任何列，記一筆錯誤日誌，再回傳 false
+                        string err = "[UpdateLights_st_Info] 批量 UPDATE 未更新到任何記錄，SQL:\r\n" + sqlBatchUpdate;
+                        basePage.SaveErrorLog(err);
+                        return false;
+                    }
+                }
+                catch (Exception ex)
+                {
+                    // 捕捉執行 SQL 時的例外，記錯誤日誌，並回傳 false
+                    basePage.SaveErrorLog("[UpdateLights_st_Info] 批量 UPDATE 時發生例外：\r\n" + ex);
+                    return false;
+                }
+            }
+        }
+
+        /// <summary>
+        /// 更新並取得燈號資料 - 點燈 - 池上北極玄天宮
+        /// </summary>
+        /// <param name="applicantID">購買人編號</param>
+        /// <param name="LightsType">
+        /// 燈種代碼：
+        /// 3-光明燈、元神光明燈(鹿港城隍廟)、貴人燈(斗六五路財神宮)、平安燈(北極玄天宮、壽山巖觀音寺)
+        /// 4-安太歲、太歲燈、太歲平安符(鹿港城隍廟)、安奉太歲
+        /// 5-文昌燈、五文昌燈、文魁智慧燈(鹿港城隍廟)、文昌功名燈(桃園龍德宮)
+        /// 6-財神燈、發財燈、福財燈、正財福報燈(鹿港城隍廟)、招財燈(壽山巖觀音寺)、五路財神燈(桃園龍德宮)
+        /// 7-姻緣燈、桃花燈、月老桃花燈
+        /// 8-藥師燈 、藥師佛燈、消災延壽燈(斗六五路財神宮)、特別健康燈(石壁部堂)、健康延壽燈(桃園龍德宮)
+        /// 9-財利燈 
+        /// 10-貴人燈 、特別貴人燈(石壁部堂)
+        /// 11-福祿燈、福壽燈 
+        /// 12-寵物平安燈 
+        /// 13-龍王燈 
+        /// 14-虎爺燈 
+        /// 15-轉運納福燈 
+        /// 16-光明燈上層、玉皇燈(五股賀聖宮)
+        /// 17-偏財旺旺燈 
+        /// 18-廣進安財庫 
+        /// 19-財庫燈 
+        /// 20-月老姻緣燈
+        /// 21-孝親祈福燈 
+        /// 22-事業燈、特別事業燈(石壁部堂)
+        /// 23-全家光明燈 
+        /// 24-觀音佛祖燈 
+        /// 25-財神斗、財神斗/一個月(斗六五路財神宮)
+        /// 26-事業斗 
+        /// 27-平安斗 
+        /// 28-文昌斗 
+        /// 29-藥師斗 
+        /// 30-元神斗 
+        /// 31-福祿壽斗 
+        /// 32-觀音斗 
+        /// 33-明心智慧燈
+        /// 34-發財斗/一個月
+        /// 35-姻緣斗/一個月
+        /// 36-貴人斗/一個月
+        /// 37-消災延壽斗/一個月
+        /// 38-財神斗/三個月
+        /// 39-發財斗/三個月
+        /// 40-姻緣斗/三個月
+        /// 41-貴人斗/三個月
+        /// 42-消災延壽斗/三個月
+        /// 43-元辰斗燈、元辰燈(壽山巖觀音寺)
+        /// 44-求子燈
+        /// 45-護子燈
+        /// 46-添丁燈
+        /// 47-婚姻燈
+        /// 48-安太陰
+        /// 49-安太陽
+        /// 50-光明燈+批流年
+        /// 51-文昌燈+批流年
+        /// </param>
+        /// <param name="Year">年度字串，例如 "2025"</param>
+        /// <param name="msg">回傳給前端的訊息（各燈號編號＋客服電話）</param>
+        /// <param name="lightslist">回傳給前端的燈號清單（例如「太歲燈:TYA1001」）</param>
+        /// <param name="Lightslist">備用，可同樣回傳燈號字串陣列，視業務需求</param>
+        /// <returns>若有更新資料則回傳 true，否則回傳 false</returns>
+        public bool UpdateLights_bj_Info(
+            int applicantID,
+            int LightsType,
+            string Year,
+            ref string msg,
+            ref string[] lightslist,
+            ref string[] Lightslist)
+        {
+            lock (_thisLock)
+            {
+                twbobibobi.Data.BasePage basePage = new twbobibobi.Data.BasePage();
+
+                // 1. 一次性取得所有已分配的編號 (Num > 0 且 Num2String 有值)
+                string sqlFetchExisting =
+                    "SELECT LightsType, Num " +
+                    "FROM Temple_" + Year + "..Lights_bj_info " +
+                    "WHERE Status = 0 " +
+                    "  AND Num <> 0" +
+                    "  AND Num2String IS NOT NULL " +
+                    "  AND Num2String <> ''";
+
+                // 建立 DatabaseAdapter，並加入參數
+                DatabaseAdapter da = new DatabaseAdapter(sqlFetchExisting, this.DBSource);
+                da.SetSqlCommandBuilder();
+                DataTable dtExisting = new DataTable();
+                da.Fill(dtExisting);
+
+                // 建立各燈種對應的已用號碼集合
+                var usedNumsByType = new Dictionary<int, HashSet<int>>();
+                foreach (DataRow row in dtExisting.Rows)
+                {
+                    int type = Convert.ToInt32(row["LightsType"]);
+                    int num = Convert.ToInt32(row["Num"]);
+                    if (!usedNumsByType.ContainsKey(type))
+                        usedNumsByType[type] = new HashSet<int>();
+                    usedNumsByType[type].Add(num);
+                }
+
+                // 2. 一次性抓出所有需補號的列 (Num = 0)
+                DataTable dtToAssign = new DataTable();
+                string sqlFetchToAssign =
+                    "SELECT LightsID, LightsType " +
+                    "FROM Temple_" + Year + "..Lights_bj_info " +
+                    "WHERE ApplicantID = @ApplicantID " +
+                    "  AND Status = 0 " +
+                    "  AND Num = 0 " +
+                    "ORDER BY LightsID";
+
+                {
+                    da = new DatabaseAdapter(sqlFetchToAssign, this.DBSource);
+                    da.SetSqlCommandBuilder();
+                    da.AddParameterToSelectCommand("ApplicantID", applicantID);
+                    da.Fill(dtToAssign);
+                }
+
+                int rowCount = dtToAssign.Rows.Count;
+                lightslist = new string[rowCount];
+                Lightslist = new string[rowCount];
+                // 用來存放要批量更新的資料 (LightsID, AssignedNum, AssignedNumString)
+                List<Tuple<int, int, string>> updatedRecords = new List<Tuple<int, int, string>>();
+
+                // 3. 逐筆在記憶體中分配「最小可用缺號」
+                for (int i = 0; i < rowCount; i++)
+                {
+                    DataRow row = dtToAssign.Rows[i];
+                    int dbLightsID = Convert.ToInt32(row["LightsID"]);
+                    int dbLightsType = Convert.ToInt32(row["LightsType"]);
+
+                    if (!usedNumsByType.ContainsKey(dbLightsType))
+                        usedNumsByType[dbLightsType] = new HashSet<int>();
+
+                    // 找下一個可用編號 (從 1001 開始往上搜尋)
+                    var usedSet = usedNumsByType[dbLightsType];
+                    int nextNum = 1001;
+                    while (usedSet.Contains(nextNum))
+                    {
+                        nextNum++;
+                    }
+
+                    // 根據不同燈種決定前綴字串
+                    string prefix = "";
+                    switch (dbLightsType)
+                    {
+                        case 3: prefix = "BJS"; break;  // 平安燈(光明燈)
+                        case 4: prefix = "BJA"; break;  // 太歲燈
+                    }
+                    string numString = prefix + nextNum.ToString();
+                    Lightslist[i] = numString;
+
+                    // 將這筆資料加入批量更新清單
+                    updatedRecords.Add(new Tuple<int, int, string>(dbLightsID, nextNum, numString));
+
+                    // 準備回傳給前端的燈號字串
+                    string typeName = "";
+                    switch (dbLightsType)
+                    {
+                        case 3: typeName = "平安燈"; break;
+                        case 4: typeName = "太歲燈"; break;
+                    }
+                    lightslist[i] = typeName + ":" + numString;
+
+                    // 把已分配的 nextNum 加入 usedNumsByType，避免重複
+                    usedSet.Add(nextNum);
+                }
+
+                // 組出 msg，格式為「燈種1:編號,燈種2:編號,...。客服電話：04-36092299。」
+                msg += string.Join(",", lightslist) + "。客服電話：04-36092299。";
+
+                // 5. 一次性批量 UPDATE 回資料庫
+                //    以下示範用動態 SQL 拼接多筆 UPDATE，若更新筆數很多建議改用 TVP + 存儲過程
+                System.Text.StringBuilder sb = new System.Text.StringBuilder();
+                sb.AppendLine("USE Temple_" + Year + ";");
+                foreach (var rec in updatedRecords)
+                {
+                    int id = rec.Item1;
+                    int assignedNum = rec.Item2;
+                    string assignedNumString = rec.Item3.Replace("'", "''"); // 確保單引號轉義
+                    sb.AppendLine(
+                        "UPDATE dbo.Lights_bj_info " +
+                        "SET Num = " + assignedNum + ", " +
+                        "    Num2String = N'" + assignedNumString + "' " +
+                        "WHERE LightsID = " + id + ";"
+                    );
+                }
+                string sqlBatchUpdate = sb.ToString();
+
+                try
+                {
+                    int rowsAffected = ExecuteSql(sqlBatchUpdate);
+                    if (rowsAffected > 0)
+                    {
+                        // 成功更新至少一筆
+                        return (updatedRecords.Count > 0);
+                    }
+                    else
+                    {
+                        // 防呆：SQL 執行後沒有影響到任何列，記一筆錯誤日誌，再回傳 false
+                        string err = "[UpdateLights_bj_Info] 批量 UPDATE 未更新到任何記錄，SQL:\r\n" + sqlBatchUpdate;
+                        basePage.SaveErrorLog(err);
+                        return false;
+                    }
+                }
+                catch (Exception ex)
+                {
+                    // 捕捉執行 SQL 時的例外，記錯誤日誌，並回傳 false
+                    basePage.SaveErrorLog("[UpdateLights_bj_Info] 批量 UPDATE 時發生例外：\r\n" + ex);
+                    return false;
+                }
+            }
+        }
+
+        /// <summary>
+        /// 更新並取得燈號資料 - 點燈 - 慈惠石壁部堂
+        /// </summary>
+        /// <param name="applicantID">購買人編號</param>
+        /// <param name="LightsType">
+        /// 燈種代碼：
+        /// 3-光明燈、元神光明燈(鹿港城隍廟)、貴人燈(斗六五路財神宮)、平安燈(北極玄天宮、壽山巖觀音寺)
+        /// 4-安太歲、太歲燈、太歲平安符(鹿港城隍廟)、安奉太歲
+        /// 5-文昌燈、五文昌燈、文魁智慧燈(鹿港城隍廟)、文昌功名燈(桃園龍德宮)
+        /// 6-財神燈、發財燈、福財燈、正財福報燈(鹿港城隍廟)、招財燈(壽山巖觀音寺)、五路財神燈(桃園龍德宮)
+        /// 7-姻緣燈、桃花燈、月老桃花燈
+        /// 8-藥師燈 、藥師佛燈、消災延壽燈(斗六五路財神宮)、特別健康燈(石壁部堂)、健康延壽燈(桃園龍德宮)
+        /// 9-財利燈 
+        /// 10-貴人燈 、特別貴人燈(石壁部堂)
+        /// 11-福祿燈、福壽燈 
+        /// 12-寵物平安燈 
+        /// 13-龍王燈 
+        /// 14-虎爺燈 
+        /// 15-轉運納福燈 
+        /// 16-光明燈上層、玉皇燈(五股賀聖宮)
+        /// 17-偏財旺旺燈 
+        /// 18-廣進安財庫 
+        /// 19-財庫燈 
+        /// 20-月老姻緣燈
+        /// 21-孝親祈福燈 
+        /// 22-事業燈、特別事業燈(石壁部堂)
+        /// 23-全家光明燈 
+        /// 24-觀音佛祖燈 
+        /// 25-財神斗、財神斗/一個月(斗六五路財神宮)
+        /// 26-事業斗 
+        /// 27-平安斗 
+        /// 28-文昌斗 
+        /// 29-藥師斗 
+        /// 30-元神斗 
+        /// 31-福祿壽斗 
+        /// 32-觀音斗 
+        /// 33-明心智慧燈
+        /// 34-發財斗/一個月
+        /// 35-姻緣斗/一個月
+        /// 36-貴人斗/一個月
+        /// 37-消災延壽斗/一個月
+        /// 38-財神斗/三個月
+        /// 39-發財斗/三個月
+        /// 40-姻緣斗/三個月
+        /// 41-貴人斗/三個月
+        /// 42-消災延壽斗/三個月
+        /// 43-元辰斗燈、元辰燈(壽山巖觀音寺)
+        /// 44-求子燈
+        /// 45-護子燈
+        /// 46-添丁燈
+        /// 47-婚姻燈
+        /// 48-安太陰
+        /// 49-安太陽
+        /// 50-光明燈+批流年
+        /// 51-文昌燈+批流年
+        /// </param>
+        /// <param name="Year">年度字串，例如 "2025"</param>
+        /// <param name="msg">回傳給前端的訊息（各燈號編號＋客服電話）</param>
+        /// <param name="lightslist">回傳給前端的燈號清單（例如「太歲燈:TYA1001」）</param>
+        /// <param name="Lightslist">備用，可同樣回傳燈號字串陣列，視業務需求</param>
+        /// <returns>若有更新資料則回傳 true，否則回傳 false</returns>
+        public bool UpdateLights_sbbt_Info(
+            int applicantID,
+            int LightsType,
+            string Year,
+            ref string msg,
+            ref string[] lightslist,
+            ref string[] Lightslist)
+        {
+            lock (_thisLock)
+            {
+                twbobibobi.Data.BasePage basePage = new twbobibobi.Data.BasePage();
+
+                // 1. 一次性取得所有已分配的編號 (Num > 0 且 Num2String 有值)
+                string sqlFetchExisting =
+                    "SELECT LightsType, Num " +
+                    "FROM Temple_" + Year + "..Lights_sbbt_info " +
+                    "WHERE Status = 0 " +
+                    "  AND Num <> 0" +
+                    "  AND Num2String IS NOT NULL " +
+                    "  AND Num2String <> ''";
+
+                // 建立 DatabaseAdapter，並加入參數
+                DatabaseAdapter da = new DatabaseAdapter(sqlFetchExisting, this.DBSource);
+                da.SetSqlCommandBuilder();
+                DataTable dtExisting = new DataTable();
+                da.Fill(dtExisting);
+
+                // 建立各燈種對應的已用號碼集合
+                var usedNumsByType = new Dictionary<int, HashSet<int>>();
+                foreach (DataRow row in dtExisting.Rows)
+                {
+                    int type = Convert.ToInt32(row["LightsType"]);
+                    int num = Convert.ToInt32(row["Num"]);
+                    if (!usedNumsByType.ContainsKey(type))
+                        usedNumsByType[type] = new HashSet<int>();
+                    usedNumsByType[type].Add(num);
+                }
+
+                // 2. 一次性抓出所有需補號的列 (Num = 0)
+                DataTable dtToAssign = new DataTable();
+                string sqlFetchToAssign =
+                    "SELECT LightsID, LightsType " +
+                    "FROM Temple_" + Year + "..Lights_sbbt_info " +
+                    "WHERE ApplicantID = @ApplicantID " +
+                    "  AND Status = 0 " +
+                    "  AND Num = 0 " +
+                    "ORDER BY LightsID";
+
+                {
+                    da = new DatabaseAdapter(sqlFetchToAssign, this.DBSource);
+                    da.SetSqlCommandBuilder();
+                    da.AddParameterToSelectCommand("ApplicantID", applicantID);
+                    da.Fill(dtToAssign);
+                }
+
+                int rowCount = dtToAssign.Rows.Count;
+                lightslist = new string[rowCount];
+                Lightslist = new string[rowCount];
+                // 用來存放要批量更新的資料 (LightsID, AssignedNum, AssignedNumString)
+                List<Tuple<int, int, string>> updatedRecords = new List<Tuple<int, int, string>>();
+
+                // 3. 逐筆在記憶體中分配「最小可用缺號」
+                for (int i = 0; i < rowCount; i++)
+                {
+                    DataRow row = dtToAssign.Rows[i];
+                    int dbLightsID = Convert.ToInt32(row["LightsID"]);
+                    int dbLightsType = Convert.ToInt32(row["LightsType"]);
+
+                    if (!usedNumsByType.ContainsKey(dbLightsType))
+                        usedNumsByType[dbLightsType] = new HashSet<int>();
+
+                    // 找下一個可用編號 (從 1001 開始往上搜尋)
+                    var usedSet = usedNumsByType[dbLightsType];
+                    int nextNum = 1001;
+                    while (usedSet.Contains(nextNum))
+                    {
+                        nextNum++;
+                    }
+
+                    // 根據不同燈種決定前綴字串
+                    string prefix = "";
+                    switch (dbLightsType)
+                    {
+                        case 3: prefix = "SBBTS"; break;    // 光明燈
+                        case 4: prefix = "SBBTA"; break;    // 太歲燈
+                        case 5: prefix = "SBBTW"; break;    // 文昌燈
+                        case 8: prefix = "SBBTY"; break;    // 特別健康燈
+                        case 10: prefix = "SBBTN"; break;   // 特別貴人燈
+                        case 22: prefix = "SBBTC"; break;   // 特別事業登
+                        case 44: prefix = "SBBTB"; break;   // 求子燈
+                        case 45: prefix = "SBBTP"; break;   // 護子燈
+                    }
+                    string numString = prefix + nextNum.ToString();
+                    Lightslist[i] = numString;
+
+                    // 將這筆資料加入批量更新清單
+                    updatedRecords.Add(new Tuple<int, int, string>(dbLightsID, nextNum, numString));
+
+                    // 準備回傳給前端的燈號字串
+                    string typeName = "";
+                    switch (dbLightsType)
+                    {
+                        case 3: typeName = "光明燈"; break;
+                        case 4: typeName = "太歲燈"; break;
+                        case 5: typeName = "文昌燈"; break;
+                        case 8: typeName = "特別健康燈"; break;
+                        case 10: typeName = "特別貴人燈"; break;
+                        case 22: typeName = "特別事業登"; break;
+                        case 44: typeName = "求子燈"; break;
+                        case 45: typeName = "護子燈"; break;
+                    }
+                    lightslist[i] = typeName + ":" + numString;
+
+                    // 把已分配的 nextNum 加入 usedNumsByType，避免重複
+                    usedSet.Add(nextNum);
+                }
+
+                // 組出 msg，格式為「燈種1:編號,燈種2:編號,...。客服電話：04-36092299。」
+                msg += string.Join(",", lightslist) + "。客服電話：04-36092299。";
+
+                // 5. 一次性批量 UPDATE 回資料庫
+                //    以下示範用動態 SQL 拼接多筆 UPDATE，若更新筆數很多建議改用 TVP + 存儲過程
+                System.Text.StringBuilder sb = new System.Text.StringBuilder();
+                sb.AppendLine("USE Temple_" + Year + ";");
+                foreach (var rec in updatedRecords)
+                {
+                    int id = rec.Item1;
+                    int assignedNum = rec.Item2;
+                    string assignedNumString = rec.Item3.Replace("'", "''"); // 確保單引號轉義
+                    sb.AppendLine(
+                        "UPDATE dbo.Lights_sbbt_info " +
+                        "SET Num = " + assignedNum + ", " +
+                        "    Num2String = N'" + assignedNumString + "' " +
+                        "WHERE LightsID = " + id + ";"
+                    );
+                }
+                string sqlBatchUpdate = sb.ToString();
+
+                try
+                {
+                    int rowsAffected = ExecuteSql(sqlBatchUpdate);
+                    if (rowsAffected > 0)
+                    {
+                        // 成功更新至少一筆
+                        return (updatedRecords.Count > 0);
+                    }
+                    else
+                    {
+                        // 防呆：SQL 執行後沒有影響到任何列，記一筆錯誤日誌，再回傳 false
+                        string err = "[UpdateLights_sbbt_Info] 批量 UPDATE 未更新到任何記錄，SQL:\r\n" + sqlBatchUpdate;
+                        basePage.SaveErrorLog(err);
+                        return false;
+                    }
+                }
+                catch (Exception ex)
+                {
+                    // 捕捉執行 SQL 時的例外，記錯誤日誌，並回傳 false
+                    basePage.SaveErrorLog("[UpdateLights_sbbt_Info] 批量 UPDATE 時發生例外：\r\n" + ex);
+                    return false;
+                }
+            }
+        }
+
+        /// <summary>
+        /// 更新並取得燈號資料 - 點燈 - 真武山受玄宮
+        /// </summary>
+        /// <param name="applicantID">購買人編號</param>
+        /// <param name="LightsType">
+        /// 燈種代碼：
+        /// 3-光明燈、元神光明燈(鹿港城隍廟)、貴人燈(斗六五路財神宮)、平安燈(北極玄天宮、壽山巖觀音寺)
+        /// 4-安太歲、太歲燈、太歲平安符(鹿港城隍廟)、安奉太歲
+        /// 5-文昌燈、五文昌燈、文魁智慧燈(鹿港城隍廟)、文昌功名燈(桃園龍德宮)
+        /// 6-財神燈、發財燈、福財燈、正財福報燈(鹿港城隍廟)、招財燈(壽山巖觀音寺)、五路財神燈(桃園龍德宮)
+        /// 7-姻緣燈、桃花燈、月老桃花燈
+        /// 8-藥師燈 、藥師佛燈、消災延壽燈(斗六五路財神宮)、特別健康燈(石壁部堂)、健康延壽燈(桃園龍德宮)
+        /// 9-財利燈 
+        /// 10-貴人燈 、特別貴人燈(石壁部堂)
+        /// 11-福祿燈、福壽燈 
+        /// 12-寵物平安燈 
+        /// 13-龍王燈 
+        /// 14-虎爺燈 
+        /// 15-轉運納福燈 
+        /// 16-光明燈上層、玉皇燈(五股賀聖宮)
+        /// 17-偏財旺旺燈 
+        /// 18-廣進安財庫 
+        /// 19-財庫燈 
+        /// 20-月老姻緣燈
+        /// 21-孝親祈福燈 
+        /// 22-事業燈、特別事業燈(石壁部堂)
+        /// 23-全家光明燈 
+        /// 24-觀音佛祖燈 
+        /// 25-財神斗、財神斗/一個月(斗六五路財神宮)
+        /// 26-事業斗 
+        /// 27-平安斗 
+        /// 28-文昌斗 
+        /// 29-藥師斗 
+        /// 30-元神斗 
+        /// 31-福祿壽斗 
+        /// 32-觀音斗 
+        /// 33-明心智慧燈
+        /// 34-發財斗/一個月
+        /// 35-姻緣斗/一個月
+        /// 36-貴人斗/一個月
+        /// 37-消災延壽斗/一個月
+        /// 38-財神斗/三個月
+        /// 39-發財斗/三個月
+        /// 40-姻緣斗/三個月
+        /// 41-貴人斗/三個月
+        /// 42-消災延壽斗/三個月
+        /// 43-元辰斗燈、元辰燈(壽山巖觀音寺)
+        /// 44-求子燈
+        /// 45-護子燈
+        /// 46-添丁燈
+        /// 47-婚姻燈
+        /// 48-安太陰
+        /// 49-安太陽
+        /// 50-光明燈+批流年
+        /// 51-文昌燈+批流年
+        /// </param>
+        /// <param name="Year">年度字串，例如 "2025"</param>
+        /// <param name="msg">回傳給前端的訊息（各燈號編號＋客服電話）</param>
+        /// <param name="lightslist">回傳給前端的燈號清單（例如「太歲燈:TYA1001」）</param>
+        /// <param name="Lightslist">備用，可同樣回傳燈號字串陣列，視業務需求</param>
+        /// <returns>若有更新資料則回傳 true，否則回傳 false</returns>
+        public bool UpdateLights_bpy_Info(
+            int applicantID,
+            int LightsType,
+            string Year,
+            ref string msg,
+            ref string[] lightslist,
+            ref string[] Lightslist)
+        {
+            lock (_thisLock)
+            {
+                twbobibobi.Data.BasePage basePage = new twbobibobi.Data.BasePage();
+
+                // 1. 一次性取得所有已分配的編號 (Num > 0 且 Num2String 有值)
+                string sqlFetchExisting =
+                    "SELECT LightsType, Num " +
+                    "FROM Temple_" + Year + "..Lights_bpy_info " +
+                    "WHERE Status = 0 " +
+                    "  AND Num <> 0" +
+                    "  AND Num2String IS NOT NULL " +
+                    "  AND Num2String <> ''";
+
+                // 建立 DatabaseAdapter，並加入參數
+                DatabaseAdapter da = new DatabaseAdapter(sqlFetchExisting, this.DBSource);
+                da.SetSqlCommandBuilder();
+                DataTable dtExisting = new DataTable();
+                da.Fill(dtExisting);
+
+                // 建立各燈種對應的已用號碼集合
+                var usedNumsByType = new Dictionary<int, HashSet<int>>();
+                foreach (DataRow row in dtExisting.Rows)
+                {
+                    int type = Convert.ToInt32(row["LightsType"]);
+                    int num = Convert.ToInt32(row["Num"]);
+                    if (!usedNumsByType.ContainsKey(type))
+                        usedNumsByType[type] = new HashSet<int>();
+                    usedNumsByType[type].Add(num);
+                }
+
+                // 2. 一次性抓出所有需補號的列 (Num = 0)
+                DataTable dtToAssign = new DataTable();
+                string sqlFetchToAssign =
+                    "SELECT LightsID, LightsType " +
+                    "FROM Temple_" + Year + "..Lights_bpy_info " +
+                    "WHERE ApplicantID = @ApplicantID " +
+                    "  AND Status = 0 " +
+                    "  AND Num = 0 " +
+                    "ORDER BY LightsID";
+
+                {
+                    da = new DatabaseAdapter(sqlFetchToAssign, this.DBSource);
+                    da.SetSqlCommandBuilder();
+                    da.AddParameterToSelectCommand("ApplicantID", applicantID);
+                    da.Fill(dtToAssign);
+                }
+
+                int rowCount = dtToAssign.Rows.Count;
+                lightslist = new string[rowCount];
+                Lightslist = new string[rowCount];
+                // 用來存放要批量更新的資料 (LightsID, AssignedNum, AssignedNumString)
+                List<Tuple<int, int, string>> updatedRecords = new List<Tuple<int, int, string>>();
+
+                // 3. 逐筆在記憶體中分配「最小可用缺號」
+                for (int i = 0; i < rowCount; i++)
+                {
+                    DataRow row = dtToAssign.Rows[i];
+                    int dbLightsID = Convert.ToInt32(row["LightsID"]);
+                    int dbLightsType = Convert.ToInt32(row["LightsType"]);
+
+                    if (!usedNumsByType.ContainsKey(dbLightsType))
+                        usedNumsByType[dbLightsType] = new HashSet<int>();
+
+                    // 找下一個可用編號 (從 1001 開始往上搜尋)
+                    var usedSet = usedNumsByType[dbLightsType];
+                    int nextNum = 1001;
+                    while (usedSet.Contains(nextNum))
+                    {
+                        nextNum++;
+                    }
+
+                    // 根據不同燈種決定前綴字串
+                    string prefix = "";
+                    switch (dbLightsType)
+                    {
+                        case 3: prefix = "BPYS"; break;  // 光明燈
+                        case 4: prefix = "BPYA"; break;  // 安太歲
+                        case 5: prefix = "BPYW"; break;  // 文昌燈
+                        case 9: prefix = "BPYT"; break;  // 財利燈
+                    }
+                    string numString = prefix + nextNum.ToString();
+                    Lightslist[i] = numString;
+
+                    // 將這筆資料加入批量更新清單
+                    updatedRecords.Add(new Tuple<int, int, string>(dbLightsID, nextNum, numString));
+
+                    // 準備回傳給前端的燈號字串
+                    string typeName = "";
+                    switch (dbLightsType)
+                    {
+                        case 3: typeName = "光明燈"; break;
+                        case 4: typeName = "安太歲"; break;
+                        case 5: typeName = "文昌燈"; break;
+                        case 9: typeName = "財利燈"; break;
+                    }
+                    lightslist[i] = typeName + ":" + numString;
+
+                    // 把已分配的 nextNum 加入 usedNumsByType，避免重複
+                    usedSet.Add(nextNum);
+                }
+
+                // 組出 msg，格式為「燈種1:編號,燈種2:編號,...。客服電話：04-36092299。」
+                msg += string.Join(",", lightslist) + "。客服電話：04-36092299。";
+
+                // 5. 一次性批量 UPDATE 回資料庫
+                //    以下示範用動態 SQL 拼接多筆 UPDATE，若更新筆數很多建議改用 TVP + 存儲過程
+                System.Text.StringBuilder sb = new System.Text.StringBuilder();
+                sb.AppendLine("USE Temple_" + Year + ";");
+                foreach (var rec in updatedRecords)
+                {
+                    int id = rec.Item1;
+                    int assignedNum = rec.Item2;
+                    string assignedNumString = rec.Item3.Replace("'", "''"); // 確保單引號轉義
+                    sb.AppendLine(
+                        "UPDATE dbo.Lights_bpy_info " +
+                        "SET Num = " + assignedNum + ", " +
+                        "    Num2String = N'" + assignedNumString + "' " +
+                        "WHERE LightsID = " + id + ";"
+                    );
+                }
+                string sqlBatchUpdate = sb.ToString();
+
+                try
+                {
+                    int rowsAffected = ExecuteSql(sqlBatchUpdate);
+                    if (rowsAffected > 0)
+                    {
+                        // 成功更新至少一筆
+                        return (updatedRecords.Count > 0);
+                    }
+                    else
+                    {
+                        // 防呆：SQL 執行後沒有影響到任何列，記一筆錯誤日誌，再回傳 false
+                        string err = "[UpdateLights_bpy_Info] 批量 UPDATE 未更新到任何記錄，SQL:\r\n" + sqlBatchUpdate;
+                        basePage.SaveErrorLog(err);
+                        return false;
+                    }
+                }
+                catch (Exception ex)
+                {
+                    // 捕捉執行 SQL 時的例外，記錯誤日誌，並回傳 false
+                    basePage.SaveErrorLog("[UpdateLights_bpy_Info] 批量 UPDATE 時發生例外：\r\n" + ex);
+                    return false;
+                }
+            }
+        }
+
+        /// <summary>
+        /// 更新並取得燈號資料 - 點燈 - 壽山巖觀音寺
+        /// </summary>
+        /// <param name="applicantID">購買人編號</param>
+        /// <param name="LightsType">
+        /// 燈種代碼：
+        /// 3-光明燈、元神光明燈(鹿港城隍廟)、貴人燈(斗六五路財神宮)、平安燈(北極玄天宮、壽山巖觀音寺)
+        /// 4-安太歲、太歲燈、太歲平安符(鹿港城隍廟)、安奉太歲
+        /// 5-文昌燈、五文昌燈、文魁智慧燈(鹿港城隍廟)、文昌功名燈(桃園龍德宮)
+        /// 6-財神燈、發財燈、福財燈、正財福報燈(鹿港城隍廟)、招財燈(壽山巖觀音寺)、五路財神燈(桃園龍德宮)
+        /// 7-姻緣燈、桃花燈、月老桃花燈
+        /// 8-藥師燈 、藥師佛燈、消災延壽燈(斗六五路財神宮)、特別健康燈(石壁部堂)、健康延壽燈(桃園龍德宮)
+        /// 9-財利燈 
+        /// 10-貴人燈 、特別貴人燈(石壁部堂)
+        /// 11-福祿燈、福壽燈 
+        /// 12-寵物平安燈 
+        /// 13-龍王燈 
+        /// 14-虎爺燈 
+        /// 15-轉運納福燈 
+        /// 16-光明燈上層、玉皇燈(五股賀聖宮)
+        /// 17-偏財旺旺燈 
+        /// 18-廣進安財庫 
+        /// 19-財庫燈 
+        /// 20-月老姻緣燈
+        /// 21-孝親祈福燈 
+        /// 22-事業燈、特別事業燈(石壁部堂)
+        /// 23-全家光明燈 
+        /// 24-觀音佛祖燈 
+        /// 25-財神斗、財神斗/一個月(斗六五路財神宮)
+        /// 26-事業斗 
+        /// 27-平安斗 
+        /// 28-文昌斗 
+        /// 29-藥師斗 
+        /// 30-元神斗 
+        /// 31-福祿壽斗 
+        /// 32-觀音斗 
+        /// 33-明心智慧燈
+        /// 34-發財斗/一個月
+        /// 35-姻緣斗/一個月
+        /// 36-貴人斗/一個月
+        /// 37-消災延壽斗/一個月
+        /// 38-財神斗/三個月
+        /// 39-發財斗/三個月
+        /// 40-姻緣斗/三個月
+        /// 41-貴人斗/三個月
+        /// 42-消災延壽斗/三個月
+        /// 43-元辰斗燈、元辰燈(壽山巖觀音寺)
+        /// 44-求子燈
+        /// 45-護子燈
+        /// 46-添丁燈
+        /// 47-婚姻燈
+        /// 48-安太陰
+        /// 49-安太陽
+        /// 50-光明燈+批流年
+        /// 51-文昌燈+批流年
+        /// </param>
+        /// <param name="Year">年度字串，例如 "2025"</param>
+        /// <param name="msg">回傳給前端的訊息（各燈號編號＋客服電話）</param>
+        /// <param name="lightslist">回傳給前端的燈號清單（例如「太歲燈:TYA1001」）</param>
+        /// <param name="Lightslist">備用，可同樣回傳燈號字串陣列，視業務需求</param>
+        /// <returns>若有更新資料則回傳 true，否則回傳 false</returns>
+        public bool UpdateLights_ssy_Info(
+            int applicantID,
+            int LightsType,
+            string Year,
+            ref string msg,
+            ref string[] lightslist,
+            ref string[] Lightslist)
+        {
+            lock (_thisLock)
+            {
+                twbobibobi.Data.BasePage basePage = new twbobibobi.Data.BasePage();
+
+                // 1. 一次性取得所有已分配的編號 (Num > 0 且 Num2String 有值)
+                string sqlFetchExisting =
+                    "SELECT LightsType, Num " +
+                    "FROM Temple_" + Year + "..Lights_ssy_info " +
+                    "WHERE Status = 0 " +
+                    "  AND Num <> 0" +
+                    "  AND Num2String IS NOT NULL " +
+                    "  AND Num2String <> ''";
+
+                // 建立 DatabaseAdapter，並加入參數
+                DatabaseAdapter da = new DatabaseAdapter(sqlFetchExisting, this.DBSource);
+                da.SetSqlCommandBuilder();
+                DataTable dtExisting = new DataTable();
+                da.Fill(dtExisting);
+
+                // 建立各燈種對應的已用號碼集合
+                var usedNumsByType = new Dictionary<int, HashSet<int>>();
+                foreach (DataRow row in dtExisting.Rows)
+                {
+                    int type = Convert.ToInt32(row["LightsType"]);
+                    int num = Convert.ToInt32(row["Num"]);
+                    if (!usedNumsByType.ContainsKey(type))
+                        usedNumsByType[type] = new HashSet<int>();
+                    usedNumsByType[type].Add(num);
+                }
+
+                // 2. 一次性抓出所有需補號的列 (Num = 0)
+                DataTable dtToAssign = new DataTable();
+                string sqlFetchToAssign =
+                    "SELECT LightsID, LightsType " +
+                    "FROM Temple_" + Year + "..Lights_ssy_info " +
+                    "WHERE ApplicantID = @ApplicantID " +
+                    "  AND Status = 0 " +
+                    "  AND Num = 0 " +
+                    "ORDER BY LightsID";
+
+                {
+                    da = new DatabaseAdapter(sqlFetchToAssign, this.DBSource);
+                    da.SetSqlCommandBuilder();
+                    da.AddParameterToSelectCommand("ApplicantID", applicantID);
+                    da.Fill(dtToAssign);
+                }
+
+                int rowCount = dtToAssign.Rows.Count;
+                lightslist = new string[rowCount];
+                Lightslist = new string[rowCount];
+                // 用來存放要批量更新的資料 (LightsID, AssignedNum, AssignedNumString)
+                List<Tuple<int, int, string>> updatedRecords = new List<Tuple<int, int, string>>();
+
+                // 3. 逐筆在記憶體中分配「最小可用缺號」
+                for (int i = 0; i < rowCount; i++)
+                {
+                    DataRow row = dtToAssign.Rows[i];
+                    int dbLightsID = Convert.ToInt32(row["LightsID"]);
+                    int dbLightsType = Convert.ToInt32(row["LightsType"]);
+
+                    if (!usedNumsByType.ContainsKey(dbLightsType))
+                        usedNumsByType[dbLightsType] = new HashSet<int>();
+
+                    // 找下一個可用編號 (從 1001 開始往上搜尋)
+                    var usedSet = usedNumsByType[dbLightsType];
+                    int nextNum = 1001;
+                    while (usedSet.Contains(nextNum))
+                    {
+                        nextNum++;
+                    }
+
+                    // 根據不同燈種決定前綴字串
+                    string prefix = "";
+                    switch (dbLightsType)
+                    {
+                        case 3: prefix = "SSYS"; break;  // 平安燈(光明燈)
+                        case 4: prefix = "SSYA"; break;  // 安太歲
+                        case 5: prefix = "SSYW"; break;  // 文昌燈
+                        case 6: prefix = "SSYT"; break;  // 招財燈
+                        case 7: prefix = "SSYM"; break;  // 姻緣燈
+                        case 10: prefix = "SSYN"; break;  // 貴人燈
+                        case 43: prefix = "SSYY"; break;  // 元辰燈
+                        case 46: prefix = "SSYB"; break;  // 添丁燈
+                        case 47: prefix = "SSYH"; break;  // 婚姻燈
+                        case 48: prefix = "SSYI"; break;  // 安太陰
+                        case 49: prefix = "SSYO"; break;  // 安太陽
+                    }
+                    string numString = prefix + nextNum.ToString();
+                    Lightslist[i] = numString;
+
+                    // 將這筆資料加入批量更新清單
+                    updatedRecords.Add(new Tuple<int, int, string>(dbLightsID, nextNum, numString));
+
+                    // 準備回傳給前端的燈號字串
+                    string typeName = "";
+                    switch (dbLightsType)
+                    {
+                        case 3: typeName = "平安燈"; break;
+                        case 4: typeName = "安太歲"; break;
+                        case 5: typeName = "文昌燈"; break;
+                        case 6: typeName = "招財燈"; break;
+                        case 7: typeName = "姻緣燈"; break;
+                        case 10: typeName = "貴人燈"; break;
+                        case 43: typeName = "元辰燈"; break;
+                        case 46: typeName = "添丁燈"; break;
+                        case 47: typeName = "婚姻燈"; break;
+                        case 48: typeName = "安太陰"; break;
+                        case 49: typeName = "安太陽"; break;
+                    }
+                    lightslist[i] = typeName + ":" + numString;
+
+                    // 把已分配的 nextNum 加入 usedNumsByType，避免重複
+                    usedSet.Add(nextNum);
+                }
+
+                // 組出 msg，格式為「燈種1:編號,燈種2:編號,...。客服電話：04-36092299。」
+                msg += string.Join(",", lightslist) + "。客服電話：04-36092299。";
+
+                // 5. 一次性批量 UPDATE 回資料庫
+                //    以下示範用動態 SQL 拼接多筆 UPDATE，若更新筆數很多建議改用 TVP + 存儲過程
+                System.Text.StringBuilder sb = new System.Text.StringBuilder();
+                sb.AppendLine("USE Temple_" + Year + ";");
+                foreach (var rec in updatedRecords)
+                {
+                    int id = rec.Item1;
+                    int assignedNum = rec.Item2;
+                    string assignedNumString = rec.Item3.Replace("'", "''"); // 確保單引號轉義
+                    sb.AppendLine(
+                        "UPDATE dbo.Lights_ssy_info " +
+                        "SET Num = " + assignedNum + ", " +
+                        "    Num2String = N'" + assignedNumString + "' " +
+                        "WHERE LightsID = " + id + ";"
+                    );
+                }
+                string sqlBatchUpdate = sb.ToString();
+
+                try
+                {
+                    int rowsAffected = ExecuteSql(sqlBatchUpdate);
+                    if (rowsAffected > 0)
+                    {
+                        // 成功更新至少一筆
+                        return (updatedRecords.Count > 0);
+                    }
+                    else
+                    {
+                        // 防呆：SQL 執行後沒有影響到任何列，記一筆錯誤日誌，再回傳 false
+                        string err = "[UpdateLights_ssy_Info] 批量 UPDATE 未更新到任何記錄，SQL:\r\n" + sqlBatchUpdate;
+                        basePage.SaveErrorLog(err);
+                        return false;
+                    }
+                }
+                catch (Exception ex)
+                {
+                    // 捕捉執行 SQL 時的例外，記錯誤日誌，並回傳 false
+                    basePage.SaveErrorLog("[UpdateLights_ssy_Info] 批量 UPDATE 時發生例外：\r\n" + ex);
+                    return false;
+                }
+            }
+        }
+
+        #endregion
+
+        #region －－ 千手觀音千燈迎佛法會 －－
+
+        /// <summary>
+        /// 更新並取得燈號資料 - 千手觀音千燈迎佛法會 - 桃園威天宮
+        /// </summary>
+        /// <param name="applicantID">購買人編號</param>
+        /// <param name="QnLightType">
+        /// 活動代碼：
+        /// 1－蓮花燈;2－八吉祥燈;3－闔家甘露燈；4－藥師琉璃燈；5－八吉祥花；
+        /// </param>
+        /// <param name="Year">年度字串，例如 "2025"</param>
+        /// <param name="msg">回傳給前端的訊息（各燈號編號＋客服電話）</param>
+        /// <param name="qnlightlist">回傳給前端的燈號清單（例如「太歲燈:TYA1001」）</param>
+        /// <param name="QnLightlist">備用，可同樣回傳燈號字串陣列，視業務需求</param>
+        /// <returns>若有更新資料則回傳 true，否則回傳 false</returns>
+        public bool UpdateQnLight_ty_Info(
+            int applicantID,
+            int QnLightType,
+            string Year,
+            ref string msg,
+            ref string[] qnlightlist,
+            ref string[] QnLightlist)
+        {
+            lock (_thisLock)
+            {
+                twbobibobi.Data.BasePage basePage = new twbobibobi.Data.BasePage();
+
+                // 1. 一次性取得所有已分配的編號 (Num > 0 且 Num2String 有值)
+                string sqlFetchExisting =
+                    "SELECT QnLightType, Num " +
+                    "FROM Temple_" + Year + "..QnLight_ty_info " +
+                    "WHERE Status = 0 " +
+                    "  AND Num <> 0" +
+                    "  AND Num2String IS NOT NULL " +
+                    "  AND Num2String <> ''";
+
+                // 建立 DatabaseAdapter，並加入參數
+                DatabaseAdapter da = new DatabaseAdapter(sqlFetchExisting, this.DBSource);
+                da.SetSqlCommandBuilder();
+                DataTable dtExisting = new DataTable();
+                da.Fill(dtExisting);
+
+                // 建立各燈種對應的已用號碼集合
+                var usedNumsByType = new Dictionary<int, HashSet<int>>();
+                foreach (DataRow row in dtExisting.Rows)
+                {
+                    int type = Convert.ToInt32(row["QnLightType"]);
+                    int num = Convert.ToInt32(row["Num"]);
+                    if (!usedNumsByType.ContainsKey(type))
+                        usedNumsByType[type] = new HashSet<int>();
+                    usedNumsByType[type].Add(num);
+                }
+
+                // 2. 一次性抓出所有需補號的列 (Num = 0)
+                DataTable dtToAssign = new DataTable();
+                string sqlFetchToAssign =
+                    "SELECT QnLightID, QnLightType " +
+                    "FROM Temple_" + Year + "..QnLight_ty_info " +
+                    "WHERE ApplicantID = @ApplicantID " +
+                    "  AND Status = 0 " +
+                    "  AND Num = 0 " +
+                    "ORDER BY QnLightID";
+
+                {
+                    da = new DatabaseAdapter(sqlFetchToAssign, this.DBSource);
+                    da.SetSqlCommandBuilder();
+                    da.AddParameterToSelectCommand("ApplicantID", applicantID);
+                    da.Fill(dtToAssign);
+                }
+
+                int rowCount = dtToAssign.Rows.Count;
+                qnlightlist = new string[rowCount];
+                QnLightlist = new string[rowCount];
+                // 用來存放要批量更新的資料 (QnLightID, AssignedNum, AssignedNumString)
+                List<Tuple<int, int, string>> updatedRecords = new List<Tuple<int, int, string>>();
+
+                // 3. 逐筆在記憶體中分配「最小可用缺號」
+                for (int i = 0; i < rowCount; i++)
+                {
+                    DataRow row = dtToAssign.Rows[i];
+                    int dbQnLightID = Convert.ToInt32(row["QnLightID"]);
+                    int dbQnLightType = Convert.ToInt32(row["QnLightType"]);
+
+                    if (!usedNumsByType.ContainsKey(dbQnLightType))
+                        usedNumsByType[dbQnLightType] = new HashSet<int>();
+
+                    // 找下一個可用編號 (從 1001 開始往上搜尋)
+                    var usedSet = usedNumsByType[dbQnLightType];
+                    int nextNum = 1001;
+                    while (usedSet.Contains(nextNum))
+                    {
+                        nextNum++;
+                    }
+
+                    // 根據不同燈種決定前綴字串
+                    string prefix = "";
+                    switch (dbQnLightType)
+                    {
+                        case 1: prefix = "QNLH"; break;     // 蓮花燈
+                        case 2: prefix = "QNBJX"; break;    // 八吉祥燈
+                        case 3: prefix = "QNGL"; break;     // 闔家甘露燈
+                        case 4: prefix = "QNYSL"; break;    // 藥師琉璃燈
+                        case 5: prefix = "QNH"; break;      // 八吉祥花
+                    }
+                    string numString = prefix + nextNum.ToString();
+                    QnLightlist[i] = numString;
+
+                    // 將這筆資料加入批量更新清單
+                    updatedRecords.Add(new Tuple<int, int, string>(dbQnLightID, nextNum, numString));
+
+                    // 準備回傳給前端的燈號字串
+                    string typeName = "";
+                    switch (dbQnLightType)
+                    {
+                        case 1: typeName = "蓮花燈"; break;
+                        case 2: typeName = "八吉祥燈"; break;
+                        case 3: typeName = "闔家甘露燈"; break;
+                        case 4: typeName = "藥師琉璃燈"; break;
+                        case 5: typeName = "八吉祥花"; break;
+                    }
+                    qnlightlist[i] = typeName + ":" + numString;
+
+                    // 把已分配的 nextNum 加入 usedNumsByType，避免重複
+                    usedSet.Add(nextNum);
+                }
+
+                // 組出 msg，格式為「燈種1:編號,燈種2:編號,...。客服電話：04-36092299。」
+                msg += string.Join(",", qnlightlist) + "。客服電話：04-36092299。";
+
+                // 5. 一次性批量 UPDATE 回資料庫
+                //    以下示範用動態 SQL 拼接多筆 UPDATE，若更新筆數很多建議改用 TVP + 存儲過程
+                System.Text.StringBuilder sb = new System.Text.StringBuilder();
+                sb.AppendLine("USE Temple_" + Year + ";");
+                foreach (var rec in updatedRecords)
+                {
+                    int id = rec.Item1;
+                    int assignedNum = rec.Item2;
+                    string assignedNumString = rec.Item3.Replace("'", "''"); // 確保單引號轉義
+                    sb.AppendLine(
+                        "UPDATE dbo.QnLight_ty_info " +
+                        "SET Num = " + assignedNum + ", " +
+                        "    Num2String = N'" + assignedNumString + "' " +
+                        "WHERE QnLightID = " + id + ";"
+                    );
+                }
+                string sqlBatchUpdate = sb.ToString();
+
+                try
+                {
+                    int rowsAffected = ExecuteSql(sqlBatchUpdate);
+                    if (rowsAffected > 0)
+                    {
+                        // 成功更新至少一筆
+                        return (updatedRecords.Count > 0);
+                    }
+                    else
+                    {
+                        // 防呆：SQL 執行後沒有影響到任何列，記一筆錯誤日誌，再回傳 false
+                        string err = "[UpdateQnLight_ty_Info] 批量 UPDATE 未更新到任何記錄，SQL:\r\n" + sqlBatchUpdate;
+                        basePage.SaveErrorLog(err);
+                        return false;
+                    }
+                }
+                catch (Exception ex)
+                {
+                    // 捕捉執行 SQL 時的例外，記錯誤日誌，並回傳 false
+                    basePage.SaveErrorLog("[UpdateQnLight_ty_Info] 批量 UPDATE 時發生例外：\r\n" + ex);
+                    return false;
+                }
+            }
+        }
+
+        #endregion
+
+        #region —— 祈安植福 —— 
+
+        /// <summary>
+        /// 更新並取得祈安植福資料 - 祈安植福 - 松柏嶺受天宮
+        /// </summary>
+        /// <param name="applicantID">購買人編號</param>
+        /// <param name="BlessingType">
+        /// 服務代碼：
+        /// 1－祈安植福；
+        /// </param>
+        /// <param name="Year">年度字串，例如 "2025"</param>
+        /// <param name="msg">回傳給前端的訊息（各燈號編號＋客服電話）</param>
+        /// <param name="blessinglist">回傳給前端的訂單編號清單（例如「太歲燈:TYA1001」）</param>
+        /// <param name="Blessinglist">備用，可同樣回傳燈號字串陣列，視業務需求</param>
+        /// <returns>若有更新資料則回傳 true，否則回傳 false</returns>
+        public bool UpdateBlessing_st_Info(
+            int applicantID,
+            int BlessingType,
+            string Year,
+            ref string msg,
+            ref string[] blessinglist,
+            ref string[] Blessinglist)
+        {
+            lock (_thisLock)
+            {
+                twbobibobi.Data.BasePage basePage = new twbobibobi.Data.BasePage();
+
+                // 1. 一次性取得所有已分配的編號 (Num > 0 且 Num2String 有值)
+                string sqlFetchExisting =
+                    "SELECT Num " +
+                    "FROM Temple_" + Year + "..Blessing_st_info " +
+                    "WHERE Status = 0 " +
+                    "  AND Num <> 0" +
+                    "  AND Num2String IS NOT NULL " +
+                    "  AND Num2String <> ''";
+
+                // 建立 DatabaseAdapter，並加入參數
+                DatabaseAdapter da = new DatabaseAdapter(sqlFetchExisting, this.DBSource);
+                da.SetSqlCommandBuilder();
+                DataTable dtExisting = new DataTable();
+                da.Fill(dtExisting);
+
+                // 建立已用號碼集合
+                HashSet<int> usedNums = new HashSet<int>();
+                foreach (DataRow row in dtExisting.Rows)
+                {
+                    int num = Convert.ToInt32(row["Num"]);
+                    usedNums.Add(num);
+                }
+
+                // 2. 一次性抓出所有需補號的列 (Num = 0)
+                DataTable dtToAssign = new DataTable();
+                string sqlFetchToAssign =
+                    "SELECT BlessingID " +
+                    "FROM Temple_" + Year + "..Blessing_st_info " +
+                    "WHERE ApplicantID = @ApplicantID " +
+                    "  AND Status = 0 " +
+                    "  AND Num = 0 " +
+                    "ORDER BY BlessingID";
+
+                {
+                    da = new DatabaseAdapter(sqlFetchToAssign, this.DBSource);
+                    da.SetSqlCommandBuilder();
+                    da.AddParameterToSelectCommand("ApplicantID", applicantID);
+                    da.Fill(dtToAssign);
+                }
+
+                int rowCount = dtToAssign.Rows.Count;
+                blessinglist = new string[rowCount];
+                Blessinglist = new string[rowCount];
+                // 用來存放要批量更新的資料 (BlessingID, AssignedNum, AssignedNumString)
+                List<Tuple<int, int, string>> updatedRecords = new List<Tuple<int, int, string>>();
+
+                // 3. 逐筆在記憶體中分配「最小可用缺號」
+                for (int i = 0; i < rowCount; i++)
+                {
+                    DataRow row = dtToAssign.Rows[i];
+                    int dbBlessingID = Convert.ToInt32(row["BlessingID"]);
+
+                    // 找下一個可用編號 (從 1001 開始往上搜尋)
+                    int nextNum = 1001;
+                    while (usedNums.Contains(nextNum))
+                    {
+                        nextNum++;
+                    }
+
+                    // 祈安植福的固定前綴
+                    string prefix = "STBL";
+                    string numString = prefix + nextNum.ToString();
+
+                    Blessinglist[i] = numString;
+                    blessinglist[i] = "祈安植福:" + numString;
+
+                    // 將這筆資料加入批量更新清單
+                    updatedRecords.Add(new Tuple<int, int, string>(dbBlessingID, nextNum, numString));
+
+                    // 把已分配的 nextNum 加入集合，避免重複
+                    usedNums.Add(nextNum);
+                }
+
+                // 組出 msg，格式為「燈種1:編號,燈種2:編號,...。客服電話：04-36092299。」
+                msg += string.Join(",", Blessinglist) + "。客服電話：04-36092299。";
+
+                // 5. 一次性批量 UPDATE 回資料庫
+                //    以下示範用動態 SQL 拼接多筆 UPDATE，若更新筆數很多建議改用 TVP + 存儲過程
+                System.Text.StringBuilder sb = new System.Text.StringBuilder();
+                sb.AppendLine("USE Temple_" + Year + ";");
+                foreach (var rec in updatedRecords)
+                {
+                    int id = rec.Item1;
+                    int assignedNum = rec.Item2;
+                    string assignedNumString = rec.Item3.Replace("'", "''"); // 確保單引號轉義
+                    sb.AppendLine(
+                        "UPDATE dbo.Blessing_st_info " +
+                        "SET Num = " + assignedNum + ", " +
+                        "    Num2String = N'" + assignedNumString + "' " +
+                        "WHERE BlessingID = " + id + ";"
+                    );
+                }
+                string sqlBatchUpdate = sb.ToString();
+
+                try
+                {
+                    int rowsAffected = ExecuteSql(sqlBatchUpdate);
+                    if (rowsAffected > 0)
+                    {
+                        // 成功更新至少一筆
+                        return (updatedRecords.Count > 0);
+                    }
+                    else
+                    {
+                        // 防呆：SQL 執行後沒有影響到任何列，記一筆錯誤日誌，再回傳 false
+                        string err = "[UpdateBlessing_st_Info] 批量 UPDATE 未更新到任何記錄，SQL:\r\n" + sqlBatchUpdate;
+                        basePage.SaveErrorLog(err);
+                        return false;
+                    }
+                }
+                catch (Exception ex)
+                {
+                    // 捕捉執行 SQL 時的例外，記錯誤日誌，並回傳 false
+                    basePage.SaveErrorLog("[UpdateBlessing_st_Info] 批量 UPDATE 時發生例外：\r\n" + ex);
+                    return false;
+                }
+            }
+        }
+
+        #endregion
+
+
+        #region —— 孝親祈福感恩活動 —— 
+
+        /// <summary>
+        /// 更新並取得訂單編號 - 孝親祈福感恩活動 - 桃園威天宮
+        /// </summary>
+        /// <param name="applicantID">購買人編號</param>
+        /// <param name="LightsType">
+        /// 燈種代碼：
+        /// 3-光明燈、元神光明燈(鹿港城隍廟)、貴人燈(斗六五路財神宮)、平安燈(北極玄天宮、壽山巖觀音寺)
+        /// 4-安太歲、太歲燈、太歲平安符(鹿港城隍廟)、安奉太歲
+        /// 5-文昌燈、五文昌燈、文魁智慧燈(鹿港城隍廟)、文昌功名燈(桃園龍德宮)
+        /// 6-財神燈、發財燈、福財燈、正財福報燈(鹿港城隍廟)、招財燈(壽山巖觀音寺)、五路財神燈(桃園龍德宮)
+        /// 7-姻緣燈、桃花燈、月老桃花燈
+        /// 8-藥師燈 、藥師佛燈、消災延壽燈(斗六五路財神宮)、特別健康燈(石壁部堂)、健康延壽燈(桃園龍德宮)
+        /// 9-財利燈 
+        /// 10-貴人燈 、特別貴人燈(石壁部堂)
+        /// 11-福祿燈、福壽燈 
+        /// 12-寵物平安燈 
+        /// 13-龍王燈 
+        /// 14-虎爺燈 
+        /// 15-轉運納福燈 
+        /// 16-光明燈上層、玉皇燈(五股賀聖宮)
+        /// 17-偏財旺旺燈 
+        /// 18-廣進安財庫 
+        /// 19-財庫燈 
+        /// 20-月老姻緣燈
+        /// 21-孝親祈福燈 
+        /// 22-事業燈、特別事業燈(石壁部堂)
+        /// 23-全家光明燈 
+        /// 24-觀音佛祖燈 
+        /// 25-財神斗、財神斗/一個月(斗六五路財神宮)
+        /// 26-事業斗 
+        /// 27-平安斗 
+        /// 28-文昌斗 
+        /// 29-藥師斗 
+        /// 30-元神斗 
+        /// 31-福祿壽斗 
+        /// 32-觀音斗 
+        /// 33-明心智慧燈
+        /// 34-發財斗/一個月
+        /// 35-姻緣斗/一個月
+        /// 36-貴人斗/一個月
+        /// 37-消災延壽斗/一個月
+        /// 38-財神斗/三個月
+        /// 39-發財斗/三個月
+        /// 40-姻緣斗/三個月
+        /// 41-貴人斗/三個月
+        /// 42-消災延壽斗/三個月
+        /// 43-元辰斗燈、元辰燈(壽山巖觀音寺)
+        /// 44-求子燈
+        /// 45-護子燈
+        /// 46-添丁燈
+        /// 47-婚姻燈
+        /// 48-安太陰
+        /// 49-安太陽
+        /// 50-光明燈+批流年
+        /// 51-文昌燈+批流年
+        /// </param>
+        /// <param name="Year">年度字串，例如 "2025"</param>
+        /// <param name="msg">回傳給前端的訊息（各訂單編號＋客服電話）</param>
+        /// <param name="lightslist">回傳給前端的訂單編號清單</param>
+        /// <param name="Lightslist">備用，可同樣回傳訂單編號字串陣列，視業務需求</param>
+        /// <returns>若有更新資料則回傳 true，否則回傳 false</returns>
+        public bool UpdateLights_ty_mom_Info(
+            int applicantID,
+            int LightsType,
+            string Year,
+            ref string msg,
+            ref string[] lightslist,
+            ref string[] Lightslist)
+        {
+            lock (_thisLock)
+            {
+                twbobibobi.Data.BasePage basePage = new twbobibobi.Data.BasePage();
+
+                // 1. 一次性取得所有已分配的編號 (Num > 0 且 Num2String 有值)
+                string sqlFetchExisting =
+                    "SELECT LightsType, Num " +
+                    "FROM Temple_" + Year + "..Lights_ty_mom_info " +
+                    "WHERE Status = 0 " +
+                    "  AND Num <> 0" +
+                    "  AND Num2String IS NOT NULL " +
+                    "  AND Num2String <> ''";
+
+                // 建立 DatabaseAdapter，並加入參數
+                DatabaseAdapter da = new DatabaseAdapter(sqlFetchExisting, this.DBSource);
+                da.SetSqlCommandBuilder();
+                DataTable dtExisting = new DataTable();
+                da.Fill(dtExisting);
+
+                // 建立各燈種對應的已用號碼集合
+                var usedNumsByType = new Dictionary<int, HashSet<int>>();
+                foreach (DataRow row in dtExisting.Rows)
+                {
+                    int type = Convert.ToInt32(row["LightsType"]);
+                    int num = Convert.ToInt32(row["Num"]);
+                    if (!usedNumsByType.ContainsKey(type))
+                        usedNumsByType[type] = new HashSet<int>();
+                    usedNumsByType[type].Add(num);
+                }
+
+                // 2. 一次性抓出所有需補號的列 (Num = 0)
+                DataTable dtToAssign = new DataTable();
+                string sqlFetchToAssign =
+                    "SELECT LightsID, LightsType " +
+                    "FROM Temple_" + Year + "..Lights_ty_mom_info " +
+                    "WHERE ApplicantID = @ApplicantID " +
+                    "  AND Status = 0 " +
+                    "  AND Num = 0 " +
+                    "ORDER BY LightsID";
+
+                {
+                    da = new DatabaseAdapter(sqlFetchToAssign, this.DBSource);
+                    da.SetSqlCommandBuilder();
+                    da.AddParameterToSelectCommand("ApplicantID", applicantID);
+                    da.Fill(dtToAssign);
+                }
+
+                int rowCount = dtToAssign.Rows.Count;
+                lightslist = new string[rowCount];
+                Lightslist = new string[rowCount];
+                // 用來存放要批量更新的資料 (LightsID, AssignedNum, AssignedNumString)
+                List<Tuple<int, int, string>> updatedRecords = new List<Tuple<int, int, string>>();
+
+                // 3. 逐筆在記憶體中分配「最小可用缺號」
+                for (int i = 0; i < rowCount; i++)
+                {
+                    DataRow row = dtToAssign.Rows[i];
+                    int dbLightsID = Convert.ToInt32(row["LightsID"]);
+                    int dbLightsType = Convert.ToInt32(row["LightsType"]);
+
+                    if (!usedNumsByType.ContainsKey(dbLightsType))
+                        usedNumsByType[dbLightsType] = new HashSet<int>();
+
+                    // 找下一個可用編號 (從 1001 開始往上搜尋)
+                    var usedSet = usedNumsByType[dbLightsType];
+                    int nextNum = 1001;
+                    while (usedSet.Contains(nextNum))
+                    {
+                        nextNum++;
+                    }
+
+                    // 根據不同燈種決定前綴字串
+                    string prefix = "";
+                    switch (dbLightsType)
+                    {
+                        case 21: prefix = "TYM"; break;  // 孝親祈福燈
+                    }
+                    string numString = prefix + nextNum.ToString();
+                    Lightslist[i] = numString;
+
+                    // 將這筆資料加入批量更新清單
+                    updatedRecords.Add(new Tuple<int, int, string>(dbLightsID, nextNum, numString));
+
+                    // 準備回傳給前端的訂單編號字串
+                    string typeName = "";
+                    switch (dbLightsType)
+                    {
+                        case 21: typeName = "孝親祈福燈"; break;
+                    }
+                    lightslist[i] = typeName + ":" + numString;
+
+                    // 把已分配的 nextNum 加入 usedNumsByType，避免重複
+                    usedSet.Add(nextNum);
+                }
+
+                // 組出 msg，格式為「燈種1:編號,燈種2:編號,...。客服電話：04-36092299。」
+                msg += string.Join(",", lightslist) + "。客服電話：04-36092299。";
+
+                // 5. 一次性批量 UPDATE 回資料庫
+                //    以下示範用動態 SQL 拼接多筆 UPDATE，若更新筆數很多建議改用 TVP + 存儲過程
+                System.Text.StringBuilder sb = new System.Text.StringBuilder();
+                sb.AppendLine("USE Temple_" + Year + ";");
+                foreach (var rec in updatedRecords)
+                {
+                    int id = rec.Item1;
+                    int assignedNum = rec.Item2;
+                    string assignedNumString = rec.Item3.Replace("'", "''"); // 確保單引號轉義
+                    sb.AppendLine(
+                        "UPDATE dbo.Lights_ty_mom_info " +
+                        "SET Num = " + assignedNum + ", " +
+                        "    Num2String = N'" + assignedNumString + "' " +
+                        "WHERE LightsID = " + id + ";"
+                    );
+                }
+                string sqlBatchUpdate = sb.ToString();
+
+                try
+                {
+                    int rowsAffected = ExecuteSql(sqlBatchUpdate);
+                    if (rowsAffected > 0)
+                    {
+                        // 成功更新至少一筆
+                        return (updatedRecords.Count > 0);
+                    }
+                    else
+                    {
+                        // 防呆：SQL 執行後沒有影響到任何列，記一筆錯誤日誌，再回傳 false
+                        string err = "[UpdateLights_ty_mom_Info] 批量 UPDATE 未更新到任何記錄，SQL:\r\n" + sqlBatchUpdate;
+                        basePage.SaveErrorLog(err);
+                        return false;
+                    }
+                }
+                catch (Exception ex)
+                {
+                    // 捕捉執行 SQL 時的例外，記錯誤日誌，並回傳 false
+                    basePage.SaveErrorLog("[UpdateLights_ty_mom_Info] 批量 UPDATE 時發生例外：\r\n" + ex);
+                    return false;
+                }
+            }
+        }
+
+        //public bool UpdateLights_ty_mom_Info(int applicantID, int LightsType, string Year, ref string msg, ref string[] lightslist, ref string[] Lightslist)
+        //{
+        //    lock (_thisLock)
+        //    {
+        //        TimeZoneInfo info = TimeZoneInfo.FindSystemTimeZoneById("Taipei Standard Time");
+        //        DateTime dt = TimeZoneInfo.ConvertTime(DateTime.Now, info);
+        //        bool bResult = false;
+        //        int lastnum = GetListNum_ty_mom_Lights(LightsType, applicantID, Year);
+        //        if (lastnum > 0)
+        //        {
+        //            bool dhavenum = true;
+
+        //            //孝親祈福燈
+        //            for (int i = 1001; i < lastnum; i++)
+        //            {
+        //                if (CheckedNum_ty_mom_Lights(LightsType, i, Year))
+        //                {
+        //                    lastnum = i;
+        //                    dhavenum = false;
+        //                    break;
+        //                }
+        //            }
+
+        //            if (dhavenum)
+        //            {
+        //                ++lastnum;
+        //            }
+        //        }
+        //        else
+        //        {
+        //            //孝親祈福燈
+        //            lastnum = 1001;
+        //        }
+
+        //        DataTable dtDataList = new DataTable();
+        //        string sql = "Select * From Temple_" + Year + "..Lights_ty_mom_info Where ApplicantID=@ApplicantID and Status = 0 and Num = 0";
+
+        //        DatabaseAdapter AdapterObj = new DatabaseAdapter(sql, this.DBSource);
+        //        AdapterObj.SetSqlCommandBuilder();
+        //        AdapterObj.AddParameterToSelectCommand("@ApplicantID", applicantID);
+        //        AdapterObj.Fill(dtDataList);
+
+        //        //Lightslist = new string[dtDataList.Rows.Count];
+        //        var tempList_lights = Lightslist.ToList();
+        //        lightslist = new string[dtDataList.Rows.Count];
+        //        for (int i = 0; i < dtDataList.Rows.Count; i++)
+        //        {
+        //            string lid = dtDataList.Rows[i]["LightsID"].ToString();
+        //            string NumString = string.Empty;
+
+        //            LightsType = int.Parse(dtDataList.Rows[i]["LightsType"].ToString());
+        //            switch (LightsType)
+        //            {
+        //                case 3:
+        //                    //光明燈
+        //                    NumString = "TYS" + Num2String(lastnum);
+        //                    tempList_lights.Add(NumString);
+        //                    lightslist[i] = "光明燈:TYS" + Num2String(lastnum);
+        //                    break;
+        //                case 4:
+        //                    //太歲燈
+        //                    NumString = "TYA" + Num2String(lastnum);
+        //                    tempList_lights.Add(NumString);
+        //                    lightslist[i] = "太歲燈:TYA" + Num2String(lastnum);
+        //                    break;
+        //                case 6:
+        //                    //財神燈
+        //                    NumString = "TYT" + Num2String(lastnum);
+        //                    tempList_lights.Add(NumString);
+        //                    lightslist[i] = "財神燈:TYT" + Num2String(lastnum);
+        //                    break;
+        //                case 8:
+        //                    //藥師燈
+        //                    NumString = "TYY" + Num2String(lastnum);
+        //                    tempList_lights.Add(NumString);
+        //                    lightslist[i] = "藥師燈:TYY" + Num2String(lastnum);
+        //                    break;
+        //                case 10:
+        //                    //貴人燈
+        //                    NumString = "TYN" + Num2String(lastnum);
+        //                    tempList_lights.Add(NumString);
+        //                    lightslist[i] = "貴人燈:TYN" + Num2String(lastnum);
+        //                    break;
+        //                case 11:
+        //                    //福祿燈
+        //                    NumString = "TYL" + Num2String(lastnum);
+        //                    tempList_lights.Add(NumString);
+        //                    lightslist[i] = "福祿燈:TYL" + Num2String(lastnum);
+        //                    break;
+        //                case 21:
+        //                    //孝親祈福燈
+        //                    NumString = "TYM" + Num2String(lastnum);
+        //                    tempList_lights.Add(NumString);
+        //                    lightslist[i] = "孝親祈福燈:TYM" + Num2String(lastnum);
+        //                    break;
+        //            }
+        //            Lightslist = tempList_lights.ToArray();
+
+        //            msg += lightslist[i];
+        //            if (i < lightslist.Length - 1)
+        //            {
+        //                msg += ",";
+        //            }
+
+        //            int res = ExecuteSql("Update Temple_" + Year + "..Lights_ty_mom_info Set Num2String = N'" + NumString + "', Num = " + lastnum + " Where LightsID=" + lid);
+
+        //            if (res > 0)
+        //            {
+        //                bResult = true;
+        //            }
+
+        //            int index = dtDataList.Rows.Count - i > 1 ? i + 1 : i;
+        //            LightsType = int.Parse(dtDataList.Rows[index]["LightsType"].ToString());
+
+        //            lastnum = GetListNum_ty_mom_Lights(LightsType, applicantID, Year);
+        //            if (lastnum > 0)
+        //            {
+        //                bool dhavenum = true;
+
+        //                //孝親祈福燈
+        //                for (int j = 1001; j < lastnum; j++)
+        //                {
+        //                    if (CheckedNum_ty_mom_Lights(LightsType, j, Year))
+        //                    {
+        //                        lastnum = j;
+        //                        dhavenum = false;
+        //                        break;
+        //                    }
+        //                }
+
+        //                if (dhavenum)
+        //                {
+        //                    ++lastnum;
+        //                }
+        //            }
+        //            else
+        //            {
+        //                //孝親祈福燈
+        //                lastnum = 1001;
+        //            }
+        //        }
+
+        //        msg += "。客服電話：04-36092299。";
+
+        //        return bResult;
+        //    }
+        //}
+
+        #endregion
+
+
+        #region —— 安斗 —— 
+
+        /// <summary>
+        /// 更新並取得訂單編號資料 - 安斗 - 斗六五路財神宮
+        /// </summary>
+        /// <param name="applicantID">購買人編號</param>
+        /// <param name="AnDouType">
+        /// 斗燈代碼：
+        /// 25－財神斗；26－事業斗；27－平安斗；
+        /// 28－文昌斗；29－藥師斗；30－元神斗；31－福祿壽斗；32－觀音斗；
+        /// </param>
+        /// <param name="Year">年度字串，例如 "2025"</param>
+        /// <param name="msg">回傳給前端的訊息（各訂單編號＋客服電話）</param>
+        /// <param name="andoulist">回傳給前端的訂單編號清單</param>
+        /// <param name="AnDoulist">備用，可同樣回傳訂單編號字串陣列，視業務需求</param>
+        /// <returns>若有更新資料則回傳 true，否則回傳 false</returns>
+        public bool UpdateAnDou_Fw_Info(
+            int applicantID,
+            int AnDouType,
+            string Year,
+            ref string msg,
+            ref string[] andoulist,
+            ref string[] AnDoulist)
+        {
+            lock (_thisLock)
+            {
+                twbobibobi.Data.BasePage basePage = new twbobibobi.Data.BasePage();
+
+                // 1. 一次性取得所有已分配的編號 (Num > 0 且 Num2String 有值)
+                string sqlFetchExisting =
+                    "SELECT AnDouType, Num " +
+                    "FROM Temple_" + Year + "..AnDou_Fw_info " +
+                    "WHERE Status = 0 " +
+                    "  AND Num <> 0" +
+                    "  AND Num2String IS NOT NULL " +
+                    "  AND Num2String <> ''";
+
+                // 建立 DatabaseAdapter，並加入參數
+                DatabaseAdapter da = new DatabaseAdapter(sqlFetchExisting, this.DBSource);
+                da.SetSqlCommandBuilder();
+                DataTable dtExisting = new DataTable();
+                da.Fill(dtExisting);
+
+                // 建立各燈種對應的已用號碼集合
+                var usedNumsByType = new Dictionary<int, HashSet<int>>();
+                foreach (DataRow row in dtExisting.Rows)
+                {
+                    int type = Convert.ToInt32(row["AnDouType"]);
+                    int num = Convert.ToInt32(row["Num"]);
+                    if (!usedNumsByType.ContainsKey(type))
+                        usedNumsByType[type] = new HashSet<int>();
+                    usedNumsByType[type].Add(num);
+                }
+
+                // 2. 一次性抓出所有需補號的列 (Num = 0)
+                DataTable dtToAssign = new DataTable();
+                string sqlFetchToAssign =
+                    "SELECT AnDouID, AnDouType " +
+                    "FROM Temple_" + Year + "..AnDou_Fw_info " +
+                    "WHERE ApplicantID = @ApplicantID " +
+                    "  AND Status = 0 " +
+                    "  AND Num = 0 " +
+                    "ORDER BY AnDouID";
+
+                {
+                    da = new DatabaseAdapter(sqlFetchToAssign, this.DBSource);
+                    da.SetSqlCommandBuilder();
+                    da.AddParameterToSelectCommand("ApplicantID", applicantID);
+                    da.Fill(dtToAssign);
+                }
+
+                int rowCount = dtToAssign.Rows.Count;
+                andoulist = new string[rowCount];
+                AnDoulist = new string[rowCount];
+                // 用來存放要批量更新的資料 (AnDouID, AssignedNum, AssignedNumString)
+                List<Tuple<int, int, string>> updatedRecords = new List<Tuple<int, int, string>>();
+
+                // 3. 逐筆在記憶體中分配「最小可用缺號」
+                for (int i = 0; i < rowCount; i++)
+                {
+                    DataRow row = dtToAssign.Rows[i];
+                    int dbAnDouID = Convert.ToInt32(row["AnDouID"]);
+                    int dbAnDouType = Convert.ToInt32(row["AnDouType"]);
+
+                    if (!usedNumsByType.ContainsKey(dbAnDouType))
+                        usedNumsByType[dbAnDouType] = new HashSet<int>();
+
+                    // 找下一個可用編號 (從 1001 開始往上搜尋)
+                    var usedSet = usedNumsByType[dbAnDouType];
+                    int nextNum = 1001;
+                    while (usedSet.Contains(nextNum))
+                    {
+                        nextNum++;
+                    }
+
+                    // 根據不同燈種決定前綴字串
+                    string prefix = "";
+                    switch (dbAnDouType)
+                    {
+                        case 25: prefix = "FWTDL"; break;  // 財神斗/一個月
+                        case 34: prefix = "FWFDL"; break;  // 發財斗/一個月
+                        case 35: prefix = "FWMDL"; break;  // 姻緣斗/一個月
+                        case 36: prefix = "FWBDL"; break;  // 貴人斗/一個月
+                        case 37: prefix = "FWYDL"; break;  // 消災延壽斗/一個月
+                        case 38: prefix = "FW3TDL"; break;  // 財神斗/三個月
+                        case 39: prefix = "FW3FDL"; break;  // 發財斗/三個月
+                        case 40: prefix = "FW3MDL"; break;  // 姻緣斗/三個月
+                        case 41: prefix = "FW3BDL"; break;  // 貴人斗/三個月
+                        case 42: prefix = "FW3YDL"; break;  // 消災延壽斗/三個月
+                    }
+                    string numString = prefix + nextNum.ToString();
+                    AnDoulist[i] = numString;
+
+                    // 將這筆資料加入批量更新清單
+                    updatedRecords.Add(new Tuple<int, int, string>(dbAnDouID, nextNum, numString));
+
+                    // 準備回傳給前端的訂單編號字串
+                    string typeName = "";
+                    switch (dbAnDouType)
+                    {
+                        case 25: typeName = "財神斗/一個月"; break;
+                        case 34: typeName = "發財斗/一個月"; break;
+                        case 35: typeName = "姻緣斗/一個月"; break;
+                        case 36: typeName = "貴人斗/一個月"; break;
+                        case 37: typeName = "消災延壽斗/一個月"; break;
+                        case 38: typeName = "財神斗/三個月"; break;
+                        case 39: typeName = "發財斗/三個月"; break;
+                        case 40: typeName = "姻緣斗/三個月"; break;
+                        case 41: typeName = "貴人斗/三個月"; break;
+                        case 42: typeName = "消災延壽斗/三個月"; break;
+                    }
+                    andoulist[i] = typeName + ":" + numString;
+
+                    // 把已分配的 nextNum 加入 usedNumsByType，避免重複
+                    usedSet.Add(nextNum);
+                }
+
+                // 組出 msg，格式為「燈種1:編號,燈種2:編號,...。客服電話：04-36092299。」
+                msg += string.Join(",", andoulist) + "。客服電話：04-36092299。";
+
+                // 5. 一次性批量 UPDATE 回資料庫
+                //    以下示範用動態 SQL 拼接多筆 UPDATE，若更新筆數很多建議改用 TVP + 存儲過程
+                System.Text.StringBuilder sb = new System.Text.StringBuilder();
+                sb.AppendLine("USE Temple_" + Year + ";");
+                foreach (var rec in updatedRecords)
+                {
+                    int id = rec.Item1;
+                    int assignedNum = rec.Item2;
+                    string assignedNumString = rec.Item3.Replace("'", "''"); // 確保單引號轉義
+                    sb.AppendLine(
+                        "UPDATE dbo.AnDou_Fw_info " +
+                        "SET Num = " + assignedNum + ", " +
+                        "    Num2String = N'" + assignedNumString + "' " +
+                        "WHERE AnDouID = " + id + ";"
+                    );
+                }
+                string sqlBatchUpdate = sb.ToString();
+
+                try
+                {
+                    int rowsAffected = ExecuteSql(sqlBatchUpdate);
+                    if (rowsAffected > 0)
+                    {
+                        // 成功更新至少一筆
+                        return (updatedRecords.Count > 0);
+                    }
+                    else
+                    {
+                        // 防呆：SQL 執行後沒有影響到任何列，記一筆錯誤日誌，再回傳 false
+                        string err = "[UpdateAnDou_Fw_Info] 批量 UPDATE 未更新到任何記錄，SQL:\r\n" + sqlBatchUpdate;
+                        basePage.SaveErrorLog(err);
+                        return false;
+                    }
+                }
+                catch (Exception ex)
+                {
+                    // 捕捉執行 SQL 時的例外，記錯誤日誌，並回傳 false
+                    basePage.SaveErrorLog("[UpdateAnDou_Fw_Info] 批量 UPDATE 時發生例外：\r\n" + ex);
+                    return false;
+                }
+            }
+        }
+
+        /// <summary>
+        /// 更新並取得訂單編號資料 - 安斗 - 台灣道教總廟無極三清總道院
+        /// </summary>
+        /// <param name="applicantID">購買人編號</param>
+        /// <param name="AnDouType">
+        /// 斗燈代碼：
+        /// 25－財神斗；26－事業斗；27－平安斗；
+        /// 28－文昌斗；29－藥師斗；30－元神斗；31－福祿壽斗；32－觀音斗；
+        /// </param>
+        /// <param name="Year">年度字串，例如 "2025"</param>
+        /// <param name="msg">回傳給前端的訊息（各訂單編號＋客服電話）</param>
+        /// <param name="andoulist">回傳給前端的訂單編號清單</param>
+        /// <param name="AnDoulist">備用，可同樣回傳訂單編號字串陣列，視業務需求</param>
+        /// <returns>若有更新資料則回傳 true，否則回傳 false</returns>
+        public bool UpdateAnDou_wjsan_Info(
+            int applicantID,
+            int AnDouType,
+            string Year,
+            ref string msg,
+            ref string[] andoulist,
+            ref string[] AnDoulist)
+        {
+            lock (_thisLock)
+            {
+                twbobibobi.Data.BasePage basePage = new twbobibobi.Data.BasePage();
+
+                // 1. 一次性取得所有已分配的編號 (Num > 0 且 Num2String 有值)
+                string sqlFetchExisting =
+                    "SELECT AnDouType, Num " +
+                    "FROM Temple_" + Year + "..AnDou_wjsan_info " +
+                    "WHERE Status = 0 " +
+                    "  AND Num <> 0" +
+                    "  AND Num2String IS NOT NULL " +
+                    "  AND Num2String <> ''";
+
+                // 建立 DatabaseAdapter，並加入參數
+                DatabaseAdapter da = new DatabaseAdapter(sqlFetchExisting, this.DBSource);
+                da.SetSqlCommandBuilder();
+                DataTable dtExisting = new DataTable();
+                da.Fill(dtExisting);
+
+                // 建立各燈種對應的已用號碼集合
+                var usedNumsByType = new Dictionary<int, HashSet<int>>();
+                foreach (DataRow row in dtExisting.Rows)
+                {
+                    int type = Convert.ToInt32(row["AnDouType"]);
+                    int num = Convert.ToInt32(row["Num"]);
+                    if (!usedNumsByType.ContainsKey(type))
+                        usedNumsByType[type] = new HashSet<int>();
+                    usedNumsByType[type].Add(num);
+                }
+
+                // 2. 一次性抓出所有需補號的列 (Num = 0)
+                DataTable dtToAssign = new DataTable();
+                string sqlFetchToAssign =
+                    "SELECT AnDouID, AnDouType " +
+                    "FROM Temple_" + Year + "..AnDou_wjsan_info " +
+                    "WHERE ApplicantID = @ApplicantID " +
+                    "  AND Status = 0 " +
+                    "  AND Num = 0 " +
+                    "ORDER BY AnDouID";
+
+                {
+                    da = new DatabaseAdapter(sqlFetchToAssign, this.DBSource);
+                    da.SetSqlCommandBuilder();
+                    da.AddParameterToSelectCommand("ApplicantID", applicantID);
+                    da.Fill(dtToAssign);
+                }
+
+                int rowCount = dtToAssign.Rows.Count;
+                andoulist = new string[rowCount];
+                AnDoulist = new string[rowCount];
+                // 用來存放要批量更新的資料 (AnDouID, AssignedNum, AssignedNumString)
+                List<Tuple<int, int, string>> updatedRecords = new List<Tuple<int, int, string>>();
+
+                // 3. 逐筆在記憶體中分配「最小可用缺號」
+                for (int i = 0; i < rowCount; i++)
+                {
+                    DataRow row = dtToAssign.Rows[i];
+                    int dbAnDouID = Convert.ToInt32(row["AnDouID"]);
+                    int dbAnDouType = Convert.ToInt32(row["AnDouType"]);
+
+                    if (!usedNumsByType.ContainsKey(dbAnDouType))
+                        usedNumsByType[dbAnDouType] = new HashSet<int>();
+
+                    // 找下一個可用編號 (從 1001 開始往上搜尋)
+                    var usedSet = usedNumsByType[dbAnDouType];
+                    int nextNum = 1001;
+                    while (usedSet.Contains(nextNum))
+                    {
+                        nextNum++;
+                    }
+
+                    // 根據不同燈種決定前綴字串
+                    string prefix = "";
+                    switch (dbAnDouType)
+                    {
+                        case 25: prefix = "WJSTDL"; break;  // 財神斗
+                        case 26: prefix = "WJSCDL"; break;  // 事業斗
+                        case 27: prefix = "WJSPDL"; break;  // 平安斗
+                        case 28: prefix = "WJSWDL"; break;  // 文昌斗
+                        case 29: prefix = "WJSYDL"; break;  // 藥師斗
+                        case 30: prefix = "WJSPSDL"; break;  // 元神斗
+                        case 31: prefix = "WJSLDL"; break;  // 福祿壽斗
+                        case 32: prefix = "WJSKYDL"; break;  // 觀音斗
+                    }
+                    string numString = prefix + nextNum.ToString();
+                    AnDoulist[i] = numString;
+
+                    // 將這筆資料加入批量更新清單
+                    updatedRecords.Add(new Tuple<int, int, string>(dbAnDouID, nextNum, numString));
+
+                    // 準備回傳給前端的訂單編號字串
+                    string typeName = "";
+                    switch (dbAnDouType)
+                    {
+                        case 25: typeName = "財神斗"; break;
+                        case 26: typeName = "事業斗"; break;
+                        case 27: typeName = "平安斗"; break;
+                        case 28: typeName = "文昌斗"; break;
+                        case 29: typeName = "藥師斗"; break;
+                        case 30: typeName = "元神斗"; break;
+                        case 31: typeName = "福祿壽斗"; break;
+                        case 32: typeName = "觀音斗"; break;
+                    }
+                    andoulist[i] = typeName + ":" + numString;
+
+                    // 把已分配的 nextNum 加入 usedNumsByType，避免重複
+                    usedSet.Add(nextNum);
+                }
+
+                // 組出 msg，格式為「燈種1:編號,燈種2:編號,...。客服電話：04-36092299。」
+                msg += string.Join(",", andoulist) + "。客服電話：04-36092299。";
+
+                // 5. 一次性批量 UPDATE 回資料庫
+                //    以下示範用動態 SQL 拼接多筆 UPDATE，若更新筆數很多建議改用 TVP + 存儲過程
+                System.Text.StringBuilder sb = new System.Text.StringBuilder();
+                sb.AppendLine("USE Temple_" + Year + ";");
+                foreach (var rec in updatedRecords)
+                {
+                    int id = rec.Item1;
+                    int assignedNum = rec.Item2;
+                    string assignedNumString = rec.Item3.Replace("'", "''"); // 確保單引號轉義
+                    sb.AppendLine(
+                        "UPDATE dbo.AnDou_wjsan_info " +
+                        "SET Num = " + assignedNum + ", " +
+                        "    Num2String = N'" + assignedNumString + "' " +
+                        "WHERE AnDouID = " + id + ";"
+                    );
+                }
+                string sqlBatchUpdate = sb.ToString();
+
+                try
+                {
+                    int rowsAffected = ExecuteSql(sqlBatchUpdate);
+                    if (rowsAffected > 0)
+                    {
+                        // 成功更新至少一筆
+                        return (updatedRecords.Count > 0);
+                    }
+                    else
+                    {
+                        // 防呆：SQL 執行後沒有影響到任何列，記一筆錯誤日誌，再回傳 false
+                        string err = "[UpdateAnDou_wjsan_Info] 批量 UPDATE 未更新到任何記錄，SQL:\r\n" + sqlBatchUpdate;
+                        basePage.SaveErrorLog(err);
+                        return false;
+                    }
+                }
+                catch (Exception ex)
+                {
+                    // 捕捉執行 SQL 時的例外，記錯誤日誌，並回傳 false
+                    basePage.SaveErrorLog("[UpdateAnDou_wjsan_Info] 批量 UPDATE 時發生例外：\r\n" + ex);
+                    return false;
+                }
+            }
+        }
+
+        //public bool UpdateAnDou_Fw_Info(int applicantID, int AnDouType, string Year, ref string msg, ref string[] andoulist, ref string[] AnDoulist)
+        //{
+        //    lock (_thisLock)
+        //    {
+        //        TimeZoneInfo info = TimeZoneInfo.FindSystemTimeZoneById("Taipei Standard Time");
+        //        DateTime dt = TimeZoneInfo.ConvertTime(DateTime.Now, info);
+        //        bool bResult = false;
+        //        int lastnum = GetListNum_Fw_AnDou(AnDouType, applicantID, Year);
+        //        if (lastnum > 0)
+        //        {
+        //            bool dhavenum = true;
+
+        //            switch (AnDouType)
+        //            {
+        //                case 25:
+        //                    //財神斗/一個月
+        //                    for (int i = 1001; i < lastnum; i++)
+        //                    {
+        //                        if (CheckedNum_Fw_AnDou(AnDouType, i, Year))
+        //                        {
+        //                            lastnum = i;
+        //                            dhavenum = false;
+        //                            break;
+        //                        }
+        //                    }
+
+        //                    break;
+        //                case 34:
+        //                    //發財斗/一個月
+        //                    for (int i = 1001; i < lastnum; i++)
+        //                    {
+        //                        if (CheckedNum_Fw_AnDou(AnDouType, i, Year))
+        //                        {
+        //                            lastnum = i;
+        //                            dhavenum = false;
+        //                            break;
+        //                        }
+        //                    }
+
+        //                    break;
+        //                case 35:
+        //                    //姻緣斗/一個月
+        //                    for (int i = 1001; i < lastnum; i++)
+        //                    {
+        //                        if (CheckedNum_Fw_AnDou(AnDouType, i, Year))
+        //                        {
+        //                            lastnum = i;
+        //                            dhavenum = false;
+        //                            break;
+        //                        }
+        //                    }
+
+        //                    break;
+        //                case 36:
+        //                    //貴人斗/一個月
+        //                    for (int i = 1001; i < lastnum; i++)
+        //                    {
+        //                        if (CheckedNum_Fw_AnDou(AnDouType, i, Year))
+        //                        {
+        //                            lastnum = i;
+        //                            dhavenum = false;
+        //                            break;
+        //                        }
+        //                    }
+
+        //                    break;
+        //                case 37:
+        //                    //消災延壽斗/一個月
+        //                    for (int i = 1001; i < lastnum; i++)
+        //                    {
+        //                        if (CheckedNum_Fw_AnDou(AnDouType, i, Year))
+        //                        {
+        //                            lastnum = i;
+        //                            dhavenum = false;
+        //                            break;
+        //                        }
+        //                    }
+
+        //                    break;
+        //                case 38:
+        //                    //財神斗/三個月
+        //                    for (int i = 1001; i < lastnum; i++)
+        //                    {
+        //                        if (CheckedNum_Fw_AnDou(AnDouType, i, Year))
+        //                        {
+        //                            lastnum = i;
+        //                            dhavenum = false;
+        //                            break;
+        //                        }
+        //                    }
+
+        //                    break;
+        //                case 39:
+        //                    //發財斗/三個月
+        //                    for (int i = 1001; i < lastnum; i++)
+        //                    {
+        //                        if (CheckedNum_Fw_AnDou(AnDouType, i, Year))
+        //                        {
+        //                            lastnum = i;
+        //                            dhavenum = false;
+        //                            break;
+        //                        }
+        //                    }
+
+        //                    break;
+        //                case 40:
+        //                    //姻緣斗/三個月
+        //                    for (int i = 1001; i < lastnum; i++)
+        //                    {
+        //                        if (CheckedNum_Fw_AnDou(AnDouType, i, Year))
+        //                        {
+        //                            lastnum = i;
+        //                            dhavenum = false;
+        //                            break;
+        //                        }
+        //                    }
+
+        //                    break;
+        //                case 41:
+        //                    //貴人斗/三個月
+        //                    for (int i = 1001; i < lastnum; i++)
+        //                    {
+        //                        if (CheckedNum_Fw_AnDou(AnDouType, i, Year))
+        //                        {
+        //                            lastnum = i;
+        //                            dhavenum = false;
+        //                            break;
+        //                        }
+        //                    }
+
+        //                    break;
+        //                case 42:
+        //                    //消災延壽斗/三個月
+        //                    for (int i = 1001; i < lastnum; i++)
+        //                    {
+        //                        if (CheckedNum_Fw_AnDou(AnDouType, i, Year))
+        //                        {
+        //                            lastnum = i;
+        //                            dhavenum = false;
+        //                            break;
+        //                        }
+        //                    }
+
+        //                    break;
+        //            }
+
+        //            if (dhavenum)
+        //            {
+        //                ++lastnum;
+        //            }
+        //        }
+        //        else
+        //        {
+        //            switch (AnDouType)
+        //            {
+        //                case 25:
+        //                    //財神斗/一個月
+        //                    lastnum = 1001;
+        //                    break;
+        //                case 34:
+        //                    //發財斗/一個月
+        //                    lastnum = 1001;
+        //                    break;
+        //                case 35:
+        //                    //姻緣斗/一個月
+        //                    lastnum = 1001;
+        //                    break;
+        //                case 36:
+        //                    //貴人斗/一個月
+        //                    lastnum = 1001;
+        //                    break;
+        //                case 37:
+        //                    //消災延壽斗/一個月
+        //                    lastnum = 1001;
+        //                    break;
+        //                case 38:
+        //                    //財神斗/三個月
+        //                    lastnum = 1001;
+        //                    break;
+        //                case 39:
+        //                    //發財斗/三個月
+        //                    lastnum = 1001;
+        //                    break;
+        //                case 40:
+        //                    //姻緣斗/三個月
+        //                    lastnum = 1001;
+        //                    break;
+        //                case 41:
+        //                    //貴人斗/三個月
+        //                    lastnum = 1001;
+        //                    break;
+        //                case 42:
+        //                    //消災延壽斗/三個月
+        //                    lastnum = 1001;
+        //                    break;
+        //            }
+        //        }
+
+        //        DataTable dtDataList = new DataTable();
+        //        string sql = "Select * From Temple_" + Year + "..AnDou_Fw_info Where ApplicantID=@ApplicantID and Status = 0 and Num = 0";
+
+        //        DatabaseAdapter AdapterObj = new DatabaseAdapter(sql, this.DBSource);
+        //        AdapterObj.SetSqlCommandBuilder();
+        //        AdapterObj.AddParameterToSelectCommand("@ApplicantID", applicantID);
+        //        AdapterObj.Fill(dtDataList);
+
+        //        //AnDoulist = new string[dtDataList.Rows.Count];
+        //        var tempList_andou = AnDoulist.ToList();
+        //        andoulist = new string[dtDataList.Rows.Count];
+        //        for (int i = 0; i < dtDataList.Rows.Count; i++)
+        //        {
+        //            string lid = dtDataList.Rows[i]["AnDouID"].ToString();
+        //            string NumString = string.Empty;
+
+        //            AnDouType = int.Parse(dtDataList.Rows[i]["AnDouType"].ToString());
+        //            switch (AnDouType)
+        //            {
+        //                case 25:
+        //                    //財神斗/一個月
+        //                    NumString = "FWTDL" + Num2String(lastnum);
+        //                    tempList_andou.Add(NumString);
+        //                    andoulist[i] = "財神斗/一個月:FWTDL" + Num2String(lastnum);
+        //                    break;
+        //                case 34:
+        //                    //發財斗/一個月
+        //                    NumString = "FWFDL" + Num2String(lastnum);
+        //                    tempList_andou.Add(NumString);
+        //                    andoulist[i] = "發財斗/一個月:FWFDL" + Num2String(lastnum);
+        //                    break;
+        //                case 35:
+        //                    //姻緣斗/一個月
+        //                    NumString = "FWMDL" + Num2String(lastnum);
+        //                    tempList_andou.Add(NumString);
+        //                    andoulist[i] = "姻緣斗/一個月:FWMDL" + Num2String(lastnum);
+        //                    break;
+        //                case 36:
+        //                    //貴人斗/一個月
+        //                    NumString = "FWBDL" + Num2String(lastnum);
+        //                    tempList_andou.Add(NumString);
+        //                    andoulist[i] = "貴人斗/一個月:FWBDL" + Num2String(lastnum);
+        //                    break;
+        //                case 37:
+        //                    //消災延壽斗/一個月
+        //                    NumString = "FWYDL" + Num2String(lastnum);
+        //                    tempList_andou.Add(NumString);
+        //                    andoulist[i] = "消災延壽斗/一個月:FWYDL" + Num2String(lastnum);
+        //                    break;
+        //                case 38:
+        //                    //財神斗/三個月
+        //                    NumString = "FW3TDL" + Num2String(lastnum);
+        //                    tempList_andou.Add(NumString);
+        //                    andoulist[i] = "財神斗/三個月:FW3TDL" + Num2String(lastnum);
+        //                    break;
+        //                case 39:
+        //                    //發財斗/三個月
+        //                    NumString = "FW3FDL" + Num2String(lastnum);
+        //                    tempList_andou.Add(NumString);
+        //                    andoulist[i] = "發財斗/三個月:FW3FDL" + Num2String(lastnum);
+        //                    break;
+        //                case 40:
+        //                    //姻緣斗/三個月
+        //                    NumString = "FW3MDL" + Num2String(lastnum);
+        //                    tempList_andou.Add(NumString);
+        //                    andoulist[i] = "姻緣斗/三個月:FW3MDL" + Num2String(lastnum);
+        //                    break;
+        //                case 41:
+        //                    //貴人斗/三個月
+        //                    NumString = "FW3BDL" + Num2String(lastnum);
+        //                    tempList_andou.Add(NumString);
+        //                    andoulist[i] = "貴人斗/三個月:FW3BDL" + Num2String(lastnum);
+        //                    break;
+        //                case 42:
+        //                    //消災延壽斗/三個月
+        //                    NumString = "FW3YDL" + Num2String(lastnum);
+        //                    tempList_andou.Add(NumString);
+        //                    andoulist[i] = "消災延壽斗/三個月:FW3YDL" + Num2String(lastnum);
+        //                    break;
+        //            }
+        //            AnDoulist = tempList_andou.ToArray();
+
+        //            msg += andoulist[i];
+        //            if (i < andoulist.Length - 1)
+        //            {
+        //                msg += ",";
+        //            }
+
+        //            int res = ExecuteSql("Update Temple_" + Year + "..AnDou_Fw_info Set Num2String = N'" + NumString + "', Num = " + lastnum + " Where AnDouID=" + lid);
+
+        //            if (res > 0)
+        //            {
+        //                bResult = true;
+        //            }
+
+        //            int index = dtDataList.Rows.Count - i > 1 ? i + 1 : i;
+        //            AnDouType = int.Parse(dtDataList.Rows[index]["AnDouType"].ToString());
+
+        //            lastnum = GetListNum_Fw_AnDou(AnDouType, applicantID, Year);
+        //            if (lastnum > 0)
+        //            {
+        //                bool dhavenum = true;
+
+        //                switch (AnDouType)
+        //                {
+        //                    case 25:
+        //                        //財神斗/一個月
+        //                        for (int j = 1001; j < lastnum; j++)
+        //                        {
+        //                            if (CheckedNum_Fw_AnDou(AnDouType, j, Year))
+        //                            {
+        //                                lastnum = j;
+        //                                dhavenum = false;
+        //                                break;
+        //                            }
+        //                        }
+
+        //                        break;
+        //                    case 34:
+        //                        //發財斗/一個月
+        //                        for (int j = 1001; j < lastnum; j++)
+        //                        {
+        //                            if (CheckedNum_Fw_AnDou(AnDouType, j, Year))
+        //                            {
+        //                                lastnum = j;
+        //                                dhavenum = false;
+        //                                break;
+        //                            }
+        //                        }
+
+        //                        break;
+        //                    case 35:
+        //                        //姻緣斗/一個月
+        //                        for (int j = 1001; j < lastnum; j++)
+        //                        {
+        //                            if (CheckedNum_Fw_AnDou(AnDouType, j, Year))
+        //                            {
+        //                                lastnum = j;
+        //                                dhavenum = false;
+        //                                break;
+        //                            }
+        //                        }
+
+        //                        break;
+        //                    case 36:
+        //                        //貴人斗/一個月
+        //                        for (int j = 1001; j < lastnum; j++)
+        //                        {
+        //                            if (CheckedNum_Fw_AnDou(AnDouType, j, Year))
+        //                            {
+        //                                lastnum = j;
+        //                                dhavenum = false;
+        //                                break;
+        //                            }
+        //                        }
+
+        //                        break;
+        //                    case 37:
+        //                        //消災延壽斗/一個月
+        //                        for (int j = 1001; j < lastnum; j++)
+        //                        {
+        //                            if (CheckedNum_Fw_AnDou(AnDouType, j, Year))
+        //                            {
+        //                                lastnum = j;
+        //                                dhavenum = false;
+        //                                break;
+        //                            }
+        //                        }
+
+        //                        break;
+        //                    case 38:
+        //                        //財神斗/三個月
+        //                        for (int j = 1001; j < lastnum; j++)
+        //                        {
+        //                            if (CheckedNum_Fw_AnDou(AnDouType, j, Year))
+        //                            {
+        //                                lastnum = j;
+        //                                dhavenum = false;
+        //                                break;
+        //                            }
+        //                        }
+
+        //                        break;
+        //                    case 39:
+        //                        //發財斗/三個月
+        //                        for (int j = 1001; j < lastnum; j++)
+        //                        {
+        //                            if (CheckedNum_Fw_AnDou(AnDouType, j, Year))
+        //                            {
+        //                                lastnum = j;
+        //                                dhavenum = false;
+        //                                break;
+        //                            }
+        //                        }
+
+        //                        break;
+        //                    case 40:
+        //                        //姻緣斗/三個月
+        //                        for (int j = 1001; j < lastnum; j++)
+        //                        {
+        //                            if (CheckedNum_Fw_AnDou(AnDouType, j, Year))
+        //                            {
+        //                                lastnum = j;
+        //                                dhavenum = false;
+        //                                break;
+        //                            }
+        //                        }
+
+        //                        break;
+        //                    case 41:
+        //                        //貴人斗/三個月
+        //                        for (int j = 1001; j < lastnum; j++)
+        //                        {
+        //                            if (CheckedNum_Fw_AnDou(AnDouType, j, Year))
+        //                            {
+        //                                lastnum = j;
+        //                                dhavenum = false;
+        //                                break;
+        //                            }
+        //                        }
+
+        //                        break;
+        //                    case 42:
+        //                        //消災延壽斗/三個月
+        //                        for (int j = 1001; j < lastnum; j++)
+        //                        {
+        //                            if (CheckedNum_Fw_AnDou(AnDouType, j, Year))
+        //                            {
+        //                                lastnum = j;
+        //                                dhavenum = false;
+        //                                break;
+        //                            }
+        //                        }
+
+        //                        break;
+        //                }
+
+        //                if (dhavenum)
+        //                {
+        //                    ++lastnum;
+        //                }
+        //            }
+        //            else
+        //            {
+        //                switch (AnDouType)
+        //                {
+        //                    case 25:
+        //                        //財神斗/一個月
+        //                        lastnum = 1001;
+        //                        break;
+        //                    case 34:
+        //                        //發財斗/一個月
+        //                        lastnum = 1001;
+        //                        break;
+        //                    case 35:
+        //                        //姻緣斗/一個月
+        //                        lastnum = 1001;
+        //                        break;
+        //                    case 36:
+        //                        //貴人斗/一個月
+        //                        lastnum = 1001;
+        //                        break;
+        //                    case 37:
+        //                        //消災延壽斗/一個月
+        //                        lastnum = 1001;
+        //                        break;
+        //                    case 38:
+        //                        //財神斗/三個月
+        //                        lastnum = 1001;
+        //                        break;
+        //                    case 39:
+        //                        //發財斗/三個月
+        //                        lastnum = 1001;
+        //                        break;
+        //                    case 40:
+        //                        //姻緣斗/三個月
+        //                        lastnum = 1001;
+        //                        break;
+        //                    case 41:
+        //                        //貴人斗/三個月
+        //                        lastnum = 1001;
+        //                        break;
+        //                    case 42:
+        //                        //消災延壽斗/三個月
+        //                        lastnum = 1001;
+        //                        break;
+        //                }
+        //            }
+        //        }
+
+        //        msg += "。客服電話：04-36092299。";
+
+        //        return bResult;
+        //    }
+        //}
+
+        //public bool UpdateAnDou_wjsan_Info(int applicantID, int AnDouType, string Year, ref string msg, ref string[] andoulist, ref string[] AnDoulist)
+        //{
+        //    lock (_thisLock)
+        //    {
+        //        TimeZoneInfo info = TimeZoneInfo.FindSystemTimeZoneById("Taipei Standard Time");
+        //        DateTime dt = TimeZoneInfo.ConvertTime(DateTime.Now, info);
+        //        bool bResult = false;
+        //        int lastnum = GetListNum_wjsan_AnDou(AnDouType, applicantID, Year);
+        //        if (lastnum > 0)
+        //        {
+        //            bool dhavenum = true;
+
+        //            switch (AnDouType)
+        //            {
+        //                case 25:
+        //                    //財神斗
+        //                    for (int j = 1001; j < lastnum; j++)
+        //                    {
+        //                        if (CheckedNum_wjsan_AnDou(AnDouType, j, Year))
+        //                        {
+        //                            lastnum = j;
+        //                            dhavenum = false;
+        //                            break;
+        //                        }
+        //                    }
+
+        //                    break;
+        //                case 26:
+        //                    //事業斗
+        //                    for (int j = 1001; j < lastnum; j++)
+        //                    {
+        //                        if (CheckedNum_wjsan_AnDou(AnDouType, j, Year))
+        //                        {
+        //                            lastnum = j;
+        //                            dhavenum = false;
+        //                            break;
+        //                        }
+        //                    }
+
+        //                    break;
+        //                case 27:
+        //                    //平安斗
+        //                    for (int j = 1001; j < lastnum; j++)
+        //                    {
+        //                        if (CheckedNum_wjsan_AnDou(AnDouType, j, Year))
+        //                        {
+        //                            lastnum = j;
+        //                            dhavenum = false;
+        //                            break;
+        //                        }
+        //                    }
+
+        //                    break;
+        //                case 28:
+        //                    //文昌斗
+        //                    for (int j = 1001; j < lastnum; j++)
+        //                    {
+        //                        if (CheckedNum_wjsan_AnDou(AnDouType, j, Year))
+        //                        {
+        //                            lastnum = j;
+        //                            dhavenum = false;
+        //                            break;
+        //                        }
+        //                    }
+
+        //                    break;
+        //                case 29:
+        //                    //藥師斗
+        //                    for (int j = 1001; j < lastnum; j++)
+        //                    {
+        //                        if (CheckedNum_wjsan_AnDou(AnDouType, j, Year))
+        //                        {
+        //                            lastnum = j;
+        //                            dhavenum = false;
+        //                            break;
+        //                        }
+        //                    }
+
+        //                    break;
+        //                case 30:
+        //                    //元神斗
+        //                    for (int j = 1001; j < lastnum; j++)
+        //                    {
+        //                        if (CheckedNum_wjsan_AnDou(AnDouType, j, Year))
+        //                        {
+        //                            lastnum = j;
+        //                            dhavenum = false;
+        //                            break;
+        //                        }
+        //                    }
+
+        //                    break;
+        //                case 31:
+        //                    //福祿壽斗
+        //                    for (int j = 1001; j < lastnum; j++)
+        //                    {
+        //                        if (CheckedNum_wjsan_AnDou(AnDouType, j, Year))
+        //                        {
+        //                            lastnum = j;
+        //                            dhavenum = false;
+        //                            break;
+        //                        }
+        //                    }
+
+        //                    break;
+        //                case 32:
+        //                    //觀音斗
+        //                    for (int j = 1001; j < lastnum; j++)
+        //                    {
+        //                        if (CheckedNum_wjsan_AnDou(AnDouType, j, Year))
+        //                        {
+        //                            lastnum = j;
+        //                            dhavenum = false;
+        //                            break;
+        //                        }
+        //                    }
+
+        //                    break;
+        //            }
+
+        //            if (dhavenum)
+        //            {
+        //                ++lastnum;
+        //            }
+        //        }
+        //        else
+        //        {
+        //            switch (AnDouType)
+        //            {
+        //                case 25:
+        //                    //財神斗
+        //                    lastnum = 1001;
+        //                    break;
+        //                case 26:
+        //                    //事業斗
+        //                    lastnum = 1001;
+        //                    break;
+        //                case 27:
+        //                    //平安斗
+        //                    lastnum = 1001;
+        //                    break;
+        //                case 28:
+        //                    //文昌斗
+        //                    lastnum = 1001;
+        //                    break;
+        //                case 29:
+        //                    //藥師斗
+        //                    lastnum = 1001;
+        //                    break;
+        //                case 30:
+        //                    //元神斗
+        //                    lastnum = 1001;
+        //                    break;
+        //                case 31:
+        //                    //福祿壽斗
+        //                    lastnum = 1001;
+        //                    break;
+        //                case 32:
+        //                    //觀音斗
+        //                    lastnum = 1001;
+        //                    break;
+        //            }
+        //        }
+
+        //        DataTable dtDataList = new DataTable();
+        //        string sql = "Select * From Temple_" + Year + "..AnDou_wjsan_info Where ApplicantID=@ApplicantID and Status = 0 and Num = 0";
+
+        //        DatabaseAdapter AdapterObj = new DatabaseAdapter(sql, this.DBSource);
+        //        AdapterObj.SetSqlCommandBuilder();
+        //        AdapterObj.AddParameterToSelectCommand("@ApplicantID", applicantID);
+        //        AdapterObj.Fill(dtDataList);
+
+        //        //AnDoulist = new string[dtDataList.Rows.Count];
+        //        var tempList_andou = AnDoulist.ToList();
+        //        andoulist = new string[dtDataList.Rows.Count];
+        //        for (int i = 0; i < dtDataList.Rows.Count; i++)
+        //        {
+        //            string lid = dtDataList.Rows[i]["AnDouID"].ToString();
+        //            string NumString = string.Empty;
+
+        //            AnDouType = int.Parse(dtDataList.Rows[i]["AnDouType"].ToString());
+        //            switch (AnDouType)
+        //            {
+        //                case 25:
+        //                    //財神斗
+        //                    NumString = "WJSTDL" + Num2String(lastnum);
+        //                    tempList_andou.Add(NumString);
+        //                    andoulist[i] = "財神斗:WJSTDL" + Num2String(lastnum);
+        //                    break;
+        //                case 26:
+        //                    //事業斗
+        //                    NumString = "WJSCDL" + Num2String(lastnum);
+        //                    tempList_andou.Add(NumString);
+        //                    andoulist[i] = "事業斗:WJSCDL" + Num2String(lastnum);
+        //                    break;
+        //                case 27:
+        //                    //平安斗
+        //                    NumString = "WJSPDL" + Num2String(lastnum);
+        //                    tempList_andou.Add(NumString);
+        //                    andoulist[i] = "平安斗:WJSPDL" + Num2String(lastnum);
+        //                    break;
+        //                case 28:
+        //                    //文昌斗
+        //                    NumString = "WJSWDL" + Num2String(lastnum);
+        //                    tempList_andou.Add(NumString);
+        //                    andoulist[i] = "文昌斗:WJSWDL" + Num2String(lastnum);
+        //                    break;
+        //                case 29:
+        //                    //藥師斗
+        //                    NumString = "WJSYDL" + Num2String(lastnum);
+        //                    tempList_andou.Add(NumString);
+        //                    andoulist[i] = "藥師斗:WJSYDL" + Num2String(lastnum);
+        //                    break;
+        //                case 30:
+        //                    //元神斗
+        //                    NumString = "WJSPSDL" + Num2String(lastnum);
+        //                    tempList_andou.Add(NumString);
+        //                    andoulist[i] = "元神斗:WJSPSDL" + Num2String(lastnum);
+        //                    break;
+        //                case 31:
+        //                    //福祿壽斗
+        //                    NumString = "WJSLDL" + Num2String(lastnum);
+        //                    tempList_andou.Add(NumString);
+        //                    andoulist[i] = "福祿壽斗:WJSLDL" + Num2String(lastnum);
+        //                    break;
+        //                case 32:
+        //                    //觀音斗
+        //                    NumString = "WJSKYDL" + Num2String(lastnum);
+        //                    tempList_andou.Add(NumString);
+        //                    andoulist[i] = "觀音斗:WJSKYDL" + Num2String(lastnum);
+        //                    break;
+        //            }
+        //            AnDoulist = tempList_andou.ToArray();
+
+        //            //NumString = "WJSAN" + Num2String(lastnum);
+        //            //tempList_andou.Add(NumString);
+        //            //andoulist[i] = "WJSAN" + Num2String(lastnum);
+
+        //            //AnDoulist = tempList_andou.ToArray();
+
+        //            //dtDataList.Rows[i]["Num"] = lastnum;
+        //            //AdapterObj.Update(dtDataList);
+
+        //            msg += andoulist[i];
+        //            if (i < andoulist.Length - 1)
+        //            {
+        //                msg += ",";
+        //            }
+
+        //            //bResult = true;
+        //            int res = ExecuteSql("Update Temple_" + Year + "..AnDou_wjsan_info Set Num2String = N'" + NumString + "', Num = " + lastnum + " Where AnDouID=" + lid);
+
+        //            if (res > 0)
+        //            {
+        //                bResult = true;
+        //            }
+
+        //            int index = dtDataList.Rows.Count - i > 1 ? i + 1 : i;
+        //            AnDouType = int.Parse(dtDataList.Rows[index]["AnDouType"].ToString());
+
+        //            lastnum = GetListNum_wjsan_AnDou(AnDouType, applicantID, Year);
+        //            if (lastnum > 0)
+        //            {
+        //                bool dhavenum = true;
+
+        //                switch (AnDouType)
+        //                {
+        //                    case 25:
+        //                        //財神斗
+        //                        for (int j = 1001; j < lastnum; j++)
+        //                        {
+        //                            if (CheckedNum_wjsan_AnDou(AnDouType, j, Year))
+        //                            {
+        //                                lastnum = j;
+        //                                dhavenum = false;
+        //                                break;
+        //                            }
+        //                        }
+
+        //                        break;
+        //                    case 26:
+        //                        //事業斗
+        //                        for (int j = 1001; j < lastnum; j++)
+        //                        {
+        //                            if (CheckedNum_wjsan_AnDou(AnDouType, j, Year))
+        //                            {
+        //                                lastnum = j;
+        //                                dhavenum = false;
+        //                                break;
+        //                            }
+        //                        }
+
+        //                        break;
+        //                    case 27:
+        //                        //平安斗
+        //                        for (int j = 1001; j < lastnum; j++)
+        //                        {
+        //                            if (CheckedNum_wjsan_AnDou(AnDouType, j, Year))
+        //                            {
+        //                                lastnum = j;
+        //                                dhavenum = false;
+        //                                break;
+        //                            }
+        //                        }
+
+        //                        break;
+        //                    case 28:
+        //                        //文昌斗
+        //                        for (int j = 1001; j < lastnum; j++)
+        //                        {
+        //                            if (CheckedNum_wjsan_AnDou(AnDouType, j, Year))
+        //                            {
+        //                                lastnum = j;
+        //                                dhavenum = false;
+        //                                break;
+        //                            }
+        //                        }
+
+        //                        break;
+        //                    case 29:
+        //                        //藥師斗
+        //                        for (int j = 1001; j < lastnum; j++)
+        //                        {
+        //                            if (CheckedNum_wjsan_AnDou(AnDouType, j, Year))
+        //                            {
+        //                                lastnum = j;
+        //                                dhavenum = false;
+        //                                break;
+        //                            }
+        //                        }
+
+        //                        break;
+        //                    case 30:
+        //                        //元神斗
+        //                        for (int j = 1001; j < lastnum; j++)
+        //                        {
+        //                            if (CheckedNum_wjsan_AnDou(AnDouType, j, Year))
+        //                            {
+        //                                lastnum = j;
+        //                                dhavenum = false;
+        //                                break;
+        //                            }
+        //                        }
+
+        //                        break;
+        //                    case 31:
+        //                        //福祿壽斗
+        //                        for (int j = 1001; j < lastnum; j++)
+        //                        {
+        //                            if (CheckedNum_wjsan_AnDou(AnDouType, j, Year))
+        //                            {
+        //                                lastnum = j;
+        //                                dhavenum = false;
+        //                                break;
+        //                            }
+        //                        }
+
+        //                        break;
+        //                    case 32:
+        //                        //觀音斗
+        //                        for (int j = 1001; j < lastnum; j++)
+        //                        {
+        //                            if (CheckedNum_wjsan_AnDou(AnDouType, j, Year))
+        //                            {
+        //                                lastnum = j;
+        //                                dhavenum = false;
+        //                                break;
+        //                            }
+        //                        }
+
+        //                        break;
+        //                }
+
+        //                if (dhavenum)
+        //                {
+        //                    ++lastnum;
+        //                }
+        //            }
+        //            else
+        //            {
+        //                switch (AnDouType)
+        //                {
+        //                    case 25:
+        //                        //財神斗
+        //                        lastnum = 1001;
+        //                        break;
+        //                    case 26:
+        //                        //事業斗
+        //                        lastnum = 1001;
+        //                        break;
+        //                    case 27:
+        //                        //平安斗
+        //                        lastnum = 1001;
+        //                        break;
+        //                    case 28:
+        //                        //文昌斗
+        //                        lastnum = 1001;
+        //                        break;
+        //                    case 29:
+        //                        //藥師斗
+        //                        lastnum = 1001;
+        //                        break;
+        //                    case 30:
+        //                        //元神斗
+        //                        lastnum = 1001;
+        //                        break;
+        //                    case 31:
+        //                        //福祿壽斗
+        //                        lastnum = 1001;
+        //                        break;
+        //                    case 32:
+        //                        //觀音斗
+        //                        lastnum = 1001;
+        //                        break;
+        //                }
+        //            }
+        //        }
+
+        //        msg += "。客服電話：04-36092299。";
+
+        //        return bResult;
+        //    }
+        //}
+
+        #endregion
+
+
+        #region —— 供花供果 —— 
+
+        /// <summary>
+        /// 更新並取得訂單編號資料 - 供花供果 - 台灣道教總廟無極三清總道院
+        /// </summary>
+        /// <param name="applicantID">購買人編號</param>
+        /// <param name="HuaguoType">
+        /// 斗燈代碼：
+        /// 25－財神斗；26－事業斗；27－平安斗；
+        /// 28－文昌斗；29－藥師斗；30－元神斗；31－福祿壽斗；32－觀音斗；
+        /// </param>
+        /// <param name="Year">年度字串，例如 "2025"</param>
+        /// <param name="msg">回傳給前端的訊息（各訂單編號＋客服電話）</param>
+        /// <param name="huaguolist">回傳給前端的訂單編號清單</param>
+        /// <param name="Huaguolist">備用，可同樣回傳訂單編號字串陣列，視業務需求</param>
+        /// <returns>若有更新資料則回傳 true，否則回傳 false</returns>
+        public bool UpdateHuaguo_wjsan_Info(
+            int applicantID,
+            int HuaguoType,
+            string Year,
+            ref string msg,
+            ref string[] huaguolist,
+            ref string[] Huaguolist)
+        {
+            lock (_thisLock)
+            {
+                twbobibobi.Data.BasePage basePage = new twbobibobi.Data.BasePage();
+
+                // 1. 一次性取得所有已分配的編號 (Num > 0 且 Num2String 有值)
+                string sqlFetchExisting =
+                    "SELECT HuaguoType, Num " +
+                    "FROM Temple_" + Year + "..Huaguo_wjsan_info " +
+                    "WHERE Status = 0 " +
+                    "  AND Num <> 0" +
+                    "  AND Num2String IS NOT NULL " +
+                    "  AND Num2String <> ''";
+
+                // 建立 DatabaseAdapter，並加入參數
+                DatabaseAdapter da = new DatabaseAdapter(sqlFetchExisting, this.DBSource);
+                da.SetSqlCommandBuilder();
+                DataTable dtExisting = new DataTable();
+                da.Fill(dtExisting);
+
+                // 建立各燈種對應的已用號碼集合
+                var usedNumsByType = new Dictionary<int, HashSet<int>>();
+                foreach (DataRow row in dtExisting.Rows)
+                {
+                    int type = Convert.ToInt32(row["HuaguoType"]);
+                    int num = Convert.ToInt32(row["Num"]);
+                    if (!usedNumsByType.ContainsKey(type))
+                        usedNumsByType[type] = new HashSet<int>();
+                    usedNumsByType[type].Add(num);
+                }
+
+                // 2. 一次性抓出所有需補號的列 (Num = 0)
+                DataTable dtToAssign = new DataTable();
+                string sqlFetchToAssign =
+                    "SELECT HuaguoID, HuaguoType " +
+                    "FROM Temple_" + Year + "..Huaguo_wjsan_info " +
+                    "WHERE ApplicantID = @ApplicantID " +
+                    "  AND Status = 0 " +
+                    "  AND Num = 0 " +
+                    "ORDER BY HuaguoID";
+
+                {
+                    da = new DatabaseAdapter(sqlFetchToAssign, this.DBSource);
+                    da.SetSqlCommandBuilder();
+                    da.AddParameterToSelectCommand("ApplicantID", applicantID);
+                    da.Fill(dtToAssign);
+                }
+
+                int rowCount = dtToAssign.Rows.Count;
+                huaguolist = new string[rowCount];
+                Huaguolist = new string[rowCount];
+                // 用來存放要批量更新的資料 (HuaguoID, AssignedNum, AssignedNumString)
+                List<Tuple<int, int, string>> updatedRecords = new List<Tuple<int, int, string>>();
+
+                // 3. 逐筆在記憶體中分配「最小可用缺號」
+                for (int i = 0; i < rowCount; i++)
+                {
+                    DataRow row = dtToAssign.Rows[i];
+                    int dbHuaguoID = Convert.ToInt32(row["HuaguoID"]);
+                    int dbHuaguoType = Convert.ToInt32(row["HuaguoType"]);
+
+                    if (!usedNumsByType.ContainsKey(dbHuaguoType))
+                        usedNumsByType[dbHuaguoType] = new HashSet<int>();
+
+                    // 找下一個可用編號 (從 1001 開始往上搜尋)
+                    var usedSet = usedNumsByType[dbHuaguoType];
+                    int nextNum = 1001;
+                    while (usedSet.Contains(nextNum))
+                    {
+                        nextNum++;
+                    }
+
+                    // 根據不同燈種決定前綴字串
+                    string prefix = "";
+                    switch (dbHuaguoType)
+                    {
+                        case 1: prefix = "WJSH"; break;  // 供花/次
+                        case 2: prefix = "WJSG"; break;  // 供果/次
+                        case 3: prefix = "WJS3H"; break;  // 供花/月
+                        case 4: prefix = "WJS3G"; break;  // 供果/月
+                        case 5: prefix = "WJS18H"; break;  // 供花/半年
+                        case 6: prefix = "WJS18G"; break;  // 供果/半年
+                    }
+                    string numString = prefix + nextNum.ToString();
+                    Huaguolist[i] = numString;
+
+                    // 將這筆資料加入批量更新清單
+                    updatedRecords.Add(new Tuple<int, int, string>(dbHuaguoID, nextNum, numString));
+
+                    // 準備回傳給前端的訂單編號字串
+                    string typeName = "";
+                    switch (dbHuaguoType)
+                    {
+                        case 1: typeName = "供花/次"; break;
+                        case 2: typeName = "供果/次"; break;
+                        case 3: typeName = "供花/月"; break;
+                        case 4: typeName = "供果/月"; break;
+                        case 5: typeName = "供花/半年"; break;
+                        case 6: typeName = "供果/半年"; break;
+                    }
+                    huaguolist[i] = typeName + ":" + numString;
+
+                    // 把已分配的 nextNum 加入 usedNumsByType，避免重複
+                    usedSet.Add(nextNum);
+                }
+
+                // 組出 msg，格式為「燈種1:編號,燈種2:編號,...。客服電話：04-36092299。」
+                msg += string.Join(",", huaguolist) + "。客服電話：04-36092299。";
+
+                // 5. 一次性批量 UPDATE 回資料庫
+                //    以下示範用動態 SQL 拼接多筆 UPDATE，若更新筆數很多建議改用 TVP + 存儲過程
+                System.Text.StringBuilder sb = new System.Text.StringBuilder();
+                sb.AppendLine("USE Temple_" + Year + ";");
+                foreach (var rec in updatedRecords)
+                {
+                    int id = rec.Item1;
+                    int assignedNum = rec.Item2;
+                    string assignedNumString = rec.Item3.Replace("'", "''"); // 確保單引號轉義
+                    sb.AppendLine(
+                        "UPDATE dbo.Huaguo_wjsan_info " +
+                        "SET Num = " + assignedNum + ", " +
+                        "    Num2String = N'" + assignedNumString + "' " +
+                        "WHERE HuaguoID = " + id + ";"
+                    );
+                }
+                string sqlBatchUpdate = sb.ToString();
+
+                try
+                {
+                    int rowsAffected = ExecuteSql(sqlBatchUpdate);
+                    if (rowsAffected > 0)
+                    {
+                        // 成功更新至少一筆
+                        return (updatedRecords.Count > 0);
+                    }
+                    else
+                    {
+                        // 防呆：SQL 執行後沒有影響到任何列，記一筆錯誤日誌，再回傳 false
+                        string err = "[UpdateHuaguo_wjsan_Info] 批量 UPDATE 未更新到任何記錄，SQL:\r\n" + sqlBatchUpdate;
+                        basePage.SaveErrorLog(err);
+                        return false;
+                    }
+                }
+                catch (Exception ex)
+                {
+                    // 捕捉執行 SQL 時的例外，記錯誤日誌，並回傳 false
+                    basePage.SaveErrorLog("[UpdateHuaguo_wjsan_Info] 批量 UPDATE 時發生例外：\r\n" + ex);
+                    return false;
+                }
+            }
+        }
+
+        //public bool UpdateHuaguo_wjsan_Info(int applicantID, int HuaguoType, string Year, ref string msg, ref string[] huaguolist, ref string[] Huaguolist)
+        //{
+        //    lock (_thisLock)
+        //    {
+        //        TimeZoneInfo info = TimeZoneInfo.FindSystemTimeZoneById("Taipei Standard Time");
+        //        DateTime dt = TimeZoneInfo.ConvertTime(DateTime.Now, info);
+        //        bool bResult = false;
+        //        int lastnum = GetListNum_wjsan_Huaguo(HuaguoType, applicantID, Year);
+        //        if (lastnum > 0)
+        //        {
+        //            bool dhavenum = true;
+
+        //            switch (HuaguoType)
+        //            {
+        //                case 1:
+        //                    //供花/次
+        //                    for (int j = 1001; j < lastnum; j++)
+        //                    {
+        //                        if (CheckedNum_wjsan_Huaguo(HuaguoType, j, Year))
+        //                        {
+        //                            lastnum = j;
+        //                            dhavenum = false;
+        //                            break;
+        //                        }
+        //                    }
+
+        //                    break;
+        //                case 2:
+        //                    //供果/次
+        //                    for (int j = 1001; j < lastnum; j++)
+        //                    {
+        //                        if (CheckedNum_wjsan_Huaguo(HuaguoType, j, Year))
+        //                        {
+        //                            lastnum = j;
+        //                            dhavenum = false;
+        //                            break;
+        //                        }
+        //                    }
+
+        //                    break;
+        //                case 3:
+        //                    //供花/月
+        //                    for (int j = 1001; j < lastnum; j++)
+        //                    {
+        //                        if (CheckedNum_wjsan_Huaguo(HuaguoType, j, Year))
+        //                        {
+        //                            lastnum = j;
+        //                            dhavenum = false;
+        //                            break;
+        //                        }
+        //                    }
+
+        //                    break;
+        //                case 4:
+        //                    //供果/月
+        //                    for (int j = 1001; j < lastnum; j++)
+        //                    {
+        //                        if (CheckedNum_wjsan_Huaguo(HuaguoType, j, Year))
+        //                        {
+        //                            lastnum = j;
+        //                            dhavenum = false;
+        //                            break;
+        //                        }
+        //                    }
+
+        //                    break;
+        //                case 5:
+        //                    //供花/半年
+        //                    for (int j = 1001; j < lastnum; j++)
+        //                    {
+        //                        if (CheckedNum_wjsan_Huaguo(HuaguoType, j, Year))
+        //                        {
+        //                            lastnum = j;
+        //                            dhavenum = false;
+        //                            break;
+        //                        }
+        //                    }
+
+        //                    break;
+        //                case 6:
+        //                    //供果/半年
+        //                    for (int j = 1001; j < lastnum; j++)
+        //                    {
+        //                        if (CheckedNum_wjsan_Huaguo(HuaguoType, j, Year))
+        //                        {
+        //                            lastnum = j;
+        //                            dhavenum = false;
+        //                            break;
+        //                        }
+        //                    }
+
+        //                    break;
+        //            }
+
+        //            if (dhavenum)
+        //            {
+        //                ++lastnum;
+        //            }
+        //        }
+        //        else
+        //        {
+        //            switch (HuaguoType)
+        //            {
+        //                case 1:
+        //                    //供花/次
+        //                    lastnum = 1001;
+        //                    break;
+        //                case 2:
+        //                    //供果/次
+        //                    lastnum = 1001;
+        //                    break;
+        //                case 3:
+        //                    //供花/月
+        //                    lastnum = 1001;
+        //                    break;
+        //                case 4:
+        //                    //供果/月
+        //                    lastnum = 1001;
+        //                    break;
+        //                case 5:
+        //                    //供花/半年
+        //                    lastnum = 1001;
+        //                    break;
+        //                case 6:
+        //                    //供果/半年
+        //                    lastnum = 1001;
+        //                    break;
+        //            }
+        //        }
+
+        //        DataTable dtDataList = new DataTable();
+        //        string sql = "Select * From Temple_" + Year + "..Huaguo_wjsan_info Where ApplicantID=@ApplicantID and Status = 0 and Num = 0";
+
+        //        DatabaseAdapter AdapterObj = new DatabaseAdapter(sql, this.DBSource);
+        //        AdapterObj.SetSqlCommandBuilder();
+        //        AdapterObj.AddParameterToSelectCommand("@ApplicantID", applicantID);
+        //        AdapterObj.Fill(dtDataList);
+
+        //        //Huaguolist = new string[dtDataList.Rows.Count];
+        //        var tempList_huaguo = Huaguolist.ToList();
+        //        huaguolist = new string[dtDataList.Rows.Count];
+        //        for (int i = 0; i < dtDataList.Rows.Count; i++)
+        //        {
+        //            string id = dtDataList.Rows[i]["HuaguoID"].ToString();
+        //            string NumString = string.Empty;
+
+        //            HuaguoType = int.Parse(dtDataList.Rows[i]["HuaguoType"].ToString());
+        //            switch (HuaguoType)
+        //            {
+        //                case 1:
+        //                    //供花/次
+        //                    NumString = "WJSH" + Num2String(lastnum);
+        //                    tempList_huaguo.Add(NumString);
+        //                    huaguolist[i] = "供花/次:WJSH" + Num2String(lastnum);
+        //                    break;
+        //                case 2:
+        //                    //供果/次
+        //                    NumString = "WJSG" + Num2String(lastnum);
+        //                    tempList_huaguo.Add(NumString);
+        //                    huaguolist[i] = "供果/次:WJSG" + Num2String(lastnum);
+        //                    break;
+        //                case 3:
+        //                    //供花/月
+        //                    NumString = "WJS3H" + Num2String(lastnum);
+        //                    tempList_huaguo.Add(NumString);
+        //                    huaguolist[i] = "供花/月:WJS3H" + Num2String(lastnum);
+        //                    break;
+        //                case 4:
+        //                    //供果/月
+        //                    NumString = "WJS3G" + Num2String(lastnum);
+        //                    tempList_huaguo.Add(NumString);
+        //                    huaguolist[i] = "供果/月:WJS3G" + Num2String(lastnum);
+        //                    break;
+        //                case 5:
+        //                    //供花/半年
+        //                    NumString = "WJS18H" + Num2String(lastnum);
+        //                    tempList_huaguo.Add(NumString);
+        //                    huaguolist[i] = "供花/半年:WJS18H" + Num2String(lastnum);
+        //                    break;
+        //                case 6:
+        //                    //供果/半年
+        //                    NumString = "WJS18G" + Num2String(lastnum);
+        //                    tempList_huaguo.Add(NumString);
+        //                    huaguolist[i] = "供果/半年:WJS18G" + Num2String(lastnum);
+        //                    break;
+        //            }
+        //            Huaguolist = tempList_huaguo.ToArray();
+
+        //            msg += huaguolist[i];
+        //            if (i < huaguolist.Length - 1)
+        //            {
+        //                msg += ",";
+        //            }
+
+        //            //bResult = true;
+        //            int res = ExecuteSql("Update Temple_" + Year + "..Huaguo_wjsan_info Set Num2String = N'" + NumString + "', Num = " + lastnum + " Where HuaguoID=" + id);
+
+        //            if (res > 0)
+        //            {
+        //                bResult = true;
+        //            }
+
+        //            int index = dtDataList.Rows.Count - i > 1 ? i + 1 : i;
+        //            HuaguoType = int.Parse(dtDataList.Rows[index]["HuaguoType"].ToString());
+
+        //            lastnum = GetListNum_wjsan_Huaguo(HuaguoType, applicantID, Year);
+        //            if (lastnum > 0)
+        //            {
+        //                bool dhavenum = true;
+
+        //                switch (HuaguoType)
+        //                {
+        //                    case 1:
+        //                        //供花/次
+        //                        for (int j = 1001; j < lastnum; j++)
+        //                        {
+        //                            if (CheckedNum_wjsan_Huaguo(HuaguoType, j, Year))
+        //                            {
+        //                                lastnum = j;
+        //                                dhavenum = false;
+        //                                break;
+        //                            }
+        //                        }
+
+        //                        break;
+        //                    case 2:
+        //                        //供果/次
+        //                        for (int j = 1001; j < lastnum; j++)
+        //                        {
+        //                            if (CheckedNum_wjsan_Huaguo(HuaguoType, j, Year))
+        //                            {
+        //                                lastnum = j;
+        //                                dhavenum = false;
+        //                                break;
+        //                            }
+        //                        }
+
+        //                        break;
+        //                    case 3:
+        //                        //供花/月
+        //                        for (int j = 1001; j < lastnum; j++)
+        //                        {
+        //                            if (CheckedNum_wjsan_Huaguo(HuaguoType, j, Year))
+        //                            {
+        //                                lastnum = j;
+        //                                dhavenum = false;
+        //                                break;
+        //                            }
+        //                        }
+
+        //                        break;
+        //                    case 4:
+        //                        //供果/月
+        //                        for (int j = 1001; j < lastnum; j++)
+        //                        {
+        //                            if (CheckedNum_wjsan_Huaguo(HuaguoType, j, Year))
+        //                            {
+        //                                lastnum = j;
+        //                                dhavenum = false;
+        //                                break;
+        //                            }
+        //                        }
+
+        //                        break;
+        //                    case 5:
+        //                        //供花/半年
+        //                        for (int j = 1001; j < lastnum; j++)
+        //                        {
+        //                            if (CheckedNum_wjsan_Huaguo(HuaguoType, j, Year))
+        //                            {
+        //                                lastnum = j;
+        //                                dhavenum = false;
+        //                                break;
+        //                            }
+        //                        }
+
+        //                        break;
+        //                    case 6:
+        //                        //供果/半年
+        //                        for (int j = 1001; j < lastnum; j++)
+        //                        {
+        //                            if (CheckedNum_wjsan_Huaguo(HuaguoType, j, Year))
+        //                            {
+        //                                lastnum = j;
+        //                                dhavenum = false;
+        //                                break;
+        //                            }
+        //                        }
+
+        //                        break;
+        //                }
+
+        //                if (dhavenum)
+        //                {
+        //                    ++lastnum;
+        //                }
+        //            }
+        //            else
+        //            {
+        //                switch (HuaguoType)
+        //                {
+        //                    case 1:
+        //                        //供花/次
+        //                        lastnum = 1001;
+        //                        break;
+        //                    case 2:
+        //                        //供果/次
+        //                        lastnum = 1001;
+        //                        break;
+        //                    case 3:
+        //                        //供花/月
+        //                        lastnum = 1001;
+        //                        break;
+        //                    case 4:
+        //                        //供果/月
+        //                        lastnum = 1001;
+        //                        break;
+        //                    case 5:
+        //                        //供果/半年
+        //                        lastnum = 1001;
+        //                        break;
+        //                    case 6:
+        //                        //供果/半年
+        //                        lastnum = 1001;
+        //                        break;
+        //                }
+        //            }
+        //        }
+
+        //        msg += "。客服電話：04-36092299。";
+
+        //        return bResult;
+        //    }
+        //}
+
+        #endregion
+
+
+        #region —— 普渡 —— 
+
+        /// <summary>
+        /// 更新並取得普渡資料 - 普渡 - 大甲鎮瀾宮
+        /// </summary>
+        /// <param name="applicantID">購買人編號</param>
+        /// <param name="PurdueType"></param>
+        /// <param name="Year">年度字串，例如 "2025"</param>
+        /// <param name="msg">回傳給前端的訊息（各訂單編號＋客服電話）</param>
+        /// <param name="purduelist">回傳給前端的訂單編號清單</param>
+        /// <param name="Purduelist">備用，可同樣回傳訂單編號字串陣列，視業務需求</param>
+        /// <returns>若有更新資料則回傳 true，否則回傳 false</returns>
+        public bool UpdatePurdue_da_Info(
+            int applicantID,
+            int PurdueType,
+            string Year,
+            ref string msg,
+            ref string[] purduelist,
+            ref string[] Purduelist)
+        {
+            lock (_thisLock)
+            {
+                twbobibobi.Data.BasePage basePage = new twbobibobi.Data.BasePage();
+
+                // 1. 分別蒐集「超拔」與「贊普」已用號碼
+                var existingFNums = new HashSet<int>();
+                var existingZNums = new HashSet<int>();
+
+                string sqlFetchExisting =
+                    "SELECT PurdueType, Num " +
+                    "FROM Temple_" + Year + "..Purdue_da_info " +
+                    "WHERE Status = 0 " +
+                    "  AND Num <> 0" +
+                    "  AND Num2String IS NOT NULL " +
+                    "  AND Num2String <> ''" +
+                    "  Order by Num";
+
+                {
+                    // 建立 DatabaseAdapter，並加入參數
+                    DatabaseAdapter da = new DatabaseAdapter(sqlFetchExisting, this.DBSource);
+                    da.SetSqlCommandBuilder();
+                    da.AddParameterToSelectCommand("PurdueType", PurdueType);
+                    da.AddParameterToSelectCommand("ApplicantID", applicantID);
+
+                    DataTable dtExisting = new DataTable();
+                    da.Fill(dtExisting);
+
+                    // 把所有 Num 值放入 existingNums
+                    foreach (DataRow row in dtExisting.Rows)
+                    {
+                        if (row["Num"] != DBNull.Value)
                         {
-                            case 3:
-                                //光明燈
-                                lastnum = 1001;
-                                break;
-                            case 4:
-                                //安太歲
-                                lastnum = 1001;
-                                break;
-                            case 5:
-                                //文昌燈
-                                lastnum = 1001;
-                                break;
-                            case 6:
-                                //財神燈
-                                lastnum = 1001;
-                                break;
-                            case 8:
-                                //藥師佛燈
-                                lastnum = 1001;
-                                break;
-                            case 24:
-                                //觀音佛祖燈
-                                lastnum = 1001;
-                                break;
+                            int num = Convert.ToInt32(row["Num"]);
+                            int type = Convert.ToInt32(row["PurdueType"]);
+                            if (type == 1)
+                                existingZNums.Add(num);
+                            else
+                                existingFNums.Add(num);
                         }
                     }
                 }
 
-                msg += "。客服電話：04-36092299。";
+                // 2. 一次性抓出所有需補號的列 (Num = 0)
+                DataTable dtToAssign = new DataTable();
+                string sqlFetchToAssign =
+                    "SELECT PurdueID, PurdueType " +
+                    "FROM Temple_" + Year + "..Purdue_da_info " +
+                    "WHERE ApplicantID = @ApplicantID " +
+                    "  AND Status = 0 " +
+                    "  AND Num = 0 " +
+                    "ORDER BY PurdueID";
 
-                return bResult;
+                {
+                    DatabaseAdapter da = new DatabaseAdapter(sqlFetchToAssign, this.DBSource);
+                    da.SetSqlCommandBuilder();
+                    da.AddParameterToSelectCommand("ApplicantID", applicantID);
+                    da.Fill(dtToAssign);
+                }
+
+                int rowCount = dtToAssign.Rows.Count;
+                purduelist = new string[rowCount];
+                Purduelist = new string[rowCount];
+                // 用來存放要批量更新的資料 (PurdueID, AssignedNum, AssignedNumString)
+                List<Tuple<int, int, string>> updatedRecords = new List<Tuple<int, int, string>>();
+
+                // 3. 逐筆在記憶體中分配「最小可用缺號」
+                for (int i = 0; i < rowCount; i++)
+                {
+                    DataRow row = dtToAssign.Rows[i];
+                    int dbPurdueID = Convert.ToInt32(row["PurdueID"]);
+                    int dbPurdueType = Convert.ToInt32(row["PurdueType"]);
+
+                    // 3.1 嘗試在 1～5000 區段找缺口
+                    var existingNums = dbPurdueType == 1 ? existingZNums : existingFNums;
+                    int nextNum = -1;
+                    for (int cand = 1; cand <= 5000; cand++)
+                    {
+                        if (!existingNums.Contains(cand))
+                        {
+                            nextNum = cand;
+                            break;
+                        }
+                    }
+
+                    // 3.2 如果 1～3000 全部已被佔滿，才進入大甲專區 5001 起
+                    //if (nextNum == -1)
+                    //{
+                    //    int cand = 5001;
+                    //    while (existingNums.Contains(cand))
+                    //    {
+                    //        cand++;
+                    //    }
+                    //    nextNum = cand;
+                    //}
+
+                    // 3.3 根據活動項目決定前綴字串
+                    string prefix = dbPurdueType == 1 ? "Z" : "F";
+                    string numString = prefix + Num2String(nextNum);
+                    Purduelist[i] = numString;          // 單純存編號字串
+
+                    // 3.4 組成要返回前端的「活動項目:編號」
+                    string typeName = "";
+                    switch (dbPurdueType)
+                    {
+                        case 1: typeName = "贊普"; break;
+                        default: typeName = "超拔"; break;
+                    }
+                    purduelist[i] = $"{typeName}:{numString}";
+
+                    // 3.5 把這筆資料記錄到待批量更新集合中
+                    updatedRecords.Add(new Tuple<int, int, string>(dbPurdueID, nextNum, numString));
+
+                    // 3.6 把剛分配的 nextNum 加到 existingNums，避免下次迴圈重複
+                    existingNums.Add(nextNum);
+                }
+
+                // 4. 組出前端訊息字串 (例如「光明燈:光05001,安太歲:太05001,...。客服電話：04-36092299。」)
+                msg = "您已完成中元普渡線上報名！訂單編號" + string.Join(",", Purduelist) + "。廟方將於農曆七月期間舉辦法會，屆時由專人代為誦經超薦。感謝您的參與與功德發心。";
+
+                // 5. 一次性批量 UPDATE 回資料庫
+                //    以下示範用動態 SQL 拼接多筆 UPDATE，若更新筆數很多建議改用 TVP + 存儲過程
+                System.Text.StringBuilder sb = new System.Text.StringBuilder();
+                sb.AppendLine("USE Temple_" + Year + ";");
+                foreach (var rec in updatedRecords)
+                {
+                    int id = rec.Item1;
+                    int assignedNum = rec.Item2;
+                    string assignedNumString = rec.Item3.Replace("'", "''"); // 確保單引號轉義
+                    sb.AppendLine(
+                        "UPDATE dbo.Purdue_da_info " +
+                        "SET Num = " + assignedNum + ", " +
+                        "    Num2String = N'" + assignedNumString + "' " +
+                        "WHERE PurdueID = " + id + ";"
+                    );
+                }
+                string sqlBatchUpdate = sb.ToString();
+
+                try
+                {
+                    int rowsAffected = ExecuteSql(sqlBatchUpdate);
+                    if (rowsAffected > 0)
+                    {
+                        // 若有更新任何筆，代表至少有一筆補號成功
+                        return (updatedRecords.Count > 0);
+                    }
+                    else
+                    {
+                        // 防呆：SQL 執行後沒有影響到任何列，記一筆錯誤日誌，再回傳 false
+                        string err = "[UpdatePurdue_da_Info] 批量 UPDATE 未更新到任何記錄，SQL:\r\n" + sqlBatchUpdate;
+                        basePage.SaveErrorLog(err);
+                        return false;
+                    }
+                }
+                catch (Exception ex)
+                {
+                    // 捕捉執行 SQL 時的例外，記錯誤日誌，並回傳 false
+                    basePage.SaveErrorLog("[UpdatePurdue_da_Info] 批量 UPDATE 時發生例外：\r\n" + ex);
+                    return false;
+                }
             }
         }
 
-        public bool UpdateLights_Luer_Info(int applicantID, int LightsType, string Year, ref string msg, ref string[] lightslist, ref string[] Lightslist)
+        /// <summary>
+        /// 更新並取得訂單資料 - 普渡 - 新港奉天宮
+        /// </summary>
+        /// <param name="applicantID">購買人編號</param>
+        /// <param name="PurdueType"></param>
+        /// <param name="Year">年度字串，例如 "2025"</param>
+        /// <param name="msg">回傳給前端的訊息（各訂單編號＋客服電話）</param>
+        /// <param name="purduelist">回傳給前端的訂單編號清單</param>
+        /// <param name="Purduelist">備用，可同樣回傳訂單編號字串陣列，視業務需求</param>
+        /// <returns>若有更新資料則回傳 true，否則回傳 false</returns>
+        public bool UpdatePurdue_h_Info(
+            int applicantID,
+            int PurdueType,
+            string Year,
+            ref string msg,
+            ref string[] purduelist,
+            ref string[] Purduelist)
         {
             lock (_thisLock)
             {
-                TimeZoneInfo info = TimeZoneInfo.FindSystemTimeZoneById("Taipei Standard Time");
-                DateTime dt = TimeZoneInfo.ConvertTime(DateTime.Now, info);
-                bool bResult = false;
-                int lastnum = GetListNum_Luer_Lights(LightsType, applicantID, Year);
-                if (lastnum > 0)
+                twbobibobi.Data.BasePage basePage = new twbobibobi.Data.BasePage();
+
+                // 1. 一次性取得所有已分配的編號 (Num > 0 且 Num2String 有值)
+                HashSet<int> existingNums = new HashSet<int>();
+                string sqlFetchExisting =
+                    "SELECT Num " +
+                    "FROM Temple_" + Year + "..Purdue_h_info " +
+                    "WHERE Status = 0 " +
+                    "  AND Num <> 0" +
+                    "  AND Num2String IS NOT NULL " +
+                    "  AND Num2String <> ''";
+
                 {
-                    bool dhavenum = true;
+                    // 建立 DatabaseAdapter，並加入參數
+                    DatabaseAdapter da = new DatabaseAdapter(sqlFetchExisting, this.DBSource);
 
-                    switch (LightsType)
+                    DataTable dtExisting = new DataTable();
+                    da.Fill(dtExisting);
+
+                    // 把所有 Num 值放入 existingNums
+                    foreach (DataRow row in dtExisting.Rows)
                     {
-                        case 3:
-                            //光明燈
-                            for (int i = 1001; i < lastnum; i++)
-                            {
-                                if (CheckedNum_Luer_Lights(LightsType, i, Year))
-                                {
-                                    lastnum = i;
-                                    dhavenum = false;
-                                    break;
-                                }
-                            }
+                        if (row["Num"] != DBNull.Value)
+                        {
+                            existingNums.Add(Convert.ToInt32(row["Num"]));
+                        }
+                    }
+                }
 
-                            break;
-                        case 4:
-                            //安太歲
-                            for (int i = 1001; i < lastnum; i++)
-                            {
-                                if (CheckedNum_Luer_Lights(LightsType, i, Year))
-                                {
-                                    lastnum = i;
-                                    dhavenum = false;
-                                    break;
-                                }
-                            }
+                // 2. 一次性抓出所有需補號的列 (Num = 0)
+                DataTable dtToAssign = new DataTable();
+                string sqlFetchToAssign =
+                    "SELECT PurdueID, PurdueType " +
+                    "FROM Temple_" + Year + "..Purdue_h_info " +
+                    "WHERE ApplicantID = @ApplicantID " +
+                    "  AND Status = 0 " +
+                    "  AND Num = 0 " +
+                    "ORDER BY PurdueID";
 
-                            break;
-                        case 5:
-                            //文昌燈
-                            for (int i = 1001; i < lastnum; i++)
-                            {
-                                if (CheckedNum_Luer_Lights(LightsType, i, Year))
-                                {
-                                    lastnum = i;
-                                    dhavenum = false;
-                                    break;
-                                }
-                            }
+                {
+                    DatabaseAdapter da = new DatabaseAdapter(sqlFetchToAssign, this.DBSource);
+                    da.SetSqlCommandBuilder();
+                    da.AddParameterToSelectCommand("ApplicantID", applicantID);
+                    da.Fill(dtToAssign);
+                }
 
-                            break;
+                int rowCount = dtToAssign.Rows.Count;
+                purduelist = new string[rowCount];
+                Purduelist = new string[rowCount];
+                // 用來存放要批量更新的資料 (PurdueID, AssignedNum, AssignedNumString)
+                List<Tuple<int, int, string>> updatedRecords = new List<Tuple<int, int, string>>();
+
+                // 3. 逐筆在記憶體中分配「最小可用缺號」
+                for (int i = 0; i < rowCount; i++)
+                {
+                    DataRow row = dtToAssign.Rows[i];
+                    int dbPurdueID = Convert.ToInt32(row["PurdueID"]);
+                    int dbPurdueType = Convert.ToInt32(row["PurdueType"]);
+
+                    // 找下一個可用編號 (從 1001 開始往上搜尋)
+                    int nextNum = 1001;
+                    while (existingNums.Contains(nextNum))
+                    {
+                        nextNum++;
+                    }
+
+                    // 根據不同活動項目決定前綴字串
+                    string prefix = "H";
+                    string numString = prefix + nextNum.ToString();
+                    Purduelist[i] = numString;
+
+                    // 將這筆資料加入批量更新清單
+                    updatedRecords.Add(new Tuple<int, int, string>(dbPurdueID, nextNum, numString));
+
+                    // 準備回傳給前端的訂單編號字串
+                    purduelist[i] = numString;
+
+                    // 把已分配的 nextNum 加入 existingNums，避免重複
+                    existingNums.Add(nextNum);
+                }
+
+                // 組出 msg，格式為「活動項目1:編號,活動項目2:編號,...。客服電話：04-36092299。」
+                msg = "您已完成中元普渡線上報名！訂單編號" + string.Join(",", purduelist) + "。廟方將於農曆七月期間舉辦法會，屆時由專人代為誦經超薦。感謝您的參與與功德發心。";
+
+                // 5. 一次性批量 UPDATE 回資料庫
+                //    以下示範用動態 SQL 拼接多筆 UPDATE，若更新筆數很多建議改用 TVP + 存儲過程
+                System.Text.StringBuilder sb = new System.Text.StringBuilder();
+                sb.AppendLine("USE Temple_" + Year + ";");
+                foreach (var rec in updatedRecords)
+                {
+                    int id = rec.Item1;
+                    int assignedNum = rec.Item2;
+                    string assignedNumString = rec.Item3.Replace("'", "''"); // 確保單引號轉義
+                    sb.AppendLine(
+                        "UPDATE dbo.Purdue_h_info " +
+                        "SET Num = " + assignedNum + ", " +
+                        "    Num2String = N'" + assignedNumString + "' " +
+                        "WHERE PurdueID = " + id + ";"
+                    );
+                }
+                string sqlBatchUpdate = sb.ToString();
+
+                try
+                {
+                    int rowsAffected = ExecuteSql(sqlBatchUpdate);
+                    if (rowsAffected > 0)
+                    {
+                        // 成功更新至少一筆
+                        return (updatedRecords.Count > 0);
+                    }
+                    else
+                    {
+                        // 防呆：SQL 執行後沒有影響到任何列，記一筆錯誤日誌，再回傳 false
+                        string err = "[UpdatePurdue_h_Info] 批量 UPDATE 未更新到任何記錄，SQL:\r\n" + sqlBatchUpdate;
+                        basePage.SaveErrorLog(err);
+                        return false;
+                    }
+                }
+                catch (Exception ex)
+                {
+                    // 捕捉執行 SQL 時的例外，記錯誤日誌，並回傳 false
+                    basePage.SaveErrorLog("[UpdatePurdue_h_Info] 批量 UPDATE 時發生例外：\r\n" + ex);
+                    return false;
+                }
+            }
+        }
+
+        /// <summary>
+        /// 更新並取得訂單資料 - 普渡 - 北港武德宮
+        /// </summary>
+        /// <param name="applicantID">購買人編號</param>
+        /// <param name="PurdueType"></param>
+        /// <param name="Year">年度字串，例如 "2025"</param>
+        /// <param name="msg">回傳給前端的訊息（各訂單編號＋客服電話）</param>
+        /// <param name="purduelist">回傳給前端的訂單編號清單</param>
+        /// <param name="Purduelist">備用，可同樣回傳訂單編號字串陣列，視業務需求</param>
+        /// <returns>若有更新資料則回傳 true，否則回傳 false</returns>
+        public bool UpdatePurdue_wu_Info(
+            int applicantID,
+            int PurdueType,
+            string Year,
+            ref string msg,
+            ref string[] purduelist,
+            ref string[] Purduelist)
+        {
+            lock (_thisLock)
+            {
+                twbobibobi.Data.BasePage basePage = new twbobibobi.Data.BasePage();
+
+                // 1. 一次性取得所有已分配的編號 (Num > 0 且 Num2String 有值)
+                HashSet<int> existingNums = new HashSet<int>();
+                string sqlFetchExisting =
+                    "SELECT Num " +
+                    "FROM Temple_" + Year + "..Purdue_wu_info " +
+                    "WHERE Status = 0 " +
+                    "  AND Num <> 0" +
+                    "  AND Num2String IS NOT NULL " +
+                    "  AND Num2String <> ''";
+
+                {
+                    // 建立 DatabaseAdapter，並加入參數
+                    DatabaseAdapter da = new DatabaseAdapter(sqlFetchExisting, this.DBSource);
+
+                    DataTable dtExisting = new DataTable();
+                    da.Fill(dtExisting);
+
+                    // 把所有 Num 值放入 existingNums
+                    foreach (DataRow row in dtExisting.Rows)
+                    {
+                        if (row["Num"] != DBNull.Value)
+                        {
+                            existingNums.Add(Convert.ToInt32(row["Num"]));
+                        }
+                    }
+                }
+
+                // 2. 一次性抓出所有需補號的列 (Num = 0)
+                DataTable dtToAssign = new DataTable();
+                string sqlFetchToAssign =
+                    "SELECT PurdueID, PurdueType " +
+                    "FROM Temple_" + Year + "..Purdue_wu_info " +
+                    "WHERE ApplicantID = @ApplicantID " +
+                    "  AND Status = 0 " +
+                    "  AND Num = 0 " +
+                    "ORDER BY PurdueID";
+
+                {
+                    DatabaseAdapter da = new DatabaseAdapter(sqlFetchToAssign, this.DBSource);
+                    da.SetSqlCommandBuilder();
+                    da.AddParameterToSelectCommand("ApplicantID", applicantID);
+                    da.Fill(dtToAssign);
+                }
+
+                int rowCount = dtToAssign.Rows.Count;
+                purduelist = new string[rowCount];
+                Purduelist = new string[rowCount];
+                // 用來存放要批量更新的資料 (PurdueID, AssignedNum, AssignedNumString)
+                List<Tuple<int, int, string>> updatedRecords = new List<Tuple<int, int, string>>();
+
+                // 3. 逐筆在記憶體中分配「最小可用缺號」
+                for (int i = 0; i < rowCount; i++)
+                {
+                    DataRow row = dtToAssign.Rows[i];
+                    int dbPurdueID = Convert.ToInt32(row["PurdueID"]);
+                    int dbPurdueType = Convert.ToInt32(row["PurdueType"]);
+
+                    // 找下一個可用編號 (從 1001 開始往上搜尋)
+                    int nextNum = 1001;
+                    while (existingNums.Contains(nextNum))
+                    {
+                        nextNum++;
+                    }
+
+                    // 根據不同活動項目決定前綴字串
+                    string prefix = "WU";
+                    string numString = prefix + nextNum.ToString();
+                    Purduelist[i] = numString;
+
+                    // 將這筆資料加入批量更新清單
+                    updatedRecords.Add(new Tuple<int, int, string>(dbPurdueID, nextNum, numString));
+
+                    // 準備回傳給前端的訂單編號字串
+                    purduelist[i] = numString;
+
+                    // 把已分配的 nextNum 加入 existingNums，避免重複
+                    existingNums.Add(nextNum);
+                }
+
+                // 組出 msg，格式為「活動項目1:編號,活動項目2:編號,...。客服電話：04-36092299。」
+                msg = "您已完成中元普渡線上報名！訂單編號" + string.Join(",", purduelist) + "。廟方將於農曆七月期間舉辦法會，屆時由專人代為誦經超薦。感謝您的參與與功德發心。";
+
+                // 5. 一次性批量 UPDATE 回資料庫
+                //    以下示範用動態 SQL 拼接多筆 UPDATE，若更新筆數很多建議改用 TVP + 存儲過程
+                System.Text.StringBuilder sb = new System.Text.StringBuilder();
+                sb.AppendLine("USE Temple_" + Year + ";");
+                foreach (var rec in updatedRecords)
+                {
+                    int id = rec.Item1;
+                    int assignedNum = rec.Item2;
+                    string assignedNumString = rec.Item3.Replace("'", "''"); // 確保單引號轉義
+                    sb.AppendLine(
+                        "UPDATE dbo.Purdue_wu_info " +
+                        "SET Num = " + assignedNum + ", " +
+                        "    Num2String = N'" + assignedNumString + "' " +
+                        "WHERE PurdueID = " + id + ";"
+                    );
+                }
+                string sqlBatchUpdate = sb.ToString();
+
+                try
+                {
+                    int rowsAffected = ExecuteSql(sqlBatchUpdate);
+                    if (rowsAffected > 0)
+                    {
+                        // 成功更新至少一筆
+                        return (updatedRecords.Count > 0);
+                    }
+                    else
+                    {
+                        // 防呆：SQL 執行後沒有影響到任何列，記一筆錯誤日誌，再回傳 false
+                        string err = "[UpdatePurdue_wu_Info] 批量 UPDATE 未更新到任何記錄，SQL:\r\n" + sqlBatchUpdate;
+                        basePage.SaveErrorLog(err);
+                        return false;
+                    }
+                }
+                catch (Exception ex)
+                {
+                    // 捕捉執行 SQL 時的例外，記錯誤日誌，並回傳 false
+                    basePage.SaveErrorLog("[UpdatePurdue_wu_Info] 批量 UPDATE 時發生例外：\r\n" + ex);
+                    return false;
+                }
+            }
+        }
+
+        /// <summary>
+        /// 更新並取得訂單資料 - 普渡 - 西螺福興宮
+        /// </summary>
+        /// <param name="applicantID">購買人編號</param>
+        /// <param name="PurdueType"></param>
+        /// <param name="Year">年度字串，例如 "2025"</param>
+        /// <param name="msg">回傳給前端的訊息（各訂單編號＋客服電話）</param>
+        /// <param name="purduelist">回傳給前端的訂單編號清單</param>
+        /// <param name="Purduelist">備用，可同樣回傳訂單編號字串陣列，視業務需求</param>
+        /// <returns>若有更新資料則回傳 true，否則回傳 false</returns>
+        public bool UpdatePurdue_Fu_Info(
+            int applicantID,
+            int PurdueType,
+            string Year,
+            ref string msg,
+            ref string[] purduelist,
+            ref string[] Purduelist)
+        {
+            lock (_thisLock)
+            {
+                twbobibobi.Data.BasePage basePage = new twbobibobi.Data.BasePage();
+
+                // 1. 一次性取得所有已分配的編號 (Num > 0 且 Num2String 有值)
+                HashSet<int> existingNums = new HashSet<int>();
+                string sqlFetchExisting =
+                    "SELECT Num " +
+                    "FROM Temple_" + Year + "..Purdue_Fu_info " +
+                    "WHERE Status = 0 " +
+                    "  AND Num <> 0" +
+                    "  AND Num2String IS NOT NULL " +
+                    "  AND Num2String <> ''";
+
+                {
+                    // 建立 DatabaseAdapter，並加入參數
+                    DatabaseAdapter da = new DatabaseAdapter(sqlFetchExisting, this.DBSource);
+
+                    DataTable dtExisting = new DataTable();
+                    da.Fill(dtExisting);
+
+                    // 把所有 Num 值放入 existingNums
+                    foreach (DataRow row in dtExisting.Rows)
+                    {
+                        if (row["Num"] != DBNull.Value)
+                        {
+                            existingNums.Add(Convert.ToInt32(row["Num"]));
+                        }
+                    }
+                }
+
+                // 2. 一次性抓出所有需補號的列 (Num = 0)
+                DataTable dtToAssign = new DataTable();
+                string sqlFetchToAssign =
+                    "SELECT PurdueID, PurdueType " +
+                    "FROM Temple_" + Year + "..Purdue_Fu_info " +
+                    "WHERE ApplicantID = @ApplicantID " +
+                    "  AND Status = 0 " +
+                    "  AND Num = 0 " +
+                    "ORDER BY PurdueID";
+
+                {
+                    DatabaseAdapter da = new DatabaseAdapter(sqlFetchToAssign, this.DBSource);
+                    da.SetSqlCommandBuilder();
+                    da.AddParameterToSelectCommand("ApplicantID", applicantID);
+                    da.Fill(dtToAssign);
+                }
+
+                int rowCount = dtToAssign.Rows.Count;
+                purduelist = new string[rowCount];
+                Purduelist = new string[rowCount];
+                // 用來存放要批量更新的資料 (PurdueID, AssignedNum, AssignedNumString)
+                List<Tuple<int, int, string>> updatedRecords = new List<Tuple<int, int, string>>();
+
+                // 3. 逐筆在記憶體中分配「最小可用缺號」
+                for (int i = 0; i < rowCount; i++)
+                {
+                    DataRow row = dtToAssign.Rows[i];
+                    int dbPurdueID = Convert.ToInt32(row["PurdueID"]);
+                    int dbPurdueType = Convert.ToInt32(row["PurdueType"]);
+
+                    // 找下一個可用編號 (從 1001 開始往上搜尋)
+                    int nextNum = 1001;
+                    while (existingNums.Contains(nextNum))
+                    {
+                        nextNum++;
+                    }
+
+                    // 根據不同活動項目決定前綴字串
+                    string prefix = "F";
+                    string numString = prefix + nextNum.ToString();
+                    Purduelist[i] = numString;
+
+                    // 將這筆資料加入批量更新清單
+                    updatedRecords.Add(new Tuple<int, int, string>(dbPurdueID, nextNum, numString));
+
+                    // 準備回傳給前端的訂單編號字串
+                    purduelist[i] = numString;
+
+                    // 把已分配的 nextNum 加入 existingNums，避免重複
+                    existingNums.Add(nextNum);
+                }
+
+                // 組出 msg，格式為「活動項目1:編號,活動項目2:編號,...。客服電話：04-36092299。」
+                msg = "您已完成中元普渡線上報名！訂單編號" + string.Join(",", purduelist) + "。廟方將於農曆七月期間舉辦法會，屆時由專人代為誦經超薦。感謝您的參與與功德發心。";
+
+                // 5. 一次性批量 UPDATE 回資料庫
+                //    以下示範用動態 SQL 拼接多筆 UPDATE，若更新筆數很多建議改用 TVP + 存儲過程
+                System.Text.StringBuilder sb = new System.Text.StringBuilder();
+                sb.AppendLine("USE Temple_" + Year + ";");
+                foreach (var rec in updatedRecords)
+                {
+                    int id = rec.Item1;
+                    int assignedNum = rec.Item2;
+                    string assignedNumString = rec.Item3.Replace("'", "''"); // 確保單引號轉義
+                    sb.AppendLine(
+                        "UPDATE dbo.Purdue_Fu_info " +
+                        "SET Num = " + assignedNum + ", " +
+                        "    Num2String = N'" + assignedNumString + "' " +
+                        "WHERE PurdueID = " + id + ";"
+                    );
+                }
+                string sqlBatchUpdate = sb.ToString();
+
+                try
+                {
+                    int rowsAffected = ExecuteSql(sqlBatchUpdate);
+                    if (rowsAffected > 0)
+                    {
+                        // 成功更新至少一筆
+                        return (updatedRecords.Count > 0);
+                    }
+                    else
+                    {
+                        // 防呆：SQL 執行後沒有影響到任何列，記一筆錯誤日誌，再回傳 false
+                        string err = "[UpdatePurdue_Fu_Info] 批量 UPDATE 未更新到任何記錄，SQL:\r\n" + sqlBatchUpdate;
+                        basePage.SaveErrorLog(err);
+                        return false;
+                    }
+                }
+                catch (Exception ex)
+                {
+                    // 捕捉執行 SQL 時的例外，記錯誤日誌，並回傳 false
+                    basePage.SaveErrorLog("[UpdatePurdue_Fu_Info] 批量 UPDATE 時發生例外：\r\n" + ex);
+                    return false;
+                }
+            }
+        }
+
+        /// <summary>
+        /// 更新並取得訂單資料 - 普渡 - 台南正統鹿耳門聖母廟
+        /// </summary>
+        /// <param name="applicantID">購買人編號</param>
+        /// <param name="PurdueType"></param>
+        /// <param name="Year">年度字串，例如 "2025"</param>
+        /// <param name="msg">回傳給前端的訊息（各訂單編號＋客服電話）</param>
+        /// <param name="purduelist">回傳給前端的訂單編號清單</param>
+        /// <param name="Purduelist">備用，可同樣回傳訂單編號字串陣列，視業務需求</param>
+        /// <returns>若有更新資料則回傳 true，否則回傳 false</returns>
+        public bool UpdatePurdue_Luer_Info(
+            int applicantID,
+            int PurdueType,
+            string Year,
+            ref string msg,
+            ref string[] purduelist,
+            ref string[] Purduelist)
+        {
+            lock (_thisLock)
+            {
+                twbobibobi.Data.BasePage basePage = new twbobibobi.Data.BasePage();
+
+                // 1. 一次性取得所有已分配的編號 (Num > 0 且 Num2String 有值)
+                HashSet<int> existingNums = new HashSet<int>();
+                string sqlFetchExisting =
+                    "SELECT Num " +
+                    "FROM Temple_" + Year + "..Purdue_Luer_info " +
+                    "WHERE Status = 0 " +
+                    "  AND Num <> 0" +
+                    "  AND Num2String IS NOT NULL " +
+                    "  AND Num2String <> ''";
+
+                {
+                    // 建立 DatabaseAdapter，並加入參數
+                    DatabaseAdapter da = new DatabaseAdapter(sqlFetchExisting, this.DBSource);
+
+                    DataTable dtExisting = new DataTable();
+                    da.Fill(dtExisting);
+
+                    // 把所有 Num 值放入 existingNums
+                    foreach (DataRow row in dtExisting.Rows)
+                    {
+                        if (row["Num"] != DBNull.Value)
+                        {
+                            existingNums.Add(Convert.ToInt32(row["Num"]));
+                        }
+                    }
+                }
+
+                // 2. 一次性抓出所有需補號的列 (Num = 0)
+                DataTable dtToAssign = new DataTable();
+                string sqlFetchToAssign =
+                    "SELECT PurdueID, PurdueType " +
+                    "FROM Temple_" + Year + "..Purdue_Luer_info " +
+                    "WHERE ApplicantID = @ApplicantID " +
+                    "  AND Status = 0 " +
+                    "  AND Num = 0 " +
+                    "ORDER BY PurdueID";
+
+                {
+                    DatabaseAdapter da = new DatabaseAdapter(sqlFetchToAssign, this.DBSource);
+                    da.SetSqlCommandBuilder();
+                    da.AddParameterToSelectCommand("ApplicantID", applicantID);
+                    da.Fill(dtToAssign);
+                }
+
+                int rowCount = dtToAssign.Rows.Count;
+                purduelist = new string[rowCount];
+                Purduelist = new string[rowCount];
+                // 用來存放要批量更新的資料 (PurdueID, AssignedNum, AssignedNumString)
+                List<Tuple<int, int, string>> updatedRecords = new List<Tuple<int, int, string>>();
+
+                // 3. 逐筆在記憶體中分配「最小可用缺號」
+                for (int i = 0; i < rowCount; i++)
+                {
+                    DataRow row = dtToAssign.Rows[i];
+                    int dbPurdueID = Convert.ToInt32(row["PurdueID"]);
+                    int dbPurdueType = Convert.ToInt32(row["PurdueType"]);
+
+                    // 找下一個可用編號 (從 1001 開始往上搜尋)
+                    int nextNum = 1001;
+                    while (existingNums.Contains(nextNum))
+                    {
+                        nextNum++;
+                    }
+
+                    // 根據不同活動項目決定前綴字串
+                    string prefix = "L";
+                    string numString = prefix + nextNum.ToString();
+                    Purduelist[i] = numString;
+
+                    // 將這筆資料加入批量更新清單
+                    updatedRecords.Add(new Tuple<int, int, string>(dbPurdueID, nextNum, numString));
+
+                    // 準備回傳給前端的訂單編號字串
+                    purduelist[i] = numString;
+
+                    // 把已分配的 nextNum 加入 existingNums，避免重複
+                    existingNums.Add(nextNum);
+                }
+
+                // 組出 msg，格式為「活動項目1:編號,活動項目2:編號,...。客服電話：04-36092299。」
+                msg = "您已完成中元普渡線上報名！訂單編號" + string.Join(",", purduelist) + "。廟方將於農曆七月期間舉辦法會，屆時由專人代為誦經超薦。感謝您的參與與功德發心。";
+
+                // 5. 一次性批量 UPDATE 回資料庫
+                //    以下示範用動態 SQL 拼接多筆 UPDATE，若更新筆數很多建議改用 TVP + 存儲過程
+                System.Text.StringBuilder sb = new System.Text.StringBuilder();
+                sb.AppendLine("USE Temple_" + Year + ";");
+                foreach (var rec in updatedRecords)
+                {
+                    int id = rec.Item1;
+                    int assignedNum = rec.Item2;
+                    string assignedNumString = rec.Item3.Replace("'", "''"); // 確保單引號轉義
+                    sb.AppendLine(
+                        "UPDATE dbo.Purdue_Luer_info " +
+                        "SET Num = " + assignedNum + ", " +
+                        "    Num2String = N'" + assignedNumString + "' " +
+                        "WHERE PurdueID = " + id + ";"
+                    );
+                }
+                string sqlBatchUpdate = sb.ToString();
+
+                try
+                {
+                    int rowsAffected = ExecuteSql(sqlBatchUpdate);
+                    if (rowsAffected > 0)
+                    {
+                        // 成功更新至少一筆
+                        return (updatedRecords.Count > 0);
+                    }
+                    else
+                    {
+                        // 防呆：SQL 執行後沒有影響到任何列，記一筆錯誤日誌，再回傳 false
+                        string err = "[UpdatePurdue_Luer_Info] 批量 UPDATE 未更新到任何記錄，SQL:\r\n" + sqlBatchUpdate;
+                        basePage.SaveErrorLog(err);
+                        return false;
+                    }
+                }
+                catch (Exception ex)
+                {
+                    // 捕捉執行 SQL 時的例外，記錯誤日誌，並回傳 false
+                    basePage.SaveErrorLog("[UpdatePurdue_Luer_Info] 批量 UPDATE 時發生例外：\r\n" + ex);
+                    return false;
+                }
+            }
+        }
+
+        /// <summary>
+        /// 更新並取得訂單資料 - 普渡 - 桃園威天宮
+        /// </summary>
+        /// <param name="applicantID">購買人編號</param>
+        /// <param name="PurdueType"></param>
+        /// <param name="Year">年度字串，例如 "2025"</param>
+        /// <param name="msg">回傳給前端的訊息（各訂單編號＋客服電話）</param>
+        /// <param name="purduelist">回傳給前端的訂單編號清單</param>
+        /// <param name="Purduelist">備用，可同樣回傳訂單編號字串陣列，視業務需求</param>
+        /// <returns>若有更新資料則回傳 true，否則回傳 false</returns>
+        public bool UpdatePurdue_ty_Info(
+            int applicantID,
+            int PurdueType,
+            string Year,
+            ref string msg,
+            ref string[] purduelist,
+            ref string[] Purduelist)
+        {
+            lock (_thisLock)
+            {
+                twbobibobi.Data.BasePage basePage = new twbobibobi.Data.BasePage();
+
+                // 1. 一次性取得所有已分配的編號 (Num > 0 且 Num2String 有值)
+                HashSet<int> existingNums = new HashSet<int>();
+                string sqlFetchExisting =
+                    "SELECT Num " +
+                    "FROM Temple_" + Year + "..Purdue_ty_info " +
+                    "WHERE Status = 0 " +
+                    "  AND Num <> 0" +
+                    "  AND Num2String IS NOT NULL " +
+                    "  AND Num2String <> ''";
+
+                {
+                    // 建立 DatabaseAdapter，並加入參數
+                    DatabaseAdapter da = new DatabaseAdapter(sqlFetchExisting, this.DBSource);
+
+                    DataTable dtExisting = new DataTable();
+                    da.Fill(dtExisting);
+
+                    // 把所有 Num 值放入 existingNums
+                    foreach (DataRow row in dtExisting.Rows)
+                    {
+                        if (row["Num"] != DBNull.Value)
+                        {
+                            existingNums.Add(Convert.ToInt32(row["Num"]));
+                        }
+                    }
+                }
+
+                // 2. 一次性抓出所有需補號的列 (Num = 0)
+                DataTable dtToAssign = new DataTable();
+                string sqlFetchToAssign =
+                    "SELECT PurdueID, PurdueType " +
+                    "FROM Temple_" + Year + "..Purdue_ty_info " +
+                    "WHERE ApplicantID = @ApplicantID " +
+                    "  AND Status = 0 " +
+                    "  AND Num = 0 " +
+                    "ORDER BY PurdueID";
+
+                {
+                    DatabaseAdapter da = new DatabaseAdapter(sqlFetchToAssign, this.DBSource);
+                    da.SetSqlCommandBuilder();
+                    da.AddParameterToSelectCommand("ApplicantID", applicantID);
+                    da.Fill(dtToAssign);
+                }
+
+                int rowCount = dtToAssign.Rows.Count;
+                purduelist = new string[rowCount];
+                Purduelist = new string[rowCount];
+                // 用來存放要批量更新的資料 (PurdueID, AssignedNum, AssignedNumString)
+                List<Tuple<int, int, string>> updatedRecords = new List<Tuple<int, int, string>>();
+
+                // 3. 逐筆在記憶體中分配「最小可用缺號」
+                for (int i = 0; i < rowCount; i++)
+                {
+                    DataRow row = dtToAssign.Rows[i];
+                    int dbPurdueID = Convert.ToInt32(row["PurdueID"]);
+                    int dbPurdueType = Convert.ToInt32(row["PurdueType"]);
+
+                    // 找下一個可用編號 (從 1001 開始往上搜尋)
+                    int nextNum = 1001;
+                    while (existingNums.Contains(nextNum))
+                    {
+                        nextNum++;
+                    }
+
+                    // 根據不同活動項目決定前綴字串
+                    string prefix = "TY";
+                    string numString = prefix + nextNum.ToString();
+                    Purduelist[i] = numString;
+
+                    // 將這筆資料加入批量更新清單
+                    updatedRecords.Add(new Tuple<int, int, string>(dbPurdueID, nextNum, numString));
+
+                    // 準備回傳給前端的訂單編號字串
+                    purduelist[i] = numString;
+
+                    // 把已分配的 nextNum 加入 existingNums，避免重複
+                    existingNums.Add(nextNum);
+                }
+
+                // 組出 msg，格式為「活動項目1:編號,活動項目2:編號,...。客服電話：04-36092299。」
+                msg = "您已完成中元普渡線上報名！訂單編號" + string.Join(",", purduelist) + "。廟方將於農曆七月期間舉辦法會，屆時由專人代為誦經超薦。感謝您的參與與功德發心。";
+
+                // 5. 一次性批量 UPDATE 回資料庫
+                //    以下示範用動態 SQL 拼接多筆 UPDATE，若更新筆數很多建議改用 TVP + 存儲過程
+                System.Text.StringBuilder sb = new System.Text.StringBuilder();
+                sb.AppendLine("USE Temple_" + Year + ";");
+                foreach (var rec in updatedRecords)
+                {
+                    int id = rec.Item1;
+                    int assignedNum = rec.Item2;
+                    string assignedNumString = rec.Item3.Replace("'", "''"); // 確保單引號轉義
+                    sb.AppendLine(
+                        "UPDATE dbo.Purdue_ty_info " +
+                        "SET Num = " + assignedNum + ", " +
+                        "    Num2String = N'" + assignedNumString + "' " +
+                        "WHERE PurdueID = " + id + ";"
+                    );
+                }
+                string sqlBatchUpdate = sb.ToString();
+
+                try
+                {
+                    int rowsAffected = ExecuteSql(sqlBatchUpdate);
+                    if (rowsAffected > 0)
+                    {
+                        // 成功更新至少一筆
+                        return (updatedRecords.Count > 0);
+                    }
+                    else
+                    {
+                        // 防呆：SQL 執行後沒有影響到任何列，記一筆錯誤日誌，再回傳 false
+                        string err = "[UpdatePurdue_ty_Info] 批量 UPDATE 未更新到任何記錄，SQL:\r\n" + sqlBatchUpdate;
+                        basePage.SaveErrorLog(err);
+                        return false;
+                    }
+                }
+                catch (Exception ex)
+                {
+                    // 捕捉執行 SQL 時的例外，記錯誤日誌，並回傳 false
+                    basePage.SaveErrorLog("[UpdatePurdue_ty_Info] 批量 UPDATE 時發生例外：\r\n" + ex);
+                    return false;
+                }
+            }
+        }
+
+        /// <summary>
+        /// 更新並取得訂單資料 - 普渡 - 斗六五路財神宮
+        /// </summary>
+        /// <param name="applicantID">購買人編號</param>
+        /// <param name="PurdueType"></param>
+        /// <param name="Year">年度字串，例如 "2025"</param>
+        /// <param name="msg">回傳給前端的訊息（各訂單編號＋客服電話）</param>
+        /// <param name="purduelist">回傳給前端的訂單編號清單</param>
+        /// <param name="Purduelist">備用，可同樣回傳訂單編號字串陣列，視業務需求</param>
+        /// <returns>若有更新資料則回傳 true，否則回傳 false</returns>
+        public bool UpdatePurdue_Fw_Info(
+            int applicantID,
+            int PurdueType,
+            string Year,
+            ref string msg,
+            ref string[] purduelist,
+            ref string[] Purduelist)
+        {
+            lock (_thisLock)
+            {
+                twbobibobi.Data.BasePage basePage = new twbobibobi.Data.BasePage();
+
+                // 1. 一次性取得所有已分配的編號 (Num > 0 且 Num2String 有值)
+                HashSet<int> existingNums = new HashSet<int>();
+                string sqlFetchExisting =
+                    "SELECT Num " +
+                    "FROM Temple_" + Year + "..Purdue_Fw_info " +
+                    "WHERE Status = 0 " +
+                    "  AND Num <> 0" +
+                    "  AND Num2String IS NOT NULL " +
+                    "  AND Num2String <> ''";
+
+                {
+                    // 建立 DatabaseAdapter，並加入參數
+                    DatabaseAdapter da = new DatabaseAdapter(sqlFetchExisting, this.DBSource);
+
+                    DataTable dtExisting = new DataTable();
+                    da.Fill(dtExisting);
+
+                    // 把所有 Num 值放入 existingNums
+                    foreach (DataRow row in dtExisting.Rows)
+                    {
+                        if (row["Num"] != DBNull.Value)
+                        {
+                            existingNums.Add(Convert.ToInt32(row["Num"]));
+                        }
+                    }
+                }
+
+                // 2. 一次性抓出所有需補號的列 (Num = 0)
+                DataTable dtToAssign = new DataTable();
+                string sqlFetchToAssign =
+                    "SELECT PurdueID, PurdueType " +
+                    "FROM Temple_" + Year + "..Purdue_Fw_info " +
+                    "WHERE ApplicantID = @ApplicantID " +
+                    "  AND Status = 0 " +
+                    "  AND Num = 0 " +
+                    "ORDER BY PurdueID";
+
+                {
+                    DatabaseAdapter da = new DatabaseAdapter(sqlFetchToAssign, this.DBSource);
+                    da.SetSqlCommandBuilder();
+                    da.AddParameterToSelectCommand("ApplicantID", applicantID);
+                    da.Fill(dtToAssign);
+                }
+
+                int rowCount = dtToAssign.Rows.Count;
+                purduelist = new string[rowCount];
+                Purduelist = new string[rowCount];
+                // 用來存放要批量更新的資料 (PurdueID, AssignedNum, AssignedNumString)
+                List<Tuple<int, int, string>> updatedRecords = new List<Tuple<int, int, string>>();
+
+                // 3. 逐筆在記憶體中分配「最小可用缺號」
+                for (int i = 0; i < rowCount; i++)
+                {
+                    DataRow row = dtToAssign.Rows[i];
+                    int dbPurdueID = Convert.ToInt32(row["PurdueID"]);
+                    int dbPurdueType = Convert.ToInt32(row["PurdueType"]);
+
+                    // 找下一個可用編號 (從 1001 開始往上搜尋)
+                    int nextNum = 1001;
+                    while (existingNums.Contains(nextNum))
+                    {
+                        nextNum++;
+                    }
+
+                    // 根據不同活動項目決定前綴字串
+                    string prefix = "FW";
+                    string numString = prefix + nextNum.ToString();
+                    Purduelist[i] = numString;
+
+                    // 將這筆資料加入批量更新清單
+                    updatedRecords.Add(new Tuple<int, int, string>(dbPurdueID, nextNum, numString));
+
+                    // 準備回傳給前端的訂單編號字串
+                    purduelist[i] = numString;
+
+                    // 把已分配的 nextNum 加入 existingNums，避免重複
+                    existingNums.Add(nextNum);
+                }
+
+                // 組出 msg，格式為「活動項目1:編號,活動項目2:編號,...。客服電話：04-36092299。」
+                msg = "您已完成中元普渡線上報名！訂單編號" + string.Join(",", purduelist) + "。廟方將於農曆七月期間舉辦法會，屆時由專人代為誦經超薦。感謝您的參與與功德發心。";
+
+                // 5. 一次性批量 UPDATE 回資料庫
+                //    以下示範用動態 SQL 拼接多筆 UPDATE，若更新筆數很多建議改用 TVP + 存儲過程
+                System.Text.StringBuilder sb = new System.Text.StringBuilder();
+                sb.AppendLine("USE Temple_" + Year + ";");
+                foreach (var rec in updatedRecords)
+                {
+                    int id = rec.Item1;
+                    int assignedNum = rec.Item2;
+                    string assignedNumString = rec.Item3.Replace("'", "''"); // 確保單引號轉義
+                    sb.AppendLine(
+                        "UPDATE dbo.Purdue_Fw_info " +
+                        "SET Num = " + assignedNum + ", " +
+                        "    Num2String = N'" + assignedNumString + "' " +
+                        "WHERE PurdueID = " + id + ";"
+                    );
+                }
+                string sqlBatchUpdate = sb.ToString();
+
+                try
+                {
+                    int rowsAffected = ExecuteSql(sqlBatchUpdate);
+                    if (rowsAffected > 0)
+                    {
+                        // 成功更新至少一筆
+                        return (updatedRecords.Count > 0);
+                    }
+                    else
+                    {
+                        // 防呆：SQL 執行後沒有影響到任何列，記一筆錯誤日誌，再回傳 false
+                        string err = "[UpdatePurdue_Fw_Info] 批量 UPDATE 未更新到任何記錄，SQL:\r\n" + sqlBatchUpdate;
+                        basePage.SaveErrorLog(err);
+                        return false;
+                    }
+                }
+                catch (Exception ex)
+                {
+                    // 捕捉執行 SQL 時的例外，記錯誤日誌，並回傳 false
+                    basePage.SaveErrorLog("[UpdatePurdue_Fw_Info] 批量 UPDATE 時發生例外：\r\n" + ex);
+                    return false;
+                }
+            }
+        }
+
+        /// <summary>
+        /// 更新並取得訂單資料 - 普渡 - 台東東海龍門天聖宮
+        /// </summary>
+        /// <param name="applicantID">購買人編號</param>
+        /// <param name="PurdueType"></param>
+        /// <param name="Year">年度字串，例如 "2025"</param>
+        /// <param name="msg">回傳給前端的訊息（各訂單編號＋客服電話）</param>
+        /// <param name="purduelist">回傳給前端的訂單編號清單</param>
+        /// <param name="Purduelist">備用，可同樣回傳訂單編號字串陣列，視業務需求</param>
+        /// <returns>若有更新資料則回傳 true，否則回傳 false</returns>
+        public bool UpdatePurdue_dh_Info(
+            int applicantID,
+            int PurdueType,
+            string Year,
+            ref string msg,
+            ref string[] purduelist,
+            ref string[] Purduelist)
+        {
+            lock (_thisLock)
+            {
+                twbobibobi.Data.BasePage basePage = new twbobibobi.Data.BasePage();
+
+                // 1. 一次性取得所有已分配的編號 (Num > 0 且 Num2String 有值)
+                HashSet<int> existingNums = new HashSet<int>();
+                string sqlFetchExisting =
+                    "SELECT Num " +
+                    "FROM Temple_" + Year + "..Purdue_dh_info " +
+                    "WHERE Status = 0 " +
+                    "  AND Num <> 0" +
+                    "  AND Num2String IS NOT NULL " +
+                    "  AND Num2String <> ''";
+
+                {
+                    // 建立 DatabaseAdapter，並加入參數
+                    DatabaseAdapter da = new DatabaseAdapter(sqlFetchExisting, this.DBSource);
+
+                    DataTable dtExisting = new DataTable();
+                    da.Fill(dtExisting);
+
+                    // 把所有 Num 值放入 existingNums
+                    foreach (DataRow row in dtExisting.Rows)
+                    {
+                        if (row["Num"] != DBNull.Value)
+                        {
+                            existingNums.Add(Convert.ToInt32(row["Num"]));
+                        }
+                    }
+                }
+
+                // 2. 一次性抓出所有需補號的列 (Num = 0)
+                DataTable dtToAssign = new DataTable();
+                string sqlFetchToAssign =
+                    "SELECT PurdueID, PurdueType " +
+                    "FROM Temple_" + Year + "..Purdue_dh_info " +
+                    "WHERE ApplicantID = @ApplicantID " +
+                    "  AND Status = 0 " +
+                    "  AND Num = 0 " +
+                    "ORDER BY PurdueID";
+
+                {
+                    DatabaseAdapter da = new DatabaseAdapter(sqlFetchToAssign, this.DBSource);
+                    da.SetSqlCommandBuilder();
+                    da.AddParameterToSelectCommand("ApplicantID", applicantID);
+                    da.Fill(dtToAssign);
+                }
+
+                int rowCount = dtToAssign.Rows.Count;
+                purduelist = new string[rowCount];
+                Purduelist = new string[rowCount];
+                // 用來存放要批量更新的資料 (PurdueID, AssignedNum, AssignedNumString)
+                List<Tuple<int, int, string>> updatedRecords = new List<Tuple<int, int, string>>();
+
+                // 3. 逐筆在記憶體中分配「最小可用缺號」
+                for (int i = 0; i < rowCount; i++)
+                {
+                    DataRow row = dtToAssign.Rows[i];
+                    int dbPurdueID = Convert.ToInt32(row["PurdueID"]);
+                    int dbPurdueType = Convert.ToInt32(row["PurdueType"]);
+
+                    // 找下一個可用編號 (從 1001 開始往上搜尋)
+                    int nextNum = 1001;
+                    while (existingNums.Contains(nextNum))
+                    {
+                        nextNum++;
+                    }
+
+                    // 根據不同活動項目決定前綴字串
+                    string prefix = "DH";
+                    string numString = prefix + nextNum.ToString();
+                    Purduelist[i] = numString;
+
+                    // 將這筆資料加入批量更新清單
+                    updatedRecords.Add(new Tuple<int, int, string>(dbPurdueID, nextNum, numString));
+
+                    // 準備回傳給前端的訂單編號字串
+                    purduelist[i] = numString;
+
+                    // 把已分配的 nextNum 加入 existingNums，避免重複
+                    existingNums.Add(nextNum);
+                }
+
+                // 組出 msg，格式為「活動項目1:編號,活動項目2:編號,...。客服電話：04-36092299。」
+                msg = "您已完成中元普渡線上報名！訂單編號" + string.Join(",", purduelist) + "。廟方將於農曆七月期間舉辦法會，屆時由專人代為誦經超薦。感謝您的參與與功德發心。";
+
+                // 5. 一次性批量 UPDATE 回資料庫
+                //    以下示範用動態 SQL 拼接多筆 UPDATE，若更新筆數很多建議改用 TVP + 存儲過程
+                System.Text.StringBuilder sb = new System.Text.StringBuilder();
+                sb.AppendLine("USE Temple_" + Year + ";");
+                foreach (var rec in updatedRecords)
+                {
+                    int id = rec.Item1;
+                    int assignedNum = rec.Item2;
+                    string assignedNumString = rec.Item3.Replace("'", "''"); // 確保單引號轉義
+                    sb.AppendLine(
+                        "UPDATE dbo.Purdue_dh_info " +
+                        "SET Num = " + assignedNum + ", " +
+                        "    Num2String = N'" + assignedNumString + "' " +
+                        "WHERE PurdueID = " + id + ";"
+                    );
+                }
+                string sqlBatchUpdate = sb.ToString();
+
+                try
+                {
+                    int rowsAffected = ExecuteSql(sqlBatchUpdate);
+                    if (rowsAffected > 0)
+                    {
+                        // 成功更新至少一筆
+                        return (updatedRecords.Count > 0);
+                    }
+                    else
+                    {
+                        // 防呆：SQL 執行後沒有影響到任何列，記一筆錯誤日誌，再回傳 false
+                        string err = "[UpdatePurdue_dh_Info] 批量 UPDATE 未更新到任何記錄，SQL:\r\n" + sqlBatchUpdate;
+                        basePage.SaveErrorLog(err);
+                        return false;
+                    }
+                }
+                catch (Exception ex)
+                {
+                    // 捕捉執行 SQL 時的例外，記錯誤日誌，並回傳 false
+                    basePage.SaveErrorLog("[UpdatePurdue_dh_Info] 批量 UPDATE 時發生例外：\r\n" + ex);
+                    return false;
+                }
+            }
+        }
+
+        /// <summary>
+        /// 更新並取得訂單資料 - 普渡 - 鹿港城隍廟
+        /// </summary>
+        /// <param name="applicantID">購買人編號</param>
+        /// <param name="PurdueType"></param>
+        /// <param name="Year">年度字串，例如 "2025"</param>
+        /// <param name="msg">回傳給前端的訊息（各訂單編號＋客服電話）</param>
+        /// <param name="purduelist">回傳給前端的訂單編號清單</param>
+        /// <param name="Purduelist">備用，可同樣回傳訂單編號字串陣列，視業務需求</param>
+        /// <returns>若有更新資料則回傳 true，否則回傳 false</returns>
+        public bool UpdatePurdue_Lk_Info(
+            int applicantID,
+            int PurdueType,
+            string Year,
+            ref string msg,
+            ref string[] purduelist,
+            ref string[] Purduelist)
+        {
+            lock (_thisLock)
+            {
+                twbobibobi.Data.BasePage basePage = new twbobibobi.Data.BasePage();
+
+                // 1. 一次性取得所有已分配的編號 (Num > 0 且 Num2String 有值)
+                HashSet<int> existingNums = new HashSet<int>();
+                string sqlFetchExisting =
+                    "SELECT Num " +
+                    "FROM Temple_" + Year + "..Purdue_Lk_info " +
+                    "WHERE Status = 0 " +
+                    "  AND Num <> 0" +
+                    "  AND Num2String IS NOT NULL " +
+                    "  AND Num2String <> ''";
+
+                {
+                    // 建立 DatabaseAdapter，並加入參數
+                    DatabaseAdapter da = new DatabaseAdapter(sqlFetchExisting, this.DBSource);
+
+                    DataTable dtExisting = new DataTable();
+                    da.Fill(dtExisting);
+
+                    // 把所有 Num 值放入 existingNums
+                    foreach (DataRow row in dtExisting.Rows)
+                    {
+                        if (row["Num"] != DBNull.Value)
+                        {
+                            existingNums.Add(Convert.ToInt32(row["Num"]));
+                        }
+                    }
+                }
+
+                // 2. 一次性抓出所有需補號的列 (Num = 0)
+                DataTable dtToAssign = new DataTable();
+                string sqlFetchToAssign =
+                    "SELECT PurdueID, PurdueType " +
+                    "FROM Temple_" + Year + "..Purdue_Lk_info " +
+                    "WHERE ApplicantID = @ApplicantID " +
+                    "  AND Status = 0 " +
+                    "  AND Num = 0 " +
+                    "ORDER BY PurdueID";
+
+                {
+                    DatabaseAdapter da = new DatabaseAdapter(sqlFetchToAssign, this.DBSource);
+                    da.SetSqlCommandBuilder();
+                    da.AddParameterToSelectCommand("ApplicantID", applicantID);
+                    da.Fill(dtToAssign);
+                }
+
+                int rowCount = dtToAssign.Rows.Count;
+                purduelist = new string[rowCount];
+                Purduelist = new string[rowCount];
+                // 用來存放要批量更新的資料 (PurdueID, AssignedNum, AssignedNumString)
+                List<Tuple<int, int, string>> updatedRecords = new List<Tuple<int, int, string>>();
+
+                // 3. 逐筆在記憶體中分配「最小可用缺號」
+                for (int i = 0; i < rowCount; i++)
+                {
+                    DataRow row = dtToAssign.Rows[i];
+                    int dbPurdueID = Convert.ToInt32(row["PurdueID"]);
+                    int dbPurdueType = Convert.ToInt32(row["PurdueType"]);
+
+                    // 找下一個可用編號 (從 1001 開始往上搜尋)
+                    int nextNum = 1001;
+                    while (existingNums.Contains(nextNum))
+                    {
+                        nextNum++;
+                    }
+
+                    // 根據不同活動項目決定前綴字串
+                    string prefix = "LK";
+                    string numString = prefix + nextNum.ToString();
+                    Purduelist[i] = numString;
+
+                    // 將這筆資料加入批量更新清單
+                    updatedRecords.Add(new Tuple<int, int, string>(dbPurdueID, nextNum, numString));
+
+                    // 準備回傳給前端的訂單編號字串
+                    purduelist[i] = numString;
+
+                    // 把已分配的 nextNum 加入 existingNums，避免重複
+                    existingNums.Add(nextNum);
+                }
+
+                // 組出 msg，格式為「活動項目1:編號,活動項目2:編號,...。客服電話：04-36092299。」
+                msg = "您已完成中元普渡線上報名！訂單編號" + string.Join(",", purduelist) + "。廟方將於農曆七月期間舉辦法會，屆時由專人代為誦經超薦。感謝您的參與與功德發心。";
+
+                // 5. 一次性批量 UPDATE 回資料庫
+                //    以下示範用動態 SQL 拼接多筆 UPDATE，若更新筆數很多建議改用 TVP + 存儲過程
+                System.Text.StringBuilder sb = new System.Text.StringBuilder();
+                sb.AppendLine("USE Temple_" + Year + ";");
+                foreach (var rec in updatedRecords)
+                {
+                    int id = rec.Item1;
+                    int assignedNum = rec.Item2;
+                    string assignedNumString = rec.Item3.Replace("'", "''"); // 確保單引號轉義
+                    sb.AppendLine(
+                        "UPDATE dbo.Purdue_Lk_info " +
+                        "SET Num = " + assignedNum + ", " +
+                        "    Num2String = N'" + assignedNumString + "' " +
+                        "WHERE PurdueID = " + id + ";"
+                    );
+                }
+                string sqlBatchUpdate = sb.ToString();
+
+                try
+                {
+                    int rowsAffected = ExecuteSql(sqlBatchUpdate);
+                    if (rowsAffected > 0)
+                    {
+                        // 成功更新至少一筆
+                        return (updatedRecords.Count > 0);
+                    }
+                    else
+                    {
+                        // 防呆：SQL 執行後沒有影響到任何列，記一筆錯誤日誌，再回傳 false
+                        string err = "[UpdatePurdue_Lk_Info] 批量 UPDATE 未更新到任何記錄，SQL:\r\n" + sqlBatchUpdate;
+                        basePage.SaveErrorLog(err);
+                        return false;
+                    }
+                }
+                catch (Exception ex)
+                {
+                    // 捕捉執行 SQL 時的例外，記錯誤日誌，並回傳 false
+                    basePage.SaveErrorLog("[UpdatePurdue_Lk_Info] 批量 UPDATE 時發生例外：\r\n" + ex);
+                    return false;
+                }
+            }
+        }
+
+        /// <summary>
+        /// 更新並取得訂單資料 - 普渡 - 玉敕大樹朝天宮
+        /// </summary>
+        /// <param name="applicantID">購買人編號</param>
+        /// <param name="PurdueType"></param>
+        /// <param name="Year">年度字串，例如 "2025"</param>
+        /// <param name="msg">回傳給前端的訊息（各訂單編號＋客服電話）</param>
+        /// <param name="purduelist">回傳給前端的訂單編號清單</param>
+        /// <param name="Purduelist">備用，可同樣回傳訂單編號字串陣列，視業務需求</param>
+        /// <returns>若有更新資料則回傳 true，否則回傳 false</returns>
+        public bool UpdatePurdue_ma_Info(
+            int applicantID,
+            int PurdueType,
+            string Year,
+            ref string msg,
+            ref string[] purduelist,
+            ref string[] Purduelist)
+        {
+            lock (_thisLock)
+            {
+                twbobibobi.Data.BasePage basePage = new twbobibobi.Data.BasePage();
+
+                // 1. 一次性取得所有已分配的編號 (Num > 0 且 Num2String 有值)
+                HashSet<int> existingNums = new HashSet<int>();
+                string sqlFetchExisting =
+                    "SELECT Num " +
+                    "FROM Temple_" + Year + "..Purdue_ma_info " +
+                    "WHERE Status = 0 " +
+                    "  AND Num <> 0" +
+                    "  AND Num2String IS NOT NULL " +
+                    "  AND Num2String <> ''";
+
+                {
+                    // 建立 DatabaseAdapter，並加入參數
+                    DatabaseAdapter da = new DatabaseAdapter(sqlFetchExisting, this.DBSource);
+
+                    DataTable dtExisting = new DataTable();
+                    da.Fill(dtExisting);
+
+                    // 把所有 Num 值放入 existingNums
+                    foreach (DataRow row in dtExisting.Rows)
+                    {
+                        if (row["Num"] != DBNull.Value)
+                        {
+                            existingNums.Add(Convert.ToInt32(row["Num"]));
+                        }
+                    }
+                }
+
+                // 2. 一次性抓出所有需補號的列 (Num = 0)
+                DataTable dtToAssign = new DataTable();
+                string sqlFetchToAssign =
+                    "SELECT PurdueID, PurdueType " +
+                    "FROM Temple_" + Year + "..Purdue_ma_info " +
+                    "WHERE ApplicantID = @ApplicantID " +
+                    "  AND Status = 0 " +
+                    "  AND Num = 0 " +
+                    "ORDER BY PurdueID";
+
+                {
+                    DatabaseAdapter da = new DatabaseAdapter(sqlFetchToAssign, this.DBSource);
+                    da.SetSqlCommandBuilder();
+                    da.AddParameterToSelectCommand("ApplicantID", applicantID);
+                    da.Fill(dtToAssign);
+                }
+
+                int rowCount = dtToAssign.Rows.Count;
+                purduelist = new string[rowCount];
+                Purduelist = new string[rowCount];
+                // 用來存放要批量更新的資料 (PurdueID, AssignedNum, AssignedNumString)
+                List<Tuple<int, int, string>> updatedRecords = new List<Tuple<int, int, string>>();
+
+                // 3. 逐筆在記憶體中分配「最小可用缺號」
+                for (int i = 0; i < rowCount; i++)
+                {
+                    DataRow row = dtToAssign.Rows[i];
+                    int dbPurdueID = Convert.ToInt32(row["PurdueID"]);
+                    int dbPurdueType = Convert.ToInt32(row["PurdueType"]);
+
+                    // 找下一個可用編號 (從 1001 開始往上搜尋)
+                    int nextNum = 1001;
+                    while (existingNums.Contains(nextNum))
+                    {
+                        nextNum++;
+                    }
+
+                    // 根據不同活動項目決定前綴字串
+                    string prefix = "MA";
+                    string numString = prefix + nextNum.ToString();
+                    Purduelist[i] = numString;
+
+                    // 將這筆資料加入批量更新清單
+                    updatedRecords.Add(new Tuple<int, int, string>(dbPurdueID, nextNum, numString));
+
+                    // 準備回傳給前端的訂單編號字串
+                    purduelist[i] = numString;
+
+                    // 把已分配的 nextNum 加入 existingNums，避免重複
+                    existingNums.Add(nextNum);
+                }
+
+                // 組出 msg，格式為「活動項目1:編號,活動項目2:編號,...。客服電話：04-36092299。」
+                msg = "您已完成中元普渡線上報名！訂單編號" + string.Join(",", purduelist) + "。廟方將於農曆七月期間舉辦法會，屆時由專人代為誦經超薦。感謝您的參與與功德發心。";
+
+                // 5. 一次性批量 UPDATE 回資料庫
+                //    以下示範用動態 SQL 拼接多筆 UPDATE，若更新筆數很多建議改用 TVP + 存儲過程
+                System.Text.StringBuilder sb = new System.Text.StringBuilder();
+                sb.AppendLine("USE Temple_" + Year + ";");
+                foreach (var rec in updatedRecords)
+                {
+                    int id = rec.Item1;
+                    int assignedNum = rec.Item2;
+                    string assignedNumString = rec.Item3.Replace("'", "''"); // 確保單引號轉義
+                    sb.AppendLine(
+                        "UPDATE dbo.Purdue_ma_info " +
+                        "SET Num = " + assignedNum + ", " +
+                        "    Num2String = N'" + assignedNumString + "' " +
+                        "WHERE PurdueID = " + id + ";"
+                    );
+                }
+                string sqlBatchUpdate = sb.ToString();
+
+                try
+                {
+                    int rowsAffected = ExecuteSql(sqlBatchUpdate);
+                    if (rowsAffected > 0)
+                    {
+                        // 成功更新至少一筆
+                        return (updatedRecords.Count > 0);
+                    }
+                    else
+                    {
+                        // 防呆：SQL 執行後沒有影響到任何列，記一筆錯誤日誌，再回傳 false
+                        string err = "[UpdatePurdue_ma_Info] 批量 UPDATE 未更新到任何記錄，SQL:\r\n" + sqlBatchUpdate;
+                        basePage.SaveErrorLog(err);
+                        return false;
+                    }
+                }
+                catch (Exception ex)
+                {
+                    // 捕捉執行 SQL 時的例外，記錯誤日誌，並回傳 false
+                    basePage.SaveErrorLog("[UpdatePurdue_ma_Info] 批量 UPDATE 時發生例外：\r\n" + ex);
+                    return false;
+                }
+            }
+        }
+
+        /// <summary>
+        /// 更新並取得訂單資料 - 普渡 - 進寶財神廟
+        /// </summary>
+        /// <param name="applicantID">購買人編號</param>
+        /// <param name="PurdueType"></param>
+        /// <param name="Year">年度字串，例如 "2025"</param>
+        /// <param name="msg">回傳給前端的訊息（各訂單編號＋客服電話）</param>
+        /// <param name="purduelist">回傳給前端的訂單編號清單</param>
+        /// <param name="Purduelist">備用，可同樣回傳訂單編號字串陣列，視業務需求</param>
+        /// <returns>若有更新資料則回傳 true，否則回傳 false</returns>
+        public bool UpdatePurdue_jb_Info(
+            int applicantID,
+            int PurdueType,
+            string Year,
+            ref string msg,
+            ref string[] purduelist,
+            ref string[] Purduelist)
+        {
+            lock (_thisLock)
+            {
+                twbobibobi.Data.BasePage basePage = new twbobibobi.Data.BasePage();
+
+                // 1. 一次性取得所有已分配的編號 (Num > 0 且 Num2String 有值)
+                HashSet<int> existingNums = new HashSet<int>();
+                string sqlFetchExisting =
+                    "SELECT Num " +
+                    "FROM Temple_" + Year + "..Purdue_jb_info " +
+                    "WHERE Status = 0 " +
+                    "  AND Num <> 0" +
+                    "  AND Num2String IS NOT NULL " +
+                    "  AND Num2String <> ''";
+
+                {
+                    // 建立 DatabaseAdapter，並加入參數
+                    DatabaseAdapter da = new DatabaseAdapter(sqlFetchExisting, this.DBSource);
+
+                    DataTable dtExisting = new DataTable();
+                    da.Fill(dtExisting);
+
+                    // 把所有 Num 值放入 existingNums
+                    foreach (DataRow row in dtExisting.Rows)
+                    {
+                        if (row["Num"] != DBNull.Value)
+                        {
+                            existingNums.Add(Convert.ToInt32(row["Num"]));
+                        }
+                    }
+                }
+
+                // 2. 一次性抓出所有需補號的列 (Num = 0)
+                DataTable dtToAssign = new DataTable();
+                string sqlFetchToAssign =
+                    "SELECT PurdueID, PurdueType " +
+                    "FROM Temple_" + Year + "..Purdue_jb_info " +
+                    "WHERE ApplicantID = @ApplicantID " +
+                    "  AND Status = 0 " +
+                    "  AND Num = 0 " +
+                    "ORDER BY PurdueID";
+
+                {
+                    DatabaseAdapter da = new DatabaseAdapter(sqlFetchToAssign, this.DBSource);
+                    da.SetSqlCommandBuilder();
+                    da.AddParameterToSelectCommand("ApplicantID", applicantID);
+                    da.Fill(dtToAssign);
+                }
+
+                int rowCount = dtToAssign.Rows.Count;
+                purduelist = new string[rowCount];
+                Purduelist = new string[rowCount];
+                // 用來存放要批量更新的資料 (PurdueID, AssignedNum, AssignedNumString)
+                List<Tuple<int, int, string>> updatedRecords = new List<Tuple<int, int, string>>();
+
+                // 3. 逐筆在記憶體中分配「最小可用缺號」
+                for (int i = 0; i < rowCount; i++)
+                {
+                    DataRow row = dtToAssign.Rows[i];
+                    int dbPurdueID = Convert.ToInt32(row["PurdueID"]);
+                    int dbPurdueType = Convert.ToInt32(row["PurdueType"]);
+
+                    // 找下一個可用編號 (從 1001 開始往上搜尋)
+                    int nextNum = 1001;
+                    while (existingNums.Contains(nextNum))
+                    {
+                        nextNum++;
+                    }
+
+                    // 根據不同活動項目決定前綴字串
+                    string prefix = "JB";
+                    string numString = prefix + nextNum.ToString();
+                    Purduelist[i] = numString;
+
+                    // 將這筆資料加入批量更新清單
+                    updatedRecords.Add(new Tuple<int, int, string>(dbPurdueID, nextNum, numString));
+
+                    // 準備回傳給前端的訂單編號字串
+                    purduelist[i] = numString;
+
+                    // 把已分配的 nextNum 加入 existingNums，避免重複
+                    existingNums.Add(nextNum);
+                }
+
+                // 組出 msg，格式為「活動項目1:編號,活動項目2:編號,...。客服電話：04-36092299。」
+                msg = "您已完成中元普渡線上報名！訂單編號" + string.Join(",", purduelist) + "。廟方將於農曆七月期間舉辦法會，屆時由專人代為誦經超薦。感謝您的參與與功德發心。";
+
+                // 5. 一次性批量 UPDATE 回資料庫
+                //    以下示範用動態 SQL 拼接多筆 UPDATE，若更新筆數很多建議改用 TVP + 存儲過程
+                System.Text.StringBuilder sb = new System.Text.StringBuilder();
+                sb.AppendLine("USE Temple_" + Year + ";");
+                foreach (var rec in updatedRecords)
+                {
+                    int id = rec.Item1;
+                    int assignedNum = rec.Item2;
+                    string assignedNumString = rec.Item3.Replace("'", "''"); // 確保單引號轉義
+                    sb.AppendLine(
+                        "UPDATE dbo.Purdue_jb_info " +
+                        "SET Num = " + assignedNum + ", " +
+                        "    Num2String = N'" + assignedNumString + "' " +
+                        "WHERE PurdueID = " + id + ";"
+                    );
+                }
+                string sqlBatchUpdate = sb.ToString();
+
+                try
+                {
+                    int rowsAffected = ExecuteSql(sqlBatchUpdate);
+                    if (rowsAffected > 0)
+                    {
+                        // 成功更新至少一筆
+                        return (updatedRecords.Count > 0);
+                    }
+                    else
+                    {
+                        // 防呆：SQL 執行後沒有影響到任何列，記一筆錯誤日誌，再回傳 false
+                        string err = "[UpdatePurdue_jb_Info] 批量 UPDATE 未更新到任何記錄，SQL:\r\n" + sqlBatchUpdate;
+                        basePage.SaveErrorLog(err);
+                        return false;
+                    }
+                }
+                catch (Exception ex)
+                {
+                    // 捕捉執行 SQL 時的例外，記錯誤日誌，並回傳 false
+                    basePage.SaveErrorLog("[UpdatePurdue_jb_Info] 批量 UPDATE 時發生例外：\r\n" + ex);
+                    return false;
+                }
+            }
+        }
+
+        /// <summary>
+        /// 更新並取得訂單資料 - 普渡 - 台灣道教總廟無極三清總道院
+        /// </summary>
+        /// <param name="applicantID">購買人編號</param>
+        /// <param name="PurdueType"></param>
+        /// <param name="Year">年度字串，例如 "2025"</param>
+        /// <param name="msg">回傳給前端的訊息（各訂單編號＋客服電話）</param>
+        /// <param name="purduelist">回傳給前端的訂單編號清單</param>
+        /// <param name="Purduelist">備用，可同樣回傳訂單編號字串陣列，視業務需求</param>
+        /// <returns>若有更新資料則回傳 true，否則回傳 false</returns>
+        public bool UpdatePurdue_wjsan_Info(
+            int applicantID,
+            int PurdueType,
+            string Year,
+            ref string msg,
+            ref string[] purduelist,
+            ref string[] Purduelist)
+        {
+            lock (_thisLock)
+            {
+                twbobibobi.Data.BasePage basePage = new twbobibobi.Data.BasePage();
+
+                // 1. 一次性取得所有已分配的編號 (Num > 0 且 Num2String 有值)
+                HashSet<int> existingNums = new HashSet<int>();
+                string sqlFetchExisting =
+                    "SELECT Num " +
+                    "FROM Temple_" + Year + "..Purdue_wjsan_info " +
+                    "WHERE Status = 0 " +
+                    "  AND Num <> 0" +
+                    "  AND Num2String IS NOT NULL " +
+                    "  AND Num2String <> ''";
+
+                {
+                    // 建立 DatabaseAdapter，並加入參數
+                    DatabaseAdapter da = new DatabaseAdapter(sqlFetchExisting, this.DBSource);
+
+                    DataTable dtExisting = new DataTable();
+                    da.Fill(dtExisting);
+
+                    // 把所有 Num 值放入 existingNums
+                    foreach (DataRow row in dtExisting.Rows)
+                    {
+                        if (row["Num"] != DBNull.Value)
+                        {
+                            existingNums.Add(Convert.ToInt32(row["Num"]));
+                        }
+                    }
+                }
+
+                // 2. 一次性抓出所有需補號的列 (Num = 0)
+                DataTable dtToAssign = new DataTable();
+                string sqlFetchToAssign =
+                    "SELECT PurdueID, PurdueType " +
+                    "FROM Temple_" + Year + "..Purdue_wjsan_info " +
+                    "WHERE ApplicantID = @ApplicantID " +
+                    "  AND Status = 0 " +
+                    "  AND Num = 0 " +
+                    "ORDER BY PurdueID";
+
+                {
+                    DatabaseAdapter da = new DatabaseAdapter(sqlFetchToAssign, this.DBSource);
+                    da.SetSqlCommandBuilder();
+                    da.AddParameterToSelectCommand("ApplicantID", applicantID);
+                    da.Fill(dtToAssign);
+                }
+
+                int rowCount = dtToAssign.Rows.Count;
+                purduelist = new string[rowCount];
+                Purduelist = new string[rowCount];
+                // 用來存放要批量更新的資料 (PurdueID, AssignedNum, AssignedNumString)
+                List<Tuple<int, int, string>> updatedRecords = new List<Tuple<int, int, string>>();
+
+                // 3. 逐筆在記憶體中分配「最小可用缺號」
+                for (int i = 0; i < rowCount; i++)
+                {
+                    DataRow row = dtToAssign.Rows[i];
+                    int dbPurdueID = Convert.ToInt32(row["PurdueID"]);
+                    int dbPurdueType = Convert.ToInt32(row["PurdueType"]);
+
+                    // 找下一個可用編號 (從 1001 開始往上搜尋)
+                    int nextNum = 1001;
+                    while (existingNums.Contains(nextNum))
+                    {
+                        nextNum++;
+                    }
+
+                    // 根據不同活動項目決定前綴字串
+                    string prefix = "WJP";
+                    string numString = prefix + nextNum.ToString();
+                    Purduelist[i] = numString;
+
+                    // 將這筆資料加入批量更新清單
+                    updatedRecords.Add(new Tuple<int, int, string>(dbPurdueID, nextNum, numString));
+
+                    // 準備回傳給前端的訂單編號字串
+                    purduelist[i] = numString;
+
+                    // 把已分配的 nextNum 加入 existingNums，避免重複
+                    existingNums.Add(nextNum);
+                }
+
+                // 組出 msg，格式為「活動項目1:編號,活動項目2:編號,...。客服電話：04-36092299。」
+                msg = "您已完成中元普渡線上報名！訂單編號" + string.Join(",", purduelist) + "。廟方將於農曆七月期間舉辦法會，屆時由專人代為誦經超薦。感謝您的參與與功德發心。";
+
+                // 5. 一次性批量 UPDATE 回資料庫
+                //    以下示範用動態 SQL 拼接多筆 UPDATE，若更新筆數很多建議改用 TVP + 存儲過程
+                System.Text.StringBuilder sb = new System.Text.StringBuilder();
+                sb.AppendLine("USE Temple_" + Year + ";");
+                foreach (var rec in updatedRecords)
+                {
+                    int id = rec.Item1;
+                    int assignedNum = rec.Item2;
+                    string assignedNumString = rec.Item3.Replace("'", "''"); // 確保單引號轉義
+                    sb.AppendLine(
+                        "UPDATE dbo.Purdue_wjsan_info " +
+                        "SET Num = " + assignedNum + ", " +
+                        "    Num2String = N'" + assignedNumString + "' " +
+                        "WHERE PurdueID = " + id + ";"
+                    );
+                }
+                string sqlBatchUpdate = sb.ToString();
+
+                try
+                {
+                    int rowsAffected = ExecuteSql(sqlBatchUpdate);
+                    if (rowsAffected > 0)
+                    {
+                        // 成功更新至少一筆
+                        return (updatedRecords.Count > 0);
+                    }
+                    else
+                    {
+                        // 防呆：SQL 執行後沒有影響到任何列，記一筆錯誤日誌，再回傳 false
+                        string err = "[UpdatePurdue_wjsan_Info] 批量 UPDATE 未更新到任何記錄，SQL:\r\n" + sqlBatchUpdate;
+                        basePage.SaveErrorLog(err);
+                        return false;
+                    }
+                }
+                catch (Exception ex)
+                {
+                    // 捕捉執行 SQL 時的例外，記錯誤日誌，並回傳 false
+                    basePage.SaveErrorLog("[UpdatePurdue_wjsan_Info] 批量 UPDATE 時發生例外：\r\n" + ex);
+                    return false;
+                }
+            }
+        }
+
+        /// <summary>
+        /// 更新並取得訂單資料 - 普渡 - 桃園龍德宮
+        /// </summary>
+        /// <param name="applicantID">購買人編號</param>
+        /// <param name="PurdueType"></param>
+        /// <param name="Year">年度字串，例如 "2025"</param>
+        /// <param name="msg">回傳給前端的訊息（各訂單編號＋客服電話）</param>
+        /// <param name="purduelist">回傳給前端的訂單編號清單</param>
+        /// <param name="Purduelist">備用，可同樣回傳訂單編號字串陣列，視業務需求</param>
+        /// <returns>若有更新資料則回傳 true，否則回傳 false</returns>
+        public bool UpdatePurdue_ld_Info(
+            int applicantID,
+            int PurdueType,
+            string Year,
+            ref string msg,
+            ref string[] purduelist,
+            ref string[] Purduelist)
+        {
+            lock (_thisLock)
+            {
+                twbobibobi.Data.BasePage basePage = new twbobibobi.Data.BasePage();
+
+                // 1. 一次性取得所有已分配的編號 (Num > 0 且 Num2String 有值)
+                HashSet<int> existingNums = new HashSet<int>();
+                string sqlFetchExisting =
+                    "SELECT Num " +
+                    "FROM Temple_" + Year + "..Purdue_ld_info " +
+                    "WHERE Status = 0 " +
+                    "  AND Num <> 0" +
+                    "  AND Num2String IS NOT NULL " +
+                    "  AND Num2String <> ''";
+
+                {
+                    // 建立 DatabaseAdapter，並加入參數
+                    DatabaseAdapter da = new DatabaseAdapter(sqlFetchExisting, this.DBSource);
+
+                    DataTable dtExisting = new DataTable();
+                    da.Fill(dtExisting);
+
+                    // 把所有 Num 值放入 existingNums
+                    foreach (DataRow row in dtExisting.Rows)
+                    {
+                        if (row["Num"] != DBNull.Value)
+                        {
+                            existingNums.Add(Convert.ToInt32(row["Num"]));
+                        }
+                    }
+                }
+
+                // 2. 一次性抓出所有需補號的列 (Num = 0)
+                DataTable dtToAssign = new DataTable();
+                string sqlFetchToAssign =
+                    "SELECT PurdueID, PurdueType " +
+                    "FROM Temple_" + Year + "..Purdue_ld_info " +
+                    "WHERE ApplicantID = @ApplicantID " +
+                    "  AND Status = 0 " +
+                    "  AND Num = 0 " +
+                    "ORDER BY PurdueID";
+
+                {
+                    DatabaseAdapter da = new DatabaseAdapter(sqlFetchToAssign, this.DBSource);
+                    da.SetSqlCommandBuilder();
+                    da.AddParameterToSelectCommand("ApplicantID", applicantID);
+                    da.Fill(dtToAssign);
+                }
+
+                int rowCount = dtToAssign.Rows.Count;
+                purduelist = new string[rowCount];
+                Purduelist = new string[rowCount];
+                // 用來存放要批量更新的資料 (PurdueID, AssignedNum, AssignedNumString)
+                List<Tuple<int, int, string>> updatedRecords = new List<Tuple<int, int, string>>();
+
+                // 3. 逐筆在記憶體中分配「最小可用缺號」
+                for (int i = 0; i < rowCount; i++)
+                {
+                    DataRow row = dtToAssign.Rows[i];
+                    int dbPurdueID = Convert.ToInt32(row["PurdueID"]);
+                    int dbPurdueType = Convert.ToInt32(row["PurdueType"]);
+
+                    // 找下一個可用編號 (從 1001 開始往上搜尋)
+                    int nextNum = 1001;
+                    while (existingNums.Contains(nextNum))
+                    {
+                        nextNum++;
+                    }
+
+                    // 根據不同活動項目決定前綴字串
+                    string prefix = "LD";
+                    string numString = prefix + nextNum.ToString();
+                    Purduelist[i] = numString;
+
+                    // 將這筆資料加入批量更新清單
+                    updatedRecords.Add(new Tuple<int, int, string>(dbPurdueID, nextNum, numString));
+
+                    // 準備回傳給前端的訂單編號字串
+                    purduelist[i] = numString;
+
+                    // 把已分配的 nextNum 加入 existingNums，避免重複
+                    existingNums.Add(nextNum);
+                }
+
+                // 組出 msg，格式為「活動項目1:編號,活動項目2:編號,...。客服電話：04-36092299。」
+                msg = "您已完成中元普渡線上報名！訂單編號" + string.Join(",", purduelist) + "。廟方將於農曆七月期間舉辦法會，屆時由專人代為誦經超薦。感謝您的參與與功德發心。";
+
+                // 5. 一次性批量 UPDATE 回資料庫
+                //    以下示範用動態 SQL 拼接多筆 UPDATE，若更新筆數很多建議改用 TVP + 存儲過程
+                System.Text.StringBuilder sb = new System.Text.StringBuilder();
+                sb.AppendLine("USE Temple_" + Year + ";");
+                foreach (var rec in updatedRecords)
+                {
+                    int id = rec.Item1;
+                    int assignedNum = rec.Item2;
+                    string assignedNumString = rec.Item3.Replace("'", "''"); // 確保單引號轉義
+                    sb.AppendLine(
+                        "UPDATE dbo.Purdue_ld_info " +
+                        "SET Num = " + assignedNum + ", " +
+                        "    Num2String = N'" + assignedNumString + "' " +
+                        "WHERE PurdueID = " + id + ";"
+                    );
+                }
+                string sqlBatchUpdate = sb.ToString();
+
+                try
+                {
+                    int rowsAffected = ExecuteSql(sqlBatchUpdate);
+                    if (rowsAffected > 0)
+                    {
+                        // 成功更新至少一筆
+                        return (updatedRecords.Count > 0);
+                    }
+                    else
+                    {
+                        // 防呆：SQL 執行後沒有影響到任何列，記一筆錯誤日誌，再回傳 false
+                        string err = "[UpdatePurdue_ld_Info] 批量 UPDATE 未更新到任何記錄，SQL:\r\n" + sqlBatchUpdate;
+                        basePage.SaveErrorLog(err);
+                        return false;
+                    }
+                }
+                catch (Exception ex)
+                {
+                    // 捕捉執行 SQL 時的例外，記錯誤日誌，並回傳 false
+                    basePage.SaveErrorLog("[UpdatePurdue_ld_Info] 批量 UPDATE 時發生例外：\r\n" + ex);
+                    return false;
+                }
+            }
+        }
+
+        /// <summary>
+        /// 更新並取得訂單資料 - 普渡 - 神霄玉府財神會館
+        /// </summary>
+        /// <param name="applicantID">購買人編號</param>
+        /// <param name="PurdueType"></param>
+        /// <param name="Year">年度字串，例如 "2025"</param>
+        /// <param name="msg">回傳給前端的訊息（各訂單編號＋客服電話）</param>
+        /// <param name="purduelist">回傳給前端的訂單編號清單</param>
+        /// <param name="Purduelist">備用，可同樣回傳訂單編號字串陣列，視業務需求</param>
+        /// <returns>若有更新資料則回傳 true，否則回傳 false</returns>
+        public bool UpdatePurdue_sx_Info(
+            int applicantID,
+            int PurdueType,
+            string Year,
+            ref string msg,
+            ref string[] purduelist,
+            ref string[] Purduelist)
+        {
+            lock (_thisLock)
+            {
+                twbobibobi.Data.BasePage basePage = new twbobibobi.Data.BasePage();
+
+                // 1. 一次性取得所有已分配的編號 (Num > 0 且 Num2String 有值)
+                HashSet<int> existingNums = new HashSet<int>();
+                string sqlFetchExisting =
+                    "SELECT Num " +
+                    "FROM Temple_" + Year + "..Purdue_sx_info " +
+                    "WHERE Status = 0 " +
+                    "  AND Num <> 0" +
+                    "  AND Num2String IS NOT NULL " +
+                    "  AND Num2String <> ''";
+
+                {
+                    // 建立 DatabaseAdapter，並加入參數
+                    DatabaseAdapter da = new DatabaseAdapter(sqlFetchExisting, this.DBSource);
+
+                    DataTable dtExisting = new DataTable();
+                    da.Fill(dtExisting);
+
+                    // 把所有 Num 值放入 existingNums
+                    foreach (DataRow row in dtExisting.Rows)
+                    {
+                        if (row["Num"] != DBNull.Value)
+                        {
+                            existingNums.Add(Convert.ToInt32(row["Num"]));
+                        }
+                    }
+                }
+
+                // 2. 一次性抓出所有需補號的列 (Num = 0)
+                DataTable dtToAssign = new DataTable();
+                string sqlFetchToAssign =
+                    "SELECT PurdueID, PurdueType " +
+                    "FROM Temple_" + Year + "..Purdue_sx_info " +
+                    "WHERE ApplicantID = @ApplicantID " +
+                    "  AND Status = 0 " +
+                    "  AND Num = 0 " +
+                    "ORDER BY PurdueID";
+
+                {
+                    DatabaseAdapter da = new DatabaseAdapter(sqlFetchToAssign, this.DBSource);
+                    da.SetSqlCommandBuilder();
+                    da.AddParameterToSelectCommand("ApplicantID", applicantID);
+                    da.Fill(dtToAssign);
+                }
+
+                int rowCount = dtToAssign.Rows.Count;
+                purduelist = new string[rowCount];
+                Purduelist = new string[rowCount];
+                // 用來存放要批量更新的資料 (PurdueID, AssignedNum, AssignedNumString)
+                List<Tuple<int, int, string>> updatedRecords = new List<Tuple<int, int, string>>();
+
+                // 3. 逐筆在記憶體中分配「最小可用缺號」
+                for (int i = 0; i < rowCount; i++)
+                {
+                    DataRow row = dtToAssign.Rows[i];
+                    int dbPurdueID = Convert.ToInt32(row["PurdueID"]);
+                    int dbPurdueType = Convert.ToInt32(row["PurdueType"]);
+
+                    // 找下一個可用編號 (從 1001 開始往上搜尋)
+                    int nextNum = 1001;
+                    while (existingNums.Contains(nextNum))
+                    {
+                        nextNum++;
+                    }
+
+                    // 根據不同活動項目決定前綴字串
+                    string prefix = "SX";
+                    string numString = prefix + nextNum.ToString();
+                    Purduelist[i] = numString;
+
+                    // 將這筆資料加入批量更新清單
+                    updatedRecords.Add(new Tuple<int, int, string>(dbPurdueID, nextNum, numString));
+
+                    // 準備回傳給前端的訂單編號字串
+                    purduelist[i] = numString;
+
+                    // 把已分配的 nextNum 加入 existingNums，避免重複
+                    existingNums.Add(nextNum);
+                }
+
+                // 組出 msg，格式為「活動項目1:編號,活動項目2:編號,...。客服電話：04-36092299。」
+                msg = "您已完成中元普渡線上報名！訂單編號" + string.Join(",", purduelist) + "。廟方將於農曆七月期間舉辦法會，屆時由專人代為誦經超薦。感謝您的參與與功德發心。";
+
+                // 5. 一次性批量 UPDATE 回資料庫
+                //    以下示範用動態 SQL 拼接多筆 UPDATE，若更新筆數很多建議改用 TVP + 存儲過程
+                System.Text.StringBuilder sb = new System.Text.StringBuilder();
+                sb.AppendLine("USE Temple_" + Year + ";");
+                foreach (var rec in updatedRecords)
+                {
+                    int id = rec.Item1;
+                    int assignedNum = rec.Item2;
+                    string assignedNumString = rec.Item3.Replace("'", "''"); // 確保單引號轉義
+                    sb.AppendLine(
+                        "UPDATE dbo.Purdue_sx_info " +
+                        "SET Num = " + assignedNum + ", " +
+                        "    Num2String = N'" + assignedNumString + "' " +
+                        "WHERE PurdueID = " + id + ";"
+                    );
+                }
+                string sqlBatchUpdate = sb.ToString();
+
+                try
+                {
+                    int rowsAffected = ExecuteSql(sqlBatchUpdate);
+                    if (rowsAffected > 0)
+                    {
+                        // 成功更新至少一筆
+                        return (updatedRecords.Count > 0);
+                    }
+                    else
+                    {
+                        // 防呆：SQL 執行後沒有影響到任何列，記一筆錯誤日誌，再回傳 false
+                        string err = "[UpdatePurdue_sx_Info] 批量 UPDATE 未更新到任何記錄，SQL:\r\n" + sqlBatchUpdate;
+                        basePage.SaveErrorLog(err);
+                        return false;
+                    }
+                }
+                catch (Exception ex)
+                {
+                    // 捕捉執行 SQL 時的例外，記錯誤日誌，並回傳 false
+                    basePage.SaveErrorLog("[UpdatePurdue_sx_Info] 批量 UPDATE 時發生例外：\r\n" + ex);
+                    return false;
+                }
+            }
+        }
+
+        /// <summary>
+        /// 更新並取得訂單資料 - 普渡 - 基隆悟玄宮
+        /// </summary>
+        /// <param name="applicantID">購買人編號</param>
+        /// <param name="PurdueType"></param>
+        /// <param name="Year">年度字串，例如 "2025"</param>
+        /// <param name="msg">回傳給前端的訊息（各訂單編號＋客服電話）</param>
+        /// <param name="purduelist">回傳給前端的訂單編號清單</param>
+        /// <param name="Purduelist">備用，可同樣回傳訂單編號字串陣列，視業務需求</param>
+        /// <returns>若有更新資料則回傳 true，否則回傳 false</returns>
+        public bool UpdatePurdue_wh_Info(
+            int applicantID,
+            int PurdueType,
+            string Year,
+            ref string msg,
+            ref string[] purduelist,
+            ref string[] Purduelist)
+        {
+            lock (_thisLock)
+            {
+                twbobibobi.Data.BasePage basePage = new twbobibobi.Data.BasePage();
+
+                // 1. 一次性取得所有已分配的編號 (Num > 0 且 Num2String 有值)
+                HashSet<int> existingNums = new HashSet<int>();
+                string sqlFetchExisting =
+                    "SELECT Num " +
+                    "FROM Temple_" + Year + "..Purdue_wh_info " +
+                    "WHERE Status = 0 " +
+                    "  AND Num <> 0" +
+                    "  AND Num2String IS NOT NULL " +
+                    "  AND Num2String <> ''";
+
+                {
+                    // 建立 DatabaseAdapter，並加入參數
+                    DatabaseAdapter da = new DatabaseAdapter(sqlFetchExisting, this.DBSource);
+
+                    DataTable dtExisting = new DataTable();
+                    da.Fill(dtExisting);
+
+                    // 把所有 Num 值放入 existingNums
+                    foreach (DataRow row in dtExisting.Rows)
+                    {
+                        if (row["Num"] != DBNull.Value)
+                        {
+                            existingNums.Add(Convert.ToInt32(row["Num"]));
+                        }
+                    }
+                }
+
+                // 2. 一次性抓出所有需補號的列 (Num = 0)
+                DataTable dtToAssign = new DataTable();
+                string sqlFetchToAssign =
+                    "SELECT PurdueID, PurdueType " +
+                    "FROM Temple_" + Year + "..Purdue_wh_info " +
+                    "WHERE ApplicantID = @ApplicantID " +
+                    "  AND Status = 0 " +
+                    "  AND Num = 0 " +
+                    "ORDER BY PurdueID";
+
+                {
+                    DatabaseAdapter da = new DatabaseAdapter(sqlFetchToAssign, this.DBSource);
+                    da.SetSqlCommandBuilder();
+                    da.AddParameterToSelectCommand("ApplicantID", applicantID);
+                    da.Fill(dtToAssign);
+                }
+
+                int rowCount = dtToAssign.Rows.Count;
+                purduelist = new string[rowCount];
+                Purduelist = new string[rowCount];
+                // 用來存放要批量更新的資料 (PurdueID, AssignedNum, AssignedNumString)
+                List<Tuple<int, int, string>> updatedRecords = new List<Tuple<int, int, string>>();
+
+                // 3. 逐筆在記憶體中分配「最小可用缺號」
+                for (int i = 0; i < rowCount; i++)
+                {
+                    DataRow row = dtToAssign.Rows[i];
+                    int dbPurdueID = Convert.ToInt32(row["PurdueID"]);
+                    int dbPurdueType = Convert.ToInt32(row["PurdueType"]);
+
+                    // 找下一個可用編號 (從 1001 開始往上搜尋)
+                    int nextNum = 1001;
+                    while (existingNums.Contains(nextNum))
+                    {
+                        nextNum++;
+                    }
+
+                    // 根據不同活動項目決定前綴字串
+                    string prefix = "WH";
+                    string numString = prefix + nextNum.ToString();
+                    Purduelist[i] = numString;
+
+                    // 將這筆資料加入批量更新清單
+                    updatedRecords.Add(new Tuple<int, int, string>(dbPurdueID, nextNum, numString));
+
+                    // 準備回傳給前端的訂單編號字串
+                    purduelist[i] = numString;
+
+                    // 把已分配的 nextNum 加入 existingNums，避免重複
+                    existingNums.Add(nextNum);
+                }
+
+                // 組出 msg，格式為「活動項目1:編號,活動項目2:編號,...。客服電話：04-36092299。」
+                msg = "您已完成中元普渡線上報名！訂單編號" + string.Join(",", purduelist) + "。廟方將於農曆七月期間舉辦法會，屆時由專人代為誦經超薦。感謝您的參與與功德發心。";
+
+                // 5. 一次性批量 UPDATE 回資料庫
+                //    以下示範用動態 SQL 拼接多筆 UPDATE，若更新筆數很多建議改用 TVP + 存儲過程
+                System.Text.StringBuilder sb = new System.Text.StringBuilder();
+                sb.AppendLine("USE Temple_" + Year + ";");
+                foreach (var rec in updatedRecords)
+                {
+                    int id = rec.Item1;
+                    int assignedNum = rec.Item2;
+                    string assignedNumString = rec.Item3.Replace("'", "''"); // 確保單引號轉義
+                    sb.AppendLine(
+                        "UPDATE dbo.Purdue_wh_info " +
+                        "SET Num = " + assignedNum + ", " +
+                        "    Num2String = N'" + assignedNumString + "' " +
+                        "WHERE PurdueID = " + id + ";"
+                    );
+                }
+                string sqlBatchUpdate = sb.ToString();
+
+                try
+                {
+                    int rowsAffected = ExecuteSql(sqlBatchUpdate);
+                    if (rowsAffected > 0)
+                    {
+                        // 成功更新至少一筆
+                        return (updatedRecords.Count > 0);
+                    }
+                    else
+                    {
+                        // 防呆：SQL 執行後沒有影響到任何列，記一筆錯誤日誌，再回傳 false
+                        string err = "[UpdatePurdue_wh_Info] 批量 UPDATE 未更新到任何記錄，SQL:\r\n" + sqlBatchUpdate;
+                        basePage.SaveErrorLog(err);
+                        return false;
+                    }
+                }
+                catch (Exception ex)
+                {
+                    // 捕捉執行 SQL 時的例外，記錯誤日誌，並回傳 false
+                    basePage.SaveErrorLog("[UpdatePurdue_wh_Info] 批量 UPDATE 時發生例外：\r\n" + ex);
+                    return false;
+                }
+            }
+        }
+
+        /// <summary>
+        /// 更新並取得訂單資料 - 普渡 - 松柏嶺受天宮
+        /// </summary>
+        /// <param name="applicantID">購買人編號</param>
+        /// <param name="PurdueType"></param>
+        /// <param name="Year">年度字串，例如 "2025"</param>
+        /// <param name="msg">回傳給前端的訊息（各訂單編號＋客服電話）</param>
+        /// <param name="purduelist">回傳給前端的訂單編號清單</param>
+        /// <param name="Purduelist">備用，可同樣回傳訂單編號字串陣列，視業務需求</param>
+        /// <returns>若有更新資料則回傳 true，否則回傳 false</returns>
+        public bool UpdatePurdue_st_Info(
+            int applicantID,
+            int PurdueType,
+            string Year,
+            ref string msg,
+            ref string[] purduelist,
+            ref string[] Purduelist)
+        {
+            lock (_thisLock)
+            {
+                twbobibobi.Data.BasePage basePage = new twbobibobi.Data.BasePage();
+
+                // 1. 一次性取得所有已分配的編號 (Num > 0 且 Num2String 有值)
+                HashSet<int> existingNums = new HashSet<int>();
+                string sqlFetchExisting =
+                    "SELECT Num " +
+                    "FROM Temple_" + Year + "..Purdue_st_info " +
+                    "WHERE Status = 0 " +
+                    "  AND Num <> 0" +
+                    "  AND Num2String IS NOT NULL " +
+                    "  AND Num2String <> ''";
+
+                {
+                    // 建立 DatabaseAdapter，並加入參數
+                    DatabaseAdapter da = new DatabaseAdapter(sqlFetchExisting, this.DBSource);
+
+                    DataTable dtExisting = new DataTable();
+                    da.Fill(dtExisting);
+
+                    // 把所有 Num 值放入 existingNums
+                    foreach (DataRow row in dtExisting.Rows)
+                    {
+                        if (row["Num"] != DBNull.Value)
+                        {
+                            existingNums.Add(Convert.ToInt32(row["Num"]));
+                        }
+                    }
+                }
+
+                // 2. 一次性抓出所有需補號的列 (Num = 0)
+                DataTable dtToAssign = new DataTable();
+                string sqlFetchToAssign =
+                    "SELECT PurdueID, PurdueType " +
+                    "FROM Temple_" + Year + "..Purdue_st_info " +
+                    "WHERE ApplicantID = @ApplicantID " +
+                    "  AND Status = 0 " +
+                    "  AND Num = 0 " +
+                    "ORDER BY PurdueID";
+
+                {
+                    DatabaseAdapter da = new DatabaseAdapter(sqlFetchToAssign, this.DBSource);
+                    da.SetSqlCommandBuilder();
+                    da.AddParameterToSelectCommand("ApplicantID", applicantID);
+                    da.Fill(dtToAssign);
+                }
+
+                int rowCount = dtToAssign.Rows.Count;
+                purduelist = new string[rowCount];
+                Purduelist = new string[rowCount];
+                // 用來存放要批量更新的資料 (PurdueID, AssignedNum, AssignedNumString)
+                List<Tuple<int, int, string>> updatedRecords = new List<Tuple<int, int, string>>();
+
+                // 3. 逐筆在記憶體中分配「最小可用缺號」
+                for (int i = 0; i < rowCount; i++)
+                {
+                    DataRow row = dtToAssign.Rows[i];
+                    int dbPurdueID = Convert.ToInt32(row["PurdueID"]);
+                    int dbPurdueType = Convert.ToInt32(row["PurdueType"]);
+
+                    // 找下一個可用編號 (從 1001 開始往上搜尋)
+                    int nextNum = 1001;
+                    while (existingNums.Contains(nextNum))
+                    {
+                        nextNum++;
+                    }
+
+                    // 根據不同活動項目決定前綴字串
+                    string prefix = "ST";
+                    string numString = prefix + nextNum.ToString();
+                    Purduelist[i] = numString;
+
+                    // 將這筆資料加入批量更新清單
+                    updatedRecords.Add(new Tuple<int, int, string>(dbPurdueID, nextNum, numString));
+
+                    // 準備回傳給前端的訂單編號字串
+                    purduelist[i] = numString;
+
+                    // 把已分配的 nextNum 加入 existingNums，避免重複
+                    existingNums.Add(nextNum);
+                }
+
+                // 組出 msg，格式為「活動項目1:編號,活動項目2:編號,...。客服電話：04-36092299。」
+                msg = "您已完成中元普渡線上報名！訂單編號" + string.Join(",", purduelist) + "。廟方將於農曆七月期間舉辦法會，屆時由專人代為誦經超薦。感謝您的參與與功德發心。";
+
+                // 5. 一次性批量 UPDATE 回資料庫
+                //    以下示範用動態 SQL 拼接多筆 UPDATE，若更新筆數很多建議改用 TVP + 存儲過程
+                System.Text.StringBuilder sb = new System.Text.StringBuilder();
+                sb.AppendLine("USE Temple_" + Year + ";");
+                foreach (var rec in updatedRecords)
+                {
+                    int id = rec.Item1;
+                    int assignedNum = rec.Item2;
+                    string assignedNumString = rec.Item3.Replace("'", "''"); // 確保單引號轉義
+                    sb.AppendLine(
+                        "UPDATE dbo.Purdue_st_info " +
+                        "SET Num = " + assignedNum + ", " +
+                        "    Num2String = N'" + assignedNumString + "' " +
+                        "WHERE PurdueID = " + id + ";"
+                    );
+                }
+                string sqlBatchUpdate = sb.ToString();
+
+                try
+                {
+                    int rowsAffected = ExecuteSql(sqlBatchUpdate);
+                    if (rowsAffected > 0)
+                    {
+                        // 成功更新至少一筆
+                        return (updatedRecords.Count > 0);
+                    }
+                    else
+                    {
+                        // 防呆：SQL 執行後沒有影響到任何列，記一筆錯誤日誌，再回傳 false
+                        string err = "[UpdatePurdue_st_Info] 批量 UPDATE 未更新到任何記錄，SQL:\r\n" + sqlBatchUpdate;
+                        basePage.SaveErrorLog(err);
+                        return false;
+                    }
+                }
+                catch (Exception ex)
+                {
+                    // 捕捉執行 SQL 時的例外，記錯誤日誌，並回傳 false
+                    basePage.SaveErrorLog("[UpdatePurdue_st_Info] 批量 UPDATE 時發生例外：\r\n" + ex);
+                    return false;
+                }
+            }
+        }
+
+        //public bool UpdatePurdue_da_Info(int applicantID, int PurdueType, string Year, ref string msg, ref string[] purduelist, ref string[] Purduelist)
+        //{
+        //    TimeZoneInfo info = TimeZoneInfo.FindSystemTimeZoneById("Taipei Standard Time");
+        //    DateTime dt = TimeZoneInfo.ConvertTime(DateTime.Now, info);
+        //    bool bResult = false;
+        //    int lastnum = GetListNum_da_Purdue(PurdueType, applicantID, Year);
+
+        //    if (lastnum > 0)
+        //    {
+        //        bool dhavenum = true;
+
+        //        switch (PurdueType)
+        //        {
+        //            case 1:
+        //                //贊普
+        //                for (int i = 1001; i < lastnum; i++)
+        //                {
+        //                    if (CheckedNum_da_Purdue(PurdueType, i, Year))
+        //                    {
+        //                        lastnum = i;
+        //                        dhavenum = false;
+        //                        break;
+        //                    }
+        //                }
+        //                break;
+        //            default:
+        //                //超拔
+        //                for (int i = 1001; i < lastnum; i++)
+        //                {
+        //                    if (CheckedNum_da_Purdue(PurdueType, i, Year))
+        //                    {
+        //                        lastnum = i;
+        //                        dhavenum = false;
+        //                        break;
+        //                    }
+        //                }
+        //                break;
+        //        }
+
+        //        if (dhavenum)
+        //        {
+        //            ++lastnum;
+        //        }
+        //    }
+        //    else
+        //    {
+        //        switch (PurdueType)
+        //        {
+        //            case 1:
+        //                //贊普
+        //                lastnum = 1001;
+        //                break;
+        //            default:
+        //                //超拔
+        //                lastnum = 1001;
+        //                break;
+        //        }
+        //    }
+
+        //    DataTable dtDataList = new DataTable();
+        //    string sql = "Select * From Temple_" + Year + "..Purdue_da_info Where ApplicantID=@ApplicantID and Status = 0";
+
+        //    DatabaseAdapter AdapterObj = new DatabaseAdapter(sql, this.DBSource);
+        //    AdapterObj.SetSqlCommandBuilder();
+        //    AdapterObj.AddParameterToSelectCommand("@ApplicantID", applicantID);
+        //    AdapterObj.Fill(dtDataList);
+
+        //    Purduelist = new string[dtDataList.Rows.Count];
+        //    purduelist = new string[dtDataList.Rows.Count];
+
+        //    for (int i = 0; i < dtDataList.Rows.Count; i++)
+        //    {
+        //        string pid = dtDataList.Rows[i]["PurdueID"].ToString();
+        //        string NumString = string.Empty;
+
+        //        PurdueType = int.Parse(dtDataList.Rows[i]["PurdueType"].ToString());
+        //        switch (PurdueType)
+        //        {
+        //            case 1:
+        //                //贊普
+        //                NumString = "Z" + Num2String(lastnum);
+        //                Purduelist[i] = NumString;
+        //                purduelist[i] = "贊普:Z" + Num2String(lastnum);
+        //                break;
+        //            default:
+        //                //超拔
+        //                NumString = "F" + Num2String(lastnum);
+        //                Purduelist[i] = NumString;
+        //                purduelist[i] = "超拔:F" + Num2String(lastnum);
+        //                break;
+        //        }
+        //        int res = ExecuteSql("Update Temple_" + Year + "..Purdue_da_info Set Num2String = N'" + NumString + "', Num = " + lastnum + " Where PurdueID=" + pid);
+
+        //        if (res > 0)
+        //        {
+        //            bResult = true;
+        //        }
+
+        //        msg += purduelist[i];
+        //        if (i < purduelist.Length - 1)
+        //        {
+        //            msg += ",";
+        //        }
+
+        //        int index = dtDataList.Rows.Count - i > 1 ? i + 1 : i;
+        //        PurdueType = int.Parse(dtDataList.Rows[index]["PurdueType"].ToString());
+
+        //        lastnum = GetListNum_da_Purdue(PurdueType, applicantID, Year);
+        //        if (lastnum > 0)
+        //        {
+        //            bool dhavenum = true;
+
+        //            switch (PurdueType)
+        //            {
+        //                case 1:
+        //                    //贊普
+        //                    for (int j = 1001; j < lastnum; j++)
+        //                    {
+        //                        if (CheckedNum_da_Purdue(PurdueType, j, Year))
+        //                        {
+        //                            lastnum = j;
+        //                            dhavenum = false;
+        //                            break;
+        //                        }
+        //                    }
+        //                    break;
+        //                default:
+        //                    //超拔
+        //                    for (int j = 1001; j < lastnum; j++)
+        //                    {
+        //                        if (CheckedNum_da_Purdue(PurdueType, j, Year))
+        //                        {
+        //                            lastnum = j;
+        //                            dhavenum = false;
+        //                            break;
+        //                        }
+        //                    }
+
+        //                    break;
+        //            }
+
+        //            if (dhavenum)
+        //            {
+        //                ++lastnum;
+        //            }
+        //        }
+        //        else
+        //        {
+        //            switch (PurdueType)
+        //            {
+        //                case 1:
+        //                    //贊普
+        //                    lastnum = 1001;
+        //                    break;
+        //                default:
+        //                    //超拔
+        //                    lastnum = 1001;
+        //                    break;
+        //            }
+        //        }
+        //    }
+
+        //    msg += "。客服電話：04-36092299。";
+
+        //    return bResult;
+        //}
+
+        //public bool UpdatePurdue_h_Info(int applicantID, int PurdueType, string Year, ref string msg, ref string[] purduelist, ref string[] Purduelist)
+        //{
+        //    TimeZoneInfo info = TimeZoneInfo.FindSystemTimeZoneById("Taipei Standard Time");
+        //    DateTime dtNow = TimeZoneInfo.ConvertTime(DateTime.Now, info);
+        //    bool bResult = false;
+        //    int lastnum = GetListNum_h_Purdue(PurdueType, applicantID, Year);
+
+        //    if (lastnum > 0)
+        //    {
+        //        bool dhavenum = true;
+
+        //        for (int i = 1001; i < lastnum; i++)
+        //        {
+        //            if (CheckedNum_h_Purdue(PurdueType, i, Year))
+        //            {
+        //                lastnum = i;
+        //                dhavenum = false;
+        //                break;
+        //            }
+        //        }
+
+        //        if (dhavenum)
+        //        {
+        //            ++lastnum;
+        //        }
+        //    }
+        //    else
+        //    {
+        //        lastnum = 1001;
+        //    }
+
+        //    DataTable dtDataList = new DataTable();
+        //    string sql = "Select * From Temple_" + Year + "..Purdue_h_info Where ApplicantID=@ApplicantID and Status = 0";
+
+        //    DatabaseAdapter AdapterObj = new DatabaseAdapter(sql, this.DBSource);
+        //    AdapterObj.SetSqlCommandBuilder();
+        //    AdapterObj.AddParameterToSelectCommand("@ApplicantID", applicantID);
+        //    AdapterObj.Fill(dtDataList);
+
+        //    Purduelist = new string[dtDataList.Rows.Count];
+        //    purduelist = new string[dtDataList.Rows.Count];
+
+        //    for (int i = 0; i < dtDataList.Rows.Count; i++)
+        //    {
+        //        string pid = dtDataList.Rows[i]["PurdueID"].ToString();
+        //        string NumString = string.Empty;
+
+        //        NumString = "H" + Num2String(lastnum);
+        //        purduelist[i] = Purduelist[i] = NumString;
+
+        //        int res = ExecuteSql("Update Temple_" + Year + "..Purdue_h_info Set Num2String = N'" + NumString + "', Num = " + lastnum + " Where PurdueID=" + pid);
+
+        //        if (res > 0)
+        //        {
+        //            bResult = true;
+        //        }
+
+        //        msg += purduelist[i];
+        //        if (i < purduelist.Length - 1)
+        //        {
+        //            msg += ",";
+        //        }
+
+        //        //int index = dtDataList.Rows.Count - i > 1 ? i + 1 : i;
+        //        //PurdueType = int.Parse(dtDataList.Rows[index]["PurdueType"].ToString());
+
+        //        lastnum = GetListNum_h_Purdue(PurdueType, applicantID, Year);
+        //        if (lastnum > 0)
+        //        {
+        //            bool dhavenum = true;
+
+        //            for (int j = 1001; j < lastnum; j++)
+        //            {
+        //                if (CheckedNum_h_Purdue(PurdueType, j, Year))
+        //                {
+        //                    lastnum = j;
+        //                    dhavenum = false;
+        //                    break;
+        //                }
+        //            }
+
+        //            if (dhavenum)
+        //            {
+        //                ++lastnum;
+        //            }
+        //        }
+        //        else
+        //        {
+        //            lastnum = 1001;
+        //        }
+        //    }
+
+        //    msg += "。客服電話：04-36092299。";
+
+        //    return bResult;
+        //}
+
+        //public bool UpdatePurdue_wu_Info(int applicantID, int PurdueType, string Year, ref string msg, ref string[] purduelist, ref string[] Purduelist)
+        //{
+        //    TimeZoneInfo info = TimeZoneInfo.FindSystemTimeZoneById("Taipei Standard Time");
+        //    DateTime dtNow = TimeZoneInfo.ConvertTime(DateTime.Now, info);
+        //    bool bResult = false;
+        //    int lastnum = GetListNum_wu_Purdue(PurdueType, applicantID, Year);
+
+        //    if (lastnum > 0)
+        //    {
+        //        bool dhavenum = true;
+
+        //        for (int i = 1001; i < lastnum; i++)
+        //        {
+        //            if (CheckedNum_wu_Purdue(PurdueType, i, Year))
+        //            {
+        //                lastnum = i;
+        //                dhavenum = false;
+        //                break;
+        //            }
+        //        }
+
+        //        if (dhavenum)
+        //        {
+        //            ++lastnum;
+        //        }
+        //    }
+        //    else
+        //    {
+        //        lastnum = 1001;
+        //    }
+
+        //    DataTable dtDataList = new DataTable();
+        //    string sql = "Select * From Temple_" + Year + "..Purdue_wu_info Where ApplicantID=@ApplicantID and Status = 0";
+
+        //    DatabaseAdapter AdapterObj = new DatabaseAdapter(sql, this.DBSource);
+        //    AdapterObj.SetSqlCommandBuilder();
+        //    AdapterObj.AddParameterToSelectCommand("@ApplicantID", applicantID);
+        //    AdapterObj.Fill(dtDataList);
+
+        //    Purduelist = new string[dtDataList.Rows.Count];
+        //    purduelist = new string[dtDataList.Rows.Count];
+
+        //    for (int i = 0; i < dtDataList.Rows.Count; i++)
+        //    {
+        //        string pid = dtDataList.Rows[i]["PurdueID"].ToString();
+        //        string NumString = string.Empty;
+
+        //        NumString = "WU" + Num2String(lastnum);
+        //        purduelist[i] = Purduelist[i] = NumString;
+
+        //        int res = ExecuteSql("Update Temple_" + Year + "..Purdue_wu_info Set Num2String = N'" + NumString + "', Num = " + lastnum + " Where PurdueID=" + pid);
+
+        //        if (res > 0)
+        //        {
+        //            bResult = true;
+        //        }
+
+        //        msg += purduelist[i];
+        //        if (i < purduelist.Length - 1)
+        //        {
+        //            msg += ",";
+        //        }
+
+        //        //int index = dtDataList.Rows.Count - i > 1 ? i + 1 : i;
+        //        //PurdueType = int.Parse(dtDataList.Rows[index]["PurdueType"].ToString());
+
+        //        lastnum = GetListNum_wu_Purdue(PurdueType, applicantID, Year);
+        //        if (lastnum > 0)
+        //        {
+        //            bool dhavenum = true;
+
+        //            for (int j = 1001; j < lastnum; j++)
+        //            {
+        //                if (CheckedNum_wu_Purdue(PurdueType, j, Year))
+        //                {
+        //                    lastnum = j;
+        //                    dhavenum = false;
+        //                    break;
+        //                }
+        //            }
+
+        //            if (dhavenum)
+        //            {
+        //                ++lastnum;
+        //            }
+        //        }
+        //        else
+        //        {
+        //            lastnum = 1001;
+        //        }
+        //    }
+
+        //    msg += "。客服電話：04-36092299。";
+
+        //    return bResult;
+        //}
+
+        //public bool UpdatePurdue_Fu_Info(int applicantID, int PurdueType, string Year, ref string msg, ref string[] purduelist, ref string[] Purduelist)
+        //{
+        //    TimeZoneInfo info = TimeZoneInfo.FindSystemTimeZoneById("Taipei Standard Time");
+        //    DateTime dt = TimeZoneInfo.ConvertTime(DateTime.Now, info);
+        //    bool bResult = false;
+        //    int lastnum = GetListNum_Fu_Purdue(PurdueType, applicantID, Year);
+
+        //    if (lastnum > 0)
+        //    {
+        //        bool dhavenum = true;
+
+        //        for (int i = 1001; i < lastnum; i++)
+        //        {
+        //            if (CheckedNum_Fu_Purdue(PurdueType, i, Year))
+        //            {
+        //                lastnum = i;
+        //                dhavenum = false;
+        //                break;
+        //            }
+        //        }
+
+        //        if (dhavenum)
+        //        {
+        //            ++lastnum;
+        //        }
+        //    }
+        //    else
+        //    {
+        //        lastnum = 1001;
+        //    }
+
+        //    DataTable dtDataList = new DataTable();
+        //    string sql = "Select * From Temple_" + Year + "..Purdue_Fu_info Where ApplicantID=@ApplicantID and Status = 0";
+
+        //    DatabaseAdapter AdapterObj = new DatabaseAdapter(sql, this.DBSource);
+        //    AdapterObj.SetSqlCommandBuilder();
+        //    AdapterObj.AddParameterToSelectCommand("@ApplicantID", applicantID);
+        //    AdapterObj.Fill(dtDataList);
+
+        //    Purduelist = new string[dtDataList.Rows.Count];
+        //    purduelist = new string[dtDataList.Rows.Count];
+
+        //    for (int i = 0; i < dtDataList.Rows.Count; i++)
+        //    {
+        //        string pid = dtDataList.Rows[i]["PurdueID"].ToString();
+        //        string NumString = string.Empty;
+
+        //        NumString = "F" + Num2String(lastnum);
+        //        purduelist[i] = Purduelist[i] = NumString;
+
+        //        int res = ExecuteSql("Update Temple_" + Year + "..Purdue_Fu_info Set Num2String = N'" + NumString + "', Num = " + lastnum + " Where PurdueID=" + pid);
+
+        //        if (res > 0)
+        //        {
+        //            bResult = true;
+        //        }
+
+        //        msg += purduelist[i];
+        //        if (i < purduelist.Length - 1)
+        //        {
+        //            msg += ",";
+        //        }
+
+        //        //int index = dtDataList.Rows.Count - i > 1 ? i + 1 : i;
+        //        //PurdueType = int.Parse(dtDataList.Rows[index]["PurdueType"].ToString());
+
+        //        lastnum = GetListNum_Fu_Purdue(PurdueType, applicantID, Year);
+        //        if (lastnum > 0)
+        //        {
+        //            bool dhavenum = true;
+
+        //            for (int j = 1001; j < lastnum; j++)
+        //            {
+        //                if (CheckedNum_Fu_Purdue(PurdueType, j, Year))
+        //                {
+        //                    lastnum = j;
+        //                    dhavenum = false;
+        //                    break;
+        //                }
+        //            }
+
+        //            if (dhavenum)
+        //            {
+        //                ++lastnum;
+        //            }
+        //        }
+        //        else
+        //        {
+        //            lastnum = 1001;
+        //        }
+        //    }
+
+        //    msg += "。客服電話：04-36092299。";
+
+        //    return bResult;
+        //}
+
+        //public bool UpdatePurdue_Luer_Info(int applicantID, int PurdueType, string Year, ref string msg, ref string[] purduelist, ref string[] Purduelist)
+        //{
+        //    TimeZoneInfo info = TimeZoneInfo.FindSystemTimeZoneById("Taipei Standard Time");
+        //    DateTime dt = TimeZoneInfo.ConvertTime(DateTime.Now, info);
+        //    bool bResult = false;
+        //    int lastnum = GetListNum_Luer_Purdue(PurdueType, applicantID, Year);
+
+        //    if (lastnum > 0)
+        //    {
+        //        bool dhavenum = true;
+
+        //        for (int i = 1001; i < lastnum; i++)
+        //        {
+        //            if (CheckedNum_Luer_Purdue(PurdueType, i, Year))
+        //            {
+        //                lastnum = i;
+        //                dhavenum = false;
+        //                break;
+        //            }
+        //        }
+
+        //        if (dhavenum)
+        //        {
+        //            ++lastnum;
+        //        }
+        //    }
+        //    else
+        //    {
+        //        lastnum = 1001;
+        //    }
+
+        //    DataTable dtDataList = new DataTable();
+        //    string sql = "Select * From Temple_" + Year + "..Purdue_Luer_info Where ApplicantID=@ApplicantID and Status = 0";
+
+        //    DatabaseAdapter AdapterObj = new DatabaseAdapter(sql, this.DBSource);
+        //    AdapterObj.SetSqlCommandBuilder();
+        //    AdapterObj.AddParameterToSelectCommand("@ApplicantID", applicantID);
+        //    AdapterObj.Fill(dtDataList);
+
+        //    Purduelist = new string[dtDataList.Rows.Count];
+        //    purduelist = new string[dtDataList.Rows.Count];
+
+        //    for (int i = 0; i < dtDataList.Rows.Count; i++)
+        //    {
+        //        string pid = dtDataList.Rows[i]["PurdueID"].ToString();
+        //        string NumString = string.Empty;
+
+        //        NumString = "L" + Num2String(lastnum);
+        //        purduelist[i] = Purduelist[i] = NumString;
+
+        //        int res = ExecuteSql("Update Temple_" + Year + "..Purdue_Luer_info Set Num2String = N'" + NumString + "', Num = " + lastnum + " Where PurdueID=" + pid);
+
+        //        if (res > 0)
+        //        {
+        //            bResult = true;
+        //        }
+
+        //        msg += purduelist[i];
+        //        if (i < purduelist.Length - 1)
+        //        {
+        //            msg += ",";
+        //        }
+
+        //        //int index = dtDataList.Rows.Count - i > 1 ? i + 1 : i;
+        //        //PurdueType = int.Parse(dtDataList.Rows[index]["PurdueType"].ToString());
+
+        //        lastnum = GetListNum_Luer_Purdue(PurdueType, applicantID, Year);
+        //        if (lastnum > 0)
+        //        {
+        //            bool dhavenum = true;
+
+        //            for (int j = 1001; j < lastnum; j++)
+        //            {
+        //                if (CheckedNum_Luer_Purdue(PurdueType, j, Year))
+        //                {
+        //                    lastnum = j;
+        //                    dhavenum = false;
+        //                    break;
+        //                }
+        //            }
+
+        //            if (dhavenum)
+        //            {
+        //                ++lastnum;
+        //            }
+        //        }
+        //        else
+        //        {
+        //            lastnum = 1001;
+        //        }
+        //    }
+
+        //    msg += "。客服電話：04-36092299。";
+
+        //    return bResult;
+        //}
+
+        //public bool UpdatePurdue_ty_Info(int applicantID, int PurdueType, string Year, ref string msg, ref string[] purduelist, ref string[] Purduelist)
+        //{
+        //    TimeZoneInfo info = TimeZoneInfo.FindSystemTimeZoneById("Taipei Standard Time");
+        //    DateTime dtNow = TimeZoneInfo.ConvertTime(DateTime.Now, info);
+        //    bool bResult = false;
+        //    int lastnum = GetListNum_ty_Purdue(PurdueType, applicantID, Year);
+
+        //    if (lastnum > 0)
+        //    {
+        //        bool dhavenum = true;
+
+        //        for (int i = 1001; i < lastnum; i++)
+        //        {
+        //            if (CheckedNum_ty_Purdue(PurdueType, i, Year))
+        //            {
+        //                lastnum = i;
+        //                dhavenum = false;
+        //                break;
+        //            }
+        //        }
+
+        //        if (dhavenum)
+        //        {
+        //            ++lastnum;
+        //        }
+        //    }
+        //    else
+        //    {
+        //        lastnum = 1001;
+        //    }
+
+        //    DataTable dtDataList = new DataTable();
+        //    string sql = "Select * From Temple_" + Year + "..Purdue_ty_info Where ApplicantID=@ApplicantID and Status = 0";
+
+        //    DatabaseAdapter AdapterObj = new DatabaseAdapter(sql, this.DBSource);
+        //    AdapterObj.SetSqlCommandBuilder();
+        //    AdapterObj.AddParameterToSelectCommand("@ApplicantID", applicantID);
+        //    AdapterObj.Fill(dtDataList);
+
+        //    Purduelist = new string[dtDataList.Rows.Count];
+        //    purduelist = new string[dtDataList.Rows.Count];
+
+        //    for (int i = 0; i < dtDataList.Rows.Count; i++)
+        //    {
+        //        string pid = dtDataList.Rows[i]["PurdueID"].ToString();
+        //        string NumString = string.Empty;
+
+        //        NumString = "TY" + Num2String(lastnum);
+        //        purduelist[i] = Purduelist[i] = NumString;
+
+        //        int res = ExecuteSql("Update Temple_" + Year + "..Purdue_ty_info Set Num2String = N'" + NumString + "', Num = " + lastnum + " Where PurdueID=" + pid);
+
+        //        if (res > 0)
+        //        {
+        //            bResult = true;
+        //        }
+
+        //        msg += purduelist[i];
+        //        if (i < purduelist.Length - 1)
+        //        {
+        //            msg += ",";
+        //        }
+
+        //        //int index = dtDataList.Rows.Count - i > 1 ? i + 1 : i;
+        //        //PurdueType = int.Parse(dtDataList.Rows[index]["PurdueType"].ToString());
+
+        //        lastnum = GetListNum_ty_Purdue(PurdueType, applicantID, Year);
+        //        if (lastnum > 0)
+        //        {
+        //            bool dhavenum = true;
+
+        //            for (int j = 1001; j < lastnum; j++)
+        //            {
+        //                if (CheckedNum_ty_Purdue(PurdueType, j, Year))
+        //                {
+        //                    lastnum = j;
+        //                    dhavenum = false;
+        //                    break;
+        //                }
+        //            }
+
+        //            if (dhavenum)
+        //            {
+        //                ++lastnum;
+        //            }
+        //        }
+        //        else
+        //        {
+        //            lastnum = 1001;
+        //        }
+        //    }
+
+        //    msg += "。客服電話：04-36092299。";
+
+        //    return bResult;
+        //}
+
+        //public bool UpdatePurdue_Fw_Info(int applicantID, int PurdueType, string Year, ref string msg, ref string[] purduelist, ref string[] Purduelist)
+        //{
+        //    TimeZoneInfo info = TimeZoneInfo.FindSystemTimeZoneById("Taipei Standard Time");
+        //    DateTime dtNow = TimeZoneInfo.ConvertTime(DateTime.Now, info);
+        //    bool bResult = false;
+        //    int lastnum = GetListNum_Fw_Purdue(PurdueType, applicantID, Year);
+
+        //    if (lastnum > 0)
+        //    {
+        //        bool dhavenum = true;
+
+        //        for (int i = 1001; i < lastnum; i++)
+        //        {
+        //            if (CheckedNum_Fw_Purdue(PurdueType, i, Year))
+        //            {
+        //                lastnum = i;
+        //                dhavenum = false;
+        //                break;
+        //            }
+        //        }
+
+        //        if (dhavenum)
+        //        {
+        //            ++lastnum;
+        //        }
+        //    }
+        //    else
+        //    {
+        //        lastnum = 1001;
+        //    }
+
+        //    DataTable dtDataList = new DataTable();
+        //    string sql = "Select * From Temple_" + Year + "..Purdue_Fw_info Where ApplicantID=@ApplicantID and Status = 0";
+
+        //    DatabaseAdapter AdapterObj = new DatabaseAdapter(sql, this.DBSource);
+        //    AdapterObj.SetSqlCommandBuilder();
+        //    AdapterObj.AddParameterToSelectCommand("@ApplicantID", applicantID);
+        //    AdapterObj.Fill(dtDataList);
+
+        //    Purduelist = new string[dtDataList.Rows.Count];
+        //    purduelist = new string[dtDataList.Rows.Count];
+
+        //    for (int i = 0; i < dtDataList.Rows.Count; i++)
+        //    {
+        //        string pid = dtDataList.Rows[i]["PurdueID"].ToString();
+        //        string NumString = string.Empty;
+
+        //        NumString = "FW" + Num2String(lastnum);
+        //        purduelist[i] = Purduelist[i] = NumString;
+
+        //        int res = ExecuteSql("Update Temple_" + Year + "..Purdue_Fw_info Set Num2String = N'" + NumString + "', Num = " + lastnum + " Where PurdueID=" + pid);
+
+        //        if (res > 0)
+        //        {
+        //            bResult = true;
+        //        }
+
+        //        msg += purduelist[i];
+        //        if (i < purduelist.Length - 1)
+        //        {
+        //            msg += ",";
+        //        }
+
+        //        //int index = dtDataList.Rows.Count - i > 1 ? i + 1 : i;
+        //        //PurdueType = int.Parse(dtDataList.Rows[index]["PurdueType"].ToString());
+
+        //        lastnum = GetListNum_Fw_Purdue(PurdueType, applicantID, Year);
+        //        if (lastnum > 0)
+        //        {
+        //            bool dhavenum = true;
+
+        //            for (int j = 1001; j < lastnum; j++)
+        //            {
+        //                if (CheckedNum_Fw_Purdue(PurdueType, j, Year))
+        //                {
+        //                    lastnum = j;
+        //                    dhavenum = false;
+        //                    break;
+        //                }
+        //            }
+
+        //            if (dhavenum)
+        //            {
+        //                ++lastnum;
+        //            }
+        //        }
+        //        else
+        //        {
+        //            lastnum = 1001;
+        //        }
+        //    }
+
+        //    msg += "。客服電話：04-36092299。";
+
+        //    return bResult;
+        //}
+
+        //public bool UpdatePurdue_dh_Info(int applicantID, int PurdueType, string Year, ref string msg, ref string[] purduelist, ref string[] Purduelist)
+        //{
+        //    TimeZoneInfo info = TimeZoneInfo.FindSystemTimeZoneById("Taipei Standard Time");
+        //    DateTime dtNow = TimeZoneInfo.ConvertTime(DateTime.Now, info);
+        //    bool bResult = false;
+        //    int lastnum = GetListNum_dh_Purdue(PurdueType, applicantID, Year);
+
+        //    if (lastnum > 0)
+        //    {
+        //        bool dhavenum = true;
+
+        //        for (int i = 1001; i < lastnum; i++)
+        //        {
+        //            if (CheckedNum_dh_Purdue(PurdueType, i, Year))
+        //            {
+        //                lastnum = i;
+        //                dhavenum = false;
+        //                break;
+        //            }
+        //        }
+
+        //        if (dhavenum)
+        //        {
+        //            ++lastnum;
+        //        }
+        //    }
+        //    else
+        //    {
+        //        lastnum = 1001;
+        //    }
+
+        //    DataTable dtDataList = new DataTable();
+        //    string sql = "Select * From Temple_" + Year + "..Purdue_dh_info Where ApplicantID=@ApplicantID and Status = 0";
+
+        //    DatabaseAdapter AdapterObj = new DatabaseAdapter(sql, this.DBSource);
+        //    AdapterObj.SetSqlCommandBuilder();
+        //    AdapterObj.AddParameterToSelectCommand("@ApplicantID", applicantID);
+        //    AdapterObj.Fill(dtDataList);
+
+        //    Purduelist = new string[dtDataList.Rows.Count];
+        //    purduelist = new string[dtDataList.Rows.Count];
+
+        //    for (int i = 0; i < dtDataList.Rows.Count; i++)
+        //    {
+        //        string pid = dtDataList.Rows[i]["PurdueID"].ToString();
+        //        string NumString = string.Empty;
+
+        //        NumString = "DH" + Num2String(lastnum);
+        //        purduelist[i] = Purduelist[i] = NumString;
+
+        //        int res = ExecuteSql("Update Temple_" + Year + "..Purdue_dh_info Set Num2String = N'" + NumString + "', Num = " + lastnum + " Where PurdueID=" + pid);
+
+        //        if (res > 0)
+        //        {
+        //            bResult = true;
+        //        }
+
+        //        msg += purduelist[i];
+        //        if (i < purduelist.Length - 1)
+        //        {
+        //            msg += ",";
+        //        }
+
+        //        //int index = dtDataList.Rows.Count - i > 1 ? i + 1 : i;
+        //        //PurdueType = int.Parse(dtDataList.Rows[index]["PurdueType"].ToString());
+
+        //        lastnum = GetListNum_dh_Purdue(PurdueType, applicantID, Year);
+        //        if (lastnum > 0)
+        //        {
+        //            bool dhavenum = true;
+
+        //            for (int j = 1001; j < lastnum; j++)
+        //            {
+        //                if (CheckedNum_dh_Purdue(PurdueType, j, Year))
+        //                {
+        //                    lastnum = j;
+        //                    dhavenum = false;
+        //                    break;
+        //                }
+        //            }
+
+        //            if (dhavenum)
+        //            {
+        //                ++lastnum;
+        //            }
+        //        }
+        //        else
+        //        {
+        //            lastnum = 1001;
+        //        }
+        //    }
+
+        //    msg += "。客服電話：04-36092299。";
+
+        //    return bResult;
+        //}
+
+        //public bool UpdatePurdue_Lk_Info(int applicantID, int PurdueType, string Year, ref string msg, ref string[] purduelist, ref string[] Purduelist)
+        //{
+        //    TimeZoneInfo info = TimeZoneInfo.FindSystemTimeZoneById("Taipei Standard Time");
+        //    DateTime dtNow = TimeZoneInfo.ConvertTime(DateTime.Now, info);
+        //    bool bResult = false;
+        //    int lastnum = GetListNum_Lk_Purdue(PurdueType, applicantID, Year);
+
+        //    if (lastnum > 0)
+        //    {
+        //        bool dhavenum = true;
+
+        //        for (int i = 1001; i < lastnum; i++)
+        //        {
+        //            if (CheckedNum_Lk_Purdue(PurdueType, i, Year))
+        //            {
+        //                lastnum = i;
+        //                dhavenum = false;
+        //                break;
+        //            }
+        //        }
+
+        //        if (dhavenum)
+        //        {
+        //            ++lastnum;
+        //        }
+        //    }
+        //    else
+        //    {
+        //        lastnum = 1001;
+        //    }
+
+        //    DataTable dtDataList = new DataTable();
+        //    string sql = "Select * From Temple_" + Year + "..Purdue_Lk_info Where ApplicantID=@ApplicantID and Status = 0";
+
+        //    DatabaseAdapter AdapterObj = new DatabaseAdapter(sql, this.DBSource);
+        //    AdapterObj.SetSqlCommandBuilder();
+        //    AdapterObj.AddParameterToSelectCommand("@ApplicantID", applicantID);
+        //    AdapterObj.Fill(dtDataList);
+
+        //    Purduelist = new string[dtDataList.Rows.Count];
+        //    purduelist = new string[dtDataList.Rows.Count];
+
+        //    for (int i = 0; i < dtDataList.Rows.Count; i++)
+        //    {
+        //        string pid = dtDataList.Rows[i]["PurdueID"].ToString();
+        //        string NumString = string.Empty;
+
+        //        NumString = "LK" + Num2String(lastnum);
+        //        purduelist[i] = Purduelist[i] = NumString;
+
+        //        int res = ExecuteSql("Update Temple_" + Year + "..Purdue_Lk_info Set Num2String = N'" + NumString + "', Num = " + lastnum + " Where PurdueID=" + pid);
+
+        //        if (res > 0)
+        //        {
+        //            bResult = true;
+        //        }
+
+        //        msg += purduelist[i];
+        //        if (i < purduelist.Length - 1)
+        //        {
+        //            msg += ",";
+        //        }
+
+        //        //int index = dtDataList.Rows.Count - i > 1 ? i + 1 : i;
+        //        //PurdueType = int.Parse(dtDataList.Rows[index]["PurdueType"].ToString());
+
+        //        lastnum = GetListNum_Lk_Purdue(PurdueType, applicantID, Year);
+        //        if (lastnum > 0)
+        //        {
+        //            bool dhavenum = true;
+
+        //            for (int j = 1001; j < lastnum; j++)
+        //            {
+        //                if (CheckedNum_Lk_Purdue(PurdueType, j, Year))
+        //                {
+        //                    lastnum = j;
+        //                    dhavenum = false;
+        //                    break;
+        //                }
+        //            }
+
+        //            if (dhavenum)
+        //            {
+        //                ++lastnum;
+        //            }
+        //        }
+        //        else
+        //        {
+        //            lastnum = 1001;
+        //        }
+        //    }
+
+        //    msg += "。客服電話：04-36092299。";
+
+        //    return bResult;
+        //}
+
+        //public bool UpdatePurdue_ma_Info(int applicantID, int PurdueType, string Year, ref string msg, ref string[] purduelist, ref string[] Purduelist)
+        //{
+        //    TimeZoneInfo info = TimeZoneInfo.FindSystemTimeZoneById("Taipei Standard Time");
+        //    DateTime dt = TimeZoneInfo.ConvertTime(DateTime.Now, info);
+        //    bool bResult = false;
+        //    int lastnum = GetListNum_ma_Purdue(PurdueType, applicantID, Year);
+
+        //    if (lastnum > 0)
+        //    {
+        //        bool dhavenum = true;
+
+        //        for (int i = 1001; i < lastnum; i++)
+        //        {
+        //            if (CheckedNum_ma_Purdue(PurdueType, i, Year))
+        //            {
+        //                lastnum = i;
+        //                dhavenum = false;
+        //                break;
+        //            }
+        //        }
+
+        //        if (dhavenum)
+        //        {
+        //            ++lastnum;
+        //        }
+        //    }
+        //    else
+        //    {
+        //        lastnum = 1001;
+        //    }
+
+        //    DataTable dtDataList = new DataTable();
+        //    string sql = "Select * From Temple_" + Year + "..Purdue_ma_info Where ApplicantID=@ApplicantID and Status = 0";
+
+        //    DatabaseAdapter AdapterObj = new DatabaseAdapter(sql, this.DBSource);
+        //    AdapterObj.SetSqlCommandBuilder();
+        //    AdapterObj.AddParameterToSelectCommand("@ApplicantID", applicantID);
+        //    AdapterObj.Fill(dtDataList);
+
+        //    Purduelist = new string[dtDataList.Rows.Count];
+        //    purduelist = new string[dtDataList.Rows.Count];
+
+        //    for (int i = 0; i < dtDataList.Rows.Count; i++)
+        //    {
+        //        string pid = dtDataList.Rows[i]["PurdueID"].ToString();
+        //        string NumString = string.Empty;
+
+        //        NumString = "MA" + Num2String(lastnum);
+        //        purduelist[i] = Purduelist[i] = NumString;
+
+        //        int res = ExecuteSql("Update Temple_" + Year + "..Purdue_ma_info Set Num2String = N'" + NumString + "', Num = " + lastnum + " Where PurdueID=" + pid);
+
+        //        if (res > 0)
+        //        {
+        //            bResult = true;
+        //        }
+
+        //        msg += purduelist[i];
+        //        if (i < purduelist.Length - 1)
+        //        {
+        //            msg += ",";
+        //        }
+
+        //        //int index = dtDataList.Rows.Count - i > 1 ? i + 1 : i;
+        //        //PurdueType = int.Parse(dtDataList.Rows[index]["PurdueType"].ToString());
+
+        //        lastnum = GetListNum_ma_Purdue(PurdueType, applicantID, Year);
+        //        if (lastnum > 0)
+        //        {
+        //            bool dhavenum = true;
+
+        //            for (int j = 1001; j < lastnum; j++)
+        //            {
+        //                if (CheckedNum_ma_Purdue(PurdueType, j, Year))
+        //                {
+        //                    lastnum = j;
+        //                    dhavenum = false;
+        //                    break;
+        //                }
+        //            }
+
+        //            if (dhavenum)
+        //            {
+        //                ++lastnum;
+        //            }
+        //        }
+        //        else
+        //        {
+        //            lastnum = 1001;
+        //        }
+        //    }
+
+        //    msg += "。客服電話：04-36092299。";
+
+        //    return bResult;
+        //}
+
+        #endregion
+
+
+        #region —— 法會 —— 
+
+        /// <summary>
+        /// 更新並取得表單資料 - 下元補庫 - 北港武德宮
+        /// </summary>
+        /// <param name="applicantID">購買人編號</param>
+        /// <param name="SuppliesType">
+        /// 法會代碼：
+        /// 1－下元補庫 2－呈疏補庫 3－企業補財庫
+        /// </param>
+        /// <param name="Year">年度字串，例如 "2025"</param>
+        /// <param name="msg">回傳給前端的訊息（各燈號編號＋客服電話）</param>
+        /// <param name="supplieslist">回傳給前端的燈號清單（例如「太歲燈:TYA1001」）</param>
+        /// <param name="Supplieslist">備用，可同樣回傳燈號字串陣列，視業務需求</param>
+        /// <returns>若有更新資料則回傳 true，否則回傳 false</returns>
+        /// <summary>
+        public bool UpdateSupplies_wu_Info(
+            int applicantID,
+            int SuppliesType,
+            string Year,
+            ref string msg,
+            ref string[] supplieslist,
+            ref string[] Supplieslist)
+        {
+            lock (_thisLock)
+            {
+                twbobibobi.Data.BasePage basePage = new twbobibobi.Data.BasePage();
+
+                // 1. 一次性取得所有已分配的編號 (Num > 0 且 Num2String 有值)
+                string sqlFetchExisting =
+                    "SELECT SuppliesType, Num " +
+                    "FROM Temple_" + Year + "..Supplies_wu_info " +
+                    "WHERE Status = 0 " +
+                    "  AND Num <> 0" +
+                    "  AND Num2String IS NOT NULL " +
+                    "  AND Num2String <> ''";
+
+                // 建立 DatabaseAdapter，並加入參數
+                DatabaseAdapter da = new DatabaseAdapter(sqlFetchExisting, this.DBSource);
+                da.SetSqlCommandBuilder();
+                DataTable dtExisting = new DataTable();
+                da.Fill(dtExisting);
+
+                // 建立各燈種對應的已用號碼集合
+                var usedNumsByType = new Dictionary<int, HashSet<int>>();
+                foreach (DataRow row in dtExisting.Rows)
+                {
+                    int type = Convert.ToInt32(row["SuppliesType"]);
+                    int num = Convert.ToInt32(row["Num"]);
+                    if (!usedNumsByType.ContainsKey(type))
+                        usedNumsByType[type] = new HashSet<int>();
+                    usedNumsByType[type].Add(num);
+                }
+
+                // 2. 一次性抓出所有需補號的列 (Num = 0)
+                DataTable dtToAssign = new DataTable();
+                string sqlFetchToAssign =
+                    "SELECT SuppliesID, SuppliesType " +
+                    "FROM Temple_" + Year + "..Supplies_wu_info " +
+                    "WHERE ApplicantID = @ApplicantID " +
+                    "  AND Status = 0 " +
+                    "  AND Num = 0 " +
+                    "ORDER BY SuppliesID";
+
+                {
+                    da = new DatabaseAdapter(sqlFetchToAssign, this.DBSource);
+                    da.SetSqlCommandBuilder();
+                    da.AddParameterToSelectCommand("ApplicantID", applicantID);
+                    da.Fill(dtToAssign);
+                }
+
+                int rowCount = dtToAssign.Rows.Count;
+                supplieslist = new string[rowCount];
+                Supplieslist = new string[rowCount];
+                // 用來存放要批量更新的資料 (SuppliesID, AssignedNum, AssignedNumString)
+                List<Tuple<int, int, string>> updatedRecords = new List<Tuple<int, int, string>>();
+
+                // 3. 逐筆在記憶體中分配「最小可用缺號」
+                for (int i = 0; i < rowCount; i++)
+                {
+                    DataRow row = dtToAssign.Rows[i];
+                    int dbSuppliesID = Convert.ToInt32(row["SuppliesID"]);
+                    int dbSuppliesType = Convert.ToInt32(row["SuppliesType"]);
+
+                    if (!usedNumsByType.ContainsKey(dbSuppliesType))
+                        usedNumsByType[dbSuppliesType] = new HashSet<int>();
+
+                    int nextNum = 1001;
+
+                    // 找下一個可用編號 (從 1001 開始往上搜尋)
+                    var usedSet = usedNumsByType[dbSuppliesType];
+                    while (usedSet.Contains(nextNum))
+                    {
+                        nextNum++;
+                    }
+
+                    // 根據不同項目決定前綴字串
+                    string prefix = "WS";
+                    string numString = prefix + nextNum.ToString();
+                    Supplieslist[i] = numString;
+
+                    // 將這筆資料加入批量更新清單
+                    updatedRecords.Add(new Tuple<int, int, string>(dbSuppliesID, nextNum, numString));
+
+                    // 準備回傳給前端的燈號字串
+                    string typeName = "下元補庫";
+
+                    supplieslist[i] = typeName + ":" + numString;
+
+                    // 把已分配的 nextNum 加入 usedNumsByType，避免重複
+                    usedSet.Add(nextNum);
+                }
+
+                // 組出 msg，格式為「燈種1:編號,燈種2:編號,...。客服電話：04-36092299。」
+                msg += string.Join(",", supplieslist) + "。客服電話：04-36092299。";
+
+                // 5. 一次性批量 UPDATE 回資料庫
+                //    以下示範用動態 SQL 拼接多筆 UPDATE，若更新筆數很多建議改用 TVP + 存儲過程
+                System.Text.StringBuilder sb = new System.Text.StringBuilder();
+                sb.AppendLine("USE Temple_" + Year + ";");
+                foreach (var rec in updatedRecords)
+                {
+                    int id = rec.Item1;
+                    int assignedNum = rec.Item2;
+                    string assignedNumString = rec.Item3.Replace("'", "''"); // 確保單引號轉義
+                    sb.AppendLine(
+                        "UPDATE dbo.Supplies_wu_info " +
+                        "SET Num = " + assignedNum + ", " +
+                        "    Num2String = N'" + assignedNumString + "' " +
+                        "WHERE SuppliesID = " + id + ";"
+                    );
+                }
+                string sqlBatchUpdate = sb.ToString();
+
+                try
+                {
+                    int rowsAffected = ExecuteSql(sqlBatchUpdate);
+                    if (rowsAffected > 0)
+                    {
+                        // 成功更新至少一筆
+                        return (updatedRecords.Count > 0);
+                    }
+                    else
+                    {
+                        // 防呆：SQL 執行後沒有影響到任何列，記一筆錯誤日誌，再回傳 false
+                        string err = "[UpdateSupplies_wu_Info] 批量 UPDATE 未更新到任何記錄，SQL:\r\n" + sqlBatchUpdate;
+                        basePage.SaveErrorLog(err);
+                        return false;
+                    }
+                }
+                catch (Exception ex)
+                {
+                    // 捕捉執行 SQL 時的例外，記錯誤日誌，並回傳 false
+                    basePage.SaveErrorLog("[UpdateSupplies_wu_Info] 批量 UPDATE 時發生例外：\r\n" + ex);
+                    return false;
+                }
+            }
+        }
+
+        /// <summary>
+        /// 更新並取得表單資料 - 呈疏補庫 - 北港武德宮
+        /// </summary>
+        /// <param name="applicantID">購買人編號</param>
+        /// <param name="SuppliesType">
+        /// 法會代碼：
+        /// 1－下元補庫 2－呈疏補庫 3－企業補財庫
+        /// </param>
+        /// <param name="Year">年度字串，例如 "2025"</param>
+        /// <param name="msg">回傳給前端的訊息（各燈號編號＋客服電話）</param>
+        /// <param name="supplieslist">回傳給前端的燈號清單（例如「太歲燈:TYA1001」）</param>
+        /// <param name="Supplieslist">備用，可同樣回傳燈號字串陣列，視業務需求</param>
+        /// <returns>若有更新資料則回傳 true，否則回傳 false</returns>
+        /// <summary>
+        public bool UpdateSupplies_wu_Info2(
+            int applicantID,
+            int SuppliesType,
+            string Year,
+            ref string msg,
+            ref string[] supplieslist,
+            ref string[] Supplieslist)
+        {
+            lock (_thisLock)
+            {
+                twbobibobi.Data.BasePage basePage = new twbobibobi.Data.BasePage();
+
+                // 1. 一次性取得所有已分配的編號 (Num > 0 且 Num2String 有值)
+                string sqlFetchExisting =
+                    "SELECT SuppliesType, Num " +
+                    "FROM Temple_" + Year + "..Supplies_wu_info2 " +
+                    "WHERE Status = 0 " +
+                    "  AND Num <> 0" +
+                    "  AND Num2String IS NOT NULL " +
+                    "  AND Num2String <> ''";
+
+                // 建立 DatabaseAdapter，並加入參數
+                DatabaseAdapter da = new DatabaseAdapter(sqlFetchExisting, this.DBSource);
+                da.SetSqlCommandBuilder();
+                DataTable dtExisting = new DataTable();
+                da.Fill(dtExisting);
+
+                // 建立各燈種對應的已用號碼集合
+                var usedNumsByType = new Dictionary<int, HashSet<int>>();
+                foreach (DataRow row in dtExisting.Rows)
+                {
+                    int type = Convert.ToInt32(row["SuppliesType"]);
+                    int num = Convert.ToInt32(row["Num"]);
+                    if (!usedNumsByType.ContainsKey(type))
+                        usedNumsByType[type] = new HashSet<int>();
+                    usedNumsByType[type].Add(num);
+                }
+
+                // 2. 一次性抓出所有需補號的列 (Num = 0)
+                DataTable dtToAssign = new DataTable();
+                string sqlFetchToAssign =
+                    "SELECT SuppliesID, SuppliesType " +
+                    "FROM Temple_" + Year + "..Supplies_wu_info2 " +
+                    "WHERE ApplicantID = @ApplicantID " +
+                    "  AND Status = 0 " +
+                    "  AND Num = 0 " +
+                    "ORDER BY SuppliesID";
+
+                {
+                    da = new DatabaseAdapter(sqlFetchToAssign, this.DBSource);
+                    da.SetSqlCommandBuilder();
+                    da.AddParameterToSelectCommand("ApplicantID", applicantID);
+                    da.Fill(dtToAssign);
+                }
+
+                int rowCount = dtToAssign.Rows.Count;
+                supplieslist = new string[rowCount];
+                Supplieslist = new string[rowCount];
+                // 用來存放要批量更新的資料 (SuppliesID, AssignedNum, AssignedNumString)
+                List<Tuple<int, int, string>> updatedRecords = new List<Tuple<int, int, string>>();
+
+                // 3. 逐筆在記憶體中分配「最小可用缺號」
+                for (int i = 0; i < rowCount; i++)
+                {
+                    DataRow row = dtToAssign.Rows[i];
+                    int dbSuppliesID = Convert.ToInt32(row["SuppliesID"]);
+                    int dbSuppliesType = Convert.ToInt32(row["SuppliesType"]);
+
+                    if (!usedNumsByType.ContainsKey(dbSuppliesType))
+                        usedNumsByType[dbSuppliesType] = new HashSet<int>();
+
+                    int nextNum = 1001;
+
+                    // 找下一個可用編號 (從 1001 開始往上搜尋)
+                    var usedSet = usedNumsByType[dbSuppliesType];
+                    while (usedSet.Contains(nextNum))
+                    {
+                        nextNum++;
+                    }
+
+                    // 根據不同項目決定前綴字串
+                    string prefix = "W2S";
+                    string numString = prefix + nextNum.ToString();
+                    Supplieslist[i] = numString;
+
+                    // 將這筆資料加入批量更新清單
+                    updatedRecords.Add(new Tuple<int, int, string>(dbSuppliesID, nextNum, numString));
+
+                    // 準備回傳給前端的燈號字串
+                    string typeName = "呈疏補庫";
+
+                    supplieslist[i] = typeName + ":" + numString;
+
+                    // 把已分配的 nextNum 加入 usedNumsByType，避免重複
+                    usedSet.Add(nextNum);
+                }
+
+                // 組出 msg，格式為「燈種1:編號,燈種2:編號,...。客服電話：04-36092299。」
+                msg += string.Join(",", supplieslist) + "。客服電話：04-36092299。";
+
+                // 5. 一次性批量 UPDATE 回資料庫
+                //    以下示範用動態 SQL 拼接多筆 UPDATE，若更新筆數很多建議改用 TVP + 存儲過程
+                System.Text.StringBuilder sb = new System.Text.StringBuilder();
+                sb.AppendLine("USE Temple_" + Year + ";");
+                foreach (var rec in updatedRecords)
+                {
+                    int id = rec.Item1;
+                    int assignedNum = rec.Item2;
+                    string assignedNumString = rec.Item3.Replace("'", "''"); // 確保單引號轉義
+                    sb.AppendLine(
+                        "UPDATE dbo.Supplies_wu_info2 " +
+                        "SET Num = " + assignedNum + ", " +
+                        "    Num2String = N'" + assignedNumString + "' " +
+                        "WHERE SuppliesID = " + id + ";"
+                    );
+                }
+                string sqlBatchUpdate = sb.ToString();
+
+                try
+                {
+                    int rowsAffected = ExecuteSql(sqlBatchUpdate);
+                    if (rowsAffected > 0)
+                    {
+                        // 成功更新至少一筆
+                        return (updatedRecords.Count > 0);
+                    }
+                    else
+                    {
+                        // 防呆：SQL 執行後沒有影響到任何列，記一筆錯誤日誌，再回傳 false
+                        string err = "[UpdateSupplies_wu_info2] 批量 UPDATE 未更新到任何記錄，SQL:\r\n" + sqlBatchUpdate;
+                        basePage.SaveErrorLog(err);
+                        return false;
+                    }
+                }
+                catch (Exception ex)
+                {
+                    // 捕捉執行 SQL 時的例外，記錯誤日誌，並回傳 false
+                    basePage.SaveErrorLog("[UpdateSupplies_wu_info2] 批量 UPDATE 時發生例外：\r\n" + ex);
+                    return false;
+                }
+            }
+        }
+
+        /// <summary>
+        /// 更新並取得表單資料 - 企業補財庫 - 北港武德宮
+        /// </summary>
+        /// <param name="applicantID">購買人編號</param>
+        /// <param name="SuppliesType">
+        /// 法會代碼：
+        /// 1－下元補庫 2－呈疏補庫 3－企業補財庫
+        /// </param>
+        /// <param name="Year">年度字串，例如 "2025"</param>
+        /// <param name="msg">回傳給前端的訊息（各燈號編號＋客服電話）</param>
+        /// <param name="supplieslist">回傳給前端的燈號清單（例如「太歲燈:TYA1001」）</param>
+        /// <param name="Supplieslist">備用，可同樣回傳燈號字串陣列，視業務需求</param>
+        /// <returns>若有更新資料則回傳 true，否則回傳 false</returns>
+        /// <summary>
+        public bool UpdateSupplies_wu_Info3(
+            int applicantID,
+            int SuppliesType,
+            string Year,
+            ref string msg,
+            ref string[] supplieslist,
+            ref string[] Supplieslist)
+        {
+            lock (_thisLock)
+            {
+                twbobibobi.Data.BasePage basePage = new twbobibobi.Data.BasePage();
+
+                // 1. 一次性取得所有已分配的編號 (Num > 0 且 Num2String 有值)
+                string sqlFetchExisting =
+                    "SELECT SuppliesType, Num " +
+                    "FROM Temple_" + Year + "..Supplies_wu_info3 " +
+                    "WHERE Status = 0 " +
+                    "  AND Num <> 0" +
+                    "  AND Num2String IS NOT NULL " +
+                    "  AND Num2String <> ''";
+
+                // 建立 DatabaseAdapter，並加入參數
+                DatabaseAdapter da = new DatabaseAdapter(sqlFetchExisting, this.DBSource);
+                da.SetSqlCommandBuilder();
+                DataTable dtExisting = new DataTable();
+                da.Fill(dtExisting);
+
+                // 建立各燈種對應的已用號碼集合
+                var usedNumsByType = new Dictionary<int, HashSet<int>>();
+                foreach (DataRow row in dtExisting.Rows)
+                {
+                    int type = Convert.ToInt32(row["SuppliesType"]);
+                    int num = Convert.ToInt32(row["Num"]);
+                    if (!usedNumsByType.ContainsKey(type))
+                        usedNumsByType[type] = new HashSet<int>();
+                    usedNumsByType[type].Add(num);
+                }
+
+                // 2. 一次性抓出所有需補號的列 (Num = 0)
+                DataTable dtToAssign = new DataTable();
+                string sqlFetchToAssign =
+                    "SELECT SuppliesID, SuppliesType " +
+                    "FROM Temple_" + Year + "..Supplies_wu_info3 " +
+                    "WHERE ApplicantID = @ApplicantID " +
+                    "  AND Status = 0 " +
+                    "  AND Num = 0 " +
+                    "ORDER BY SuppliesID";
+
+                {
+                    da = new DatabaseAdapter(sqlFetchToAssign, this.DBSource);
+                    da.SetSqlCommandBuilder();
+                    da.AddParameterToSelectCommand("ApplicantID", applicantID);
+                    da.Fill(dtToAssign);
+                }
+
+                int rowCount = dtToAssign.Rows.Count;
+                supplieslist = new string[rowCount];
+                Supplieslist = new string[rowCount];
+                // 用來存放要批量更新的資料 (SuppliesID, AssignedNum, AssignedNumString)
+                List<Tuple<int, int, string>> updatedRecords = new List<Tuple<int, int, string>>();
+
+                // 3. 逐筆在記憶體中分配「最小可用缺號」
+                for (int i = 0; i < rowCount; i++)
+                {
+                    DataRow row = dtToAssign.Rows[i];
+                    int dbSuppliesID = Convert.ToInt32(row["SuppliesID"]);
+                    int dbSuppliesType = Convert.ToInt32(row["SuppliesType"]);
+
+                    if (!usedNumsByType.ContainsKey(dbSuppliesType))
+                        usedNumsByType[dbSuppliesType] = new HashSet<int>();
+
+                    int nextNum = 2001;
+
+                    // 找下一個可用編號 (從 1001 開始往上搜尋)
+                    var usedSet = usedNumsByType[dbSuppliesType];
+                    while (usedSet.Contains(nextNum))
+                    {
+                        nextNum++;
+                    }
+
+                    // 根據不同項目決定前綴字串
+                    string prefix = "W3S";
+                    string numString = prefix + nextNum.ToString();
+                    Supplieslist[i] = numString;
+
+                    // 將這筆資料加入批量更新清單
+                    updatedRecords.Add(new Tuple<int, int, string>(dbSuppliesID, nextNum, numString));
+
+                    // 準備回傳給前端的燈號字串
+                    string typeName = "企業補財庫";
+
+                    supplieslist[i] = typeName + ":" + numString;
+
+                    // 把已分配的 nextNum 加入 usedNumsByType，避免重複
+                    usedSet.Add(nextNum);
+                }
+
+                // 組出 msg，格式為「燈種1:編號,燈種2:編號,...。客服電話：04-36092299。」
+                //msg += string.Join(",", supplieslist) + "。客服電話：04-36092299。";
+
+                // 5. 一次性批量 UPDATE 回資料庫
+                //    以下示範用動態 SQL 拼接多筆 UPDATE，若更新筆數很多建議改用 TVP + 存儲過程
+                System.Text.StringBuilder sb = new System.Text.StringBuilder();
+                sb.AppendLine("USE Temple_" + Year + ";");
+                foreach (var rec in updatedRecords)
+                {
+                    int id = rec.Item1;
+                    int assignedNum = rec.Item2;
+                    string assignedNumString = rec.Item3.Replace("'", "''"); // 確保單引號轉義
+                    sb.AppendLine(
+                        "UPDATE dbo.Supplies_wu_info3 " +
+                        "SET Num = " + assignedNum + ", " +
+                        "    Num2String = N'" + assignedNumString + "' " +
+                        "WHERE SuppliesID = " + id + ";"
+                    );
+                }
+                string sqlBatchUpdate = sb.ToString();
+
+                try
+                {
+                    int rowsAffected = ExecuteSql(sqlBatchUpdate);
+                    if (rowsAffected > 0)
+                    {
+                        // 成功更新至少一筆
+                        return (updatedRecords.Count > 0);
+                    }
+                    else
+                    {
+                        // 防呆：SQL 執行後沒有影響到任何列，記一筆錯誤日誌，再回傳 false
+                        string err = "[UpdateSupplies_wu_info3] 批量 UPDATE 未更新到任何記錄，SQL:\r\n" + sqlBatchUpdate;
+                        basePage.SaveErrorLog(err);
+                        return false;
+                    }
+                }
+                catch (Exception ex)
+                {
+                    // 捕捉執行 SQL 時的例外，記錯誤日誌，並回傳 false
+                    basePage.SaveErrorLog("[UpdateSupplies_wu_info3] 批量 UPDATE 時發生例外：\r\n" + ex);
+                    return false;
+                }
+            }
+        }
+
+        /// <summary>
+        /// 更新並取得表單資料 - 九九重陽天赦日補運 - 桃園威天宮
+        /// </summary>
+        /// <param name="applicantID">購買人編號</param>
+        /// <param name="SuppliesType">
+        /// 法會代碼：
+        /// 7－招財補運 8－招財補運九九重陽升級版
+        /// </param>
+        /// <param name="Year">年度字串，例如 "2025"</param>
+        /// <param name="msg">回傳給前端的訊息（各燈號編號＋客服電話）</param>
+        /// <param name="supplieslist">回傳給前端的燈號清單（例如「太歲燈:TYA1001」）</param>
+        /// <param name="Supplieslist">備用，可同樣回傳燈號字串陣列，視業務需求</param>
+        /// <returns>若有更新資料則回傳 true，否則回傳 false</returns>
+        /// <summary>
+        public bool UpdateSupplies2_ty_Info(
+            int applicantID,
+            string Year,
+            ref string msg,
+            ref string[] supplieslist,
+            ref string[] Supplieslist)
+        {
+            lock (_thisLock)
+            {
+                twbobibobi.Data.BasePage basePage = new twbobibobi.Data.BasePage();
+
+                // 1. 一次性取得所有已分配的編號 (Num > 0 且 Num2String 有值)
+                string sqlFetchExisting =
+                    "SELECT Num " +
+                    "FROM Temple_" + Year + "..Supplies2_ty_info " +
+                    "WHERE Status = 0 " +
+                    "  AND Num <> 0" +
+                    "  AND Num2String IS NOT NULL " +
+                    "  AND Num2String <> ''";
+
+                // 建立 DatabaseAdapter，並加入參數
+                DatabaseAdapter da = new DatabaseAdapter(sqlFetchExisting, this.DBSource);
+                da.SetSqlCommandBuilder();
+                DataTable dtExisting = new DataTable();
+                da.Fill(dtExisting);
+
+                // 建立已用號碼集合
+                HashSet<int> usedNums = new HashSet<int>();
+                foreach (DataRow row in dtExisting.Rows)
+                {
+                    int num = Convert.ToInt32(row["Num"]);
+                    usedNums.Add(num);
+                }
+
+                // 2. 一次性抓出所有需補號的列 (Num = 0)
+                DataTable dtToAssign = new DataTable();
+                string sqlFetchToAssign =
+                    "SELECT SuppliesID, SuppliesType " +
+                    "FROM Temple_" + Year + "..Supplies2_ty_info " +
+                    "WHERE ApplicantID = @ApplicantID " +
+                    "  AND Status = 0 " +
+                    "  AND Num = 0 " +
+                    "ORDER BY SuppliesID";
+
+                {
+                    da = new DatabaseAdapter(sqlFetchToAssign, this.DBSource);
+                    da.SetSqlCommandBuilder();
+                    da.AddParameterToSelectCommand("ApplicantID", applicantID);
+                    da.Fill(dtToAssign);
+                }
+
+                int rowCount = dtToAssign.Rows.Count;
+                supplieslist = new string[rowCount];
+                Supplieslist = new string[rowCount];
+                // 用來存放要批量更新的資料 (SuppliesID, AssignedNum, AssignedNumString)
+                List<Tuple<int, int, string>> updatedRecords = new List<Tuple<int, int, string>>();
+
+                // 3. 逐筆在記憶體中分配「最小可用缺號」
+                for (int i = 0; i < rowCount; i++)
+                {
+                    DataRow row = dtToAssign.Rows[i];
+                    int dbSuppliesID = Convert.ToInt32(row["SuppliesID"]);
+                    int dbSuppliesType = Convert.ToInt32(row["SuppliesType"]);
+
+                    // 找下一個可用編號 (從 1001 開始往上搜尋)
+                    int nextNum = 1001;
+                    while (usedNums.Contains(nextNum))
+                    {
+                        nextNum++;
+                    }
+
+                    // 根據不同項目決定前綴字串
+                    string prefix = "TY2SU";
+                    string numString = prefix + nextNum.ToString();
+
+                    Supplieslist[i] = numString;
+
+                    // 將這筆資料加入批量更新清單
+                    updatedRecords.Add(new Tuple<int, int, string>(dbSuppliesID, nextNum, numString));
+
+                    // 準備回傳給前端的燈號字串
+                    string typeName = "";
+                    switch (dbSuppliesType)
+                    {
                         case 7:
-                            //姻緣燈
-                            for (int i = 1001; i < lastnum; i++)
-                            {
-                                if (CheckedNum_Luer_Lights(LightsType, i, Year))
-                                {
-                                    lastnum = i;
-                                    dhavenum = false;
-                                    break;
-                                }
-                            }
-
+                            typeName = "招財補運";
                             break;
-                        case 9:
-                            //財利燈
-                            for (int i = 1001; i < lastnum; i++)
-                            {
-                                if (CheckedNum_Luer_Lights(LightsType, i, Year))
-                                {
-                                    lastnum = i;
-                                    dhavenum = false;
-                                    break;
-                                }
-                            }
-
-                            break;
-                        case 11:
-                            //福壽燈
-                            for (int i = 1001; i < lastnum; i++)
-                            {
-                                if (CheckedNum_Luer_Lights(LightsType, i, Year))
-                                {
-                                    lastnum = i;
-                                    dhavenum = false;
-                                    break;
-                                }
-                            }
-
-                            break;
-                        case 12:
-                            //寵物平安燈
-                            for (int i = 1001; i < lastnum; i++)
-                            {
-                                if (CheckedNum_Luer_Lights(LightsType, i, Year))
-                                {
-                                    lastnum = i;
-                                    dhavenum = false;
-                                    break;
-                                }
-                            }
-
-                            break;
-                        case 20:
-                            //月老姻緣燈
-                            for (int i = 1001; i < lastnum; i++)
-                            {
-                                if (CheckedNum_Luer_Lights(LightsType, i, Year))
-                                {
-                                    lastnum = i;
-                                    dhavenum = false;
-                                    break;
-                                }
-                            }
-
+                        case 8:
+                            typeName = "招財補運九九重陽升級版";
                             break;
                     }
 
-                    if (dhavenum)
-                    {
-                        ++lastnum;
-                    }
-                }
-                else
-                {
-                    switch (LightsType)
-                    {
-                        case 3:
-                            //光明燈
-                            lastnum = 1001;
-                            break;
-                        case 4:
-                            //安太歲
-                            lastnum = 1001;
-                            break;
-                        case 5:
-                            //文昌燈
-                            lastnum = 1001;
-                            break;
-                        case 7:
-                            //姻緣燈
-                            lastnum = 1001;
-                            break;
-                        case 9:
-                            //財利燈
-                            lastnum = 1001;
-                            break;
-                        case 11:
-                            //福壽燈
-                            lastnum = 1001;
-                            break;
-                        case 12:
-                            //寵物平安燈
-                            lastnum = 1001;
-                            break;
-                        case 20:
-                            //月老姻緣燈
-                            lastnum = 1001;
-                            break;
-                    }
+                    supplieslist[i] = typeName + ":" + numString;
+
+                    // 把已分配的 nextNum 加入集合，避免重複
+                    usedNums.Add(nextNum);
                 }
 
-                DataTable dtDataList = new DataTable();
-                string sql = "Select * From Temple_" + Year + "..Lights_Luer_info Where ApplicantID=@ApplicantID and Status = 0 and Num = 0";
+                // 組出 msg，格式為「燈種1:編號,燈種2:編號,...。客服電話：04-36092299。」
+                msg += string.Join(",", supplieslist) + "。客服電話：04-36092299。";
 
-                DatabaseAdapter AdapterObj = new DatabaseAdapter(sql, this.DBSource);
-                AdapterObj.SetSqlCommandBuilder();
-                AdapterObj.AddParameterToSelectCommand("@ApplicantID", applicantID);
-                AdapterObj.Fill(dtDataList);
-
-                //Lightslist = new string[dtDataList.Rows.Count];
-                var tempList_lights = Lightslist.ToList();
-                lightslist = new string[dtDataList.Rows.Count];
-                for (int i = 0; i < dtDataList.Rows.Count; i++)
+                // 5. 一次性批量 UPDATE 回資料庫
+                //    以下示範用動態 SQL 拼接多筆 UPDATE，若更新筆數很多建議改用 TVP + 存儲過程
+                System.Text.StringBuilder sb = new System.Text.StringBuilder();
+                sb.AppendLine("USE Temple_" + Year + ";");
+                foreach (var rec in updatedRecords)
                 {
-                    string lid = dtDataList.Rows[i]["LightsID"].ToString();
-                    string NumString = string.Empty;
+                    int id = rec.Item1;
+                    int assignedNum = rec.Item2;
+                    string assignedNumString = rec.Item3.Replace("'", "''"); // 確保單引號轉義
+                    sb.AppendLine(
+                        "UPDATE dbo.Supplies2_ty_info " +
+                        "SET Num = " + assignedNum + ", " +
+                        "    Num2String = N'" + assignedNumString + "' " +
+                        "WHERE SuppliesID = " + id + ";"
+                    );
+                }
+                string sqlBatchUpdate = sb.ToString();
 
-                    LightsType = int.Parse(dtDataList.Rows[i]["LightsType"].ToString());
-                    switch (LightsType)
+                try
+                {
+                    int rowsAffected = ExecuteSql(sqlBatchUpdate);
+                    if (rowsAffected > 0)
                     {
-                        case 3:
-                            //光明燈
-                            NumString = "LLS" + Num2String(lastnum);
-                            tempList_lights.Add(NumString);
-                            lightslist[i] = "光明燈:LLS" + Num2String(lastnum);
-                            break;
-                        case 4:
-                            //安太歲
-                            NumString = "LLA" + Num2String(lastnum);
-                            tempList_lights.Add(NumString);
-                            lightslist[i] = "安太歲:LLA" + Num2String(lastnum);
-                            break;
-                        case 5:
-                            //文昌燈
-                            NumString = "LLW" + Num2String(lastnum);
-                            tempList_lights.Add(NumString);
-                            lightslist[i] = "文昌燈:LLW" + Num2String(lastnum);
-                            break;
-                        case 7:
-                            //姻緣燈
-                            NumString = "LLM" + Num2String(lastnum);
-                            tempList_lights.Add(NumString);
-                            lightslist[i] = "姻緣燈:LLM" + Num2String(lastnum);
-                            break;
-                        case 9:
-                            //財利燈
-                            NumString = "LLT" + Num2String(lastnum);
-                            tempList_lights.Add(NumString);
-                            lightslist[i] = "財利燈:LLT" + Num2String(lastnum);
-                            break;
-                        case 11:
-                            //福壽燈
-                            NumString = "LLF" + Num2String(lastnum);
-                            tempList_lights.Add(NumString);
-                            lightslist[i] = "福壽燈:LLF" + Num2String(lastnum);
-                            break;
-                        case 12:
-                            //寵物平安燈
-                            NumString = "LLP" + Num2String(lastnum);
-                            tempList_lights.Add(NumString);
-                            lightslist[i] = "寵物平安燈:LLP" + Num2String(lastnum);
-                            break;
-                        case 20:
-                            //月老姻緣燈
-                            NumString = "LLYM" + Num2String(lastnum);
-                            tempList_lights.Add(NumString);
-                            lightslist[i] = "月老姻緣燈:LLYM" + Num2String(lastnum);
-                            break;
-                    }
-                    Lightslist = tempList_lights.ToArray();
-
-                    msg += lightslist[i];
-                    if (i < lightslist.Length - 1)
-                    {
-                        msg += ",";
-                    }
-
-                    int res = ExecuteSql("Update Temple_" + Year + "..Lights_Luer_info Set Num2String = N'" + NumString + "', Num = " + lastnum + " Where LightsID=" + lid);
-
-                    if (res > 0)
-                    {
-                        bResult = true;
-                    }
-
-                    int index = dtDataList.Rows.Count - i > 1 ? i + 1 : i;
-                    LightsType = int.Parse(dtDataList.Rows[index]["LightsType"].ToString());
-
-                    lastnum = GetListNum_Luer_Lights(LightsType, applicantID, Year);
-                    if (lastnum > 0)
-                    {
-                        bool dhavenum = true;
-
-                        switch (LightsType)
-                        {
-                            case 3:
-                                //光明燈
-                                for (int j = 1001; j < lastnum; j++)
-                                {
-                                    if (CheckedNum_Luer_Lights(LightsType, j, Year))
-                                    {
-                                        lastnum = j;
-                                        dhavenum = false;
-                                        break;
-                                    }
-                                }
-
-                                break;
-                            case 4:
-                                //安太歲
-                                for (int j = 1001; j < lastnum; j++)
-                                {
-                                    if (CheckedNum_Luer_Lights(LightsType, j, Year))
-                                    {
-                                        lastnum = j;
-                                        dhavenum = false;
-                                        break;
-                                    }
-                                }
-
-                                break;
-                            case 5:
-                                //文昌燈
-                                for (int j = 1001; j < lastnum; j++)
-                                {
-                                    if (CheckedNum_Luer_Lights(LightsType, j, Year))
-                                    {
-                                        lastnum = j;
-                                        dhavenum = false;
-                                        break;
-                                    }
-                                }
-
-                                break;
-                            case 7:
-                                //姻緣燈
-                                for (int j = 1001; j < lastnum; j++)
-                                {
-                                    if (CheckedNum_Luer_Lights(LightsType, j, Year))
-                                    {
-                                        lastnum = j;
-                                        dhavenum = false;
-                                        break;
-                                    }
-                                }
-
-                                break;
-                            case 9:
-                                //財利燈
-                                for (int j = 1001; j < lastnum; j++)
-                                {
-                                    if (CheckedNum_Luer_Lights(LightsType, j, Year))
-                                    {
-                                        lastnum = j;
-                                        dhavenum = false;
-                                        break;
-                                    }
-                                }
-
-                                break;
-                            case 11:
-                                //福壽燈
-                                for (int j = 1001; j < lastnum; j++)
-                                {
-                                    if (CheckedNum_Luer_Lights(LightsType, j, Year))
-                                    {
-                                        lastnum = j;
-                                        dhavenum = false;
-                                        break;
-                                    }
-                                }
-
-                                break;
-                            case 12:
-                                //寵物平安燈
-                                for (int j = 1001; j < lastnum; j++)
-                                {
-                                    if (CheckedNum_Luer_Lights(LightsType, j, Year))
-                                    {
-                                        lastnum = j;
-                                        dhavenum = false;
-                                        break;
-                                    }
-                                }
-
-                                break;
-                            case 20:
-                                //月老姻緣燈
-                                for (int j = 1001; j < lastnum; j++)
-                                {
-                                    if (CheckedNum_Luer_Lights(LightsType, j, Year))
-                                    {
-                                        lastnum = j;
-                                        dhavenum = false;
-                                        break;
-                                    }
-                                }
-
-                                break;
-                        }
-
-                        if (dhavenum)
-                        {
-                            ++lastnum;
-                        }
+                        // 成功更新至少一筆
+                        return (updatedRecords.Count > 0);
                     }
                     else
                     {
-                        switch (LightsType)
-                        {
-                            case 3:
-                                //光明燈
-                                lastnum = 1001;
-                                break;
-                            case 4:
-                                //安太歲
-                                lastnum = 1001;
-                                break;
-                            case 5:
-                                //文昌燈
-                                lastnum = 1001;
-                                break;
-                            case 7:
-                                //姻緣燈
-                                lastnum = 1001;
-                                break;
-                            case 9:
-                                //財利燈
-                                lastnum = 1001;
-                                break;
-                            case 11:
-                                //福壽燈
-                                lastnum = 1001;
-                                break;
-                            case 12:
-                                //寵物平安燈
-                                lastnum = 1001;
-                                break;
-                            case 20:
-                                //月老姻緣燈
-                                lastnum = 1001;
-                                break;
-                        }
+                        // 防呆：SQL 執行後沒有影響到任何列，記一筆錯誤日誌，再回傳 false
+                        string err = "[UpdateSupplies2_ty_Info] 批量 UPDATE 未更新到任何記錄，SQL:\r\n" + sqlBatchUpdate;
+                        basePage.SaveErrorLog(err);
+                        return false;
                     }
                 }
-
-                msg += "。客服電話：04-36092299。";
-
-                return bResult;
+                catch (Exception ex)
+                {
+                    // 捕捉執行 SQL 時的例外，記錯誤日誌，並回傳 false
+                    basePage.SaveErrorLog("[UpdateSupplies2_ty_Info] 批量 UPDATE 時發生例外：\r\n" + ex);
+                    return false;
+                }
             }
         }
 
-        public bool UpdateLights_ty_Info(int applicantID, int LightsType, string Year, ref string msg, ref string[] lightslist, ref string[] Lightslist)
+        /// <summary>
+        /// 更新並取得表單資料 - 天公生招財補運 - 桃園威天宮
+        /// </summary>
+        /// <param name="applicantID">購買人編號</param>
+        /// <param name="SuppliesType">
+        /// 法會代碼：
+        /// 20－天公生招財補運
+        /// </param>
+        /// <param name="Year">年度字串，例如 "2025"</param>
+        /// <param name="msg">回傳給前端的訊息（各燈號編號＋客服電話）</param>
+        /// <param name="supplieslist">回傳給前端的燈號清單（例如「太歲燈:TYA1001」）</param>
+        /// <param name="Supplieslist">備用，可同樣回傳燈號字串陣列，視業務需求</param>
+        /// <returns>若有更新資料則回傳 true，否則回傳 false</returns>
+        /// <summary>
+        public bool UpdateSupplies3_ty_Info(
+            int applicantID,
+            string Year,
+            ref string msg,
+            ref string[] supplieslist,
+            ref string[] Supplieslist)
         {
             lock (_thisLock)
             {
-                TimeZoneInfo info = TimeZoneInfo.FindSystemTimeZoneById("Taipei Standard Time");
-                DateTime dt = TimeZoneInfo.ConvertTime(DateTime.Now, info);
-                bool bResult = false;
-                int lastnum = GetListNum_ty_Lights(LightsType, applicantID, Year);
-                if (lastnum > 0)
+                twbobibobi.Data.BasePage basePage = new twbobibobi.Data.BasePage();
+
+                // 1. 一次性取得所有已分配的編號 (Num > 0 且 Num2String 有值)
+                string sqlFetchExisting =
+                    "SELECT Num " +
+                    "FROM Temple_" + Year + "..Supplies3_ty_info " +
+                    "WHERE Status = 0 " +
+                    "  AND Num <> 0" +
+                    "  AND Num2String IS NOT NULL " +
+                    "  AND Num2String <> ''";
+
+                // 建立 DatabaseAdapter，並加入參數
+                DatabaseAdapter da = new DatabaseAdapter(sqlFetchExisting, this.DBSource);
+                da.SetSqlCommandBuilder();
+                DataTable dtExisting = new DataTable();
+                da.Fill(dtExisting);
+
+                // 建立已用號碼集合
+                HashSet<int> usedNums = new HashSet<int>();
+                foreach (DataRow row in dtExisting.Rows)
                 {
-                    bool dhavenum = true;
-
-                    switch (LightsType)
-                    {
-                        case 3:
-                            //光明燈
-                            for (int i = 1001; i < lastnum; i++)
-                            {
-                                if (CheckedNum_ty_Lights(LightsType, i, Year))
-                                {
-                                    lastnum = i;
-                                    dhavenum = false;
-                                    break;
-                                }
-                            }
-
-                            break;
-                        case 4:
-                            //安太歲
-                            for (int i = 1001; i < lastnum; i++)
-                            {
-                                if (CheckedNum_ty_Lights(LightsType, i, Year))
-                                {
-                                    lastnum = i;
-                                    dhavenum = false;
-                                    break;
-                                }
-                            }
-
-                            break;
-                        case 6:
-                            //財神燈
-                            for (int i = 1001; i < lastnum; i++)
-                            {
-                                if (CheckedNum_ty_Lights(LightsType, i, Year))
-                                {
-                                    lastnum = i;
-                                    dhavenum = false;
-                                    break;
-                                }
-                            }
-
-                            break;
-                        case 8:
-                            //藥師燈
-                            for (int i = 1001; i < lastnum; i++)
-                            {
-                                if (CheckedNum_ty_Lights(LightsType, i, Year))
-                                {
-                                    lastnum = i;
-                                    dhavenum = false;
-                                    break;
-                                }
-                            }
-
-                            break;
-                        case 10:
-                            //貴人燈
-                            for (int i = 1001; i < lastnum; i++)
-                            {
-                                if (CheckedNum_ty_Lights(LightsType, i, Year))
-                                {
-                                    lastnum = i;
-                                    dhavenum = false;
-                                    break;
-                                }
-                            }
-                            break;
-                        case 11:
-                            //福祿燈
-                            for (int i = 1001; i < lastnum; i++)
-                            {
-                                if (CheckedNum_ty_Lights(LightsType, i, Year))
-                                {
-                                    lastnum = i;
-                                    dhavenum = false;
-                                    break;
-                                }
-                            }
-
-                            break;
-                        case 21:
-                            //孝親祈福燈
-                            for (int i = 1001; i < lastnum; i++)
-                            {
-                                if (CheckedNum_ty_Lights(LightsType, i, Year))
-                                {
-                                    lastnum = i;
-                                    dhavenum = false;
-                                    break;
-                                }
-                            }
-                            break;
-                        case 33:
-                            //智慧燈
-                            for (int i = 1001; i < lastnum; i++)
-                            {
-                                if (CheckedNum_ty_Lights(LightsType, i, Year))
-                                {
-                                    lastnum = i;
-                                    dhavenum = false;
-                                    break;
-                                }
-                            }
-                            break;
-                    }
-
-                    if (dhavenum)
-                    {
-                        ++lastnum;
-                    }
-                }
-                else
-                {
-                    switch (LightsType)
-                    {
-                        case 3:
-                            //光明燈
-                            lastnum = 1001;
-                            break;
-                        case 4:
-                            //安太歲
-                            lastnum = 1001;
-                            break;
-                        case 6:
-                            //財神燈
-                            lastnum = 1001;
-                            break;
-                        case 8:
-                            //藥師燈
-                            lastnum = 1001;
-                            break;
-                        case 10:
-                            //貴人燈
-                            lastnum = 1001;
-                            break;
-                        case 11:
-                            //福祿燈
-                            lastnum = 1001;
-                            break;
-                        case 21:
-                            //孝親祈福燈
-                            lastnum = 1001;
-                            break;
-                        case 33:
-                            //智慧燈
-                            lastnum = 1001;
-                            break;
-                    }
+                    int num = Convert.ToInt32(row["Num"]);
+                    usedNums.Add(num);
                 }
 
-                DataTable dtDataList = new DataTable();
-                string sql = "Select * From Temple_" + Year + "..Lights_ty_info Where ApplicantID=@ApplicantID and Status = 0 and Num = 0";
+                // 2. 一次性抓出所有需補號的列 (Num = 0)
+                DataTable dtToAssign = new DataTable();
+                string sqlFetchToAssign =
+                    "SELECT SuppliesID, SuppliesType " +
+                    "FROM Temple_" + Year + "..Supplies3_ty_info " +
+                    "WHERE ApplicantID = @ApplicantID " +
+                    "  AND Status = 0 " +
+                    "  AND Num = 0 " +
+                    "ORDER BY SuppliesID";
 
-                DatabaseAdapter AdapterObj = new DatabaseAdapter(sql, this.DBSource);
-                AdapterObj.SetSqlCommandBuilder();
-                AdapterObj.AddParameterToSelectCommand("@ApplicantID", applicantID);
-                AdapterObj.Fill(dtDataList);
-
-                //Lightslist = new string[dtDataList.Rows.Count];
-                var tempList_lights = Lightslist.ToList();
-                lightslist = new string[dtDataList.Rows.Count];
-                for (int i = 0; i < dtDataList.Rows.Count; i++)
                 {
-                    string lid = dtDataList.Rows[i]["LightsID"].ToString();
-                    string NumString = string.Empty;
+                    da = new DatabaseAdapter(sqlFetchToAssign, this.DBSource);
+                    da.SetSqlCommandBuilder();
+                    da.AddParameterToSelectCommand("ApplicantID", applicantID);
+                    da.Fill(dtToAssign);
+                }
 
-                    LightsType = int.Parse(dtDataList.Rows[i]["LightsType"].ToString());
-                    switch (LightsType)
-                    {
-                        case 3:
-                            //光明燈
-                            NumString = "TYS" + Num2String(lastnum);
-                            tempList_lights.Add(NumString);
-                            lightslist[i] = "光明燈:TYS" + Num2String(lastnum);
-                            break;
-                        case 4:
-                            //太歲燈
-                            NumString = "TYA" + Num2String(lastnum);
-                            tempList_lights.Add(NumString);
-                            lightslist[i] = "太歲燈:TYA" + Num2String(lastnum);
-                            break;
-                        case 6:
-                            //財神燈
-                            NumString = "TYT" + Num2String(lastnum);
-                            tempList_lights.Add(NumString);
-                            lightslist[i] = "財神燈:TYT" + Num2String(lastnum);
-                            break;
-                        case 8:
-                            //藥師燈
-                            NumString = "TYY" + Num2String(lastnum);
-                            tempList_lights.Add(NumString);
-                            lightslist[i] = "藥師燈:TYY" + Num2String(lastnum);
-                            break;
-                        case 10:
-                            //貴人燈
-                            NumString = "TYN" + Num2String(lastnum);
-                            tempList_lights.Add(NumString);
-                            lightslist[i] = "貴人燈:TYN" + Num2String(lastnum);
-                            break;
-                        case 11:
-                            //福祿燈
-                            NumString = "TYL" + Num2String(lastnum);
-                            tempList_lights.Add(NumString);
-                            lightslist[i] = "福祿燈:TYL" + Num2String(lastnum);
-                            break;
-                        case 21:
-                            //孝親祈福燈
-                            NumString = "TYM" + Num2String(lastnum);
-                            tempList_lights.Add(NumString);
-                            lightslist[i] = "孝親祈福燈:TYM" + Num2String(lastnum);
-                            break;
-                        case 33:
-                            //智慧燈
-                            NumString = "TYSM" + Num2String(lastnum);
-                            tempList_lights.Add(NumString);
-                            lightslist[i] = "智慧燈:TYSM" + Num2String(lastnum);
-                            break;
-                    }
-                    Lightslist = tempList_lights.ToArray();
+                int rowCount = dtToAssign.Rows.Count;
+                supplieslist = new string[rowCount];
+                Supplieslist = new string[rowCount];
+                // 用來存放要批量更新的資料 (SuppliesID, AssignedNum, AssignedNumString)
+                List<Tuple<int, int, string>> updatedRecords = new List<Tuple<int, int, string>>();
 
-                    msg += lightslist[i];
-                    if (i < lightslist.Length - 1)
+                // 3. 逐筆在記憶體中分配「最小可用缺號」
+                for (int i = 0; i < rowCount; i++)
+                {
+                    DataRow row = dtToAssign.Rows[i];
+                    int dbSuppliesID = Convert.ToInt32(row["SuppliesID"]);
+                    int dbSuppliesType = Convert.ToInt32(row["SuppliesType"]);
+
+                    // 找下一個可用編號 (從 1001 開始往上搜尋)
+                    int nextNum = 1001;
+                    while (usedNums.Contains(nextNum))
                     {
-                        msg += ",";
+                        nextNum++;
                     }
 
-                    int res = ExecuteSql("Update Temple_" + Year + "..Lights_ty_info Set Num2String = N'" + NumString + "', Num = " + lastnum + " Where LightsID=" + lid);
+                    // 根據不同項目決定前綴字串
+                    string prefix = "TY3SU";
+                    string numString = prefix + nextNum.ToString();
 
-                    if (res > 0)
+                    Supplieslist[i] = numString;
+
+                    // 將這筆資料加入批量更新清單
+                    updatedRecords.Add(new Tuple<int, int, string>(dbSuppliesID, nextNum, numString));
+
+                    // 準備回傳給前端的燈號字串
+                    string typeName = "";
+                    switch (dbSuppliesType)
                     {
-                        bResult = true;
+                        case 20:
+                            typeName = "天公生招財補運";
+                            break;
                     }
 
-                    int index = dtDataList.Rows.Count - i > 1 ? i + 1 : i;
-                    LightsType = int.Parse(dtDataList.Rows[index]["LightsType"].ToString());
+                    supplieslist[i] = typeName + ":" + numString;
 
-                    lastnum = GetListNum_ty_Lights(LightsType, applicantID, Year);
-                    if (lastnum > 0)
+                    // 把已分配的 nextNum 加入集合，避免重複
+                    usedNums.Add(nextNum);
+                }
+
+                // 組出 msg，格式為「燈種1:編號,燈種2:編號,...。客服電話：04-36092299。」
+                msg += string.Join(",", supplieslist) + "。客服電話：04-36092299。";
+
+                // 5. 一次性批量 UPDATE 回資料庫
+                //    以下示範用動態 SQL 拼接多筆 UPDATE，若更新筆數很多建議改用 TVP + 存儲過程
+                System.Text.StringBuilder sb = new System.Text.StringBuilder();
+                sb.AppendLine("USE Temple_" + Year + ";");
+                foreach (var rec in updatedRecords)
+                {
+                    int id = rec.Item1;
+                    int assignedNum = rec.Item2;
+                    string assignedNumString = rec.Item3.Replace("'", "''"); // 確保單引號轉義
+                    sb.AppendLine(
+                        "UPDATE dbo.Supplies3_ty_info " +
+                        "SET Num = " + assignedNum + ", " +
+                        "    Num2String = N'" + assignedNumString + "' " +
+                        "WHERE SuppliesID = " + id + ";"
+                    );
+                }
+                string sqlBatchUpdate = sb.ToString();
+
+                try
+                {
+                    int rowsAffected = ExecuteSql(sqlBatchUpdate);
+                    if (rowsAffected > 0)
                     {
-                        bool dhavenum = true;
-
-                        switch (LightsType)
-                        {
-                            case 3:
-                                //光明燈
-                                for (int j = 1001; j < lastnum; j++)
-                                {
-                                    if (CheckedNum_ty_Lights(LightsType, j, Year))
-                                    {
-                                        lastnum = j;
-                                        dhavenum = false;
-                                        break;
-                                    }
-                                }
-
-                                break;
-                            case 4:
-                                //安太歲
-                                for (int j = 1001; j < lastnum; j++)
-                                {
-                                    if (CheckedNum_ty_Lights(LightsType, j, Year))
-                                    {
-                                        lastnum = j;
-                                        dhavenum = false;
-                                        break;
-                                    }
-                                }
-
-                                break;
-                            case 6:
-                                //財神燈
-                                for (int j = 1001; j < lastnum; j++)
-                                {
-                                    if (CheckedNum_ty_Lights(LightsType, j, Year))
-                                    {
-                                        lastnum = j;
-                                        dhavenum = false;
-                                        break;
-                                    }
-                                }
-
-                                break;
-                            case 8:
-                                //藥師燈
-                                for (int j = 1001; j < lastnum; j++)
-                                {
-                                    if (CheckedNum_ty_Lights(LightsType, j, Year))
-                                    {
-                                        lastnum = j;
-                                        dhavenum = false;
-                                        break;
-                                    }
-                                }
-
-                                break;
-                            case 10:
-                                //貴人燈
-                                for (int j = 1001; j < lastnum; j++)
-                                {
-                                    if (CheckedNum_ty_Lights(LightsType, j, Year))
-                                    {
-                                        lastnum = j;
-                                        dhavenum = false;
-                                        break;
-                                    }
-                                }
-
-                                break;
-                            case 11:
-                                //福祿燈
-                                for (int j = 1001; j < lastnum; j++)
-                                {
-                                    if (CheckedNum_ty_Lights(LightsType, j, Year))
-                                    {
-                                        lastnum = j;
-                                        dhavenum = false;
-                                        break;
-                                    }
-                                }
-                                break;
-                            case 21:
-                                //孝親祈福燈
-                                for (int j = 1001; j < lastnum; j++)
-                                {
-                                    if (CheckedNum_ty_Lights(LightsType, j, Year))
-                                    {
-                                        lastnum = j;
-                                        dhavenum = false;
-                                        break;
-                                    }
-                                }
-                                break;
-                            case 33:
-                                //智慧燈
-                                for (int j = 1001; j < lastnum; j++)
-                                {
-                                    if (CheckedNum_ty_Lights(LightsType, j, Year))
-                                    {
-                                        lastnum = j;
-                                        dhavenum = false;
-                                        break;
-                                    }
-                                }
-                                break;
-                        }
-
-                        if (dhavenum)
-                        {
-                            ++lastnum;
-                        }
+                        // 成功更新至少一筆
+                        return (updatedRecords.Count > 0);
                     }
                     else
                     {
-                        switch (LightsType)
-                        {
-                            case 3:
-                                //光明燈
-                                lastnum = 1001;
-                                break;
-                            case 4:
-                                //安太歲
-                                lastnum = 1001;
-                                break;
-                            case 6:
-                                //財神燈
-                                lastnum = 1001;
-                                break;
-                            case 8:
-                                //藥師燈
-                                lastnum = 1001;
-                                break;
-                            case 10:
-                                //貴人燈
-                                lastnum = 1001;
-                                break;
-                            case 11:
-                                //福祿燈
-                                lastnum = 1001;
-                                break;
-                            case 21:
-                                //孝親祈福燈
-                                lastnum = 1001;
-                                break;
-                            case 33:
-                                //智慧燈
-                                lastnum = 1001;
-                                break;
-                        }
+                        // 防呆：SQL 執行後沒有影響到任何列，記一筆錯誤日誌，再回傳 false
+                        string err = "[UpdateSupplies3_ty_Info] 批量 UPDATE 未更新到任何記錄，SQL:\r\n" + sqlBatchUpdate;
+                        basePage.SaveErrorLog(err);
+                        return false;
                     }
                 }
-
-                msg += "。客服電話：04-36092299。";
-
-                return bResult;
+                catch (Exception ex)
+                {
+                    // 捕捉執行 SQL 時的例外，記錯誤日誌，並回傳 false
+                    basePage.SaveErrorLog("[UpdateSupplies3_ty_Info] 批量 UPDATE 時發生例外：\r\n" + ex);
+                    return false;
+                }
             }
         }
 
-        public bool UpdateLights_ty_mom_Info(int applicantID, int LightsType, string Year, ref string msg, ref string[] lightslist, ref string[] Lightslist)
+        /// <summary>
+        /// 更新並取得靈寶禮斗資料 - 靈寶禮斗 - 玉敕大樹朝天宮
+        /// </summary>
+        /// <param name="applicantID">購買人編號</param>
+        /// <param name="Year">年度字串，例如 "2025"</param>
+        /// <param name="msg">回傳給前端的訊息（訂單編號＋客服電話）</param>
+        /// <param name="orderList">回傳給前端的訂單編號清單（例如「靈寶禮斗:MALB1001」）</param>
+        /// <param name="OrderList">備用，可同樣回傳訂單編號字串陣列，視業務需求</param>
+        /// <returns>若有更新資料則回傳 true，否則回傳 false</returns>
+        public bool UpdateLingbaolidou_ma_Info(
+            int applicantID,
+            string Year,
+            ref string msg,
+            ref string[] orderList,
+            ref string[] OrderList)
         {
             lock (_thisLock)
             {
-                TimeZoneInfo info = TimeZoneInfo.FindSystemTimeZoneById("Taipei Standard Time");
-                DateTime dt = TimeZoneInfo.ConvertTime(DateTime.Now, info);
-                bool bResult = false;
-                int lastnum = GetListNum_ty_mom_Lights(LightsType, applicantID, Year);
+                twbobibobi.Data.BasePage basePage = new twbobibobi.Data.BasePage();
+
+                // 1. 一次性取得所有已分配的編號 (Num > 0 且 Num2String 有值)
+                string sqlFetchExisting =
+                    "SELECT Num " +
+                    "FROM Temple_" + Year + "..Lingbaolidou_ma_info " +
+                    "WHERE Status = 0 " +
+                    "  AND Num <> 0 " +
+                    "  AND Num2String IS NOT NULL " +
+                    "  AND Num2String <> ''";
+
+                DatabaseAdapter da = new DatabaseAdapter(sqlFetchExisting, this.DBSource);
+                da.SetSqlCommandBuilder();
+                DataTable dtExisting = new DataTable();
+                da.Fill(dtExisting);
+
+                // 建立已用號碼集合
+                HashSet<int> usedNums = new HashSet<int>();
+                foreach (DataRow row in dtExisting.Rows)
+                {
+                    int num = Convert.ToInt32(row["Num"]);
+                    usedNums.Add(num);
+                }
+
+                // 2. 一次性抓出所有需補號的列 (Num = 0)
+                DataTable dtToAssign = new DataTable();
+                string sqlFetchToAssign =
+                    "SELECT LingbaolidouID " +
+                    "FROM Temple_" + Year + "..Lingbaolidou_ma_info " +
+                    "WHERE ApplicantID = @ApplicantID " +
+                    "  AND Status = 0 " +
+                    "  AND Num = 0 " +
+                    "ORDER BY LingbaolidouID";
+
+                {
+                    da = new DatabaseAdapter(sqlFetchToAssign, this.DBSource);
+                    da.SetSqlCommandBuilder();
+                    da.AddParameterToSelectCommand("ApplicantID", applicantID);
+                    da.Fill(dtToAssign);
+                }
+
+                int rowCount = dtToAssign.Rows.Count;
+                orderList = new string[rowCount];
+                OrderList = new string[rowCount];
+
+                // 用來存放要批量更新的資料 (LingbaolidouID, AssignedNum, AssignedNumString)
+                List<Tuple<int, int, string>> updatedRecords = new List<Tuple<int, int, string>>();
+
+                // 3. 逐筆在記憶體中分配「最小可用缺號」
+                for (int i = 0; i < rowCount; i++)
+                {
+                    DataRow row = dtToAssign.Rows[i];
+                    int dbLingbaolidouID = Convert.ToInt32(row["LingbaolidouID"]);
+
+                    // 找下一個可用編號 (從 1001 開始往上搜尋)
+                    int nextNum = 1001;
+                    while (usedNums.Contains(nextNum))
+                    {
+                        nextNum++;
+                    }
+
+                    // 靈寶禮斗的固定前綴
+                    string prefix = "MALB";
+                    string numString = prefix + nextNum.ToString();
+
+                    OrderList[i] = numString;
+                    orderList[i] = "靈寶禮斗:" + numString;
+
+                    // 將這筆資料加入批量更新清單
+                    updatedRecords.Add(new Tuple<int, int, string>(dbLingbaolidouID, nextNum, numString));
+
+                    // 把已分配的 nextNum 加入集合，避免重複
+                    usedNums.Add(nextNum);
+                }
+
+                // 組出 msg，格式為「編號1,編號2,...。客服電話：04-36092299。」
+                msg += string.Join(",", OrderList) + "。客服電話：04-36092299。";
+
+                // 5. 一次性批量 UPDATE 回資料庫
+                System.Text.StringBuilder sb = new System.Text.StringBuilder();
+                sb.AppendLine("USE Temple_" + Year + ";");
+                foreach (var rec in updatedRecords)
+                {
+                    int id = rec.Item1;
+                    int assignedNum = rec.Item2;
+                    string assignedNumString = rec.Item3.Replace("'", "''"); // 確保單引號轉義
+                    sb.AppendLine(
+                        "UPDATE dbo.Lingbaolidou_ma_info " +
+                        "SET Num = " + assignedNum + ", " +
+                        "    Num2String = N'" + assignedNumString + "' " +
+                        "WHERE LingbaolidouID = " + id + ";"
+                    );
+                }
+                string sqlBatchUpdate = sb.ToString();
+
+                try
+                {
+                    int rowsAffected = ExecuteSql(sqlBatchUpdate);
+                    if (rowsAffected > 0)
+                    {
+                        return (updatedRecords.Count > 0);
+                    }
+                    else
+                    {
+                        string err = "[UpdateLingbaolidou_ma_Info] 批量 UPDATE 未更新到任何記錄，SQL:\r\n" + sqlBatchUpdate;
+                        basePage.SaveErrorLog(err);
+                        return false;
+                    }
+                }
+                catch (Exception ex)
+                {
+                    basePage.SaveErrorLog("[UpdateLingbaolidou_ma_Info] 批量 UPDATE 時發生例外：\r\n" + ex);
+                    return false;
+                }
+            }
+        }
+
+        #endregion
+
+        public bool UpdateEmperorGuansheng_ty_Info(int applicantID, string Year, ref string msg, ref string[] EmperorGuanshenglist)
+        {
+            TimeZoneInfo info = TimeZoneInfo.FindSystemTimeZoneById("Taipei Standard Time");
+            DateTime dt = TimeZoneInfo.ConvertTime(DateTime.Now, info);
+            bool bResult = false;
+            int lastnum = GetListNum_ty_EmperorGuansheng(applicantID, Year);
+            if (lastnum > 0)
+            {
+                bool dhavenum = true;
+                for (int i = 1001; i < lastnum; i++)
+                {
+                    if (CheckedNum_ty_EmperorGuansheng(i, Year))
+                    {
+                        lastnum = i;
+                        dhavenum = false;
+                        break;
+                    }
+                }
+
+                if (dhavenum)
+                {
+                    ++lastnum;
+                }
+            }
+            else
+            {
+                lastnum = 1001;
+            }
+            DataTable dtDataList = new DataTable();
+            string sql = "Select * From Temple_" + Year + "..EmperorGuansheng_ty_info Where ApplicantID=@ApplicantID and Status = 0";
+
+            DatabaseAdapter AdapterObj = new DatabaseAdapter(sql, this.DBSource);
+            AdapterObj.SetSqlCommandBuilder();
+            AdapterObj.AddParameterToSelectCommand("@ApplicantID", applicantID);
+            AdapterObj.Fill(dtDataList);
+
+            EmperorGuanshenglist = new string[dtDataList.Rows.Count];
+            for (int i = 0; i < dtDataList.Rows.Count; i++)
+            {
+                string sid = dtDataList.Rows[i]["EmperorGuanshengID"].ToString();
+                string Num2String = "TYEG" + lastnum;
+
+                int res = ExecuteSql("Update Temple_" + Year + "..EmperorGuansheng_ty_info Set Num2String = '" + Num2String + "', Num = " + lastnum + " Where EmperorGuanshengID=" + sid);
+
+                if (res > 0)
+                {
+                    bResult = true;
+                }
+
+                EmperorGuanshenglist[i] = Num2String;
+
+                msg += EmperorGuanshenglist[i];
+                if (i < EmperorGuanshenglist.Length - 1)
+                {
+                    msg += ",";
+                }
+
+                lastnum = GetListNum_ty_EmperorGuansheng(applicantID, Year);
                 if (lastnum > 0)
                 {
                     bool dhavenum = true;
-
-                    //孝親祈福燈
-                    for (int i = 1001; i < lastnum; i++)
+                    for (int j = 1001; j < lastnum; j++)
                     {
-                        if (CheckedNum_ty_mom_Lights(LightsType, i, Year))
+                        if (CheckedNum_ty_EmperorGuansheng(j, Year))
                         {
-                            lastnum = i;
+                            lastnum = j;
                             dhavenum = false;
                             break;
                         }
@@ -7340,5061 +17632,18 @@ namespace Read.data
 
                     if (dhavenum)
                     {
-                        ++lastnum;
+                        lastnum++;
                     }
                 }
                 else
                 {
-                    //孝親祈福燈
                     lastnum = 1001;
                 }
-
-                DataTable dtDataList = new DataTable();
-                string sql = "Select * From Temple_" + Year + "..Lights_ty_mom_info Where ApplicantID=@ApplicantID and Status = 0 and Num = 0";
-
-                DatabaseAdapter AdapterObj = new DatabaseAdapter(sql, this.DBSource);
-                AdapterObj.SetSqlCommandBuilder();
-                AdapterObj.AddParameterToSelectCommand("@ApplicantID", applicantID);
-                AdapterObj.Fill(dtDataList);
-
-                //Lightslist = new string[dtDataList.Rows.Count];
-                var tempList_lights = Lightslist.ToList();
-                lightslist = new string[dtDataList.Rows.Count];
-                for (int i = 0; i < dtDataList.Rows.Count; i++)
-                {
-                    string lid = dtDataList.Rows[i]["LightsID"].ToString();
-                    string NumString = string.Empty;
-
-                    LightsType = int.Parse(dtDataList.Rows[i]["LightsType"].ToString());
-                    switch (LightsType)
-                    {
-                        case 3:
-                            //光明燈
-                            NumString = "TYS" + Num2String(lastnum);
-                            tempList_lights.Add(NumString);
-                            lightslist[i] = "光明燈:TYS" + Num2String(lastnum);
-                            break;
-                        case 4:
-                            //太歲燈
-                            NumString = "TYA" + Num2String(lastnum);
-                            tempList_lights.Add(NumString);
-                            lightslist[i] = "太歲燈:TYA" + Num2String(lastnum);
-                            break;
-                        case 6:
-                            //財神燈
-                            NumString = "TYT" + Num2String(lastnum);
-                            tempList_lights.Add(NumString);
-                            lightslist[i] = "財神燈:TYT" + Num2String(lastnum);
-                            break;
-                        case 8:
-                            //藥師燈
-                            NumString = "TYY" + Num2String(lastnum);
-                            tempList_lights.Add(NumString);
-                            lightslist[i] = "藥師燈:TYY" + Num2String(lastnum);
-                            break;
-                        case 10:
-                            //貴人燈
-                            NumString = "TYN" + Num2String(lastnum);
-                            tempList_lights.Add(NumString);
-                            lightslist[i] = "貴人燈:TYN" + Num2String(lastnum);
-                            break;
-                        case 11:
-                            //福祿燈
-                            NumString = "TYL" + Num2String(lastnum);
-                            tempList_lights.Add(NumString);
-                            lightslist[i] = "福祿燈:TYL" + Num2String(lastnum);
-                            break;
-                        case 21:
-                            //孝親祈福燈
-                            NumString = "TYM" + Num2String(lastnum);
-                            tempList_lights.Add(NumString);
-                            lightslist[i] = "孝親祈福燈:TYM" + Num2String(lastnum);
-                            break;
-                    }
-                    Lightslist = tempList_lights.ToArray();
-
-                    msg += lightslist[i];
-                    if (i < lightslist.Length - 1)
-                    {
-                        msg += ",";
-                    }
-
-                    int res = ExecuteSql("Update Temple_" + Year + "..Lights_ty_mom_info Set Num2String = N'" + NumString + "', Num = " + lastnum + " Where LightsID=" + lid);
-
-                    if (res > 0)
-                    {
-                        bResult = true;
-                    }
-
-                    int index = dtDataList.Rows.Count - i > 1 ? i + 1 : i;
-                    LightsType = int.Parse(dtDataList.Rows[index]["LightsType"].ToString());
-
-                    lastnum = GetListNum_ty_mom_Lights(LightsType, applicantID, Year);
-                    if (lastnum > 0)
-                    {
-                        bool dhavenum = true;
-
-                        //孝親祈福燈
-                        for (int j = 1001; j < lastnum; j++)
-                        {
-                            if (CheckedNum_ty_mom_Lights(LightsType, j, Year))
-                            {
-                                lastnum = j;
-                                dhavenum = false;
-                                break;
-                            }
-                        }
-
-                        if (dhavenum)
-                        {
-                            ++lastnum;
-                        }
-                    }
-                    else
-                    {
-                        //孝親祈福燈
-                        lastnum = 1001;
-                    }
-                }
-
-                msg += "。客服電話：04-36092299。";
-
-                return bResult;
             }
-        }
 
-        public bool UpdateLights_Fw_Info(int applicantID, int LightsType, string Year, ref string msg, ref string[] lightslist, ref string[] Lightslist)
-        {
-            lock (_thisLock)
-            {
-                TimeZoneInfo info = TimeZoneInfo.FindSystemTimeZoneById("Taipei Standard Time");
-                DateTime dt = TimeZoneInfo.ConvertTime(DateTime.Now, info);
-                bool bResult = false;
-                int lastnum = GetListNum_Fw_Lights(LightsType, applicantID, Year);
-                if (lastnum > 0)
-                {
-                    bool dhavenum = true;
+            msg += "。客服電話：04-36092299。";
 
-                    switch (LightsType)
-                    {
-                        case 3:
-                            //貴人燈(光明燈)
-                            for (int i = 1001; i < lastnum; i++)
-                            {
-                                if (CheckedNum_Fw_Lights(LightsType, i, Year))
-                                {
-                                    lastnum = i;
-                                    dhavenum = false;
-                                    break;
-                                }
-                            }
-
-                            break;
-                        case 4:
-                            //安太歲
-                            for (int i = 1001; i < lastnum; i++)
-                            {
-                                if (CheckedNum_Fw_Lights(LightsType, i, Year))
-                                {
-                                    lastnum = i;
-                                    dhavenum = false;
-                                    break;
-                                }
-                            }
-
-                            break;
-                        case 6:
-                            //發財燈
-                            for (int i = 1001; i < lastnum; i++)
-                            {
-                                if (CheckedNum_Fw_Lights(LightsType, i, Year))
-                                {
-                                    lastnum = i;
-                                    dhavenum = false;
-                                    break;
-                                }
-                            }
-
-                            break;
-                        case 7:
-                            //月老桃花燈
-                            for (int i = 1001; i < lastnum; i++)
-                            {
-                                if (CheckedNum_Fw_Lights(LightsType, i, Year))
-                                {
-                                    lastnum = i;
-                                    dhavenum = false;
-                                    break;
-                                }
-                            }
-
-                            break;
-                        case 8:
-                            //消災延壽燈
-                            for (int i = 1001; i < lastnum; i++)
-                            {
-                                if (CheckedNum_Fw_Lights(LightsType, i, Year))
-                                {
-                                    lastnum = i;
-                                    dhavenum = false;
-                                    break;
-                                }
-                            }
-
-                            break;
-                        case 12:
-                            //寵物平安燈
-                            for (int i = 1001; i < lastnum; i++)
-                            {
-                                if (CheckedNum_Fw_Lights(LightsType, i, Year))
-                                {
-                                    lastnum = i;
-                                    dhavenum = false;
-                                    break;
-                                }
-                            }
-
-                            break;
-                        case 19:
-                            //財庫燈
-                            for (int i = 1001; i < lastnum; i++)
-                            {
-                                if (CheckedNum_Fw_Lights(LightsType, i, Year))
-                                {
-                                    lastnum = i;
-                                    dhavenum = false;
-                                    break;
-                                }
-                            }
-
-                            break;
-                        case 25:
-                            //財神斗/一個月
-                            for (int i = 1001; i < lastnum; i++)
-                            {
-                                if (CheckedNum_Fw_Lights(LightsType, i, Year))
-                                {
-                                    lastnum = i;
-                                    dhavenum = false;
-                                    break;
-                                }
-                            }
-
-                            break;
-                        case 34:
-                            //發財斗/一個月
-                            for (int i = 1001; i < lastnum; i++)
-                            {
-                                if (CheckedNum_Fw_Lights(LightsType, i, Year))
-                                {
-                                    lastnum = i;
-                                    dhavenum = false;
-                                    break;
-                                }
-                            }
-
-                            break;
-                        case 35:
-                            //姻緣斗/一個月
-                            for (int i = 1001; i < lastnum; i++)
-                            {
-                                if (CheckedNum_Fw_Lights(LightsType, i, Year))
-                                {
-                                    lastnum = i;
-                                    dhavenum = false;
-                                    break;
-                                }
-                            }
-
-                            break;
-                        case 36:
-                            //貴人斗/一個月
-                            for (int i = 1001; i < lastnum; i++)
-                            {
-                                if (CheckedNum_Fw_Lights(LightsType, i, Year))
-                                {
-                                    lastnum = i;
-                                    dhavenum = false;
-                                    break;
-                                }
-                            }
-
-                            break;
-                        case 37:
-                            //消災延壽斗/一個月
-                            for (int i = 1001; i < lastnum; i++)
-                            {
-                                if (CheckedNum_Fw_Lights(LightsType, i, Year))
-                                {
-                                    lastnum = i;
-                                    dhavenum = false;
-                                    break;
-                                }
-                            }
-
-                            break;
-                        case 38:
-                            //財神斗/三個月
-                            for (int i = 1001; i < lastnum; i++)
-                            {
-                                if (CheckedNum_Fw_Lights(LightsType, i, Year))
-                                {
-                                    lastnum = i;
-                                    dhavenum = false;
-                                    break;
-                                }
-                            }
-
-                            break;
-                        case 39:
-                            //發財斗/三個月
-                            for (int i = 1001; i < lastnum; i++)
-                            {
-                                if (CheckedNum_Fw_Lights(LightsType, i, Year))
-                                {
-                                    lastnum = i;
-                                    dhavenum = false;
-                                    break;
-                                }
-                            }
-
-                            break;
-                        case 40:
-                            //姻緣斗/三個月
-                            for (int i = 1001; i < lastnum; i++)
-                            {
-                                if (CheckedNum_Fw_Lights(LightsType, i, Year))
-                                {
-                                    lastnum = i;
-                                    dhavenum = false;
-                                    break;
-                                }
-                            }
-
-                            break;
-                        case 41:
-                            //貴人斗/三個月
-                            for (int i = 1001; i < lastnum; i++)
-                            {
-                                if (CheckedNum_Fw_Lights(LightsType, i, Year))
-                                {
-                                    lastnum = i;
-                                    dhavenum = false;
-                                    break;
-                                }
-                            }
-
-                            break;
-                        case 42:
-                            //消災延壽斗/三個月
-                            for (int i = 1001; i < lastnum; i++)
-                            {
-                                if (CheckedNum_Fw_Lights(LightsType, i, Year))
-                                {
-                                    lastnum = i;
-                                    dhavenum = false;
-                                    break;
-                                }
-                            }
-
-                            break;
-                    }
-
-                    if (dhavenum)
-                    {
-                        ++lastnum;
-                    }
-                }
-                else
-                {
-                    switch (LightsType)
-                    {
-                        case 3:
-                            //貴人燈(光明燈)
-                            lastnum = 1001;
-                            break;
-                        case 4:
-                            //安太歲
-                            lastnum = 1001;
-                            break;
-                        case 6:
-                            //發財燈
-                            lastnum = 1001;
-                            break;
-                        case 7:
-                            //月老桃花燈
-                            lastnum = 1001;
-                            break;
-                        case 8:
-                            //消災延壽燈
-                            lastnum = 1001;
-                            break;
-                        case 12:
-                            //寵物平安燈
-                            lastnum = 1001;
-                            break;
-                        case 19:
-                            //財庫燈
-                            lastnum = 1001;
-                            break;
-                        case 25:
-                            //財神斗/一個月
-                            lastnum = 1001;
-                            break;
-                        case 34:
-                            //發財斗/一個月
-                            lastnum = 1001;
-                            break;
-                        case 35:
-                            //姻緣斗/一個月
-                            lastnum = 1001;
-                            break;
-                        case 36:
-                            //貴人斗/一個月
-                            lastnum = 1001;
-                            break;
-                        case 37:
-                            //消災延壽斗/一個月
-                            lastnum = 1001;
-                            break;
-                        case 38:
-                            //財神斗/三個月
-                            lastnum = 1001;
-                            break;
-                        case 39:
-                            //發財斗/三個月
-                            lastnum = 1001;
-                            break;
-                        case 40:
-                            //姻緣斗/三個月
-                            lastnum = 1001;
-                            break;
-                        case 41:
-                            //貴人斗/三個月
-                            lastnum = 1001;
-                            break;
-                        case 42:
-                            //消災延壽斗/三個月
-                            lastnum = 1001;
-                            break;
-                    }
-                }
-
-                DataTable dtDataList = new DataTable();
-                string sql = "Select * From Temple_" + Year + "..Lights_Fw_info Where ApplicantID=@ApplicantID and Status = 0 and Num = 0";
-
-                DatabaseAdapter AdapterObj = new DatabaseAdapter(sql, this.DBSource);
-                AdapterObj.SetSqlCommandBuilder();
-                AdapterObj.AddParameterToSelectCommand("@ApplicantID", applicantID);
-                AdapterObj.Fill(dtDataList);
-
-                //Lightslist = new string[dtDataList.Rows.Count];
-                var tempList_lights = Lightslist.ToList();
-                lightslist = new string[dtDataList.Rows.Count];
-                for (int i = 0; i < dtDataList.Rows.Count; i++)
-                {
-                    string lid = dtDataList.Rows[i]["LightsID"].ToString();
-                    string NumString = string.Empty;
-
-                    LightsType = int.Parse(dtDataList.Rows[i]["LightsType"].ToString());
-                    switch (LightsType)
-                    {
-                        case 3:
-                            //貴人燈(光明燈)
-                            NumString = "FWS" + Num2String(lastnum);
-                            tempList_lights.Add(NumString);
-                            lightslist[i] = "貴人燈(光明燈):FWS" + Num2String(lastnum);
-                            break;
-                        case 4:
-                            //安太歲
-                            NumString = "FWA" + Num2String(lastnum);
-                            tempList_lights.Add(NumString);
-                            lightslist[i] = "安太歲:FWA" + Num2String(lastnum);
-                            break;
-                        case 6:
-                            //發財燈
-                            NumString = "FWT" + Num2String(lastnum);
-                            tempList_lights.Add(NumString);
-                            lightslist[i] = "發財燈:FWT" + Num2String(lastnum);
-                            break;
-                        case 7:
-                            //月老桃花燈
-                            NumString = "FWM" + Num2String(lastnum);
-                            tempList_lights.Add(NumString);
-                            lightslist[i] = "月老桃花燈:FWM" + Num2String(lastnum);
-                            break;
-                        case 8:
-                            //消災延壽燈
-                            NumString = "FWY" + Num2String(lastnum);
-                            tempList_lights.Add(NumString);
-                            lightslist[i] = "消災延壽燈:FWY" + Num2String(lastnum);
-                            break;
-                        case 12:
-                            //寵物平安燈
-                            NumString = "FWP" + Num2String(lastnum);
-                            tempList_lights.Add(NumString);
-                            lightslist[i] = "寵物平安燈:FWP" + Num2String(lastnum);
-                            break;
-                        case 19:
-                            //財庫燈
-                            NumString = "FW2T" + Num2String(lastnum);
-                            tempList_lights.Add(NumString);
-                            lightslist[i] = "財庫燈:FW2T" + Num2String(lastnum);
-                            break;
-                        case 25:
-                            //財神斗/一個月
-                            NumString = "FWTDL" + Num2String(lastnum);
-                            tempList_lights.Add(NumString);
-                            lightslist[i] = "財神斗/一個月:FWTDL" + Num2String(lastnum);
-                            break;
-                        case 34:
-                            //發財斗/一個月
-                            NumString = "FWFDL" + Num2String(lastnum);
-                            tempList_lights.Add(NumString);
-                            lightslist[i] = "發財斗/一個月:FWFDL" + Num2String(lastnum);
-                            break;
-                        case 35:
-                            //姻緣斗/一個月
-                            NumString = "FWMDL" + Num2String(lastnum);
-                            tempList_lights.Add(NumString);
-                            lightslist[i] = "姻緣斗/一個月:FWMDL" + Num2String(lastnum);
-                            break;
-                        case 36:
-                            //貴人斗/一個月
-                            NumString = "FWBDL" + Num2String(lastnum);
-                            tempList_lights.Add(NumString);
-                            lightslist[i] = "貴人斗/一個月:FWBDL" + Num2String(lastnum);
-                            break;
-                        case 37:
-                            //消災延壽斗/一個月
-                            NumString = "FWYDL" + Num2String(lastnum);
-                            tempList_lights.Add(NumString);
-                            lightslist[i] = "消災延壽斗/一個月:FWYDL" + Num2String(lastnum);
-                            break;
-                        case 38:
-                            //財神斗/三個月
-                            NumString = "FW3TDL" + Num2String(lastnum);
-                            tempList_lights.Add(NumString);
-                            lightslist[i] = "財神斗/三個月:FW3TDL" + Num2String(lastnum);
-                            break;
-                        case 39:
-                            //發財斗/三個月
-                            NumString = "FW3FDL" + Num2String(lastnum);
-                            tempList_lights.Add(NumString);
-                            lightslist[i] = "發財斗/三個月:FW3FDL" + Num2String(lastnum);
-                            break;
-                        case 40:
-                            //姻緣斗/三個月
-                            NumString = "FW3MDL" + Num2String(lastnum);
-                            tempList_lights.Add(NumString);
-                            lightslist[i] = "姻緣斗/三個月:FW3MDL" + Num2String(lastnum);
-                            break;
-                        case 41:
-                            //貴人斗/三個月
-                            NumString = "FW3BDL" + Num2String(lastnum);
-                            tempList_lights.Add(NumString);
-                            lightslist[i] = "貴人斗/三個月:FW3BDL" + Num2String(lastnum);
-                            break;
-                        case 42:
-                            //消災延壽斗/三個月
-                            NumString = "FW3YDL" + Num2String(lastnum);
-                            tempList_lights.Add(NumString);
-                            lightslist[i] = "消災延壽斗/三個月:FW3YDL" + Num2String(lastnum);
-                            break;
-                    }
-                    Lightslist = tempList_lights.ToArray();
-
-                    msg += lightslist[i];
-                    if (i < lightslist.Length - 1)
-                    {
-                        msg += ",";
-                    }
-
-                    int res = ExecuteSql("Update Temple_" + Year + "..Lights_Fw_info Set Num2String = N'" + NumString + "', Num = " + lastnum + " Where LightsID=" + lid);
-
-                    if (res > 0)
-                    {
-                        bResult = true;
-                    }
-
-                    int index = dtDataList.Rows.Count - i > 1 ? i + 1 : i;
-                    LightsType = int.Parse(dtDataList.Rows[index]["LightsType"].ToString());
-
-                    lastnum = GetListNum_Fw_Lights(LightsType, applicantID, Year);
-                    if (lastnum > 0)
-                    {
-                        bool dhavenum = true;
-
-                        switch (LightsType)
-                        {
-                            case 3:
-                                //貴人燈(光明燈)
-                                for (int j = 1001; j < lastnum; j++)
-                                {
-                                    if (CheckedNum_Fw_Lights(LightsType, j, Year))
-                                    {
-                                        lastnum = j;
-                                        dhavenum = false;
-                                        break;
-                                    }
-                                }
-
-                                break;
-                            case 4:
-                                //安太歲
-                                for (int j = 1001; j < lastnum; j++)
-                                {
-                                    if (CheckedNum_Fw_Lights(LightsType, j, Year))
-                                    {
-                                        lastnum = j;
-                                        dhavenum = false;
-                                        break;
-                                    }
-                                }
-
-                                break;
-                            case 6:
-                                //發財燈
-                                for (int j = 1001; j < lastnum; j++)
-                                {
-                                    if (CheckedNum_Fw_Lights(LightsType, j, Year))
-                                    {
-                                        lastnum = j;
-                                        dhavenum = false;
-                                        break;
-                                    }
-                                }
-
-                                break;
-                            case 7:
-                                //月老桃花燈
-                                for (int j = 1001; j < lastnum; j++)
-                                {
-                                    if (CheckedNum_Fw_Lights(LightsType, j, Year))
-                                    {
-                                        lastnum = j;
-                                        dhavenum = false;
-                                        break;
-                                    }
-                                }
-
-                                break;
-                            case 8:
-                                //消災延壽燈
-                                for (int j = 1001; j < lastnum; j++)
-                                {
-                                    if (CheckedNum_Fw_Lights(LightsType, j, Year))
-                                    {
-                                        lastnum = j;
-                                        dhavenum = false;
-                                        break;
-                                    }
-                                }
-
-                                break;
-                            case 12:
-                                //寵物平安燈
-                                for (int j = 1001; j < lastnum; j++)
-                                {
-                                    if (CheckedNum_Fw_Lights(LightsType, j, Year))
-                                    {
-                                        lastnum = j;
-                                        dhavenum = false;
-                                        break;
-                                    }
-                                }
-
-                                break;
-                            case 19:
-                                //財庫燈
-                                for (int j = 1001; j < lastnum; j++)
-                                {
-                                    if (CheckedNum_Fw_Lights(LightsType, j, Year))
-                                    {
-                                        lastnum = j;
-                                        dhavenum = false;
-                                        break;
-                                    }
-                                }
-
-                                break;
-                            case 25:
-                                //財神斗/一個月
-                                for (int j = 1001; j < lastnum; j++)
-                                {
-                                    if (CheckedNum_Fw_Lights(LightsType, j, Year))
-                                    {
-                                        lastnum = j;
-                                        dhavenum = false;
-                                        break;
-                                    }
-                                }
-
-                                break;
-                            case 34:
-                                //發財斗/一個月
-                                for (int j = 1001; j < lastnum; j++)
-                                {
-                                    if (CheckedNum_Fw_Lights(LightsType, j, Year))
-                                    {
-                                        lastnum = j;
-                                        dhavenum = false;
-                                        break;
-                                    }
-                                }
-
-                                break;
-                            case 35:
-                                //姻緣斗/一個月
-                                for (int j = 1001; j < lastnum; j++)
-                                {
-                                    if (CheckedNum_Fw_Lights(LightsType, j, Year))
-                                    {
-                                        lastnum = j;
-                                        dhavenum = false;
-                                        break;
-                                    }
-                                }
-
-                                break;
-                            case 36:
-                                //貴人斗/一個月
-                                for (int j = 1001; j < lastnum; j++)
-                                {
-                                    if (CheckedNum_Fw_Lights(LightsType, j, Year))
-                                    {
-                                        lastnum = j;
-                                        dhavenum = false;
-                                        break;
-                                    }
-                                }
-
-                                break;
-                            case 37:
-                                //消災延壽斗/一個月
-                                for (int j = 1001; j < lastnum; j++)
-                                {
-                                    if (CheckedNum_Fw_Lights(LightsType, j, Year))
-                                    {
-                                        lastnum = j;
-                                        dhavenum = false;
-                                        break;
-                                    }
-                                }
-
-                                break;
-                            case 38:
-                                //財神斗/三個月
-                                for (int j = 1001; j < lastnum; j++)
-                                {
-                                    if (CheckedNum_Fw_Lights(LightsType, j, Year))
-                                    {
-                                        lastnum = j;
-                                        dhavenum = false;
-                                        break;
-                                    }
-                                }
-
-                                break;
-                            case 39:
-                                //發財斗/三個月
-                                for (int j = 1001; j < lastnum; j++)
-                                {
-                                    if (CheckedNum_Fw_Lights(LightsType, j, Year))
-                                    {
-                                        lastnum = j;
-                                        dhavenum = false;
-                                        break;
-                                    }
-                                }
-
-                                break;
-                            case 40:
-                                //姻緣斗/三個月
-                                for (int j = 1001; j < lastnum; j++)
-                                {
-                                    if (CheckedNum_Fw_Lights(LightsType, j, Year))
-                                    {
-                                        lastnum = j;
-                                        dhavenum = false;
-                                        break;
-                                    }
-                                }
-
-                                break;
-                            case 41:
-                                //貴人斗/三個月
-                                for (int j = 1001; j < lastnum; j++)
-                                {
-                                    if (CheckedNum_Fw_Lights(LightsType, j, Year))
-                                    {
-                                        lastnum = j;
-                                        dhavenum = false;
-                                        break;
-                                    }
-                                }
-
-                                break;
-                            case 42:
-                                //消災延壽斗/三個月
-                                for (int j = 1001; j < lastnum; j++)
-                                {
-                                    if (CheckedNum_Fw_Lights(LightsType, j, Year))
-                                    {
-                                        lastnum = j;
-                                        dhavenum = false;
-                                        break;
-                                    }
-                                }
-
-                                break;
-                        }
-
-                        if (dhavenum)
-                        {
-                            ++lastnum;
-                        }
-                    }
-                    else
-                    {
-                        switch (LightsType)
-                        {
-                            case 3:
-                                //貴人燈(光明燈)
-                                lastnum = 1001;
-                                break;
-                            case 4:
-                                //安太歲
-                                lastnum = 1001;
-                                break;
-                            case 6:
-                                //發財燈
-                                lastnum = 1001;
-                                break;
-                            case 7:
-                                //月老桃花燈
-                                lastnum = 1001;
-                                break;
-                            case 8:
-                                //消災延壽燈
-                                lastnum = 1001;
-                                break;
-                            case 12:
-                                //寵物平安燈
-                                lastnum = 1001;
-                                break;
-                            case 19:
-                                //財庫燈
-                                lastnum = 1001;
-                                break;
-                            case 25:
-                                //財神斗/一個月
-                                lastnum = 1001;
-                                break;
-                            case 34:
-                                //發財斗/一個月
-                                lastnum = 1001;
-                                break;
-                            case 35:
-                                //姻緣斗/一個月
-                                lastnum = 1001;
-                                break;
-                            case 36:
-                                //貴人斗/一個月
-                                lastnum = 1001;
-                                break;
-                            case 37:
-                                //消災延壽斗/一個月
-                                lastnum = 1001;
-                                break;
-                            case 38:
-                                //財神斗/三個月
-                                lastnum = 1001;
-                                break;
-                            case 39:
-                                //發財斗/三個月
-                                lastnum = 1001;
-                                break;
-                            case 40:
-                                //姻緣斗/三個月
-                                lastnum = 1001;
-                                break;
-                            case 41:
-                                //貴人斗/三個月
-                                lastnum = 1001;
-                                break;
-                            case 42:
-                                //消災延壽斗/三個月
-                                lastnum = 1001;
-                                break;
-                        }
-                    }
-                }
-
-                msg += "。客服電話：04-36092299。";
-
-                return bResult;
-            }
-        }
-
-        public bool UpdateAnDou_Fw_Info(int applicantID, int AnDouType, string Year, ref string msg, ref string[] andoulist, ref string[] AnDoulist)
-        {
-            lock (_thisLock)
-            {
-                TimeZoneInfo info = TimeZoneInfo.FindSystemTimeZoneById("Taipei Standard Time");
-                DateTime dt = TimeZoneInfo.ConvertTime(DateTime.Now, info);
-                bool bResult = false;
-                int lastnum = GetListNum_Fw_AnDou(AnDouType, applicantID, Year);
-                if (lastnum > 0)
-                {
-                    bool dhavenum = true;
-
-                    switch (AnDouType)
-                    {
-                        case 25:
-                            //財神斗/一個月
-                            for (int i = 1001; i < lastnum; i++)
-                            {
-                                if (CheckedNum_Fw_AnDou(AnDouType, i, Year))
-                                {
-                                    lastnum = i;
-                                    dhavenum = false;
-                                    break;
-                                }
-                            }
-
-                            break;
-                        case 34:
-                            //發財斗/一個月
-                            for (int i = 1001; i < lastnum; i++)
-                            {
-                                if (CheckedNum_Fw_AnDou(AnDouType, i, Year))
-                                {
-                                    lastnum = i;
-                                    dhavenum = false;
-                                    break;
-                                }
-                            }
-
-                            break;
-                        case 35:
-                            //姻緣斗/一個月
-                            for (int i = 1001; i < lastnum; i++)
-                            {
-                                if (CheckedNum_Fw_AnDou(AnDouType, i, Year))
-                                {
-                                    lastnum = i;
-                                    dhavenum = false;
-                                    break;
-                                }
-                            }
-
-                            break;
-                        case 36:
-                            //貴人斗/一個月
-                            for (int i = 1001; i < lastnum; i++)
-                            {
-                                if (CheckedNum_Fw_AnDou(AnDouType, i, Year))
-                                {
-                                    lastnum = i;
-                                    dhavenum = false;
-                                    break;
-                                }
-                            }
-
-                            break;
-                        case 37:
-                            //消災延壽斗/一個月
-                            for (int i = 1001; i < lastnum; i++)
-                            {
-                                if (CheckedNum_Fw_AnDou(AnDouType, i, Year))
-                                {
-                                    lastnum = i;
-                                    dhavenum = false;
-                                    break;
-                                }
-                            }
-
-                            break;
-                        case 38:
-                            //財神斗/三個月
-                            for (int i = 1001; i < lastnum; i++)
-                            {
-                                if (CheckedNum_Fw_AnDou(AnDouType, i, Year))
-                                {
-                                    lastnum = i;
-                                    dhavenum = false;
-                                    break;
-                                }
-                            }
-
-                            break;
-                        case 39:
-                            //發財斗/三個月
-                            for (int i = 1001; i < lastnum; i++)
-                            {
-                                if (CheckedNum_Fw_AnDou(AnDouType, i, Year))
-                                {
-                                    lastnum = i;
-                                    dhavenum = false;
-                                    break;
-                                }
-                            }
-
-                            break;
-                        case 40:
-                            //姻緣斗/三個月
-                            for (int i = 1001; i < lastnum; i++)
-                            {
-                                if (CheckedNum_Fw_AnDou(AnDouType, i, Year))
-                                {
-                                    lastnum = i;
-                                    dhavenum = false;
-                                    break;
-                                }
-                            }
-
-                            break;
-                        case 41:
-                            //貴人斗/三個月
-                            for (int i = 1001; i < lastnum; i++)
-                            {
-                                if (CheckedNum_Fw_AnDou(AnDouType, i, Year))
-                                {
-                                    lastnum = i;
-                                    dhavenum = false;
-                                    break;
-                                }
-                            }
-
-                            break;
-                        case 42:
-                            //消災延壽斗/三個月
-                            for (int i = 1001; i < lastnum; i++)
-                            {
-                                if (CheckedNum_Fw_AnDou(AnDouType, i, Year))
-                                {
-                                    lastnum = i;
-                                    dhavenum = false;
-                                    break;
-                                }
-                            }
-
-                            break;
-                    }
-
-                    if (dhavenum)
-                    {
-                        ++lastnum;
-                    }
-                }
-                else
-                {
-                    switch (AnDouType)
-                    {
-                        case 25:
-                            //財神斗/一個月
-                            lastnum = 1001;
-                            break;
-                        case 34:
-                            //發財斗/一個月
-                            lastnum = 1001;
-                            break;
-                        case 35:
-                            //姻緣斗/一個月
-                            lastnum = 1001;
-                            break;
-                        case 36:
-                            //貴人斗/一個月
-                            lastnum = 1001;
-                            break;
-                        case 37:
-                            //消災延壽斗/一個月
-                            lastnum = 1001;
-                            break;
-                        case 38:
-                            //財神斗/三個月
-                            lastnum = 1001;
-                            break;
-                        case 39:
-                            //發財斗/三個月
-                            lastnum = 1001;
-                            break;
-                        case 40:
-                            //姻緣斗/三個月
-                            lastnum = 1001;
-                            break;
-                        case 41:
-                            //貴人斗/三個月
-                            lastnum = 1001;
-                            break;
-                        case 42:
-                            //消災延壽斗/三個月
-                            lastnum = 1001;
-                            break;
-                    }
-                }
-
-                DataTable dtDataList = new DataTable();
-                string sql = "Select * From Temple_" + Year + "..AnDou_Fw_info Where ApplicantID=@ApplicantID and Status = 0 and Num = 0";
-
-                DatabaseAdapter AdapterObj = new DatabaseAdapter(sql, this.DBSource);
-                AdapterObj.SetSqlCommandBuilder();
-                AdapterObj.AddParameterToSelectCommand("@ApplicantID", applicantID);
-                AdapterObj.Fill(dtDataList);
-
-                //AnDoulist = new string[dtDataList.Rows.Count];
-                var tempList_andou = AnDoulist.ToList();
-                andoulist = new string[dtDataList.Rows.Count];
-                for (int i = 0; i < dtDataList.Rows.Count; i++)
-                {
-                    string lid = dtDataList.Rows[i]["AnDouID"].ToString();
-                    string NumString = string.Empty;
-
-                    AnDouType = int.Parse(dtDataList.Rows[i]["AnDouType"].ToString());
-                    switch (AnDouType)
-                    {
-                        case 25:
-                            //財神斗/一個月
-                            NumString = "FWTDL" + Num2String(lastnum);
-                            tempList_andou.Add(NumString);
-                            andoulist[i] = "財神斗/一個月:FWTDL" + Num2String(lastnum);
-                            break;
-                        case 34:
-                            //發財斗/一個月
-                            NumString = "FWFDL" + Num2String(lastnum);
-                            tempList_andou.Add(NumString);
-                            andoulist[i] = "發財斗/一個月:FWFDL" + Num2String(lastnum);
-                            break;
-                        case 35:
-                            //姻緣斗/一個月
-                            NumString = "FWMDL" + Num2String(lastnum);
-                            tempList_andou.Add(NumString);
-                            andoulist[i] = "姻緣斗/一個月:FWMDL" + Num2String(lastnum);
-                            break;
-                        case 36:
-                            //貴人斗/一個月
-                            NumString = "FWBDL" + Num2String(lastnum);
-                            tempList_andou.Add(NumString);
-                            andoulist[i] = "貴人斗/一個月:FWBDL" + Num2String(lastnum);
-                            break;
-                        case 37:
-                            //消災延壽斗/一個月
-                            NumString = "FWYDL" + Num2String(lastnum);
-                            tempList_andou.Add(NumString);
-                            andoulist[i] = "消災延壽斗/一個月:FWYDL" + Num2String(lastnum);
-                            break;
-                        case 38:
-                            //財神斗/三個月
-                            NumString = "FW3TDL" + Num2String(lastnum);
-                            tempList_andou.Add(NumString);
-                            andoulist[i] = "財神斗/三個月:FW3TDL" + Num2String(lastnum);
-                            break;
-                        case 39:
-                            //發財斗/三個月
-                            NumString = "FW3FDL" + Num2String(lastnum);
-                            tempList_andou.Add(NumString);
-                            andoulist[i] = "發財斗/三個月:FW3FDL" + Num2String(lastnum);
-                            break;
-                        case 40:
-                            //姻緣斗/三個月
-                            NumString = "FW3MDL" + Num2String(lastnum);
-                            tempList_andou.Add(NumString);
-                            andoulist[i] = "姻緣斗/三個月:FW3MDL" + Num2String(lastnum);
-                            break;
-                        case 41:
-                            //貴人斗/三個月
-                            NumString = "FW3BDL" + Num2String(lastnum);
-                            tempList_andou.Add(NumString);
-                            andoulist[i] = "貴人斗/三個月:FW3BDL" + Num2String(lastnum);
-                            break;
-                        case 42:
-                            //消災延壽斗/三個月
-                            NumString = "FW3YDL" + Num2String(lastnum);
-                            tempList_andou.Add(NumString);
-                            andoulist[i] = "消災延壽斗/三個月:FW3YDL" + Num2String(lastnum);
-                            break;
-                    }
-                    AnDoulist = tempList_andou.ToArray();
-
-                    msg += andoulist[i];
-                    if (i < andoulist.Length - 1)
-                    {
-                        msg += ",";
-                    }
-
-                    int res = ExecuteSql("Update Temple_" + Year + "..AnDou_Fw_info Set Num2String = N'" + NumString + "', Num = " + lastnum + " Where AnDouID=" + lid);
-
-                    if (res > 0)
-                    {
-                        bResult = true;
-                    }
-
-                    int index = dtDataList.Rows.Count - i > 1 ? i + 1 : i;
-                    AnDouType = int.Parse(dtDataList.Rows[index]["AnDouType"].ToString());
-
-                    lastnum = GetListNum_Fw_AnDou(AnDouType, applicantID, Year);
-                    if (lastnum > 0)
-                    {
-                        bool dhavenum = true;
-
-                        switch (AnDouType)
-                        {
-                            case 25:
-                                //財神斗/一個月
-                                for (int j = 1001; j < lastnum; j++)
-                                {
-                                    if (CheckedNum_Fw_AnDou(AnDouType, j, Year))
-                                    {
-                                        lastnum = j;
-                                        dhavenum = false;
-                                        break;
-                                    }
-                                }
-
-                                break;
-                            case 34:
-                                //發財斗/一個月
-                                for (int j = 1001; j < lastnum; j++)
-                                {
-                                    if (CheckedNum_Fw_AnDou(AnDouType, j, Year))
-                                    {
-                                        lastnum = j;
-                                        dhavenum = false;
-                                        break;
-                                    }
-                                }
-
-                                break;
-                            case 35:
-                                //姻緣斗/一個月
-                                for (int j = 1001; j < lastnum; j++)
-                                {
-                                    if (CheckedNum_Fw_AnDou(AnDouType, j, Year))
-                                    {
-                                        lastnum = j;
-                                        dhavenum = false;
-                                        break;
-                                    }
-                                }
-
-                                break;
-                            case 36:
-                                //貴人斗/一個月
-                                for (int j = 1001; j < lastnum; j++)
-                                {
-                                    if (CheckedNum_Fw_AnDou(AnDouType, j, Year))
-                                    {
-                                        lastnum = j;
-                                        dhavenum = false;
-                                        break;
-                                    }
-                                }
-
-                                break;
-                            case 37:
-                                //消災延壽斗/一個月
-                                for (int j = 1001; j < lastnum; j++)
-                                {
-                                    if (CheckedNum_Fw_AnDou(AnDouType, j, Year))
-                                    {
-                                        lastnum = j;
-                                        dhavenum = false;
-                                        break;
-                                    }
-                                }
-
-                                break;
-                            case 38:
-                                //財神斗/三個月
-                                for (int j = 1001; j < lastnum; j++)
-                                {
-                                    if (CheckedNum_Fw_AnDou(AnDouType, j, Year))
-                                    {
-                                        lastnum = j;
-                                        dhavenum = false;
-                                        break;
-                                    }
-                                }
-
-                                break;
-                            case 39:
-                                //發財斗/三個月
-                                for (int j = 1001; j < lastnum; j++)
-                                {
-                                    if (CheckedNum_Fw_AnDou(AnDouType, j, Year))
-                                    {
-                                        lastnum = j;
-                                        dhavenum = false;
-                                        break;
-                                    }
-                                }
-
-                                break;
-                            case 40:
-                                //姻緣斗/三個月
-                                for (int j = 1001; j < lastnum; j++)
-                                {
-                                    if (CheckedNum_Fw_AnDou(AnDouType, j, Year))
-                                    {
-                                        lastnum = j;
-                                        dhavenum = false;
-                                        break;
-                                    }
-                                }
-
-                                break;
-                            case 41:
-                                //貴人斗/三個月
-                                for (int j = 1001; j < lastnum; j++)
-                                {
-                                    if (CheckedNum_Fw_AnDou(AnDouType, j, Year))
-                                    {
-                                        lastnum = j;
-                                        dhavenum = false;
-                                        break;
-                                    }
-                                }
-
-                                break;
-                            case 42:
-                                //消災延壽斗/三個月
-                                for (int j = 1001; j < lastnum; j++)
-                                {
-                                    if (CheckedNum_Fw_AnDou(AnDouType, j, Year))
-                                    {
-                                        lastnum = j;
-                                        dhavenum = false;
-                                        break;
-                                    }
-                                }
-
-                                break;
-                        }
-
-                        if (dhavenum)
-                        {
-                            ++lastnum;
-                        }
-                    }
-                    else
-                    {
-                        switch (AnDouType)
-                        {
-                            case 25:
-                                //財神斗/一個月
-                                lastnum = 1001;
-                                break;
-                            case 34:
-                                //發財斗/一個月
-                                lastnum = 1001;
-                                break;
-                            case 35:
-                                //姻緣斗/一個月
-                                lastnum = 1001;
-                                break;
-                            case 36:
-                                //貴人斗/一個月
-                                lastnum = 1001;
-                                break;
-                            case 37:
-                                //消災延壽斗/一個月
-                                lastnum = 1001;
-                                break;
-                            case 38:
-                                //財神斗/三個月
-                                lastnum = 1001;
-                                break;
-                            case 39:
-                                //發財斗/三個月
-                                lastnum = 1001;
-                                break;
-                            case 40:
-                                //姻緣斗/三個月
-                                lastnum = 1001;
-                                break;
-                            case 41:
-                                //貴人斗/三個月
-                                lastnum = 1001;
-                                break;
-                            case 42:
-                                //消災延壽斗/三個月
-                                lastnum = 1001;
-                                break;
-                        }
-                    }
-                }
-
-                msg += "。客服電話：04-36092299。";
-
-                return bResult;
-            }
-        }
-
-        public bool UpdateLights_dh_Info(int applicantID, int LightsType, string Year, ref string msg, ref string[] lightslist, ref string[] Lightslist)
-        {
-            lock (_thisLock)
-            {
-
-                TimeZoneInfo info = TimeZoneInfo.FindSystemTimeZoneById("Taipei Standard Time");
-                DateTime dt = TimeZoneInfo.ConvertTime(DateTime.Now, info);
-                bool bResult = false;
-                int lastnum = GetListNum_dh_Lights(LightsType, applicantID, Year);
-                if (lastnum > 0)
-                {
-                    bool dhavenum = true;
-
-                    switch (LightsType)
-                    {
-                        case 3:
-                            //光明燈
-                            for (int i = 1001; i < lastnum; i++)
-                            {
-                                if (CheckedNum_dh_Lights(LightsType, i, Year))
-                                {
-                                    lastnum = i;
-                                    dhavenum = false;
-                                    break;
-                                }
-                            }
-
-                            break;
-                        case 4:
-                            //安太歲
-                            for (int i = 1001; i < lastnum; i++)
-                            {
-                                if (CheckedNum_dh_Lights(LightsType, i, Year))
-                                {
-                                    lastnum = i;
-                                    dhavenum = false;
-                                    break;
-                                }
-                            }
-
-                            break;
-                        case 5:
-                            //文昌燈
-                            for (int i = 1001; i < lastnum; i++)
-                            {
-                                if (CheckedNum_dh_Lights(LightsType, i, Year))
-                                {
-                                    lastnum = i;
-                                    dhavenum = false;
-                                    break;
-                                }
-                            }
-
-                            break;
-                        case 9:
-                            //財利燈
-                            for (int i = 1001; i < lastnum; i++)
-                            {
-                                if (CheckedNum_dh_Lights(LightsType, i, Year))
-                                {
-                                    lastnum = i;
-                                    dhavenum = false;
-                                    break;
-                                }
-                            }
-
-                            break;
-                        case 13:
-                            //龍王燈
-                            for (int i = 1001; i < lastnum; i++)
-                            {
-                                if (CheckedNum_dh_Lights(LightsType, i, Year))
-                                {
-                                    lastnum = i;
-                                    dhavenum = false;
-                                    break;
-                                }
-                            }
-
-                            break;
-                        case 14:
-                            //虎爺燈
-                            for (int i = 1001; i < lastnum; i++)
-                            {
-                                if (CheckedNum_dh_Lights(LightsType, i, Year))
-                                {
-                                    lastnum = i;
-                                    dhavenum = false;
-                                    break;
-                                }
-                            }
-
-                            break;
-                    }
-
-                    if (dhavenum)
-                    {
-                        ++lastnum;
-                    }
-                }
-                else
-                {
-                    switch (LightsType)
-                    {
-                        case 3:
-                            //光明燈
-                            lastnum = 1001;
-                            break;
-                        case 4:
-                            //安太歲
-                            lastnum = 1001;
-                            break;
-                        case 5:
-                            //文昌燈
-                            lastnum = 1001;
-                            break;
-                        case 9:
-                            //財利燈
-                            lastnum = 1001;
-                            break;
-                        case 13:
-                            //龍王燈
-                            lastnum = 1001;
-                            break;
-                        case 14:
-                            //虎爺燈
-                            lastnum = 1001;
-                            break;
-                    }
-                }
-
-                DataTable dtDataList = new DataTable();
-                string sql = "Select * From Temple_" + Year + "..Lights_dh_info Where ApplicantID=@ApplicantID and Status = 0 and Num = 0";
-
-                DatabaseAdapter AdapterObj = new DatabaseAdapter(sql, this.DBSource);
-                AdapterObj.SetSqlCommandBuilder();
-                AdapterObj.AddParameterToSelectCommand("@ApplicantID", applicantID);
-                AdapterObj.Fill(dtDataList);
-
-                //Lightslist = new string[dtDataList.Rows.Count];
-                var tempList_lights = Lightslist.ToList();
-                lightslist = new string[dtDataList.Rows.Count];
-                for (int i = 0; i < dtDataList.Rows.Count; i++)
-                {
-                    string lid = dtDataList.Rows[i]["LightsID"].ToString();
-                    string NumString = string.Empty;
-
-                    LightsType = int.Parse(dtDataList.Rows[i]["LightsType"].ToString());
-                    switch (LightsType)
-                    {
-                        case 3:
-                            //光明燈
-                            NumString = "DHS" + Num2String(lastnum);
-                            tempList_lights.Add(NumString);
-                            lightslist[i] = "光明燈:DHS" + Num2String(lastnum);
-                            break;
-                        case 4:
-                            //安太歲
-                            NumString = "DHA" + Num2String(lastnum);
-                            tempList_lights.Add(NumString);
-                            lightslist[i] = "安太歲:DHA" + Num2String(lastnum);
-                            break;
-                        case 5:
-                            //文昌燈
-                            NumString = "DHW" + Num2String(lastnum);
-                            tempList_lights.Add(NumString);
-                            lightslist[i] = "文昌燈:DHW" + Num2String(lastnum);
-                            break;
-                        case 9:
-                            //財利燈
-                            NumString = "DHT" + Num2String(lastnum);
-                            tempList_lights.Add(NumString);
-                            lightslist[i] = "財利燈:DHT" + Num2String(lastnum);
-                            break;
-                        case 13:
-                            //龍王燈
-                            NumString = "DHD" + Num2String(lastnum);
-                            tempList_lights.Add(NumString);
-                            lightslist[i] = "龍王燈:DHD" + Num2String(lastnum);
-                            break;
-                        case 14:
-                            //虎爺燈
-                            NumString = "DHTI" + Num2String(lastnum);
-                            tempList_lights.Add(NumString);
-                            lightslist[i] = "虎爺燈:DHTI" + Num2String(lastnum);
-                            break;
-                    }
-                    Lightslist = tempList_lights.ToArray();
-
-                    msg += lightslist[i];
-                    if (i < lightslist.Length - 1)
-                    {
-                        msg += ",";
-                    }
-
-                    int res = ExecuteSql("Update Temple_" + Year + "..Lights_dh_info Set Num2String = N'" + NumString + "', Num = " + lastnum + " Where LightsID=" + lid);
-
-                    if (res > 0)
-                    {
-                        bResult = true;
-                    }
-
-
-                    int index = dtDataList.Rows.Count - i > 1 ? i + 1 : i;
-                    LightsType = int.Parse(dtDataList.Rows[index]["LightsType"].ToString());
-
-                    lastnum = GetListNum_dh_Lights(LightsType, applicantID, Year);
-                    if (lastnum > 0)
-                    {
-                        bool dhavenum = true;
-
-                        switch (LightsType)
-                        {
-                            case 3:
-                                //光明燈
-                                for (int j = 1001; j < lastnum; j++)
-                                {
-                                    if (CheckedNum_dh_Lights(LightsType, j, Year))
-                                    {
-                                        lastnum = j;
-                                        dhavenum = false;
-                                        break;
-                                    }
-                                }
-
-                                break;
-                            case 4:
-                                //安太歲
-                                for (int j = 1001; j < lastnum; j++)
-                                {
-                                    if (CheckedNum_dh_Lights(LightsType, j, Year))
-                                    {
-                                        lastnum = j;
-                                        dhavenum = false;
-                                        break;
-                                    }
-                                }
-
-                                break;
-                            case 5:
-                                //文昌燈
-                                for (int j = 1001; j < lastnum; j++)
-                                {
-                                    if (CheckedNum_dh_Lights(LightsType, j, Year))
-                                    {
-                                        lastnum = j;
-                                        dhavenum = false;
-                                        break;
-                                    }
-                                }
-
-                                break;
-                            case 9:
-                                //財利燈
-                                for (int j = 1001; j < lastnum; j++)
-                                {
-                                    if (CheckedNum_dh_Lights(LightsType, j, Year))
-                                    {
-                                        lastnum = j;
-                                        dhavenum = false;
-                                        break;
-                                    }
-                                }
-
-                                break;
-                            case 13:
-                                //龍王燈
-                                for (int j = 1001; j < lastnum; j++)
-                                {
-                                    if (CheckedNum_dh_Lights(LightsType, j, Year))
-                                    {
-                                        lastnum = j;
-                                        dhavenum = false;
-                                        break;
-                                    }
-                                }
-
-                                break;
-                            case 14:
-                                //虎爺燈
-                                for (int j = 1001; j < lastnum; j++)
-                                {
-                                    if (CheckedNum_dh_Lights(LightsType, j, Year))
-                                    {
-                                        lastnum = j;
-                                        dhavenum = false;
-                                        break;
-                                    }
-                                }
-
-                                break;
-                        }
-
-                        if (dhavenum)
-                        {
-                            ++lastnum;
-                        }
-                    }
-                    else
-                    {
-                        switch (LightsType)
-                        {
-                            case 3:
-                                //光明燈
-                                lastnum = 1001;
-                                break;
-                            case 4:
-                                //安太歲
-                                lastnum = 1001;
-                                break;
-                            case 5:
-                                //文昌燈
-                                lastnum = 1001;
-                                break;
-                            case 9:
-                                //財利燈
-                                lastnum = 1001;
-                                break;
-                            case 13:
-                                //龍王燈
-                                lastnum = 1001;
-                                break;
-                            case 14:
-                                //虎爺燈
-                                lastnum = 1001;
-                                break;
-                        }
-                    }
-                }
-
-                msg += "。客服電話：04-36092299。";
-
-                return bResult;
-            }
-        }
-
-        public bool UpdateLights_Hs_Info(int applicantID, int LightsType, string Year, ref string msg, ref string[] lightslist, ref string[] Lightslist)
-        {
-            lock (_thisLock)
-            {
-
-                TimeZoneInfo info = TimeZoneInfo.FindSystemTimeZoneById("Taipei Standard Time");
-                DateTime dt = TimeZoneInfo.ConvertTime(DateTime.Now, info);
-                bool bResult = false;
-                int lastnum = GetListNum_Hs_Lights(LightsType, applicantID, Year);
-                if (lastnum > 0)
-                {
-                    bool dhavenum = true;
-
-                    switch (LightsType)
-                    {
-                        case 3:
-                            //光明燈
-                            for (int i = 1001; i < lastnum; i++)
-                            {
-                                if (CheckedNum_Hs_Lights(LightsType, i, Year))
-                                {
-                                    lastnum = i;
-                                    dhavenum = false;
-                                    break;
-                                }
-                            }
-
-                            break;
-                        case 4:
-                            //安太歲
-                            for (int i = 1001; i < lastnum; i++)
-                            {
-                                if (CheckedNum_Hs_Lights(LightsType, i, Year))
-                                {
-                                    lastnum = i;
-                                    dhavenum = false;
-                                    break;
-                                }
-                            }
-
-                            break;
-                        case 5:
-                            //文昌燈
-                            for (int i = 1001; i < lastnum; i++)
-                            {
-                                if (CheckedNum_Hs_Lights(LightsType, i, Year))
-                                {
-                                    lastnum = i;
-                                    dhavenum = false;
-                                    break;
-                                }
-                            }
-
-                            break;
-                        case 8:
-                            //藥師燈
-                            for (int i = 1001; i < lastnum; i++)
-                            {
-                                if (CheckedNum_Hs_Lights(LightsType, i, Year))
-                                {
-                                    lastnum = i;
-                                    dhavenum = false;
-                                    break;
-                                }
-                            }
-
-                            break;
-                        case 9:
-                            //財利燈
-                            for (int i = 1001; i < lastnum; i++)
-                            {
-                                if (CheckedNum_Hs_Lights(LightsType, i, Year))
-                                {
-                                    lastnum = i;
-                                    dhavenum = false;
-                                    break;
-                                }
-                            }
-
-                            break;
-                        case 16:
-                            //玉皇燈
-                            for (int i = 1001; i < lastnum; i++)
-                            {
-                                if (CheckedNum_Hs_Lights(LightsType, i, Year))
-                                {
-                                    lastnum = i;
-                                    dhavenum = false;
-                                    break;
-                                }
-                            }
-
-                            break;
-                    }
-
-                    if (dhavenum)
-                    {
-                        ++lastnum;
-                    }
-                }
-                else
-                {
-                    switch (LightsType)
-                    {
-                        case 3:
-                            //光明燈
-                            lastnum = 1001;
-                            break;
-                        case 4:
-                            //安太歲
-                            lastnum = 1001;
-                            break;
-                        case 5:
-                            //文昌燈
-                            lastnum = 1001;
-                            break;
-                        case 8:
-                            //藥師燈
-                            lastnum = 1001;
-                            break;
-                        case 9:
-                            //財利燈
-                            lastnum = 1001;
-                            break;
-                        case 16:
-                            //玉皇燈
-                            lastnum = 1001;
-                            break;
-                    }
-                }
-
-                DataTable dtDataList = new DataTable();
-                string sql = "Select * From Temple_" + Year + "..Lights_Hs_info Where ApplicantID=@ApplicantID and Status = 0 and Num = 0";
-
-                DatabaseAdapter AdapterObj = new DatabaseAdapter(sql, this.DBSource);
-                AdapterObj.SetSqlCommandBuilder();
-                AdapterObj.AddParameterToSelectCommand("@ApplicantID", applicantID);
-                AdapterObj.Fill(dtDataList);
-
-                //Lightslist = new string[dtDataList.Rows.Count];
-                var tempList_lights = Lightslist.ToList();
-                lightslist = new string[dtDataList.Rows.Count];
-                for (int i = 0; i < dtDataList.Rows.Count; i++)
-                {
-                    string lid = dtDataList.Rows[i]["LightsID"].ToString();
-                    string NumString = string.Empty;
-
-                    LightsType = int.Parse(dtDataList.Rows[i]["LightsType"].ToString());
-                    switch (LightsType)
-                    {
-                        case 3:
-                            //光明燈
-                            NumString = "HSS" + Num2String(lastnum);
-                            tempList_lights.Add(NumString);
-                            lightslist[i] = "光明燈:HSS" + Num2String(lastnum);
-                            break;
-                        case 4:
-                            //太歲燈
-                            NumString = "HSA" + Num2String(lastnum);
-                            tempList_lights.Add(NumString);
-                            lightslist[i] = "太歲燈:HSA" + Num2String(lastnum);
-                            break;
-                        case 5:
-                            //文昌燈
-                            NumString = "HSW" + Num2String(lastnum);
-                            tempList_lights.Add(NumString);
-                            lightslist[i] = "文昌燈:HSW" + Num2String(lastnum);
-                            break;
-                        case 8:
-                            //藥師燈
-                            NumString = "HSY" + Num2String(lastnum);
-                            tempList_lights.Add(NumString);
-                            lightslist[i] = "藥師燈:HSY" + Num2String(lastnum);
-                            break;
-                        case 9:
-                            //財利燈
-                            NumString = "HST" + Num2String(lastnum);
-                            tempList_lights.Add(NumString);
-                            lightslist[i] = "財利燈:HST" + Num2String(lastnum);
-                            break;
-                        case 16:
-                            //玉皇燈
-                            NumString = "HS2S" + Num2String(lastnum);
-                            tempList_lights.Add(NumString);
-                            lightslist[i] = "玉皇燈:HS2S" + Num2String(lastnum);
-                            break;
-                    }
-                    Lightslist = tempList_lights.ToArray();
-
-                    msg += lightslist[i];
-                    if (i < lightslist.Length - 1)
-                    {
-                        msg += ",";
-                    }
-
-                    int res = ExecuteSql("Update Temple_" + Year + "..Lights_Hs_info Set Num2String = N'" + NumString + "', Num = " + lastnum + " Where LightsID=" + lid);
-
-                    if (res > 0)
-                    {
-                        bResult = true;
-                    }
-
-
-                    int index = dtDataList.Rows.Count - i > 1 ? i + 1 : i;
-                    LightsType = int.Parse(dtDataList.Rows[index]["LightsType"].ToString());
-
-                    lastnum = GetListNum_Hs_Lights(LightsType, applicantID, Year);
-                    if (lastnum > 0)
-                    {
-                        bool dhavenum = true;
-
-                        switch (LightsType)
-                        {
-                            case 3:
-                                //光明燈
-                                for (int j = 1001; j < lastnum; j++)
-                                {
-                                    if (CheckedNum_Hs_Lights(LightsType, j, Year))
-                                    {
-                                        lastnum = j;
-                                        dhavenum = false;
-                                        break;
-                                    }
-                                }
-
-                                break;
-                            case 4:
-                                //安太歲
-                                for (int j = 1001; j < lastnum; j++)
-                                {
-                                    if (CheckedNum_Hs_Lights(LightsType, j, Year))
-                                    {
-                                        lastnum = j;
-                                        dhavenum = false;
-                                        break;
-                                    }
-                                }
-
-                                break;
-                            case 5:
-                                //文昌燈
-                                for (int j = 1001; j < lastnum; j++)
-                                {
-                                    if (CheckedNum_Hs_Lights(LightsType, j, Year))
-                                    {
-                                        lastnum = j;
-                                        dhavenum = false;
-                                        break;
-                                    }
-                                }
-
-                                break;
-                            case 8:
-                                //藥師燈
-                                for (int j = 1001; j < lastnum; j++)
-                                {
-                                    if (CheckedNum_Hs_Lights(LightsType, j, Year))
-                                    {
-                                        lastnum = j;
-                                        dhavenum = false;
-                                        break;
-                                    }
-                                }
-
-                                break;
-                            case 9:
-                                //財利燈
-                                for (int j = 1001; j < lastnum; j++)
-                                {
-                                    if (CheckedNum_Hs_Lights(LightsType, j, Year))
-                                    {
-                                        lastnum = j;
-                                        dhavenum = false;
-                                        break;
-                                    }
-                                }
-
-                                break;
-                            case 16:
-                                //玉皇燈
-                                for (int j = 1001; j < lastnum; j++)
-                                {
-                                    if (CheckedNum_Hs_Lights(LightsType, j, Year))
-                                    {
-                                        lastnum = j;
-                                        dhavenum = false;
-                                        break;
-                                    }
-                                }
-
-                                break;
-                        }
-
-                        if (dhavenum)
-                        {
-                            ++lastnum;
-                        }
-                    }
-                    else
-                    {
-                        switch (LightsType)
-                        {
-                            case 3:
-                                //光明燈
-                                lastnum = 1001;
-                                break;
-                            case 4:
-                                //安太歲
-                                lastnum = 1001;
-                                break;
-                            case 5:
-                                //文昌燈
-                                lastnum = 1001;
-                                break;
-                            case 8:
-                                //藥師燈
-                                lastnum = 1001;
-                                break;
-                            case 9:
-                                //財利燈
-                                lastnum = 1001;
-                                break;
-                            case 16:
-                                //玉皇燈
-                                lastnum = 1001;
-                                break;
-                        }
-                    }
-                }
-
-                msg += "。客服電話：04-36092299。";
-
-                return bResult;
-            }
-        }
-
-        public bool UpdateLights_Lk_Info(int applicantID, int LightsType, string Year, ref string msg, ref string[] lightslist, ref string[] Lightslist)
-        {
-            lock (_thisLock)
-            {
-                TimeZoneInfo info = TimeZoneInfo.FindSystemTimeZoneById("Taipei Standard Time");
-                DateTime dt = TimeZoneInfo.ConvertTime(DateTime.Now, info);
-                bool bResult = false;
-                int lastnum = GetListNum_Lk_Lights(LightsType, applicantID, Year);
-                if (lastnum > 0)
-                {
-                    bool dhavenum = true;
-
-                    switch (LightsType)
-                    {
-                        case 3:
-                            //元神光明燈
-                            for (int i = 1001; i < lastnum; i++)
-                            {
-                                if (CheckedNum_Lk_Lights(LightsType, i, Year))
-                                {
-                                    lastnum = i;
-                                    dhavenum = false;
-                                    break;
-                                }
-                            }
-
-                            break;
-                        case 4:
-                            //太歲平安符
-                            for (int i = 1001; i < lastnum; i++)
-                            {
-                                if (CheckedNum_Lk_Lights(LightsType, i, Year))
-                                {
-                                    lastnum = i;
-                                    dhavenum = false;
-                                    break;
-                                }
-                            }
-
-                            break;
-                        case 5:
-                            //文魁智慧燈
-                            for (int i = 1001; i < lastnum; i++)
-                            {
-                                if (CheckedNum_Lk_Lights(LightsType, i, Year))
-                                {
-                                    lastnum = i;
-                                    dhavenum = false;
-                                    break;
-                                }
-                            }
-
-                            break;
-                        case 6:
-                            //正財福報燈
-                            for (int i = 1001; i < lastnum; i++)
-                            {
-                                if (CheckedNum_Lk_Lights(LightsType, i, Year))
-                                {
-                                    lastnum = i;
-                                    dhavenum = false;
-                                    break;
-                                }
-                            }
-
-                            break;
-                        case 15:
-                            //轉運納福燈
-                            for (int i = 1001; i < lastnum; i++)
-                            {
-                                if (CheckedNum_Lk_Lights(LightsType, i, Year))
-                                {
-                                    lastnum = i;
-                                    dhavenum = false;
-                                    break;
-                                }
-                            }
-
-                            break;
-                        case 16:
-                            //光明燈上層
-                            for (int i = 1001; i < lastnum; i++)
-                            {
-                                if (CheckedNum_Lk_Lights(LightsType, i, Year))
-                                {
-                                    lastnum = i;
-                                    dhavenum = false;
-                                    break;
-                                }
-                            }
-
-                            break;
-                        case 17:
-                            //偏財旺旺燈
-                            for (int i = 1001; i < lastnum; i++)
-                            {
-                                if (CheckedNum_Lk_Lights(LightsType, i, Year))
-                                {
-                                    lastnum = i;
-                                    dhavenum = false;
-                                    break;
-                                }
-                            }
-
-                            break;
-                        case 18:
-                            //廣進安財庫
-                            for (int i = 1001; i < lastnum; i++)
-                            {
-                                if (CheckedNum_Lk_Lights(LightsType, i, Year))
-                                {
-                                    lastnum = i;
-                                    dhavenum = false;
-                                    break;
-                                }
-                            }
-
-                            break;
-                    }
-
-                    if (dhavenum)
-                    {
-                        ++lastnum;
-                    }
-                }
-                else
-                {
-                    switch (LightsType)
-                    {
-                        case 3:
-                            //元神光明燈
-                            lastnum = 1001;
-                            break;
-                        case 4:
-                            //太歲平安符
-                            lastnum = 1001;
-                            break;
-                        case 5:
-                            //文魁智慧燈
-                            lastnum = 1001;
-                            break;
-                        case 6:
-                            //正財福報燈
-                            lastnum = 1001;
-                            break;
-                        case 15:
-                            //轉運納福燈
-                            lastnum = 1001;
-                            break;
-                        case 16:
-                            //光明燈上層
-                            lastnum = 1001;
-                            break;
-                        case 17:
-                            //偏財旺旺燈
-                            lastnum = 1001;
-                            break;
-                        case 18:
-                            //廣進安財庫
-                            lastnum = 1001;
-                            break;
-                    }
-                }
-
-                DataTable dtDataList = new DataTable();
-                string sql = "Select * From Temple_" + Year + "..Lights_Lk_info Where ApplicantID=@ApplicantID and Status = 0 and Num = 0";
-
-                DatabaseAdapter AdapterObj = new DatabaseAdapter(sql, this.DBSource);
-                AdapterObj.SetSqlCommandBuilder();
-                AdapterObj.AddParameterToSelectCommand("@ApplicantID", applicantID);
-                AdapterObj.Fill(dtDataList);
-
-                //Lightslist = new string[dtDataList.Rows.Count];
-                var tempList_lights = Lightslist.ToList();
-                lightslist = new string[dtDataList.Rows.Count];
-                for (int i = 0; i < dtDataList.Rows.Count; i++)
-                {
-                    string lid = dtDataList.Rows[i]["LightsID"].ToString();
-                    string NumString = string.Empty;
-
-                    LightsType = int.Parse(dtDataList.Rows[i]["LightsType"].ToString());
-                    switch (LightsType)
-                    {
-                        case 3:
-                            //元神光明燈
-                            NumString = "LKS" + Num2String(lastnum);
-                            tempList_lights.Add(NumString);
-                            //dtDataList.Rows[i]["Num2String"] = "Y" + Num2String(lastnum);
-                            lightslist[i] = "元神光明燈:LKS" + Num2String(lastnum);
-                            break;
-                        case 4:
-                            //太歲平安符
-                            NumString = "LKA" + Num2String(lastnum);
-                            tempList_lights.Add(NumString);
-                            //dtDataList.Rows[i]["Num2String"] = "六" + Num2String(lastnum);
-                            lightslist[i] = "太歲平安符:LKA" + Num2String(lastnum);
-                            break;
-                        case 5:
-                            //文魁智慧燈
-                            NumString = "LKW" + Num2String(lastnum);
-                            tempList_lights.Add(NumString);
-                            //dtDataList.Rows[i]["Num2String"] = "文" + Num2String(lastnum);
-                            lightslist[i] = "文魁智慧燈:LKW" + Num2String(lastnum);
-                            break;
-                        case 6:
-                            //正財福報燈
-                            NumString = "LKT" + Num2String(lastnum);
-                            tempList_lights.Add(NumString);
-                            //dtDataList.Rows[i]["Num2String"] = "文" + Num2String(lastnum);
-                            lightslist[i] = "正財福報燈:LKT" + Num2String(lastnum);
-                            break;
-                        case 15:
-                            //轉運納福燈
-                            NumString = "LKAA" + Num2String(lastnum);
-                            tempList_lights.Add(NumString);
-                            //dtDataList.Rows[i]["Num2String"] = "文" + Num2String(lastnum);
-                            lightslist[i] = "轉運納福燈:LKAA" + Num2String(lastnum);
-                            break;
-                        case 16:
-                            //光明燈上層
-                            NumString = "LKSS" + Num2String(lastnum);
-                            tempList_lights.Add(NumString);
-                            //dtDataList.Rows[i]["Num2String"] = "文" + Num2String(lastnum);
-                            lightslist[i] = "光明燈上層:LKSS" + Num2String(lastnum);
-                            break;
-                        case 17:
-                            //偏財旺旺燈
-                            NumString = "LK2T" + Num2String(lastnum);
-                            tempList_lights.Add(NumString);
-                            //dtDataList.Rows[i]["Num2String"] = "文" + Num2String(lastnum);
-                            lightslist[i] = "偏財旺旺燈:LK2T" + Num2String(lastnum);
-                            break;
-                        case 18:
-                            //廣進安財庫
-                            NumString = "LK3T" + Num2String(lastnum);
-                            tempList_lights.Add(NumString);
-                            //dtDataList.Rows[i]["Num2String"] = "文" + Num2String(lastnum);
-                            lightslist[i] = "廣進安財庫:LK3T" + Num2String(lastnum);
-                            break;
-                    }
-                    Lightslist = tempList_lights.ToArray();
-
-                    //dtDataList.Rows[i]["Num"] = lastnum;
-                    //AdapterObj.Update(dtDataList);
-
-                    msg += lightslist[i];
-                    if (i < lightslist.Length - 1)
-                    {
-                        msg += ",";
-                    }
-
-                    //bResult = true;
-                    int res = ExecuteSql("Update Temple_" + Year + "..Lights_Lk_info Set Num2String = N'" + NumString + "', Num = " + lastnum + " Where LightsID=" + lid);
-
-                    if (res > 0)
-                    {
-                        bResult = true;
-                    }
-
-                    int index = dtDataList.Rows.Count - i > 1 ? i + 1 : i;
-                    LightsType = int.Parse(dtDataList.Rows[index]["LightsType"].ToString());
-
-                    lastnum = GetListNum_Lk_Lights(LightsType, applicantID, Year);
-                    if (lastnum > 0)
-                    {
-                        bool dhavenum = true;
-
-                        switch (LightsType)
-                        {
-                            case 3:
-                                //元神光明燈
-                                for (int j = 1001; j < lastnum; j++)
-                                {
-                                    if (CheckedNum_Lk_Lights(LightsType, j, Year))
-                                    {
-                                        lastnum = j;
-                                        dhavenum = false;
-                                        break;
-                                    }
-                                }
-
-                                break;
-                            case 4:
-                                //太歲平安符
-                                for (int j = 1001; j < lastnum; j++)
-                                {
-                                    if (CheckedNum_Lk_Lights(LightsType, j, Year))
-                                    {
-                                        lastnum = j;
-                                        dhavenum = false;
-                                        break;
-                                    }
-                                }
-
-                                break;
-                            case 5:
-                                //文魁智慧燈
-                                for (int j = 1001; j < lastnum; j++)
-                                {
-                                    if (CheckedNum_Lk_Lights(LightsType, j, Year))
-                                    {
-                                        lastnum = j;
-                                        dhavenum = false;
-                                        break;
-                                    }
-                                }
-
-                                break;
-                            case 6:
-                                //正財福報燈
-                                for (int j = 1001; j < lastnum; j++)
-                                {
-                                    if (CheckedNum_Lk_Lights(LightsType, j, Year))
-                                    {
-                                        lastnum = j;
-                                        dhavenum = false;
-                                        break;
-                                    }
-                                }
-
-                                break;
-                            case 15:
-                                //轉運納福燈
-                                for (int j = 1001; j < lastnum; j++)
-                                {
-                                    if (CheckedNum_Lk_Lights(LightsType, j, Year))
-                                    {
-                                        lastnum = j;
-                                        dhavenum = false;
-                                        break;
-                                    }
-                                }
-
-                                break;
-                            case 16:
-                                //光明燈上層
-                                for (int j = 1001; j < lastnum; j++)
-                                {
-                                    if (CheckedNum_Lk_Lights(LightsType, j, Year))
-                                    {
-                                        lastnum = j;
-                                        dhavenum = false;
-                                        break;
-                                    }
-                                }
-
-                                break;
-                            case 17:
-                                //偏財旺旺燈
-                                for (int j = 1001; j < lastnum; j++)
-                                {
-                                    if (CheckedNum_Lk_Lights(LightsType, j, Year))
-                                    {
-                                        lastnum = j;
-                                        dhavenum = false;
-                                        break;
-                                    }
-                                }
-
-                                break;
-                            case 18:
-                                //廣進安財庫
-                                for (int j = 1001; j < lastnum; j++)
-                                {
-                                    if (CheckedNum_Lk_Lights(LightsType, j, Year))
-                                    {
-                                        lastnum = j;
-                                        dhavenum = false;
-                                        break;
-                                    }
-                                }
-
-                                break;
-                        }
-
-                        if (dhavenum)
-                        {
-                            ++lastnum;
-                        }
-                    }
-                    else
-                    {
-                        switch (LightsType)
-                        {
-                            case 3:
-                                //元神光明燈
-                                lastnum = 1001;
-                                break;
-                            case 4:
-                                //太歲平安符
-                                lastnum = 1001;
-                                break;
-                            case 5:
-                                //文魁智慧燈
-                                lastnum = 1001;
-                                break;
-                            case 6:
-                                //正財福報燈
-                                lastnum = 1001;
-                                break;
-                            case 15:
-                                //轉運納福燈
-                                lastnum = 1001;
-                                break;
-                            case 16:
-                                //光明燈上層
-                                lastnum = 1001;
-                                break;
-                            case 17:
-                                //偏財旺旺燈
-                                lastnum = 1001;
-                                break;
-                            case 18:
-                                //廣進安財庫
-                                lastnum = 1001;
-                                break;
-                        }
-                    }
-                }
-
-                msg += "。客服電話：04-36092299。";
-
-                return bResult;
-            }
-        }
-
-        public bool UpdateLights_ma_Info(int applicantID, int LightsType, string Year, ref string msg, ref string[] lightslist, ref string[] Lightslist)
-        {
-            lock (_thisLock)
-            {
-                TimeZoneInfo info = TimeZoneInfo.FindSystemTimeZoneById("Taipei Standard Time");
-                DateTime dt = TimeZoneInfo.ConvertTime(DateTime.Now, info);
-                bool bResult = false;
-                int lastnum = GetListNum_ma_Lights(LightsType, applicantID, Year);
-                if (lastnum > 0)
-                {
-                    bool dhavenum = true;
-
-                    switch (LightsType)
-                    {
-                        case 3:
-                            //光明燈
-                            for (int i = 1001; i < lastnum; i++)
-                            {
-                                if (CheckedNum_ma_Lights(LightsType, i, Year))
-                                {
-                                    lastnum = i;
-                                    dhavenum = false;
-                                    break;
-                                }
-                            }
-
-                            break;
-                        case 4:
-                            //太歲燈
-                            for (int i = 1001; i < lastnum; i++)
-                            {
-                                if (CheckedNum_ma_Lights(LightsType, i, Year))
-                                {
-                                    lastnum = i;
-                                    dhavenum = false;
-                                    break;
-                                }
-                            }
-
-                            break;
-                        case 5:
-                            //五文昌燈
-                            for (int i = 1001; i < lastnum; i++)
-                            {
-                                if (CheckedNum_ma_Lights(LightsType, i, Year))
-                                {
-                                    lastnum = i;
-                                    dhavenum = false;
-                                    break;
-                                }
-                            }
-
-                            break;
-                        case 6:
-                            //福財燈
-                            for (int i = 1001; i < lastnum; i++)
-                            {
-                                if (CheckedNum_ma_Lights(LightsType, i, Year))
-                                {
-                                    lastnum = i;
-                                    dhavenum = false;
-                                    break;
-                                }
-                            }
-
-                            break;
-                    }
-
-                    if (dhavenum)
-                    {
-                        ++lastnum;
-                    }
-                }
-                else
-                {
-                    switch (LightsType)
-                    {
-                        case 3:
-                            //光明燈
-                            lastnum = 1001;
-                            break;
-                        case 4:
-                            //太歲燈
-                            lastnum = 1001;
-                            break;
-                        case 5:
-                            //五文昌燈
-                            lastnum = 1001;
-                            break;
-                        case 6:
-                            //福財燈
-                            lastnum = 1001;
-                            break;
-                    }
-                }
-
-                DataTable dtDataList = new DataTable();
-                string sql = "Select * From Temple_" + Year + "..Lights_ma_info Where ApplicantID=@ApplicantID and Status = 0 and Num = 0";
-
-                DatabaseAdapter AdapterObj = new DatabaseAdapter(sql, this.DBSource);
-                AdapterObj.SetSqlCommandBuilder();
-                AdapterObj.AddParameterToSelectCommand("@ApplicantID", applicantID);
-                AdapterObj.Fill(dtDataList);
-
-                //Lightslist = new string[dtDataList.Rows.Count];
-                var tempList_lights = Lightslist.ToList();
-                lightslist = new string[dtDataList.Rows.Count];
-                for (int i = 0; i < dtDataList.Rows.Count; i++)
-                {
-                    string lid = dtDataList.Rows[i]["LightsID"].ToString();
-                    string NumString = string.Empty;
-
-                    LightsType = int.Parse(dtDataList.Rows[i]["LightsType"].ToString());
-                    switch (LightsType)
-                    {
-                        case 3:
-                            //光明燈
-                            NumString = "MAS" + Num2String(lastnum);
-                            tempList_lights.Add(NumString);
-                            lightslist[i] = "光明燈:MAS" + Num2String(lastnum);
-                            break;
-                        case 4:
-                            //太歲燈
-                            NumString = "MAA" + Num2String(lastnum);
-                            tempList_lights.Add(NumString);
-                            lightslist[i] = "太歲燈:MAA" + Num2String(lastnum);
-                            break;
-                        case 5:
-                            //五文昌燈
-                            NumString = "MAW" + Num2String(lastnum);
-                            tempList_lights.Add(NumString);
-                            lightslist[i] = "五文昌燈:MAW" + Num2String(lastnum);
-                            break;
-                        case 6:
-                            //福財燈
-                            NumString = "MAT" + Num2String(lastnum);
-                            tempList_lights.Add(NumString);
-                            lightslist[i] = "福財燈:MAT" + Num2String(lastnum);
-                            break;
-                    }
-                    Lightslist = tempList_lights.ToArray();
-
-                    //dtDataList.Rows[i]["Num"] = lastnum;
-                    //AdapterObj.Update(dtDataList);
-
-                    msg += lightslist[i];
-                    if (i < lightslist.Length - 1)
-                    {
-                        msg += ",";
-                    }
-
-                    //bResult = true;
-                    int res = ExecuteSql("Update Temple_" + Year + "..Lights_ma_info Set Num2String = N'" + NumString + "', Num = " + lastnum + " Where LightsID=" + lid);
-
-                    if (res > 0)
-                    {
-                        bResult = true;
-                    }
-
-                    int index = dtDataList.Rows.Count - i > 1 ? i + 1 : i;
-                    LightsType = int.Parse(dtDataList.Rows[index]["LightsType"].ToString());
-
-                    lastnum = GetListNum_ma_Lights(LightsType, applicantID, Year);
-                    if (lastnum > 0)
-                    {
-                        bool dhavenum = true;
-
-                        switch (LightsType)
-                        {
-                            case 3:
-                                //光明燈
-                                for (int j = 1001; j < lastnum; j++)
-                                {
-                                    if (CheckedNum_ma_Lights(LightsType, j, Year))
-                                    {
-                                        lastnum = j;
-                                        dhavenum = false;
-                                        break;
-                                    }
-                                }
-
-                                break;
-                            case 4:
-                                //太歲燈
-                                for (int j = 1001; j < lastnum; j++)
-                                {
-                                    if (CheckedNum_ma_Lights(LightsType, j, Year))
-                                    {
-                                        lastnum = j;
-                                        dhavenum = false;
-                                        break;
-                                    }
-                                }
-
-                                break;
-                            case 5:
-                                //五文昌燈
-                                for (int j = 1001; j < lastnum; j++)
-                                {
-                                    if (CheckedNum_ma_Lights(LightsType, j, Year))
-                                    {
-                                        lastnum = j;
-                                        dhavenum = false;
-                                        break;
-                                    }
-                                }
-
-                                break;
-                            case 6:
-                                //福財燈
-                                for (int j = 1001; j < lastnum; j++)
-                                {
-                                    if (CheckedNum_ma_Lights(LightsType, j, Year))
-                                    {
-                                        lastnum = j;
-                                        dhavenum = false;
-                                        break;
-                                    }
-                                }
-
-                                break;
-                        }
-
-                        if (dhavenum)
-                        {
-                            ++lastnum;
-                        }
-                    }
-                    else
-                    {
-                        switch (LightsType)
-                        {
-                            case 3:
-                                //光明燈
-                                lastnum = 1001;
-                                break;
-                            case 4:
-                                //太歲燈
-                                lastnum = 1001;
-                                break;
-                            case 5:
-                                //五文昌燈
-                                lastnum = 1001;
-                                break;
-                            case 6:
-                                //福財燈
-                                lastnum = 1001;
-                                break;
-                        }
-                    }
-                }
-
-                msg += "。客服電話：04-36092299。";
-
-                return bResult;
-            }
-        }
-
-        public bool UpdateLights_jb_Info(int applicantID, int LightsType, string Year, ref string msg, ref string[] lightslist, ref string[] Lightslist)
-        {
-            lock (_thisLock)
-            {
-                TimeZoneInfo info = TimeZoneInfo.FindSystemTimeZoneById("Taipei Standard Time");
-                DateTime dt = TimeZoneInfo.ConvertTime(DateTime.Now, info);
-                bool bResult = false;
-                int lastnum = GetListNum_jb_Lights(LightsType, applicantID, Year);
-                if (lastnum > 0)
-                {
-                    bool dhavenum = true;
-
-                    switch (LightsType)
-                    {
-                        case 3:
-                            //光明燈
-                            for (int i = 1001; i < lastnum; i++)
-                            {
-                                if (CheckedNum_jb_Lights(LightsType, i, Year))
-                                {
-                                    lastnum = i;
-                                    dhavenum = false;
-                                    break;
-                                }
-                            }
-
-                            break;
-                        case 4:
-                            //太歲燈
-                            for (int i = 1001; i < lastnum; i++)
-                            {
-                                if (CheckedNum_jb_Lights(LightsType, i, Year))
-                                {
-                                    lastnum = i;
-                                    dhavenum = false;
-                                    break;
-                                }
-                            }
-
-                            break;
-                        case 9:
-                            //財利燈
-                            for (int i = 1001; i < lastnum; i++)
-                            {
-                                if (CheckedNum_jb_Lights(LightsType, i, Year))
-                                {
-                                    lastnum = i;
-                                    dhavenum = false;
-                                    break;
-                                }
-                            }
-
-                            break;
-                        case 10:
-                            //貴人燈
-                            for (int i = 1001; i < lastnum; i++)
-                            {
-                                if (CheckedNum_jb_Lights(LightsType, i, Year))
-                                {
-                                    lastnum = i;
-                                    dhavenum = false;
-                                    break;
-                                }
-                            }
-
-                            break;
-                        case 12:
-                            //寵物平安燈
-                            for (int i = 1001; i < lastnum; i++)
-                            {
-                                if (CheckedNum_jb_Lights(LightsType, i, Year))
-                                {
-                                    lastnum = i;
-                                    dhavenum = false;
-                                    break;
-                                }
-                            }
-
-                            break;
-                    }
-
-                    if (dhavenum)
-                    {
-                        ++lastnum;
-                    }
-                }
-                else
-                {
-                    switch (LightsType)
-                    {
-                        case 3:
-                            //光明燈
-                            lastnum = 1001;
-                            break;
-                        case 4:
-                            //太歲燈
-                            lastnum = 1001;
-                            break;
-                        case 9:
-                            //財利燈
-                            lastnum = 1001;
-                            break;
-                        case 10:
-                            //貴人燈
-                            lastnum = 1001;
-                            break;
-                        case 12:
-                            //寵物平安燈
-                            lastnum = 1001;
-                            break;
-                    }
-                }
-
-                DataTable dtDataList = new DataTable();
-                string sql = "Select * From Temple_" + Year + "..Lights_jb_info Where ApplicantID=@ApplicantID and Status = 0 and Num = 0";
-
-                DatabaseAdapter AdapterObj = new DatabaseAdapter(sql, this.DBSource);
-                AdapterObj.SetSqlCommandBuilder();
-                AdapterObj.AddParameterToSelectCommand("@ApplicantID", applicantID);
-                AdapterObj.Fill(dtDataList);
-
-                //Lightslist = new string[dtDataList.Rows.Count];
-                var tempList_lights = Lightslist.ToList();
-                lightslist = new string[dtDataList.Rows.Count];
-                for (int i = 0; i < dtDataList.Rows.Count; i++)
-                {
-                    string lid = dtDataList.Rows[i]["LightsID"].ToString();
-                    string NumString = string.Empty;
-
-                    LightsType = int.Parse(dtDataList.Rows[i]["LightsType"].ToString());
-                    switch (LightsType)
-                    {
-                        case 3:
-                            //光明燈
-                            NumString = "JBS" + Num2String(lastnum);
-                            tempList_lights.Add(NumString);
-                            //dtDataList.Rows[i]["Num2String"] = "Y" + Num2String(lastnum);
-                            lightslist[i] = "光明燈:JBS" + Num2String(lastnum);
-                            break;
-                        case 4:
-                            //太歲燈
-                            NumString = "JBA" + Num2String(lastnum);
-                            tempList_lights.Add(NumString);
-                            //dtDataList.Rows[i]["Num2String"] = "六" + Num2String(lastnum);
-                            lightslist[i] = "太歲燈:JBA" + Num2String(lastnum);
-                            break;
-                        case 9:
-                            //財利燈
-                            NumString = "JBT" + Num2String(lastnum);
-                            tempList_lights.Add(NumString);
-                            //dtDataList.Rows[i]["Num2String"] = "文" + Num2String(lastnum);
-                            lightslist[i] = "財利燈:JBT" + Num2String(lastnum);
-                            break;
-                        case 10:
-                            //貴人燈
-                            NumString = "JBN" + Num2String(lastnum);
-                            tempList_lights.Add(NumString);
-                            //dtDataList.Rows[i]["Num2String"] = "文" + Num2String(lastnum);
-                            lightslist[i] = "貴人燈:JBN" + Num2String(lastnum);
-                            break;
-                        case 12:
-                            //寵物平安燈
-                            NumString = "JBP" + Num2String(lastnum);
-                            tempList_lights.Add(NumString);
-                            //dtDataList.Rows[i]["Num2String"] = "文" + Num2String(lastnum);
-                            lightslist[i] = "寵物平安燈:JBP" + Num2String(lastnum);
-                            break;
-                    }
-                    Lightslist = tempList_lights.ToArray();
-
-                    msg += lightslist[i];
-                    if (i < lightslist.Length - 1)
-                    {
-                        msg += ",";
-                    }
-
-                    int res = ExecuteSql("Update Temple_" + Year + "..Lights_jb_info Set Num2String = N'" + NumString + "', Num = " + lastnum + " Where LightsID=" + lid);
-
-                    if (res > 0)
-                    {
-                        bResult = true;
-                    }
-
-                    int index = dtDataList.Rows.Count - i > 1 ? i + 1 : i;
-                    LightsType = int.Parse(dtDataList.Rows[index]["LightsType"].ToString());
-
-                    lastnum = GetListNum_jb_Lights(LightsType, applicantID, Year);
-                    if (lastnum > 0)
-                    {
-                        bool dhavenum = true;
-
-                        switch (LightsType)
-                        {
-                            case 3:
-                                //光明燈
-                                for (int j = 1001; j < lastnum; j++)
-                                {
-                                    if (CheckedNum_jb_Lights(LightsType, j, Year))
-                                    {
-                                        lastnum = j;
-                                        dhavenum = false;
-                                        break;
-                                    }
-                                }
-
-                                break;
-                            case 4:
-                                //太歲燈
-                                for (int j = 1001; j < lastnum; j++)
-                                {
-                                    if (CheckedNum_jb_Lights(LightsType, j, Year))
-                                    {
-                                        lastnum = j;
-                                        dhavenum = false;
-                                        break;
-                                    }
-                                }
-
-                                break;
-                            case 9:
-                                //財利燈
-                                for (int j = 1001; j < lastnum; j++)
-                                {
-                                    if (CheckedNum_jb_Lights(LightsType, j, Year))
-                                    {
-                                        lastnum = j;
-                                        dhavenum = false;
-                                        break;
-                                    }
-                                }
-
-                                break;
-                            case 10:
-                                //貴人燈
-                                for (int j = 1001; j < lastnum; j++)
-                                {
-                                    if (CheckedNum_jb_Lights(LightsType, j, Year))
-                                    {
-                                        lastnum = j;
-                                        dhavenum = false;
-                                        break;
-                                    }
-                                }
-
-                                break;
-                            case 12:
-                                //寵物平安燈
-                                for (int j = 1001; j < lastnum; j++)
-                                {
-                                    if (CheckedNum_jb_Lights(LightsType, j, Year))
-                                    {
-                                        lastnum = j;
-                                        dhavenum = false;
-                                        break;
-                                    }
-                                }
-
-                                break;
-                        }
-
-                        if (dhavenum)
-                        {
-                            ++lastnum;
-                        }
-                    }
-                    else
-                    {
-                        switch (LightsType)
-                        {
-                            case 3:
-                                //光明燈
-                                lastnum = 1001;
-                                break;
-                            case 4:
-                                //太歲燈
-                                lastnum = 1001;
-                                break;
-                            case 9:
-                                //財利燈
-                                lastnum = 1001;
-                                break;
-                            case 10:
-                                //貴人燈
-                                lastnum = 1001;
-                                break;
-                            case 12:
-                                //寵物平安燈
-                                lastnum = 1001;
-                                break;
-                        }
-                    }
-                }
-
-                msg += "。客服電話：04-36092299。";
-
-                return bResult;
-            }
-        }
-
-        public bool UpdateLights_wjsan_Info(int applicantID, int LightsType, string Year, ref string msg, ref string[] lightslist, ref string[] Lightslist)
-        {
-            lock (_thisLock)
-            {
-                TimeZoneInfo info = TimeZoneInfo.FindSystemTimeZoneById("Taipei Standard Time");
-                DateTime dt = TimeZoneInfo.ConvertTime(DateTime.Now, info);
-                bool bResult = false;
-                int lastnum = GetListNum_wjsan_Lights(LightsType, applicantID, Year);
-                if (lastnum > 0)
-                {
-                    bool dhavenum = true;
-
-                    switch (LightsType)
-                    {
-                        case 3:
-                            //光明燈
-                            for (int j = 1001; j < lastnum; j++)
-                            {
-                                if (CheckedNum_wjsan_Lights(LightsType, j, Year))
-                                {
-                                    lastnum = j;
-                                    dhavenum = false;
-                                    break;
-                                }
-                            }
-
-                            break;
-                        case 4:
-                            //太歲燈
-                            for (int j = 1001; j < lastnum; j++)
-                            {
-                                if (CheckedNum_wjsan_Lights(LightsType, j, Year))
-                                {
-                                    lastnum = j;
-                                    dhavenum = false;
-                                    break;
-                                }
-                            }
-
-                            break;
-                        case 5:
-                            //文昌燈
-                            for (int j = 1001; j < lastnum; j++)
-                            {
-                                if (CheckedNum_wjsan_Lights(LightsType, j, Year))
-                                {
-                                    lastnum = j;
-                                    dhavenum = false;
-                                    break;
-                                }
-                            }
-
-                            break;
-                        case 6:
-                            //財神燈
-                            for (int j = 1001; j < lastnum; j++)
-                            {
-                                if (CheckedNum_wjsan_Lights(LightsType, j, Year))
-                                {
-                                    lastnum = j;
-                                    dhavenum = false;
-                                    break;
-                                }
-                            }
-
-                            break;
-                        case 8:
-                            //藥師燈
-                            for (int j = 1001; j < lastnum; j++)
-                            {
-                                if (CheckedNum_wjsan_Lights(LightsType, j, Year))
-                                {
-                                    lastnum = j;
-                                    dhavenum = false;
-                                    break;
-                                }
-                            }
-
-                            break;
-                        case 22:
-                            //事業燈
-                            for (int j = 1001; j < lastnum; j++)
-                            {
-                                if (CheckedNum_wjsan_Lights(LightsType, j, Year))
-                                {
-                                    lastnum = j;
-                                    dhavenum = false;
-                                    break;
-                                }
-                            }
-
-                            break;
-                        case 23:
-                            //全家光明燈
-                            for (int j = 1001; j < lastnum; j++)
-                            {
-                                if (CheckedNum_wjsan_Lights(LightsType, j, Year))
-                                {
-                                    lastnum = j;
-                                    dhavenum = false;
-                                    break;
-                                }
-                            }
-
-                            break;
-                        case 25:
-                            //財神斗
-                            for (int j = 1001; j < lastnum; j++)
-                            {
-                                if (CheckedNum_wjsan_Lights(LightsType, j, Year))
-                                {
-                                    lastnum = j;
-                                    dhavenum = false;
-                                    break;
-                                }
-                            }
-
-                            break;
-                        case 26:
-                            //事業斗
-                            for (int j = 1001; j < lastnum; j++)
-                            {
-                                if (CheckedNum_wjsan_Lights(LightsType, j, Year))
-                                {
-                                    lastnum = j;
-                                    dhavenum = false;
-                                    break;
-                                }
-                            }
-
-                            break;
-                        case 27:
-                            //平安斗
-                            for (int j = 1001; j < lastnum; j++)
-                            {
-                                if (CheckedNum_wjsan_Lights(LightsType, j, Year))
-                                {
-                                    lastnum = j;
-                                    dhavenum = false;
-                                    break;
-                                }
-                            }
-
-                            break;
-                        case 28:
-                            //文昌斗
-                            for (int j = 1001; j < lastnum; j++)
-                            {
-                                if (CheckedNum_wjsan_Lights(LightsType, j, Year))
-                                {
-                                    lastnum = j;
-                                    dhavenum = false;
-                                    break;
-                                }
-                            }
-
-                            break;
-                        case 29:
-                            //藥師斗
-                            for (int j = 1001; j < lastnum; j++)
-                            {
-                                if (CheckedNum_wjsan_Lights(LightsType, j, Year))
-                                {
-                                    lastnum = j;
-                                    dhavenum = false;
-                                    break;
-                                }
-                            }
-
-                            break;
-                        case 30:
-                            //元神斗
-                            for (int j = 1001; j < lastnum; j++)
-                            {
-                                if (CheckedNum_wjsan_Lights(LightsType, j, Year))
-                                {
-                                    lastnum = j;
-                                    dhavenum = false;
-                                    break;
-                                }
-                            }
-
-                            break;
-                        case 31:
-                            //福祿壽斗
-                            for (int j = 1001; j < lastnum; j++)
-                            {
-                                if (CheckedNum_wjsan_Lights(LightsType, j, Year))
-                                {
-                                    lastnum = j;
-                                    dhavenum = false;
-                                    break;
-                                }
-                            }
-
-                            break;
-                        case 32:
-                            //觀音斗
-                            for (int j = 1001; j < lastnum; j++)
-                            {
-                                if (CheckedNum_wjsan_Lights(LightsType, j, Year))
-                                {
-                                    lastnum = j;
-                                    dhavenum = false;
-                                    break;
-                                }
-                            }
-
-                            break;
-                    }
-
-                    if (dhavenum)
-                    {
-                        ++lastnum;
-                    }
-                }
-                else
-                {
-                    switch (LightsType)
-                    {
-                        case 3:
-                            //光明燈
-                            lastnum = 1001;
-                            break;
-                        case 4:
-                            //太歲燈
-                            lastnum = 1001;
-                            break;
-                        case 5:
-                            //文昌燈
-                            lastnum = 1001;
-                            break;
-                        case 6:
-                            //財神燈
-                            lastnum = 1001;
-                            break;
-                        case 8:
-                            //藥師燈
-                            lastnum = 1001;
-                            break;
-                        case 22:
-                            //事業燈
-                            lastnum = 1001;
-                            break;
-                        case 23:
-                            //全家光明燈
-                            lastnum = 1001;
-                            break;
-                        case 25:
-                            //財神斗
-                            lastnum = 1001;
-                            break;
-                        case 26:
-                            //事業斗
-                            lastnum = 1001;
-                            break;
-                        case 27:
-                            //平安斗
-                            lastnum = 1001;
-                            break;
-                        case 28:
-                            //文昌斗
-                            lastnum = 1001;
-                            break;
-                        case 29:
-                            //藥師斗
-                            lastnum = 1001;
-                            break;
-                        case 30:
-                            //元神斗
-                            lastnum = 1001;
-                            break;
-                        case 31:
-                            //福祿壽斗
-                            lastnum = 1001;
-                            break;
-                        case 32:
-                            //觀音斗
-                            lastnum = 1001;
-                            break;
-                    }
-                }
-
-                DataTable dtDataList = new DataTable();
-                string sql = "Select * From Temple_" + Year + "..Lights_wjsan_info Where ApplicantID=@ApplicantID and Status = 0 and Num = 0";
-
-                DatabaseAdapter AdapterObj = new DatabaseAdapter(sql, this.DBSource);
-                AdapterObj.SetSqlCommandBuilder();
-                AdapterObj.AddParameterToSelectCommand("@ApplicantID", applicantID);
-                AdapterObj.Fill(dtDataList);
-
-                //Lightslist = new string[dtDataList.Rows.Count];
-                var tempList_lights = Lightslist.ToList();
-                lightslist = new string[dtDataList.Rows.Count];
-                for (int i = 0; i < dtDataList.Rows.Count; i++)
-                {
-                    string lid = dtDataList.Rows[i]["LightsID"].ToString();
-                    string NumString = string.Empty;
-
-                    LightsType = int.Parse(dtDataList.Rows[i]["LightsType"].ToString());
-                    switch (LightsType)
-                    {
-                        case 3:
-                            //光明燈
-                            NumString = "WJSS" + Num2String(lastnum);
-                            tempList_lights.Add(NumString);
-                            lightslist[i] = "光明燈:WJSS" + Num2String(lastnum);
-                            break;
-                        case 4:
-                            //太歲燈
-                            NumString = "WJSA" + Num2String(lastnum);
-                            tempList_lights.Add(NumString);
-                            lightslist[i] = "太歲燈:WJSA" + Num2String(lastnum);
-                            break;
-                        case 5:
-                            //文昌燈
-                            NumString = "WJSW" + Num2String(lastnum);
-                            tempList_lights.Add(NumString);
-                            lightslist[i] = "文昌燈:WJSW" + Num2String(lastnum);
-                            break;
-                        case 6:
-                            //財神燈
-                            NumString = "WJST" + Num2String(lastnum);
-                            tempList_lights.Add(NumString);
-                            lightslist[i] = "財神燈:WJST" + Num2String(lastnum);
-                            break;
-                        case 8:
-                            //藥師燈
-                            NumString = "WJSY" + Num2String(lastnum);
-                            tempList_lights.Add(NumString);
-                            lightslist[i] = "藥師燈:WJSY" + Num2String(lastnum);
-                            break;
-                        case 22:
-                            //事業燈
-                            NumString = "WJSC" + Num2String(lastnum);
-                            tempList_lights.Add(NumString);
-                            lightslist[i] = "事業燈:WJSC" + Num2String(lastnum);
-                            break;
-                        case 23:
-                            //全家光明燈
-                            NumString = "WJSFS" + Num2String(lastnum);
-                            tempList_lights.Add(NumString);
-                            lightslist[i] = "全家光明燈:WJSFS" + Num2String(lastnum);
-                            break;
-                        case 25:
-                            //財神斗
-                            NumString = "WJSTDL" + Num2String(lastnum);
-                            tempList_lights.Add(NumString);
-                            lightslist[i] = "財神斗:WJSTDL" + Num2String(lastnum);
-                            break;
-                        case 26:
-                            //事業斗
-                            NumString = "WJSCDL" + Num2String(lastnum);
-                            tempList_lights.Add(NumString);
-                            lightslist[i] = "事業斗:WJSCDL" + Num2String(lastnum);
-                            break;
-                        case 27:
-                            //平安斗
-                            NumString = "WJSPDL" + Num2String(lastnum);
-                            tempList_lights.Add(NumString);
-                            lightslist[i] = "平安斗:WJSPDL" + Num2String(lastnum);
-                            break;
-                        case 28:
-                            //文昌斗
-                            NumString = "WJSWDL" + Num2String(lastnum);
-                            tempList_lights.Add(NumString);
-                            lightslist[i] = "文昌斗:WJSWDL" + Num2String(lastnum);
-                            break;
-                        case 29:
-                            //藥師斗
-                            NumString = "WJSYDL" + Num2String(lastnum);
-                            tempList_lights.Add(NumString);
-                            lightslist[i] = "藥師斗:WJSYDL" + Num2String(lastnum);
-                            break;
-                        case 30:
-                            //元神斗
-                            NumString = "WJSPSDL" + Num2String(lastnum);
-                            tempList_lights.Add(NumString);
-                            lightslist[i] = "元神斗:WJSPSDL" + Num2String(lastnum);
-                            break;
-                        case 31:
-                            //福祿壽斗
-                            NumString = "WJSLDL" + Num2String(lastnum);
-                            tempList_lights.Add(NumString);
-                            lightslist[i] = "福祿壽斗:WJSLDL" + Num2String(lastnum);
-                            break;
-                        case 32:
-                            //觀音斗
-                            NumString = "WJSKYDL" + Num2String(lastnum);
-                            tempList_lights.Add(NumString);
-                            lightslist[i] = "觀音斗:WJSKYDL" + Num2String(lastnum);
-                            break;
-                    }
-                    Lightslist = tempList_lights.ToArray();
-
-                    //NumString = "WJSAN" + Num2String(lastnum);
-                    //tempList_lights.Add(NumString);
-                    //lightslist[i] = "WJSAN" + Num2String(lastnum);
-
-                    //Lightslist = tempList_lights.ToArray();
-
-                    //dtDataList.Rows[i]["Num"] = lastnum;
-                    //AdapterObj.Update(dtDataList);
-
-                    msg += lightslist[i];
-                    if (i < lightslist.Length - 1)
-                    {
-                        msg += ",";
-                    }
-
-                    //bResult = true;
-                    int res = ExecuteSql("Update Temple_" + Year + "..Lights_wjsan_info Set Num2String = N'" + NumString + "', Num = " + lastnum + " Where LightsID=" + lid);
-
-                    if (res > 0)
-                    {
-                        bResult = true;
-                    }
-
-                    int index = dtDataList.Rows.Count - i > 1 ? i + 1 : i;
-                    LightsType = int.Parse(dtDataList.Rows[index]["LightsType"].ToString());
-
-                    lastnum = GetListNum_wjsan_Lights(LightsType, applicantID, Year);
-                    if (lastnum > 0)
-                    {
-                        bool dhavenum = true;
-
-                        switch (LightsType)
-                        {
-                            case 3:
-                                //光明燈
-                                for (int j = 1001; j < lastnum; j++)
-                                {
-                                    if (CheckedNum_wjsan_Lights(LightsType, j, Year))
-                                    {
-                                        lastnum = j;
-                                        dhavenum = false;
-                                        break;
-                                    }
-                                }
-
-                                break;
-                            case 4:
-                                //太歲燈
-                                for (int j = 1001; j < lastnum; j++)
-                                {
-                                    if (CheckedNum_wjsan_Lights(LightsType, j, Year))
-                                    {
-                                        lastnum = j;
-                                        dhavenum = false;
-                                        break;
-                                    }
-                                }
-
-                                break;
-                            case 5:
-                                //文昌燈
-                                for (int j = 1001; j < lastnum; j++)
-                                {
-                                    if (CheckedNum_wjsan_Lights(LightsType, j, Year))
-                                    {
-                                        lastnum = j;
-                                        dhavenum = false;
-                                        break;
-                                    }
-                                }
-
-                                break;
-                            case 6:
-                                //財神燈
-                                for (int j = 1001; j < lastnum; j++)
-                                {
-                                    if (CheckedNum_wjsan_Lights(LightsType, j, Year))
-                                    {
-                                        lastnum = j;
-                                        dhavenum = false;
-                                        break;
-                                    }
-                                }
-
-                                break;
-                            case 8:
-                                //藥師燈
-                                for (int j = 1001; j < lastnum; j++)
-                                {
-                                    if (CheckedNum_wjsan_Lights(LightsType, j, Year))
-                                    {
-                                        lastnum = j;
-                                        dhavenum = false;
-                                        break;
-                                    }
-                                }
-
-                                break;
-                            case 22:
-                                //事業燈
-                                for (int j = 1001; j < lastnum; j++)
-                                {
-                                    if (CheckedNum_wjsan_Lights(LightsType, j, Year))
-                                    {
-                                        lastnum = j;
-                                        dhavenum = false;
-                                        break;
-                                    }
-                                }
-
-                                break;
-                            case 23:
-                                //全家光明燈
-                                for (int j = 1001; j < lastnum; j++)
-                                {
-                                    if (CheckedNum_wjsan_Lights(LightsType, j, Year))
-                                    {
-                                        lastnum = j;
-                                        dhavenum = false;
-                                        break;
-                                    }
-                                }
-
-                                break;
-                            case 25:
-                                //財神斗
-                                for (int j = 1001; j < lastnum; j++)
-                                {
-                                    if (CheckedNum_wjsan_Lights(LightsType, j, Year))
-                                    {
-                                        lastnum = j;
-                                        dhavenum = false;
-                                        break;
-                                    }
-                                }
-
-                                break;
-                            case 26:
-                                //事業斗
-                                for (int j = 1001; j < lastnum; j++)
-                                {
-                                    if (CheckedNum_wjsan_Lights(LightsType, j, Year))
-                                    {
-                                        lastnum = j;
-                                        dhavenum = false;
-                                        break;
-                                    }
-                                }
-
-                                break;
-                            case 27:
-                                //平安斗
-                                for (int j = 1001; j < lastnum; j++)
-                                {
-                                    if (CheckedNum_wjsan_Lights(LightsType, j, Year))
-                                    {
-                                        lastnum = j;
-                                        dhavenum = false;
-                                        break;
-                                    }
-                                }
-
-                                break;
-                            case 28:
-                                //文昌斗
-                                for (int j = 1001; j < lastnum; j++)
-                                {
-                                    if (CheckedNum_wjsan_Lights(LightsType, j, Year))
-                                    {
-                                        lastnum = j;
-                                        dhavenum = false;
-                                        break;
-                                    }
-                                }
-
-                                break;
-                            case 29:
-                                //藥師斗
-                                for (int j = 1001; j < lastnum; j++)
-                                {
-                                    if (CheckedNum_wjsan_Lights(LightsType, j, Year))
-                                    {
-                                        lastnum = j;
-                                        dhavenum = false;
-                                        break;
-                                    }
-                                }
-
-                                break;
-                            case 30:
-                                //元神斗
-                                for (int j = 1001; j < lastnum; j++)
-                                {
-                                    if (CheckedNum_wjsan_Lights(LightsType, j, Year))
-                                    {
-                                        lastnum = j;
-                                        dhavenum = false;
-                                        break;
-                                    }
-                                }
-
-                                break;
-                            case 31:
-                                //福祿壽斗
-                                for (int j = 1001; j < lastnum; j++)
-                                {
-                                    if (CheckedNum_wjsan_Lights(LightsType, j, Year))
-                                    {
-                                        lastnum = j;
-                                        dhavenum = false;
-                                        break;
-                                    }
-                                }
-
-                                break;
-                            case 32:
-                                //觀音斗
-                                for (int j = 1001; j < lastnum; j++)
-                                {
-                                    if (CheckedNum_wjsan_Lights(LightsType, j, Year))
-                                    {
-                                        lastnum = j;
-                                        dhavenum = false;
-                                        break;
-                                    }
-                                }
-
-                                break;
-                        }
-
-                        if (dhavenum)
-                        {
-                            ++lastnum;
-                        }
-                    }
-                    else
-                    {
-                        switch (LightsType)
-                        {
-                            case 3:
-                                //光明燈
-                                lastnum = 1001;
-                                break;
-                            case 4:
-                                //太歲燈
-                                lastnum = 1001;
-                                break;
-                            case 5:
-                                //文昌燈
-                                lastnum = 1001;
-                                break;
-                            case 6:
-                                //財神燈
-                                lastnum = 1001;
-                                break;
-                            case 8:
-                                //藥師燈
-                                lastnum = 1001;
-                                break;
-                            case 22:
-                                //事業燈
-                                lastnum = 1001;
-                                break;
-                            case 23:
-                                //全家光明燈
-                                lastnum = 1001;
-                                break;
-                            case 25:
-                                //財神斗
-                                lastnum = 1001;
-                                break;
-                            case 26:
-                                //事業斗
-                                lastnum = 1001;
-                                break;
-                            case 27:
-                                //平安斗
-                                lastnum = 1001;
-                                break;
-                            case 28:
-                                //文昌斗
-                                lastnum = 1001;
-                                break;
-                            case 29:
-                                //藥師斗
-                                lastnum = 1001;
-                                break;
-                            case 30:
-                                //元神斗
-                                lastnum = 1001;
-                                break;
-                            case 31:
-                                //福祿壽斗
-                                lastnum = 1001;
-                                break;
-                            case 32:
-                                //觀音斗
-                                lastnum = 1001;
-                                break;
-                        }
-                    }
-                }
-
-                msg += "。客服電話：04-36092299。";
-
-                return bResult;
-            }
-        }
-
-        public bool UpdateAnDou_wjsan_Info(int applicantID, int AnDouType, string Year, ref string msg, ref string[] andoulist, ref string[] AnDoulist)
-        {
-            lock (_thisLock)
-            {
-                TimeZoneInfo info = TimeZoneInfo.FindSystemTimeZoneById("Taipei Standard Time");
-                DateTime dt = TimeZoneInfo.ConvertTime(DateTime.Now, info);
-                bool bResult = false;
-                int lastnum = GetListNum_wjsan_AnDou(AnDouType, applicantID, Year);
-                if (lastnum > 0)
-                {
-                    bool dhavenum = true;
-
-                    switch (AnDouType)
-                    {
-                        case 25:
-                            //財神斗
-                            for (int j = 1001; j < lastnum; j++)
-                            {
-                                if (CheckedNum_wjsan_AnDou(AnDouType, j, Year))
-                                {
-                                    lastnum = j;
-                                    dhavenum = false;
-                                    break;
-                                }
-                            }
-
-                            break;
-                        case 26:
-                            //事業斗
-                            for (int j = 1001; j < lastnum; j++)
-                            {
-                                if (CheckedNum_wjsan_AnDou(AnDouType, j, Year))
-                                {
-                                    lastnum = j;
-                                    dhavenum = false;
-                                    break;
-                                }
-                            }
-
-                            break;
-                        case 27:
-                            //平安斗
-                            for (int j = 1001; j < lastnum; j++)
-                            {
-                                if (CheckedNum_wjsan_AnDou(AnDouType, j, Year))
-                                {
-                                    lastnum = j;
-                                    dhavenum = false;
-                                    break;
-                                }
-                            }
-
-                            break;
-                        case 28:
-                            //文昌斗
-                            for (int j = 1001; j < lastnum; j++)
-                            {
-                                if (CheckedNum_wjsan_AnDou(AnDouType, j, Year))
-                                {
-                                    lastnum = j;
-                                    dhavenum = false;
-                                    break;
-                                }
-                            }
-
-                            break;
-                        case 29:
-                            //藥師斗
-                            for (int j = 1001; j < lastnum; j++)
-                            {
-                                if (CheckedNum_wjsan_AnDou(AnDouType, j, Year))
-                                {
-                                    lastnum = j;
-                                    dhavenum = false;
-                                    break;
-                                }
-                            }
-
-                            break;
-                        case 30:
-                            //元神斗
-                            for (int j = 1001; j < lastnum; j++)
-                            {
-                                if (CheckedNum_wjsan_AnDou(AnDouType, j, Year))
-                                {
-                                    lastnum = j;
-                                    dhavenum = false;
-                                    break;
-                                }
-                            }
-
-                            break;
-                        case 31:
-                            //福祿壽斗
-                            for (int j = 1001; j < lastnum; j++)
-                            {
-                                if (CheckedNum_wjsan_AnDou(AnDouType, j, Year))
-                                {
-                                    lastnum = j;
-                                    dhavenum = false;
-                                    break;
-                                }
-                            }
-
-                            break;
-                        case 32:
-                            //觀音斗
-                            for (int j = 1001; j < lastnum; j++)
-                            {
-                                if (CheckedNum_wjsan_AnDou(AnDouType, j, Year))
-                                {
-                                    lastnum = j;
-                                    dhavenum = false;
-                                    break;
-                                }
-                            }
-
-                            break;
-                    }
-
-                    if (dhavenum)
-                    {
-                        ++lastnum;
-                    }
-                }
-                else
-                {
-                    switch (AnDouType)
-                    {
-                        case 25:
-                            //財神斗
-                            lastnum = 1001;
-                            break;
-                        case 26:
-                            //事業斗
-                            lastnum = 1001;
-                            break;
-                        case 27:
-                            //平安斗
-                            lastnum = 1001;
-                            break;
-                        case 28:
-                            //文昌斗
-                            lastnum = 1001;
-                            break;
-                        case 29:
-                            //藥師斗
-                            lastnum = 1001;
-                            break;
-                        case 30:
-                            //元神斗
-                            lastnum = 1001;
-                            break;
-                        case 31:
-                            //福祿壽斗
-                            lastnum = 1001;
-                            break;
-                        case 32:
-                            //觀音斗
-                            lastnum = 1001;
-                            break;
-                    }
-                }
-
-                DataTable dtDataList = new DataTable();
-                string sql = "Select * From Temple_" + Year + "..AnDou_wjsan_info Where ApplicantID=@ApplicantID and Status = 0 and Num = 0";
-
-                DatabaseAdapter AdapterObj = new DatabaseAdapter(sql, this.DBSource);
-                AdapterObj.SetSqlCommandBuilder();
-                AdapterObj.AddParameterToSelectCommand("@ApplicantID", applicantID);
-                AdapterObj.Fill(dtDataList);
-
-                //AnDoulist = new string[dtDataList.Rows.Count];
-                var tempList_andou = AnDoulist.ToList();
-                andoulist = new string[dtDataList.Rows.Count];
-                for (int i = 0; i < dtDataList.Rows.Count; i++)
-                {
-                    string lid = dtDataList.Rows[i]["AnDouID"].ToString();
-                    string NumString = string.Empty;
-
-                    AnDouType = int.Parse(dtDataList.Rows[i]["AnDouType"].ToString());
-                    switch (AnDouType)
-                    {
-                        case 25:
-                            //財神斗
-                            NumString = "WJSTDL" + Num2String(lastnum);
-                            tempList_andou.Add(NumString);
-                            andoulist[i] = "財神斗:WJSTDL" + Num2String(lastnum);
-                            break;
-                        case 26:
-                            //事業斗
-                            NumString = "WJSCDL" + Num2String(lastnum);
-                            tempList_andou.Add(NumString);
-                            andoulist[i] = "事業斗:WJSCDL" + Num2String(lastnum);
-                            break;
-                        case 27:
-                            //平安斗
-                            NumString = "WJSPDL" + Num2String(lastnum);
-                            tempList_andou.Add(NumString);
-                            andoulist[i] = "平安斗:WJSPDL" + Num2String(lastnum);
-                            break;
-                        case 28:
-                            //文昌斗
-                            NumString = "WJSWDL" + Num2String(lastnum);
-                            tempList_andou.Add(NumString);
-                            andoulist[i] = "文昌斗:WJSWDL" + Num2String(lastnum);
-                            break;
-                        case 29:
-                            //藥師斗
-                            NumString = "WJSYDL" + Num2String(lastnum);
-                            tempList_andou.Add(NumString);
-                            andoulist[i] = "藥師斗:WJSYDL" + Num2String(lastnum);
-                            break;
-                        case 30:
-                            //元神斗
-                            NumString = "WJSPSDL" + Num2String(lastnum);
-                            tempList_andou.Add(NumString);
-                            andoulist[i] = "元神斗:WJSPSDL" + Num2String(lastnum);
-                            break;
-                        case 31:
-                            //福祿壽斗
-                            NumString = "WJSLDL" + Num2String(lastnum);
-                            tempList_andou.Add(NumString);
-                            andoulist[i] = "福祿壽斗:WJSLDL" + Num2String(lastnum);
-                            break;
-                        case 32:
-                            //觀音斗
-                            NumString = "WJSKYDL" + Num2String(lastnum);
-                            tempList_andou.Add(NumString);
-                            andoulist[i] = "觀音斗:WJSKYDL" + Num2String(lastnum);
-                            break;
-                    }
-                    AnDoulist = tempList_andou.ToArray();
-
-                    //NumString = "WJSAN" + Num2String(lastnum);
-                    //tempList_andou.Add(NumString);
-                    //andoulist[i] = "WJSAN" + Num2String(lastnum);
-
-                    //AnDoulist = tempList_andou.ToArray();
-
-                    //dtDataList.Rows[i]["Num"] = lastnum;
-                    //AdapterObj.Update(dtDataList);
-
-                    msg += andoulist[i];
-                    if (i < andoulist.Length - 1)
-                    {
-                        msg += ",";
-                    }
-
-                    //bResult = true;
-                    int res = ExecuteSql("Update Temple_" + Year + "..AnDou_wjsan_info Set Num2String = N'" + NumString + "', Num = " + lastnum + " Where AnDouID=" + lid);
-
-                    if (res > 0)
-                    {
-                        bResult = true;
-                    }
-
-                    int index = dtDataList.Rows.Count - i > 1 ? i + 1 : i;
-                    AnDouType = int.Parse(dtDataList.Rows[index]["AnDouType"].ToString());
-
-                    lastnum = GetListNum_wjsan_AnDou(AnDouType, applicantID, Year);
-                    if (lastnum > 0)
-                    {
-                        bool dhavenum = true;
-
-                        switch (AnDouType)
-                        {
-                            case 25:
-                                //財神斗
-                                for (int j = 1001; j < lastnum; j++)
-                                {
-                                    if (CheckedNum_wjsan_AnDou(AnDouType, j, Year))
-                                    {
-                                        lastnum = j;
-                                        dhavenum = false;
-                                        break;
-                                    }
-                                }
-
-                                break;
-                            case 26:
-                                //事業斗
-                                for (int j = 1001; j < lastnum; j++)
-                                {
-                                    if (CheckedNum_wjsan_AnDou(AnDouType, j, Year))
-                                    {
-                                        lastnum = j;
-                                        dhavenum = false;
-                                        break;
-                                    }
-                                }
-
-                                break;
-                            case 27:
-                                //平安斗
-                                for (int j = 1001; j < lastnum; j++)
-                                {
-                                    if (CheckedNum_wjsan_AnDou(AnDouType, j, Year))
-                                    {
-                                        lastnum = j;
-                                        dhavenum = false;
-                                        break;
-                                    }
-                                }
-
-                                break;
-                            case 28:
-                                //文昌斗
-                                for (int j = 1001; j < lastnum; j++)
-                                {
-                                    if (CheckedNum_wjsan_AnDou(AnDouType, j, Year))
-                                    {
-                                        lastnum = j;
-                                        dhavenum = false;
-                                        break;
-                                    }
-                                }
-
-                                break;
-                            case 29:
-                                //藥師斗
-                                for (int j = 1001; j < lastnum; j++)
-                                {
-                                    if (CheckedNum_wjsan_AnDou(AnDouType, j, Year))
-                                    {
-                                        lastnum = j;
-                                        dhavenum = false;
-                                        break;
-                                    }
-                                }
-
-                                break;
-                            case 30:
-                                //元神斗
-                                for (int j = 1001; j < lastnum; j++)
-                                {
-                                    if (CheckedNum_wjsan_AnDou(AnDouType, j, Year))
-                                    {
-                                        lastnum = j;
-                                        dhavenum = false;
-                                        break;
-                                    }
-                                }
-
-                                break;
-                            case 31:
-                                //福祿壽斗
-                                for (int j = 1001; j < lastnum; j++)
-                                {
-                                    if (CheckedNum_wjsan_AnDou(AnDouType, j, Year))
-                                    {
-                                        lastnum = j;
-                                        dhavenum = false;
-                                        break;
-                                    }
-                                }
-
-                                break;
-                            case 32:
-                                //觀音斗
-                                for (int j = 1001; j < lastnum; j++)
-                                {
-                                    if (CheckedNum_wjsan_AnDou(AnDouType, j, Year))
-                                    {
-                                        lastnum = j;
-                                        dhavenum = false;
-                                        break;
-                                    }
-                                }
-
-                                break;
-                        }
-
-                        if (dhavenum)
-                        {
-                            ++lastnum;
-                        }
-                    }
-                    else
-                    {
-                        switch (AnDouType)
-                        {
-                            case 25:
-                                //財神斗
-                                lastnum = 1001;
-                                break;
-                            case 26:
-                                //事業斗
-                                lastnum = 1001;
-                                break;
-                            case 27:
-                                //平安斗
-                                lastnum = 1001;
-                                break;
-                            case 28:
-                                //文昌斗
-                                lastnum = 1001;
-                                break;
-                            case 29:
-                                //藥師斗
-                                lastnum = 1001;
-                                break;
-                            case 30:
-                                //元神斗
-                                lastnum = 1001;
-                                break;
-                            case 31:
-                                //福祿壽斗
-                                lastnum = 1001;
-                                break;
-                            case 32:
-                                //觀音斗
-                                lastnum = 1001;
-                                break;
-                        }
-                    }
-                }
-
-                msg += "。客服電話：04-36092299。";
-
-                return bResult;
-            }
-        }
-
-        public bool UpdateHuaguo_wjsan_Info(int applicantID, int HuaguoType, string Year, ref string msg, ref string[] huaguolist, ref string[] Huaguolist)
-        {
-            lock (_thisLock)
-            {
-                TimeZoneInfo info = TimeZoneInfo.FindSystemTimeZoneById("Taipei Standard Time");
-                DateTime dt = TimeZoneInfo.ConvertTime(DateTime.Now, info);
-                bool bResult = false;
-                int lastnum = GetListNum_wjsan_Huaguo(HuaguoType, applicantID, Year);
-                if (lastnum > 0)
-                {
-                    bool dhavenum = true;
-
-                    switch (HuaguoType)
-                    {
-                        case 1:
-                            //供花/次
-                            for (int j = 1001; j < lastnum; j++)
-                            {
-                                if (CheckedNum_wjsan_Huaguo(HuaguoType, j, Year))
-                                {
-                                    lastnum = j;
-                                    dhavenum = false;
-                                    break;
-                                }
-                            }
-
-                            break;
-                        case 2:
-                            //供果/次
-                            for (int j = 1001; j < lastnum; j++)
-                            {
-                                if (CheckedNum_wjsan_Huaguo(HuaguoType, j, Year))
-                                {
-                                    lastnum = j;
-                                    dhavenum = false;
-                                    break;
-                                }
-                            }
-
-                            break;
-                        case 3:
-                            //供花/月
-                            for (int j = 1001; j < lastnum; j++)
-                            {
-                                if (CheckedNum_wjsan_Huaguo(HuaguoType, j, Year))
-                                {
-                                    lastnum = j;
-                                    dhavenum = false;
-                                    break;
-                                }
-                            }
-
-                            break;
-                        case 4:
-                            //供果/月
-                            for (int j = 1001; j < lastnum; j++)
-                            {
-                                if (CheckedNum_wjsan_Huaguo(HuaguoType, j, Year))
-                                {
-                                    lastnum = j;
-                                    dhavenum = false;
-                                    break;
-                                }
-                            }
-
-                            break;
-                        case 5:
-                            //供花/半年
-                            for (int j = 1001; j < lastnum; j++)
-                            {
-                                if (CheckedNum_wjsan_Huaguo(HuaguoType, j, Year))
-                                {
-                                    lastnum = j;
-                                    dhavenum = false;
-                                    break;
-                                }
-                            }
-
-                            break;
-                        case 6:
-                            //供果/半年
-                            for (int j = 1001; j < lastnum; j++)
-                            {
-                                if (CheckedNum_wjsan_Huaguo(HuaguoType, j, Year))
-                                {
-                                    lastnum = j;
-                                    dhavenum = false;
-                                    break;
-                                }
-                            }
-
-                            break;
-                    }
-
-                    if (dhavenum)
-                    {
-                        ++lastnum;
-                    }
-                }
-                else
-                {
-                    switch (HuaguoType)
-                    {
-                        case 1:
-                            //供花/次
-                            lastnum = 1001;
-                            break;
-                        case 2:
-                            //供果/次
-                            lastnum = 1001;
-                            break;
-                        case 3:
-                            //供花/月
-                            lastnum = 1001;
-                            break;
-                        case 4:
-                            //供果/月
-                            lastnum = 1001;
-                            break;
-                        case 5:
-                            //供花/半年
-                            lastnum = 1001;
-                            break;
-                        case 6:
-                            //供果/半年
-                            lastnum = 1001;
-                            break;
-                    }
-                }
-
-                DataTable dtDataList = new DataTable();
-                string sql = "Select * From Temple_" + Year + "..Huaguo_wjsan_info Where ApplicantID=@ApplicantID and Status = 0 and Num = 0";
-
-                DatabaseAdapter AdapterObj = new DatabaseAdapter(sql, this.DBSource);
-                AdapterObj.SetSqlCommandBuilder();
-                AdapterObj.AddParameterToSelectCommand("@ApplicantID", applicantID);
-                AdapterObj.Fill(dtDataList);
-
-                //Huaguolist = new string[dtDataList.Rows.Count];
-                var tempList_huaguo = Huaguolist.ToList();
-                huaguolist = new string[dtDataList.Rows.Count];
-                for (int i = 0; i < dtDataList.Rows.Count; i++)
-                {
-                    string id = dtDataList.Rows[i]["HuaguoID"].ToString();
-                    string NumString = string.Empty;
-
-                    HuaguoType = int.Parse(dtDataList.Rows[i]["HuaguoType"].ToString());
-                    switch (HuaguoType)
-                    {
-                        case 1:
-                            //供花/次
-                            NumString = "WJSH" + Num2String(lastnum);
-                            tempList_huaguo.Add(NumString);
-                            huaguolist[i] = "供花/次:WJSH" + Num2String(lastnum);
-                            break;
-                        case 2:
-                            //供果/次
-                            NumString = "WJSG" + Num2String(lastnum);
-                            tempList_huaguo.Add(NumString);
-                            huaguolist[i] = "供果/次:WJSG" + Num2String(lastnum);
-                            break;
-                        case 3:
-                            //供花/月
-                            NumString = "WJS3H" + Num2String(lastnum);
-                            tempList_huaguo.Add(NumString);
-                            huaguolist[i] = "供花/月:WJS3H" + Num2String(lastnum);
-                            break;
-                        case 4:
-                            //供果/月
-                            NumString = "WJS3G" + Num2String(lastnum);
-                            tempList_huaguo.Add(NumString);
-                            huaguolist[i] = "供果/月:WJS3G" + Num2String(lastnum);
-                            break;
-                        case 5:
-                            //供花/半年
-                            NumString = "WJS18H" + Num2String(lastnum);
-                            tempList_huaguo.Add(NumString);
-                            huaguolist[i] = "供花/半年:WJS18H" + Num2String(lastnum);
-                            break;
-                        case 6:
-                            //供果/半年
-                            NumString = "WJS18G" + Num2String(lastnum);
-                            tempList_huaguo.Add(NumString);
-                            huaguolist[i] = "供果/半年:WJS18G" + Num2String(lastnum);
-                            break;
-                    }
-                    Huaguolist = tempList_huaguo.ToArray();
-
-                    msg += huaguolist[i];
-                    if (i < huaguolist.Length - 1)
-                    {
-                        msg += ",";
-                    }
-
-                    //bResult = true;
-                    int res = ExecuteSql("Update Temple_" + Year + "..Huaguo_wjsan_info Set Num2String = N'" + NumString + "', Num = " + lastnum + " Where HuaguoID=" + id);
-
-                    if (res > 0)
-                    {
-                        bResult = true;
-                    }
-
-                    int index = dtDataList.Rows.Count - i > 1 ? i + 1 : i;
-                    HuaguoType = int.Parse(dtDataList.Rows[index]["HuaguoType"].ToString());
-
-                    lastnum = GetListNum_wjsan_Huaguo(HuaguoType, applicantID, Year);
-                    if (lastnum > 0)
-                    {
-                        bool dhavenum = true;
-
-                        switch (HuaguoType)
-                        {
-                            case 1:
-                                //供花/次
-                                for (int j = 1001; j < lastnum; j++)
-                                {
-                                    if (CheckedNum_wjsan_Huaguo(HuaguoType, j, Year))
-                                    {
-                                        lastnum = j;
-                                        dhavenum = false;
-                                        break;
-                                    }
-                                }
-
-                                break;
-                            case 2:
-                                //供果/次
-                                for (int j = 1001; j < lastnum; j++)
-                                {
-                                    if (CheckedNum_wjsan_Huaguo(HuaguoType, j, Year))
-                                    {
-                                        lastnum = j;
-                                        dhavenum = false;
-                                        break;
-                                    }
-                                }
-
-                                break;
-                            case 3:
-                                //供花/月
-                                for (int j = 1001; j < lastnum; j++)
-                                {
-                                    if (CheckedNum_wjsan_Huaguo(HuaguoType, j, Year))
-                                    {
-                                        lastnum = j;
-                                        dhavenum = false;
-                                        break;
-                                    }
-                                }
-
-                                break;
-                            case 4:
-                                //供果/月
-                                for (int j = 1001; j < lastnum; j++)
-                                {
-                                    if (CheckedNum_wjsan_Huaguo(HuaguoType, j, Year))
-                                    {
-                                        lastnum = j;
-                                        dhavenum = false;
-                                        break;
-                                    }
-                                }
-
-                                break;
-                            case 5:
-                                //供花/半年
-                                for (int j = 1001; j < lastnum; j++)
-                                {
-                                    if (CheckedNum_wjsan_Huaguo(HuaguoType, j, Year))
-                                    {
-                                        lastnum = j;
-                                        dhavenum = false;
-                                        break;
-                                    }
-                                }
-
-                                break;
-                            case 6:
-                                //供果/半年
-                                for (int j = 1001; j < lastnum; j++)
-                                {
-                                    if (CheckedNum_wjsan_Huaguo(HuaguoType, j, Year))
-                                    {
-                                        lastnum = j;
-                                        dhavenum = false;
-                                        break;
-                                    }
-                                }
-
-                                break;
-                        }
-
-                        if (dhavenum)
-                        {
-                            ++lastnum;
-                        }
-                    }
-                    else
-                    {
-                        switch (HuaguoType)
-                        {
-                            case 1:
-                                //供花/次
-                                lastnum = 1001;
-                                break;
-                            case 2:
-                                //供果/次
-                                lastnum = 1001;
-                                break;
-                            case 3:
-                                //供花/月
-                                lastnum = 1001;
-                                break;
-                            case 4:
-                                //供果/月
-                                lastnum = 1001;
-                                break;
-                            case 5:
-                                //供果/半年
-                                lastnum = 1001;
-                                break;
-                            case 6:
-                                //供果/半年
-                                lastnum = 1001;
-                                break;
-                        }
-                    }
-                }
-
-                msg += "。客服電話：04-36092299。";
-
-                return bResult;
-            }
-        }
-
-        public bool UpdateLights_ld_Info(int applicantID, int LightsType, string Year, ref string msg, ref string[] lightslist, ref string[] Lightslist)
-        {
-            lock (_thisLock)
-            {
-                TimeZoneInfo info = TimeZoneInfo.FindSystemTimeZoneById("Taipei Standard Time");
-                DateTime dt = TimeZoneInfo.ConvertTime(DateTime.Now, info);
-                bool bResult = false;
-                int lastnum = GetListNum_ld_Lights(LightsType, applicantID, Year);
-                if (lastnum > 0)
-                {
-                    bool dhavenum = true;
-
-                    switch (LightsType)
-                    {
-                        case 3:
-                            //元辰光明燈
-                            for (int j = 1001; j < lastnum; j++)
-                            {
-                                if (CheckedNum_ld_Lights(LightsType, j, Year))
-                                {
-                                    lastnum = j;
-                                    dhavenum = false;
-                                    break;
-                                }
-                            }
-
-                            break;
-                        case 4:
-                            //太歲燈
-                            for (int j = 1001; j < lastnum; j++)
-                            {
-                                if (CheckedNum_ld_Lights(LightsType, j, Year))
-                                {
-                                    lastnum = j;
-                                    dhavenum = false;
-                                    break;
-                                }
-                            }
-
-                            break;
-                        case 5:
-                            //文昌功名燈
-                            for (int j = 1001; j < lastnum; j++)
-                            {
-                                if (CheckedNum_ld_Lights(LightsType, j, Year))
-                                {
-                                    lastnum = j;
-                                    dhavenum = false;
-                                    break;
-                                }
-                            }
-
-                            break;
-                        case 6:
-                            //五路財神燈
-                            for (int j = 1001; j < lastnum; j++)
-                            {
-                                if (CheckedNum_ld_Lights(LightsType, j, Year))
-                                {
-                                    lastnum = j;
-                                    dhavenum = false;
-                                    break;
-                                }
-                            }
-
-                            break;
-                        case 8:
-                            //健康延壽燈
-                            for (int j = 1001; j < lastnum; j++)
-                            {
-                                if (CheckedNum_ld_Lights(LightsType, j, Year))
-                                {
-                                    lastnum = j;
-                                    dhavenum = false;
-                                    break;
-                                }
-                            }
-
-                            break;
-                        case 20:
-                            //月老姻緣燈
-                            for (int j = 1001; j < lastnum; j++)
-                            {
-                                if (CheckedNum_ld_Lights(LightsType, j, Year))
-                                {
-                                    lastnum = j;
-                                    dhavenum = false;
-                                    break;
-                                }
-                            }
-
-                            break;
-                        case 33:
-                            //明心智慧燈
-                            for (int j = 1001; j < lastnum; j++)
-                            {
-                                if (CheckedNum_ld_Lights(LightsType, j, Year))
-                                {
-                                    lastnum = j;
-                                    dhavenum = false;
-                                    break;
-                                }
-                            }
-
-                            break;
-                    }
-
-                    if (dhavenum)
-                    {
-                        ++lastnum;
-                    }
-                }
-                else
-                {
-                    switch (LightsType)
-                    {
-                        case 3:
-                            //元辰光明燈
-                            lastnum = 1001;
-                            break;
-                        case 4:
-                            //太歲燈
-                            lastnum = 1001;
-                            break;
-                        case 5:
-                            //文昌功名燈
-                            lastnum = 1001;
-                            break;
-                        case 6:
-                            //五路財神燈
-                            lastnum = 1001;
-                            break;
-                        case 8:
-                            //健康延壽燈
-                            lastnum = 1001;
-                            break;
-                        case 20:
-                            //月老姻緣燈
-                            lastnum = 1001;
-                            break;
-                        case 33:
-                            //明心智慧燈
-                            lastnum = 1001;
-                            break;
-                    }
-                }
-
-                DataTable dtDataList = new DataTable();
-                string sql = "Select * From Temple_" + Year + "..Lights_ld_info Where ApplicantID=@ApplicantID and Status = 0 and Num = 0";
-
-                DatabaseAdapter AdapterObj = new DatabaseAdapter(sql, this.DBSource);
-                AdapterObj.SetSqlCommandBuilder();
-                AdapterObj.AddParameterToSelectCommand("@ApplicantID", applicantID);
-                AdapterObj.Fill(dtDataList);
-
-                //Lightslist = new string[dtDataList.Rows.Count];
-                var tempList_lights = Lightslist.ToList();
-                lightslist = new string[dtDataList.Rows.Count];
-                for (int i = 0; i < dtDataList.Rows.Count; i++)
-                {
-                    string lid = dtDataList.Rows[i]["LightsID"].ToString();
-                    string NumString = string.Empty;
-
-                    LightsType = int.Parse(dtDataList.Rows[i]["LightsType"].ToString());
-                    switch (LightsType)
-                    {
-                        case 3:
-                            //元辰光明燈
-                            NumString = "LDS" + Num2String(lastnum);
-                            tempList_lights.Add(NumString);
-                            lightslist[i] = "元辰光明燈:LDS" + Num2String(lastnum);
-                            break;
-                        case 4:
-                            //太歲燈
-                            NumString = "LDA" + Num2String(lastnum);
-                            tempList_lights.Add(NumString);
-                            lightslist[i] = "太歲燈:LDA" + Num2String(lastnum);
-                            break;
-                        case 5:
-                            //文昌功名燈
-                            NumString = "LDW" + Num2String(lastnum);
-                            tempList_lights.Add(NumString);
-                            lightslist[i] = "文昌功名燈:LDW" + Num2String(lastnum);
-                            break;
-                        case 6:
-                            //五路財神燈
-                            NumString = "LDT" + Num2String(lastnum);
-                            tempList_lights.Add(NumString);
-                            lightslist[i] = "五路財神燈:LDT" + Num2String(lastnum);
-                            break;
-                        case 8:
-                            //健康延壽燈
-                            NumString = "LDY" + Num2String(lastnum);
-                            tempList_lights.Add(NumString);
-                            lightslist[i] = "健康延壽燈:LDY" + Num2String(lastnum);
-                            break;
-                        case 20:
-                            //月老姻緣燈
-                            NumString = "LDYM" + Num2String(lastnum);
-                            tempList_lights.Add(NumString);
-                            lightslist[i] = "月老姻緣燈:LDYM" + Num2String(lastnum);
-                            break;
-                        case 33:
-                            //明心智慧燈
-                            NumString = "LDSL" + Num2String(lastnum);
-                            tempList_lights.Add(NumString);
-                            lightslist[i] = "明心智慧燈:LDSL" + Num2String(lastnum);
-                            break;
-                    }
-                    Lightslist = tempList_lights.ToArray();
-
-                    msg += lightslist[i];
-                    if (i < lightslist.Length - 1)
-                    {
-                        msg += ",";
-                    }
-
-                    int res = ExecuteSql("Update Temple_" + Year + "..Lights_ld_info Set Num2String = N'" + NumString + "', Num = " + lastnum + " Where LightsID=" + lid);
-
-                    if (res > 0)
-                    {
-                        bResult = true;
-                    }
-
-                    int index = dtDataList.Rows.Count - i > 1 ? i + 1 : i;
-                    LightsType = int.Parse(dtDataList.Rows[index]["LightsType"].ToString());
-
-                    lastnum = GetListNum_ld_Lights(LightsType, applicantID, Year);
-                    if (lastnum > 0)
-                    {
-                        bool dhavenum = true;
-
-                        switch (LightsType)
-                        {
-                            case 3:
-                                //元辰光明燈
-                                for (int j = 1001; j < lastnum; j++)
-                                {
-                                    if (CheckedNum_ld_Lights(LightsType, j, Year))
-                                    {
-                                        lastnum = j;
-                                        dhavenum = false;
-                                        break;
-                                    }
-                                }
-
-                                break;
-                            case 4:
-                                //太歲燈
-                                for (int j = 1001; j < lastnum; j++)
-                                {
-                                    if (CheckedNum_ld_Lights(LightsType, j, Year))
-                                    {
-                                        lastnum = j;
-                                        dhavenum = false;
-                                        break;
-                                    }
-                                }
-
-                                break;
-                            case 5:
-                                //文昌功名燈
-                                for (int j = 1001; j < lastnum; j++)
-                                {
-                                    if (CheckedNum_ld_Lights(LightsType, j, Year))
-                                    {
-                                        lastnum = j;
-                                        dhavenum = false;
-                                        break;
-                                    }
-                                }
-
-                                break;
-                            case 6:
-                                //五路財神燈
-                                for (int j = 1001; j < lastnum; j++)
-                                {
-                                    if (CheckedNum_ld_Lights(LightsType, j, Year))
-                                    {
-                                        lastnum = j;
-                                        dhavenum = false;
-                                        break;
-                                    }
-                                }
-
-                                break;
-                            case 8:
-                                //健康延壽燈
-                                for (int j = 1001; j < lastnum; j++)
-                                {
-                                    if (CheckedNum_ld_Lights(LightsType, j, Year))
-                                    {
-                                        lastnum = j;
-                                        dhavenum = false;
-                                        break;
-                                    }
-                                }
-
-                                break;
-                            case 20:
-                                //月老姻緣燈
-                                for (int j = 1001; j < lastnum; j++)
-                                {
-                                    if (CheckedNum_ld_Lights(LightsType, j, Year))
-                                    {
-                                        lastnum = j;
-                                        dhavenum = false;
-                                        break;
-                                    }
-                                }
-
-                                break;
-                            case 23:
-                                //明心智慧燈
-                                for (int j = 1001; j < lastnum; j++)
-                                {
-                                    if (CheckedNum_ld_Lights(LightsType, j, Year))
-                                    {
-                                        lastnum = j;
-                                        dhavenum = false;
-                                        break;
-                                    }
-                                }
-
-                                break;
-                        }
-
-                        if (dhavenum)
-                        {
-                            ++lastnum;
-                        }
-                    }
-                    else
-                    {
-                        switch (LightsType)
-                        {
-                            case 3:
-                                //元辰光明燈
-                                lastnum = 1001;
-                                break;
-                            case 4:
-                                //太歲燈
-                                lastnum = 1001;
-                                break;
-                            case 5:
-                                //文昌功名燈
-                                lastnum = 1001;
-                                break;
-                            case 6:
-                                //五路財神燈
-                                lastnum = 1001;
-                                break;
-                            case 8:
-                                //健康延壽燈
-                                lastnum = 1001;
-                                break;
-                            case 20:
-                                //月老姻緣燈
-                                lastnum = 1001;
-                                break;
-                            case 33:
-                                //明心智慧燈
-                                lastnum = 1001;
-                                break;
-                        }
-                    }
-                }
-
-                msg += "。客服電話：04-36092299。";
-
-                return bResult;
-            }
-        }
-
-        public bool UpdateLights_wh_Info(int applicantID, int LightsType, string Year, ref string msg, ref string[] lightslist, ref string[] Lightslist)
-        {
-            lock (_thisLock)
-            {
-                TimeZoneInfo info = TimeZoneInfo.FindSystemTimeZoneById("Taipei Standard Time");
-                DateTime dt = TimeZoneInfo.ConvertTime(DateTime.Now, info);
-                bool bResult = false;
-                int lastnum = GetListNum_wh_Lights(LightsType, applicantID, Year);
-                if (lastnum > 0)
-                {
-                    bool dhavenum = true;
-
-                    switch (LightsType)
-                    {
-                        case 3:
-                            //光明燈
-                            for (int j = 1001; j < lastnum; j++)
-                            {
-                                if (CheckedNum_wh_Lights(LightsType, j, Year))
-                                {
-                                    lastnum = j;
-                                    dhavenum = false;
-                                    break;
-                                }
-                            }
-
-                            break;
-                        case 5:
-                            //文昌燈
-                            for (int j = 1001; j < lastnum; j++)
-                            {
-                                if (CheckedNum_wh_Lights(LightsType, j, Year))
-                                {
-                                    lastnum = j;
-                                    dhavenum = false;
-                                    break;
-                                }
-                            }
-
-                            break;
-                    }
-
-                    if (dhavenum)
-                    {
-                        ++lastnum;
-                    }
-                }
-                else
-                {
-                    switch (LightsType)
-                    {
-                        case 3:
-                            //光明燈
-                            lastnum = 1001;
-                            break;
-                        case 5:
-                            //文昌燈
-                            lastnum = 1001;
-                            break;
-                    }
-                }
-
-                DataTable dtDataList = new DataTable();
-                string sql = "Select * From Temple_" + Year + "..Lights_wh_info Where ApplicantID=@ApplicantID and Status = 0 and Num = 0";
-
-                DatabaseAdapter AdapterObj = new DatabaseAdapter(sql, this.DBSource);
-                AdapterObj.SetSqlCommandBuilder();
-                AdapterObj.AddParameterToSelectCommand("@ApplicantID", applicantID);
-                AdapterObj.Fill(dtDataList);
-
-                //Lightslist = new string[dtDataList.Rows.Count];
-                var tempList_lights = Lightslist.ToList();
-                lightslist = new string[dtDataList.Rows.Count];
-                for (int i = 0; i < dtDataList.Rows.Count; i++)
-                {
-                    string lid = dtDataList.Rows[i]["LightsID"].ToString();
-                    string NumString = string.Empty;
-
-                    LightsType = int.Parse(dtDataList.Rows[i]["LightsType"].ToString());
-                    switch (LightsType)
-                    {
-                        case 3:
-                            //光明燈
-                            NumString = "WHS" + Num2String(lastnum);
-                            tempList_lights.Add(NumString);
-                            lightslist[i] = "光明燈:WHS" + Num2String(lastnum);
-                            break;
-                        case 5:
-                            //文昌燈
-                            NumString = "WHW" + Num2String(lastnum);
-                            tempList_lights.Add(NumString);
-                            lightslist[i] = "文昌燈:WHW" + Num2String(lastnum);
-                            break;
-                    }
-                    Lightslist = tempList_lights.ToArray();
-
-                    msg += lightslist[i];
-                    if (i < lightslist.Length - 1)
-                    {
-                        msg += ",";
-                    }
-
-                    int res = ExecuteSql("Update Temple_" + Year + "..Lights_wh_info Set Num2String = N'" + NumString + "', Num = " + lastnum + " Where LightsID=" + lid);
-
-                    if (res > 0)
-                    {
-                        bResult = true;
-                    }
-
-                    int index = dtDataList.Rows.Count - i > 1 ? i + 1 : i;
-                    LightsType = int.Parse(dtDataList.Rows[index]["LightsType"].ToString());
-
-                    lastnum = GetListNum_wh_Lights(LightsType, applicantID, Year);
-                    if (lastnum > 0)
-                    {
-                        bool dhavenum = true;
-
-                        switch (LightsType)
-                        {
-                            case 3:
-                                //光明燈
-                                for (int j = 1001; j < lastnum; j++)
-                                {
-                                    if (CheckedNum_wh_Lights(LightsType, j, Year))
-                                    {
-                                        lastnum = j;
-                                        dhavenum = false;
-                                        break;
-                                    }
-                                }
-
-                                break;
-                            case 5:
-                                //文昌燈
-                                for (int j = 1001; j < lastnum; j++)
-                                {
-                                    if (CheckedNum_wh_Lights(LightsType, j, Year))
-                                    {
-                                        lastnum = j;
-                                        dhavenum = false;
-                                        break;
-                                    }
-                                }
-
-                                break;
-                        }
-
-                        if (dhavenum)
-                        {
-                            ++lastnum;
-                        }
-                    }
-                    else
-                    {
-                        switch (LightsType)
-                        {
-                            case 3:
-                                //光明燈
-                                lastnum = 1001;
-                                break;
-                            case 5:
-                                //文昌燈
-                                lastnum = 1001;
-                                break;
-                        }
-                    }
-                }
-
-                msg += "。客服電話：04-36092299。";
-
-                return bResult;
-            }
+            return bResult;
         }
 
         public bool UpdatePurdue_da_Info(int applicantID, int PurdueType, string Year, ref string[] purduelist, ref string[] Purduelist)
@@ -13595,6 +18844,96 @@ namespace Read.data
             return bResult;
         }
 
+        public bool UpdateLingbaolidou_ma_Info(int applicantID, string Year, ref string msg, ref string[] Lingbaolidoulist)
+        {
+            lock (_thisLock)
+            {
+                TimeZoneInfo info = TimeZoneInfo.FindSystemTimeZoneById("Taipei Standard Time");
+                DateTime dt = TimeZoneInfo.ConvertTime(DateTime.Now, info);
+                bool bResult = false;
+                int lastnum = GetListNum_ma_Lingbaolidou(applicantID, Year);
+                if (lastnum > 0)
+                {
+                    bool dhavenum = true;
+                    for (int i = 1001; i < lastnum; i++)
+                    {
+                        if (CheckedNum_ma_Lingbaolidou(i, Year))
+                        {
+                            lastnum = i;
+                            dhavenum = false;
+                            break;
+                        }
+                    }
+
+                    if (dhavenum)
+                    {
+                        ++lastnum;
+                    }
+                }
+                else
+                {
+                    lastnum = 1001;
+                }
+                DataTable dtDataList = new DataTable();
+                string sql = "Select * From Temple_" + Year + "..Lingbaolidou_ma_info Where ApplicantID=@ApplicantID and Status = 0";
+
+                DatabaseAdapter AdapterObj = new DatabaseAdapter(sql, this.DBSource);
+                AdapterObj.SetSqlCommandBuilder();
+                AdapterObj.AddParameterToSelectCommand("@ApplicantID", applicantID);
+                AdapterObj.Fill(dtDataList);
+
+                Lingbaolidoulist = new string[dtDataList.Rows.Count];
+                for (int i = 0; i < dtDataList.Rows.Count; i++)
+                {
+                    string sid = dtDataList.Rows[i]["LingbaolidouID"].ToString();
+                    string Num2String = "MALB" + lastnum;
+
+                    int res = ExecuteSql("Update Temple_" + Year + "..Lingbaolidou_ma_info Set Num2String = '" + Num2String + "', Num = " + lastnum + " Where LingbaolidouID=" + sid);
+
+                    if (res > 0)
+                    {
+                        bResult = true;
+                    }
+
+                    Lingbaolidoulist[i] = Num2String;
+
+                    msg += Lingbaolidoulist[i];
+                    if (i < Lingbaolidoulist.Length - 1)
+                    {
+                        msg += ",";
+                    }
+
+                    lastnum = GetListNum_ma_Lingbaolidou(applicantID, Year);
+                    if (lastnum > 0)
+                    {
+                        bool dhavenum = true;
+                        for (int j = 1001; j < lastnum; j++)
+                        {
+                            if (CheckedNum_ma_Lingbaolidou(j, Year))
+                            {
+                                lastnum = j;
+                                dhavenum = false;
+                                break;
+                            }
+                        }
+
+                        if (dhavenum)
+                        {
+                            lastnum++;
+                        }
+                    }
+                    else
+                    {
+                        lastnum = 1001;
+                    }
+                }
+
+                msg += "。客服電話：04-36092299。";
+
+                return bResult;
+            }
+        }
+
         public bool UpdateLingbaolidou_ma_Info(int applicantID, string Year, ref string[] Lingbaolidoulist)
         {
             TimeZoneInfo info = TimeZoneInfo.FindSystemTimeZoneById("Taipei Standard Time");
@@ -13672,6 +19011,96 @@ namespace Read.data
             }
 
             return bResult;
+        }
+
+        public bool UpdateTaoistJiaoCeremony_da_Info(int applicantID, string Year, ref string msg, ref string[] TaoistJiaoCeremonylist)
+        {
+            lock (_thisLock)
+            {
+                TimeZoneInfo info = TimeZoneInfo.FindSystemTimeZoneById("Taipei Standard Time");
+                DateTime dt = TimeZoneInfo.ConvertTime(DateTime.Now, info);
+                bool bResult = false;
+                int lastnum = GetListNum_da_TaoistJiaoCeremony(applicantID, Year);
+                if (lastnum > 0)
+                {
+                    bool dhavenum = true;
+                    for (int i = 1001; i < lastnum; i++)
+                    {
+                        if (CheckedNum_da_TaoistJiaoCeremony(i, Year))
+                        {
+                            lastnum = i;
+                            dhavenum = false;
+                            break;
+                        }
+                    }
+
+                    if (dhavenum)
+                    {
+                        ++lastnum;
+                    }
+                }
+                else
+                {
+                    lastnum = 1001;
+                }
+                DataTable dtDataList = new DataTable();
+                string sql = "Select * From Temple_" + Year + "..TaoistJiaoCeremony_da_info Where ApplicantID=@ApplicantID and Status = 0";
+
+                DatabaseAdapter AdapterObj = new DatabaseAdapter(sql, this.DBSource);
+                AdapterObj.SetSqlCommandBuilder();
+                AdapterObj.AddParameterToSelectCommand("@ApplicantID", applicantID);
+                AdapterObj.Fill(dtDataList);
+
+                TaoistJiaoCeremonylist = new string[dtDataList.Rows.Count];
+                for (int i = 0; i < dtDataList.Rows.Count; i++)
+                {
+                    string sid = dtDataList.Rows[i]["TaoistJiaoCeremonyID"].ToString();
+                    string Num2String = "DATJC" + lastnum;
+
+                    int res = ExecuteSql("Update Temple_" + Year + "..TaoistJiaoCeremony_da_info Set Num2String = '" + Num2String + "', Num = " + lastnum + " Where TaoistJiaoCeremonyID=" + sid);
+
+                    if (res > 0)
+                    {
+                        bResult = true;
+                    }
+
+                    TaoistJiaoCeremonylist[i] = Num2String;
+
+                    msg += TaoistJiaoCeremonylist[i];
+                    if (i < TaoistJiaoCeremonylist.Length - 1)
+                    {
+                        msg += ",";
+                    }
+
+                    lastnum = GetListNum_da_TaoistJiaoCeremony(applicantID, Year);
+                    if (lastnum > 0)
+                    {
+                        bool dhavenum = true;
+                        for (int j = 1001; j < lastnum; j++)
+                        {
+                            if (CheckedNum_da_TaoistJiaoCeremony(j, Year))
+                            {
+                                lastnum = j;
+                                dhavenum = false;
+                                break;
+                            }
+                        }
+
+                        if (dhavenum)
+                        {
+                            lastnum++;
+                        }
+                    }
+                    else
+                    {
+                        lastnum = 1001;
+                    }
+                }
+
+                msg += "。客服電話：04-36092299。";
+
+                return bResult;
+            }
         }
 
         public bool UpdateTaoistJiaoCeremony_da_Info(int applicantID, string Year, ref string[] TaoistJiaoCeremonylist)
@@ -13753,6 +19182,178 @@ namespace Read.data
                 }
 
                 return bResult;
+            }
+        }
+
+        /// <summary>
+        /// 更新並取得訂單資料 - 護國息災梁皇大法會 - 台東東海龍門天聖宮
+        /// </summary>
+        /// <param name="applicantID">購買人編號</param>
+        /// <param name="LybcType">
+        /// 燈種代碼：
+        /// </param>
+        /// <param name="Year">年度字串，例如 "2025"</param>
+        /// <param name="msg">回傳給前端的訊息（各燈號編號＋客服電話）</param>
+        /// <param name="lybclist">回傳給前端的燈號清單（例如「太歲燈:TYA1001」）</param>
+        /// <param name="Lybclist">備用，可同樣回傳燈號字串陣列，視業務需求</param>
+        /// <returns>若有更新資料則回傳 true，否則回傳 false</returns>
+        public bool UpdateLybc_dh_Info(
+            int applicantID,
+            int LybcType,
+            string Year,
+            ref string msg,
+            ref string[] lybclist,
+            ref string[] Lybclist)
+        {
+            lock (_thisLock)
+            {
+                twbobibobi.Data.BasePage basePage = new twbobibobi.Data.BasePage();
+
+                // 1. 一次性取得所有已分配的編號 (Num > 0 且 Num2String 有值)
+                string sqlFetchExisting =
+                    "SELECT LybcType, Num " +
+                    "FROM Temple_" + Year + "..Lybc_dh_info " +
+                    "WHERE Status = 0 " +
+                    "  AND Num <> 0" +
+                    "  AND Num2String IS NOT NULL " +
+                    "  AND Num2String <> ''";
+
+                // 建立 DatabaseAdapter，並加入參數
+                DatabaseAdapter da = new DatabaseAdapter(sqlFetchExisting, this.DBSource);
+                da.SetSqlCommandBuilder();
+
+                DataTable dtExisting = new DataTable();
+                da.Fill(dtExisting);
+
+                // 建立各燈種對應的已用號碼集合
+                var usedNumsByType = new Dictionary<int, HashSet<int>>();
+                foreach (DataRow row in dtExisting.Rows)
+                {
+                    int type = Convert.ToInt32(row["LybcType"]);
+                    int num = Convert.ToInt32(row["Num"]);
+                    if (!usedNumsByType.ContainsKey(type))
+                        usedNumsByType[type] = new HashSet<int>();
+                    usedNumsByType[type].Add(num);
+                }
+
+                // 2. 一次性抓出所有需補號的列 (Num = 0)
+                DataTable dtToAssign = new DataTable();
+                string sqlFetchToAssign =
+                    "SELECT LybcID, LybcType " +
+                    "FROM Temple_" + Year + "..Lybc_dh_info " +
+                    "WHERE ApplicantID = @ApplicantID " +
+                    "  AND Status = 0 " +
+                    "  AND Num = 0 " +
+                    "ORDER BY LybcID";
+
+                {
+                    da = new DatabaseAdapter(sqlFetchToAssign, this.DBSource);
+                    da.SetSqlCommandBuilder();
+                    da.AddParameterToSelectCommand("ApplicantID", applicantID);
+                    da.Fill(dtToAssign);
+                }
+
+                int rowCount = dtToAssign.Rows.Count;
+                lybclist = new string[rowCount];
+                Lybclist = new string[rowCount];
+                // 用來存放要批量更新的資料 (LybcID, AssignedNum, AssignedNumString)
+                List<Tuple<int, int, string>> updatedRecords = new List<Tuple<int, int, string>>();
+
+                // 3. 逐筆在記憶體中分配「最小可用缺號」
+                for (int i = 0; i < rowCount; i++)
+                {
+                    DataRow row = dtToAssign.Rows[i];
+                    int dbLybcID = Convert.ToInt32(row["LybcID"]);
+                    int dbLybcType = Convert.ToInt32(row["LybcType"]);
+
+                    if (!usedNumsByType.ContainsKey(dbLybcType))
+                        usedNumsByType[dbLybcType] = new HashSet<int>();
+
+                    // 找下一個可用編號 (從 1001 開始往上搜尋)
+                    var usedSet = usedNumsByType[dbLybcType];
+                    int nextNum = 1001;
+                    while (usedSet.Contains(nextNum))
+                    {
+                        nextNum++;
+                    }
+
+                    // 根據燈種決定前綴字串
+                    string prefix = "";
+                    switch (dbLybcType)
+                    {
+                        case 1: prefix = "DHTB"; break;  // 財寶袋 → 「DHTB####」
+                        case 2: prefix = "DHP"; break;  // 普度供桌 → 「DHP####」
+                        case 3: prefix = "DHBW"; break;  // 福慧水晶燈 → 「DHBW####」
+                        case 4: prefix = "DH5RF"; break;  // 重建募款-伍佰 → 「DH5RF####」
+                        case 5: prefix = "DH10RF"; break;  // 重建募款-壹仟 → 「DH10RF####」
+                        case 6: prefix = "DH20RF"; break;  // 重建募款-貳仟 → 「DH20RF####」
+                    }
+                    string numString = prefix + Num2String(nextNum);
+                    Lybclist[i] = numString;          // 單純存編號字串
+
+                    // 組成要返回前端的「燈種:編號」
+                    string typeName = "";
+                    switch (dbLybcType)
+                    {
+                        case 1: typeName = "財寶袋"; break;
+                        case 2: typeName = "普度供桌"; break;
+                        case 3: typeName = "福慧水晶燈"; break;
+                        case 4: typeName = "重建募款-伍佰"; break;
+                        case 5: typeName = "重建募款-壹仟"; break;
+                        case 6: typeName = "重建募款-貳仟"; break;
+                    }
+                    lybclist[i] = $"{typeName}:{numString}";
+
+                    // 把這筆資料記錄到待批量更新集合中
+                    updatedRecords.Add(new Tuple<int, int, string>(dbLybcID, nextNum, numString));
+
+                    // 把剛分配的 nextNum 加到 usedNumsByType，避免下次迴圈重複
+                    usedSet.Add(nextNum);
+                }
+
+                // 4. 組出前端訊息字串 (例如「光明燈:光05001,安太歲:太05001,...。客服電話：04-36092299。」)
+                msg += string.Join(",", lybclist) + "。客服電話：04-36092299。";
+
+                // 5. 一次性批量 UPDATE 回資料庫
+                //    以下示範用動態 SQL 拼接多筆 UPDATE，若更新筆數很多建議改用 TVP + 存儲過程
+                System.Text.StringBuilder sb = new System.Text.StringBuilder();
+                sb.AppendLine("USE Temple_" + Year + ";");
+                foreach (var rec in updatedRecords)
+                {
+                    int id = rec.Item1;
+                    int assignedNum = rec.Item2;
+                    string assignedNumString = rec.Item3.Replace("'", "''"); // 確保單引號轉義
+                    sb.AppendLine(
+                        "UPDATE dbo.Lybc_dh_info " +
+                        "SET Num = " + rec.Item2 + ", " +
+                        "    Num2String = N'" + rec.Item3.Replace("'", "''") + "' " +
+                        "WHERE LybcID = " + rec.Item1 + ";"
+                    );
+                }
+                string sqlBatchUpdate = sb.ToString();
+
+                try
+                {
+                    int rowsAffected = ExecuteSql(sqlBatchUpdate);
+                    if (rowsAffected > 0)
+                    {
+                        // 若有更新任何筆，代表至少有一筆補號成功
+                        return (updatedRecords.Count > 0);
+                    }
+                    else
+                    {
+                        // 防呆：SQL 執行後沒有影響到任何列，記一筆錯誤日誌，再回傳 false
+                        string err = "[UpdateLybc_dh_Info] 批量 UPDATE 未更新到任何記錄，SQL:\r\n" + sqlBatchUpdate;
+                        basePage.SaveErrorLog(err);
+                        return false;
+                    }
+                }
+                catch (Exception ex)
+                {
+                    // 捕捉執行 SQL 時的例外，記錯誤日誌，並回傳 false
+                    basePage.SaveErrorLog("[UpdateLybc_dh_Info] 批量 UPDATE 時發生例外：\r\n" + ex);
+                    return false;
+                }
             }
         }
 
@@ -14083,6 +19684,96 @@ namespace Read.data
             }
         }
 
+        public bool UpdateBPO_jb_Info(int applicantID, string Year, ref string msg, ref string[] BPOlist)
+        {
+            lock (_thisLock)
+            {
+                TimeZoneInfo info = TimeZoneInfo.FindSystemTimeZoneById("Taipei Standard Time");
+                DateTime dt = TimeZoneInfo.ConvertTime(DateTime.Now, info);
+                bool bResult = false;
+                int lastnum = GetListNum_jb_BPO(applicantID, Year);
+                if (lastnum > 0)
+                {
+                    bool dhavenum = true;
+                    for (int i = 1001; i < lastnum; i++)
+                    {
+                        if (CheckedNum_jb_BPO(i, Year))
+                        {
+                            lastnum = i;
+                            dhavenum = false;
+                            break;
+                        }
+                    }
+
+                    if (dhavenum)
+                    {
+                        ++lastnum;
+                    }
+                }
+                else
+                {
+                    lastnum = 1001;
+                }
+                DataTable dtDataList = new DataTable();
+                string sql = "Select * From Temple_" + Year + "..BPO_jb_info Where ApplicantID=@ApplicantID and Status = 0";
+
+                DatabaseAdapter AdapterObj = new DatabaseAdapter(sql, this.DBSource);
+                AdapterObj.SetSqlCommandBuilder();
+                AdapterObj.AddParameterToSelectCommand("@ApplicantID", applicantID);
+                AdapterObj.Fill(dtDataList);
+
+                BPOlist = new string[dtDataList.Rows.Count];
+                for (int i = 0; i < dtDataList.Rows.Count; i++)
+                {
+                    string sid = dtDataList.Rows[i]["BPOID"].ToString();
+                    string Num2String = "BPO" + lastnum;
+
+                    int res = ExecuteSql("Update Temple_" + Year + "..BPO_jb_info Set Num2String = '" + Num2String + "', Num = " + lastnum + " Where BPOID=" + sid);
+
+                    if (res > 0)
+                    {
+                        bResult = true;
+                    }
+
+                    BPOlist[i] = Num2String;
+
+                    msg += BPOlist[i];
+                    if (i < BPOlist.Length - 1)
+                    {
+                        msg += ",";
+                    }
+
+                    lastnum = GetListNum_jb_BPO(applicantID, Year);
+                    if (lastnum > 0)
+                    {
+                        bool dhavenum = true;
+                        for (int j = 1001; j < lastnum; j++)
+                        {
+                            if (CheckedNum_jb_BPO(j, Year))
+                            {
+                                lastnum = j;
+                                dhavenum = false;
+                                break;
+                            }
+                        }
+
+                        if (dhavenum)
+                        {
+                            lastnum++;
+                        }
+                    }
+                    else
+                    {
+                        lastnum = 1001;
+                    }
+                }
+
+                msg += "。客服電話：04-36092299。";
+
+                return bResult;
+            }
+        }
+
         public bool UpdateBPO_jb_Info(int applicantID, string Year, ref string[] BPOlist)
         {
             TimeZoneInfo info = TimeZoneInfo.FindSystemTimeZoneById("Taipei Standard Time");
@@ -14244,6 +19935,96 @@ namespace Read.data
             }
         }
 
+        public bool UpdateSupplies_Lk_Info(int applicantID, string Year, ref string msg, ref string[] Supplieslist)
+        {
+            lock (_thisLock)
+            {
+                TimeZoneInfo info = TimeZoneInfo.FindSystemTimeZoneById("Taipei Standard Time");
+                DateTime dt = TimeZoneInfo.ConvertTime(DateTime.Now, info);
+                bool bResult = false;
+                int lastnum = GetListNum_Lk_Supplies(applicantID, Year);
+                if (lastnum > 0)
+                {
+                    bool dhavenum = true;
+                    for (int i = 1001; i < lastnum; i++)
+                    {
+                        if (CheckedNum_Lk_Supplies(i, Year))
+                        {
+                            lastnum = i;
+                            dhavenum = false;
+                            break;
+                        }
+                    }
+
+                    if (dhavenum)
+                    {
+                        ++lastnum;
+                    }
+                }
+                else
+                {
+                    lastnum = 1001;
+                }
+                DataTable dtDataList = new DataTable();
+                string sql = "Select * From Temple_" + Year + "..Supplies_Lk_info Where ApplicantID=@ApplicantID and Status = 0";
+
+                DatabaseAdapter AdapterObj = new DatabaseAdapter(sql, this.DBSource);
+                AdapterObj.SetSqlCommandBuilder();
+                AdapterObj.AddParameterToSelectCommand("@ApplicantID", applicantID);
+                AdapterObj.Fill(dtDataList);
+
+                Supplieslist = new string[dtDataList.Rows.Count];
+                for (int i = 0; i < dtDataList.Rows.Count; i++)
+                {
+                    string sid = dtDataList.Rows[i]["SuppliesID"].ToString();
+                    string Num2String = "LKBF" + lastnum;
+
+                    int res = ExecuteSql("Update Temple_" + Year + "..Supplies_Lk_info Set Num2String = '" + Num2String + "', Num = " + lastnum + " Where SuppliesID=" + sid);
+
+                    if (res > 0)
+                    {
+                        bResult = true;
+                    }
+
+                    Supplieslist[i] = Num2String;
+
+                    msg += Supplieslist[i];
+                    if (i < Supplieslist.Length - 1)
+                    {
+                        msg += ",";
+                    }
+
+                    lastnum = GetListNum_Lk_Supplies(applicantID, Year);
+                    if (lastnum > 0)
+                    {
+                        bool dhavenum = true;
+                        for (int j = 1001; j < lastnum; j++)
+                        {
+                            if (CheckedNum_Lk_Supplies(j, Year))
+                            {
+                                lastnum = j;
+                                dhavenum = false;
+                                break;
+                            }
+                        }
+
+                        if (dhavenum)
+                        {
+                            lastnum++;
+                        }
+                    }
+                    else
+                    {
+                        lastnum = 1001;
+                    }
+                }
+
+                msg += "。客服電話：04-36092299。";
+
+                return bResult;
+            }
+        }
+
         public bool UpdateSupplies_Fw_Info(int applicantID, string Year, ref string msg, ref string[] Supplieslist)
         {
             lock (_thisLock)
@@ -14302,7 +20083,6 @@ namespace Read.data
                     {
                         msg += ",";
                     }
-
 
                     lastnum = GetListNum_Fw_Supplies(applicantID, Year);
                     if (lastnum > 0)
@@ -14491,6 +20271,96 @@ namespace Read.data
                         for (int j = 1001; j < lastnum; j++)
                         {
                             if (CheckedNum_sx_Supplies2(j, Year))
+                            {
+                                lastnum = j;
+                                dhavenum = false;
+                                break;
+                            }
+                        }
+
+                        if (dhavenum)
+                        {
+                            lastnum++;
+                        }
+                    }
+                    else
+                    {
+                        lastnum = 1001;
+                    }
+                }
+
+                msg += "。客服電話：04-36092299。";
+
+                return bResult;
+            }
+        }
+
+        public bool UpdateSupplies_jb_Info(int applicantID, string Year, ref string msg, ref string[] Supplieslist)
+        {
+            lock (_thisLock)
+            {
+                TimeZoneInfo info = TimeZoneInfo.FindSystemTimeZoneById("Taipei Standard Time");
+                DateTime dt = TimeZoneInfo.ConvertTime(DateTime.Now, info);
+                bool bResult = false;
+                int lastnum = GetListNum_jb_Supplies(applicantID, Year);
+                if (lastnum > 0)
+                {
+                    bool dhavenum = true;
+                    for (int i = 1001; i < lastnum; i++)
+                    {
+                        if (CheckedNum_jb_Supplies(i, Year))
+                        {
+                            lastnum = i;
+                            dhavenum = false;
+                            break;
+                        }
+                    }
+
+                    if (dhavenum)
+                    {
+                        ++lastnum;
+                    }
+                }
+                else
+                {
+                    lastnum = 1001;
+                }
+                DataTable dtDataList = new DataTable();
+                string sql = "Select * From Temple_" + Year + "..Supplies_jb_info Where ApplicantID=@ApplicantID and Status = 0";
+
+                DatabaseAdapter AdapterObj = new DatabaseAdapter(sql, this.DBSource);
+                AdapterObj.SetSqlCommandBuilder();
+                AdapterObj.AddParameterToSelectCommand("@ApplicantID", applicantID);
+                AdapterObj.Fill(dtDataList);
+
+                Supplieslist = new string[dtDataList.Rows.Count];
+                for (int i = 0; i < dtDataList.Rows.Count; i++)
+                {
+                    string sid = dtDataList.Rows[i]["SuppliesID"].ToString();
+                    string Num2String = "JB" + lastnum;
+
+                    int res = ExecuteSql("Update Temple_" + Year + "..Supplies_jb_info Set Num2String = '" + Num2String + "', Num = " + lastnum + " Where SuppliesID=" + sid);
+
+                    if (res > 0)
+                    {
+                        bResult = true;
+                    }
+
+                    Supplieslist[i] = Num2String;
+
+                    msg += Supplieslist[i];
+                    if (i < Supplieslist.Length - 1)
+                    {
+                        msg += ",";
+                    }
+
+                    lastnum = GetListNum_jb_Supplies(applicantID, Year);
+                    if (lastnum > 0)
+                    {
+                        bool dhavenum = true;
+                        for (int j = 1001; j < lastnum; j++)
+                        {
+                            if (CheckedNum_jb_Supplies(j, Year))
                             {
                                 lastnum = j;
                                 dhavenum = false;
@@ -15181,6 +21051,100 @@ namespace Read.data
             return bResult;
         }
 
+        public bool UpdateSupplies_dh_Info(int applicantID, string Year, ref string msg, ref string[] supplieslist, ref string[] Supplieslist)
+        {
+            lock (_thisLock)
+            {
+                TimeZoneInfo info = TimeZoneInfo.FindSystemTimeZoneById("Taipei Standard Time");
+                DateTime dt = TimeZoneInfo.ConvertTime(DateTime.Now, info);
+                bool bResult = false;
+                int lastnum = GetListNum_dh_Supplies(applicantID, Year);
+                if (lastnum > 0)
+                {
+                    bool dhavenum = true;
+                    for (int i = 1001; i < lastnum; i++)
+                    {
+                        if (CheckedNum_dh_Supplies(i, Year))
+                        {
+                            lastnum = i;
+                            dhavenum = false;
+                            break;
+                        }
+                    }
+
+                    if (dhavenum)
+                    {
+                        ++lastnum;
+                    }
+                }
+                else
+                {
+                    lastnum = 1001;
+                }
+                DataTable dtDataList = new DataTable();
+                string sql = "Select * From Temple_" + Year + "..Supplies_dh_info Where ApplicantID=@ApplicantID and Status = 0 and Num = 0";
+
+                DatabaseAdapter AdapterObj = new DatabaseAdapter(sql, this.DBSource);
+                AdapterObj.SetSqlCommandBuilder();
+                AdapterObj.AddParameterToSelectCommand("@ApplicantID", applicantID);
+                AdapterObj.Fill(dtDataList);
+
+                var tempList_supplies = Supplieslist.ToList();
+                supplieslist = new string[dtDataList.Rows.Count];
+                for (int i = 0; i < dtDataList.Rows.Count; i++)
+                {
+                    string sid = dtDataList.Rows[i]["SuppliesID"].ToString();
+                    string Num2String = "DHSU" + lastnum;
+                    tempList_supplies.Add(Num2String);
+                    supplieslist[i] = Num2String;
+
+                    int res = ExecuteSql("Update Temple_" + Year + "..Supplies_dh_info Set Num2String = '" + Num2String + "', Num = " + lastnum + " Where SuppliesID=" + sid);
+
+                    if (res > 0)
+                    {
+                        bResult = true;
+                    }
+
+                    Supplieslist[i] = Num2String;
+                    Supplieslist = tempList_supplies.ToArray();
+
+                    msg += supplieslist[i];
+                    if (i < supplieslist.Length - 1)
+                    {
+                        msg += ",";
+                    }
+
+                    lastnum = GetListNum_dh_Supplies(applicantID, Year);
+                    if (lastnum > 0)
+                    {
+                        bool dhavenum = true;
+                        for (int j = 1001; j < lastnum; j++)
+                        {
+                            if (CheckedNum_dh_Supplies(j, Year))
+                            {
+                                lastnum = j;
+                                dhavenum = false;
+                                break;
+                            }
+                        }
+
+                        if (dhavenum)
+                        {
+                            lastnum++;
+                        }
+                    }
+                    else
+                    {
+                        lastnum = 1001;
+                    }
+                }
+
+                msg += "。客服電話：04-36092299。";
+
+                return bResult;
+            }
+        }
+
         public bool UpdateSupplies_wu_Info(int applicantID, string Year, ref string[] Supplieslist)
         {
             TimeZoneInfo info = TimeZoneInfo.FindSystemTimeZoneById("Taipei Standard Time");
@@ -15260,18 +21224,100 @@ namespace Read.data
             return bResult;
         }
 
-        public bool UpdateSupplies_wu_Info2(int applicantID, string Year, ref string msg, ref string[] Supplieslist)
+        public bool UpdateSupplies_wu_Info3(int applicantID, string Year, ref string[] Supplieslist)
+        {
+            lock (_thisLock)
+            {
+                TimeZoneInfo info = TimeZoneInfo.FindSystemTimeZoneById("Taipei Standard Time");
+                DateTime dt = TimeZoneInfo.ConvertTime(DateTime.Now, info);
+                bool bResult = false;
+                int lastnum = GetListNum_wu_Supplies3(applicantID, Year);
+                if (lastnum > 0)
+                {
+                    bool dhavenum = true;
+                    for (int i = 2001; i < lastnum; i++)
+                    {
+                        if (CheckedNum_wu_Supplies3(i, Year))
+                        {
+                            lastnum = i;
+                            dhavenum = false;
+                            break;
+                        }
+                    }
+
+                    if (dhavenum)
+                    {
+                        ++lastnum;
+                    }
+                }
+                else
+                {
+                    lastnum = 2001;
+                }
+                DataTable dtDataList = new DataTable();
+                string sql = "Select * From Temple_" + Year + "..Supplies_wu_info3 Where ApplicantID=@ApplicantID and Status = 0";
+
+                DatabaseAdapter AdapterObj = new DatabaseAdapter(sql, this.DBSource);
+                AdapterObj.SetSqlCommandBuilder();
+                AdapterObj.AddParameterToSelectCommand("@ApplicantID", applicantID);
+                AdapterObj.Fill(dtDataList);
+
+                Supplieslist = new string[dtDataList.Rows.Count];
+                for (int i = 0; i < dtDataList.Rows.Count; i++)
+                {
+                    string sid = dtDataList.Rows[i]["SuppliesID"].ToString();
+                    string Num2String = "W3S" + lastnum;
+
+                    int res = ExecuteSql("Update Temple_" + Year + "..Supplies_wu_info3 Set Num2String = '" + Num2String + "', Num = " + lastnum + " Where SuppliesID=" + sid);
+
+                    if (res > 0)
+                    {
+                        bResult = true;
+                    }
+
+                    Supplieslist[i] = Num2String;
+
+                    lastnum = GetListNum_wu_Supplies3(applicantID, Year);
+                    if (lastnum > 0)
+                    {
+                        bool dhavenum = true;
+                        for (int j = 2001; j < lastnum; j++)
+                        {
+                            if (CheckedNum_wu_Supplies3(j, Year))
+                            {
+                                lastnum = j;
+                                dhavenum = false;
+                                break;
+                            }
+                        }
+
+                        if (dhavenum)
+                        {
+                            lastnum++;
+                        }
+                    }
+                    else
+                    {
+                        lastnum = 2001;
+                    }
+                }
+
+                return bResult;
+            }             
+        }
+
+        public bool UpdateSupplies_wu_Info(int applicantID, string Year, ref string msg, ref string[] Supplieslist)
         {
             TimeZoneInfo info = TimeZoneInfo.FindSystemTimeZoneById("Taipei Standard Time");
             DateTime dt = TimeZoneInfo.ConvertTime(DateTime.Now, info);
             bool bResult = false;
-            int lastnum = GetListNum_wu_Supplies2(applicantID, Year);
+            int lastnum = GetListNum_wu_Supplies(applicantID, Year);
             if (lastnum > 0)
             {
                 bool dhavenum = true;
-                for (int i = 2001; i < lastnum; i++)
+                for (int i = 3001; i < lastnum; i++)
                 {
-                    if (CheckedNum_wu_Supplies2(i, Year))
+                    if (CheckedNum_wu_Supplies(i, Year))
                     {
                         lastnum = i;
                         dhavenum = false;
@@ -15286,10 +21332,10 @@ namespace Read.data
             }
             else
             {
-                lastnum = 2001;
+                lastnum = 3001;
             }
             DataTable dtDataList = new DataTable();
-            string sql = "Select * From Temple_" + Year + "..Supplies_wu_info2 Where ApplicantID=@ApplicantID and Status = 0 and Num = 0";
+            string sql = "Select * From Temple_" + Year + "..Supplies_wu_info Where ApplicantID=@ApplicantID and Status = 0";
 
             DatabaseAdapter AdapterObj = new DatabaseAdapter(sql, this.DBSource);
             AdapterObj.SetSqlCommandBuilder();
@@ -15300,9 +21346,9 @@ namespace Read.data
             for (int i = 0; i < dtDataList.Rows.Count; i++)
             {
                 string sid = dtDataList.Rows[i]["SuppliesID"].ToString();
-                string Num2String = "W2S" + lastnum;
+                string Num2String = "WS" + lastnum;
 
-                int res = ExecuteSql("Update Temple_" + Year + "..Supplies_wu_info2 Set Num2String = '" + Num2String + "', Num = " + lastnum + " Where SuppliesID=" + sid);
+                int res = ExecuteSql("Update Temple_" + Year + "..Supplies_wu_info Set Num2String = '" + Num2String + "', Num = " + lastnum + " Where SuppliesID=" + sid);
 
                 if (res > 0)
                 {
@@ -15317,13 +21363,13 @@ namespace Read.data
                     msg += ",";
                 }
 
-                lastnum = GetListNum_wu_Supplies2(applicantID, Year);
+                lastnum = GetListNum_wu_Supplies(applicantID, Year);
                 if (lastnum > 0)
                 {
                     bool dhavenum = true;
-                    for (int j = 2001; j < lastnum; j++)
+                    for (int j = 3001; j < lastnum; j++)
                     {
-                        if (CheckedNum_wu_Supplies2(j, Year))
+                        if (CheckedNum_wu_Supplies(j, Year))
                         {
                             lastnum = j;
                             dhavenum = false;
@@ -15338,7 +21384,7 @@ namespace Read.data
                 }
                 else
                 {
-                    lastnum = 2001;
+                    lastnum = 3001;
                 }
             }
 
@@ -15347,66 +21393,22 @@ namespace Read.data
             return bResult;
         }
 
-        public bool UpdateSupplies_wu_Info3(int applicantID, string Year, ref string[] Supplieslist)
+        public bool UpdateSupplies_wu_Info2(int applicantID, string Year, ref string msg, ref string[] Supplieslist)
         {
-            TimeZoneInfo info = TimeZoneInfo.FindSystemTimeZoneById("Taipei Standard Time");
-            DateTime dt = TimeZoneInfo.ConvertTime(DateTime.Now, info);
-            bool bResult = false;
-            int lastnum = GetListNum_wu_Supplies3(applicantID, Year);
-            if (lastnum > 0)
+            lock(_thisLock)
             {
-                bool dhavenum = true;
-                for (int i = 2001; i < lastnum; i++)
-                {
-                    if (CheckedNum_wu_Supplies3(i, Year))
-                    {
-                        lastnum = i;
-                        dhavenum = false;
-                        break;
-                    }
-                }
-
-                if (dhavenum)
-                {
-                    ++lastnum;
-                }
-            }
-            else
-            {
-                lastnum = 2001;
-            }
-            DataTable dtDataList = new DataTable();
-            string sql = "Select * From Temple_" + Year + "..Supplies_wu_info3 Where ApplicantID=@ApplicantID and Status = 0";
-
-            DatabaseAdapter AdapterObj = new DatabaseAdapter(sql, this.DBSource);
-            AdapterObj.SetSqlCommandBuilder();
-            AdapterObj.AddParameterToSelectCommand("@ApplicantID", applicantID);
-            AdapterObj.Fill(dtDataList);
-
-            Supplieslist = new string[dtDataList.Rows.Count];
-            for (int i = 0; i < dtDataList.Rows.Count; i++)
-            {
-                string sid = dtDataList.Rows[i]["SuppliesID"].ToString();
-                string Num2String = "W3S" + lastnum;
-
-                int res = ExecuteSql("Update Temple_" + Year + "..Supplies_wu_info3 Set Num2String = '" + Num2String + "', Num = " + lastnum + " Where SuppliesID=" + sid);
-
-                if (res > 0)
-                {
-                    bResult = true;
-                }
-
-                Supplieslist[i] = Num2String;
-
-                lastnum = GetListNum_wu_Supplies3(applicantID, Year);
+                TimeZoneInfo info = TimeZoneInfo.FindSystemTimeZoneById("Taipei Standard Time");
+                DateTime dt = TimeZoneInfo.ConvertTime(DateTime.Now, info);
+                bool bResult = false;
+                int lastnum = GetListNum_wu_Supplies2(applicantID, Year);
                 if (lastnum > 0)
                 {
                     bool dhavenum = true;
-                    for (int j = 2001; j < lastnum; j++)
+                    for (int i = 2001; i < lastnum; i++)
                     {
-                        if (CheckedNum_wu_Supplies3(j, Year))
+                        if (CheckedNum_wu_Supplies2(i, Year))
                         {
-                            lastnum = j;
+                            lastnum = i;
                             dhavenum = false;
                             break;
                         }
@@ -15414,16 +21416,71 @@ namespace Read.data
 
                     if (dhavenum)
                     {
-                        lastnum++;
+                        ++lastnum;
                     }
                 }
                 else
                 {
                     lastnum = 2001;
                 }
-            }
+                DataTable dtDataList = new DataTable();
+                string sql = "Select * From Temple_" + Year + "..Supplies_wu_info2 Where ApplicantID=@ApplicantID and Status = 0 and Num = 0";
 
-            return bResult;
+                DatabaseAdapter AdapterObj = new DatabaseAdapter(sql, this.DBSource);
+                AdapterObj.SetSqlCommandBuilder();
+                AdapterObj.AddParameterToSelectCommand("@ApplicantID", applicantID);
+                AdapterObj.Fill(dtDataList);
+
+                Supplieslist = new string[dtDataList.Rows.Count];
+                for (int i = 0; i < dtDataList.Rows.Count; i++)
+                {
+                    string sid = dtDataList.Rows[i]["SuppliesID"].ToString();
+                    string Num2String = "W2S" + lastnum;
+
+                    int res = ExecuteSql("Update Temple_" + Year + "..Supplies_wu_info2 Set Num2String = '" + Num2String + "', Num = " + lastnum + " Where SuppliesID=" + sid);
+
+                    if (res > 0)
+                    {
+                        bResult = true;
+                    }
+
+                    Supplieslist[i] = Num2String;
+
+                    msg += Supplieslist[i];
+                    if (i < Supplieslist.Length - 1)
+                    {
+                        msg += ",";
+                    }
+
+                    lastnum = GetListNum_wu_Supplies2(applicantID, Year);
+                    if (lastnum > 0)
+                    {
+                        bool dhavenum = true;
+                        for (int j = 2001; j < lastnum; j++)
+                        {
+                            if (CheckedNum_wu_Supplies2(j, Year))
+                            {
+                                lastnum = j;
+                                dhavenum = false;
+                                break;
+                            }
+                        }
+
+                        if (dhavenum)
+                        {
+                            lastnum++;
+                        }
+                    }
+                    else
+                    {
+                        lastnum = 2001;
+                    }
+                }
+
+                msg += "。客服電話：04-36092299。";
+
+                return bResult;
+            }
         }
 
         public bool UpdateSupplies_wu_Info3(int applicantID, string Year, ref string msg, ref string[] Supplieslist)
@@ -15511,6 +21568,433 @@ namespace Read.data
             msg += "。客服電話：04-36092299。";
 
             return bResult;
+        }
+
+        /// <summary>
+        /// 更新並取得訂單編號資料 - 下元補庫 - 北港武德宮
+        /// </summary>
+        /// <param name="applicantID">購買人編號</param>
+        /// <param name="Year">年度字串，例如 "2025"</param>
+        /// <param name="msg">回傳給前端的訊息（各燈號編號＋客服電話）</param>
+        /// <param name="supplieslist">回傳給前端的燈號清單（例如「太歲燈:TYA1001」）</param>
+        /// <param name="Supplieslist">備用，可同樣回傳燈號字串陣列，視業務需求</param>
+        /// <returns>若有更新資料則回傳 true，否則回傳 false</returns>
+        public bool UpdateSupplies_wu_Info(
+            int applicantID,
+            string Year,
+            ref string msg,
+            ref string[] supplieslist,
+            ref string[] Supplieslist)
+        {
+            lock (_thisLock)
+            {
+                twbobibobi.Data.BasePage basePage = new twbobibobi.Data.BasePage();
+
+                // 1. 一次性取得所有已分配的編號 (Num > 0 且 Num2String 有值)
+                string sqlFetchExisting =
+                    "SELECT Num " +
+                    "FROM Temple_" + Year + "..Supplies_wu_info " +
+                    "WHERE Status = 0 " +
+                    "  AND Num <> 0" +
+                    "  AND Num2String IS NOT NULL " +
+                    "  AND Num2String <> ''";
+
+                // 建立 DatabaseAdapter，並加入參數
+                DatabaseAdapter da = new DatabaseAdapter(sqlFetchExisting, this.DBSource);
+                da.SetSqlCommandBuilder();
+                DataTable dtExisting = new DataTable();
+                da.Fill(dtExisting);
+
+                // 建立已用號碼集合
+                HashSet<int> usedNums = new HashSet<int>();
+                foreach (DataRow row in dtExisting.Rows)
+                {
+                    int num = Convert.ToInt32(row["Num"]);
+                    usedNums.Add(num);
+                }
+
+                // 2. 一次性抓出所有需補號的列 (Num = 0)
+                DataTable dtToAssign = new DataTable();
+                string sqlFetchToAssign =
+                    "SELECT SuppliesID " +
+                    "FROM Temple_" + Year + "..Supplies_wu_info " +
+                    "WHERE ApplicantID = @ApplicantID " +
+                    "  AND Status = 0 " +
+                    "  AND Num = 0 " +
+                    "ORDER BY SuppliesID";
+
+                {
+                    da = new DatabaseAdapter(sqlFetchToAssign, this.DBSource);
+                    da.SetSqlCommandBuilder();
+                    da.AddParameterToSelectCommand("ApplicantID", applicantID);
+                    da.Fill(dtToAssign);
+                }
+
+                int rowCount = dtToAssign.Rows.Count;
+                supplieslist = new string[rowCount];
+                Supplieslist = new string[rowCount];
+                // 用來存放要批量更新的資料 (SuppliesID, AssignedNum, AssignedNumString)
+                List<Tuple<int, int, string>> updatedRecords = new List<Tuple<int, int, string>>();
+
+                // 3. 逐筆在記憶體中分配「最小可用缺號」
+                for (int i = 0; i < rowCount; i++)
+                {
+                    DataRow row = dtToAssign.Rows[i];
+                    int dbSuppliesID = Convert.ToInt32(row["SuppliesID"]);
+
+                    // 找下一個可用編號 (從 1001 開始往上搜尋)
+                    int nextNum = 1001;
+                    while (usedNums.Contains(nextNum))
+                    {
+                        nextNum++;
+                    }
+
+                    // 根據不同服務決定前綴字串
+                    string prefix = "WU";
+                    string numString = prefix + nextNum.ToString();
+                    Supplieslist[i] = numString;
+
+                    // 將這筆資料加入批量更新清單
+                    updatedRecords.Add(new Tuple<int, int, string>(dbSuppliesID, nextNum, numString));
+
+                    // 準備回傳給前端的燈號字串
+                    string typeName = "下元補庫";
+                    supplieslist[i] = typeName + ":" + numString;
+
+                    // 把已分配的 nextNum 加入 usedNumsByType，避免重複
+                    usedNums.Add(nextNum);
+                }
+
+                // 組出 msg，格式為「燈種1:編號,燈種2:編號,...。客服電話：04-36092299。」
+                msg += string.Join(",", supplieslist) + "。客服電話：04-36092299。";
+
+                // 5. 一次性批量 UPDATE 回資料庫
+                //    以下示範用動態 SQL 拼接多筆 UPDATE，若更新筆數很多建議改用 TVP + 存儲過程
+                System.Text.StringBuilder sb = new System.Text.StringBuilder();
+                sb.AppendLine("USE Temple_" + Year + ";");
+                foreach (var rec in updatedRecords)
+                {
+                    int id = rec.Item1;
+                    int assignedNum = rec.Item2;
+                    string assignedNumString = rec.Item3.Replace("'", "''"); // 確保單引號轉義
+                    sb.AppendLine(
+                        "UPDATE dbo.Supplies_wu_info " +
+                        "SET Num = " + assignedNum + ", " +
+                        "    Num2String = N'" + assignedNumString + "' " +
+                        "WHERE SuppliesID = " + id + ";"
+                    );
+                }
+                string sqlBatchUpdate = sb.ToString();
+
+                try
+                {
+                    int rowsAffected = ExecuteSql(sqlBatchUpdate);
+                    if (rowsAffected > 0)
+                    {
+                        // 成功更新至少一筆
+                        return (updatedRecords.Count > 0);
+                    }
+                    else
+                    {
+                        // 防呆：SQL 執行後沒有影響到任何列，記一筆錯誤日誌，再回傳 false
+                        string err = "[UpdateSupplies_wu_Info] 批量 UPDATE 未更新到任何記錄，SQL:\r\n" + sqlBatchUpdate;
+                        basePage.SaveErrorLog(err);
+                        return false;
+                    }
+                }
+                catch (Exception ex)
+                {
+                    // 捕捉執行 SQL 時的例外，記錯誤日誌，並回傳 false
+                    basePage.SaveErrorLog("[UpdateSupplies_wu_Info] 批量 UPDATE 時發生例外：\r\n" + ex);
+                    return false;
+                }
+            }
+        }
+
+        /// <summary>
+        /// 更新並取得訂單編號資料 - 企業補財庫 - 北港武德宮
+        /// </summary>
+        /// <param name="applicantID">購買人編號</param>
+        /// <param name="Year">年度字串，例如 "2025"</param>
+        /// <param name="msg">回傳給前端的訊息（各燈號編號＋客服電話）</param>
+        /// <param name="supplieslist">回傳給前端的燈號清單（例如「太歲燈:TYA1001」）</param>
+        /// <param name="Supplieslist">備用，可同樣回傳燈號字串陣列，視業務需求</param>
+        /// <returns>若有更新資料則回傳 true，否則回傳 false</returns>
+        public bool UpdateSupplies_wu_Info3(
+            int applicantID,
+            string Year,
+            ref string msg,
+            ref string[] supplieslist,
+            ref string[] Supplieslist)
+        {
+            lock (_thisLock)
+            {
+                twbobibobi.Data.BasePage basePage = new twbobibobi.Data.BasePage();
+
+                // 1. 一次性取得所有已分配的編號 (Num > 0 且 Num2String 有值)
+                string sqlFetchExisting =
+                    "SELECT Num " +
+                    "FROM Temple_" + Year + "..Supplies_wu_info3 " +
+                    "WHERE Status = 0 " +
+                    "  AND Num <> 0" +
+                    "  AND Num2String IS NOT NULL " +
+                    "  AND Num2String <> ''";
+
+                // 建立 DatabaseAdapter，並加入參數
+                DatabaseAdapter da = new DatabaseAdapter(sqlFetchExisting, this.DBSource);
+                da.SetSqlCommandBuilder();
+                DataTable dtExisting = new DataTable();
+                da.Fill(dtExisting);
+
+                // 建立已用號碼集合
+                HashSet<int> usedNums = new HashSet<int>();
+                foreach (DataRow row in dtExisting.Rows)
+                {
+                    int num = Convert.ToInt32(row["Num"]);
+                    usedNums.Add(num);
+                }
+
+                // 2. 一次性抓出所有需補號的列 (Num = 0)
+                DataTable dtToAssign = new DataTable();
+                string sqlFetchToAssign =
+                    "SELECT SuppliesID " +
+                    "FROM Temple_" + Year + "..Supplies_wu_info3 " +
+                    "WHERE ApplicantID = @ApplicantID " +
+                    "  AND Status = 0 " +
+                    "  AND Num = 0 " +
+                    "ORDER BY SuppliesID";
+
+                {
+                    da = new DatabaseAdapter(sqlFetchToAssign, this.DBSource);
+                    da.SetSqlCommandBuilder();
+                    da.AddParameterToSelectCommand("ApplicantID", applicantID);
+                    da.Fill(dtToAssign);
+                }
+
+                int rowCount = dtToAssign.Rows.Count;
+                supplieslist = new string[rowCount];
+                Supplieslist = new string[rowCount];
+                // 用來存放要批量更新的資料 (SuppliesID, AssignedNum, AssignedNumString)
+                List<Tuple<int, int, string>> updatedRecords = new List<Tuple<int, int, string>>();
+
+                // 3. 逐筆在記憶體中分配「最小可用缺號」
+                for (int i = 0; i < rowCount; i++)
+                {
+                    DataRow row = dtToAssign.Rows[i];
+                    int dbSuppliesID = Convert.ToInt32(row["SuppliesID"]);
+
+                    // 找下一個可用編號 (從 2001 開始往上搜尋)
+                    int nextNum = 2001;
+                    while (usedNums.Contains(nextNum))
+                    {
+                        nextNum++;
+                    }
+
+                    // 根據不同服務決定前綴字串
+                    string prefix = "W3S";
+                    string numString = prefix + nextNum.ToString();
+                    Supplieslist[i] = numString;
+
+                    // 將這筆資料加入批量更新清單
+                    updatedRecords.Add(new Tuple<int, int, string>(dbSuppliesID, nextNum, numString));
+
+                    // 準備回傳給前端的燈號字串
+                    string typeName = "企業補財庫";
+                    supplieslist[i] = typeName + ":" + numString;
+
+                    // 把已分配的 nextNum 加入 usedNumsByType，避免重複
+                    usedNums.Add(nextNum);
+                }
+
+                // 組出 msg，格式為「燈種1:編號,燈種2:編號,...。客服電話：04-36092299。」
+                msg += string.Join(",", supplieslist) + "。客服電話：04-36092299。";
+
+                // 5. 一次性批量 UPDATE 回資料庫
+                //    以下示範用動態 SQL 拼接多筆 UPDATE，若更新筆數很多建議改用 TVP + 存儲過程
+                System.Text.StringBuilder sb = new System.Text.StringBuilder();
+                sb.AppendLine("USE Temple_" + Year + ";");
+                foreach (var rec in updatedRecords)
+                {
+                    int id = rec.Item1;
+                    int assignedNum = rec.Item2;
+                    string assignedNumString = rec.Item3.Replace("'", "''"); // 確保單引號轉義
+                    sb.AppendLine(
+                        "UPDATE dbo.Supplies_wu_info3 " +
+                        "SET Num = " + assignedNum + ", " +
+                        "    Num2String = N'" + assignedNumString + "' " +
+                        "WHERE SuppliesID = " + id + ";"
+                    );
+                }
+                string sqlBatchUpdate = sb.ToString();
+
+                try
+                {
+                    int rowsAffected = ExecuteSql(sqlBatchUpdate);
+                    if (rowsAffected > 0)
+                    {
+                        // 成功更新至少一筆
+                        return (updatedRecords.Count > 0);
+                    }
+                    else
+                    {
+                        // 防呆：SQL 執行後沒有影響到任何列，記一筆錯誤日誌，再回傳 false
+                        string err = "[UpdateSupplies_wu_Info3] 批量 UPDATE 未更新到任何記錄，SQL:\r\n" + sqlBatchUpdate;
+                        basePage.SaveErrorLog(err);
+                        return false;
+                    }
+                }
+                catch (Exception ex)
+                {
+                    // 捕捉執行 SQL 時的例外，記錯誤日誌，並回傳 false
+                    basePage.SaveErrorLog("[UpdateSupplies_wu_Info3] 批量 UPDATE 時發生例外：\r\n" + ex);
+                    return false;
+                }
+            }
+        }
+
+        /// <summary>
+        /// 更新並取得訂單編號資料 - 祈安禮斗 - 基隆悟玄宮
+        /// </summary>
+        /// <param name="applicantID">購買人編號</param>
+        /// <param name="SuppliesType">
+        /// 服務項目代碼：
+        /// 1－祈安禮斗；
+        /// </param>
+        /// <param name="Year">年度字串，例如 "2025"</param>
+        /// <param name="msg">回傳給前端的訊息（各燈號編號＋客服電話）</param>
+        /// <param name="supplieslist">回傳給前端的燈號清單（例如「太歲燈:TYA1001」）</param>
+        /// <param name="Supplieslist">備用，可同樣回傳燈號字串陣列，視業務需求</param>
+        /// <returns>若有更新資料則回傳 true，否則回傳 false</returns>
+        public bool UpdateSupplies_wh_Info(
+            int applicantID,
+            string Year,
+            ref string msg,
+            ref string[] supplieslist,
+            ref string[] Supplieslist)
+        {
+            lock (_thisLock)
+            {
+                twbobibobi.Data.BasePage basePage = new twbobibobi.Data.BasePage();
+
+                // 1. 一次性取得所有已分配的編號 (Num > 0 且 Num2String 有值)
+                string sqlFetchExisting =
+                    "SELECT Num " +
+                    "FROM Temple_" + Year + "..Supplies_wh_info " +
+                    "WHERE Status = 0 " +
+                    "  AND Num <> 0" +
+                    "  AND Num2String IS NOT NULL " +
+                    "  AND Num2String <> ''";
+
+                // 建立 DatabaseAdapter，並加入參數
+                DatabaseAdapter da = new DatabaseAdapter(sqlFetchExisting, this.DBSource);
+                da.SetSqlCommandBuilder();
+                DataTable dtExisting = new DataTable();
+                da.Fill(dtExisting);
+
+                // 建立已用號碼集合
+                HashSet<int> usedNums = new HashSet<int>();
+                foreach (DataRow row in dtExisting.Rows)
+                {
+                    int num = Convert.ToInt32(row["Num"]);
+                    usedNums.Add(num);
+                }
+
+                // 2. 一次性抓出所有需補號的列 (Num = 0)
+                DataTable dtToAssign = new DataTable();
+                string sqlFetchToAssign =
+                    "SELECT SuppliesID " +
+                    "FROM Temple_" + Year + "..Supplies_wh_info " +
+                    "WHERE ApplicantID = @ApplicantID " +
+                    "  AND Status = 0 " +
+                    "  AND Num = 0 " +
+                    "ORDER BY SuppliesID";
+
+                {
+                    da = new DatabaseAdapter(sqlFetchToAssign, this.DBSource);
+                    da.SetSqlCommandBuilder();
+                    da.AddParameterToSelectCommand("ApplicantID", applicantID);
+                    da.Fill(dtToAssign);
+                }
+
+                int rowCount = dtToAssign.Rows.Count;
+                supplieslist = new string[rowCount];
+                Supplieslist = new string[rowCount];
+                // 用來存放要批量更新的資料 (SuppliesID, AssignedNum, AssignedNumString)
+                List<Tuple<int, int, string>> updatedRecords = new List<Tuple<int, int, string>>();
+
+                // 3. 逐筆在記憶體中分配「最小可用缺號」
+                for (int i = 0; i < rowCount; i++)
+                {
+                    DataRow row = dtToAssign.Rows[i];
+                    int dbSuppliesID = Convert.ToInt32(row["SuppliesID"]);
+
+                    // 找下一個可用編號 (從 1001 開始往上搜尋)
+                    int nextNum = 1001;
+                    while (usedNums.Contains(nextNum))
+                    {
+                        nextNum++;
+                    }
+
+                    // 根據不同服務決定前綴字串
+                    string prefix = "WHSU";
+                    string numString = prefix + nextNum.ToString();
+                    Supplieslist[i] = numString;
+
+                    // 將這筆資料加入批量更新清單
+                    updatedRecords.Add(new Tuple<int, int, string>(dbSuppliesID, nextNum, numString));
+
+                    // 準備回傳給前端的燈號字串
+                    string typeName = "祈安禮斗";
+                    supplieslist[i] = typeName + ":" + numString;
+
+                    // 把已分配的 nextNum 加入 usedNumsByType，避免重複
+                    usedNums.Add(nextNum);
+                }
+
+                // 組出 msg，格式為「燈種1:編號,燈種2:編號,...。客服電話：04-36092299。」
+                msg += string.Join(",", supplieslist) + "。客服電話：04-36092299。";
+
+                // 5. 一次性批量 UPDATE 回資料庫
+                //    以下示範用動態 SQL 拼接多筆 UPDATE，若更新筆數很多建議改用 TVP + 存儲過程
+                System.Text.StringBuilder sb = new System.Text.StringBuilder();
+                sb.AppendLine("USE Temple_" + Year + ";");
+                foreach (var rec in updatedRecords)
+                {
+                    int id = rec.Item1;
+                    int assignedNum = rec.Item2;
+                    string assignedNumString = rec.Item3.Replace("'", "''"); // 確保單引號轉義
+                    sb.AppendLine(
+                        "UPDATE dbo.Supplies_wh_info " +
+                        "SET Num = " + assignedNum + ", " +
+                        "    Num2String = N'" + assignedNumString + "' " +
+                        "WHERE SuppliesID = " + id + ";"
+                    );
+                }
+                string sqlBatchUpdate = sb.ToString();
+
+                try
+                {
+                    int rowsAffected = ExecuteSql(sqlBatchUpdate);
+                    if (rowsAffected > 0)
+                    {
+                        // 成功更新至少一筆
+                        return (updatedRecords.Count > 0);
+                    }
+                    else
+                    {
+                        // 防呆：SQL 執行後沒有影響到任何列，記一筆錯誤日誌，再回傳 false
+                        string err = "[UpdateSupplies_wh_Info] 批量 UPDATE 未更新到任何記錄，SQL:\r\n" + sqlBatchUpdate;
+                        basePage.SaveErrorLog(err);
+                        return false;
+                    }
+                }
+                catch (Exception ex)
+                {
+                    // 捕捉執行 SQL 時的例外，記錯誤日誌，並回傳 false
+                    basePage.SaveErrorLog("[UpdateSupplies_wh_Info] 批量 UPDATE 時發生例外：\r\n" + ex);
+                    return false;
+                }
+            }
         }
 
         // aid=32 a=3 t=4        
@@ -15836,6 +22320,290 @@ namespace Read.data
                     }
                 }
             }
+
+            return bResult;
+        }
+
+        public bool UpdateProductInfo(int applicantID, int adminID, string Year, ref string msg, ref string[] productlist, ref string[] Productlist)
+        {
+            TimeZoneInfo info = TimeZoneInfo.FindSystemTimeZoneById("Taipei Standard Time");
+            DateTime dtNow = TimeZoneInfo.ConvertTime(DateTime.Now, info);
+            bool bResult = false;
+            int lastnum = GetListNum_Product(adminID, Year);
+            if (lastnum > 0)
+            {
+                bool dhavenum = true;
+
+                switch (adminID)
+                {
+                    case 5:
+                        //新港奉天宮文創小販部
+                        for (int j = 3001; j < lastnum; j++)
+                        {
+                            if (CheckedNum_Product(adminID, j, Year))
+                            {
+                                lastnum = j;
+                                dhavenum = false;
+                                break;
+                            }
+                        }
+                        break;
+                    case 20:
+                        //西螺福興宮文創小販部
+                        for (int j = 3001; j < lastnum; j++)
+                        {
+                            if (CheckedNum_Product(adminID, j, Year))
+                            {
+                                lastnum = j;
+                                dhavenum = false;
+                                break;
+                            }
+                        }
+                        break;
+                    case 22:
+                        //流金富貴商品小舖
+                        for (int j = 3001; j < lastnum; j++)
+                        {
+                            if (CheckedNum_Product(adminID, j, Year))
+                            {
+                                lastnum = j;
+                                dhavenum = false;
+                                break;
+                            }
+                        }
+                        break;
+                    case 28:
+                        //財神小舖商品小舖
+                        for (int j = 3001; j < lastnum; j++)
+                        {
+                            if (CheckedNum_Product(adminID, j, Year))
+                            {
+                                lastnum = j;
+                                dhavenum = false;
+                                break;
+                            }
+                        }
+                        break;
+                    case 29:
+                        //進寶財神廟商品小舖
+                        for (int j = 3001; j < lastnum; j++)
+                        {
+                            if (CheckedNum_Product(adminID, j, Year))
+                            {
+                                lastnum = j;
+                                dhavenum = false;
+                                break;
+                            }
+                        }
+                        break;
+                }
+                if (dhavenum)
+                {
+                    ++lastnum;
+                }
+            }
+            else
+            {
+                switch (adminID)
+                {
+                    case 5:
+                        //新港奉天宮文創小販部
+                        lastnum = 3001;
+                        break;
+                    case 20:
+                        //西螺福興宮文創小販部
+                        lastnum = 3001;
+                        break;
+                    case 22:
+                        //流金富貴商品小舖
+                        lastnum = 3001;
+                        break;
+                    case 28:
+                        //財神小舖商品小舖
+                        lastnum = 3001;
+                        break;
+                    case 29:
+                        //進寶財神廟商品小舖
+                        lastnum = 3001;
+                        break;
+                }
+            }
+            DataTable dtDataList = new DataTable();
+            string sql = "Select * From Temple_" + Year + "..ProductInfo Where ApplicantID=@ApplicantID and Status = 0";
+
+            DatabaseAdapter AdapterObj = new DatabaseAdapter(sql, this.DBSource);
+            AdapterObj.SetSqlCommandBuilder();
+            AdapterObj.AddParameterToSelectCommand("@ApplicantID", applicantID);
+            AdapterObj.Fill(dtDataList);
+
+            productlist = new string[dtDataList.Rows.Count];
+            //Productlist = new string[dtDataList.Rows.Count];
+            var tempProductlist = Productlist.ToList();
+            for (int i = 0; i < dtDataList.Rows.Count; i++)
+            {
+                string bid = dtDataList.Rows[i]["BuyID"].ToString();
+                string NumString = string.Empty;
+
+                switch (adminID)
+                {
+                    case 5:
+                        //新港奉天宮文創小販部
+                        NumString = "P" + Num2String(lastnum);
+                        productlist[i] = NumString;
+                        tempProductlist.Add(NumString);
+                        //productlist[i] = "光明燈:S" + Num2String(lastnum);
+                        //dtDataList.Rows[i]["Num2String"] = "P" + Num2String(lastnum);
+                        break;
+                    case 20:
+                        //西螺福興宮文創小販部
+                        NumString = "FP" + Num2String(lastnum);
+                        productlist[i] = NumString;
+                        tempProductlist.Add(NumString);
+                        //dtDataList.Rows[i]["Num2String"] = "FP" + Num2String(lastnum);
+                        break;
+                    case 22:
+                        //流金富貴商品小舖
+                        NumString = "FG" + Num2String(lastnum);
+                        productlist[i] = NumString;
+                        tempProductlist.Add(NumString);
+                        //dtDataList.Rows[i]["Num2String"] = "FP" + Num2String(lastnum);
+                        break;
+                    case 28:
+                        //財神小舖商品小舖
+                        NumString = "GOD" + Num2String(lastnum);
+                        productlist[i] = NumString;
+                        tempProductlist.Add(NumString);
+                        //dtDataList.Rows[i]["Num2String"] = "FP" + Num2String(lastnum);
+                        break;
+                    case 29:
+                        //進寶財神廟商品小舖
+                        NumString = "JB" + Num2String(lastnum);
+                        productlist[i] = NumString;
+                        tempProductlist.Add(NumString);
+                        //dtDataList.Rows[i]["Num2String"] = "FP" + Num2String(lastnum);
+                        break;
+                }
+                int res = ExecuteSql("Update Temple_" + Year + "..ProductInfo Set Num2String = N'" + NumString + "', Num = " + lastnum + " Where BuyID=" + bid);
+
+                if (res > 0)
+                {
+                    bResult = true;
+                }
+
+                Productlist = tempProductlist.ToArray();
+
+                msg += productlist[i];
+                if (i < productlist.Length - 1)
+                {
+                    msg += ",";
+                }
+
+                int index = dtDataList.Rows.Count - i > 1 ? i + 1 : i;
+                adminID = int.Parse(dtDataList.Rows[index]["AdminID"].ToString());
+
+                lastnum = GetListNum_Product(adminID, Year);
+                if (lastnum > 0)
+                {
+                    bool dhavenum = true;
+
+                    switch (adminID)
+                    {
+                        case 5:
+                            //新港奉天宮文創小販部
+                            for (int j = 3001; j < lastnum; j++)
+                            {
+                                if (CheckedNum_Product(adminID, j, Year))
+                                {
+                                    lastnum = j;
+                                    dhavenum = false;
+                                    break;
+                                }
+                            }
+                            break;
+                        case 20:
+                            //西螺福興宮文創小販部
+                            for (int j = 3001; j < lastnum; j++)
+                            {
+                                if (CheckedNum_Product(adminID, j, Year))
+                                {
+                                    lastnum = j;
+                                    dhavenum = false;
+                                    break;
+                                }
+                            }
+                            break;
+                        case 22:
+                            //流金富貴商品小舖
+                            for (int j = 3001; j < lastnum; j++)
+                            {
+                                if (CheckedNum_Product(adminID, j, Year))
+                                {
+                                    lastnum = j;
+                                    dhavenum = false;
+                                    break;
+                                }
+                            }
+                            break;
+                        case 28:
+                            //財神小舖商品小舖
+                            for (int j = 3001; j < lastnum; j++)
+                            {
+                                if (CheckedNum_Product(adminID, j, Year))
+                                {
+                                    lastnum = j;
+                                    dhavenum = false;
+                                    break;
+                                }
+                            }
+                            break;
+                        case 29:
+                            //進寶財神廟商品小舖
+                            for (int j = 3001; j < lastnum; j++)
+                            {
+                                if (CheckedNum_Product(adminID, j, Year))
+                                {
+                                    lastnum = j;
+                                    dhavenum = false;
+                                    break;
+                                }
+                            }
+                            break;
+                    }
+
+                    if (dhavenum)
+                    {
+                        ++lastnum;
+                    }
+                }
+                else
+                {
+                    switch (adminID)
+                    {
+                        case 5:
+                            //新港奉天宮文創小販部
+                            lastnum = 3001;
+                            break;
+                        case 20:
+                            //西螺福興宮文創小販部
+                            lastnum = 3001;
+                            break;
+                        case 22:
+                            //流金富貴商品小舖
+                            lastnum = 3001;
+                            break;
+                        case 28:
+                            //財神小舖商品小舖
+                            lastnum = 3001;
+                            break;
+                        case 29:
+                            //進寶財神廟商品小舖
+                            lastnum = 3001;
+                            break;
+                    }
+                }
+            }
+
+            msg += "。客服電話：04-36092299。";
 
             return bResult;
         }
@@ -16297,6 +23065,9 @@ namespace Read.data
             return bResult;
         }
 
+        /// <summary>
+        /// 將整數 num 轉成 4 碼字串：1 → "0001"， 12 → "0012"， 123 → "0123"， 1234 → "1234"（本方法由使用者提供）
+        /// </summary>
         public string Num2String(int num)
         {
             string result = string.Empty;
@@ -16880,6 +23651,28 @@ namespace Read.data
         //    return bResult;
         //}
 
+        public bool UpdateInvoiceDetail(int applicantID, int adminID, int kind, string invoiceNumber, string rawJson, string Status, string Year)
+        {
+            TimeZoneInfo info = TimeZoneInfo.FindSystemTimeZoneById("Taipei Standard Time");
+            DateTime dtNow = TimeZoneInfo.ConvertTime(DateTime.Now, info);
+
+            bool bResult = false;
+            int res = ExecuteSql("Update Temple_" + Year + "..InvoiceDetail Set Status= " + Status +
+                ", InvoiceNumber= '" + invoiceNumber + "'" +
+                ", InvoiceInfo= '" + rawJson + "'" +
+                ", UpdateDate= '" + dtNow.ToString("yyyy-MM-dd HH:mm:ss") + "'" +
+                " Where ApplicantID=" + applicantID +
+                " and AdminID=" +adminID +
+                " and Kind=" + kind);
+
+            if (res > 0)
+            {
+                bResult = true;
+            }
+
+            return bResult;
+        }
+
         public bool Updateapplicantinfo_Lights_da(int applicantID, int Cost, int Status, string Year)
         {
             //TimeZoneInfo info = TimeZoneInfo.FindSystemTimeZoneById("Taipei Standard Time");
@@ -16983,6 +23776,19 @@ namespace Read.data
         {
             bool bResult = false;
             int res = ExecuteSql("Update Temple_" + Year + "..ApplicantInfo_ty_mom_Lights Set Status= " + Status + ", Cost= " + Cost + " Where ApplicantID=" + applicantID);
+
+            if (res > 0)
+            {
+                bResult = true;
+            }
+
+            return bResult;
+        }
+
+        public bool Updateapplicantinfo_QnLight_ty(int applicantID, int Cost, int Status, string Year)
+        {
+            bool bResult = false;
+            int res = ExecuteSql("Update Temple_" + Year + "..ApplicantInfo_ty_QnLight Set Status= " + Status + ", Cost= " + Cost + " Where ApplicantID=" + applicantID);
 
             if (res > 0)
             {
@@ -17148,6 +23954,84 @@ namespace Read.data
             return bResult;
         }
 
+        public bool Updateapplicantinfo_Lights_st(int applicantID, int Cost, int Status, string Year)
+        {
+            bool bResult = false;
+            int res = ExecuteSql("Update Temple_" + Year + "..ApplicantInfo_st_Lights Set Status= " + Status + ", Cost= " + Cost + " Where ApplicantID=" + applicantID);
+
+            if (res > 0)
+            {
+                bResult = true;
+            }
+
+            return bResult;
+        }
+
+        public bool Updateapplicantinfo_Lights_bj(int applicantID, int Cost, int Status, string Year)
+        {
+            bool bResult = false;
+            int res = ExecuteSql("Update Temple_" + Year + "..ApplicantInfo_bj_Lights Set Status= " + Status + ", Cost= " + Cost + " Where ApplicantID=" + applicantID);
+
+            if (res > 0)
+            {
+                bResult = true;
+            }
+
+            return bResult;
+        }
+
+        public bool Updateapplicantinfo_Lights_sbbt(int applicantID, int Cost, int Status, string Year)
+        {
+            bool bResult = false;
+            int res = ExecuteSql("Update Temple_" + Year + "..ApplicantInfo_sbbt_Lights Set Status= " + Status + ", Cost= " + Cost + " Where ApplicantID=" + applicantID);
+
+            if (res > 0)
+            {
+                bResult = true;
+            }
+
+            return bResult;
+        }
+
+        public bool Updateapplicantinfo_Lights_bpy(int applicantID, int Cost, int Status, string Year)
+        {
+            bool bResult = false;
+            int res = ExecuteSql("Update Temple_" + Year + "..ApplicantInfo_bpy_Lights Set Status= " + Status + ", Cost= " + Cost + " Where ApplicantID=" + applicantID);
+
+            if (res > 0)
+            {
+                bResult = true;
+            }
+
+            return bResult;
+        }
+
+        public bool Updateapplicantinfo_Lights_ssy(int applicantID, int Cost, int Status, string Year)
+        {
+            bool bResult = false;
+            int res = ExecuteSql("Update Temple_" + Year + "..ApplicantInfo_ssy_Lights Set Status= " + Status + ", Cost= " + Cost + " Where ApplicantID=" + applicantID);
+
+            if (res > 0)
+            {
+                bResult = true;
+            }
+
+            return bResult;
+        }
+
+        public bool Updateapplicantinfo_Blessing_st(int applicantID, int Cost, int Status, string Year)
+        {
+            bool bResult = false;
+            int res = ExecuteSql("Update Temple_" + Year + "..ApplicantInfo_st_Blessing Set Status= " + Status + ", Cost= " + Cost + " Where ApplicantID=" + applicantID);
+
+            if (res > 0)
+            {
+                bResult = true;
+            }
+
+            return bResult;
+        }
+
         public bool Updateapplicantinfo_Purdue_da(int applicantID, int Cost, int Status, string Year)
         {
             //TimeZoneInfo info = TimeZoneInfo.FindSystemTimeZoneById("Taipei Standard Time");
@@ -17299,10 +24183,88 @@ namespace Read.data
             return bResult;
         }
 
+        public bool Updateapplicantinfo_Purdue_jb(int applicantID, int Cost, int Status, string Year)
+        {
+            bool bResult = false;
+            int res = ExecuteSql("Update Temple_" + Year + "..ApplicantInfo_jb_Purdue Set Status= " + Status + ", Cost= " + Cost + " Where ApplicantID=" + applicantID);
+
+            if (res > 0)
+            {
+                bResult = true;
+            }
+
+            return bResult;
+        }
+
         public bool Updateapplicantinfo_Purdue_mazu(int applicantID, int Cost, int Status, string Year)
         {
             bool bResult = false;
             int res = ExecuteSql("Update Temple_" + Year + "..ApplicantInfo_mazu_Purdue Set Status= " + Status + ", Cost= " + Cost + " Where ApplicantID=" + applicantID);
+
+            if (res > 0)
+            {
+                bResult = true;
+            }
+
+            return bResult;
+        }
+
+        public bool Updateapplicantinfo_Purdue_wjsan(int applicantID, int Cost, int Status, string Year)
+        {
+            bool bResult = false;
+            int res = ExecuteSql("Update Temple_" + Year + "..ApplicantInfo_wjsan_Purdue Set Status= " + Status + ", Cost= " + Cost + " Where ApplicantID=" + applicantID);
+
+            if (res > 0)
+            {
+                bResult = true;
+            }
+
+            return bResult;
+        }
+
+        public bool Updateapplicantinfo_Purdue_ld(int applicantID, int Cost, int Status, string Year)
+        {
+            bool bResult = false;
+            int res = ExecuteSql("Update Temple_" + Year + "..ApplicantInfo_ld_Purdue Set Status= " + Status + ", Cost= " + Cost + " Where ApplicantID=" + applicantID);
+
+            if (res > 0)
+            {
+                bResult = true;
+            }
+
+            return bResult;
+        }
+
+        public bool Updateapplicantinfo_Purdue_sx(int applicantID, int Cost, int Status, string Year)
+        {
+            bool bResult = false;
+            int res = ExecuteSql("Update Temple_" + Year + "..ApplicantInfo_sx_Purdue Set Status= " + Status + ", Cost= " + Cost + " Where ApplicantID=" + applicantID);
+
+            if (res > 0)
+            {
+                bResult = true;
+            }
+
+            return bResult;
+        }
+
+        public bool Updateapplicantinfo_Purdue_wh(int applicantID, int Cost, int Status, string Year)
+        {
+            bool bResult = false;
+            int res = ExecuteSql("Update Temple_" + Year + "..ApplicantInfo_wh_Purdue Set Status= " + Status + ", Cost= " + Cost + " Where ApplicantID=" + applicantID);
+
+            if (res > 0)
+            {
+                bResult = true;
+            }
+
+            return bResult;
+        }
+
+        public bool Updateapplicantinfo_Purdue_st(int applicantID, int Cost, int Status, string Year)
+        {
+            bool bResult = false;
+            int res = ExecuteSql("Update Temple_" + Year + "..ApplicantInfo_st_Purdue Set Status= " + Status + ", Cost= " + Cost + " Where ApplicantID=" + applicantID);
 
             if (res > 0)
             {
@@ -17529,6 +24491,7 @@ namespace Read.data
             for (int i = 0; i < dtDataList.Rows.Count; i++)
             {
                 int productID = 0;
+                int count = int.Parse(dtDataList.Rows[i]["Count"].ToString());
                 string type = dtDataList.Rows[i]["Type"].ToString();
                 switch (type)
                 {
@@ -17552,9 +24515,23 @@ namespace Read.data
                         //招財大嘴貓(橘色)
                         productID = 71;
                         break;
+                    case "9":
+                        //午時水/1罐
+                        productID = 91;
+                        count = count * 1;
+                        break;
+                    case "10":
+                        //午時水/3罐
+                        productID = 91;
+                        count = count * 3;
+                        break;
+                    case "11":
+                        //午時水/6罐
+                        productID = 91;
+                        count = count * 6;
+                        break;
                 }
                 int typeID = 0;
-                int count = int.Parse(dtDataList.Rows[i]["Count"].ToString());
 
                 UpdateCount2Product(productID, typeID, count);
             }
@@ -18120,6 +25097,31 @@ namespace Read.data
         }
 
         /// <summary>
+        /// 取得普度資料表的普度類型(進寶財神廟)
+        /// </summary>
+        /// <param name="ApplicantID">ApplicantID=購買人編號</param>
+        /// <returns></returns>
+        public int GetPurdueType_jb(int ApplicantID, string Year)
+        {
+            int result = 0;
+            string sql = string.Empty;
+
+            sql = "Select * from Temple_" + Year + "..Purdue_jb_info Where Status = 0 and ApplicantID = @ApplicantID";
+
+            DatabaseAdapter objDatabaseAdapter = new DatabaseAdapter(sql, this.DBSource);
+            objDatabaseAdapter.AddParameterToSelectCommand("ApplicantID", ApplicantID);
+            DataTable dtGetData = new DataTable();
+            objDatabaseAdapter.Fill(dtGetData);
+
+            if (dtGetData.Rows.Count > 0)
+            {
+                int.TryParse(dtGetData.Rows[0]["PurdueType"].ToString(), out result);
+            }
+
+            return result;
+        }
+
+        /// <summary>
         /// 取得普度資料表的普度類型(鎮瀾買足網)
         /// </summary>
         /// <param name="ApplicantID">ApplicantID=購買人編號</param>
@@ -18130,6 +25132,131 @@ namespace Read.data
             string sql = string.Empty;
 
             sql = "Select * from Temple_" + Year + "..Purdue_mazu_info Where Status = 0 and ApplicantID = @ApplicantID";
+
+            DatabaseAdapter objDatabaseAdapter = new DatabaseAdapter(sql, this.DBSource);
+            objDatabaseAdapter.AddParameterToSelectCommand("ApplicantID", ApplicantID);
+            DataTable dtGetData = new DataTable();
+            objDatabaseAdapter.Fill(dtGetData);
+
+            if (dtGetData.Rows.Count > 0)
+            {
+                int.TryParse(dtGetData.Rows[0]["PurdueType"].ToString(), out result);
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        /// 取得普度資料表的普度類型(台灣道教總廟無極三清總道院)
+        /// </summary>
+        /// <param name="ApplicantID">ApplicantID=購買人編號</param>
+        /// <returns></returns>
+        public int GetPurdueType_wjsan(int ApplicantID, string Year)
+        {
+            int result = 0;
+            string sql = string.Empty;
+
+            sql = "Select * from Temple_" + Year + "..Purdue_wjsan_info Where Status = 0 and ApplicantID = @ApplicantID";
+
+            DatabaseAdapter objDatabaseAdapter = new DatabaseAdapter(sql, this.DBSource);
+            objDatabaseAdapter.AddParameterToSelectCommand("ApplicantID", ApplicantID);
+            DataTable dtGetData = new DataTable();
+            objDatabaseAdapter.Fill(dtGetData);
+
+            if (dtGetData.Rows.Count > 0)
+            {
+                int.TryParse(dtGetData.Rows[0]["PurdueType"].ToString(), out result);
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        /// 取得普度資料表的普度類型(桃園龍德宮)
+        /// </summary>
+        /// <param name="ApplicantID">ApplicantID=購買人編號</param>
+        /// <returns></returns>
+        public int GetPurdueType_ld(int ApplicantID, string Year)
+        {
+            int result = 0;
+            string sql = string.Empty;
+
+            sql = "Select * from Temple_" + Year + "..Purdue_ld_info Where Status = 0 and ApplicantID = @ApplicantID";
+
+            DatabaseAdapter objDatabaseAdapter = new DatabaseAdapter(sql, this.DBSource);
+            objDatabaseAdapter.AddParameterToSelectCommand("ApplicantID", ApplicantID);
+            DataTable dtGetData = new DataTable();
+            objDatabaseAdapter.Fill(dtGetData);
+
+            if (dtGetData.Rows.Count > 0)
+            {
+                int.TryParse(dtGetData.Rows[0]["PurdueType"].ToString(), out result);
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        /// 取得普度資料表的普度類型(神霄玉府財神會館)
+        /// </summary>
+        /// <param name="ApplicantID">ApplicantID=購買人編號</param>
+        /// <returns></returns>
+        public int GetPurdueType_sx(int ApplicantID, string Year)
+        {
+            int result = 0;
+            string sql = string.Empty;
+
+            sql = "Select * from Temple_" + Year + "..Purdue_sx_info Where Status = 0 and ApplicantID = @ApplicantID";
+
+            DatabaseAdapter objDatabaseAdapter = new DatabaseAdapter(sql, this.DBSource);
+            objDatabaseAdapter.AddParameterToSelectCommand("ApplicantID", ApplicantID);
+            DataTable dtGetData = new DataTable();
+            objDatabaseAdapter.Fill(dtGetData);
+
+            if (dtGetData.Rows.Count > 0)
+            {
+                int.TryParse(dtGetData.Rows[0]["PurdueType"].ToString(), out result);
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        /// 取得普度資料表的普度類型(基隆悟玄宮)
+        /// </summary>
+        /// <param name="ApplicantID">ApplicantID=購買人編號</param>
+        /// <returns></returns>
+        public int GetPurdueType_wh(int ApplicantID, string Year)
+        {
+            int result = 0;
+            string sql = string.Empty;
+
+            sql = "Select * from Temple_" + Year + "..Purdue_wh_info Where Status = 0 and ApplicantID = @ApplicantID";
+
+            DatabaseAdapter objDatabaseAdapter = new DatabaseAdapter(sql, this.DBSource);
+            objDatabaseAdapter.AddParameterToSelectCommand("ApplicantID", ApplicantID);
+            DataTable dtGetData = new DataTable();
+            objDatabaseAdapter.Fill(dtGetData);
+
+            if (dtGetData.Rows.Count > 0)
+            {
+                int.TryParse(dtGetData.Rows[0]["PurdueType"].ToString(), out result);
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        /// 取得普度資料表的普度類型(松柏嶺受天宮)
+        /// </summary>
+        /// <param name="ApplicantID">ApplicantID=購買人編號</param>
+        /// <returns></returns>
+        public int GetPurdueType_st(int ApplicantID, string Year)
+        {
+            int result = 0;
+            string sql = string.Empty;
+
+            sql = "Select * from Temple_" + Year + "..Purdue_st_info Where Status = 0 and ApplicantID = @ApplicantID";
 
             DatabaseAdapter objDatabaseAdapter = new DatabaseAdapter(sql, this.DBSource);
             objDatabaseAdapter.AddParameterToSelectCommand("ApplicantID", ApplicantID);
@@ -20670,10 +27797,164 @@ namespace Read.data
         }
 
         /// <summary>
+        /// 取得點燈所點燈種(松柏嶺受天宮)
+        /// </summary>
+        public int GetLightsType_st(int applicantID, string Year)
+        {
+            int result = 0;
+            string sql = string.Empty;
+
+            sql = "Select * from Temple_" + Year + "..Lights_st_info Where Status = 0 and ApplicantID = @ApplicantID ";
+
+            DatabaseAdapter objDatabaseAdapter = new DatabaseAdapter(sql, this.DBSource);
+            objDatabaseAdapter.AddParameterToSelectCommand("ApplicantID", applicantID);
+            DataTable dtGetData = new DataTable();
+            objDatabaseAdapter.Fill(dtGetData);
+
+            if (dtGetData.Rows.Count > 0)
+            {
+                int.TryParse(dtGetData.Rows[0]["LightsType"].ToString(), out result);
+            }
+            return result;
+        }
+
+        /// <summary>
+        /// 取得點燈所點燈種(北極玄天宮)
+        /// </summary>
+        public int GetLightsType_bj(int applicantID, string Year)
+        {
+            int result = 0;
+            string sql = string.Empty;
+
+            sql = "Select * from Temple_" + Year + "..Lights_bj_info Where Status = 0 and ApplicantID = @ApplicantID ";
+
+            DatabaseAdapter objDatabaseAdapter = new DatabaseAdapter(sql, this.DBSource);
+            objDatabaseAdapter.AddParameterToSelectCommand("ApplicantID", applicantID);
+            DataTable dtGetData = new DataTable();
+            objDatabaseAdapter.Fill(dtGetData);
+
+            if (dtGetData.Rows.Count > 0)
+            {
+                int.TryParse(dtGetData.Rows[0]["LightsType"].ToString(), out result);
+            }
+            return result;
+        }
+
+        /// <summary>
+        /// 取得點燈所點燈種(慈惠石壁部堂)
+        /// </summary>
+        public int GetLightsType_sbbt(int applicantID, string Year)
+        {
+            int result = 0;
+            string sql = string.Empty;
+
+            sql = "Select * from Temple_" + Year + "..Lights_sbbt_info Where Status = 0 and ApplicantID = @ApplicantID ";
+
+            DatabaseAdapter objDatabaseAdapter = new DatabaseAdapter(sql, this.DBSource);
+            objDatabaseAdapter.AddParameterToSelectCommand("ApplicantID", applicantID);
+            DataTable dtGetData = new DataTable();
+            objDatabaseAdapter.Fill(dtGetData);
+
+            if (dtGetData.Rows.Count > 0)
+            {
+                int.TryParse(dtGetData.Rows[0]["LightsType"].ToString(), out result);
+            }
+            return result;
+        }
+
+        /// <summary>
+        /// 取得點燈所點燈種(真武山受玄宮)
+        /// </summary>
+        public int GetLightsType_bpy(int applicantID, string Year)
+        {
+            int result = 0;
+            string sql = string.Empty;
+
+            sql = "Select * from Temple_" + Year + "..Lights_bpy_info Where Status = 0 and ApplicantID = @ApplicantID ";
+
+            DatabaseAdapter objDatabaseAdapter = new DatabaseAdapter(sql, this.DBSource);
+            objDatabaseAdapter.AddParameterToSelectCommand("ApplicantID", applicantID);
+            DataTable dtGetData = new DataTable();
+            objDatabaseAdapter.Fill(dtGetData);
+
+            if (dtGetData.Rows.Count > 0)
+            {
+                int.TryParse(dtGetData.Rows[0]["LightsType"].ToString(), out result);
+            }
+            return result;
+        }
+
+        /// <summary>
+        /// 取得點燈所點燈種(壽山巖觀音寺)
+        /// </summary>
+        public int GetLightsType_ssy(int applicantID, string Year)
+        {
+            int result = 0;
+            string sql = string.Empty;
+
+            sql = "Select * from Temple_" + Year + "..Lights_ssy_info Where Status = 0 and ApplicantID = @ApplicantID ";
+
+            DatabaseAdapter objDatabaseAdapter = new DatabaseAdapter(sql, this.DBSource);
+            objDatabaseAdapter.AddParameterToSelectCommand("ApplicantID", applicantID);
+            DataTable dtGetData = new DataTable();
+            objDatabaseAdapter.Fill(dtGetData);
+
+            if (dtGetData.Rows.Count > 0)
+            {
+                int.TryParse(dtGetData.Rows[0]["LightsType"].ToString(), out result);
+            }
+            return result;
+        }
+
+        /// <summary>
+        /// 取得祈安植福的服務項目(松柏嶺受天宮)
+        /// </summary>
+        public int GetBlessingType_st(int applicantID, string Year)
+        {
+            int result = 0;
+            string sql = string.Empty;
+
+            sql = "Select * from Temple_" + Year + "..Blessing_st_info Where Status = 0 and ApplicantID = @ApplicantID ";
+
+            DatabaseAdapter objDatabaseAdapter = new DatabaseAdapter(sql, this.DBSource);
+            objDatabaseAdapter.AddParameterToSelectCommand("ApplicantID", applicantID);
+            DataTable dtGetData = new DataTable();
+            objDatabaseAdapter.Fill(dtGetData);
+
+            if (dtGetData.Rows.Count > 0)
+            {
+                int.TryParse(dtGetData.Rows[0]["BlessingType"].ToString(), out result);
+            }
+            return result;
+        }
+
+        /// <summary>
+        /// 取得活動項目 - 桃園威天宮 - 千手觀音千燈迎佛法會
+        /// </summary>
+        public int GetQnLightType_ty(int applicantID, string Year)
+        {
+            int result = 0;
+            string sql = string.Empty;
+
+            sql = "Select * from Temple_" + Year + "..QnLight_ty_info Where Status = 0 and ApplicantID = @ApplicantID ";
+
+            DatabaseAdapter objDatabaseAdapter = new DatabaseAdapter(sql, this.DBSource);
+            objDatabaseAdapter.AddParameterToSelectCommand("ApplicantID", applicantID);
+            DataTable dtGetData = new DataTable();
+            objDatabaseAdapter.Fill(dtGetData);
+
+            if (dtGetData.Rows.Count > 0)
+            {
+                int.TryParse(dtGetData.Rows[0]["QnLightType"].ToString(), out result);
+            }
+            return result;
+        }
+
+        /// <summary>
         /// 取得點燈最後一名編號資料
         /// <param name="adminID">adminID=廟宇 3-大甲鎮瀾宮 4-新港奉天宮</param>
         /// <param name="type">type=燈種 3-光明燈 4-安太歲 5-文昌燈 6-財神燈 7-姻緣燈 8-藥師燈 9-財利燈 10-貴人燈 11-福祿(壽)燈 12-寵物平安燈 13-龍王燈 14-虎爺燈 15-轉運納福燈 
-        /// 16-光明燈上層(玉皇燈) 17-偏財旺旺燈 18-廣進安財庫 19-財庫燈 20-月老姻緣燈 21-孝親祈福燈 22-事業燈 23-全家光明燈 24-觀音佛祖燈 25-財神斗 26-事業斗 27-平安斗 28-文昌斗 29-藥師斗 
+        /// 16-光明燈上層、玉皇燈(五股賀聖宮)17-偏財旺旺燈 18-廣進安財庫 19-財庫燈 20-月老姻緣燈 21-孝親祈福燈 22-事業燈 23-全家光明燈 24-觀音佛祖燈 25-財神斗 26-事業斗 27-平安斗 28-文昌斗 29-藥師斗 
         /// 30-元神斗 31-福祿壽斗 32-觀音斗 33-明心智慧燈</param>
         /// </summary>
         public int GetLightsLastNum(int type, int adminID)
@@ -22195,6 +29476,33 @@ namespace Read.data
             return bResult;
         }
 
+        public bool UpdateChargeStatus_Purdue_jb(string OrderID, int Status, string BillIP, string CallbackLog, string Year)
+        {
+            TimeZoneInfo info = TimeZoneInfo.FindSystemTimeZoneById("Taipei Standard Time");
+            DateTime dt = TimeZoneInfo.ConvertTime(DateTime.Now, info);
+            bool bResult = false;
+            DataTable dtDataList = new DataTable();
+            string sql = "Select Top 1 * From Temple_" + Year + "..APPCharge_jb_Purdue Where OrderID=@OrderID";
+
+            DatabaseAdapter AdapterObj = new DatabaseAdapter(sql, this.DBSource);
+            AdapterObj.SetSqlCommandBuilder();
+            AdapterObj.AddParameterToSelectCommand("@OrderID", OrderID);
+            AdapterObj.Fill(dtDataList);
+
+            if ((int)dtDataList.Rows[0]["Status"] == 0)
+            {
+                int res = ExecuteSql("Update Temple_" + Year + "..APPCharge_jb_Purdue Set Status = " + Status + ", BillIP = '" + BillIP + "', CallbackLog = '" + CallbackLog +
+                    "', ChargeDate = '" + dt.ToString("yyyy-MM-dd HH:mm:ss") + "', ChargeDateString = '" + dt.ToString("yyyy-MM-dd") + "' Where OrderID='" + OrderID + "'");
+                if (res > 0)
+                {
+                    bResult = true;
+                }
+            }
+
+
+            return bResult;
+        }
+
         public bool UpdateChargeStatus_Purdue_mazu(string OrderID, int Status, string BillIP, string CallbackLog, string Year)
         {
             TimeZoneInfo info = TimeZoneInfo.FindSystemTimeZoneById("Taipei Standard Time");
@@ -22211,6 +29519,141 @@ namespace Read.data
             if ((int)dtDataList.Rows[0]["Status"] == 0)
             {
                 int res = ExecuteSql("Update Temple_" + Year + "..APPCharge_ma_Purdue Set Status = " + Status + ", BillIP = '" + BillIP + "', CallbackLog = '" + CallbackLog +
+                    "', ChargeDate = '" + dt.ToString("yyyy-MM-dd HH:mm:ss") + "', ChargeDateString = '" + dt.ToString("yyyy-MM-dd") + "' Where OrderID='" + OrderID + "'");
+                if (res > 0)
+                {
+                    bResult = true;
+                }
+            }
+
+
+            return bResult;
+        }
+
+        public bool UpdateChargeStatus_Purdue_wjsan(string OrderID, int Status, string BillIP, string CallbackLog, string Year)
+        {
+            TimeZoneInfo info = TimeZoneInfo.FindSystemTimeZoneById("Taipei Standard Time");
+            DateTime dt = TimeZoneInfo.ConvertTime(DateTime.Now, info);
+            bool bResult = false;
+            DataTable dtDataList = new DataTable();
+            string sql = "Select Top 1 * From Temple_" + Year + "..APPCharge_wjsan_Purdue Where OrderID=@OrderID";
+
+            DatabaseAdapter AdapterObj = new DatabaseAdapter(sql, this.DBSource);
+            AdapterObj.SetSqlCommandBuilder();
+            AdapterObj.AddParameterToSelectCommand("@OrderID", OrderID);
+            AdapterObj.Fill(dtDataList);
+
+            if ((int)dtDataList.Rows[0]["Status"] == 0)
+            {
+                int res = ExecuteSql("Update Temple_" + Year + "..APPCharge_wjsan_Purdue Set Status = " + Status + ", BillIP = '" + BillIP + "', CallbackLog = '" + CallbackLog +
+                    "', ChargeDate = '" + dt.ToString("yyyy-MM-dd HH:mm:ss") + "', ChargeDateString = '" + dt.ToString("yyyy-MM-dd") + "' Where OrderID='" + OrderID + "'");
+                if (res > 0)
+                {
+                    bResult = true;
+                }
+            }
+
+
+            return bResult;
+        }
+
+        public bool UpdateChargeStatus_Purdue_ld(string OrderID, int Status, string BillIP, string CallbackLog, string Year)
+        {
+            TimeZoneInfo info = TimeZoneInfo.FindSystemTimeZoneById("Taipei Standard Time");
+            DateTime dt = TimeZoneInfo.ConvertTime(DateTime.Now, info);
+            bool bResult = false;
+            DataTable dtDataList = new DataTable();
+            string sql = "Select Top 1 * From Temple_" + Year + "..APPCharge_ld_Purdue Where OrderID=@OrderID";
+
+            DatabaseAdapter AdapterObj = new DatabaseAdapter(sql, this.DBSource);
+            AdapterObj.SetSqlCommandBuilder();
+            AdapterObj.AddParameterToSelectCommand("@OrderID", OrderID);
+            AdapterObj.Fill(dtDataList);
+
+            if ((int)dtDataList.Rows[0]["Status"] == 0)
+            {
+                int res = ExecuteSql("Update Temple_" + Year + "..APPCharge_ld_Purdue Set Status = " + Status + ", BillIP = '" + BillIP + "', CallbackLog = '" + CallbackLog +
+                    "', ChargeDate = '" + dt.ToString("yyyy-MM-dd HH:mm:ss") + "', ChargeDateString = '" + dt.ToString("yyyy-MM-dd") + "' Where OrderID='" + OrderID + "'");
+                if (res > 0)
+                {
+                    bResult = true;
+                }
+            }
+
+
+            return bResult;
+        }
+
+        public bool UpdateChargeStatus_Purdue_sx(string OrderID, int Status, string BillIP, string CallbackLog, string Year)
+        {
+            TimeZoneInfo info = TimeZoneInfo.FindSystemTimeZoneById("Taipei Standard Time");
+            DateTime dt = TimeZoneInfo.ConvertTime(DateTime.Now, info);
+            bool bResult = false;
+            DataTable dtDataList = new DataTable();
+            string sql = "Select Top 1 * From Temple_" + Year + "..APPCharge_sx_Purdue Where OrderID=@OrderID";
+
+            DatabaseAdapter AdapterObj = new DatabaseAdapter(sql, this.DBSource);
+            AdapterObj.SetSqlCommandBuilder();
+            AdapterObj.AddParameterToSelectCommand("@OrderID", OrderID);
+            AdapterObj.Fill(dtDataList);
+
+            if ((int)dtDataList.Rows[0]["Status"] == 0)
+            {
+                int res = ExecuteSql("Update Temple_" + Year + "..APPCharge_sx_Purdue Set Status = " + Status + ", BillIP = '" + BillIP + "', CallbackLog = '" + CallbackLog +
+                    "', ChargeDate = '" + dt.ToString("yyyy-MM-dd HH:mm:ss") + "', ChargeDateString = '" + dt.ToString("yyyy-MM-dd") + "' Where OrderID='" + OrderID + "'");
+                if (res > 0)
+                {
+                    bResult = true;
+                }
+            }
+
+
+            return bResult;
+        }
+
+        public bool UpdateChargeStatus_Purdue_wh(string OrderID, int Status, string BillIP, string CallbackLog, string Year)
+        {
+            TimeZoneInfo info = TimeZoneInfo.FindSystemTimeZoneById("Taipei Standard Time");
+            DateTime dt = TimeZoneInfo.ConvertTime(DateTime.Now, info);
+            bool bResult = false;
+            DataTable dtDataList = new DataTable();
+            string sql = "Select Top 1 * From Temple_" + Year + "..APPCharge_wh_Purdue Where OrderID=@OrderID";
+
+            DatabaseAdapter AdapterObj = new DatabaseAdapter(sql, this.DBSource);
+            AdapterObj.SetSqlCommandBuilder();
+            AdapterObj.AddParameterToSelectCommand("@OrderID", OrderID);
+            AdapterObj.Fill(dtDataList);
+
+            if ((int)dtDataList.Rows[0]["Status"] == 0)
+            {
+                int res = ExecuteSql("Update Temple_" + Year + "..APPCharge_wh_Purdue Set Status = " + Status + ", BillIP = '" + BillIP + "', CallbackLog = '" + CallbackLog +
+                    "', ChargeDate = '" + dt.ToString("yyyy-MM-dd HH:mm:ss") + "', ChargeDateString = '" + dt.ToString("yyyy-MM-dd") + "' Where OrderID='" + OrderID + "'");
+                if (res > 0)
+                {
+                    bResult = true;
+                }
+            }
+
+
+            return bResult;
+        }
+
+        public bool UpdateChargeStatus_Purdue_st(string OrderID, int Status, string BillIP, string CallbackLog, string Year)
+        {
+            TimeZoneInfo info = TimeZoneInfo.FindSystemTimeZoneById("Taipei Standard Time");
+            DateTime dt = TimeZoneInfo.ConvertTime(DateTime.Now, info);
+            bool bResult = false;
+            DataTable dtDataList = new DataTable();
+            string sql = "Select Top 1 * From Temple_" + Year + "..APPCharge_st_Purdue Where OrderID=@OrderID";
+
+            DatabaseAdapter AdapterObj = new DatabaseAdapter(sql, this.DBSource);
+            AdapterObj.SetSqlCommandBuilder();
+            AdapterObj.AddParameterToSelectCommand("@OrderID", OrderID);
+            AdapterObj.Fill(dtDataList);
+
+            if ((int)dtDataList.Rows[0]["Status"] == 0)
+            {
+                int res = ExecuteSql("Update Temple_" + Year + "..APPCharge_st_Purdue Set Status = " + Status + ", BillIP = '" + BillIP + "', CallbackLog = '" + CallbackLog +
                     "', ChargeDate = '" + dt.ToString("yyyy-MM-dd HH:mm:ss") + "', ChargeDateString = '" + dt.ToString("yyyy-MM-dd") + "' Where OrderID='" + OrderID + "'");
                 if (res > 0)
                 {
@@ -22971,6 +30414,33 @@ namespace Read.data
             return bResult;
         }
 
+        public bool UpdateChargeStatus_QnLight_ty(string OrderID, int Status, string BillIP, string CallbackLog, string Year)
+        {
+            TimeZoneInfo info = TimeZoneInfo.FindSystemTimeZoneById("Taipei Standard Time");
+            DateTime dt = TimeZoneInfo.ConvertTime(DateTime.Now, info);
+            bool bResult = false;
+            DataTable dtDataList = new DataTable();
+            string sql = "Select Top 1 * From Temple_" + Year + "..APPCharge_ty_QnLight Where OrderID=@OrderID";
+
+            DatabaseAdapter AdapterObj = new DatabaseAdapter(sql, this.DBSource);
+            AdapterObj.SetSqlCommandBuilder();
+            AdapterObj.AddParameterToSelectCommand("@OrderID", OrderID);
+            AdapterObj.Fill(dtDataList);
+
+            if ((int)dtDataList.Rows[0]["Status"] == 0)
+            {
+                int res = ExecuteSql("Update Temple_" + Year + "..APPCharge_ty_QnLight Set Status = " + Status + ", BillIP = '" + BillIP + "', CallbackLog = '" + CallbackLog +
+                    "', ChargeDate = '" + dt.ToString("yyyy-MM-dd HH:mm:ss") + "', ChargeDateString = '" + dt.ToString("yyyy-MM-dd") + "' Where OrderID='" + OrderID + "'");
+                if (res > 0)
+                {
+                    bResult = true;
+                }
+            }
+
+
+            return bResult;
+        }
+
         public bool UpdateChargeStatus_Lights_Fw(string OrderID, int Status, string BillIP, string CallbackLog, string Year)
         {
             TimeZoneInfo info = TimeZoneInfo.FindSystemTimeZoneById("Taipei Standard Time");
@@ -23284,6 +30754,168 @@ namespace Read.data
             if ((int)dtDataList.Rows[0]["Status"] == 0)
             {
                 int res = ExecuteSql("Update Temple_" + Year + "..APPCharge_wh_Lights Set Status = " + Status + ", BillIP = '" + BillIP + "', CallbackLog = '" + CallbackLog +
+                    "', ChargeDate = '" + dt.ToString("yyyy-MM-dd HH:mm:ss") + "', ChargeDateString = '" + dt.ToString("yyyy-MM-dd") + "' Where OrderID='" + OrderID + "'");
+                if (res > 0)
+                {
+                    bResult = true;
+                }
+            }
+
+
+            return bResult;
+        }
+
+        public bool UpdateChargeStatus_Lights_st(string OrderID, int Status, string BillIP, string CallbackLog, string Year)
+        {
+            TimeZoneInfo info = TimeZoneInfo.FindSystemTimeZoneById("Taipei Standard Time");
+            DateTime dt = TimeZoneInfo.ConvertTime(DateTime.Now, info);
+            bool bResult = false;
+            DataTable dtDataList = new DataTable();
+            string sql = "Select Top 1 * From Temple_" + Year + "..APPCharge_st_Lights Where OrderID=@OrderID";
+
+            DatabaseAdapter AdapterObj = new DatabaseAdapter(sql, this.DBSource);
+            AdapterObj.SetSqlCommandBuilder();
+            AdapterObj.AddParameterToSelectCommand("@OrderID", OrderID);
+            AdapterObj.Fill(dtDataList);
+
+            if ((int)dtDataList.Rows[0]["Status"] == 0)
+            {
+                int res = ExecuteSql("Update Temple_" + Year + "..APPCharge_st_Lights Set Status = " + Status + ", BillIP = '" + BillIP + "', CallbackLog = '" + CallbackLog +
+                    "', ChargeDate = '" + dt.ToString("yyyy-MM-dd HH:mm:ss") + "', ChargeDateString = '" + dt.ToString("yyyy-MM-dd") + "' Where OrderID='" + OrderID + "'");
+                if (res > 0)
+                {
+                    bResult = true;
+                }
+            }
+
+
+            return bResult;
+        }
+
+        public bool UpdateChargeStatus_Lights_bj(string OrderID, int Status, string BillIP, string CallbackLog, string Year)
+        {
+            TimeZoneInfo info = TimeZoneInfo.FindSystemTimeZoneById("Taipei Standard Time");
+            DateTime dt = TimeZoneInfo.ConvertTime(DateTime.Now, info);
+            bool bResult = false;
+            DataTable dtDataList = new DataTable();
+            string sql = "Select Top 1 * From Temple_" + Year + "..APPCharge_bj_Lights Where OrderID=@OrderID";
+
+            DatabaseAdapter AdapterObj = new DatabaseAdapter(sql, this.DBSource);
+            AdapterObj.SetSqlCommandBuilder();
+            AdapterObj.AddParameterToSelectCommand("@OrderID", OrderID);
+            AdapterObj.Fill(dtDataList);
+
+            if ((int)dtDataList.Rows[0]["Status"] == 0)
+            {
+                int res = ExecuteSql("Update Temple_" + Year + "..APPCharge_bj_Lights Set Status = " + Status + ", BillIP = '" + BillIP + "', CallbackLog = '" + CallbackLog +
+                    "', ChargeDate = '" + dt.ToString("yyyy-MM-dd HH:mm:ss") + "', ChargeDateString = '" + dt.ToString("yyyy-MM-dd") + "' Where OrderID='" + OrderID + "'");
+                if (res > 0)
+                {
+                    bResult = true;
+                }
+            }
+
+
+            return bResult;
+        }
+
+        public bool UpdateChargeStatus_Lights_sbbt(string OrderID, int Status, string BillIP, string CallbackLog, string Year)
+        {
+            TimeZoneInfo info = TimeZoneInfo.FindSystemTimeZoneById("Taipei Standard Time");
+            DateTime dt = TimeZoneInfo.ConvertTime(DateTime.Now, info);
+            bool bResult = false;
+            DataTable dtDataList = new DataTable();
+            string sql = "Select Top 1 * From Temple_" + Year + "..APPCharge_sbbt_Lights Where OrderID=@OrderID";
+
+            DatabaseAdapter AdapterObj = new DatabaseAdapter(sql, this.DBSource);
+            AdapterObj.SetSqlCommandBuilder();
+            AdapterObj.AddParameterToSelectCommand("@OrderID", OrderID);
+            AdapterObj.Fill(dtDataList);
+
+            if ((int)dtDataList.Rows[0]["Status"] == 0)
+            {
+                int res = ExecuteSql("Update Temple_" + Year + "..APPCharge_sbbt_Lights Set Status = " + Status + ", BillIP = '" + BillIP + "', CallbackLog = '" + CallbackLog +
+                    "', ChargeDate = '" + dt.ToString("yyyy-MM-dd HH:mm:ss") + "', ChargeDateString = '" + dt.ToString("yyyy-MM-dd") + "' Where OrderID='" + OrderID + "'");
+                if (res > 0)
+                {
+                    bResult = true;
+                }
+            }
+
+
+            return bResult;
+        }
+
+        public bool UpdateChargeStatus_Lights_bpy(string OrderID, int Status, string BillIP, string CallbackLog, string Year)
+        {
+            TimeZoneInfo info = TimeZoneInfo.FindSystemTimeZoneById("Taipei Standard Time");
+            DateTime dt = TimeZoneInfo.ConvertTime(DateTime.Now, info);
+            bool bResult = false;
+            DataTable dtDataList = new DataTable();
+            string sql = "Select Top 1 * From Temple_" + Year + "..APPCharge_bpy_Lights Where OrderID=@OrderID";
+
+            DatabaseAdapter AdapterObj = new DatabaseAdapter(sql, this.DBSource);
+            AdapterObj.SetSqlCommandBuilder();
+            AdapterObj.AddParameterToSelectCommand("@OrderID", OrderID);
+            AdapterObj.Fill(dtDataList);
+
+            if ((int)dtDataList.Rows[0]["Status"] == 0)
+            {
+                int res = ExecuteSql("Update Temple_" + Year + "..APPCharge_bpy_Lights Set Status = " + Status + ", BillIP = '" + BillIP + "', CallbackLog = '" + CallbackLog +
+                    "', ChargeDate = '" + dt.ToString("yyyy-MM-dd HH:mm:ss") + "', ChargeDateString = '" + dt.ToString("yyyy-MM-dd") + "' Where OrderID='" + OrderID + "'");
+                if (res > 0)
+                {
+                    bResult = true;
+                }
+            }
+
+
+            return bResult;
+        }
+
+        public bool UpdateChargeStatus_Lights_ssy(string OrderID, int Status, string BillIP, string CallbackLog, string Year)
+        {
+            TimeZoneInfo info = TimeZoneInfo.FindSystemTimeZoneById("Taipei Standard Time");
+            DateTime dt = TimeZoneInfo.ConvertTime(DateTime.Now, info);
+            bool bResult = false;
+            DataTable dtDataList = new DataTable();
+            string sql = "Select Top 1 * From Temple_" + Year + "..APPCharge_ssy_Lights Where OrderID=@OrderID";
+
+            DatabaseAdapter AdapterObj = new DatabaseAdapter(sql, this.DBSource);
+            AdapterObj.SetSqlCommandBuilder();
+            AdapterObj.AddParameterToSelectCommand("@OrderID", OrderID);
+            AdapterObj.Fill(dtDataList);
+
+            if ((int)dtDataList.Rows[0]["Status"] == 0)
+            {
+                int res = ExecuteSql("Update Temple_" + Year + "..APPCharge_ssy_Lights Set Status = " + Status + ", BillIP = '" + BillIP + "', CallbackLog = '" + CallbackLog +
+                    "', ChargeDate = '" + dt.ToString("yyyy-MM-dd HH:mm:ss") + "', ChargeDateString = '" + dt.ToString("yyyy-MM-dd") + "' Where OrderID='" + OrderID + "'");
+                if (res > 0)
+                {
+                    bResult = true;
+                }
+            }
+
+
+            return bResult;
+        }
+
+        public bool UpdateChargeStatus_Blessing_st(string OrderID, int Status, string BillIP, string CallbackLog, string Year)
+        {
+            TimeZoneInfo info = TimeZoneInfo.FindSystemTimeZoneById("Taipei Standard Time");
+            DateTime dt = TimeZoneInfo.ConvertTime(DateTime.Now, info);
+            bool bResult = false;
+            DataTable dtDataList = new DataTable();
+            string sql = "Select Top 1 * From Temple_" + Year + "..APPCharge_st_Blessing Where OrderID=@OrderID";
+
+            DatabaseAdapter AdapterObj = new DatabaseAdapter(sql, this.DBSource);
+            AdapterObj.SetSqlCommandBuilder();
+            AdapterObj.AddParameterToSelectCommand("@OrderID", OrderID);
+            AdapterObj.Fill(dtDataList);
+
+            if ((int)dtDataList.Rows[0]["Status"] == 0)
+            {
+                int res = ExecuteSql("Update Temple_" + Year + "..APPCharge_st_Blessing Set Status = " + Status + ", BillIP = '" + BillIP + "', CallbackLog = '" + CallbackLog +
                     "', ChargeDate = '" + dt.ToString("yyyy-MM-dd HH:mm:ss") + "', ChargeDateString = '" + dt.ToString("yyyy-MM-dd") + "' Where OrderID='" + OrderID + "'");
                 if (res > 0)
                 {
@@ -24084,6 +31716,34 @@ namespace Read.data
             return bResult;
         }
 
+        public bool UpdateChargeLog_Purdue_jb(string OrderID, string Transaction_id, string Comment, string BillIP, string CallbackLog, string Year, ref string ChargeType)
+        {
+            TimeZoneInfo info = TimeZoneInfo.FindSystemTimeZoneById("Taipei Standard Time");
+            DateTime dt = TimeZoneInfo.ConvertTime(DateTime.Now, info);
+            bool bResult = false;
+            DataTable dtDataList = new DataTable();
+            string sql = "Select Top 1 * From Temple_" + Year + "..APPCharge_jb_Purdue Where OrderID=@OrderID";
+
+            DatabaseAdapter AdapterObj = new DatabaseAdapter(sql, this.DBSource);
+            AdapterObj.SetSqlCommandBuilder();
+            AdapterObj.AddParameterToSelectCommand("@OrderID", OrderID);
+            AdapterObj.Fill(dtDataList);
+
+            if ((int)dtDataList.Rows[0]["Status"] == 0)
+            {
+                ChargeType = dtDataList.Rows[0]["ChargeType"].ToString();
+                int res = ExecuteSql("Update Temple_" + Year + "..APPCharge_jb_Purdue Set Status = 1, BillIP = '" + BillIP + "', Transaction_id = '" + Transaction_id + "', CallbackLog = '" + CallbackLog +
+                    "', Comment = N'" + Comment + "', ChargeDate = '" + dt.ToString("yyyy-MM-dd HH:mm:ss") + "', ChargeDateString = '" + dt.ToString("yyyy-MM-dd") + "' Where OrderID='" + OrderID + "'");
+
+                if (res > 0)
+                {
+                    bResult = true;
+                }
+            }
+
+            return bResult;
+        }
+
         public bool UpdateChargeLog_Purdue_mazu(string OrderID, string Transaction_id, string Comment, string BillIP, string CallbackLog, string Year, ref string ChargeType)
         {
             TimeZoneInfo info = TimeZoneInfo.FindSystemTimeZoneById("Taipei Standard Time");
@@ -24101,6 +31761,146 @@ namespace Read.data
             {
                 ChargeType = dtDataList.Rows[0]["ChargeType"].ToString();
                 int res = ExecuteSql("Update Temple_" + Year + "..APPCharge_mazu_Purdue Set Status = 1, BillIP = '" + BillIP + "', Transaction_id = '" + Transaction_id + "', CallbackLog = '" + CallbackLog +
+                    "', Comment = N'" + Comment + "', ChargeDate = '" + dt.ToString("yyyy-MM-dd HH:mm:ss") + "', ChargeDateString = '" + dt.ToString("yyyy-MM-dd") + "' Where OrderID='" + OrderID + "'");
+
+                if (res > 0)
+                {
+                    bResult = true;
+                }
+            }
+
+            return bResult;
+        }
+
+        public bool UpdateChargeLog_Purdue_wjsan(string OrderID, string Transaction_id, string Comment, string BillIP, string CallbackLog, string Year, ref string ChargeType)
+        {
+            TimeZoneInfo info = TimeZoneInfo.FindSystemTimeZoneById("Taipei Standard Time");
+            DateTime dt = TimeZoneInfo.ConvertTime(DateTime.Now, info);
+            bool bResult = false;
+            DataTable dtDataList = new DataTable();
+            string sql = "Select Top 1 * From Temple_" + Year + "..APPCharge_wjsan_Purdue Where OrderID=@OrderID";
+
+            DatabaseAdapter AdapterObj = new DatabaseAdapter(sql, this.DBSource);
+            AdapterObj.SetSqlCommandBuilder();
+            AdapterObj.AddParameterToSelectCommand("@OrderID", OrderID);
+            AdapterObj.Fill(dtDataList);
+
+            if ((int)dtDataList.Rows[0]["Status"] == 0)
+            {
+                ChargeType = dtDataList.Rows[0]["ChargeType"].ToString();
+                int res = ExecuteSql("Update Temple_" + Year + "..APPCharge_wjsan_Purdue Set Status = 1, BillIP = '" + BillIP + "', Transaction_id = '" + Transaction_id + "', CallbackLog = '" + CallbackLog +
+                    "', Comment = N'" + Comment + "', ChargeDate = '" + dt.ToString("yyyy-MM-dd HH:mm:ss") + "', ChargeDateString = '" + dt.ToString("yyyy-MM-dd") + "' Where OrderID='" + OrderID + "'");
+
+                if (res > 0)
+                {
+                    bResult = true;
+                }
+            }
+
+            return bResult;
+        }
+
+        public bool UpdateChargeLog_Purdue_ld(string OrderID, string Transaction_id, string Comment, string BillIP, string CallbackLog, string Year, ref string ChargeType)
+        {
+            TimeZoneInfo info = TimeZoneInfo.FindSystemTimeZoneById("Taipei Standard Time");
+            DateTime dt = TimeZoneInfo.ConvertTime(DateTime.Now, info);
+            bool bResult = false;
+            DataTable dtDataList = new DataTable();
+            string sql = "Select Top 1 * From Temple_" + Year + "..APPCharge_ld_Purdue Where OrderID=@OrderID";
+
+            DatabaseAdapter AdapterObj = new DatabaseAdapter(sql, this.DBSource);
+            AdapterObj.SetSqlCommandBuilder();
+            AdapterObj.AddParameterToSelectCommand("@OrderID", OrderID);
+            AdapterObj.Fill(dtDataList);
+
+            if ((int)dtDataList.Rows[0]["Status"] == 0)
+            {
+                ChargeType = dtDataList.Rows[0]["ChargeType"].ToString();
+                int res = ExecuteSql("Update Temple_" + Year + "..APPCharge_ld_Purdue Set Status = 1, BillIP = '" + BillIP + "', Transaction_id = '" + Transaction_id + "', CallbackLog = '" + CallbackLog +
+                    "', Comment = N'" + Comment + "', ChargeDate = '" + dt.ToString("yyyy-MM-dd HH:mm:ss") + "', ChargeDateString = '" + dt.ToString("yyyy-MM-dd") + "' Where OrderID='" + OrderID + "'");
+
+                if (res > 0)
+                {
+                    bResult = true;
+                }
+            }
+
+            return bResult;
+        }
+
+        public bool UpdateChargeLog_Purdue_sx(string OrderID, string Transaction_id, string Comment, string BillIP, string CallbackLog, string Year, ref string ChargeType)
+        {
+            TimeZoneInfo info = TimeZoneInfo.FindSystemTimeZoneById("Taipei Standard Time");
+            DateTime dt = TimeZoneInfo.ConvertTime(DateTime.Now, info);
+            bool bResult = false;
+            DataTable dtDataList = new DataTable();
+            string sql = "Select Top 1 * From Temple_" + Year + "..APPCharge_sx_Purdue Where OrderID=@OrderID";
+
+            DatabaseAdapter AdapterObj = new DatabaseAdapter(sql, this.DBSource);
+            AdapterObj.SetSqlCommandBuilder();
+            AdapterObj.AddParameterToSelectCommand("@OrderID", OrderID);
+            AdapterObj.Fill(dtDataList);
+
+            if ((int)dtDataList.Rows[0]["Status"] == 0)
+            {
+                ChargeType = dtDataList.Rows[0]["ChargeType"].ToString();
+                int res = ExecuteSql("Update Temple_" + Year + "..APPCharge_sx_Purdue Set Status = 1, BillIP = '" + BillIP + "', Transaction_id = '" + Transaction_id + "', CallbackLog = '" + CallbackLog +
+                    "', Comment = N'" + Comment + "', ChargeDate = '" + dt.ToString("yyyy-MM-dd HH:mm:ss") + "', ChargeDateString = '" + dt.ToString("yyyy-MM-dd") + "' Where OrderID='" + OrderID + "'");
+
+                if (res > 0)
+                {
+                    bResult = true;
+                }
+            }
+
+            return bResult;
+        }
+
+        public bool UpdateChargeLog_Purdue_wh(string OrderID, string Transaction_id, string Comment, string BillIP, string CallbackLog, string Year, ref string ChargeType)
+        {
+            TimeZoneInfo info = TimeZoneInfo.FindSystemTimeZoneById("Taipei Standard Time");
+            DateTime dt = TimeZoneInfo.ConvertTime(DateTime.Now, info);
+            bool bResult = false;
+            DataTable dtDataList = new DataTable();
+            string sql = "Select Top 1 * From Temple_" + Year + "..APPCharge_wh_Purdue Where OrderID=@OrderID";
+
+            DatabaseAdapter AdapterObj = new DatabaseAdapter(sql, this.DBSource);
+            AdapterObj.SetSqlCommandBuilder();
+            AdapterObj.AddParameterToSelectCommand("@OrderID", OrderID);
+            AdapterObj.Fill(dtDataList);
+
+            if ((int)dtDataList.Rows[0]["Status"] == 0)
+            {
+                ChargeType = dtDataList.Rows[0]["ChargeType"].ToString();
+                int res = ExecuteSql("Update Temple_" + Year + "..APPCharge_wh_Purdue Set Status = 1, BillIP = '" + BillIP + "', Transaction_id = '" + Transaction_id + "', CallbackLog = '" + CallbackLog +
+                    "', Comment = N'" + Comment + "', ChargeDate = '" + dt.ToString("yyyy-MM-dd HH:mm:ss") + "', ChargeDateString = '" + dt.ToString("yyyy-MM-dd") + "' Where OrderID='" + OrderID + "'");
+
+                if (res > 0)
+                {
+                    bResult = true;
+                }
+            }
+
+            return bResult;
+        }
+
+        public bool UpdateChargeLog_Purdue_st(string OrderID, string Transaction_id, string Comment, string BillIP, string CallbackLog, string Year, ref string ChargeType)
+        {
+            TimeZoneInfo info = TimeZoneInfo.FindSystemTimeZoneById("Taipei Standard Time");
+            DateTime dt = TimeZoneInfo.ConvertTime(DateTime.Now, info);
+            bool bResult = false;
+            DataTable dtDataList = new DataTable();
+            string sql = "Select Top 1 * From Temple_" + Year + "..APPCharge_st_Purdue Where OrderID=@OrderID";
+
+            DatabaseAdapter AdapterObj = new DatabaseAdapter(sql, this.DBSource);
+            AdapterObj.SetSqlCommandBuilder();
+            AdapterObj.AddParameterToSelectCommand("@OrderID", OrderID);
+            AdapterObj.Fill(dtDataList);
+
+            if ((int)dtDataList.Rows[0]["Status"] == 0)
+            {
+                ChargeType = dtDataList.Rows[0]["ChargeType"].ToString();
+                int res = ExecuteSql("Update Temple_" + Year + "..APPCharge_st_Purdue Set Status = 1, BillIP = '" + BillIP + "', Transaction_id = '" + Transaction_id + "', CallbackLog = '" + CallbackLog +
                     "', Comment = N'" + Comment + "', ChargeDate = '" + dt.ToString("yyyy-MM-dd HH:mm:ss") + "', ChargeDateString = '" + dt.ToString("yyyy-MM-dd") + "' Where OrderID='" + OrderID + "'");
 
                 if (res > 0)
@@ -24784,6 +32584,34 @@ namespace Read.data
             return bResult;
         }
 
+        public bool UpdateChargeLog_Supplies_wh(string OrderID, string Transaction_id, string Comment, string BillIP, string CallbackLog, string Year, ref string ChargeType)
+        {
+            TimeZoneInfo info = TimeZoneInfo.FindSystemTimeZoneById("Taipei Standard Time");
+            DateTime dt = TimeZoneInfo.ConvertTime(DateTime.Now, info);
+            bool bResult = false;
+            DataTable dtDataList = new DataTable();
+            string sql = "Select Top 1 * From Temple_" + Year + "..APPCharge_wh_Supplies Where OrderID=@OrderID";
+
+            DatabaseAdapter AdapterObj = new DatabaseAdapter(sql, this.DBSource);
+            AdapterObj.SetSqlCommandBuilder();
+            AdapterObj.AddParameterToSelectCommand("@OrderID", OrderID);
+            AdapterObj.Fill(dtDataList);
+
+            if ((int)dtDataList.Rows[0]["Status"] == 0)
+            {
+                ChargeType = dtDataList.Rows[0]["ChargeType"].ToString();
+                int res = ExecuteSql("Update Temple_" + Year + "..APPCharge_wh_Supplies Set Status = 1, BillIP = '" + BillIP + "', Transaction_id = '" + Transaction_id + "', CallbackLog = '" + CallbackLog +
+                    "', Comment = N'" + Comment + "', ChargeDate = '" + dt.ToString("yyyy-MM-dd HH:mm:ss") + "', ChargeDateString = '" + dt.ToString("yyyy-MM-dd") + "' Where OrderID='" + OrderID + "'");
+
+                if (res > 0)
+                {
+                    bResult = true;
+                }
+            }
+
+            return bResult;
+        }
+
         public bool UpdateChargeLog_Lights_da(string OrderID, string Transaction_id, string Comment, string BillIP, string CallbackLog, string Year, ref string ChargeType, ref int Status)
         {
             TimeZoneInfo info = TimeZoneInfo.FindSystemTimeZoneById("Taipei Standard Time");
@@ -25220,6 +33048,34 @@ namespace Read.data
             return bResult;
         }
 
+        public bool UpdateChargeLog_QnLight_ty(string OrderID, string Transaction_id, string Comment, string BillIP, string CallbackLog, string Year, ref string ChargeType)
+        {
+            TimeZoneInfo info = TimeZoneInfo.FindSystemTimeZoneById("Taipei Standard Time");
+            DateTime dt = TimeZoneInfo.ConvertTime(DateTime.Now, info);
+            bool bResult = false;
+            DataTable dtDataList = new DataTable();
+            string sql = "Select Top 1 * From Temple_" + Year + "..APPCharge_ty_QnLight Where OrderID=@OrderID";
+
+            DatabaseAdapter AdapterObj = new DatabaseAdapter(sql, this.DBSource);
+            AdapterObj.SetSqlCommandBuilder();
+            AdapterObj.AddParameterToSelectCommand("@OrderID", OrderID);
+            AdapterObj.Fill(dtDataList);
+
+            if ((int)dtDataList.Rows[0]["Status"] == 0)
+            {
+                ChargeType = dtDataList.Rows[0]["ChargeType"].ToString();
+                int res = ExecuteSql("Update Temple_" + Year + "..APPCharge_ty_QnLight Set Status = 1, BillIP = '" + BillIP + "', Transaction_id = '" + Transaction_id + "', CallbackLog = '" + CallbackLog +
+                    "', Comment = N'" + Comment + "', ChargeDate = '" + dt.ToString("yyyy-MM-dd HH:mm:ss") + "', ChargeDateString = '" + dt.ToString("yyyy-MM-dd") + "' Where OrderID='" + OrderID + "'");
+
+                if (res > 0)
+                {
+                    bResult = true;
+                }
+            }
+
+            return bResult;
+        }
+
         public bool UpdateChargeLog_AnDou_wjsan(string OrderID, string Transaction_id, string Comment, string BillIP, string CallbackLog, string Year, ref string ChargeType)
         {
             TimeZoneInfo info = TimeZoneInfo.FindSystemTimeZoneById("Taipei Standard Time");
@@ -25332,13 +33188,181 @@ namespace Read.data
             return bResult;
         }
 
+        public bool UpdateChargeLog_Lights_st(string OrderID, string Transaction_id, string Comment, string BillIP, string CallbackLog, string Year, ref string ChargeType)
+        {
+            TimeZoneInfo info = TimeZoneInfo.FindSystemTimeZoneById("Taipei Standard Time");
+            DateTime dt = TimeZoneInfo.ConvertTime(DateTime.Now, info);
+            bool bResult = false;
+            DataTable dtDataList = new DataTable();
+            string sql = "Select Top 1 * From Temple_" + Year + "..APPCharge_st_Lights Where OrderID=@OrderID";
+
+            DatabaseAdapter AdapterObj = new DatabaseAdapter(sql, this.DBSource);
+            AdapterObj.SetSqlCommandBuilder();
+            AdapterObj.AddParameterToSelectCommand("@OrderID", OrderID);
+            AdapterObj.Fill(dtDataList);
+
+            if ((int)dtDataList.Rows[0]["Status"] == 0)
+            {
+                ChargeType = dtDataList.Rows[0]["ChargeType"].ToString();
+                int res = ExecuteSql("Update Temple_" + Year + "..APPCharge_st_Lights Set Status = 1, BillIP = '" + BillIP + "', Transaction_id = '" + Transaction_id + "', CallbackLog = '" + CallbackLog +
+                    "', Comment = N'" + Comment + "', ChargeDate = '" + dt.ToString("yyyy-MM-dd HH:mm:ss") + "', ChargeDateString = '" + dt.ToString("yyyy-MM-dd") + "' Where OrderID='" + OrderID + "'");
+
+                if (res > 0)
+                {
+                    bResult = true;
+                }
+            }
+
+            return bResult;
+        }
+
+        public bool UpdateChargeLog_Lights_bj(string OrderID, string Transaction_id, string Comment, string BillIP, string CallbackLog, string Year, ref string ChargeType)
+        {
+            TimeZoneInfo info = TimeZoneInfo.FindSystemTimeZoneById("Taipei Standard Time");
+            DateTime dt = TimeZoneInfo.ConvertTime(DateTime.Now, info);
+            bool bResult = false;
+            DataTable dtDataList = new DataTable();
+            string sql = "Select Top 1 * From Temple_" + Year + "..APPCharge_bj_Lights Where OrderID=@OrderID";
+
+            DatabaseAdapter AdapterObj = new DatabaseAdapter(sql, this.DBSource);
+            AdapterObj.SetSqlCommandBuilder();
+            AdapterObj.AddParameterToSelectCommand("@OrderID", OrderID);
+            AdapterObj.Fill(dtDataList);
+
+            if ((int)dtDataList.Rows[0]["Status"] == 0)
+            {
+                ChargeType = dtDataList.Rows[0]["ChargeType"].ToString();
+                int res = ExecuteSql("Update Temple_" + Year + "..APPCharge_bj_Lights Set Status = 1, BillIP = '" + BillIP + "', Transaction_id = '" + Transaction_id + "', CallbackLog = '" + CallbackLog +
+                    "', Comment = N'" + Comment + "', ChargeDate = '" + dt.ToString("yyyy-MM-dd HH:mm:ss") + "', ChargeDateString = '" + dt.ToString("yyyy-MM-dd") + "' Where OrderID='" + OrderID + "'");
+
+                if (res > 0)
+                {
+                    bResult = true;
+                }
+            }
+
+            return bResult;
+        }
+
+        public bool UpdateChargeLog_Lights_sbbt(string OrderID, string Transaction_id, string Comment, string BillIP, string CallbackLog, string Year, ref string ChargeType)
+        {
+            TimeZoneInfo info = TimeZoneInfo.FindSystemTimeZoneById("Taipei Standard Time");
+            DateTime dt = TimeZoneInfo.ConvertTime(DateTime.Now, info);
+            bool bResult = false;
+            DataTable dtDataList = new DataTable();
+            string sql = "Select Top 1 * From Temple_" + Year + "..APPCharge_sbbt_Lights Where OrderID=@OrderID";
+
+            DatabaseAdapter AdapterObj = new DatabaseAdapter(sql, this.DBSource);
+            AdapterObj.SetSqlCommandBuilder();
+            AdapterObj.AddParameterToSelectCommand("@OrderID", OrderID);
+            AdapterObj.Fill(dtDataList);
+
+            if ((int)dtDataList.Rows[0]["Status"] == 0)
+            {
+                ChargeType = dtDataList.Rows[0]["ChargeType"].ToString();
+                int res = ExecuteSql("Update Temple_" + Year + "..APPCharge_sbbt_Lights Set Status = 1, BillIP = '" + BillIP + "', Transaction_id = '" + Transaction_id + "', CallbackLog = '" + CallbackLog +
+                    "', Comment = N'" + Comment + "', ChargeDate = '" + dt.ToString("yyyy-MM-dd HH:mm:ss") + "', ChargeDateString = '" + dt.ToString("yyyy-MM-dd") + "' Where OrderID='" + OrderID + "'");
+
+                if (res > 0)
+                {
+                    bResult = true;
+                }
+            }
+
+            return bResult;
+        }
+
+        public bool UpdateChargeLog_Lights_bpy(string OrderID, string Transaction_id, string Comment, string BillIP, string CallbackLog, string Year, ref string ChargeType)
+        {
+            TimeZoneInfo info = TimeZoneInfo.FindSystemTimeZoneById("Taipei Standard Time");
+            DateTime dt = TimeZoneInfo.ConvertTime(DateTime.Now, info);
+            bool bResult = false;
+            DataTable dtDataList = new DataTable();
+            string sql = "Select Top 1 * From Temple_" + Year + "..APPCharge_bpy_Lights Where OrderID=@OrderID";
+
+            DatabaseAdapter AdapterObj = new DatabaseAdapter(sql, this.DBSource);
+            AdapterObj.SetSqlCommandBuilder();
+            AdapterObj.AddParameterToSelectCommand("@OrderID", OrderID);
+            AdapterObj.Fill(dtDataList);
+
+            if ((int)dtDataList.Rows[0]["Status"] == 0)
+            {
+                ChargeType = dtDataList.Rows[0]["ChargeType"].ToString();
+                int res = ExecuteSql("Update Temple_" + Year + "..APPCharge_bpy_Lights Set Status = 1, BillIP = '" + BillIP + "', Transaction_id = '" + Transaction_id + "', CallbackLog = '" + CallbackLog +
+                    "', Comment = N'" + Comment + "', ChargeDate = '" + dt.ToString("yyyy-MM-dd HH:mm:ss") + "', ChargeDateString = '" + dt.ToString("yyyy-MM-dd") + "' Where OrderID='" + OrderID + "'");
+
+                if (res > 0)
+                {
+                    bResult = true;
+                }
+            }
+
+            return bResult;
+        }
+
+        public bool UpdateChargeLog_Lights_ssy(string OrderID, string Transaction_id, string Comment, string BillIP, string CallbackLog, string Year, ref string ChargeType)
+        {
+            TimeZoneInfo info = TimeZoneInfo.FindSystemTimeZoneById("Taipei Standard Time");
+            DateTime dt = TimeZoneInfo.ConvertTime(DateTime.Now, info);
+            bool bResult = false;
+            DataTable dtDataList = new DataTable();
+            string sql = "Select Top 1 * From Temple_" + Year + "..APPCharge_ssy_Lights Where OrderID=@OrderID";
+
+            DatabaseAdapter AdapterObj = new DatabaseAdapter(sql, this.DBSource);
+            AdapterObj.SetSqlCommandBuilder();
+            AdapterObj.AddParameterToSelectCommand("@OrderID", OrderID);
+            AdapterObj.Fill(dtDataList);
+
+            if ((int)dtDataList.Rows[0]["Status"] == 0)
+            {
+                ChargeType = dtDataList.Rows[0]["ChargeType"].ToString();
+                int res = ExecuteSql("Update Temple_" + Year + "..APPCharge_ssy_Lights Set Status = 1, BillIP = '" + BillIP + "', Transaction_id = '" + Transaction_id + "', CallbackLog = '" + CallbackLog +
+                    "', Comment = N'" + Comment + "', ChargeDate = '" + dt.ToString("yyyy-MM-dd HH:mm:ss") + "', ChargeDateString = '" + dt.ToString("yyyy-MM-dd") + "' Where OrderID='" + OrderID + "'");
+
+                if (res > 0)
+                {
+                    bResult = true;
+                }
+            }
+
+            return bResult;
+        }
+
+        public bool UpdateChargeLog_Blessing_st(string OrderID, string Transaction_id, string Comment, string BillIP, string CallbackLog, string Year, ref string ChargeType)
+        {
+            TimeZoneInfo info = TimeZoneInfo.FindSystemTimeZoneById("Taipei Standard Time");
+            DateTime dt = TimeZoneInfo.ConvertTime(DateTime.Now, info);
+            bool bResult = false;
+            DataTable dtDataList = new DataTable();
+            string sql = "Select Top 1 * From Temple_" + Year + "..APPCharge_st_Blessing Where OrderID=@OrderID";
+
+            DatabaseAdapter AdapterObj = new DatabaseAdapter(sql, this.DBSource);
+            AdapterObj.SetSqlCommandBuilder();
+            AdapterObj.AddParameterToSelectCommand("@OrderID", OrderID);
+            AdapterObj.Fill(dtDataList);
+
+            if ((int)dtDataList.Rows[0]["Status"] == 0)
+            {
+                ChargeType = dtDataList.Rows[0]["ChargeType"].ToString();
+                int res = ExecuteSql("Update Temple_" + Year + "..APPCharge_st_Blessing Set Status = 1, BillIP = '" + BillIP + "', Transaction_id = '" + Transaction_id + "', CallbackLog = '" + CallbackLog +
+                    "', Comment = N'" + Comment + "', ChargeDate = '" + dt.ToString("yyyy-MM-dd HH:mm:ss") + "', ChargeDateString = '" + dt.ToString("yyyy-MM-dd") + "' Where OrderID='" + OrderID + "'");
+
+                if (res > 0)
+                {
+                    bResult = true;
+                }
+            }
+
+            return bResult;
+        }
+
         public bool UpdateChargeLog_Product(string OrderID, string Transaction_id, string Comment, string BillIP, string CallbackLog, string Year, ref string ChargeType)
         {
             TimeZoneInfo info = TimeZoneInfo.FindSystemTimeZoneById("Taipei Standard Time");
             DateTime dt = TimeZoneInfo.ConvertTime(DateTime.Now, info);
             bool bResult = false;
             DataTable dtDataList = new DataTable();
-            string sql = "Select Top 1 * From Temple_" + Year + "..APPCharge_Product Where OrderID=@OrderID";
+            string sql = "Select Top 1 * From Temple_" + Year + "..APPCharge_Product Where OrderID=@OrderID and Status = 0";
 
             DatabaseAdapter AdapterObj = new DatabaseAdapter(sql, this.DBSource);
             AdapterObj.SetSqlCommandBuilder();

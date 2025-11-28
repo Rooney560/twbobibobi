@@ -13,7 +13,8 @@ namespace Temple.data
         Creditcard,
         Addr,
         Id,
-        Tel
+        Tel,
+        Email
     }
 
     class UtilDataMask
@@ -160,6 +161,36 @@ namespace Temple.data
 
         }
 
+        /// <summary>
+        /// 電子郵件遮罩方法，保留開頭 1 碼與 @ 之後網域，其餘以 * 取代。
+        /// </summary>
+        /// <param name="val">待遮罩的 Email 字串</param>
+        /// <returns>已遮罩之 Email 字串，例如 a***@example.com</returns>
+        public static string MaskEmail(string val)
+        {
+            if (string.IsNullOrWhiteSpace(val) || !Regex.IsMatch(val, RegularExp.Email))
+            {
+                return "";
+            }
+
+            int atIndex = val.IndexOf('@');
+            if (atIndex <= 0)
+            {
+                return "";
+            }
+
+            string prefix = val.Substring(0, atIndex);
+            string domain = val.Substring(atIndex);
+
+            if (prefix.Length <= 1)
+            {
+                return "*" + domain;
+            }
+
+            string visibleChar = prefix.Substring(0, 1);
+            string mask = new string('*', prefix.Length - 1);
+            return visibleChar + mask + domain;
+        }
         private static void SplitStr(string val, char[] splitChar, out string[] result)
         {
             result = null;

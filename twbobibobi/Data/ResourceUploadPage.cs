@@ -6,7 +6,7 @@ using System.Web.UI;
 using System.Web.UI.WebControls;
 using BCFBaseLibrary.Media;
 
-namespace MotoSystem.Data
+namespace twbobibobi.Data
 {
     public class ResourceUploadPage : BasePage
     {

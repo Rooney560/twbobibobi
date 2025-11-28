@@ -1,4 +1,4 @@
-﻿using MotoSystem.Data;
+﻿using twbobibobi.Data;
 using Newtonsoft.Json.Linq;
 using Newtonsoft.Json;
 using System;
@@ -26,7 +26,7 @@ namespace Temple.FET.APITEST
         public string checkedkey;
         public string key;
         public string Year = "2025";
-        public string[] adminlist = { "3", "4", "6", "8", "10", "14", "15", "16", "21", "23", "29", "31", "32" };
+        public string[] adminlist = { "3", "4", "6", "8", "10", "14", "15", "16", "21", "23", "29", "31", "32", "34", "35", "38", "39", "40", "41" };
 
         protected void Page_Load(object sender, EventArgs e)
         {
@@ -43,13 +43,24 @@ namespace Temple.FET.APITEST
             TimeZoneInfo info = TimeZoneInfo.FindSystemTimeZoneById("Taipei Standard Time");
             DateTime dtNow = TimeZoneInfo.ConvertTime(DateTime.Now, info);
             Year = dtNow.Year.ToString();
+            string[] clist = { 
+                "CMPO20241119001243", 
+                "CMPO20241119001241", 
+                "CMPO20250115015318", 
+                "CMPO20250410001584", 
+                "CMPO20250514001648", 
+                "CMPO20250514001652", 
+                "CMPO20250520001688",
+                "CMPO20251030002004"
+            };
+
 
             //channel = "FETnet";
             //clientOrderNumber = "CMPO20231019000076";
             //FETVALUE = "79896cad0402d66d7912c492a5d98c6d25d7c0178c282e6ee48cd9a6dca70c39";
 
             key = "g%Qx7h_eOg";
-            if (URL.IndexOf("20.6.8.46") >= 0 || URL.IndexOf("fettest") >= 0)
+            if (URL.IndexOf("20.6.8.46") >= 0 || URL.IndexOf("fettest") >= 0 || URL.IndexOf("localhost:0") >= 0)
             {
                 key = "koB#pPv2%t";
             }
@@ -59,7 +70,7 @@ namespace Temple.FET.APITEST
 
             checkedkey = "shh#upsu6lyoeBkx";
 
-            if (URL.IndexOf("20.6.8.46") >= 0 || URL.IndexOf("fettest") >= 0)
+            if (URL.IndexOf("20.6.8.46") >= 0 || URL.IndexOf("fettest") >= 0 || URL.IndexOf("localhost:0") >= 0)
             {
                 checkedkey = "lvrd5bidxr^dqlwX";
             }
@@ -68,7 +79,12 @@ namespace Temple.FET.APITEST
             string decrypt = string.Empty;
             string encrypt = string.Empty;
 
-            SaveRequestLog(Request.Url + stream);
+            bool saveLog = clist.Contains(clientOrderNumber);
+
+            if (!saveLog)
+            {
+                SaveRequestLog(Request.Url + stream);
+            }
 
             try
             {
@@ -143,15 +159,21 @@ namespace Temple.FET.APITEST
                     string Description = string.Empty;
                     string OrderID = string.Empty;
                     string[] LightsList = new string[0];
-                    string[] clist = { "CMPO20241119001243", "CMPO20241119001241", "CMPO20250115015318", "CMPO20250410001584" };
                     int type = 1;
 
                     //DataTable dtAdmin = objAdminDAC.GetAdminList(9);
-                    for (int j = 1; j <= 18; j++)
+                    for (int j = 1; j <= 25; j++)
                     {
                         for (int i = 0; i < adminlist.Length; i++)
                         {
                             string adminID = adminlist[i].ToString();
+
+                            string startDate = "2025/11/01 00:00:00";
+                            int ijj = DateTime.Compare(DateTime.Parse(startDate), dtNow);
+                            if (DateTime.Compare(DateTime.Parse(startDate), dtNow) < 0 && j == 1)
+                            {
+                                Year = "2026";
+                            }
 
                             dtData = objLightDAC.Getappcharge(clientOrderNumber, adminID, j.ToString(), type, Year);
 
@@ -197,7 +219,7 @@ namespace Temple.FET.APITEST
                         {
                             string adminID = dtAdmin.Rows[i]["AdminID"].ToString();
 
-                            dtData = objLightDAC.GetappchargeNum2String(clientOrderNumber, adminID, "3", dtNow.Year.ToString());
+                            dtData = objLightDAC.Getappcharge(clientOrderNumber, adminID, "3", 1, dtNow.Year.ToString());
                             if (dtData.Rows.Count > 0)
                             {
                                 kind = "3";

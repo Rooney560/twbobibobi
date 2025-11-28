@@ -1,4 +1,4 @@
-﻿using MotoSystem.Data;
+﻿using twbobibobi.Data;
 using Read.data;
 using System;
 using System.Collections.Generic;
@@ -1246,51 +1246,51 @@ namespace twbobibobi.Temples
 
 
         //申請人資料列表-桃園大廟景福宮
-        public void GetStateContentlist_Jing(int AdminID, int ApplicantID)
-        {
-            LightDAC objLightDAC = new LightDAC(this);
+        //public void GetStateContentlist_Jing(int AdminID, int ApplicantID)
+        //{
+        //    LightDAC objLightDAC = new LightDAC(this);
 
-            DataTable dtData = objLightDAC.GetAPPCharge_Jing_Purdue(ApplicantID);
+        //    DataTable dtData = objLightDAC.GetAPPCharge_Jing_Purdue(ApplicantID);
 
-            if (dtData.Rows.Count > 0)
-            {
-                OrderStateContent = OrderState("付款時間", DateTime.Parse(dtData.Rows[0]["ChargeDate"].ToString()).ToString("yyyy-MM-dd HH:mm:ss"));
+        //    if (dtData.Rows.Count > 0)
+        //    {
+        //        OrderStateContent = OrderState("付款時間", DateTime.Parse(dtData.Rows[0]["ChargeDate"].ToString()).ToString("yyyy-MM-dd HH:mm:ss"));
 
-                OrderPurchaser = OrderData("申請人姓名", dtData.Rows[0]["AppName"].ToString());
-                OrderPurchaser += OrderData("申請人電話", dtData.Rows[0]["AppMobile"].ToString());
+        //        OrderPurchaser = OrderData("申請人姓名", dtData.Rows[0]["AppName"].ToString());
+        //        OrderPurchaser += OrderData("申請人電話", dtData.Rows[0]["AppMobile"].ToString());
 
-                OrderInfo = string.Empty;
+        //        OrderInfo = string.Empty;
 
-                for (int i = 0; i < dtData.Rows.Count; i++)
-                {
-                    OrderInfo += "<li><div>";
+        //        for (int i = 0; i < dtData.Rows.Count; i++)
+        //        {
+        //            OrderInfo += "<li><div>";
 
-                    string purdueString = dtData.Rows[i]["PurdueString"].ToString();
-                    string purdueType = dtData.Rows[i]["PurdueType"].ToString();
+        //            string purdueString = dtData.Rows[i]["PurdueString"].ToString();
+        //            string purdueType = dtData.Rows[i]["PurdueType"].ToString();
 
-                    ////普度項目
-                    OrderInfo += String.Format("<div class=\"ProductsName\">{0}</div>", purdueString);
+        //            ////普度項目
+        //            OrderInfo += String.Format("<div class=\"ProductsName\">{0}</div>", purdueString);
 
-                    //祈福人內容列表
-                    OrderInfo += "<div class=\"ProductsInfo\">";
+        //            //祈福人內容列表
+        //            OrderInfo += "<div class=\"ProductsInfo\">";
 
-                    OrderInfo += OrderData("訂單編號", dtData.Rows[i]["Num2String"].ToString());
-                    OrderInfo += OrderData("祈福人姓名", dtData.Rows[i]["Name"].ToString());
-                    OrderInfo += OrderData("祈福人姓名2", dtData.Rows[i]["Name2"].ToString());
-                    OrderInfo += OrderData("祈福人電話", dtData.Rows[i]["Mobile"].ToString());
-                    OrderInfo += OrderData("祈福人地址", dtData.Rows[i]["Address"].ToString());
+        //            OrderInfo += OrderData("訂單編號", dtData.Rows[i]["Num2String"].ToString());
+        //            OrderInfo += OrderData("祈福人姓名", dtData.Rows[i]["Name"].ToString());
+        //            OrderInfo += OrderData("祈福人姓名2", dtData.Rows[i]["Name2"].ToString());
+        //            OrderInfo += OrderData("祈福人電話", dtData.Rows[i]["Mobile"].ToString());
+        //            OrderInfo += OrderData("祈福人地址", dtData.Rows[i]["Address"].ToString());
 
-                    OrderInfo += "</div></div>";
+        //            OrderInfo += "</div></div>";
 
-                    //普度項目金額
-                    int cost = GetpurdueCost(AdminID, purdueType, "");
-                    OrderInfo += "<div>$ " + cost + "元</div>";
-                    Total += cost;
+        //            //普度項目金額
+        //            int cost = GetpurdueCost(AdminID, purdueType, "");
+        //            OrderInfo += "<div>$ " + cost + "元</div>";
+        //            Total += cost;
 
-                    OrderInfo += "</li>";
-                }
-            }
-        }
+        //            OrderInfo += "</li>";
+        //        }
+        //    }
+        //}
 
 
         //申請人資料列表-台南正統鹿耳門聖母廟
@@ -2528,47 +2528,47 @@ namespace twbobibobi.Temples
                     break;
                 case 2:
                     //普度服務
-                    dtData = objLightDAC.GetAPPCharge_mazu_Purdue(ApplicantID, Year);
-                    if (dtData.Rows.Count > 0)
-                    {
-                        OrderStateContent = OrderState("付款時間", DateTime.Parse(dtData.Rows[0]["ChargeDate"].ToString()).ToString("yyyy-MM-dd HH:mm:ss"));
+                    //dtData = objLightDAC.GetAPPCharge_mazu_Purdue(ApplicantID, Year);
+                    //if (dtData.Rows.Count > 0)
+                    //{
+                    //    OrderStateContent = OrderState("付款時間", DateTime.Parse(dtData.Rows[0]["ChargeDate"].ToString()).ToString("yyyy-MM-dd HH:mm:ss"));
 
-                        OrderPurchaser = OrderData("申請人姓名", dtData.Rows[0]["AppName"].ToString());
-                        OrderPurchaser += OrderData("申請人電話", dtData.Rows[0]["AppMobile"].ToString());
-                        OrderPurchaser += OrderData("申請人地址", dtData.Rows[0]["AppZipCode"].ToString() + " " + dtData.Rows[0]["AppAddress"].ToString());
+                    //    OrderPurchaser = OrderData("申請人姓名", dtData.Rows[0]["AppName"].ToString());
+                    //    OrderPurchaser += OrderData("申請人電話", dtData.Rows[0]["AppMobile"].ToString());
+                    //    OrderPurchaser += OrderData("申請人地址", dtData.Rows[0]["AppZipCode"].ToString() + " " + dtData.Rows[0]["AppAddress"].ToString());
 
-                        OrderInfo = string.Empty;
+                    //    OrderInfo = string.Empty;
 
-                        for (int i = 0; i < dtData.Rows.Count; i++)
-                        {
-                            OrderInfo += "<li><div>";
+                    //    for (int i = 0; i < dtData.Rows.Count; i++)
+                    //    {
+                    //        OrderInfo += "<li><div>";
 
-                            string purdueString = dtData.Rows[i]["PurdueString"].ToString();
-                            string purdueType = dtData.Rows[i]["PurdueType"].ToString();
+                    //        string purdueString = dtData.Rows[i]["PurdueString"].ToString();
+                    //        string purdueType = dtData.Rows[i]["PurdueType"].ToString();
 
-                            ////普度項目
-                            OrderInfo += String.Format("<div class=\"ProductsName\">{0}</div>", purdueString);
+                    //        ////普度項目
+                    //        OrderInfo += String.Format("<div class=\"ProductsName\">{0}</div>", purdueString);
 
-                            //祈福人內容列表
-                            OrderInfo += "<div class=\"ProductsInfo\">";
+                    //        //祈福人內容列表
+                    //        OrderInfo += "<div class=\"ProductsInfo\">";
 
-                            OrderInfo += OrderData("宮廟名稱", "大甲鎮瀾宮");
-                            OrderInfo += OrderData("訂單編號", dtData.Rows[i]["Num2String"].ToString());
-                            OrderInfo += OrderData("祈福人姓名", dtData.Rows[i]["Name"].ToString());
-                            OrderInfo += OrderData("祈福人電話", dtData.Rows[i]["Mobile"].ToString());
-                            OrderInfo += OrderData("祈福人農曆生日", dtData.Rows[i]["Birth"].ToString() + (dtData.Rows[i]["LeapMonth"].ToString() == "Y" ? " 閏月" : ""));
-                            OrderInfo += OrderData("祈福人農曆時辰", dtData.Rows[i]["BirthTime"].ToString());
+                    //        OrderInfo += OrderData("宮廟名稱", "大甲鎮瀾宮");
+                    //        OrderInfo += OrderData("訂單編號", dtData.Rows[i]["Num2String"].ToString());
+                    //        OrderInfo += OrderData("祈福人姓名", dtData.Rows[i]["Name"].ToString());
+                    //        OrderInfo += OrderData("祈福人電話", dtData.Rows[i]["Mobile"].ToString());
+                    //        OrderInfo += OrderData("祈福人農曆生日", dtData.Rows[i]["Birth"].ToString() + (dtData.Rows[i]["LeapMonth"].ToString() == "Y" ? " 閏月" : ""));
+                    //        OrderInfo += OrderData("祈福人農曆時辰", dtData.Rows[i]["BirthTime"].ToString());
 
-                            OrderInfo += "</div></div>";
+                    //        OrderInfo += "</div></div>";
 
-                            //普度項目金額
-                            int cost = int.Parse(dtData.Rows[i]["Count"].ToString()) * GetPurdueCost(AdminID, purdueType);
-                            OrderInfo += "<div>$ " + cost + "元</div>";
-                            Total += cost;
+                    //        //普度項目金額
+                    //        int cost = int.Parse(dtData.Rows[i]["Count"].ToString()) * GetPurdueCost(AdminID, purdueType);
+                    //        OrderInfo += "<div>$ " + cost + "元</div>";
+                    //        Total += cost;
 
-                            OrderInfo += "</li>";
-                        }
-                    }
+                    //        OrderInfo += "</li>";
+                    //    }
+                    //}
                     break;
             }
         }

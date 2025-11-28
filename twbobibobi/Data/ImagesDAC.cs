@@ -6,7 +6,7 @@ using System.Data;
 using System.Web.Configuration;
 using System.Drawing;
 
-namespace MotoSystem.Data
+namespace twbobibobi.Data
 {
     public class ImagesDAC : SqlClientBase
     {

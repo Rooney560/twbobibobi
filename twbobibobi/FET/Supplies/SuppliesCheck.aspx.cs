@@ -1,4 +1,4 @@
-﻿using MotoSystem.Data;
+﻿using twbobibobi.Data;
 using Newtonsoft.Json.Linq;
 using Read.data;
 using System;
@@ -363,7 +363,7 @@ namespace Temple.FET.Supplies
             {
                 TimeZoneInfo info = TimeZoneInfo.FindSystemTimeZoneById("Taipei Standard Time");
                 DateTime dtNow = TimeZoneInfo.ConvertTime(DateTime.Now, info);
-                BCFBaseLibrary.Web.BasePage basePage = new BCFBaseLibrary.Web.BasePage();
+                BasePage basePage = new BasePage();
                 string oid = orderid;
                 string uid = "Temple";
                 string Sid = "Temple-WudeLightUp";    //北港武德宮宮廟服務 PR00004401
@@ -382,11 +382,9 @@ namespace Temple.FET.Supplies
                                       + telco + chrgtype + msisdn + Timestamp + ValidationKey).Replace("-", "").ToLower();
 
                 string paymentChannelLog = returnUrl;
-                DatabaseHelper objdatabaseHelper = new DatabaseHelper(basePage);
-                long id = objdatabaseHelper.AddChargeLog_Supplies_wu3(oid, applicantID, price, paytype, 0, "", "", paymentChannelLog, basePag.Request.UserHostAddress, Year);
+                LightDAC objLightDAC = new LightDAC(basePage);
+                long id = objLightDAC.AddChargeLog_Supplies_wu3(oid, applicantID, price, paytype, 0, "", "", paymentChannelLog, basePag.Request.UserHostAddress, Year);
                 //long id = 6;
-
-                LightDAC objLightDAC = new LightDAC(basePag);
 
                 if (id > 0 && objLightDAC.Updatecost2applicantinfo_Supplies_wu3(applicantID, AdminID, price, Year))
                 {
@@ -407,7 +405,7 @@ namespace Temple.FET.Supplies
         {
             LightDAC objLightDAC = new LightDAC(this);
 
-            DataTable dtData = objLightDAC.Getsupplies_wu_info3(ApplicantID, Year);
+            DataTable dtData = objLightDAC.Getsupplies_wu_Info3(ApplicantID, Year);
 
             if (dtData.Rows.Count > 0)
             {
@@ -453,7 +451,7 @@ namespace Temple.FET.Supplies
                 case 1:
                     //點燈服務
                     string reback = "https://bobibobi.tw/Temples/templeService_lights_wu.aspx";
-                    if (objLightDAC.checkedappcharge_Lights_wu(ApplicantID, AdminID, Year))
+                    if (objLightDAC.Checkedappcharge_Lights_wu(ApplicantID, AdminID, Year))
                     {
                         if (OrderPurchaser == "")
                         {
@@ -476,7 +474,7 @@ namespace Temple.FET.Supplies
                 case 2:
                     //普度服務
                     reback = "https://bobibobi.tw/Temples/templeService_purdue_wu.aspx";
-                    if (objLightDAC.checkedappcharge_Purdue_wu(ApplicantID, AdminID))
+                    if (objLightDAC.Checkedappcharge_Purdue_wu(ApplicantID, AdminID, Year))
                     {
                         if (OrderPurchaser == "")
                         {
@@ -499,7 +497,7 @@ namespace Temple.FET.Supplies
                 case 4:
                     //補財庫-下元補庫
                     reback = "https://bobibobi.tw/Temples/templeService_supplies.aspx";
-                    if (objLightDAC.checkedappcharge_Supplies_wu(ApplicantID, AdminID))
+                    if (objLightDAC.Checkedappcharge_Supplies_wu(ApplicantID, AdminID, Year))
                     {
                         if (OrderPurchaser == "")
                         {
@@ -522,7 +520,7 @@ namespace Temple.FET.Supplies
                 case 5:
                     //補財庫-呈疏補庫
                     reback = "https://bobibobi.tw/Temples/templeService_supplies2.aspx";
-                    if (objLightDAC.checkedappcharge_Supplies_wu2(ApplicantID, AdminID))
+                    if (objLightDAC.Checkedappcharge_Supplies_wu2(ApplicantID, AdminID, Year))
                     {
                         if (OrderInfo == "")
                         {
@@ -546,7 +544,7 @@ namespace Temple.FET.Supplies
                     //補財庫-企業補財庫
                     Year = dtNow.Year.ToString();
                     reback = "https://bobibobi.tw/FET/Supplies/SuppliesIndex.aspx";
-                    if (objLightDAC.checkedappcharge_Supplies_wu3(ApplicantID, AdminID, Year))
+                    if (objLightDAC.Checkedappcharge_Supplies_wu3(ApplicantID, AdminID, Year))
                     {
                         if (OrderInfo == "")
                         {

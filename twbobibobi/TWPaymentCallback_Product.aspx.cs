@@ -1,15 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using System.Web.UI;
-using System.Web.UI.WebControls;
-using System.Data;
-using BCFBaseLibrary.Web;
+﻿using BCFBaseLibrary.Security;
 using Read.data;
-using BCFBaseLibrary.Security;
+using System;
 using System.Collections;
+using System.Collections.Generic;
+using System.Data;
 using Temple.data;
+using TempleAdmin.Helper;
+using twbobibobi.Data;
+using twbobibobi.Helpers;
+using twbobibobi.Model;
+using twbobibobi.Services;
 
 namespace Temple
 {
@@ -53,16 +53,16 @@ namespace Temple
                 //resp = "1|18062216041218500003|100|TELEPAY|twm|0934315020|20180622160559423|F6C5E389052469CC441A402A3F0D0C9F";
                 string orderId = oid;
                 string CallbackLog = tid + "," + resp;
-                DatabaseHelper objDatabaseHelper = new DatabaseHelper(this);
+                LightDAC objLightDAC = new LightDAC(this);
                 int aid = int.Parse(m1);
                 int status = 999;
                 int AdminID = 0;
 
-                DataTable dtCharge = objDatabaseHelper.GetChargeLog_Product(orderId, Year);
+                DataTable dtCharge = objLightDAC.GetChargeLog_Product(orderId, Year);
 
                 if (dtCharge.Rows.Count > 0)
                 {
-                    int adminID = objDatabaseHelper.GetAdminID_Product(aid, Year);
+                    int adminID = objLightDAC.GetAdminID_Product(aid, Year);
                     int cost = 0;
                     int.TryParse(dtCharge.Rows[0]["Amount"].ToString(), out cost);
                     int.TryParse(dtCharge.Rows[0]["Status"].ToString(), out status);
@@ -84,28 +84,28 @@ namespace Temple
 
                                 //int adminID = 5;
 
-                                //更新普渡資料表並取得訂單編號
-                                objDatabaseHelper.UpdateProductInfo(aid, adminID, Year, ref productlist, ref Productlist);
-                                //取得申請人資料表
-                                //DataTable dtapplicantinfo = objDatabaseHelper.Getapplicantinfo_Product(aid, adminID, Year);
-                                ////更新購買表內購買人狀態為已付款(Status=2)
-                                //int cost = dtapplicantinfo.Rows.Count > 0 ? int.Parse(dtapplicantinfo.Rows[0]["Cost"].ToString()) : 0;
-                                objDatabaseHelper.Updateapplicantinfo_Product(aid, cost, 2, Year);
-
-                                objDatabaseHelper.UpdateCount2Product(aid, dt.Year.ToString()); //更新購買數量至商品表or商品類別表
-
                                 string msg = "感謝購買,已成功付款" + cost + "元,您的訂單編號 ";
 
-                                for (int i = 0; i < productlist.Length; i++)
-                                {
-                                    msg += productlist[i];
-                                    if (i < productlist.Length - 1)
-                                    {
-                                        msg += ",";
-                                    }
-                                }
+                                //更新普渡資料表並取得訂單編號
+                                objLightDAC.UpdateProductInfo(aid, adminID, Year, ref msg, ref productlist, ref Productlist);
+                                //取得申請人資料表
+                                //DataTable dtapplicantinfo = objLightDAC.Getapplicantinfo_Product(aid, adminID, Year);
+                                ////更新購買表內購買人狀態為已付款(Status=2)
+                                //int cost = dtapplicantinfo.Rows.Count > 0 ? int.Parse(dtapplicantinfo.Rows[0]["Cost"].ToString()) : 0;
+                                objLightDAC.Updateapplicantinfo_Product(aid, cost, 2, Year);
 
-                                msg += "。客服電話：04-36092299。";
+                                objLightDAC.UpdateCount2Product(aid, dt.Year.ToString()); //更新購買數量至商品表or商品類別表
+
+                                //for (int i = 0; i < productlist.Length; i++)
+                                //{
+                                //    msg += productlist[i];
+                                //    if (i < productlist.Length - 1)
+                                //    {
+                                //        msg += ",";
+                                //    }
+                                //}
+
+                                //msg += "。客服電話：04-36092299。";
 
 
                                 //msg = "感謝大德參與線上點燈,茲收您1960元功德金,訂單編號 光明燈:T2204, 安太歲:25351, 文昌燈:六1214。";
@@ -113,8 +113,9 @@ namespace Temple
 
                                 SMSHepler objSMSHepler = new SMSHepler();
                                 string ChargeType = string.Empty;
+                                int uStatus = 0;
                                 //更新流水付費表資訊(付費成功)
-                                if (objDatabaseHelper.UpdateChargeLog_Product(orderId, tid, msg, Request.UserHostAddress, CallbackLog, Year, ref ChargeType))
+                                if (objLightDAC.UpdateChargeLog_Product(orderId, tid, msg, Request.UserHostAddress, CallbackLog, Year, ref ChargeType, ref uStatus))
                                 {
                                     if (objSMSHepler.SendMsg_SL(mobile, msg))
                                     {
@@ -141,14 +142,14 @@ namespace Temple
                         }
                         else if (result[0] == "4")
                         {
-                            if (objDatabaseHelper.UpdateChargeStatus_Product(orderId, -2, Request.UserHostAddress, CallbackLog, Year))
+                            if (objLightDAC.UpdateChargeStatus_Product(orderId, -2, Request.UserHostAddress, CallbackLog, Year))
                             {
                                 Response.Write("<script>alert('此用戶已退款。');window.location.href='" + rebackURL + "'</script>");
                             }
                         }
                         else
                         {
-                            objDatabaseHelper.UpdateChargeStatus_Product(orderId, -1, Request.UserHostAddress, CallbackLog, Year);
+                            objLightDAC.UpdateChargeStatus_Product(orderId, -1, Request.UserHostAddress, CallbackLog, Year);
 
                             if (m2.IndexOf("APPPaymentResult") > 0)
                             {

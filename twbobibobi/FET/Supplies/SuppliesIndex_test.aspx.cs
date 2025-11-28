@@ -1,4 +1,4 @@
-﻿using MotoSystem.Data;
+﻿using twbobibobi.Data;
 using Newtonsoft.Json.Linq;
 using Read.data;
 using System;
@@ -102,71 +102,75 @@ namespace twbobibobi.FET.Supplies
 
                 string postURL = "Supplies_wu_Index3_FETAPI";
 
+                basePage.mJSonHelper.AddContent("StatusCode", 0);
+                basePage.mJSonHelper.AddContent("OldUser", 1);
+
                 //檢查此申請人電話是否上個月已註冊
-                if (objLightDAC.CheckedSupplies_wu_info3(AdminID, AppMobile, Add_year))
-                {
-                    ApplicantID = objLightDAC.addapplicantinfo_Supplies_wu3(AppName, AppMobile, "0", AppEmail, "", "", "", "0", "N", "", "", 0, AdminID, postURL, Add_year);
-                    bool suppliesinfo = false;
+                //if (objLightDAC.CheckedSupplies_wu_info3(AdminID, AppMobile, Add_year))
+                //{
+                //    TimeZoneInfo info = TimeZoneInfo.FindSystemTimeZoneById("Taipei Standard Time");
+                //    DateTime dtNow = TimeZoneInfo.ConvertTime(DateTime.Now, info);
 
-                    if (ApplicantID > 0)
-                    {
-                        string name = Jname[0].ToString();
-                        string homenum = Jhomenum.Count > 0 ? Jhomenum[0].ToString() : "";
+                //    ApplicantID = objLightDAC.addapplicantinfo_Supplies_wu3(AppName, AppMobile, "0", AppEmail, "", "", "", "0", "N", "", "", 1, dtNow.ToString(), dtNow.ToString(), 0, AdminID, postURL, Add_year);
+                //    bool suppliesinfo = false;
 
-                        TimeZoneInfo info = TimeZoneInfo.FindSystemTimeZoneById("Taipei Standard Time");
-                        DateTime dtNow = TimeZoneInfo.ConvertTime(DateTime.Now, info);
-                        string suppliesString = "企業補財庫";
-                        string Birth = string.Empty;
-                        string birthMonth = string.Empty;
-                        string age = string.Empty;
-                        string Zodiac = string.Empty;
+                //    if (ApplicantID > 0)
+                //    {
+                //        string name = Jname[0].ToString();
+                //        string homenum = Jhomenum.Count > 0 ? Jhomenum[0].ToString() : "";
 
-                        string year = string.Empty;
-                        string month = string.Empty;
-                        string day = string.Empty;
+                //        string suppliesString = "企業補財庫";
+                //        string Birth = string.Empty;
+                //        string birthMonth = string.Empty;
+                //        string age = string.Empty;
+                //        string Zodiac = string.Empty;
 
-                        string birth = Jbirth[0].ToString();
-                        int s1 = birth.IndexOf("民國");
-                        int s2 = birth.IndexOf("年");
-                        int s3 = birth.IndexOf("月");
-                        int s4 = birth.IndexOf("日");
-                        if (birth.IndexOf("民國") >= 0 && birth.IndexOf("年") > 0 && birth.IndexOf("月") > 0 && birth.IndexOf("日") > 0)
-                        {
-                            int year_index = birth.IndexOf("年");
-                            int month_index = birth.IndexOf("月");
-                            year = (int.Parse(birth.Substring(2, year_index - 2)) + 1911).ToString();
-                            month = birthMonth = birth.Substring(year_index + 1, month_index - year_index - 1);
-                            day = birth.Substring(month_index + 1, birth.Length - month_index - 2);
+                //        string year = string.Empty;
+                //        string month = string.Empty;
+                //        string day = string.Empty;
 
-                            Birth = year + "-" + month + "-" + day;
-                            LunarSolarConverter.shuxiang(int.Parse(year), ref Zodiac);
-                            //age = GetAge(DateTime.Parse(Birth), dtNow);
-                            age = GetAge(int.Parse(year), int.Parse(month), int.Parse(day)).ToString();
-                        }
+                //        string birth = Jbirth[0].ToString();
+                //        int s1 = birth.IndexOf("民國");
+                //        int s2 = birth.IndexOf("年");
+                //        int s3 = birth.IndexOf("月");
+                //        int s4 = birth.IndexOf("日");
+                //        if (birth.IndexOf("民國") >= 0 && birth.IndexOf("年") > 0 && birth.IndexOf("月") > 0 && birth.IndexOf("日") > 0)
+                //        {
+                //            int year_index = birth.IndexOf("年");
+                //            int month_index = birth.IndexOf("月");
+                //            year = (int.Parse(birth.Substring(2, year_index - 2)) + 1911).ToString();
+                //            month = birthMonth = birth.Substring(year_index + 1, month_index - year_index - 1);
+                //            day = birth.Substring(month_index + 1, birth.Length - month_index - 2);
 
-                        if (name != "")
-                        {
-                            suppliesinfo = true;
-                            suppliesID = objLightDAC.addsupplies_wu3(ApplicantID, name, Jmobile[0].ToString(), Jsuppliestype[0].ToString(), suppliesString, Jsex[0].ToString(), "1",
-                                Jbirth[0].ToString(), JleapMonth[0].ToString(), JbirthTime[0].ToString(), birthMonth, age, Zodiac, homenum, Jemail[0].ToString(),
-                                Jcounty[0].ToString() + Jdist[0] + Jaddr[0].ToString(), Jaddr[0].ToString(), Jcounty[0].ToString(), Jdist[0].ToString(), JzipCode[0].ToString(), "",
-                                "1", Add_year);
-                        }
-                    }
+                //            Birth = year + "-" + month + "-" + day;
+                //            LunarSolarConverter.shuxiang(int.Parse(year), ref Zodiac);
+                //            //age = GetAge(DateTime.Parse(Birth), dtNow);
+                //            age = GetAge(int.Parse(year), int.Parse(month), int.Parse(day)).ToString();
+                //        }
 
-                    if (ApplicantID > 0 && suppliesinfo)
-                    {
-                        basePage.mJSonHelper.AddContent("StatusCode", 1);
-                        basePage.mJSonHelper.AddContent("redirect", "SuppliesCheck.aspx?kind=6&a=" + AdminID + "&aid=" + ApplicantID);
+                //        if (name != "")
+                //        {
+                //            suppliesinfo = true;
+                //            suppliesID = objLightDAC.addsupplies_wu3(ApplicantID, name, Jmobile[0].ToString(), Jsuppliestype[0].ToString(), suppliesString, Jsex[0].ToString(), "1",
+                //                Jbirth[0].ToString(), JleapMonth[0].ToString(), JbirthTime[0].ToString(), birthMonth, age, Zodiac, homenum, Jemail[0].ToString(),
+                //                Jcounty[0].ToString() + Jdist[0] + Jaddr[0].ToString(), Jaddr[0].ToString(), Jcounty[0].ToString(), Jdist[0].ToString(), JzipCode[0].ToString(), "",
+                //                "1", Add_year);
+                //        }
+                //    }
 
-                        basePage.Session["ApplicantID"] = ApplicantID;
-                    }
-                }
-                else
-                {
-                    basePage.mJSonHelper.AddContent("StatusCode", 0);
-                    basePage.mJSonHelper.AddContent("OldUser", 1);
-                }
+                //    if (ApplicantID > 0 && suppliesinfo)
+                //    {
+                //        basePage.mJSonHelper.AddContent("StatusCode", 1);
+                //        basePage.mJSonHelper.AddContent("redirect", "SuppliesCheck.aspx?kind=6&a=" + AdminID + "&aid=" + ApplicantID);
+
+                //        basePage.Session["ApplicantID"] = ApplicantID;
+                //    }
+                //}
+                //else
+                //{
+                //    basePage.mJSonHelper.AddContent("StatusCode", 0);
+                //    basePage.mJSonHelper.AddContent("OldUser", 1);
+                //}
             }
 
             public void editinfo(BasePage basePage)
@@ -180,7 +184,7 @@ namespace twbobibobi.FET.Supplies
 
                 string AdminID = basePage.Request["a"];
 
-                dtData = objLightDAC.Getsupplies_wu_info3(applicantID, Add_year);
+                dtData = objLightDAC.Getsupplies_wu_Info3(applicantID, Add_year);
 
                 if (dtData.Rows.Count > 0)
                 {

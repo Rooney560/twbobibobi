@@ -1,4 +1,4 @@
-﻿using MotoSystem.Data;
+﻿using twbobibobi.Data;
 using Newtonsoft.Json.Linq;
 using Read.data;
 using System;
@@ -45,6 +45,8 @@ namespace Temple.Temples
                 int adminID = a = 6;
 
                 Add_year = dtNow.Year.ToString();
+
+                OrderForm.Visible = false;
 
                 //if (dtNow >= DateTime.Parse(EndDate))
                 //{
@@ -128,70 +130,74 @@ namespace Temple.Temples
 
                 postURL += basePage.Request["elv"] != null ? "_ELV" : "";
 
+                TimeZoneInfo info = TimeZoneInfo.FindSystemTimeZoneById("Taipei Standard Time");
+                DateTime dtNow = TimeZoneInfo.ConvertTime(DateTime.Now, info);
+
+                basePage.mJSonHelper.AddContent("StatusCode", 0);
+                basePage.mJSonHelper.AddContent("OldUser", 1);
+
                 //檢查此購買人電話是否上個月已註冊
-                if (objLightDAC.CheckedSupplies_wu_info3(AdminID, AppMobile, Add_year))
-                {
-                    ApplicantID = objLightDAC.addapplicantinfo_Supplies_wu3(AppName, AppMobile, "0", Appemail, "", "", "", "0", "N", "", "", 0, AdminID, postURL, Add_year);
-                    bool suppliesinfo = false;
+                //if (objLightDAC.CheckedSupplies_wu_Info3(AdminID, AppMobile, Add_year))
+                //{
+                //    ApplicantID = objLightDAC.addapplicantinfo_Supplies_wu3(AppName, AppMobile, "0", Appemail, "", "", "", "0", "N", "", "", 1, 
+                //        dtNow.ToString("yyyy-MM-dd HH:mm:ss"), dtNow.ToString("yyyy-MM-dd"), 0, AdminID, postURL, Add_year);
+                //    bool suppliesinfo = false;
 
-                    if (ApplicantID > 0)
-                    {
-                        string name = Jname[0].ToString();
-                        string homenum = Jhomenum.Count > 0 ? Jhomenum[0].ToString() : "";
+                //    if (ApplicantID > 0)
+                //    {
+                //        string name = Jname[0].ToString();
+                //        string homenum = Jhomenum.Count > 0 ? Jhomenum[0].ToString() : "";
 
-                        string remark = Jremark.Count > 0 ? Jremark[0].ToString() : "";
+                //        string remark = Jremark.Count > 0 ? Jremark[0].ToString() : "";
+                //        string suppliesString = "企業補財庫";
+                //        string Birth = string.Empty;
+                //        string birthMonth = string.Empty;
+                //        string age = string.Empty;
+                //        string Zodiac = string.Empty;
 
-                        TimeZoneInfo info = TimeZoneInfo.FindSystemTimeZoneById("Taipei Standard Time");
-                        DateTime dtNow = TimeZoneInfo.ConvertTime(DateTime.Now, info);
-                        string suppliesString = "企業補財庫";
-                        string Birth = string.Empty;
-                        string birthMonth = string.Empty;
-                        string age = string.Empty;
-                        string Zodiac = string.Empty;
+                //        string year = string.Empty;
+                //        string month = string.Empty;
+                //        string day = string.Empty;
 
-                        string year = string.Empty;
-                        string month = string.Empty;
-                        string day = string.Empty;
+                //        string birth = Jbirth[0].ToString();
+                //        int s1 = birth.IndexOf("民國");
+                //        int s2 = birth.IndexOf("年");
+                //        int s3 = birth.IndexOf("月");
+                //        int s4 = birth.IndexOf("日");
+                //        if (birth.IndexOf("民國") >= 0 && birth.IndexOf("年") > 0 && birth.IndexOf("月") > 0 && birth.IndexOf("日") > 0)
+                //        {
+                //            int year_index = birth.IndexOf("年");
+                //            int month_index = birth.IndexOf("月");
+                //            year = (int.Parse(birth.Substring(2, year_index - 2)) + 1911).ToString();
+                //            month = birthMonth = birth.Substring(year_index + 1, month_index - year_index - 1);
+                //            day = birth.Substring(month_index + 1, birth.Length - month_index - 2);
 
-                        string birth = Jbirth[0].ToString();
-                        int s1 = birth.IndexOf("民國");
-                        int s2 = birth.IndexOf("年");
-                        int s3 = birth.IndexOf("月");
-                        int s4 = birth.IndexOf("日");
-                        if (birth.IndexOf("民國") >= 0 && birth.IndexOf("年") > 0 && birth.IndexOf("月") > 0 && birth.IndexOf("日") > 0)
-                        {
-                            int year_index = birth.IndexOf("年");
-                            int month_index = birth.IndexOf("月");
-                            year = (int.Parse(birth.Substring(2, year_index - 2)) + 1911).ToString();
-                            month = birthMonth = birth.Substring(year_index + 1, month_index - year_index - 1);
-                            day = birth.Substring(month_index + 1, birth.Length - month_index - 2);
+                //            Birth = year + "-" + month + "-" + day;
+                //            LunarSolarConverter.shuxiang(int.Parse(year), ref Zodiac);
+                //            //age = GetAge(DateTime.Parse(Birth_ad), dtNow);
+                //            age = GetAge(int.Parse(year), int.Parse(month), int.Parse(day)).ToString();
+                //        }
 
-                            Birth = year + "-" + month + "-" + day;
-                            LunarSolarConverter.shuxiang(int.Parse(year), ref Zodiac);
-                            //age = GetAge(DateTime.Parse(Birth_ad), dtNow);
-                            age = GetAge(int.Parse(year), int.Parse(month), int.Parse(day)).ToString();
-                        }
+                //        if (name != "")
+                //        {
+                //            suppliesinfo = true;
+                //            suppliesID = objLightDAC.addsupplies_wu3(ApplicantID, name, Jmobile[0].ToString(), Jsuppliestype[0].ToString(), suppliesString, Jsex[0].ToString(), "1", Jbirth[0].ToString(), JleapMonth[0].ToString(), JbirthTime[0].ToString(), birthMonth, age, Zodiac, homenum, Jemail[0].ToString(), Jcounty[0].ToString() + Jdist[0] + Jaddr[0].ToString(), Jaddr[0].ToString(), Jcounty[0].ToString(), Jdist[0].ToString(), JzipCode[0].ToString(), remark, "1", Add_year);
+                //        }
+                //    }
 
-                        if (name != "")
-                        {
-                            suppliesinfo = true;
-                            suppliesID = objLightDAC.addsupplies_wu3(ApplicantID, name, Jmobile[0].ToString(), Jsuppliestype[0].ToString(), suppliesString, Jsex[0].ToString(), "1", Jbirth[0].ToString(), JleapMonth[0].ToString(), JbirthTime[0].ToString(), birthMonth, age, Zodiac, homenum, Jemail[0].ToString(), Jcounty[0].ToString() + Jdist[0] + Jaddr[0].ToString(), Jaddr[0].ToString(), Jcounty[0].ToString(), Jdist[0].ToString(), JzipCode[0].ToString(), remark, "1", Add_year);
-                        }
-                    }
+                //    if (ApplicantID > 0 && suppliesinfo)
+                //    {
+                //        basePage.mJSonHelper.AddContent("StatusCode", 1);
+                //        basePage.mJSonHelper.AddContent("redirect", "templeCheck.aspx?kind=6&a=" + AdminID + "&aid=" + ApplicantID + (basePage.Request["ad"] != null ? "&ad=1" : "") + (basePage.Request["twm"] != null ? "&twm=1" : ""));
 
-                    if (ApplicantID > 0 && suppliesinfo)
-                    {
-                        basePage.mJSonHelper.AddContent("StatusCode", 1);
-                        basePage.mJSonHelper.AddContent("redirect", "templeCheck.aspx?kind=6&a=" + AdminID + "&aid=" + ApplicantID + (basePage.Request["ad"] != null ? "&ad=1" : "") + (basePage.Request["twm"] != null ? "&twm=1" : ""));
-
-                        basePage.Session["ApplicantID"] = ApplicantID;
-                    }
-                }
-                else
-                {
-                    basePage.mJSonHelper.AddContent("StatusCode", 0);
-                    basePage.mJSonHelper.AddContent("OldUser", 1);
-                }
+                //        basePage.Session["ApplicantID"] = ApplicantID;
+                //    }
+                //}
+                //else
+                //{
+                //    basePage.mJSonHelper.AddContent("StatusCode", 0);
+                //    basePage.mJSonHelper.AddContent("OldUser", 1);
+                //}
             }
 
             public void editinfo(BasePage basePage)
@@ -205,7 +211,7 @@ namespace Temple.Temples
 
                 string AdminID = basePage.Request["a"];
 
-                dtData = objLightDAC.Getsupplies_wu_info3(applicantID, Add_year);
+                dtData = objLightDAC.Getsupplies_wu_Info3(applicantID, Add_year);
 
                 if (dtData.Rows.Count > 0)
                 {

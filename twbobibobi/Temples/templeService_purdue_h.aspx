@@ -2,6 +2,7 @@
 
 <%@ Register src="~/Temples/footer.ascx" tagprefix="uc1" tagname="footer" %>
 <%@ Register src="~/Temples/header.ascx" tagprefix="uc2" tagname="header" %>
+<%@ Register src="~/Temples/SocialMedia.ascx" tagprefix="uc3" tagname="SocialMedia" %>
 <%@ Register src="~/Controls/AjaxClientControl.ascx" tagname="AjaxClientControl" tagprefix="uc4" %>
 
 <!DOCTYPE html>
@@ -10,7 +11,7 @@
 <head runat="server">
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
     <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport" />
-    <meta property="og:title" content="中元普度|新港奉天宮|合作宮廟|【保必保庇】線上宮廟服務平臺" />
+    <meta property="og:title" content="新港奉天宮|中元普度|合作宮廟|【保必保庇】線上宮廟服務平臺" />
     <!--標題-->
     <meta property="og:url" content="https://bobibobi.tw/Temples/templeService_purdue_h.aspx" />
     <!--網址：請補上網址-->
@@ -18,21 +19,21 @@
     <!--簡介-->
     <meta property="og:description" content="世代信仰，數位傳承 - 與全臺知名宮廟合作，提供宮廟服務線上報名，讓您在忙碌之餘也可以透過線上報名的方式,參與宮廟的服務。" />
     <!--簡介-->
-    <meta property="og:site_name" content="中元普度|新港奉天宮|合作宮廟|【保必保庇】線上宮廟服務平臺" />
+    <meta property="og:site_name" content="新港奉天宮|中元普度|合作宮廟|【保必保庇】線上宮廟服務平臺" />
     <!--標題-->
     <meta property="og:type" content="website" />
 
     <!--抓取圖片-->
-    <meta property="og:image" content="images/fb.jpg" />
-    <meta name="twitter:image:src" content="images/fb.jpg" />
-    <link rel="image_src" href="images/fb.jpg" />
+    <meta property="og:image" content="https://bobibobi.tw/Temples/images/temple/purdue_h_2025.jpg" />
+    <meta name="twitter:image:src" content="https://bobibobi.tw/Temples/images/temple/purdue_h_2025.jpg" />
+    <link rel="image_src" href="https://bobibobi.tw/Temples/images/temple/purdue_h_2025.jpg" />
 
 
     <link rel="shortcut icon" href="images/favicon.png" />
     <link href="images/favicon.png" rel="apple-touch-icon" sizes="192x192" />
 
 
-    <title>中元普度|新港奉天宮|合作宮廟|【保必保庇】線上宮廟服務平臺</title>
+    <title>新港奉天宮|中元普度|合作宮廟|【保必保庇】線上宮廟服務平臺</title>
     <!--標題-->
 
     <!--資源項目-->
@@ -78,6 +79,69 @@
             padding: 5px;
             color: #707070;
         }
+        .content_a {
+            font-size: 1.2vw;
+        }
+
+        .EventServiceContent img {
+            width: 75%;
+            margin: 0 auto;
+        }
+
+        .checkedbox {
+            vertical-align: middle;
+            -webkit-transform: scale(1.2);
+            -moz-transform: scale(1.2);
+            -ms-transform: scale(1.2);
+            transform: scale(1.2);
+            -webkit-transform-origin: right;
+            -moz-transform-origin: right;
+            -ms-tranform-origin: right;
+            transform-origin: right;
+            height: 12px;
+            width: 12px;
+            margin-bottom: 4px;
+            position: relative;
+            border-radius: 2px;
+        }
+        
+        .text_s input.checkedbox, .tel input.checkedbox {
+            width: 12px;
+            margin-left: 5px;
+        }
+                
+        /* Toast 容器 ------------------------------------ */
+        .toast {
+            position: fixed;
+            bottom: 20px; /* 距離底部 20px */
+            left: 50%; /* 水平置中 */
+            transform: translateX(-50%) translateY(100px);
+            /* 初始往下隱藏 100px */
+            background: rgba(0, 0, 0, 0.8); /* 半透明黑底 */
+            color: #fff; /* 白字 */
+            padding: 10px 20px; /* 內距 */
+            border-radius: 4px; /* 圓角 */
+            opacity: 0; /* 初始透明 */
+            transition: transform .3s ease, opacity .3s ease; /* 進出場動畫 */
+            z-index: 9999; /* 最上層 */
+            box-sizing: border-box;
+            max-width: calc(100% - 40px); /* 左右各留 20px 安全邊距 */
+            overflow-wrap: break-word; /* 自動換行 */
+        }
+
+        /* Toast 顯示時 -------------------------------- */
+        .toast.visible {
+            opacity: 1;
+            transform: translateX(-50%) translateY(0);
+        }
+
+        /* 大螢幕時限制最大寬度 ------------------------ */
+        @media (min-width: 768px) {
+            .toast {
+                max-width: 300px;
+            }
+        }
+
         @media only screen and (max-width: 720px) {
             .AppAddress > div:first-child {
                 width: 20%;
@@ -88,6 +152,24 @@
             .FormInput_h3 label, .FormInput_h2 label, .FormInput_h {
                 width: 100%;
                 font-size: 3.8vw;
+            }
+            .content_a {
+                font-size: 3.8vw;
+            }
+            .inputBtn input {
+                font-size: 5vw;
+                height: 10vw;
+            }
+
+            .EventServiceContent img {
+                width: 100%;
+            }
+        }
+
+        /*電腦版*/
+        @media only screen and (min-width: 576px) {
+            .text_s input, .tel input, .mail input, .date input {
+                width: 20vw;
             }
         }
     </style>
@@ -117,10 +199,32 @@
             }); var f = d.getElementsByTagName(s)[0],
                 j = d.createElement(s), dl = l != 'dataLayer' ? '&l=' + l : ''; j.async = true; j.src =
                     'https://www.googletagmanager.com/gtm.js?id=' + i + dl; f.parentNode.insertBefore(j, f);
+        })(window, document, 'script', 'dataLayer', 'GTM-5L2H7Z3N');</script>
+    <!-- End Google Tag Manager -->
+    <!-- Google Tag Manager -->
+    <script>(function (w, d, s, l, i) {
+            w[l] = w[l] || []; w[l].push({
+                'gtm.start':
+                    new Date().getTime(), event: 'gtm.js'
+            }); var f = d.getElementsByTagName(s)[0],
+                j = d.createElement(s), dl = l != 'dataLayer' ? '&l=' + l : ''; j.async = true; j.src =
+                    'https://www.googletagmanager.com/gtm.js?id=' + i + dl; f.parentNode.insertBefore(j, f);
         })(window, document, 'script', 'dataLayer', 'GTM-NGRZRR4V');</script>
     <!-- End Google Tag Manager -->
 </head>
 <body>
+    <!-- Google Tag Manager (noscript) -->
+    <noscript>
+        <iframe src="https://www.googletagmanager.com/ns.html?id=GTM-NGRZRR4V"
+            height="0" width="0" style="display: none; visibility: hidden"></iframe>
+    </noscript>
+    <!-- End Google Tag Manager (noscript) -->
+    <!-- Google Tag Manager (noscript) -->
+    <noscript>
+        <iframe src="https://www.googletagmanager.com/ns.html?id=GTM-5L2H7Z3N"
+            height="0" width="0" style="display: none; visibility: hidden"></iframe>
+    </noscript>
+    <!-- End Google Tag Manager (noscript) -->
     <uc4:AjaxClientControl ID="AjaxClientControl1" runat="server" />
     <div id="wrap">
         <!--#warp //start-->
@@ -143,27 +247,27 @@
             <!--本頁內容-->
             <section>
                 <div class="TempleImg">
-                    <img src="images/temple/purdue_h.jpg" width="1160" height="550" alt="" />
+                    <img src="images/temple/purdue_h_2025.jpg" width="1160" height="550" alt="《新港奉天宮》中元普渡線上報名" title="《新港奉天宮》中元普渡線上報名" />
                 </div>
-                <h1 class="TempleName">新港奉天宮</h1>
+                <h1 class="TempleName">歡迎使用《新港奉天宮》中元普渡線上報名</h1>
                 <div class="TempleServiceInfo">
                     <div class="EventTime">
                         <div>活動開始日期：</div>
-                        <div id="startTime">2024/06/24 00:00</div>
+                        <div id="startTime">2025/07/01 00:00</div>
                         <br />
                         <div>活動截止日期：</div>
-                        <div id="endTime">2024/07/31 23:59</div>
+                        <div id="endTime">2025/08/15 23:59</div>
                     </div>
                     <div class="EventServiceContent">
                         <div>
-                            <h2>【甲辰年中元普渡。靈寶啟燈消灾拔薦齋壇超度法會】</h2>
+                            <h2>【乙巳年中元普渡。靈寶啟燈消灾拔薦齋壇超度法會】</h2>
                             <p>即日起開始受理贊普。</p>
-                            <p>法會日期：農曆七月初六日至七月初八日（國曆8/21~8/23）</p>
+                            <p>法會日期：農曆七月初六日至七月初八日（國曆8/28~8/30）</p>
                             <p>法會科儀內容：</p>
                             <p>祝燈祈福、赦罪法會、運香叩禱、三官妙經、獻供七獻、普度植福等</p>
                         </div>
                         <div>
-                            <p>新港奉天宮甲辰年中元普度靈寶啟燈消灾拔薦齋壇超度法會</p>
+                            <p>新港奉天宮乙巳年中元普度靈寶啟燈消灾拔薦齋壇超度法會</p>
                             <p>為期三天法會來款待好兄弟及祖先。信眾如不能到場，本宮亦會準備文稿及普度符令</p>
                             <p>法會開始當天可向祖先牌位或方位稟告祖先</p>
                             <p>鼓勵將普度品捐出，救助弱勢團體</p>
@@ -184,16 +288,16 @@
                     <form>
                         <div class="FormTitle_A">購買人資料<span>（資料務必填寫正確，日後查詢訂單使用。聯絡電話請填09開頭號碼，例：0912345678。）</span></div>
                         <div class="FormInput text_s">
-                            <label>申請人姓名</label><input name="member_name" maxlength="5" type="text" class="required" id="member_name" placeholder="請輸入申請人姓名"/>
+                            <label>購買人姓名</label><input name="member_name" maxlength="5" type="text" class="required" id="member_name" placeholder="請輸入購買人姓名"/>
                         </div>
                         <div class="FormInput tel">
-                            <label>申請人電話</label><input name="member_tel" type="tel" class="required" id="member_tel" placeholder="請輸入申請人電話"/>
+                            <label>購買人電話</label><input name="member_tel" type="tel" class="required" id="member_tel" placeholder="請輸入購買人電話"/>
                         </div>
                         <div class="FormInput mail">
-                            <label>申請人信箱</label><input name="member_mail" type="email" class="" id="member_mail" placeholder="請輸入電子信箱(選填)" />
+                            <label>購買人信箱</label><input name="member_mail" type="email" class="required" id="member_mail" placeholder="請輸入電子信箱" />
                         </div>
                         <div class="FormInput date birth">
-                            <label>農歷生日</label><input name="member_birthday" type="text" class="datapicker required" id="member_birthday" placeholder="請選擇農歷生日" />
+                            <label>農曆生日</label><input name="member_birthday" type="text" class="datapicker required3" id="member_birthday" placeholder="請選擇農曆生日或國曆生日二擇一" />
                         </div>
                         <div class="FormInput select count">
                             <label>閏月</label>
@@ -204,7 +308,7 @@
                             </select>
                         </div>
                         <div class="FormInput select count">
-                            <label>農歷時辰</label>
+                            <label>農曆時辰</label>
                             <select name="member_birthtime" class="required" id="member_birthtime">
                                 <option value="吉">吉</option>
 
@@ -233,8 +337,11 @@
                                 <option value="亥">亥(21:00-23:00)</option>
                             </select>
                         </div>
+                        <div class="FormInput date birth">
+                            <label>國曆生日</label><input name="member_sbirth" type="text" class="datapicker required3" id="member_sbirth" placeholder="請選擇農曆生日或國曆生日二擇一" />
+                        </div>
                         <div class="FormInput address">
-                            <label>申請人地址</label>
+                            <label>購買人地址</label>
                             <div class="AppAddress">
                                 <div data-role="zipcode" data-style="addr-zip" data-placeholder="" data-name="bless_app_zipcode_1" data-id="bless_app_zipcode_1"></div>
                                 <div data-role="county" data-style="addr-county required" data-name="bless_app_county_1" data-id="bless_app_county_1"></div>
@@ -250,7 +357,7 @@
                                 <label class="FormInput_h">
                                     <input name="item1" type="checkbox" id="item1" value="功德主一位-3000" onchange="CountPrice();" />
                                     功德主：一戶<span class="red">3,000元</span>贊助一天法會（可全家，限同一地址)【法會現場為其功德主誦經祈福】</label>
-                                <textarea name="tp_a" rows="2" cols="20" id="tp_a" placeholder="可填寫同戶姓名及農歷生日；可不填。"></textarea>
+                                <textarea name="tp_a" rows="2" cols="20" id="tp_a" placeholder="可填寫同戶姓名及農曆生日；可不填。"></textarea>
                                 <hr style="clear: both; border: none; height: 1px; background: #dcdcdc;" />
                                 <label class="FormInput_h">
                                     <input name="item2" type="checkbox" id="item2" value="祝燈延壽消災-600" onchange="CountPrice();" />
@@ -370,12 +477,26 @@
                                 </div>
                                 <hr style="clear: both; border: none; height: 1px; background: #dcdcdc;" />
                                 <div class="FormInput text_s">
-                                    <label>祈福人姓名</label><input name="bless_name_1" maxlength="5" type="text" class="" id="bless_name_1" placeholder="請輸入祈福人姓名" />
+                                    <label>祈福人姓名</label><input name="bless_name_1" type="text" class="required4" maxlength="5" id="bless_name_1" placeholder="請輸入祈福人姓名"/>
+                                    <input type="checkbox" class="checkedbox" id="bless_copy_name_1" />
+                                    <label for="bless_copy_name_1" id="bless_checkednamelabel_1" style="width: auto;">同購買人姓名</label>
                                 </div>
-                                <div class="FormInput date birth">
-                                    <label>農歷生日</label><input name="bless_birthday_1" type="text" class="datapicker" id="bless_birthday_1" placeholder="請選擇農歷生日" />
+                                <div class="FormInput tel">
+                                    <label>祈福人電話</label><input name="bless_tel_1" type="tel" class="required4 " id="bless_tel_1" placeholder="請輸入祈福人聯絡電話"/>
+                                    <input type="checkbox" class="checkedbox" id="bless_copy_tel_1" />
+                                    <label for="bless_copy_tel_1" id="bless_checkedtellabel_1" style="width: auto;">同購買人聯絡電話</label>
                                 </div>
-                                <div class="FormInput select count">
+                                <div class="FormInput select">
+                                    <label>性別</label>
+                                    <select name="bless_sex_1" class="" id="bless_sex_1">
+                                        <option selected="selected" value="善男">善男</option>
+                                        <option value="信女">信女</option>
+                                    </select>
+                                </div>
+                                <div class="FormInput date">
+                                    <label>農曆生日</label><input name="bless_birthday_1" type="text" class="datapicker required2" id="bless_birthday_1" placeholder="請選擇農曆生日或國曆生日二擇一" />
+                                </div>
+                                <div class="FormInput select">
                                     <label>閏月</label>
                                     <select name="bless_leapMonth_1" class="" id="bless_leapMonth_1">
                                         <option value="N">非閏月</option>
@@ -383,8 +504,8 @@
                                         <option value="Y">閏月</option>
                                     </select>
                                 </div>
-                                <div class="FormInput select count">
-                                    <label>農歷時辰</label>
+                                <div class="FormInput select">
+                                    <label>農曆時辰</label>
                                     <select name="bless_birthtime_1" class="" id="bless_birthtime_1">
                                         <option value="吉">吉</option>
 
@@ -413,14 +534,25 @@
                                         <option value="亥">亥(21:00-23:00)</option>
                                     </select>
                                 </div>
-                                <div class="FormInput address">
+                                <div class="FormInput date">
+                                    <label>國曆生日</label><input name="bless_sbirth_1" type="text" class="datapicker required2" id="bless_sbirth_1" placeholder="請選擇國曆生日或農曆生日二擇一" />
+                                </div>
+                                <div class="FormInput select">
                                     <label>祈福人地址</label>
-                                    <div class="CusAddress">
+                                    <select name="bless_oversea_1" class="" id="bless_oversea_1">
+                                        <option value="1">國內</option>
+
+                                        <option value="2">國外</option>
+                                    </select>
+                                </div>
+                                <div class="FormInput address">
+                                    <label></label>
+                                    <div class="CusAddress" id="bless_cusaddress_1">
                                         <div data-role="zipcode" data-style="addr-zip" data-placeholder="" data-name="bless_zipcode_1" data-id="bless_zipcode_1"></div>
-                                        <div data-role="county" data-style="addr-county " data-name="bless_county_1" data-id="bless_county_1"></div>
-                                        <div data-role="district" data-style="addr-district " data-name="bless_district_1" data-id="bless_district_1"></div>
+                                        <div data-role="county" data-style="addr-county required4" data-name="bless_county_1" data-id="bless_county_1"></div>
+                                        <div data-role="district" data-style="addr-district required4" data-name="bless_district_1" data-id="bless_district_1"></div>
                                     </div>
-                                    <input name="bless_address_1" type="text" class="" id="bless_address_1" placeholder="請輸入地址" />
+                                    <input name="bless_address_1" type="text" class="" id="bless_address_1" placeholder="請輸入地址"/>
                                 </div>
                             </li>
                             <li bless-id="3">
@@ -479,7 +611,7 @@
                                 <label class="FormInput_h">
                                     備註說明
                                 </label>
-                                <textarea name="m_btxt" rows="2" cols="20" id="m_btxt"></textarea>
+                                <textarea name="bless_Remark_1" type="text" class="" id="bless_Remark_1" placeholder="請輸入問題內容"></textarea>
                             </li>
                         </ul>
                         <!--可複製的區塊 //end-->
@@ -491,6 +623,14 @@
                         </div>
 
                         <div class="FormButtom">
+                            <div>
+                                <input type="checkbox" id="checkedprivate" />
+                                <label for="checkedprivate">本人同意
+                                    <a href="PrivacyPolicy.aspx" target="_blank">隱私權政策</a>
+                                    並已取得當事人同意，為「保必保庇線上宮廟服務平台」之所有交易行為，九九商通得基於
+                                    <a href="PrivacyPolicy.aspx" target="_blank">隱私權政策</a>
+                                    蒐集、處理及利用本人所提供之資料，並提供予合作廠商及服務宮廟。</label>
+                            </div>
                             <input type="button" id="subBtn" class="subBtn" value="下一步"/>
                         </div>
 
@@ -516,13 +656,48 @@
         $("header").addClass("active");
 
         if (!checkEndTime()) {
-            alert('親愛的大德您好\n新港奉天宮 2024普度活動已截止！！\n感謝您的支持, 謝謝!');
+            alert('親愛的大德您好\n新港奉天宮 2025普度活動已截止！！\n感謝您的支持, 謝謝!');
         }
 
         $("input[type='tel']").on("keypress keyup blur", function (event) {
             $(this).val($(this).val().replace(/[^\d].+/, ""));
             if ((event.which < 48 || event.which > 57)) {
                 event.preventDefault();
+            }
+        });
+
+        $("#bless_oversea_1").change(function () {
+            if ($("#bless_oversea_1").val() == 1) {
+                //alert("國內");
+                $("#bless_cusaddress_1").show();
+            }
+            else {
+                //alert("國外");
+                $("#bless_cusaddress_1").hide();
+            }
+        });
+
+        $("#bless_copy_name_1").change(function () {
+            if ($("#bless_copy_name_1").is(':checked')) {
+                //alert("選中同購買人姓名");
+                var name = $("#member_name").val().trim();
+                $("#bless_name_1").val(name);
+            }
+            else {
+                //alert("取消同購買人姓名");
+                $("#bless_name_1").val('');
+            }
+        });
+
+        $("#bless_copy_tel_1").change(function () {
+            if ($("#bless_copy_tel_1").is(':checked')) {
+                //alert("選中同購買人電話");
+                var name = $("#member_tel").val().trim();
+                $("#bless_tel_1").val(name);
+            }
+            else {
+                //alert("取消同購買人電話");
+                $("#bless_tel_1").val('');
             }
         });
 
@@ -600,92 +775,330 @@
 
 <!-----必填欄位檢查----->
 <script>
-    var regex = "^民國\\d{2,3}年(0?[1-9]|1[012])月(0?[1-9]|[12][0-9]|3[01])日$";  // 民國日期格式
-    $("#subBtn").on("click", function () {
-        var isValid = true;
-        var isBirth = true;
-
-        // 遍歷每個必填欄位
-        $('.required').each(function () {
-            var value = $(this).val();
-            if (value === '' || value === null) {
-                isValid = false;
-                $(this).addClass('unfilled');
-            } else if (value != '' && $(this).hasClass('unfilled')) {
-                $(this).removeClass('unfilled');
-            }
-        });
-
-        if ($('#item5').is(":checked") == 1) {
-            // 遍歷每個必填欄位-有條件 (普度項目=九玄七祖)
-            var reslist = ["bless_first_name_1", "bless_death_county_1", "bless_death_district_1", "bless_death_address_1"];
-
-            reslist.forEach(function (value) {
-                if ($("#" + value).val() === '') {
-                    isValid = false;
-                    $(this).addClass('unfilled');
-                } else if (value != '' && $(this).hasClass('unfilled')) {
-                    $(this).removeClass('unfilled');
-                }
-            });
-        }
-
-        if ($('#item6').is(":checked") == 1) {
-            // 遍歷每個必填欄位-有條件 (普度項目=功德迴向往生者)
-            var reslist = ["bless_death_name_1", "bless_death_county_2", "bless_death_district_2", "bless_death_address_2"];
-
-            reslist.forEach(function (value) {
-                if ($("#" + value).val() === '') {
-                    isValid = false;
-                    $(this).addClass('unfilled');
-                } else if (value != '' && $(this).hasClass('unfilled')) {
-                    $(this).removeClass('unfilled');
-                }
-            });
-        }
-
-        for (var i = 4; i < 10; i++) {
-            if ($('#item' + i).is(":checked") == 1) {
-                // 遍歷每個必填欄位-有條件 (普度項目=拔度法會 (個人))
-                var reslist = ["bless_name_1", "bless_county_1", "bless_district_1", "bless_address_1", "bless_birthday_1"];
-
-                reslist.forEach(function (value) {
-                    if ($("#" + value).val() === '') {
-                        isValid = false;
-                        $(this).addClass('unfilled');
-                    } else if (value != '' && $(this).hasClass('unfilled')) {
-                        $(this).removeClass('unfilled');
+    // 工具：抓出所有 .required.unfilled 的 label 名稱
+    function getMissingRequiredNames() {
+        return $('.required.unfilled').map(function () {
+            const $input = $(this);
+            let $grp = $input.closest('.FormInput');
+            // 嘗試讀同層 label
+            let labelText = $grp.find('label').first().text().trim();
+            if (!labelText) {
+                // 如果是地址那種沒有 label (e.g. 祈福人地址)，就往上找前一個有 label 的群組
+                $grp.prevAll('.FormInput').each(function () {
+                    const txt = $(this).find('label').first().text().trim();
+                    if (txt) {
+                        labelText = txt;
+                        return false;  // break
                     }
                 });
             }
+            return labelText.replace(/：|:/g, '');
+        }).get();
+    }
+
+    // 顯示 Toast，3 秒後自動消失，並在關閉時執行 callback
+    function showToast(msg, callback) {
+        const $t = $(`<div class="toast">${msg}</div>`)
+            .appendTo('body');
+        // 進場
+        requestAnimationFrame(() => $t.addClass('visible'));
+        // 3 秒後退場並呼叫 callback
+        setTimeout(() => {
+            $t.removeClass('visible');
+            $t.one('transitionend', () => {
+                $t.remove();
+                if (typeof callback === 'function') callback();
+            });
+        }, 1000);
+    }
+
+    // Toast 顯示完畢後再捲動＋聚焦
+    function showToastAndFocus($el, msg) {
+        showToast(msg, () => {
+            // 等 toast 完全隱藏之後再聚焦，不搶畫面
+            $(".Notice").text(msg).addClass("active");
+            $el.addClass("unfilled");
+            $el[0].scrollIntoView({ block: 'center' });
+            $el.focus();
+        });
+    }
+
+    function clearError($elem) {
+        $elem.removeClass("unfilled");
+    }
+
+    function clearNotice() {
+        $(".Notice").removeClass("active").text("");
+    }
+
+    // 通用驗證器清單
+    const validators = [
+        {
+            // 購買人電話：非空 + 格式
+            selector: "#member_tel",
+            checks: [
+                { fn: v => v !== "", msg: "購買人電話不能為空。" },
+                { fn: Isphone, msg: "購買人電話格式錯誤。" }
+            ]
+        },
+        {
+            // 購買人信箱：非空 + 格式
+            selector: "#member_mail",
+            checks: [
+                { fn: v => v !== "", msg: "購買人信箱不能為空。" },
+                { fn: IsEmail, msg: "購買人信箱格式錯誤。" }
+            ]
+        },
+        {
+            // 購買人區域：有縣市就一定要有區域
+            selector: "#member_district",
+            checks: [
+                {
+                    fn: v => {
+                        const county = $("#member_county").val();
+                        if (!county) return false; // 縣市未選
+                        return (v || "").trim() !== ""; // 區域必填
+                    },
+                    msg: "購買人地址未完整選擇，請重新選擇縣市與區域。"
+                }
+            ]
+        },
+        {
+            // 所有通用必填欄位
+            selector: ".required",
+            checks: [{ fn: v => (v || "").trim() !== "", msg: "上面有欄位未填寫。" }]
+        }
+    ];
+
+    // 工具：由 input 元件往上找 label
+    function getLabelText($input) {
+        const id = $input.attr('id') || '';
+        if (id.includes('_county_')) return '縣市';
+        if (id.includes('_district_')) return '鄉鎮市區';
+
+        let txt = $input.closest('.FormInput')
+            .find('label').first().text().trim();
+        if (!txt) {
+            $input.closest('.FormInput')
+                .prevAll('.FormInput')
+                .each(function () {
+                    const t = $(this).find('label').first().text().trim();
+                    if (t) { txt = t; return false; }
+                });
+        }
+        return txt.replace(/：|:$/g, '');
+    }
+    // 針對祈福人做驗證
+    function validateBless() {
+        const $li = $('.InputGroup > li[bless-id=2]');
+
+        // 1. 收集所有被勾選的 item1~item9
+        const selected = [];
+        for (let j = 1; j <= 9; j++) {
+            if ($(`#item${j}`).is(':checked')) {
+                selected.push(j);
+            }
+        }
+        if (selected.length === 0) {
+            showToastAndFocus($('#item1'), '請先選擇您想辦理的普度項目');
+            return false;
         }
 
-        if (isValid) {
-            // 所有欄位都已填寫
-            console.log('所有欄位都已填寫');
+        // 2. 如果沒有選到個人法會 (4~9)，就不需要填祈福人資料
+        const personalSvc = selected.filter(svc => svc >= 4 && svc <= 9);
+        if (personalSvc.length === 0) {
+            return true;
+        }
 
-            if (location.search.indexOf('ad') >= 0 || checkedStartTime()) {
-                if (checkEndTime()) {
-                    gotoChecked_h();
-                }
-                else {
-                    alert('親愛的大德您好\n新港奉天宮 2024普度活動已截止！！\n感謝您的支持, 謝謝!'); location = 'https://bobibobi.tw/Temples/temple.aspx'
+        // 3. 電話：非空 + 格式
+        const $tel = $li.find('#bless_tel_1');
+        const tel = $tel.val()?.trim();
+        if (!tel) {
+            showToastAndFocus($tel, '祈福人電話不能為空。');
+            $tel.addClass('unfilled');
+            return false;
+        }
+        if (!Isphone(tel)) {
+            showToastAndFocus($tel, '祈福人電話格式錯誤。');
+            $tel.addClass('unfilled');
+            return false;
+        }
+        $tel.removeClass('unfilled');
+
+        // 4. 國內才檢查 縣市 & 區域
+        if ($li.find('#bless_oversea_1').val() === '1') {
+            const $county = $li.find('#bless_county_1');
+            const $district = $li.find('#bless_district_1');
+            if (!$county.val()) {
+                showToastAndFocus($county, '祈福人地址 縣市為空，請重新選擇。');
+                $county.addClass('unfilled');
+                return false;
+            }
+            if (!$district.val()) {
+                showToastAndFocus($district, '祈福人地址 區域為空，請重新選擇。');
+                $district.addClass('unfilled');
+                return false;
+            }
+            $county.removeClass('unfilled');
+            $district.removeClass('unfilled');
+        }
+
+        // 5. 檢查部分地址
+        const $addr = $li.find('#bless_address_1');
+        const addr = $addr.val()?.trim();
+        if (!addr) {
+            showToastAndFocus($addr, '祈福人地址不能為空。');
+            $addr.addClass('unfilled');
+            return false;
+        }
+        $addr.removeClass('unfilled');
+
+        // 6. 農曆/國曆生日二擇一 (假設只有 svc=4,8 需要)
+        const needBirthday = [4, 8];
+        if (personalSvc.some(svc => needBirthday.includes(svc))) {
+            const $b1 = $li.find(`#bless_birthday_1`);
+            const $b2 = $li.find(`#bless_sbirth_1`);
+            if (!($b1.val()?.trim()) && !($b2.val()?.trim())) {
+                showToastAndFocus($b1, '請選擇農曆或國曆生日其中一項。');
+                $b1.addClass('unfilled');
+                $b2.addClass('unfilled');
+                return false;
+            }
+            $b1.removeClass('unfilled');
+            $b2.removeClass('unfilled');
+        }
+
+        // 7. 根據 svc (4~9) 決定要檢查的欄位
+        const fieldMap = {
+            5: ['bless_first_name_1', 'bless_death_county_1', 'bless_death_district_1', 'bless_death_address_1'],
+            6: ['bless_death_name_1', 'bless_death_county_2', 'bless_death_district_2', 'bless_death_address_2'],
+        };
+
+        let fields = [];
+        personalSvc.forEach(svc => {
+            const list = fieldMap[svc] || [];
+            list.forEach(key => fields.push(`${key}`));
+        });
+        // 去重
+        fields = Array.from(new Set(fields));
+
+        // 8. 批次檢查這些欄位
+        const missing = [];
+        let $firstErr = null;
+        fields.forEach(fid => {
+            const $el = $li.find(`#${fid}`);
+            const v = $el.val()?.trim();
+            if (!v) {
+                $el.addClass('unfilled');
+                const lbl = getLabelText($el);
+                if (!missing.includes(lbl)) missing.push(lbl);
+                if (!$firstErr) $firstErr = $el;
+            } else {
+                $el.removeClass('unfilled');
+            }
+        });
+
+        if (missing.length) {
+            showToastAndFocus(
+                $firstErr,
+                missing.join('、') + ' 為必填欄位，請重新填寫。'
+            );
+            return false;
+        }
+
+        return true;
+    }
+
+    // 回到上一頁後若選過縣市但區域為空，強制清空縣市
+    $(window).on("pageshow", function (e) {
+        // 1. 購買人：縣市有、區域空 → 清空縣市
+        const memberCounty = $("#member_county").val();
+        const memberDistrict = $("#member_district").val();
+        if (memberCounty && !memberDistrict) {
+            $("#member_county").val("");
+        }
+
+        // 2. 祈福人：動態 N 個
+        $(".InputGroup > li[bless-id]").each(function () {
+            const $li = $(this);
+            const id = $li.attr("bless-id");              // e.g. "1", "2", ...
+            const $county = $li.find(`#bless_county_${id}`);
+            const $district = $li.find(`#bless_district_${id}`);
+
+            // 如果選了「國內」才需檢查
+            if ($li.find(`#bless_oversea_${id}`).val() === "1") {
+                if ($county.val() && !$district.val()) {
+                    // 清空縣市，迫使使用者重選才會帶出新的區域
+                    $county.val("");
                 }
             }
-            else {
-                alert('親愛的大德您好\n新港奉天宮 2024普度活動尚未開始！！\n感謝您的支持, 謝謝!'); location = 'https://bobibobi.tw/Temples/temple.aspx'
+        });
+    });
+
+    $("#subBtn").on("click", function () {
+        // 先把前一次的狀態清掉
+        clearNotice();
+        $('.required').each((_, el) => clearError($(el)));
+
+        // 1. 先跑通用 validators，但對 .required rule 不馬上跳出，只標記 .unfilled
+        for (const rule of validators) {
+            const $eles = $(rule.selector);
+            for (let i = 0; i < $eles.length; i++) {
+                const $el = $eles.eq(i);
+                const val = $el.val();
+                clearError($el);
+
+                for (const check of rule.checks) {
+                    if (!check.fn(val)) {
+                        // 標記錯誤欄位
+                        $el.addClass('unfilled');
+                        // 如果是「非 .required」的 rule，就立刻提示並 return
+                        if (rule.selector !== '.required') {
+                            showToastAndFocus($el, check.msg);
+                            return;
+                        }
+                        // 如果是 .required 這支，就只標記，繼續跑完所有 required
+                    }
+                }
+            }
+        }
+
+        // 2. 全部通用檢查後，看看還有哪些 .required 還是 unfilled
+        const missing = getMissingRequiredNames();
+        if (missing.length) {
+            // 去重、組字串
+            const uniq = [...new Set(missing)];
+            const msg = uniq.join('、') + ' 未填寫';
+            // 聚焦到第一個錯誤欄位
+            const $first = $('.required.unfilled').first();
+            showToastAndFocus($first, msg);
+            return;
+        }
+
+        // 3. 驗證所有祈福人
+        if (!validateBless()) {
+            return;
+        }
+
+        // 4. 隱私權同意
+        if (!$("#checkedprivate").is(":checked")) {
+            showToastAndFocus($("#checkedprivate"), "請勾選同意隱私權政策。");
+            return;
+        }
+
+        // 5. 全部通過，送出
+        console.log("所有欄位都已填寫正確，準備送出");
+        // 如果活動時間判斷...
+        if (checkedStartTime()) {
+            if (checkEndTime()) {
+                gotoChecked_h();
+            } else {
+                alert('新港奉天宮 2025普度活動已截止！');
+                location = 'https://bobibobi.tw/Temples/temple.aspx';
             }
         } else {
-            // 在這裡可以進行表單提交或其他相關處理
-            // 有欄位未填寫
-            if (isBirth) {
-                $(".Notice").text("請檢查上方欄位是否都已填寫。");
-                $(".Notice").addClass("active");
-            }
-            else {
-                $(".Notice").text("請檢查上方生日欄位格式是否正確。正確格式：民國xx年xx月xx日");
-                $(".Notice").addClass("active");
-            }
+            alert('新港奉天宮 2025普度活動尚未開始！');
+            location = 'https://bobibobi.tw/Temples/temple.aspx';
         }
     })
 
@@ -710,7 +1123,7 @@
             }
             else {
                 if (res.StatusType == 1) {
-                    alert("此申請人已完成付款動作，請重新申請。")
+                    alert("此購買人已完成付款動作，請重新購買。")
                     window.location = "https://bobibobi.tw/Temples/templeService_purdue_h.aspx";
                 }
                 else {
@@ -725,13 +1138,14 @@
         if (res.StatusCode == 1) {
             $("#member_name").val(res.AppName);
             $("#member_tel").val(res.AppMobile);
+            $("#member_mail").val(res.AppEmail);
 
             if (res.DataSource != null) {
                 $.each(res.DataSource, function (i, item) {
-                    $("#member_birthday").val(item.AppBirth);
+                    //$("#member_birthday").val(item.AppBirth);
                     $("#member_leapMonth").val(item.AppLeapMonth);
                     $("#member_birthtime").val(item.AppBirthTime);
-                    $("#member_mail").val(item.Email);
+                    //$("#member_sbirth").val(item.AppsBirth);
                     $("#bless_app_county_1").val(item.AppCounty).trigger("change");
                     $("#bless_app_district_1").val(item.Appdist).trigger("change");
                     $("#bless_app_address_1").val(item.AppAddr);
@@ -785,12 +1199,23 @@
                     }
 
                     $("#bless_name_1").val(item.Name);
-                    $("#bless_birthday_1").val(item.Birth);
+                    $("#bless_tel_1").val(item.Mobile);
+                    $("#bless_sex_1").val(item.Sex);
+                    //$("#bless_birthday_1").val(item.Birth);
                     $("#bless_leapMonth_1").val(item.LeapMonth);
                     $("#bless_birthtime_1").val(item.BirthTime);
-                    $("#bless_county_1").val(item.County).trigger("change");
-                    $("#bless_district_1").val(item.dist).trigger("change");
+                    $("#bless_sBirth_1").val(item.sBirth);
+                    $("#bless_oversea_1").val(item.oversea).trigger("change");
+                    if (item.oversea == 1) {
+                        $("#bless_cusaddress_1").show();
+                        $("#bless_county_1").val(item.County).trigger("change");
+                        $("#bless_district_1").val(item.dist).trigger("change");
+                    }
+                    else {
+                        $("#bless_cusaddress_1").hide();
+                    }
                     $("#bless_address_1").val(item.Addr);
+                    $("#bless_Remark_1").val(item.Remark);
 
                     if (item.PurdueNum != "0") {
                         $("#bless_PurdueNum_1").val(item.PurdueNum);
@@ -803,8 +1228,6 @@
                     if (item.mMoneyNum != "0") {
                         $("#bless_mMoneyNum_1").val(item.mMoneyNum);
                     }
-
-                    $("#m_btxt").val(item.Remark);
 
                 });
             }
@@ -821,16 +1244,17 @@
     function gotoChecked_h() {
         var listcount = $('.InputGroup > li').last().attr('bless-id');
 
-        Appname = $("#member_name").val();                                  //申請人姓名
-        Appmobile = $("#member_tel").val()                                  //申請人電話
-        AppBirth = $("#member_birthday").val()                              //申請人農歷生日
+        Appname = $("#member_name").val();                                  //購買人姓名
+        Appmobile = $("#member_tel").val()                                  //購買人電話
+        AppEmail = $("#member_mail").val();                                 //購買人信箱
+        AppBirth = $("#member_birthday").val()                              //購買人農曆生日
         AppleapMonth = $("#member_leapMonth").val();                        //閏月 Y-是 N-否
-        Appbirthtime = $("#member_birthtime").val();                        //申請人農曆時辰
-        AppEmail = $("#member_mail").val()                                  //申請人信箱
-        Appcounty = $("select[name='bless_app_county_1']").val()            //申請人縣市
-        Appdist = $("select[name='bless_app_district_1']").val()            //申請人區域
-        Appaddr = $("#bless_app_address_1").val()                           //申請人地址(部分)
-        AppzipCode = $("#bless_app_zipcode_1").val();                       //申請人郵遞區號
+        Appbirthtime = $("#member_birthtime").val();                        //購買人農曆時辰
+        AppsBirth = $("#member_sbirth").val()                               //購買人國曆生日
+        Appcounty = $("select[name='bless_app_county_1']").val()            //購買人縣市
+        Appdist = $("select[name='bless_app_district_1']").val()            //購買人區域
+        Appaddr = $("#bless_app_address_1").val()                           //購買人地址(部分)
+        AppzipCode = $("#bless_app_zipcode_1").val();                       //購買人郵遞區號
 
         item1 = $('#item1').is(":checked") ? 1 : 0;                         //功德主
         item2 = $('#item2').is(":checked") ? 1 : 0;                         //祝燈延壽消災
@@ -855,9 +1279,13 @@
         Deathaddr2 = $("#bless_death_address_2").val()                      //祖先牌位地址(部分)
         DeathzipCode2 = $("#bless_death_zipcode_2").val()                   //祖先牌位郵遞區號
         Name = $("#bless_name_1").val();                                    //祈福人姓名
-        Birth = $("#bless_birthday_1").val()                                //農歷生日
+        Mobile = $("#bless_tel_1").val();                                   //祈福人電話
+        Sex = $("#bless_sex_1").val();                                      //祈福人性別 善男 信女
+        Birth = $("#bless_birthday_1").val()                                //農曆生日
         leapMonth = $("#bless_leapMonth_1").val();                          //閏月 Y-是 N-否
         birthtime = $("#bless_birthtime_1").val();                          //農曆時辰
+        sBirth = $("#bless_sbirth_1").val()                                 //國曆生日
+        oversea = $("#bless_oversea_1").val();                              //國內-1 國外-2
         county = $("select[name='bless_county_1']").val()                   //祈福人縣市
         dist = $("select[name='bless_district_1']").val()                   //祈福人區域
         addr = $("#bless_address_1").val()                                  //祈福人地址(部分)
@@ -869,7 +1297,7 @@
         PurdueNum = $("#bless_PurdueNum_1").val();                          //普度數量
         RiceNum = $("#bless_RiceNum_1").val();                              //白米數量
         mMoneyNum = $("#bless_mMoneyNum_1").val();                          //金紙數量
-        m_btxt = $("#m_btxt").val();                                        //備註說明
+        Remark = $("#bless_Remark_1").val();                                //備註說明
 
         data = {
             Appname: Appname,
@@ -878,6 +1306,7 @@
             AppBirth: AppBirth,
             AppleapMonth: AppleapMonth,
             Appbirthtime: Appbirthtime,
+            AppsBirth: AppsBirth,
             Appcounty: Appcounty,
             Appdist: Appdist,
             Appaddr: Appaddr,
@@ -903,9 +1332,13 @@
             Deathaddr2: Deathaddr2,
             DeathzipCode2: DeathzipCode2,
             Name: Name,
+            Mobile: Mobile,
+            Sex: Sex,
             Birth: Birth,
             leapMonth: leapMonth,
             birthtime: birthtime,
+            sBirth: sBirth,
+            oversea: oversea,
             county: county,
             dist: dist,
             addr: addr,
@@ -916,7 +1349,7 @@
             PurdueNum: PurdueNum,
             RiceNum: RiceNum,
             mMoneyNum: mMoneyNum,
-            m_btxt: m_btxt
+            Remark: Remark
         };
         hasTextArea = true;
         ac_loadServerMethod("gotochecked", data, gotochecked);

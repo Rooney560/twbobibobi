@@ -1,4 +1,4 @@
-﻿using MotoSystem.Data;
+﻿using twbobibobi.Data;
 using Newtonsoft.Json.Linq;
 using Read.data;
 using System;
@@ -14,19 +14,38 @@ using Temple.data;
 
 namespace twbobibobi.Temples
 {
+    /// <summary>
+    /// 大甲鎮瀾宮 七朝清醮服務頁面
+    /// </summary>
+    /// <remarks>
+    /// 此頁面繼承自 AjaxBasePage，負責：
+    /// 1. 控制祈福燈顯示狀態
+    /// 2. 初始化 Ajax 處理器（建立/修改報名資料）
+    /// 3. 處理購買人與祈福人資料寫入流程
+    /// </remarks>
     public partial class templeService_TaoistJiaoCeremony_da : AjaxBasePage
     {
+        /// <summary> 購買人編號 ApplicantID </summary>
         public int aid = 0;
+        /// <summary> 宮廟代碼對應 AdminID </summary>
         public int a = 0;
-        public string EndDate = "2024/12/01 23:59";
+        /// <summary> 當前年份（動態設定年度資料庫名稱用） </summary>
         protected static string Year = "2024";
 
+        /// <summary>
+        /// 初始化 Ajax Handler（綁定 gotochecked / editinfo）
+        /// </summary>
         protected override void InitAjaxHandler()
         {
             AddAjaxHandler(typeof(AjaxPageHandler), "gotochecked");
             AddAjaxHandler(typeof(AjaxPageHandler), "editinfo");
         }
 
+        /// <summary>
+        /// 頁面載入事件
+        /// </summary>
+        /// <param name="sender">觸發者物件</param>
+        /// <param name="e">事件參數</param>
         protected void Page_Load(object sender, EventArgs e)
         {
             if (!IsPostBack)
@@ -72,11 +91,21 @@ namespace twbobibobi.Temples
                 //}
             }
         }
+
+        /// <summary>
+        /// 處理 AJAX 要求的內部類別
+        /// </summary>
         public class AjaxPageHandler
         {
+            /// <summary> 購買人編號 Applicant ID </summary>
             public int ApplicantID = 0;
+            /// <summary> 祈福人編號 TaoistJiaoCeremony ID </summary>
             public int TaoistJiaoCeremonyID = 0;
 
+            /// <summary>
+            /// 建立資料（新增購買人與祈福人資料）
+            /// </summary>
+            /// <param name="basePage">基礎頁面物件 (繼承 BasePage)</param>
             public void gotochecked(BasePage basePage)
             {
                 basePage.mJSonHelper.AddContent("StatusCode", 0);
@@ -153,32 +182,37 @@ namespace twbobibobi.Temples
 
                 JArray JTaoistJiaoCeremonyTypw_Tag = JArray.Parse(TaoistJiaoCeremonyType_Tag);
 
-                string postURL = "TaoistJiaoCeremony_da_Index";
-
-                postURL += basePage.Request["twm"] != null ? "_TWM" : "";
-
-                postURL += basePage.Request["cht"] != null ? "_CHT" : "";
-
-                postURL += basePage.Request["line"] != null ? "_LINE" : "";
-
-                postURL += basePage.Request["fb"] != null ? "_FB" : "";
-
-                postURL += basePage.Request["ig"] != null ? "_IG" : "";
-
-                postURL += basePage.Request["fbda"] != null ? "_FBDA" : "";
-
-                postURL += basePage.Request["fetsms"] != null ? "_fetSMS" : "";
-
-                postURL += basePage.Request["jkos"] != null ? "_JKOS" : "";
-
-                postURL += basePage.Request["gads"] != null ? "_GADS" : "";
+                string postURL_Init = "TaoistJiaoCeremony_da_Index";
+                string url = HttpContext.Current.Request.Url.AbsoluteUri;
+                string postURL = GetRequestURL(url, postURL_Init);
 
                 bool checkednum_da = true;
 
                 if (checkednum_da)
                 {
-                    ApplicantID = objLightDAC.addapplicantinfo_TaoistJiaoCeremony_da(AppName, AppMobile, "", "N", "吉", "0", "0", "", Appemail, "0", AppzipCode, Appcounty, Appdist,
-                        Appaddr, Sendback, AppName, AppMobile, 0, AdminID, postURL, Year);
+                    ApplicantID = objLightDAC.Addapplicantinfo_TaoistJiaoCeremony_da(
+                        Name: AppName, 
+                        Mobile: AppMobile, 
+                        Birth: "", 
+                        LeapMonth: "N", 
+                        BirthTime: "吉", 
+                        BirthMonth: "0", 
+                        Age: "0", 
+                        Zodiac: "",
+                        sBirth: "",
+                        Email: Appemail, 
+                        Cost: "0", 
+                        ZipCode: AppzipCode, 
+                        County: Appcounty, 
+                        Dist: Appdist,
+                        Addr: Appaddr, 
+                        Sendback: Sendback, 
+                        ReceiptName: AppName, 
+                        ReceiptMobile: AppMobile, 
+                        Status: 0, 
+                        AdminID: AdminID, 
+                        PostURL: postURL, 
+                        Year: Year);
                     bool taoistJiaoCeremonyinfo = false;
 
                     if (ApplicantID > 0)
@@ -244,12 +278,46 @@ namespace twbobibobi.Temples
                                     break;
                             }
 
+                            int cost = GetTaoistJiaoCeremonyCost(3, taoistJiaoCeremonyType);
+
                             if (name != "")
                             {
                                 taoistJiaoCeremonyinfo = true;
-                                TaoistJiaoCeremonyID = objLightDAC.addTaoistJiaoCeremony_da(ApplicantID, name, name2, name3, name4, name5, name6, mobile, sex, taoistJiaoCeremonyType, 
-                                    taoistJiaoCeremonyString, "1", Birth, leapMonth, birthTime, birthMonth, age, Zodiac, sBirth, 1, addr, county, dist, zipCode, sendback, rname, 
-                                    rmobile, raddr, rcounty, rdist, rzipCode,Year);
+                                TaoistJiaoCeremonyID = objLightDAC.AddTaoistJiaoCeremony_da(
+                                    ApplicantID: ApplicantID,
+                                    Name: name,
+                                    Name2: name2,
+                                    Name3: name3,
+                                    Name4: name4,
+                                    Name5: name5,
+                                    Name6: name6,
+                                    Mobile: mobile,
+                                    Cost: cost,
+                                    Sex: sex,
+                                    TaoistJiaoCeremonyType: taoistJiaoCeremonyType,
+                                    TaoistJiaoCeremonyString: taoistJiaoCeremonyString,
+                                    Oversea: "1",
+                                    Birth: Birth,
+                                    LeapMonth: leapMonth,
+                                    BirthTime: birthTime,
+                                    BirthMonth: birthMonth,
+                                    Age: age,
+                                    Zodiac: Zodiac,
+                                    sBirth: sBirth,
+                                    Count: 1,
+                                    Remark: "",
+                                    Addr: addr,
+                                    County: county,
+                                    Dist: dist,
+                                    ZipCode: zipCode,
+                                    Sendback: sendback,
+                                    rName: rname,
+                                    rMobile: rmobile,
+                                    rAddr: raddr,
+                                    rCounty: rcounty,
+                                    rDist: rdist,
+                                    rZipCode: rzipCode,
+                                    Year: Year);
                             }
 
                         }
@@ -269,6 +337,10 @@ namespace twbobibobi.Temples
                 }
             }
 
+            /// <summary>
+            /// 修改資料（取得既有報名資料）
+            /// </summary>
+            /// <param name="basePage">基礎頁面物件</param>
             public void editinfo(BasePage basePage)
             {
                 basePage.mJSonHelper.AddContent("StatusCode", 0);
@@ -280,7 +352,7 @@ namespace twbobibobi.Temples
 
                 string AdminID = basePage.Request["a"];
 
-                dtData = objLightDAC.GettaoistJiaoCeremony_da_info(applicantID, Year);
+                dtData = objLightDAC.GettaoistJiaoCeremony_da_Info(applicantID, Year);
 
                 if (dtData.Rows.Count > 0)
                 {
@@ -299,6 +371,11 @@ namespace twbobibobi.Temples
                 }
             }
 
+            /// <summary>
+            /// 檢查並安全轉換 JArray
+            /// </summary>
+            /// <param name="str">輸入的 JSON 字串</param>
+            /// <param name="jArry">輸出的 JArray 參照</param>
             public void nullChecked(string str, ref JArray jArry)
             {
                 if (str != null)

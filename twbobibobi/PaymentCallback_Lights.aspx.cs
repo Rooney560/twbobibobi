@@ -1,19 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using System.Web.UI;
-using System.Web.UI.WebControls;
-using System.Data;
-using BCFBaseLibrary.Web;
+﻿using BCFBaseLibrary.Security;
 using Read.data;
-using BCFBaseLibrary.Security;
+using System;
 using System.Collections;
+using System.Collections.Generic;
+using System.Data;
 using Temple.data;
-using Org.BouncyCastle.Asn1.Ocsp;
-using Newtonsoft.Json.Linq;
-using Newtonsoft.Json;
-using System.IO;
+using TempleAdmin.Helper;
+using twbobibobi.Data;
+using twbobibobi.Helpers;
+using twbobibobi.Model;
+using twbobibobi.Services;
 
 namespace twbobibobi
 {
@@ -45,10 +41,10 @@ namespace twbobibobi
                     }
                     string orderId = oid;
                     string CallbackLog = resp;
-                    DatabaseHelper objDatabaseHelper = new DatabaseHelper(this);
+                    LightDAC objLightDAC = new LightDAC(this);
                     int status = 999;
 
-                    DataTable dtCharge = objDatabaseHelper.GetChargeLog_Lights_da(orderId, Year);
+                    DataTable dtCharge = objLightDAC.GetChargeLog_Lights_da(orderId, Year);
 
                     if (dtCharge.Rows.Count > 0)
                     {
@@ -62,7 +58,7 @@ namespace twbobibobi
                         int.TryParse(dtCharge.Rows[0]["Status"].ToString(), out status);
                         if (status == 0)
                         {
-                            int lightstype = objDatabaseHelper.GetLightsType_da(aid, Year);
+                            int lightstype = objLightDAC.GetLightsType_da(aid, Year);
 
                             string rebackURL = "https://bobibobi.tw/Temples/templeService_lights_da.aspx";
 
@@ -71,12 +67,12 @@ namespace twbobibobi
                                 rebackURL = rebackURL.IndexOf("?") > 0 ? rebackURL + "&twm=1" : rebackURL + "?twm=1";
                             }
 
-                            string mobile = objDatabaseHelper.GetMobile_da(aid, Year);
+                            //string mobile = objLightDAC.GetMobile_da(aid, Year);
 
-                            int adminID = 3;
+                            //int adminID = 3;
 
-                            //更新普渡資料表並取得訂單編號
-                            objDatabaseHelper.UpdateLights_da_Info(aid, lightstype, Year, ref msg, ref lightslist, ref Lightslist);
+                            ////更新普渡資料表並取得訂單編號
+                            //objLightDAC.UpdateLights_da_Info(aid, lightstype, Year, ref msg, ref lightslist, ref Lightslist);
 
                         }
                         else if (status == 1)

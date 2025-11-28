@@ -192,5 +192,9 @@
                 }
             }
         }
+        else {
+            alert("訪問網址錯誤！")
+            location.href = "temple.aspx";
+        }
     }
 </script>

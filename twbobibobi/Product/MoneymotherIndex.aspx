@@ -49,8 +49,8 @@
 
     <!-- Twitter Card -->
     <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content="新港奉天宮｜2025 開運錢母擺件發售中" />
-    <meta name="twitter:description" content="開臺媽祖X金虎爺聯名！2025最強開運錢母擺件限量開賣，附介紹影片說明與購買連結。" />
+    <meta name="twitter:title" content="新港奉天宮｜2026 開運錢母擺件發售中" />
+    <meta name="twitter:description" content="開臺媽祖X金虎爺聯名！2026最強開運錢母擺件限量開賣，附介紹影片說明與購買連結。" />
     <meta name="twitter:image" content="https://bobibobi.tw/Product/images/products/products_A_1.jpg" />
 
     <!--預設載入css-->
@@ -76,6 +76,30 @@
             width: 100%;
             height: 550px;
             margin-bottom: -5px;
+        }
+        
+        /* 容器：預設為橫向排列 */
+        .invoice-types {
+          display: flex;
+          flex-wrap: wrap;
+          gap: 3vw;                /* 選項之間的水平/垂直間距 */
+          margin: 1vw 0;             /* 上下 margin */
+        }
+
+
+        /* radio 與文字的間距 */
+        .invoice-types input[type="radio"] {
+          margin-right: 0.5rem;
+        }
+
+        .invoice-types label {
+            font-size: 1.2vw;
+        }
+
+        .OrderinvoiceType, .OrderCarrierCode, .OrderinvCode, .OrderinvName, .OrderEmail{
+            font-size: 1.2vw;
+            line-height: calc(2vw + 12px);
+            text-align: left;
         }
 
         /*手機板*/
@@ -104,6 +128,24 @@
             .PayButton ul li.mobile {
                 display: block;
             }
+
+            .invoice-types {
+                flex-direction: column;
+                gap: 1vw;
+            }
+            .invoice-types label {
+                font-size: 7vw;
+            }
+            .shopmemberForm label {
+                font-size: 4.5vw;
+                width: 25vw;
+                line-height: calc(5vw + 12px);
+            }
+            
+            .OrderinvoiceType, .OrderCarrierCode, .OrderinvCode, .OrderinvName, .OrderEmail, .OrderinvoiceNum{
+                font-size: 4.5vw;
+            }
+        
         }
     </style>
 
@@ -117,9 +159,9 @@
       "@context": "https://schema.org",
       "@type": "VideoObject",
       "name": "新港奉天宮開運錢母擺件",
-      "description": "2025最強開運錢母擺件\n新港奉天宮開臺媽祖X金虎爺\n讓您新的一年財運大爆發\nhttps://st.bobibobi.tw/6sh4w6",
+      "description": "2026最強開運錢母擺件\n新港奉天宮開臺媽祖X金虎爺\n讓您新的一年財運大爆發\nhttps://st.bobibobi.tw/6sh4w6",
       "thumbnailUrl": "https://img.youtube.com/vi/8tdGf8JjhgY/maxresdefault.jpg",
-      "uploadDate": "2025-01-03T00:00:00+08:00",
+      "uploadDate": "2026-01-03T00:00:00+08:00",
       "embedUrl": "https://www.youtube.com/embed/8tdGf8JjhgY",
       "contentUrl": "https://bobibobi.tw/Product/MoneymotherIndex.aspx"
     }
@@ -200,7 +242,7 @@
                 <div class="WebTitleBk">
                 
                 
-                    <h1 class="WebTitle"><img src="images/webTitle2.png?t=9865235896" width="807" height="243" alt="求平安，開好運"/></h1>
+                    <h1 class="WebTitle"><img src="images/webTitle.png?t=9865235896" width="807" height="243" alt="求平安，開好運"/></h1>
                 </div>
             </section><!--第一區塊 //end-->
         
@@ -218,6 +260,9 @@
                 <div class="">
                     <div class="">
                         <iframe class="ytvideo" src="https://www.youtube.com/embed/8tdGf8JjhgY?si=IIrTlhH-xeTN6MTt" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+                    </div>
+                    <div class="">
+                        <iframe class="ytvideo" src="https://www.youtube.com/embed/I6LZOzixkgY" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
                     </div>
                 </div>
             </section><!--影片區塊 //end-->
@@ -238,7 +283,7 @@
                 <div class="GiftTitle">
                     <span>平安就是幸福</span><span>幸福來自感恩</span><span>感恩媽祖照顧</span><span>請祢繼續護佑</span>
                 </div>
-                <div class="GiftInfo content TxtB Spart">2025乙巳蛇年迎新春，小龍賜福，錢母加持～讓您好運旺旺來！虎爺香火袋把平安帶著走！</div>
+                <div class="GiftInfo content TxtB Spart"><%--2026乙巳蛇年迎新春，小龍賜福，錢母加持～讓您好運旺旺來！虎爺香火袋把平安帶著走！--%></div>
             
                 <div class="GiftContent GiftW"><!--電腦版-->
                     <ul class="GiftImgList">
@@ -249,7 +294,7 @@
                         <ul>
                             <li>
                                 <h5>鎮宅錢母擺件</h5>
-                                <div class="content TxtB">獨家開賣，新港奉天宮授權鎮宅錢母擺件。</div>
+                                <div class="content TxtB">獨家開賣，新港奉天宮授權鎮宅錢母擺件(錢母樣式為甲辰龍年)</div>
                             </li>
                             <li>
                                 <h5>壓轎金贈送</h5>
@@ -368,7 +413,7 @@
                                 <img src="https://bobibobi.tw/Product/images/videoPlay.png" width="101" height="117" alt=""/>
                             </a>
                         </div>-->
-                    </div>--%>
+                    </div>
                     
                     <div class="Products bobi">
                         <ul class="ProductsImg">
@@ -418,6 +463,27 @@
                                 <img src="https://bobibobi.tw/Product/images/videoPlay.png" width="101" height="117" alt=""/>
                             </a>
                         </div>-->
+                    </div>--%>
+                    
+                    <div class="Products bobi">
+                        <ul class="ProductsImg">
+                            <li>
+                                <a href="https://bobibobi.tw/Product/images/products/products_H_1.jpg" data-fancybox>
+                                    <img src="https://bobibobi.tw/Product/images/products/products_H_1.jpg" width="1200" height="1200" alt=""/>
+                                </a>
+                            </li>
+                        </ul>
+                        <h5>午時水/1罐 $168 + 運費$60 <br />
+                            午時水/3罐 $388 + 運費$90 <br />
+                            午時水/6罐 $688 + 免運費 <br />
+                            <span id="type_9" runat="server" style="color: red;">( 已售完 )</span></h5>
+                        <div class="ProductsContent content TxtW">一年一度開運之水，只在端午中午誕生！
+                                                                  我們特別選在陽氣最盛的端午正午，曬製午時水，
+                                                                  更邀請神霄玉府的法師和道長親臨加持，將祈福能量注入瓶中，為你轉運開運、避邪祈安！
+                                                                  每瓶皆為獨立祈福封存非飲用品｜僅供灑淨、祈福、招財使用
+                                                                  數量有限，錯過只能等明年！
+                        <a id="Description2" class="ProductsContent content TxtW" style="text-decoration:underline">詳細說明</a>
+                        </div>
                     </div>
                     
                 </div>
@@ -481,7 +547,7 @@
                                 </div>
                             </div>
                         </div>
-                    </div>--%>
+                    </div>
                     <div id="productItem_F" class="bobi">
                         <div class="shopProductsImg"><img src="https://bobibobi.tw/Product/images/products/products_F_1.png" width="1200" height="1200" alt=""/></div>
                         <div class="shopProductsInfo">
@@ -517,6 +583,60 @@
                                 </div>
                             </div>
                         </div>
+                    </div>--%>
+                    <div id="productItem_H" class="bobi">
+                        <div class="shopProductsImg"><img src="https://bobibobi.tw/Product/images/products/products_H_1.jpg" width="1200" height="1200" alt=""/></div>
+                        <div class="shopProductsInfo">
+                            <h5>午時水/罐 $168 + 運費$60 <span id="product_9" runat="server" style="color: red;">( 已售完 )</span></h5>
+                            <div class="ItemInfo">
+                                <label>金額</label>
+                                <div>228</div>
+                            </div>
+                            <div class="ItemInfo" id="productCount_9" runat="server">
+                                <label>數量</label>
+                                <div>
+                                    <input name="ItemLess_8" type="button" class="CountBtn" id="ItemLess_8" value="-" />
+                                    <input name="Item_8" type="number" id="Item_8" min="0" value="0" readonly="readonly" class="ItemCount" />
+                                    <input name="ItemPlus_8" type="button" class="CountBtn" id="ItemPlus_8" value="+" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="productItem_I" class="bobi">
+                        <div class="shopProductsImg"><img src="https://bobibobi.tw/Product/images/products/products_H_1.jpg" width="1200" height="1200" alt=""/></div>
+                        <div class="shopProductsInfo">
+                            <h5>午時水/3罐 $388 + 運費$90 <span id="product_10" runat="server" style="color: red;">( 已售完 )</span></h5>
+                            <div class="ItemInfo">
+                                <label>金額</label>
+                                <div>478</div>
+                            </div>
+                            <div class="ItemInfo" id="productCount_10" runat="server">
+                                <label>數量</label>
+                                <div>
+                                    <input name="ItemLess_9" type="button" class="CountBtn" id="ItemLess_9" value="-" />
+                                    <input name="Item_9" type="number" id="Item_9" min="0" value="0" readonly="readonly" class="ItemCount" />
+                                    <input name="ItemPlus_9" type="button" class="CountBtn" id="ItemPlus_9" value="+" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="productItem_J" class="bobi">
+                        <div class="shopProductsImg"><img src="https://bobibobi.tw/Product/images/products/products_H_1.jpg" width="1200" height="1200" alt=""/></div>
+                        <div class="shopProductsInfo">
+                            <h5>午時水/6罐 $688 + 免運費 <span id="product_11" runat="server" style="color: red;">( 已售完 )</span></h5>
+                            <div class="ItemInfo">
+                                <label>金額</label>
+                                <div>688</div>
+                            </div>
+                            <div class="ItemInfo" id="productCount_11" runat="server">
+                                <label>數量</label>
+                                <div>
+                                    <input name="ItemLess_10" type="button" class="CountBtn" id="ItemLess_10" value="-" />
+                                    <input name="Item_10" type="number" id="Item_10" min="0" value="0" readonly="readonly" class="ItemCount" />
+                                    <input name="ItemPlus_10" type="button" class="CountBtn" id="ItemPlus_10" value="+" />
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             
@@ -525,16 +645,81 @@
                     <div class="shopmemberForm">
                         <div><label>購買人</label><div><input name="Name" type="text" id="Name" placeholder="請輸入購買人姓名" /></div></div>
                         <div><label>聯絡電話</label><div><input name="Tel" type="text" id="Tel" placeholder="請輸入購買人電話" /></div></div>
+                        <div><label>電子信箱</label><div><input name="Email" type="text" id="Email" placeholder="請輸入購買人信箱" /></div></div>
                         <div><label>收件地址</label><div><div class="twzipcode"></div><div><input name="Add" type="text" id="Add" placeholder="請輸入收件地址" /></div></div></div>
                     </div>
+                    
+                    <!--↓↓發票資料↓↓-->
+                    <div class="shopmemberInfoTitle">發票資料</div>
                 
+                    <!-- 發票類型選擇 -->
+                    <div class="invoice-types">
+                        <label class="label">
+                            <input type="radio" name="InvoiceType" class="checkedbox" value="1" checked="checked" />
+                            一般電子發票
+                        </label>
+                        <label class="label">
+                            <input type="radio" name="InvoiceType" class="checkedbox" value="2" />
+                            手機載具發票
+                        </label>
+                        <%--<label>
+                        <input type="radio" name="InvoiceType" class="checkedbox" value="3" />
+                        發票捐贈
+                      </label>--%>
+                        <label class="label">
+                            <input type="radio" name="InvoiceType" class="checkedbox" value="4" />
+                            公司發票
+                        </label>
+
+                        <!-- 載具代碼輸入 + 挑選常用按鈕 -->
+                        <div id="InvoiceNum" class="shopmemberForm">
+                            <div>
+                                <div><label>統一編號 </label>
+                                    <input id="InvoiceCode" type="text"
+                                    placeholder="請輸入統一編號" style="margin-bottom: 10px;" /><br />
+                                </div>
+                                <div>
+                                    <label>公司名稱 </label>
+                                    <input id="InvoiceName" type="text"
+                                        placeholder="請輸入公司名稱"  />
+                                </div>
+                                <br />
+                            </div>
+                        </div>
+                        <div id="MobileCarrier" class="shopmemberForm" style="width: 100%;">
+                            <div>
+                                <div>
+                                    <label>手機載具</label>
+                                    <input id="CarrierCode" type="text"
+                                        placeholder="請輸入手機載具 ex:/TRM+O+P" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- 載具選擇（僅手機條碼／會員／自然人） -->
+                    <%--<div class="carrier-types" style="margin: 1vw 0;">
+                        <label>
+                            <input type="radio" name="CarrierOption" value="member" />
+                            會員載具</label>
+                        <label>
+                            <input type="radio" name="CarrierOption" value="mobile" />
+                            手機條碼載具</label>
+                        <label>
+                            <input type="radio" name="CarrierOption" value="citizen" />
+                            自然人憑證載具</label>
+                    </div>--%>
+                    
+                    <!--↑↑發票資料↑↑-->
+                    <br />
                     <div><input id="CheckOrder" type="button" value="檢查資料及付款" /></div>
+                    
                 </div>
-                    <br />
+                <br />
                 <%--<div class="shopmemberInfo">
-                    <p style="color: red;">因應農曆春節連續假期及貨運公司配送問題，將於2025/1/21至2025/02/02暫停出貨作業。</p>
+                    <p style="color: red;">因應農曆春節連續假期及貨運公司配送問題，將於2026/1/21至2026/02/02暫停出貨作業。</p>
                     <br />
-                    <p style="color: red;">2025/1/20至2025/02/02成立的訂單，將於2025/02/03起陸續出貨。 祝大家小龍年行大運!</p>
+                    <p style="color: red;">2026/1/20至2026/02/02成立的訂單，將於2026/02/03起陸續出貨。 祝大家小龍年行大運!</p>
                 </div>--%>
             </section><!--第六區塊 //end-->
         
@@ -542,7 +727,7 @@
     
     
         <footer><!--#頁尾 //start-->
-            <div class="FooterLogo">
+            <div class="FooterLogo" style="display: none;">
                 <ul>
                     <li style="width: 32%; margin-right: 13px;"><img src="https://bobibobi.tw/Product/images/logo_fet.png" style="height:56px; margin-top: -15px;" /></li>
                     <li style="width: 32%; margin-right: 0;"><img src="https://bobibobi.tw/Product/images/foot_logo_03.png" style="height:30px; margin-top: -15px;" /></li>
@@ -550,13 +735,18 @@
                     <li><img src="https://bobibobi.tw/Product/images/footerLogo.png" style="height:56px" alt=""/></li>
                 </ul>
             </div>
-            <div class="footerinfo">保必保庇線上祈福平台</div>
+            <div class="footerContact footerTxt">
+                    <div><a href="https://bobibobi.tw/Temples/ShoppingGuide.aspx">購物說明</a></div>
+                    <div><a href="https://bobibobi.tw/Temples/PrivacyPolicy.aspx">隱私權政策</a></div>
+            </div>
+            <br />
+            <div class="footerinfo">九九商通科技有限公司</div>
             <div class="footerContact footerTxt">
                 <div><label>服務專線</label><a href="tel:0436092299">04-3609-2299</a></div>
                 <div><label>服務信箱</label><a href="mailto:service@appssp.com">service@appssp.com</a></div>
             </div>
             <div class="serviceTime footerTxt"><label>服務時間</label><span>週一至週五10:00-17:00</span></div>
-            <div class="copyright footerTxt">Copyright©2022-2025 保必保庇線上祈福平台 <span>All rights reserved.</span></div>
+            <div class="copyright footerTxt">Copyright©2022-2025 九九商通科技有限公司 <span>All rights reserved.</span></div>
         </footer><!--#頁尾 //end-->
     
     </div><!--#warp //end-->
@@ -662,7 +852,7 @@
                             <div><span id="OrderItemEcount">0</span>個</div>
                         </div>
                     </div>
-                </div>--%>
+                </div>
                 <div class="OrderproductItem OrderItemF">
                     <div class="shopProductsImg"><img src="https://bobibobi.tw/Product/images/products/products_F_1.png" width="1200" height="1200" alt=""/></div>
                     <div class="shopProductsInfo">
@@ -690,6 +880,48 @@
                             <div><span id="OrderItemGcount">0</span>個</div>
                         </div>
                     </div>
+                </div>--%>
+                <div class="OrderproductItem OrderItemH">
+                    <div class="shopProductsImg"><img src="https://bobibobi.tw/Product/images/products/products_H_1.jpg" width="1200" height="1200" alt=""/></div>
+                    <div class="shopProductsInfo">
+                        <h5>午時水/罐 $168 + 運費$60</h5>
+                        <div class="ItemInfo">
+                            <label>金額</label>
+                            <div>228</div>
+                        </div>
+                        <div class="ItemInfo">
+                            <label>數量</label>
+                            <div><span id="OrderItemHcount">0</span>個</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="OrderproductItem OrderItemI">
+                    <div class="shopProductsImg"><img src="https://bobibobi.tw/Product/images/products/products_H_1.jpg" width="1200" height="1200" alt=""/></div>
+                    <div class="shopProductsInfo">
+                        <h5>午時水/3罐 $388 + 運費$90</h5>
+                        <div class="ItemInfo">
+                            <label>金額</label>
+                            <div>478</div>
+                        </div>
+                        <div class="ItemInfo">
+                            <label>數量</label>
+                            <div><span id="OrderItemIcount">0</span>個</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="OrderproductItem OrderItemJ">
+                    <div class="shopProductsImg"><img src="https://bobibobi.tw/Product/images/products/products_H_1.jpg" width="1200" height="1200" alt=""/></div>
+                    <div class="shopProductsInfo">
+                        <h5>午時水/6罐 $688 + 免運費</h5>
+                        <div class="ItemInfo">
+                            <label>金額</label>
+                            <div>688</div>
+                        </div>
+                        <div class="ItemInfo">
+                            <label>數量</label>
+                            <div><span id="OrderItemJcount">0</span>個</div>
+                        </div>
+                    </div>
                 </div>
             </div>
         
@@ -698,15 +930,22 @@
                 <div class="shopmemberForm">
                     <div><label>購買人</label><div class="OrderName"></div></div>
                     <div><label>聯絡電話</label><div class="OrderTel"></div></div>
+                    <div><label>電子信箱</label><div class="OrderEmail"></div></div>
                     <div><label>收件地址</label><div class="OrderAdd"></div></div>
+                    <div><label>發票類型</label><div class="OrderinvoiceType"></div></div>
+                    <div id="orderCarrierCode"><label>手機載具</label><div class="OrderCarrierCode"></div></div>
+                    <div id="orderCompany">
+                        <label>統一編號</label><div class="OrderinvCode"></div>
+                        <label>公司名稱</label><div class="OrderinvName"></div>
+                    </div>
                 </div>
 
                 <div class="OrderSum">購買總金額：<span></span>元</div>
             </div>
             <div class="PayButton">
                 <ul>
-                    <%--<li class="mobile" style="color: red;">因應農曆春節連續假期及貨運公司配送問題，將於2025/1/21至2025/02/02暫停出貨作業。</li>
-                    <li class="mobile" style="color: red;">2025/1/20至2025/02/02成立的訂單，將於2025/02/03起陸續出貨。 祝大家小龍年行大運!</li>--%>
+                    <%--<li class="mobile" style="color: red;">因應農曆春節連續假期及貨運公司配送問題，將於2026/1/21至2026/02/02暫停出貨作業。</li>
+                    <li class="mobile" style="color: red;">2026/1/20至2026/02/02成立的訂單，將於2026/02/03起陸續出貨。 祝大家小龍年行大運!</li>--%>
                     <li><input name="EditOrder" type="button" id="EditOrder" value="修改" /></li>
                     <li><input name="mobile_pay" type="button" id="mobile_pay" value="遠傳門號付款" /></li>
                     <li><input name="card_pay" type="button" id="card_pay" value="信用卡付款" /></li>
@@ -714,16 +953,16 @@
                         <input name="Line_pay" type="button" id="Line_pay" runat="server" value="LINE PAY" /></li>
                     <li id="JkosPay" runat="server">
                         <input name="Jkos_pay" type="button" id="Jkos_pay" runat="server" value="街口支付" /></li>
-                    <li><input name="mobile_cht_pay" type="button" id="mobile_cht_pay" value="中華門號付款" /></li>
-                    <li><input name="mobile_twm_pay" type="button" id="mobile_twm_pay" value="台哥大門號付款" /></li>
+                    <%--<li><input name="mobile_cht_pay" type="button" id="mobile_cht_pay" value="中華門號付款" /></li>
+                    <li><input name="mobile_twm_pay" type="button" id="mobile_twm_pay" value="台哥大門號付款" /></li>--%>
                     <%--<li><input name="Google_pay" type="image" id="Google_pay" src="https://bobibobi.tw/Product/images/Google_Pay.png" /></li>--%>
                 </ul>
             </div>
                <%--     <br />
                 <div class="web">
-                    <p style="color: red;">因應農曆春節連續假期及貨運公司配送問題，將於2025/1/21至2025/02/02暫停出貨作業。</p>
+                    <p style="color: red;">因應農曆春節連續假期及貨運公司配送問題，將於2026/1/21至2026/02/02暫停出貨作業。</p>
                     <br />
-                    <p style="color: red;">2025/1/20至2025/02/02成立的訂單，將於2025/02/03起陸續出貨。 祝大家小龍年行大運!</p>
+                    <p style="color: red;">2026/1/20至2026/02/02成立的訂單，將於2026/02/03起陸續出貨。 祝大家小龍年行大運!</p>
                 </div>--%>
         </div>
     
@@ -739,6 +978,52 @@
 每件作品皆再新港奉天宮正殿過爐完成。安放明亮位置，增加正能量讓新港媽祖虎爺大二將軍天天給您賜福招財，
 新港媽祖虎爺神威顯赫
 保佑我們，繼承新生的氣運。
+            </div>
+        </div>
+    
+        <div id="dialog2">
+            <div class="DescriptionList" style="white-space: pre-wrap;">
+             各位敲碗的午時水來囉，在端午極陽之日我們請到了神霄玉府的法師和道長來為我們做科儀加持午時水。
+
+
+🔆《午時水》用途與功效
+🌞 驅邪避煞：取自陽氣最旺的午時，具純陽之氣，驅除陰煞與不祥氣場。
+
+🧘‍♂️ 安神鎮心：用於洗臉、擦身，有助於穩定情緒、安定心神。
+
+🛁 淨身除穢：可加入沐浴或泡腳水中，淨化身心、祛除病氣與疲憊。
+
+🏠 淨宅轉運：灑於居家四隅或門檻，可清除煞氣、提升正能量。
+
+👶 兒童避驚：小兒體弱易驚，可用午時水擦拭額頭或泡澡以安魂定魄。
+
+💰 招財開運：午時水加鹽或五色豆放財位，有助驅走晦氣、招來財氣。
+
+
+
+🔮 午時水的招財實用法
+1. 🌾 五行開運法
+材料：午時水 + 鹽巴（一撮）+ 五色豆（紅、黑、綠、黃、白）
+
+做法：裝入透明瓶罐，放置於財位（如玄關左側、客廳對角、收銀台等）
+
+效果：提升流年財氣、穩定財運、防漏財
+
+2. 🧧 財神爺灑淨法
+以午時水加入少量鹽，輕輕灑於財神爺或貴人方位周邊，祈求招財納福。
+
+3. 🪞 鏡前招財法
+每日清晨用午時水擦拭辦公桌、鏡子、手機螢幕等，象徵「財氣通達、事業順利」。
+
+4. 🧴 午時水淨手法
+每天外出做生意前，雙手用午時水清洗，象徵洗去晦氣、開啟財門。
+
+5. 🔖 搭配咒語或祈願語
+撒水或使用時可默念：
+
+「午時純陽，財源廣進，吉氣臨門，萬事興隆」
+也可配合個人信仰唸佛號、持咒等。
+
             </div>
         </div>
 </body>
@@ -799,6 +1084,33 @@
         setURL("gads", "2290", "GADS");
         setURL("tads", "2290", "TADS");
 
+        // 快取區塊
+        var $numSection = $('#InvoiceNum'),
+            $mobileSection = $('#MobileCarrier'),
+            $radios = $('input[name="InvoiceType"]');
+
+        // 根據選擇顯示／隱藏
+        function updateInvoiceFields() {
+            var sel = $radios.filter(':checked').val();
+            if (sel === '1') {
+                $numSection.hide();
+                $mobileSection.hide();
+            }
+            else if (sel === '2') {
+                $numSection.hide();
+                $mobileSection.show();
+            }
+            else if (sel === '4') {
+                $numSection.show();
+                $mobileSection.hide();
+            }
+        }
+
+        // 綁定 change 事件
+        $radios.on('change', updateInvoiceFields);
+
+        // 初始執行一次
+        updateInvoiceFields();
         //if (location.search.indexOf('twm') >= 0) {
         //    //alert($("title").html());
         //    $(document).attr("title", "(TWM)" + $("title").html());
@@ -1022,6 +1334,26 @@
                 $("#dialog .ui-dialog-titlebar-close").focus();
             }
         });
+
+        $("#dialog2").dialog({
+            autoOpen: false,
+            show: {
+                effect: "slide",
+                duration: 1000
+            },
+            hide: {
+                effect: "explode",
+                duration: 1000
+            },
+            modal: true,
+            width: dialogwidth,
+            position: yourPosition,
+            closeOnEscpe: true,
+            title: "商品說明",
+            focus: function (ev, data) {
+                $("#dialog2 .ui-dialog-titlebar-close").focus();
+            }
+        });
     });
 
 //預設載入
@@ -1093,15 +1425,32 @@ $(".CountBtn").on("click", function(){
     btnType = $(this).attr("id");
     ItemNum = btnType.match(/\d+/g);
     ItemNowCount = parseInt($("#Item_"+ItemNum).val());//目前數量
-    
-    if(btnType.indexOf("Plus") > -1) {
-        ItemNowCount = ItemNowCount + 1;
-        $("#Item_"+ItemNum).val(ItemNowCount);
-        
-        if(ItemNum == 1){
-            $("#ItemTag").append('<li id="engrave_'+ItemNowCount+'"><label>編號<span>'+ItemNowCount+'</span></label><div><label><input type="radio" name="engrave'+ItemNowCount+'" value="n" id="engrave_'+ItemNowCount+'_n" checked="checked"><span>無</span></label><label><input type="radio" name="engrave'+ItemNowCount+'" value="y" id="engrave_'+ItemNowCount+'_y"><span>有</span></label></div><div><input name="engraveName" type="text" id="engraveName_'+ItemNowCount+'"  readonly="readonly" maxlength="5" placeholder="限4個字"></div></li>');
+
+    // 1. 先準備一張 map，指定哪些 ItemNum 的最大數量是多少
+    //    沒在 map 裡的，就視為沒限制（可以用任何數量）。
+    var maxCounts = {
+        "8": 1,
+        "9": 1,
+        "10": 1
+        // 如果之後想要其他商品也限制成 0~N，把像 "12": 2 加進來即可
+    };
+    // 預設最大值：如果對照表裡沒找到，就回傳一個大值（例如 999）
+    var maxCount = maxCounts[ItemNum] !== undefined ? maxCounts[ItemNum] : 999;
+
+    if (btnType.indexOf("Plus") > -1) {
+        // 只有在「現在數量 < 最大值」時，才讓它 +1
+        if (ItemNowCount < maxCount) {
+            ItemNowCount = ItemNowCount + 1;
+            $("#Item_" + ItemNum).val(ItemNowCount);
+
+            if (ItemNum == 1) {
+                $("#ItemTag").append('<li id="engrave_' + ItemNowCount + '"><label>編號<span>' + ItemNowCount + '</span></label><div><label><input type="radio" name="engrave' + ItemNowCount + '" value="n" id="engrave_' + ItemNowCount + '_n" checked="checked"><span>無</span></label><label><input type="radio" name="engrave' + ItemNowCount + '" value="y" id="engrave_' + ItemNowCount + '_y"><span>有</span></label></div><div><input name="engraveName" type="text" id="engraveName_' + ItemNowCount + '"  readonly="readonly" maxlength="5" placeholder="限4個字"></div></li>');
+            }
         }
-        
+        else {
+            // 超過最大值，就可以提示一下或直接略過
+            alert("此商品最多只能選 0～" + maxCount + " 件。");
+        }        
     }else if(btnType.indexOf("Less") > -1) {
         if(ItemNowCount != 0){
             $("#Item_"+ItemNum).val(ItemNowCount - 1);
@@ -1117,20 +1466,29 @@ $(".CountBtn").on("click", function(){
 <script>
 $("#CheckOrder").on("click", function(){
     //pd_A = $("#Item_1").val();//產品1數量
-    pd_A = typeof ($("#Item_1").val()) == "undefined" ? 0 : $("#Item_1").val();//產品1數量
+    pd_A = typeof ($("#Item_1").val()) == "undefined" ? 0 : $("#Item_1").val();     //產品1數量
     //pd_B = $("#Item_2").val();//產品2數量
     //pd_C = $("#Item_3").val();//產品3數量
-    pd_D = typeof ($("#Item_4").val()) == "undefined" ? 0 : $("#Item_4").val();//產品4數量
-    pd_E = typeof ($("#Item_5").val()) == "undefined" ? 0 : $("#Item_5").val();//產品5數量
-    pd_F = typeof ($("#Item_6").val()) == "undefined" ? 0 : $("#Item_6").val();//產品6數量
-    pd_G = typeof ($("#Item_7").val()) == "undefined" ? 0 : $("#Item_7").val();//產品7數量
-    //pd_E = $("#Item_5").val();//產品5數量
-    //pd_F = $("#Item_6").val();//產品6數量
-    //pd_G = $("#Item_7").val();//產品7數量
+    pd_D = typeof ($("#Item_4").val()) == "undefined" ? 0 : $("#Item_4").val();     //產品4數量
+    pd_E = typeof ($("#Item_5").val()) == "undefined" ? 0 : $("#Item_5").val();     //產品5數量
+    pd_F = typeof ($("#Item_6").val()) == "undefined" ? 0 : $("#Item_6").val();     //產品6數量
+    pd_G = typeof ($("#Item_7").val()) == "undefined" ? 0 : $("#Item_7").val();     //產品7數量
+    pd_H = typeof ($("#Item_8").val()) == "undefined" ? 0 : $("#Item_8").val();     //產品8數量
+    pd_I = typeof ($("#Item_9").val()) == "undefined" ? 0 : $("#Item_9").val();     //產品9數量
+    pd_J = typeof ($("#Item_10").val()) == "undefined" ? 0 : $("#Item_10").val();   //產品10數量
     cusName = $('#Name').val();//購買人姓名
-    cusTel= $('#Tel').val();//購買人電話
+    cusTel = $('#Tel').val();//購買人電話
+    cusEmail = $('#Email').val();//購買人信箱
     cusAdd = $("select[name='county']").val() + $("select[name='district']").val() + $('#Add').val();//購買人地址
-    Money = (pd_A * 1480) /*+ (pd_B * 499) + (pd_C * 2980)*/ + (pd_D * 399) + (pd_E * 399) + (pd_F * 399) + (pd_G * 399);   //購買總金額
+    Money = (pd_A * 1480)                                                                            //購買總金額
+        /*+ (pd_B * 499) + (pd_C * 2980)*/
+        + (pd_D * 399)
+        + (pd_E * 399)
+        + (pd_F * 399)
+        + (pd_G * 399)
+        + (pd_H * 228)
+        + (pd_I * 478)
+        + (pd_J * 688);   
     
     
     
@@ -1141,7 +1499,7 @@ $("#CheckOrder").on("click", function(){
     
     
     //未選擇商品
-    if (pd_A == 0 /*&& pd_B == 0 && pd_C == 0*/ && pd_D == 0 && pd_E == 0 && pd_F == 0 && pd_G == 0) {
+    if (pd_A == 0 /*&& pd_B == 0 && pd_C == 0*/ && pd_D == 0 && pd_E == 0 && pd_F == 0 && pd_G == 0 && pd_H == 0 && pd_I == 0 && pd_J == 0) {
         alertTxt = "請增加您要購買的商品數量。";
         checkComplet = 1;
     }else{
@@ -1153,6 +1511,9 @@ $("#CheckOrder").on("click", function(){
         $(".OrderItemE").hide();
         $(".OrderItemF").hide();
         $(".OrderItemG").hide();
+        $(".OrderItemH").hide();
+        $(".OrderItemI").hide();
+        $(".OrderItemJ").hide();
 
         if (pd_A > 0) {
             $("#OrderItemAcount").text(pd_A);
@@ -1191,6 +1552,27 @@ $("#CheckOrder").on("click", function(){
         else {
             $(".OrderItemG").hide();
         }
+        if (pd_H > 0) {
+            $("#OrderItemHcount").text(pd_H);
+            $(".OrderItemH").show();
+        }
+        else {
+            $(".OrderItemH").hide();
+        }
+        if (pd_I > 0) {
+            $("#OrderItemIcount").text(pd_I);
+            $(".OrderItemI").show();
+        }
+        else {
+            $(".OrderItemI").hide();
+        }
+        if (pd_J > 0) {
+            $("#OrderItemJcount").text(pd_J);
+            $(".OrderItemJ").show();
+        }
+        else {
+            $(".OrderItemJ").hide();
+        }
         //$("#OrderItemBcount").text(pd_B);
         //$("#OrderItemCcount").text(pd_C);
         //$("#OrderItemDcount").text(pd_D);
@@ -1218,9 +1600,30 @@ $("#CheckOrder").on("click", function(){
             $('#Tel').css("background","#ffc8c8");
             alertTxt = alertTxt + "購買人電話未填寫。<br>";
             checkComplet = checkComplet + 1;
-        }else{
+        }
+        else if (!Isphone(cusTel)){
+            $('#Tel').css("background", "#ffc8c8");
+            alertTxt = alertTxt + "購買人電話格式錯誤。<br>";
+            checkComplet = checkComplet + 1;
+        }
+        else {
             $('#Tel').css("background","");
             $(".OrderTel").text(cusTel);
+        }
+
+        if (cusEmail == "") {
+            $('#Email').css("background", "#ffc8c8");
+            alertTxt = alertTxt + "購買人信箱未填寫。<br>";
+            checkComplet = checkComplet + 1;
+        }
+        else if (!IsEmail(cusEmail)) {
+            $('#Email').css("background", "#ffc8c8");
+            alertTxt = alertTxt + "購買人信箱格式錯誤。<br>";
+            checkComplet = checkComplet + 1;
+        }
+        else {
+            $('#Email').css("background", "");
+            $(".OrderEmail").text(cusEmail);
         }
 
         if($("select[name='county']").val() == ""){
@@ -1246,6 +1649,60 @@ $("#CheckOrder").on("click", function(){
         }else{
             $('#Add').css("background","");
             $(".OrderAdd").text(cusAdd);
+        }
+
+
+        // 2. 如果 OTP 合格，再驗證發票欄位
+        isValid = true;
+        var invoiceType = $('input[name="InvoiceType"]:checked').val();
+
+        if (invoiceType === '1') {
+            // 一般電子發票
+            $(".OrderinvoiceType").text("一般電子發票");
+            $(".OrderCarrierCode").text("");
+            $(".OrderinvCode").text("");
+            $(".OrderinvName").text("");
+            $("#orderCarrierCode").hide();
+            $("#orderCompany").hide();
+        }
+        else if (invoiceType === '2') {
+            // 手機載具發票 → 檢查手機載具欄位
+            var carrier = $('#CarrierCode').val() ? $('#CarrierCode').val().trim() : '';
+            if (!carrier) {
+                checkComplet = checkComplet + 1;
+
+                alertTxt = alertTxt + "請輸入手機載具條碼。<br>";
+                $('#CarrierCode').focus();
+            } else {
+                checkComplet = 0;
+                $(".OrderinvoiceType").text("手機載具發票");
+                $(".OrderCarrierCode").text(carrier);
+                $(".OrderinvCode").text("");
+                $(".OrderinvName").text("");
+                $("#orderCarrierCode").show();
+                $("#orderCompany").hide();
+            }
+        }
+        else if (invoiceType === '4') {
+            // 公司發票 → 檢查統編 + 公司名稱
+            var invCode = $('#InvoiceCode').val() ? $('#InvoiceCode').val().trim() : '';
+            var invName = $('#InvoiceName').val() ? $('#InvoiceName').val().trim() : '';
+            if (!invCode || !invName) {
+                checkComplet = checkComplet + 1;
+                if (!invCode) $('#InvoiceCode').addClass('unfilled'); else $('#InvoiceCode').removeClass('unfilled');
+                if (!invName) $('#InvoiceName').addClass('unfilled'); else $('#InvoiceName').removeClass('unfilled');
+
+                alertTxt = alertTxt + "請填寫統一編號與公司名稱。<br>";
+                (invCode ? $('#InvoiceName') : $('#InvoiceCode')).focus();
+            } else {
+                checkComplet = 0;
+                $(".OrderinvoiceType").text("公司發票");
+                $(".OrderCarrierCode").text("");
+                $(".OrderinvCode").text(invCode);
+                $(".OrderinvName").text(invName);
+                $("#orderCarrierCode").hide();
+                $("#orderCompany").show();
+            }
         }
     }
     
@@ -1273,21 +1730,37 @@ $("#EditOrder").on("click", function(){
 <script>
 //取得各欄位的值
 function formData(){
-    pd_A = typeof ($("#Item_1").val()) == "undefined" ? 0 : $("#Item_1").val();//鎮宅、開運錢母擺件數量
+    pd_A = typeof ($("#Item_1").val()) == "undefined" ? 0 : $("#Item_1").val();     //鎮宅、開運錢母擺件數量
     //pd_B = $("#Item_2").val();//開運隨身御守數量
     //pd_C = $("#Item_3").val();//2024新港奉天宮黃金符令手鍊
-    pd_D = typeof ($("#Item_4").val()) == "undefined" ? 0 : $("#Item_4").val();//招財大嘴貓(白色)數量
-    pd_E = typeof ($("#Item_5").val()) == "undefined" ? 0 : $("#Item_5").val();//招財大嘴貓(藍色)數量
-    pd_F = typeof ($("#Item_6").val()) == "undefined" ? 0 : $("#Item_6").val();//招財大嘴貓(粉色)數量
-    pd_G = typeof ($("#Item_7").val()) == "undefined" ? 0 : $("#Item_7").val();//招財大嘴貓(橘色)數量
+    pd_D = typeof ($("#Item_4").val()) == "undefined" ? 0 : $("#Item_4").val();     //招財大嘴貓(白色)數量
+    pd_E = typeof ($("#Item_5").val()) == "undefined" ? 0 : $("#Item_5").val();     //招財大嘴貓(藍色)數量
+    pd_F = typeof ($("#Item_6").val()) == "undefined" ? 0 : $("#Item_6").val();     //招財大嘴貓(粉色)數量
+    pd_G = typeof ($("#Item_7").val()) == "undefined" ? 0 : $("#Item_7").val();     //招財大嘴貓(橘色)數量
+    pd_H = typeof ($("#Item_8").val()) == "undefined" ? 0 : $("#Item_8").val();     //午時水/1罐數量
+    pd_I = typeof ($("#Item_9").val()) == "undefined" ? 0 : $("#Item_9").val();     //午時水/3罐數量
+    pd_J = typeof ($("#Item_10").val()) == "undefined" ? 0 : $("#Item_10").val();   //午時水/6罐數量
     cusName = $('#Name').val();//購買人姓名
-    cusTel= $('#Tel').val();//購買人電話
+    cusTel = $('#Tel').val();//購買人電話
+    cusEmail = $('#Email').val();//購買人信箱
     cusAdd = $("select[name='county']").val() + $("select[name='district']").val() + $('#Add').val();//購買人地址
     cusCounty = $("select[name='county']").val();
     cusDistrict = $("select[name='district']").val();
     cusAddr = $("#Add").val();
     cusZipCode = $("input[name='zipcode']").val();
-    Money = (pd_A * 1480) /*+ (pd_B * 499) + (pd_C * 2980)*/ + (pd_D * 399) + (pd_E * 399) + (pd_F * 399) + (pd_G * 399);   //購買總金額
+    Money = (pd_A * 1480)                                                                            //購買總金額
+        /*+ (pd_B * 499) + (pd_C * 2980)*/
+        + (pd_D * 399)
+        + (pd_E * 399)
+        + (pd_F * 399)
+        + (pd_G * 399)
+        + (pd_H * 228)
+        + (pd_I * 478)
+        + (pd_J * 688);
+    invType = $('input[name="InvoiceType"]:checked').val();
+    carrier = $('#CarrierCode').val() ? $('#CarrierCode').val().trim() : '';
+    invCode = $('#InvoiceCode').val() ? $('#InvoiceCode').val().trim() : '';
+    invName = $('#InvoiceName').val() ? $('#InvoiceName').val().trim() : '';
     
     //下方取消註解後，可於console查看結果
     console.log("擺件數量：" + pd_A,
@@ -1297,9 +1770,18 @@ function formData(){
         "招財大嘴貓(藍色)數量：" + pd_E,
         "招財大嘴貓(粉色)數量：" + pd_F,
         "招財大嘴貓(橘色)數量：" + pd_G,
+        "午時水/1罐數量：" + pd_H,
+        "午時水/3罐數量：" + pd_I,
+        "午時水/6罐數量：" + pd_J,
         "姓名：" + cusName,
         "電話：" + cusTel,
-        "地址：" + cusAdd, Money + "元");
+        "信箱：" + cusEmail,
+        "地址：" + cusAdd,
+        "發票類型：" + invType,
+        "手機載具：" + carrier,
+        "統一編號：" + invCode,
+        "公司名稱：" + invName,
+        Money + "元");
 }
     
 
@@ -1337,7 +1819,14 @@ $("#mobile_pay").on("click", function(){
         formData();
         nextStep('JkosPay');
     })
-    
+
+    //APPLEAPAY付款
+    $("#apple_pay").on("click", function () {
+        //付款串接放這裡
+        formData();
+        nextStep('ApplePay');
+    })
+
 //信用卡付款
 $("#card_pay").on("click", function(){
     //付款串接放這裡
@@ -1363,12 +1852,20 @@ $("#card_pay").on("click", function(){
             pd_E: pd_E,
             pd_F: pd_F,
             pd_G: pd_G,
+            pd_H: pd_H,
+            pd_I: pd_I,
+            pd_J: pd_J,
             cusName: cusName,
             cusTel: cusTel,
+            cusEmail: cusEmail,
             cusCounty: cusCounty,
             cusDistrict: cusDistrict,
             cusAddr: cusAddr,
             cusZipCode: cusZipCode,
+            invType: invType,
+            carrier: carrier,
+            invCode: invCode,
+            invName: invName,
             Money: Money,
             ChargeType: ChargeType
         };
@@ -1448,6 +1945,41 @@ $("#card_pay").on("click", function(){
                     alert("招財大嘴貓(橘色)數量不足，請重新購買。");
                 }
             }
+            else if (res.Stock == 9) {
+                //午時水/1罐
+                if (res.overStatus == -1) {
+                    alert("午時水/1罐數量已額滿，請重新購買。");
+                }
+                else if (res.overStatus == -2) {
+                    alert("午時水/1罐數量不足，請重新購買。");
+                }
+            }
+            else if (res.Stock == 10) {
+                //午時水/3罐
+                if (res.overStatus == -1) {
+                    alert("午時水/3罐數量已額滿，請重新購買。");
+                }
+                else if (res.overStatus == -2) {
+                    alert("午時水/3罐數量不足，請重新購買。");
+                }
+            }
+            else if (res.Stock == 11) {
+                //午時水/6罐
+                if (res.overStatus == -1) {
+                    alert("午時水/6罐數量已額滿，請重新購買。");
+                }
+                else if (res.overStatus == -2) {
+                    alert("午時水/6罐數量不足，請重新購買。");
+                }
+            }
+            else if (res.Stock == 12) {
+                // 手機載具驗證失敗
+                alert("手機載具格式錯誤，請重新輸入！如一直錯誤，請聯繫客服");
+            }
+            else if (res.Stock == 13) {
+                // 電子發票綁定失敗
+                alert("電子發票綁定資料錯誤，請重新輸入！如一直錯誤，請聯繫客服！");
+            }
             else {
                 alert("前往付款失敗！請重新再試一次，若還是不行，請洽客服。");
             }
@@ -1466,6 +1998,11 @@ $("#card_pay").on("click", function(){
     $("#Description").on("click", function () {
         $("#dialog").dialog("open");
         $("#dialog").focus();
+        return false;
+    })
+    $("#Description2").on("click", function () {
+        $("#dialog2").dialog("open");
+        $("#dialog2").focus();
         return false;
     })
 

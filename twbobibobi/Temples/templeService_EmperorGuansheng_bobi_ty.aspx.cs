@@ -1,4 +1,4 @@
-﻿using MotoSystem.Data;
+﻿using twbobibobi.Data;
 using Newtonsoft.Json.Linq;
 using Read.data;
 using System;
@@ -95,113 +95,113 @@ namespace Temple.Temples
 
                 bool checkednum_ty = true;
 
-                if (checkednum_ty)
-                {
-                    string AppBirth = string.Empty;
-                    string AppbirthMonth = "0";
-                    string Appage = "0";
-                    string AppZodiac = string.Empty;
+                //if (checkednum_ty)
+                //{
+                //    string AppBirth = string.Empty;
+                //    string AppbirthMonth = "0";
+                //    string Appage = "0";
+                //    string AppZodiac = string.Empty;
 
-                    string Appyear = string.Empty;
-                    string Appmonth = string.Empty;
-                    string Appday = string.Empty;
+                //    string Appyear = string.Empty;
+                //    string Appmonth = string.Empty;
+                //    string Appday = string.Empty;
 
-                    string appbirth = Appbirth;
-                    int Apps1 = appbirth.IndexOf("民國");
-                    int Apps2 = appbirth.IndexOf("年");
-                    int Apps3 = appbirth.IndexOf("月");
-                    int Apps4 = appbirth.IndexOf("日");
-                    if (appbirth.IndexOf("民國") >= 0 && appbirth.IndexOf("年") > 0 && appbirth.IndexOf("月") > 0 && appbirth.IndexOf("日") > 0)
-                    {
-                        int year_index = appbirth.IndexOf("年");
-                        int month_index = appbirth.IndexOf("月");
-                        Appyear = (int.Parse(appbirth.Substring(2, year_index - 2)) + 1911).ToString();
-                        Appmonth = AppbirthMonth = appbirth.Substring(year_index + 1, month_index - year_index - 1);
-                        Appday = appbirth.Substring(month_index + 1, appbirth.Length - month_index - 2);
+                //    string appbirth = Appbirth;
+                //    int Apps1 = appbirth.IndexOf("民國");
+                //    int Apps2 = appbirth.IndexOf("年");
+                //    int Apps3 = appbirth.IndexOf("月");
+                //    int Apps4 = appbirth.IndexOf("日");
+                //    if (appbirth.IndexOf("民國") >= 0 && appbirth.IndexOf("年") > 0 && appbirth.IndexOf("月") > 0 && appbirth.IndexOf("日") > 0)
+                //    {
+                //        int year_index = appbirth.IndexOf("年");
+                //        int month_index = appbirth.IndexOf("月");
+                //        Appyear = (int.Parse(appbirth.Substring(2, year_index - 2)) + 1911).ToString();
+                //        Appmonth = AppbirthMonth = appbirth.Substring(year_index + 1, month_index - year_index - 1);
+                //        Appday = appbirth.Substring(month_index + 1, appbirth.Length - month_index - 2);
 
-                        Solar solor = new Solar();
-                        int.TryParse(Appyear, out solor.solarYear);
-                        int.TryParse(Appmonth, out solor.solarMonth);
-                        int.TryParse(Appday, out solor.solarDay);
+                //        Solar solor = new Solar();
+                //        int.TryParse(Appyear, out solor.solarYear);
+                //        int.TryParse(Appmonth, out solor.solarMonth);
+                //        int.TryParse(Appday, out solor.solarDay);
 
-                        Lunar lunar = new Lunar();
-                        lunar = LunarSolarConverter.SolarToLunar(solor);
-                        LunarSolarConverter.shuxiang(lunar.lunarYear, ref AppZodiac);
+                //        Lunar lunar = new Lunar();
+                //        lunar = LunarSolarConverter.SolarToLunar(solor);
+                //        LunarSolarConverter.shuxiang(lunar.lunarYear, ref AppZodiac);
 
-                        Appage = GetAge(int.Parse(Appyear), int.Parse(Appmonth), int.Parse(Appday)).ToString();
-                    }
+                //        Appage = GetAge(int.Parse(Appyear), int.Parse(Appmonth), int.Parse(Appday)).ToString();
+                //    }
 
-                    AppbirthMonth = AppbirthMonth.Length < 2 ? "0" + AppbirthMonth : AppbirthMonth;
+                //    AppbirthMonth = AppbirthMonth.Length < 2 ? "0" + AppbirthMonth : AppbirthMonth;
 
-                    ApplicantID = objLightDAC.addapplicantinfo_EmperorGuansheng_ty(AppName, AppMobile, Appbirth, "N", "吉", AppbirthMonth, Appage, AppZodiac, Appemail, "0", AppzipCode, Appcounty, Appdist, Appaddr, "Y", AppName, AppMobile, 0, AdminID, postURL, Year);
-                    bool marriageemperorGuanshenginfo = false;
+                //    ApplicantID = objLightDAC.addapplicantinfo_EmperorGuansheng_ty(AppName, AppMobile, Appbirth, "N", "吉", AppbirthMonth, Appage, AppZodiac, Appemail, "0", AppzipCode, Appcounty, Appdist, Appaddr, "Y", AppName, AppMobile, 0, AdminID, postURL, Year);
+                //    bool marriageemperorGuanshenginfo = false;
 
-                    if (ApplicantID > 0)
-                    {
-                        for (int i = 0; i < listcount; i++)
-                        {
-                            string name = Jname[i].ToString();
+                //    if (ApplicantID > 0)
+                //    {
+                //        for (int i = 0; i < listcount; i++)
+                //        {
+                //            string name = Jname[i].ToString();
 
-                            TimeZoneInfo info = TimeZoneInfo.FindSystemTimeZoneById("Taipei Standard Time");
-                            DateTime dtNow = TimeZoneInfo.ConvertTime(DateTime.Now, info);
-                            string emperorGuanshengString = JEmperorGuanshengString_Tag[i].ToString(); ;
-                            string emperorGuanshengType = GetEmperorGuanshengType(emperorGuanshengString, "14"); ;
-                            string Birth = string.Empty;
-                            string birthMonth = "0";
-                            string age = "0";
-                            string Zodiac = string.Empty;
+                //            TimeZoneInfo info = TimeZoneInfo.FindSystemTimeZoneById("Taipei Standard Time");
+                //            DateTime dtNow = TimeZoneInfo.ConvertTime(DateTime.Now, info);
+                //            string emperorGuanshengString = JEmperorGuanshengString_Tag[i].ToString(); ;
+                //            string emperorGuanshengType = GetEmperorGuanshengType(emperorGuanshengString, "14"); ;
+                //            string Birth = string.Empty;
+                //            string birthMonth = "0";
+                //            string age = "0";
+                //            string Zodiac = string.Empty;
 
-                            string year = string.Empty;
-                            string month = string.Empty;
-                            string day = string.Empty;
+                //            string year = string.Empty;
+                //            string month = string.Empty;
+                //            string day = string.Empty;
 
-                            string birth = Jbirth[i].ToString();
-                            int s1 = birth.IndexOf("民國");
-                            int s2 = birth.IndexOf("年");
-                            int s3 = birth.IndexOf("月");
-                            int s4 = birth.IndexOf("日");
-                            if (birth.IndexOf("民國") >= 0 && birth.IndexOf("年") > 0 && birth.IndexOf("月") > 0 && birth.IndexOf("日") > 0)
-                            {
-                                int year_index = birth.IndexOf("年");
-                                int month_index = birth.IndexOf("月");
-                                year = (int.Parse(birth.Substring(2, year_index - 2)) + 1911).ToString();
-                                month = birthMonth = birth.Substring(year_index + 1, month_index - year_index - 1);
-                                day = birth.Substring(month_index + 1, birth.Length - month_index - 2);
+                //            string birth = Jbirth[i].ToString();
+                //            int s1 = birth.IndexOf("民國");
+                //            int s2 = birth.IndexOf("年");
+                //            int s3 = birth.IndexOf("月");
+                //            int s4 = birth.IndexOf("日");
+                //            if (birth.IndexOf("民國") >= 0 && birth.IndexOf("年") > 0 && birth.IndexOf("月") > 0 && birth.IndexOf("日") > 0)
+                //            {
+                //                int year_index = birth.IndexOf("年");
+                //                int month_index = birth.IndexOf("月");
+                //                year = (int.Parse(birth.Substring(2, year_index - 2)) + 1911).ToString();
+                //                month = birthMonth = birth.Substring(year_index + 1, month_index - year_index - 1);
+                //                day = birth.Substring(month_index + 1, birth.Length - month_index - 2);
 
-                                Solar solor = new Solar();
-                                int.TryParse(Appyear, out solor.solarYear);
-                                int.TryParse(Appmonth, out solor.solarMonth);
-                                int.TryParse(Appday, out solor.solarDay);
+                //                Solar solor = new Solar();
+                //                int.TryParse(Appyear, out solor.solarYear);
+                //                int.TryParse(Appmonth, out solor.solarMonth);
+                //                int.TryParse(Appday, out solor.solarDay);
 
-                                Lunar lunar = new Lunar();
-                                lunar = LunarSolarConverter.SolarToLunar(solor);
+                //                Lunar lunar = new Lunar();
+                //                lunar = LunarSolarConverter.SolarToLunar(solor);
 
-                                Birth = lunar.lunarYear + "-" + lunar.lunarMonth + "-" + lunar.lunarDay;
-                                LunarSolarConverter.shuxiang(lunar.lunarYear, ref Zodiac);
-                                //age = GetAge(DateTime.Parse(Birth_ad), dtNow);
-                                age = GetAge(int.Parse(year), int.Parse(month), int.Parse(day)).ToString();
-                            }
+                //                Birth = lunar.lunarYear + "-" + lunar.lunarMonth + "-" + lunar.lunarDay;
+                //                LunarSolarConverter.shuxiang(lunar.lunarYear, ref Zodiac);
+                //                //age = GetAge(DateTime.Parse(Birth_ad), dtNow);
+                //                age = GetAge(int.Parse(year), int.Parse(month), int.Parse(day)).ToString();
+                //            }
 
-                            birthMonth = birthMonth.Length < 2 ? "0" + birthMonth : birthMonth;
+                //            birthMonth = birthMonth.Length < 2 ? "0" + birthMonth : birthMonth;
 
-                            if (name != "")
-                            {
-                                marriageemperorGuanshenginfo = true;
-                                EmperorGuanshengID = objLightDAC.addEmperorGuansheng_ty(ApplicantID, name, Jmobile[i].ToString(), "善男", emperorGuanshengType, emperorGuanshengString,
-                                    "1", birth, "N", "吉", birthMonth, age, Zodiac, 1, Jaddr[i].ToString(), Jcounty[i].ToString(), Jdist[i].ToString(), JzipCode[i].ToString(), Year);
-                            }
+                //            if (name != "")
+                //            {
+                //                marriageemperorGuanshenginfo = true;
+                //                EmperorGuanshengID = objLightDAC.addEmperorGuansheng_ty(ApplicantID, name, Jmobile[i].ToString(), "善男", emperorGuanshengType, emperorGuanshengString,
+                //                    "1", birth, "N", "吉", birthMonth, age, Zodiac, 1, Jaddr[i].ToString(), Jcounty[i].ToString(), Jdist[i].ToString(), JzipCode[i].ToString(), Year);
+                //            }
 
-                        }
-                    }
+                //        }
+                //    }
 
-                    if (ApplicantID > 0 && marriageemperorGuanshenginfo)
-                    {
-                        basePage.mJSonHelper.AddContent("StatusCode", 1);
-                        basePage.mJSonHelper.AddContent("redirect", "templeCheck.aspx?kind=9&bobi=1&a=" + AdminID + "&aid=" + ApplicantID + (basePage.Request["ad"] != null ? "&ad=1" : "") + (basePage.Request["twm"] != null ? "&twm=1" : ""));
+                //    if (ApplicantID > 0 && marriageemperorGuanshenginfo)
+                //    {
+                //        basePage.mJSonHelper.AddContent("StatusCode", 1);
+                //        basePage.mJSonHelper.AddContent("redirect", "templeCheck.aspx?kind=9&bobi=1&a=" + AdminID + "&aid=" + ApplicantID + (basePage.Request["ad"] != null ? "&ad=1" : "") + (basePage.Request["twm"] != null ? "&twm=1" : ""));
 
-                        basePage.Session["ApplicantID"] = ApplicantID;
-                    }
-                }
+                //        basePage.Session["ApplicantID"] = ApplicantID;
+                //    }
+                //}
             }
 
             public void editinfo(BasePage basePage)
@@ -215,7 +215,7 @@ namespace Temple.Temples
 
                 string AdminID = basePage.Request["a"];
 
-                dtData = objLightDAC.GetemperorGuansheng_ty_info(applicantID, Year);
+                dtData = objLightDAC.GetemperorGuansheng_ty_Info(applicantID, Year);
 
                 if (dtData.Rows.Count > 0)
                 {

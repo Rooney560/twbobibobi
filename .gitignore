@@ -11,7 +11,7 @@ obj/
 Debug/
 Release/
 
-# 避免專案內子資料夾也被 commit 出 bin/obj
+# �קK�M�פ��l��Ƨ��]�Q commit �X bin/obj
 */bin/
 */obj/
 
@@ -19,7 +19,7 @@ Release/
 IISExpress/
 *.vspscc
 
-# 不要把 VS 啟動設定 (.csproj.user) commit 進 repo
+# ���n�� VS �Ұʳ]�w (.csproj.user) commit �i repo
 *.csproj.user
 *.pubxml.user
 *.publishsettings

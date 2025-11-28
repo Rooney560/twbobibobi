@@ -26,6 +26,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <DocumentationFile>bin\twbobibobi.xml</DocumentationFile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -54,7 +55,66 @@
     <Reference Include="Newtonsoft.Json, Version=13.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\packages\Newtonsoft.Json.13.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
+    <Reference Include="Newtonsoft.Json.Bson, Version=1.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.Bson.1.0.2\lib\net45\Newtonsoft.Json.Bson.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Buffers, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Buffers.4.5.1\lib\net461\System.Buffers.dll</HintPath>
+    </Reference>
+    <Reference Include="System.ComponentModel.Composition" />
+    <Reference Include="System.IO, Version=4.1.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.IO.4.3.0\lib\net462\System.IO.dll</HintPath>
+      <Private>True</Private>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Memory, Version=4.0.1.2, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Memory.4.5.5\lib\net461\System.Memory.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Net.Http, Version=4.1.1.3, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Net.Http.4.3.4\lib\net46\System.Net.Http.dll</HintPath>
+      <Private>True</Private>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Net.Http.Formatting, Version=6.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.Client.6.0.0\lib\net45\System.Net.Http.Formatting.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Numerics" />
+    <Reference Include="System.Numerics.Vectors, Version=4.1.4.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Numerics.Vectors.4.5.0\lib\net46\System.Numerics.Vectors.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Runtime, Version=4.1.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Runtime.4.3.0\lib\net462\System.Runtime.dll</HintPath>
+      <Private>True</Private>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System.Runtime.Caching" />
+    <Reference Include="System.Runtime.CompilerServices.Unsafe, Version=4.0.4.1, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Runtime.CompilerServices.Unsafe.4.5.3\lib\net461\System.Runtime.CompilerServices.Unsafe.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Security.Cryptography.Algorithms, Version=4.2.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Security.Cryptography.Algorithms.4.3.0\lib\net463\System.Security.Cryptography.Algorithms.dll</HintPath>
+      <Private>True</Private>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Security.Cryptography.Encoding, Version=4.0.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Security.Cryptography.Encoding.4.3.0\lib\net46\System.Security.Cryptography.Encoding.dll</HintPath>
+      <Private>True</Private>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Security.Cryptography.Primitives, Version=4.0.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Security.Cryptography.Primitives.4.3.0\lib\net46\System.Security.Cryptography.Primitives.dll</HintPath>
+      <Private>True</Private>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Security.Cryptography.X509Certificates, Version=4.1.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Security.Cryptography.X509Certificates.4.3.0\lib\net461\System.Security.Cryptography.X509Certificates.dll</HintPath>
+      <Private>True</Private>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Threading.Tasks.Extensions, Version=4.2.0.1, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Threading.Tasks.Extensions.4.5.4\lib\net461\System.Threading.Tasks.Extensions.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Transactions" />
     <Reference Include="System.Web.DynamicData" />
     <Reference Include="System.Web.Entity" />
     <Reference Include="System.Web.ApplicationServices" />
@@ -64,6 +124,9 @@
     <Reference Include="System.Core" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="System.Web.Extensions" />
+    <Reference Include="System.Web.Http, Version=5.3.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.Core.5.3.0\lib\net45\System.Web.Http.dll</HintPath>
+    </Reference>
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Web" />
@@ -81,6 +144,12 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Api\CancelInvoice.aspx" />
+    <Content Include="Api\InvoiceAPI.aspx" />
+    <Content Include="Api\InvoiceCancel.aspx" />
+    <Content Include="Api\InvoiceMobileCarrierAPI.aspx" />
+    <Content Include="Api\InvoiceQuery.aspx" />
+    <Content Include="Api\InvoiceStatus.aspx" />
     <Content Include="Controls\AjaxClientControl.ascx" />
     <Content Include="Controls\PopupMessageDialogControl.ascx" />
     <Content Include="css\images\ajax-loader.gif" />
@@ -160,7 +229,9 @@
     <Content Include="css\search\style.css" />
     <Content Include="FET\API\AESOrder.aspx" />
     <Content Include="FET\API\CancelOrder.aspx" />
+    <Content Include="FET\API\CreateOrder_old.aspx" />
     <Content Include="FET\API\CreateOrder.aspx" />
+    <Content Include="FET\API\CreateOrderTest.aspx" />
     <Content Include="FET\API\QueryOrder.aspx" />
     <Content Include="FET\Lights\css\chunk-23f845af-7540c1d883da3183df9d.css" />
     <Content Include="FET\Lights\css\chunk-vendors-95b4e198519adae54646.css" />
@@ -303,6 +374,7 @@
     <Content Include="images\temple.png" />
     <Content Include="images\titleBg.png" />
     <Content Include="index.aspx" />
+    <Content Include="LogPurlScanner.aspx" />
     <Content Include="PaymentCallback_Lights.aspx" />
     <Content Include="Product\css\fancybox.css" />
     <Content Include="Product\css\fonts\slick.svg" />
@@ -439,6 +511,7 @@
     <Content Include="scripts\js\slick.min.js" />
     <Content Include="scripts\js\_notes\dwsync.xml" />
     <Content Include="SearchLog.aspx" />
+    <Content Include="SearchLog3.aspx" />
     <Content Include="Temples\AnDouInformation.aspx" />
     <Content Include="Temples\AnDouVsBaiDou.aspx" />
     <Content Include="Temples\ArticleColumn.aspx" />
@@ -481,6 +554,16 @@
     <Content Include="Temples\css\take_draw.css" />
     <Content Include="Temples\css\_notes\dwsync.xml" />
     <Content Include="Temples\DuanWuWuShiShui.aspx" />
+    <Content Include="Temples\EmperorGuansheng01.aspx" />
+    <Content Include="Temples\EmperorGuansheng02.aspx" />
+    <Content Include="Temples\EmperorGuansheng03.aspx" />
+    <Content Include="Temples\EmperorGuansheng04.aspx" />
+    <Content Include="Temples\EmperorGuansheng05.aspx" />
+    <Content Include="Temples\EmperorGuansheng06.aspx" />
+    <Content Include="Temples\EmperorGuansheng07.aspx" />
+    <Content Include="Temples\EmperorGuansheng08.aspx" />
+    <Content Include="Temples\EmperorGuansheng09.aspx" />
+    <Content Include="Temples\EmperorGuanshengGuide.aspx" />
     <Content Include="Temples\EventTitbits.aspx" />
     <Content Include="Temples\EventTitbitsCategory.aspx" />
     <Content Include="Temples\footer.ascx" />
@@ -709,6 +792,7 @@
     <Content Include="Temples\images\temple\supplies_wu.jpg" />
     <Content Include="Temples\images\temple\supplies_wu2.jpg" />
     <Content Include="Temples\images\tpl_page_title_bg.jpg" />
+    <Content Include="Temples\InvInfosendMail.aspx" />
     <Content Include="Temples\js\fancybox.umd.js" />
     <Content Include="Temples\js\fixbox.js" />
     <Content Include="Temples\js\grouploop-1.0.3.min.js" />
@@ -735,6 +819,7 @@
     <Content Include="Temples\Lights14.aspx" />
     <Content Include="Temples\Lights24.aspx" />
     <Content Include="Temples\LightsGuide.aspx" />
+    <Content Include="Temples\LowerPrimeWaterOfficial.aspx" />
     <Content Include="Temples\news.aspx" />
     <Content Include="Temples\newsContent_2022lights.aspx" />
     <Content Include="Temples\newsContent_2022purdue.aspx" />
@@ -762,9 +847,13 @@
     <Content Include="Temples\newsContent_2025andou.aspx" />
     <Content Include="Temples\newsContent_2025lights.aspx" />
     <Content Include="Temples\newsContent_2025lights_ty.aspx" />
+    <Content Include="Temples\newsContent_2025lybc_dh.aspx" />
+    <Content Include="Temples\newsContent_2025purdue.aspx" />
     <Content Include="Temples\newsContent_2025suppliesBF.aspx" />
     <Content Include="Temples\newsContent_2025supplies_Lk.aspx" />
     <Content Include="Temples\newsContent_2025supplies_sx.aspx" />
+    <Content Include="Temples\newsContent_2026andou.aspx" />
+    <Content Include="Temples\newsContent_2026lights.aspx" />
     <Content Include="Temples\NewYearNotes.aspx" />
     <Content Include="Temples\NewYearNotes_01.aspx" />
     <Content Include="Temples\NewYearNotes_02.aspx" />
@@ -775,6 +864,26 @@
     <Content Include="Temples\NewYearNotes_07.aspx" />
     <Content Include="Temples\PrivacyIndex.aspx" />
     <Content Include="Temples\PrivacyPolicy.aspx" />
+    <Content Include="Temples\Purdue01.aspx" />
+    <Content Include="Temples\Purdue02.aspx" />
+    <Content Include="Temples\Purdue03.aspx" />
+    <Content Include="Temples\Purdue04.aspx" />
+    <Content Include="Temples\Purdue05.aspx" />
+    <Content Include="Temples\Purdue06.aspx" />
+    <Content Include="Temples\Purdue07.aspx" />
+    <Content Include="Temples\Purdue08.aspx" />
+    <Content Include="Temples\Purdue09.aspx" />
+    <Content Include="Temples\Purdue10.aspx" />
+    <Content Include="Temples\Purdue11.aspx" />
+    <Content Include="Temples\Purdue12.aspx" />
+    <Content Include="Temples\Purdue13.aspx" />
+    <Content Include="Temples\Purdue14.aspx" />
+    <Content Include="Temples\Purdue15.aspx" />
+    <Content Include="Temples\Purdue16.aspx" />
+    <Content Include="Temples\Purdue17.aspx" />
+    <Content Include="Temples\Purdue18.aspx" />
+    <Content Include="Temples\Purdue19.aspx" />
+    <Content Include="Temples\PurdueGuide.aspx" />
     <Content Include="Temples\service.aspx" />
     <Content Include="Temples\ShoppingGuide.aspx" />
     <Content Include="Temples\SiteFile\Event\20211125_LightsImg.jpeg" />
@@ -833,27 +942,32 @@
     <Content Include="Temples\templeInfo.aspx" />
     <Content Include="Temples\templeService_andou_Fw.aspx" />
     <Content Include="Temples\templeService_andou_wjsan.aspx" />
+    <Content Include="Temples\templeService_blessing_st.aspx" />
     <Content Include="Temples\templeService_EmperorGuansheng_bobi_ty.aspx" />
     <Content Include="Temples\templeService_EmperorGuansheng_ty.aspx" />
     <Content Include="Temples\templeService_huaguo_wjsan.aspx" />
     <Content Include="Temples\templeService_lights.aspx" />
+    <Content Include="Temples\templeService_lights_bj.aspx" />
+    <Content Include="Temples\templeService_lights_bpy.aspx" />
     <Content Include="Temples\templeService_lights_da.aspx" />
     <Content Include="Temples\templeService_lights_dh.aspx" />
     <Content Include="Temples\templeService_lights_Fu.aspx" />
     <Content Include="Temples\templeService_lights_Fw.aspx" />
     <Content Include="Temples\templeService_lights_h.aspx" />
     <Content Include="Temples\templeService_lights_Hs.aspx" />
+    <Content Include="Temples\templeService_lights_ld.aspx" />
     <Content Include="Temples\templeService_lights_Lk.aspx" />
     <Content Include="Temples\templeService_lights_Luer.aspx" />
     <Content Include="Temples\templeService_lights_ma.aspx" />
+    <Content Include="Temples\templeService_lights_sbbt.aspx" />
+    <Content Include="Temples\templeService_lights_ssy.aspx" />
+    <Content Include="Temples\templeService_lights_st.aspx" />
     <Content Include="Temples\templeService_lights_ty.aspx" />
     <Content Include="Temples\templeService_lights_ty_mom.aspx" />
     <Content Include="Temples\templeService_lights_wjsan.aspx" />
     <Content Include="Temples\templeService_lights_wu.aspx" />
     <Content Include="Temples\templeService_lingbaolidou_ma.aspx" />
     <Content Include="Temples\templeService_lingbaolidou_ma_fet.aspx" />
-    <Content Include="Temples\templeService_lingbaolidou_ty.aspx" />
-    <Content Include="Temples\templeService_lingbaolidou_ty_fet.aspx" />
     <Content Include="Temples\templeService_lybc_dh.aspx" />
     <Content Include="Temples\templeService_marriagelights_Luer.aspx" />
     <Content Include="Temples\templeService_marriagelights_Luer_twm.aspx" />
@@ -869,6 +983,7 @@
     <Content Include="Temples\templeService_purdue_ty.aspx" />
     <Content Include="Temples\templeService_purdue_wjsan.aspx" />
     <Content Include="Temples\templeService_purdue_wu.aspx" />
+    <Content Include="Temples\templeService_qnlight_ty.aspx" />
     <Content Include="Temples\templeService_supplies.aspx" />
     <Content Include="Temples\templeService_supplies2.aspx" />
     <Content Include="Temples\templeService_supplies2_sx.aspx" />
@@ -882,11 +997,21 @@
     <Content Include="Temples\templeService_supplies_sx.aspx" />
     <Content Include="Temples\templeService_supplies_ty.aspx" />
     <Content Include="Temples\templeService_TaoistJiaoCeremony_da.aspx" />
+    <Content Include="Temples\Video_contest.aspx" />
+    <Content Include="Temples\ZodiacFortune_2026.aspx" />
     <Content Include="Temples\ZodiacFortune_Lixia.aspx" />
+    <Content Include="Temples\ZodiacFortune_TaiSui_2026.aspx" />
     <Content Include="TWPaymentCallback_AnDou_Fw.aspx" />
     <Content Include="TWPaymentCallback_AnDou_wjsan.aspx" />
+    <Content Include="TWPaymentCallback_Blessing_st.aspx" />
     <Content Include="TWPaymentCallback_Huaguo_wjsan.aspx" />
+    <Content Include="TWPaymentCallback_Lights_bj.aspx" />
+    <Content Include="TWPaymentCallback_Lights_bpy.aspx" />
     <Content Include="TWPaymentCallback_Lights_Hs.aspx" />
+    <Content Include="TWPaymentCallback_Lights_ld.aspx" />
+    <Content Include="TWPaymentCallback_Lights_sbbt.aspx" />
+    <Content Include="TWPaymentCallback_Lights_ssy.aspx" />
+    <Content Include="TWPaymentCallback_Lights_st.aspx" />
     <Content Include="TWPaymentCallback_Lights_ty_mom.aspx" />
     <Content Include="Temples\ZodiacFortune.aspx" />
     <Content Include="Temples\Zodiac_Dog.aspx" />
@@ -915,7 +1040,6 @@
     <Content Include="TWPaymentCallback_Lights_wjsan.aspx" />
     <Content Include="TWPaymentCallback_Lights_wu.aspx" />
     <Content Include="TWPaymentCallback_Lingbaolidou_ma.aspx" />
-    <Content Include="TWPaymentCallback_Lingbaolidou_ty.aspx" />
     <Content Include="TWPaymentCallback_Lybc_dh.aspx" />
     <Content Include="TWPaymentCallback_Moneymother.aspx" />
     <Content Include="TWPaymentCallback_Pilgrimage.aspx" />
@@ -927,12 +1051,15 @@
     <Content Include="TWPaymentCallback_Purdue_Fw.aspx" />
     <Content Include="TWPaymentCallback_Purdue_h.aspx" />
     <Content Include="TWPaymentCallback_Purdue_Jing.aspx" />
+    <Content Include="TWPaymentCallback_Purdue_ld.aspx" />
     <Content Include="TWPaymentCallback_Purdue_Lk.aspx" />
     <Content Include="TWPaymentCallback_Purdue_Luer.aspx" />
     <Content Include="TWPaymentCallback_Purdue_ma.aspx" />
     <Content Include="TWPaymentCallback_Purdue_mazu.aspx" />
     <Content Include="TWPaymentCallback_Purdue_ty.aspx" />
+    <Content Include="TWPaymentCallback_Purdue_wjsan.aspx" />
     <Content Include="TWPaymentCallback_Purdue_wu.aspx" />
+    <Content Include="TWPaymentCallback_QnLight_ty.aspx" />
     <Content Include="TWPaymentCallback_Supplies2_sx.aspx" />
     <Content Include="TWPaymentCallback_Supplies2_ty.aspx" />
     <Content Include="TWPaymentCallback_Supplies3_ty.aspx" />
@@ -949,8 +1076,56 @@
     <Content Include="Web.config" />
     <Content Include="WebForm1.aspx" />
     <Content Include="WebForm2.aspx" />
+    <Content Include="InvoiceTEST.aspx" />
+    <Content Include="WebForm4.aspx" />
+    <Content Include="WebForm7.aspx" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ApiClients\InvoiceCaller.cs" />
+    <Compile Include="ApiClients\InvoiceRequestFactory.cs" />
+    <Compile Include="Api\CancelInvoice.aspx.cs">
+      <DependentUpon>CancelInvoice.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Api\CancelInvoice.aspx.designer.cs">
+      <DependentUpon>CancelInvoice.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Api\InvoiceAPI.aspx.cs">
+      <DependentUpon>InvoiceAPI.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Api\InvoiceAPI.aspx.designer.cs">
+      <DependentUpon>InvoiceAPI.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Api\InvoiceCancel.aspx.cs">
+      <DependentUpon>InvoiceCancel.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Api\InvoiceCancel.aspx.designer.cs">
+      <DependentUpon>InvoiceCancel.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Api\InvoiceMobileCarrierAPI.aspx.cs">
+      <DependentUpon>InvoiceMobileCarrierAPI.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Api\InvoiceMobileCarrierAPI.aspx.designer.cs">
+      <DependentUpon>InvoiceMobileCarrierAPI.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Api\InvoiceQuery.aspx.cs">
+      <DependentUpon>InvoiceQuery.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Api\InvoiceQuery.aspx.designer.cs">
+      <DependentUpon>InvoiceQuery.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Api\InvoiceStatus.aspx.cs">
+      <DependentUpon>InvoiceStatus.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Api\InvoiceStatus.aspx.designer.cs">
+      <DependentUpon>InvoiceStatus.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Controllers\InvoiceController.cs" />
     <Compile Include="Controls\AjaxClientControl.ascx.cs">
       <DependentUpon>AjaxClientControl.ascx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -965,6 +1140,7 @@
     <Compile Include="Controls\PopupMessageDialogControl.ascx.designer.cs">
       <DependentUpon>PopupMessageDialogControl.ascx</DependentUpon>
     </Compile>
+    <Compile Include="Data\AdminDAC3.cs" />
     <Compile Include="Data\AdminDAC.cs" />
     <Compile Include="Data\AESHelper.cs" />
     <Compile Include="Data\AjaxBasePage.cs">
@@ -985,11 +1161,17 @@
     <Compile Include="Data\CeremonyDAC.cs" />
     <Compile Include="Data\DatabaseAdapter.cs" />
     <Compile Include="Data\DatabaseHelper.cs" />
+    <Compile Include="Data\LightDAC.cs" />
+    <Compile Include="FET\Processors\BeijitaitungOrderProcessor.cs" />
+    <Compile Include="FET\Processors\BopeeyouOrderProcessor.cs" />
+    <Compile Include="FET\Processors\ShibibutangOrderProcessor.cs" />
+    <Compile Include="FET\Processors\ShoushanyanOrderProcessor.cs" />
+    <Compile Include="Helpers\EmailImageHelper.cs" />
     <Compile Include="Data\EventDAC.cs" />
     <Compile Include="Data\EventTitbitsDAC.cs" />
     <Compile Include="Data\ImagesDAC.cs" />
     <Compile Include="Data\JSonHelper.cs" />
-    <Compile Include="Data\LightDAC.cs" />
+    <Compile Include="Data\LightDAC3.cs" />
     <Compile Include="Data\LightsDAC.cs" />
     <Compile Include="Data\LunarSolarConverter.cs" />
     <Compile Include="Data\ProductDAC.cs" />
@@ -1022,11 +1204,25 @@
     <Compile Include="FET\API\CancelOrder.aspx.designer.cs">
       <DependentUpon>CancelOrder.aspx</DependentUpon>
     </Compile>
+    <Compile Include="FET\API\CreateOrder_old.aspx.cs">
+      <DependentUpon>CreateOrder_old.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="FET\API\CreateOrder_old.aspx.designer.cs">
+      <DependentUpon>CreateOrder_old.aspx</DependentUpon>
+    </Compile>
     <Compile Include="FET\API\CreateOrder.aspx.cs">
       <DependentUpon>CreateOrder.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="FET\API\CreateOrder.aspx.designer.cs">
       <DependentUpon>CreateOrder.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="FET\API\CreateOrderTest.aspx.cs">
+      <DependentUpon>CreateOrderTest.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="FET\API\CreateOrderTest.aspx.designer.cs">
+      <DependentUpon>CreateOrderTest.aspx</DependentUpon>
     </Compile>
     <Compile Include="FET\API\QueryOrder.aspx.cs">
       <DependentUpon>QueryOrder.aspx</DependentUpon>
@@ -1035,6 +1231,15 @@
     <Compile Include="FET\API\QueryOrder.aspx.designer.cs">
       <DependentUpon>QueryOrder.aspx</DependentUpon>
     </Compile>
+    <Compile Include="FET\Data\IOrderRepository.cs" />
+    <Compile Include="FET\Data\ITempleCodeRepository.cs" />
+    <Compile Include="FET\Data\OrderRepository.cs" />
+    <Compile Include="FET\Data\TempleCodeRepository.cs" />
+    <Compile Include="FET\Dto\ApplicantDto.cs" />
+    <Compile Include="FET\Dto\ItemDto.cs" />
+    <Compile Include="FET\Dto\OrderRequestDto.cs" />
+    <Compile Include="FET\Dto\PrayedPersonDto.cs" />
+    <Compile Include="FET\Dto\TempleCodeInfoDto.cs" />
     <Compile Include="FET\Lights\LightsCheck.aspx.cs">
       <DependentUpon>LightsCheck.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -1063,6 +1268,31 @@
     <Compile Include="FET\Lights\TWPaymentCallback_Lights_Luer.aspx.designer.cs">
       <DependentUpon>TWPaymentCallback_Lights_Luer.aspx</DependentUpon>
     </Compile>
+    <Compile Include="FET\Processors\BeigangOrderProcessor.cs" />
+    <Compile Include="FET\Processors\DajiaOrderProcessor.cs" />
+    <Compile Include="FET\Processors\DonghaimazuOrderProcessor.cs" />
+    <Compile Include="FET\Processors\DsctgOrderProcessor.cs" />
+    <Compile Include="FET\Processors\FivewayOrderProcessor.cs" />
+    <Compile Include="FET\Processors\FusingOrderProcessor.cs" />
+    <Compile Include="FET\Processors\HsinkangOrderProcessor.cs" />
+    <Compile Include="FET\Processors\ITempleOrderProcessor.cs" />
+    <Compile Include="FET\Processors\ITempleOrderProcessorFactory.cs" />
+    <Compile Include="FET\Processors\JinbaoOrderProcessor.cs" />
+    <Compile Include="FET\Processors\Ld4mOrderProcessor.cs" />
+    <Compile Include="FET\Processors\LuermenOrderProcessor.cs" />
+    <Compile Include="FET\Processors\LukanggodOrderProcessor.cs" />
+    <Compile Include="FET\Processors\ProductOrderProcessor.cs" />
+    <Compile Include="FET\Processors\ShenxiaoOrderProcessor.cs" />
+    <Compile Include="FET\Processors\ShilongOrderProcessor.cs" />
+    <Compile Include="FET\Processors\ShoutianOrderProcessor.cs" />
+    <Compile Include="FET\Processors\TempleOrderProcessorBase.cs" />
+    <Compile Include="FET\Processors\TempleOrderProcessorFactory.cs" />
+    <Compile Include="FET\Processors\TywtgOrderProcessor.cs" />
+    <Compile Include="FET\Processors\WjsanOrderProcessor.cs" />
+    <Compile Include="FET\Processors\WudeOrderProcessor.cs" />
+    <Compile Include="FET\Processors\WuxuanOrderProcessor.cs" />
+    <Compile Include="FET\Services\IOrderService.cs" />
+    <Compile Include="FET\Services\OrderService.cs" />
     <Compile Include="FET\Supplies\SuppliesCheck.aspx.cs">
       <DependentUpon>SuppliesCheck.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -1098,13 +1328,45 @@
     <Compile Include="FET\Supplies\TWPaymentCallback_Supplies_wu3.aspx.designer.cs">
       <DependentUpon>TWPaymentCallback_Supplies_wu3.aspx</DependentUpon>
     </Compile>
+    <Compile Include="Helpers\EmailHelper.cs" />
+    <Compile Include="ApiClients\InvoiceApiClient.cs" />
+    <Compile Include="Helpers\ErrorLogger.cs" />
+    <Compile Include="Helpers\InvoiceHelper.cs" />
+    <Compile Include="Helpers\InvoiceResponseExtensions.cs" />
+    <Compile Include="Helpers\IPBlocker.cs" />
+    <Compile Include="Helpers\ServiceTemplateHelper.cs" />
+    <Compile Include="Helpers\TempleHelper.cs" />
+    <Compile Include="Helpers\TokenHelper.cs" />
+    <Compile Include="Helpers\UrlHelper.cs" />
+    <Compile Include="LogPurlScanner.aspx.cs">
+      <DependentUpon>LogPurlScanner.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="LogPurlScanner.aspx.designer.cs">
+      <DependentUpon>LogPurlScanner.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Model\ApplicantResult.cs" />
+    <Compile Include="Model\CancelInvoiceResponseDto.cs" />
+    <Compile Include="Model\CaptchaModel.cs" />
+    <Compile Include="Model\Common\ApiResponse.cs" />
+    <Compile Include="Model\CreateInvoiceDto.cs" />
+    <Compile Include="Model\InvoiceIssueScenario.cs" />
+    <Compile Include="Model\InvoiceQueryResponseDto.cs" />
+    <Compile Include="Model\InvoiceRequest.cs" />
     <Compile Include="index.aspx.cs">
       <DependentUpon>index.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="index.aspx.designer.cs">
       <DependentUpon>index.aspx</DependentUpon>
     </Compile>
+    <Compile Include="Model\InvoiceModel.cs" />
+    <Compile Include="Model\InvoiceResponseDto.cs" />
+    <Compile Include="Model\InvoiceStatusResponseDto.cs" />
+    <Compile Include="Model\InvoiceWrapperInput.cs" />
+    <Compile Include="Model\ProductItem.cs" />
+    <Compile Include="Model\ProductMoneymotherItem.cs" />
+    <Compile Include="Model\ServiceKind.cs" />
+    <Compile Include="Model\ThankYouModel.cs" />
     <Compile Include="PaymentCallback_Lights.aspx.cs">
       <DependentUpon>PaymentCallback_Lights.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -1127,6 +1389,8 @@
       <DependentUpon>MoneymotherIndex.aspx</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Repository\ILogQueryRepository.cs" />
+    <Compile Include="Repository\LogQueryRepository.cs" />
     <Compile Include="SearchLog.aspx.cs">
       <DependentUpon>SearchLog.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -1134,6 +1398,39 @@
     <Compile Include="SearchLog.aspx.designer.cs">
       <DependentUpon>SearchLog.aspx</DependentUpon>
     </Compile>
+    <Compile Include="SearchLog3.aspx.cs">
+      <DependentUpon>SearchLog3.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="SearchLog3.aspx.designer.cs">
+      <DependentUpon>SearchLog3.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Services\CaptchaEmailSender.cs" />
+    <Compile Include="Services\CaptchaEmailService.cs" />
+    <Compile Include="Services\CarrierChecker.cs" />
+    <Compile Include="Services\EmailTemplateService.cs" />
+    <Compile Include="Services\EmailTemplateType.cs" />
+    <Compile Include="Services\IInvoiceCancelService.cs" />
+    <Compile Include="Services\IInvoiceQueryService.cs" />
+    <Compile Include="Services\IInvoiceService.cs" />
+    <Compile Include="Services\IInvoiceStatusService.cs" />
+    <Compile Include="Services\IMobileCarrierValidator.cs" />
+    <Compile Include="Services\InvoiceCancelService.cs" />
+    <Compile Include="Services\InvoiceEmailSender.cs" />
+    <Compile Include="Services\InvoiceEmailService.cs" />
+    <Compile Include="Services\InvoiceFactory.cs" />
+    <Compile Include="Services\InvoiceProcessor.cs" />
+    <Compile Include="Services\InvoiceQueryService.cs" />
+    <Compile Include="Services\InvoiceService.cs" />
+    <Compile Include="Services\InvoiceServiceFactory.cs" />
+    <Compile Include="Services\InvoiceStatusService.cs" />
+    <Compile Include="Services\MobileCarrierValidator.cs" />
+    <Compile Include="Services\Payment\CommonChargeMaps.cs" />
+    <Compile Include="Services\Payment\PaymentService.cs" />
+    <Compile Include="Services\Payment\TemplePaymentConfig.cs" />
+    <Compile Include="Services\SearchLogService.cs" />
+    <Compile Include="Services\ThankYouEmailSender.cs" />
+    <Compile Include="Services\ThankYouEmailService.cs" />
     <Compile Include="Temples\AnDouInformation.aspx.cs">
       <DependentUpon>AnDouInformation.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -1169,6 +1466,76 @@
     <Compile Include="Temples\DuanWuWuShiShui.aspx.designer.cs">
       <DependentUpon>DuanWuWuShiShui.aspx</DependentUpon>
     </Compile>
+    <Compile Include="Temples\EmperorGuansheng01.aspx.cs">
+      <DependentUpon>EmperorGuansheng01.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Temples\EmperorGuansheng01.aspx.designer.cs">
+      <DependentUpon>EmperorGuansheng01.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Temples\EmperorGuansheng02.aspx.cs">
+      <DependentUpon>EmperorGuansheng02.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Temples\EmperorGuansheng02.aspx.designer.cs">
+      <DependentUpon>EmperorGuansheng02.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Temples\EmperorGuansheng03.aspx.cs">
+      <DependentUpon>EmperorGuansheng03.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Temples\EmperorGuansheng03.aspx.designer.cs">
+      <DependentUpon>EmperorGuansheng03.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Temples\EmperorGuansheng04.aspx.cs">
+      <DependentUpon>EmperorGuansheng04.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Temples\EmperorGuansheng04.aspx.designer.cs">
+      <DependentUpon>EmperorGuansheng04.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Temples\EmperorGuansheng05.aspx.cs">
+      <DependentUpon>EmperorGuansheng05.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Temples\EmperorGuansheng05.aspx.designer.cs">
+      <DependentUpon>EmperorGuansheng05.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Temples\EmperorGuansheng06.aspx.cs">
+      <DependentUpon>EmperorGuansheng06.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Temples\EmperorGuansheng06.aspx.designer.cs">
+      <DependentUpon>EmperorGuansheng06.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Temples\EmperorGuansheng07.aspx.cs">
+      <DependentUpon>EmperorGuansheng07.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Temples\EmperorGuansheng07.aspx.designer.cs">
+      <DependentUpon>EmperorGuansheng07.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Temples\EmperorGuansheng08.aspx.cs">
+      <DependentUpon>EmperorGuansheng08.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Temples\EmperorGuansheng08.aspx.designer.cs">
+      <DependentUpon>EmperorGuansheng08.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Temples\EmperorGuansheng09.aspx.cs">
+      <DependentUpon>EmperorGuansheng09.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Temples\EmperorGuansheng09.aspx.designer.cs">
+      <DependentUpon>EmperorGuansheng09.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Temples\EmperorGuanshengGuide.aspx.cs">
+      <DependentUpon>EmperorGuanshengGuide.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Temples\EmperorGuanshengGuide.aspx.designer.cs">
+      <DependentUpon>EmperorGuanshengGuide.aspx</DependentUpon>
+    </Compile>
     <Compile Include="Temples\EventTitbits.aspx.cs">
       <DependentUpon>EventTitbits.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -1196,6 +1563,13 @@
     </Compile>
     <Compile Include="Temples\header.ascx.designer.cs">
       <DependentUpon>header.ascx</DependentUpon>
+    </Compile>
+    <Compile Include="Temples\InvInfosendMail.aspx.cs">
+      <DependentUpon>InvInfosendMail.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Temples\InvInfosendMail.aspx.designer.cs">
+      <DependentUpon>InvInfosendMail.aspx</DependentUpon>
     </Compile>
     <Compile Include="Temples\Lights03.aspx.cs">
       <DependentUpon>Lights03.aspx</DependentUpon>
@@ -1288,9 +1662,15 @@
     <Compile Include="Temples\LightsGuide.aspx.designer.cs">
       <DependentUpon>LightsGuide.aspx</DependentUpon>
     </Compile>
+    <Compile Include="Temples\LowerPrimeWaterOfficial.aspx.cs">
+      <DependentUpon>LowerPrimeWaterOfficial.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Temples\LowerPrimeWaterOfficial.aspx.designer.cs">
+      <DependentUpon>LowerPrimeWaterOfficial.aspx</DependentUpon>
+    </Compile>
     <Compile Include="Temples\news.aspx.cs">
       <DependentUpon>news.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="Temples\news.aspx.designer.cs">
       <DependentUpon>news.aspx</DependentUpon>
@@ -1477,9 +1857,22 @@
     <Compile Include="Temples\newsContent_2025lights_ty.aspx.designer.cs">
       <DependentUpon>newsContent_2025lights_ty.aspx</DependentUpon>
     </Compile>
+    <Compile Include="Temples\newsContent_2025lybc_dh.aspx.cs">
+      <DependentUpon>newsContent_2025lybc_dh.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Temples\newsContent_2025lybc_dh.aspx.designer.cs">
+      <DependentUpon>newsContent_2025lybc_dh.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Temples\newsContent_2025purdue.aspx.cs">
+      <DependentUpon>newsContent_2025purdue.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Temples\newsContent_2025purdue.aspx.designer.cs">
+      <DependentUpon>newsContent_2025purdue.aspx</DependentUpon>
+    </Compile>
     <Compile Include="Temples\newsContent_2025suppliesBF.aspx.cs">
       <DependentUpon>newsContent_2025suppliesBF.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="Temples\newsContent_2025suppliesBF.aspx.designer.cs">
       <DependentUpon>newsContent_2025suppliesBF.aspx</DependentUpon>
@@ -1497,6 +1890,20 @@
     </Compile>
     <Compile Include="Temples\newsContent_2025supplies_sx.aspx.designer.cs">
       <DependentUpon>newsContent_2025supplies_sx.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Temples\newsContent_2026andou.aspx.cs">
+      <DependentUpon>newsContent_2026andou.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Temples\newsContent_2026andou.aspx.designer.cs">
+      <DependentUpon>newsContent_2026andou.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Temples\newsContent_2026lights.aspx.cs">
+      <DependentUpon>newsContent_2026lights.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Temples\newsContent_2026lights.aspx.designer.cs">
+      <DependentUpon>newsContent_2026lights.aspx</DependentUpon>
     </Compile>
     <Compile Include="Temples\NewYearNotes.aspx.cs">
       <DependentUpon>NewYearNotes.aspx</DependentUpon>
@@ -1567,6 +1974,146 @@
     </Compile>
     <Compile Include="Temples\PrivacyPolicy.aspx.designer.cs">
       <DependentUpon>PrivacyPolicy.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Temples\Purdue01.aspx.cs">
+      <DependentUpon>Purdue01.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Temples\Purdue01.aspx.designer.cs">
+      <DependentUpon>Purdue01.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Temples\Purdue02.aspx.cs">
+      <DependentUpon>Purdue02.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Temples\Purdue02.aspx.designer.cs">
+      <DependentUpon>Purdue02.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Temples\Purdue03.aspx.cs">
+      <DependentUpon>Purdue03.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Temples\Purdue03.aspx.designer.cs">
+      <DependentUpon>Purdue03.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Temples\Purdue04.aspx.cs">
+      <DependentUpon>Purdue04.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Temples\Purdue04.aspx.designer.cs">
+      <DependentUpon>Purdue04.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Temples\Purdue05.aspx.cs">
+      <DependentUpon>Purdue05.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Temples\Purdue05.aspx.designer.cs">
+      <DependentUpon>Purdue05.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Temples\Purdue06.aspx.cs">
+      <DependentUpon>Purdue06.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Temples\Purdue06.aspx.designer.cs">
+      <DependentUpon>Purdue06.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Temples\Purdue07.aspx.cs">
+      <DependentUpon>Purdue07.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Temples\Purdue07.aspx.designer.cs">
+      <DependentUpon>Purdue07.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Temples\Purdue08.aspx.cs">
+      <DependentUpon>Purdue08.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Temples\Purdue08.aspx.designer.cs">
+      <DependentUpon>Purdue08.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Temples\Purdue09.aspx.cs">
+      <DependentUpon>Purdue09.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Temples\Purdue09.aspx.designer.cs">
+      <DependentUpon>Purdue09.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Temples\Purdue10.aspx.cs">
+      <DependentUpon>Purdue10.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Temples\Purdue10.aspx.designer.cs">
+      <DependentUpon>Purdue10.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Temples\Purdue11.aspx.cs">
+      <DependentUpon>Purdue11.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Temples\Purdue11.aspx.designer.cs">
+      <DependentUpon>Purdue11.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Temples\Purdue12.aspx.cs">
+      <DependentUpon>Purdue12.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Temples\Purdue12.aspx.designer.cs">
+      <DependentUpon>Purdue12.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Temples\Purdue13.aspx.cs">
+      <DependentUpon>Purdue13.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Temples\Purdue13.aspx.designer.cs">
+      <DependentUpon>Purdue13.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Temples\Purdue14.aspx.cs">
+      <DependentUpon>Purdue14.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Temples\Purdue14.aspx.designer.cs">
+      <DependentUpon>Purdue14.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Temples\Purdue15.aspx.cs">
+      <DependentUpon>Purdue15.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Temples\Purdue15.aspx.designer.cs">
+      <DependentUpon>Purdue15.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Temples\Purdue16.aspx.cs">
+      <DependentUpon>Purdue16.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Temples\Purdue16.aspx.designer.cs">
+      <DependentUpon>Purdue16.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Temples\Purdue17.aspx.cs">
+      <DependentUpon>Purdue17.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Temples\Purdue17.aspx.designer.cs">
+      <DependentUpon>Purdue17.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Temples\Purdue18.aspx.cs">
+      <DependentUpon>Purdue18.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Temples\Purdue18.aspx.designer.cs">
+      <DependentUpon>Purdue18.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Temples\Purdue19.aspx.cs">
+      <DependentUpon>Purdue19.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Temples\Purdue19.aspx.designer.cs">
+      <DependentUpon>Purdue19.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Temples\PurdueGuide.aspx.cs">
+      <DependentUpon>PurdueGuide.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Temples\PurdueGuide.aspx.designer.cs">
+      <DependentUpon>PurdueGuide.aspx</DependentUpon>
     </Compile>
     <Compile Include="Temples\service.aspx.cs">
       <DependentUpon>service.aspx</DependentUpon>
@@ -1659,6 +2206,13 @@
     <Compile Include="Temples\templeService_andou_wjsan.aspx.designer.cs">
       <DependentUpon>templeService_andou_wjsan.aspx</DependentUpon>
     </Compile>
+    <Compile Include="Temples\templeService_blessing_st.aspx.cs">
+      <DependentUpon>templeService_blessing_st.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Temples\templeService_blessing_st.aspx.designer.cs">
+      <DependentUpon>templeService_blessing_st.aspx</DependentUpon>
+    </Compile>
     <Compile Include="Temples\templeService_EmperorGuansheng_bobi_ty.aspx.cs">
       <DependentUpon>templeService_EmperorGuansheng_bobi_ty.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -1686,6 +2240,20 @@
     </Compile>
     <Compile Include="Temples\templeService_lights.aspx.designer.cs">
       <DependentUpon>templeService_lights.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Temples\templeService_lights_bj.aspx.cs">
+      <DependentUpon>templeService_lights_bj.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Temples\templeService_lights_bj.aspx.designer.cs">
+      <DependentUpon>templeService_lights_bj.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Temples\templeService_lights_bpy.aspx.cs">
+      <DependentUpon>templeService_lights_bpy.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Temples\templeService_lights_bpy.aspx.designer.cs">
+      <DependentUpon>templeService_lights_bpy.aspx</DependentUpon>
     </Compile>
     <Compile Include="Temples\templeService_lights_da.aspx.cs">
       <DependentUpon>templeService_lights_da.aspx</DependentUpon>
@@ -1729,6 +2297,13 @@
     <Compile Include="Temples\templeService_lights_Hs.aspx.designer.cs">
       <DependentUpon>templeService_lights_Hs.aspx</DependentUpon>
     </Compile>
+    <Compile Include="Temples\templeService_lights_ld.aspx.cs">
+      <DependentUpon>templeService_lights_ld.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Temples\templeService_lights_ld.aspx.designer.cs">
+      <DependentUpon>templeService_lights_ld.aspx</DependentUpon>
+    </Compile>
     <Compile Include="Temples\templeService_lights_Lk.aspx.cs">
       <DependentUpon>templeService_lights_Lk.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -1749,6 +2324,27 @@
     </Compile>
     <Compile Include="Temples\templeService_lights_ma.aspx.designer.cs">
       <DependentUpon>templeService_lights_ma.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Temples\templeService_lights_sbbt.aspx.cs">
+      <DependentUpon>templeService_lights_sbbt.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Temples\templeService_lights_sbbt.aspx.designer.cs">
+      <DependentUpon>templeService_lights_sbbt.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Temples\templeService_lights_ssy.aspx.cs">
+      <DependentUpon>templeService_lights_ssy.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Temples\templeService_lights_ssy.aspx.designer.cs">
+      <DependentUpon>templeService_lights_ssy.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Temples\templeService_lights_st.aspx.cs">
+      <DependentUpon>templeService_lights_st.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Temples\templeService_lights_st.aspx.designer.cs">
+      <DependentUpon>templeService_lights_st.aspx</DependentUpon>
     </Compile>
     <Compile Include="Temples\templeService_lights_ty.aspx.cs">
       <DependentUpon>templeService_lights_ty.aspx</DependentUpon>
@@ -1791,20 +2387,6 @@
     </Compile>
     <Compile Include="Temples\templeService_lingbaolidou_ma_fet.aspx.designer.cs">
       <DependentUpon>templeService_lingbaolidou_ma_fet.aspx</DependentUpon>
-    </Compile>
-    <Compile Include="Temples\templeService_lingbaolidou_ty.aspx.cs">
-      <DependentUpon>templeService_lingbaolidou_ty.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="Temples\templeService_lingbaolidou_ty.aspx.designer.cs">
-      <DependentUpon>templeService_lingbaolidou_ty.aspx</DependentUpon>
-    </Compile>
-    <Compile Include="Temples\templeService_lingbaolidou_ty_fet.aspx.cs">
-      <DependentUpon>templeService_lingbaolidou_ty_fet.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="Temples\templeService_lingbaolidou_ty_fet.aspx.designer.cs">
-      <DependentUpon>templeService_lingbaolidou_ty_fet.aspx</DependentUpon>
     </Compile>
     <Compile Include="Temples\templeService_lybc_dh.aspx.cs">
       <DependentUpon>templeService_lybc_dh.aspx</DependentUpon>
@@ -1911,6 +2493,13 @@
     <Compile Include="Temples\templeService_purdue_wu.aspx.designer.cs">
       <DependentUpon>templeService_purdue_wu.aspx</DependentUpon>
     </Compile>
+    <Compile Include="Temples\templeService_qnlight_ty.aspx.cs">
+      <DependentUpon>templeService_qnlight_ty.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Temples\templeService_qnlight_ty.aspx.designer.cs">
+      <DependentUpon>templeService_qnlight_ty.aspx</DependentUpon>
+    </Compile>
     <Compile Include="Temples\templeService_supplies.aspx.cs">
       <DependentUpon>templeService_supplies.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -2002,12 +2591,33 @@
     <Compile Include="Temples\templeService_TaoistJiaoCeremony_da.aspx.designer.cs">
       <DependentUpon>templeService_TaoistJiaoCeremony_da.aspx</DependentUpon>
     </Compile>
+    <Compile Include="Temples\Video_contest.aspx.cs">
+      <DependentUpon>Video_contest.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Temples\Video_contest.aspx.designer.cs">
+      <DependentUpon>Video_contest.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Temples\ZodiacFortune_2026.aspx.cs">
+      <DependentUpon>ZodiacFortune_2026.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Temples\ZodiacFortune_2026.aspx.designer.cs">
+      <DependentUpon>ZodiacFortune_2026.aspx</DependentUpon>
+    </Compile>
     <Compile Include="Temples\ZodiacFortune_Lixia.aspx.cs">
       <DependentUpon>ZodiacFortune_Lixia.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="Temples\ZodiacFortune_Lixia.aspx.designer.cs">
       <DependentUpon>ZodiacFortune_Lixia.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Temples\ZodiacFortune_TaiSui_2026.aspx.cs">
+      <DependentUpon>ZodiacFortune_TaiSui_2026.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Temples\ZodiacFortune_TaiSui_2026.aspx.designer.cs">
+      <DependentUpon>ZodiacFortune_TaiSui_2026.aspx</DependentUpon>
     </Compile>
     <Compile Include="TWPaymentCallback_AnDou_Fw.aspx.cs">
       <DependentUpon>TWPaymentCallback_AnDou_Fw.aspx</DependentUpon>
@@ -2023,6 +2633,13 @@
     <Compile Include="TWPaymentCallback_AnDou_wjsan.aspx.designer.cs">
       <DependentUpon>TWPaymentCallback_AnDou_wjsan.aspx</DependentUpon>
     </Compile>
+    <Compile Include="TWPaymentCallback_Blessing_st.aspx.cs">
+      <DependentUpon>TWPaymentCallback_Blessing_st.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="TWPaymentCallback_Blessing_st.aspx.designer.cs">
+      <DependentUpon>TWPaymentCallback_Blessing_st.aspx</DependentUpon>
+    </Compile>
     <Compile Include="TWPaymentCallback_Huaguo_wjsan.aspx.cs">
       <DependentUpon>TWPaymentCallback_Huaguo_wjsan.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -2030,12 +2647,54 @@
     <Compile Include="TWPaymentCallback_Huaguo_wjsan.aspx.designer.cs">
       <DependentUpon>TWPaymentCallback_Huaguo_wjsan.aspx</DependentUpon>
     </Compile>
+    <Compile Include="TWPaymentCallback_Lights_bj.aspx.cs">
+      <DependentUpon>TWPaymentCallback_Lights_bj.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="TWPaymentCallback_Lights_bj.aspx.designer.cs">
+      <DependentUpon>TWPaymentCallback_Lights_bj.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="TWPaymentCallback_Lights_bpy.aspx.cs">
+      <DependentUpon>TWPaymentCallback_Lights_bpy.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="TWPaymentCallback_Lights_bpy.aspx.designer.cs">
+      <DependentUpon>TWPaymentCallback_Lights_bpy.aspx</DependentUpon>
+    </Compile>
     <Compile Include="TWPaymentCallback_Lights_Hs.aspx.cs">
       <DependentUpon>TWPaymentCallback_Lights_Hs.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="TWPaymentCallback_Lights_Hs.aspx.designer.cs">
       <DependentUpon>TWPaymentCallback_Lights_Hs.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="TWPaymentCallback_Lights_ld.aspx.cs">
+      <DependentUpon>TWPaymentCallback_Lights_ld.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="TWPaymentCallback_Lights_ld.aspx.designer.cs">
+      <DependentUpon>TWPaymentCallback_Lights_ld.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="TWPaymentCallback_Lights_sbbt.aspx.cs">
+      <DependentUpon>TWPaymentCallback_Lights_sbbt.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="TWPaymentCallback_Lights_sbbt.aspx.designer.cs">
+      <DependentUpon>TWPaymentCallback_Lights_sbbt.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="TWPaymentCallback_Lights_ssy.aspx.cs">
+      <DependentUpon>TWPaymentCallback_Lights_ssy.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="TWPaymentCallback_Lights_ssy.aspx.designer.cs">
+      <DependentUpon>TWPaymentCallback_Lights_ssy.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="TWPaymentCallback_Lights_st.aspx.cs">
+      <DependentUpon>TWPaymentCallback_Lights_st.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="TWPaymentCallback_Lights_st.aspx.designer.cs">
+      <DependentUpon>TWPaymentCallback_Lights_st.aspx</DependentUpon>
     </Compile>
     <Compile Include="TWPaymentCallback_Lights_ty_mom.aspx.cs">
       <DependentUpon>TWPaymentCallback_Lights_ty_mom.aspx</DependentUpon>
@@ -2233,13 +2892,6 @@
     <Compile Include="TWPaymentCallback_Lingbaolidou_ma.aspx.designer.cs">
       <DependentUpon>TWPaymentCallback_Lingbaolidou_ma.aspx</DependentUpon>
     </Compile>
-    <Compile Include="TWPaymentCallback_Lingbaolidou_ty.aspx.cs">
-      <DependentUpon>TWPaymentCallback_Lingbaolidou_ty.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="TWPaymentCallback_Lingbaolidou_ty.aspx.designer.cs">
-      <DependentUpon>TWPaymentCallback_Lingbaolidou_ty.aspx</DependentUpon>
-    </Compile>
     <Compile Include="TWPaymentCallback_Lybc_dh.aspx.cs">
       <DependentUpon>TWPaymentCallback_Lybc_dh.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -2317,6 +2969,13 @@
     <Compile Include="TWPaymentCallback_Purdue_Jing.aspx.designer.cs">
       <DependentUpon>TWPaymentCallback_Purdue_Jing.aspx</DependentUpon>
     </Compile>
+    <Compile Include="TWPaymentCallback_Purdue_ld.aspx.cs">
+      <DependentUpon>TWPaymentCallback_Purdue_ld.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="TWPaymentCallback_Purdue_ld.aspx.designer.cs">
+      <DependentUpon>TWPaymentCallback_Purdue_ld.aspx</DependentUpon>
+    </Compile>
     <Compile Include="TWPaymentCallback_Purdue_Lk.aspx.cs">
       <DependentUpon>TWPaymentCallback_Purdue_Lk.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -2352,12 +3011,26 @@
     <Compile Include="TWPaymentCallback_Purdue_ty.aspx.designer.cs">
       <DependentUpon>TWPaymentCallback_Purdue_ty.aspx</DependentUpon>
     </Compile>
+    <Compile Include="TWPaymentCallback_Purdue_wjsan.aspx.cs">
+      <DependentUpon>TWPaymentCallback_Purdue_wjsan.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="TWPaymentCallback_Purdue_wjsan.aspx.designer.cs">
+      <DependentUpon>TWPaymentCallback_Purdue_wjsan.aspx</DependentUpon>
+    </Compile>
     <Compile Include="TWPaymentCallback_Purdue_wu.aspx.cs">
       <DependentUpon>TWPaymentCallback_Purdue_wu.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="TWPaymentCallback_Purdue_wu.aspx.designer.cs">
       <DependentUpon>TWPaymentCallback_Purdue_wu.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="TWPaymentCallback_QnLight_ty.aspx.cs">
+      <DependentUpon>TWPaymentCallback_QnLight_ty.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="TWPaymentCallback_QnLight_ty.aspx.designer.cs">
+      <DependentUpon>TWPaymentCallback_QnLight_ty.aspx</DependentUpon>
     </Compile>
     <Compile Include="TWPaymentCallback_Supplies2_sx.aspx.cs">
       <DependentUpon>TWPaymentCallback_Supplies2_sx.aspx</DependentUpon>
@@ -2464,6 +3137,27 @@
     <Compile Include="WebForm2.aspx.designer.cs">
       <DependentUpon>WebForm2.aspx</DependentUpon>
     </Compile>
+    <Compile Include="InvoiceTEST.aspx.cs">
+      <DependentUpon>InvoiceTEST.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="InvoiceTEST.aspx.designer.cs">
+      <DependentUpon>InvoiceTEST.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="WebForm4.aspx.cs">
+      <DependentUpon>WebForm4.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="WebForm4.aspx.designer.cs">
+      <DependentUpon>WebForm4.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="WebForm7.aspx.cs">
+      <DependentUpon>WebForm7.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="WebForm7.aspx.designer.cs">
+      <DependentUpon>WebForm7.aspx</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <Content Include="FET\Lights\images\_notes\arrow_l.png.mno" />
@@ -2552,15 +3246,16 @@
     <VisualStudio>
       <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
         <WebProjectProperties>
-  <UseIIS>true</UseIIS>  <!-- 設定為 Local IIS -->
-  <AutoAssignPort>false</AutoAssignPort> <!-- 禁用自動端口分配 -->
-  <DevelopmentServerPort>57610</DevelopmentServerPort> <!-- 使用端口 80 或其他指定端口 -->
-  <DevelopmentServerVPath>/twbobibobi</DevelopmentServerVPath> <!-- 你的 IIS 路徑 -->
-  <IISUrl>http://localhost/twbobibobi</IISUrl> <!-- Local IIS 的 URL -->
-  <NTLMAuthentication>false</NTLMAuthentication>
-  <UseCustomServer>false</UseCustomServer>
-  <CustomServerUrl></CustomServerUrl>
-  <SaveServerSettingsInUserFile>false</SaveServerSettingsInUserFile>
+          <UseIIS>True</UseIIS>
+          <AutoAssignPort>True</AutoAssignPort>
+          <DevelopmentServerPort>56371</DevelopmentServerPort>
+          <DevelopmentServerVPath>/</DevelopmentServerVPath>
+          <IISUrl>http://localhost:56371/</IISUrl>
+          <NTLMAuthentication>False</NTLMAuthentication>
+          <UseCustomServer>False</UseCustomServer>
+          <CustomServerUrl>
+          </CustomServerUrl>
+          <SaveServerSettingsInUserFile>False</SaveServerSettingsInUserFile>
         </WebProjectProperties>
       </FlavorProperties>
     </VisualStudio>

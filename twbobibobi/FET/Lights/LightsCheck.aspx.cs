@@ -1,4 +1,4 @@
-﻿using MotoSystem.Data;
+﻿using twbobibobi.Data;
 using Newtonsoft.Json.Linq;
 using Read.data;
 using System;
@@ -390,7 +390,7 @@ namespace Temple.FET.Lights
                                         case 3:
                                             //大甲鎮瀾宮
                                             name = "大甲鎮瀾宮點燈服務";
-                                            DataTable dtData = objLightDAC.Getlights_da_info(ApplicantID, Year);
+                                            DataTable dtData = objLightDAC.Getlights_da_Info(ApplicantID, Year);
 
                                             int[] count_da_lights = new int[3];
                                             string[] lightstypelist = new string[dtData.Rows.Count];
@@ -419,7 +419,7 @@ namespace Temple.FET.Lights
                                             string[] LightsStringlist = new string[] { "光明燈", "安太歲", "文昌燈" };
                                             for (int i = 0; i < lightstypelist.Length; i++)
                                             {
-                                                if (objLightDAC.checkedLightsNum(lightstypelist[i], AdminID.ToString(), count_da_lights[i], -1, Year))
+                                                if (objLightDAC.CheckedLightsNum(lightstypelist[i], AdminID.ToString(), count_da_lights[i], Year, basePage))
                                                 {
                                                     checkednum_da = false;
 
@@ -502,7 +502,7 @@ namespace Temple.FET.Lights
                                         case 6:
                                             //北港武德宮
                                             name = "北港武德宮點燈服務";
-                                            dtData = objLightDAC.Getlights_wu_info(ApplicantID, Year);
+                                            dtData = objLightDAC.Getlights_wu_Info(ApplicantID, Year);
 
                                             int[] count_wu_lights = new int[3];
                                             lightstypelist = new string[dtData.Rows.Count];
@@ -531,7 +531,7 @@ namespace Temple.FET.Lights
                                             LightsStringlist = new string[] { "光明燈", "安太歲", "財神燈" };
                                             for (int i = 0; i < lightstypelist.Length; i++)
                                             {
-                                                if (objLightDAC.checkedLightsNum(lightstypelist[i], AdminID.ToString(), count_wu_lights[i], -1, Year))
+                                                if (objLightDAC.CheckedLightsNum(lightstypelist[i], AdminID.ToString(), count_wu_lights[i], Year, basePage))
                                                 {
                                                     checkednum_wu = false;
 
@@ -640,7 +640,7 @@ namespace Temple.FET.Lights
                                         case 14:
                                             //桃園威天宮
                                             name = "桃園威天宮點燈服務";
-                                            dtData = objLightDAC.Getlights_ty_info(ApplicantID, Year);
+                                            dtData = objLightDAC.Getlights_ty_Info(ApplicantID, Year);
 
                                             int[] count_ty_lights = new int[5];
                                             lightstypelist = new string[dtData.Rows.Count];
@@ -677,7 +677,7 @@ namespace Temple.FET.Lights
                                             LightsStringlist = new string[] { "光明燈", "太歲燈", "財神燈", "藥師燈", "貴人燈" };
                                             for (int i = 0; i < lightstypelist.Length; i++)
                                             {
-                                                if (objLightDAC.checkedLightsNum(lightstypelist[i], AdminID.ToString(), count_ty_lights[i], 1, Year))
+                                                if (objLightDAC.CheckedLightsNum(lightstypelist[i], AdminID.ToString(), count_ty_lights[i], Year, basePage))
                                                 {
                                                     checkednum_ty = false;
 
@@ -903,7 +903,7 @@ namespace Temple.FET.Lights
             {
                 TimeZoneInfo info = TimeZoneInfo.FindSystemTimeZoneById("Taipei Standard Time");
                 DateTime dtNow = TimeZoneInfo.ConvertTime(DateTime.Now, info);
-                BCFBaseLibrary.Web.BasePage basePage = new BCFBaseLibrary.Web.BasePage();
+                BasePage basePage = new BasePage();
                 string oid = orderid;
                 string uid = "Temple";
                 string Sid = "Temple-DaJiaLightUp";    //大甲鎮瀾宮祈福點燈 PR00004024
@@ -922,7 +922,7 @@ namespace Temple.FET.Lights
                                       + telco + chrgtype + msisdn + Timestamp + ValidationKey).Replace("-", "").ToLower();
 
                 string paymentChannelLog = returnUrl;
-                DatabaseHelper objdatabaseHelper = new DatabaseHelper(basePage);
+               LightDAC objLightDAC = new LightDAC(basePage);
                 string ChargeType = paytype;
                 if (ChargeType == "TELEPAY")
                 {
@@ -935,10 +935,10 @@ namespace Temple.FET.Lights
                         ChargeType = "Cht";
                     }
                 }
-                long id = objdatabaseHelper.AddChargeLog_Lights_da(oid, applicantID, price, ChargeType, 0, "", "", paymentChannelLog, basePag.Request.UserHostAddress, Year);
+                long id = objLightDAC.AddChargeLog_Lights_da(oid, applicantID, price, ChargeType, 0, "", "", paymentChannelLog, basePag.Request.UserHostAddress, Year);
                 //long id = 6;
 
-                LightDAC objLightDAC = new LightDAC(basePag);
+                
 
                 if (id > 0 && objLightDAC.Updatecost2applicantinfo_Lights_da(applicantID, AdminID, price, Year))
                 {
@@ -955,7 +955,7 @@ namespace Temple.FET.Lights
             {
                 TimeZoneInfo info = TimeZoneInfo.FindSystemTimeZoneById("Taipei Standard Time");
                 DateTime dtNow = TimeZoneInfo.ConvertTime(DateTime.Now, info);
-                BCFBaseLibrary.Web.BasePage basePage = new BCFBaseLibrary.Web.BasePage();
+                BasePage basePage = new BasePage();
                 string oid = orderid;
                 string uid = "Temple";
                 string Sid = "Temple-HsinKangLightUp";    //新港奉天宮祈福點燈 PR00004008
@@ -974,7 +974,7 @@ namespace Temple.FET.Lights
                                       + telco + chrgtype + msisdn + Timestamp + ValidationKey).Replace("-", "").ToLower();
 
                 string paymentChannelLog = returnUrl;
-                DatabaseHelper objdatabaseHelper = new DatabaseHelper(basePage);
+               LightDAC objLightDAC = new LightDAC(basePage);
                 string ChargeType = paytype;
                 if (ChargeType == "TELEPAY")
                 {
@@ -987,10 +987,10 @@ namespace Temple.FET.Lights
                         ChargeType = "Cht";
                     }
                 }
-                long id = objdatabaseHelper.AddChargeLog_Lights_h(oid, applicantID, price, ChargeType, 0, "", "", paymentChannelLog, basePag.Request.UserHostAddress, Year);
+                long id = objLightDAC.AddChargeLog_Lights_h(oid, applicantID, price, ChargeType, 0, "", "", paymentChannelLog, basePag.Request.UserHostAddress, Year);
                 //long id = 6;
 
-                LightDAC objLightDAC = new LightDAC(basePag);
+                
 
                 if (id > 0 && objLightDAC.Updatecost2applicantinfo_Lights_h(applicantID, AdminID, price, Year))
                 {
@@ -1007,7 +1007,7 @@ namespace Temple.FET.Lights
             {
                 TimeZoneInfo info = TimeZoneInfo.FindSystemTimeZoneById("Taipei Standard Time");
                 DateTime dtNow = TimeZoneInfo.ConvertTime(DateTime.Now, info);
-                BCFBaseLibrary.Web.BasePage basePage = new BCFBaseLibrary.Web.BasePage();
+                BasePage basePage = new BasePage();
                 string oid = orderid;
                 string uid = "Temple";
                 string Sid = "Temple-WudeLightUp";    //北港武德宮 宮廟服務 PR00004401
@@ -1026,7 +1026,7 @@ namespace Temple.FET.Lights
                                       + telco + chrgtype + msisdn + Timestamp + ValidationKey).Replace("-", "").ToLower();
 
                 string paymentChannelLog = returnUrl;
-                DatabaseHelper objdatabaseHelper = new DatabaseHelper(basePage);
+               LightDAC objLightDAC = new LightDAC(basePage);
                 string ChargeType = paytype;
                 if (ChargeType == "TELEPAY")
                 {
@@ -1039,10 +1039,10 @@ namespace Temple.FET.Lights
                         ChargeType = "Cht";
                     }
                 }
-                long id = objdatabaseHelper.AddChargeLog_Lights_wu(oid, applicantID, price, ChargeType, 0, "", "", paymentChannelLog, basePag.Request.UserHostAddress, Year);
+                long id = objLightDAC.AddChargeLog_Lights_wu(oid, applicantID, price, ChargeType, 0, "", "", paymentChannelLog, basePag.Request.UserHostAddress, Year);
                 //long id = 6;
 
-                LightDAC objLightDAC = new LightDAC(basePag);
+                
 
                 if (id > 0 && objLightDAC.Updatecost2applicantinfo_Lights_wu(applicantID, AdminID, price, Year))
                 {
@@ -1059,7 +1059,7 @@ namespace Temple.FET.Lights
             {
                 TimeZoneInfo info = TimeZoneInfo.FindSystemTimeZoneById("Taipei Standard Time");
                 DateTime dtNow = TimeZoneInfo.ConvertTime(DateTime.Now, info);
-                BCFBaseLibrary.Web.BasePage basePage = new BCFBaseLibrary.Web.BasePage();
+                BasePage basePage = new BasePage();
                 string oid = orderid;
                 string uid = "Temple";
                 string Sid = "Temple-XiluoFuyu";    //西螺福興宮_宮廟服務 00004588
@@ -1078,7 +1078,7 @@ namespace Temple.FET.Lights
                                       + telco + chrgtype + msisdn + Timestamp + ValidationKey).Replace("-", "").ToLower();
 
                 string paymentChannelLog = returnUrl;
-                DatabaseHelper objdatabaseHelper = new DatabaseHelper(basePage);
+               LightDAC objLightDAC = new LightDAC(basePage);
                 string ChargeType = paytype;
                 if (ChargeType == "TELEPAY")
                 {
@@ -1091,10 +1091,10 @@ namespace Temple.FET.Lights
                         ChargeType = "Cht";
                     }
                 }
-                long id = objdatabaseHelper.AddChargeLog_Lights_Fu(oid, applicantID, price, ChargeType, 0, "", "", paymentChannelLog, basePag.Request.UserHostAddress, Year);
+                long id = objLightDAC.AddChargeLog_Lights_Fu(oid, applicantID, price, ChargeType, 0, "", "", paymentChannelLog, basePag.Request.UserHostAddress, Year);
                 //long id = 6;
 
-                LightDAC objLightDAC = new LightDAC(basePag);
+                
 
                 if (id > 0 && objLightDAC.Updatecost2applicantinfo_Lights_Fu(applicantID, AdminID, price, Year))
                 {
@@ -1111,7 +1111,7 @@ namespace Temple.FET.Lights
             {
                 TimeZoneInfo info = TimeZoneInfo.FindSystemTimeZoneById("Taipei Standard Time");
                 DateTime dtNow = TimeZoneInfo.ConvertTime(DateTime.Now, info);
-                BCFBaseLibrary.Web.BasePage basePage = new BCFBaseLibrary.Web.BasePage();
+                BasePage basePage = new BasePage();
                 string oid = orderid;
                 string uid = "Temple";
                 string Sid = "Temple-Luermen";    //台南正統鹿耳門聖母廟_宮廟服務 PR00004609
@@ -1130,7 +1130,7 @@ namespace Temple.FET.Lights
                                       + telco + chrgtype + msisdn + Timestamp + ValidationKey).Replace("-", "").ToLower();
 
                 string paymentChannelLog = returnUrl;
-                DatabaseHelper objdatabaseHelper = new DatabaseHelper(basePage);
+               LightDAC objLightDAC = new LightDAC(basePage);
                 string ChargeType = paytype;
                 if (ChargeType == "TELEPAY")
                 {
@@ -1143,10 +1143,10 @@ namespace Temple.FET.Lights
                         ChargeType = "Cht";
                     }
                 }
-                long id = objdatabaseHelper.AddChargeLog_Lights_Luer(oid, applicantID, price, ChargeType, 0, "", "", paymentChannelLog, basePag.Request.UserHostAddress, Year);
+                long id = objLightDAC.AddChargeLog_Lights_Luer(oid, applicantID, price, ChargeType, 0, "", "", paymentChannelLog, basePag.Request.UserHostAddress, Year);
                 //long id = 6;
 
-                LightDAC objLightDAC = new LightDAC(basePag);
+                
 
                 if (id > 0 && objLightDAC.Updatecost2applicantinfo_Lights_Luer(applicantID, AdminID, price, Year))
                 {
@@ -1163,7 +1163,7 @@ namespace Temple.FET.Lights
             {
                 TimeZoneInfo info = TimeZoneInfo.FindSystemTimeZoneById("Taipei Standard Time");
                 DateTime dtNow = TimeZoneInfo.ConvertTime(DateTime.Now, info);
-                BCFBaseLibrary.Web.BasePage basePage = new BCFBaseLibrary.Web.BasePage();
+                BasePage basePage = new BasePage();
                 string oid = orderid;
                 string uid = "Temple";
                 string Sid = "Temple-TaoyuanWeitian";    //桃園威天宮_宮廟服務 PR00004719
@@ -1182,7 +1182,7 @@ namespace Temple.FET.Lights
                                       + telco + chrgtype + msisdn + Timestamp + ValidationKey).Replace("-", "").ToLower();
 
                 string paymentChannelLog = returnUrl;
-                DatabaseHelper objdatabaseHelper = new DatabaseHelper(basePage);
+               LightDAC objLightDAC = new LightDAC(basePage);
                 string ChargeType = paytype;
                 if (ChargeType == "TELEPAY")
                 {
@@ -1195,10 +1195,10 @@ namespace Temple.FET.Lights
                         ChargeType = "Cht";
                     }
                 }
-                long id = objdatabaseHelper.AddChargeLog_Lights_ty(oid, applicantID, price, ChargeType, 0, "", "", paymentChannelLog, basePag.Request.UserHostAddress, Year);
+                long id = objLightDAC.AddChargeLog_Lights_ty(oid, applicantID, price, ChargeType, 0, "", "", paymentChannelLog, basePag.Request.UserHostAddress, Year);
                 //long id = 6;
 
-                LightDAC objLightDAC = new LightDAC(basePag);
+                
 
                 if (id > 0 && objLightDAC.Updatecost2applicantinfo_Lights_ty(applicantID, AdminID, price, Year))
                 {
@@ -1215,7 +1215,7 @@ namespace Temple.FET.Lights
             {
                 TimeZoneInfo info = TimeZoneInfo.FindSystemTimeZoneById("Taipei Standard Time");
                 DateTime dtNow = TimeZoneInfo.ConvertTime(DateTime.Now, info);
-                BCFBaseLibrary.Web.BasePage basePage = new BCFBaseLibrary.Web.BasePage();
+                BasePage basePage = new BasePage();
                 string oid = orderid;
                 string uid = "Temple";
                 string Sid = "Temple-YunlinWulucaishen";    //斗六五路財神宮_宮廟服務 PR00004721
@@ -1234,7 +1234,7 @@ namespace Temple.FET.Lights
                                       + telco + chrgtype + msisdn + Timestamp + ValidationKey).Replace("-", "").ToLower();
 
                 string paymentChannelLog = returnUrl;
-                DatabaseHelper objdatabaseHelper = new DatabaseHelper(basePage);
+               LightDAC objLightDAC = new LightDAC(basePage);
                 string ChargeType = paytype;
                 if (ChargeType == "TELEPAY")
                 {
@@ -1247,10 +1247,10 @@ namespace Temple.FET.Lights
                         ChargeType = "Cht";
                     }
                 }
-                long id = objdatabaseHelper.AddChargeLog_Lights_Fw(oid, applicantID, price, ChargeType, 0, "", "", paymentChannelLog, basePag.Request.UserHostAddress, Year);
+                long id = objLightDAC.AddChargeLog_Lights_Fw(oid, applicantID, price, ChargeType, 0, "", "", paymentChannelLog, basePag.Request.UserHostAddress, Year);
                 //long id = 6;
 
-                LightDAC objLightDAC = new LightDAC(basePag);
+                
 
                 if (id > 0 && objLightDAC.Updatecost2applicantinfo_Lights_Fw(applicantID, AdminID, price, Year))
                 {
@@ -1267,7 +1267,7 @@ namespace Temple.FET.Lights
             {
                 TimeZoneInfo info = TimeZoneInfo.FindSystemTimeZoneById("Taipei Standard Time");
                 DateTime dtNow = TimeZoneInfo.ConvertTime(DateTime.Now, info);
-                BCFBaseLibrary.Web.BasePage basePage = new BCFBaseLibrary.Web.BasePage();
+                BasePage basePage = new BasePage();
                 string oid = orderid;
                 string uid = "Temple";
                 string Sid = "Temple-TaidongHailongmen";    //台東東海龍門天聖宮_宮廟服務 PR00004720
@@ -1286,7 +1286,7 @@ namespace Temple.FET.Lights
                                       + telco + chrgtype + msisdn + Timestamp + ValidationKey).Replace("-", "").ToLower();
 
                 string paymentChannelLog = returnUrl;
-                DatabaseHelper objdatabaseHelper = new DatabaseHelper(basePage);
+               LightDAC objLightDAC = new LightDAC(basePage);
                 string ChargeType = paytype;
                 if (ChargeType == "TELEPAY")
                 {
@@ -1299,10 +1299,10 @@ namespace Temple.FET.Lights
                         ChargeType = "Cht";
                     }
                 }
-                long id = objdatabaseHelper.AddChargeLog_Lights_dh(oid, applicantID, price, ChargeType, 0, "", "", paymentChannelLog, basePag.Request.UserHostAddress, Year);
+                long id = objLightDAC.AddChargeLog_Lights_dh(oid, applicantID, price, ChargeType, 0, "", "", paymentChannelLog, basePag.Request.UserHostAddress, Year);
                 //long id = 6;
 
-                LightDAC objLightDAC = new LightDAC(basePag);
+                
 
                 if (id > 0 && objLightDAC.Updatecost2applicantinfo_Lights_dh(applicantID, AdminID, price, Year))
                 {
@@ -1319,7 +1319,7 @@ namespace Temple.FET.Lights
             {
                 TimeZoneInfo info = TimeZoneInfo.FindSystemTimeZoneById("Taipei Standard Time");
                 DateTime dtNow = TimeZoneInfo.ConvertTime(DateTime.Now, info);
-                BCFBaseLibrary.Web.BasePage basePage = new BCFBaseLibrary.Web.BasePage();
+                BasePage basePage = new BasePage();
                 string oid = orderid;
                 string uid = "Temple";
                 string Sid = "Temple-LugangChenghuangmiao";    //鹿港城隍廟祈福點燈 PR00004755
@@ -1338,7 +1338,7 @@ namespace Temple.FET.Lights
                                       + telco + chrgtype + msisdn + Timestamp + ValidationKey).Replace("-", "").ToLower();
 
                 string paymentChannelLog = returnUrl;
-                DatabaseHelper objdatabaseHelper = new DatabaseHelper(basePage);
+               LightDAC objLightDAC = new LightDAC(basePage);
                 string ChargeType = paytype;
                 if (ChargeType == "TELEPAY")
                 {
@@ -1351,10 +1351,10 @@ namespace Temple.FET.Lights
                         ChargeType = "Cht";
                     }
                 }
-                long id = objdatabaseHelper.AddChargeLog_Lights_Lk(oid, applicantID, price, ChargeType, 0, "", "", paymentChannelLog, basePag.Request.UserHostAddress, Year);
+                long id = objLightDAC.AddChargeLog_Lights_Lk(oid, applicantID, price, ChargeType, 0, "", "", paymentChannelLog, basePag.Request.UserHostAddress, Year);
                 //long id = 6;
 
-                LightDAC objLightDAC = new LightDAC(basePag);
+                
 
                 if (id > 0 && objLightDAC.Updatecost2applicantinfo_Lights_Lk(applicantID, AdminID, price, Year))
                 {
@@ -1374,7 +1374,7 @@ namespace Temple.FET.Lights
             LightDAC objLightDAC = new LightDAC(this);
             int cost = 0;
 
-            DataTable dtData = objLightDAC.Getlights_da_info(ApplicantID, Year);
+            DataTable dtData = objLightDAC.Getlights_da_Info(ApplicantID, Year);
 
             if (dtData.Rows.Count > 0)
             {
@@ -1444,7 +1444,7 @@ namespace Temple.FET.Lights
                 case 1:
                     //點燈服務
                     string reback = "https://bobibobi.tw/Temples/templeService_lights_da.aspx";
-                    if (objLightDAC.checkedappcharge_Lights_da(ApplicantID, AdminID, Year))
+                    if (objLightDAC.Checkedappcharge_Lights_da(ApplicantID, AdminID, Year))
                     {
                         if (OrderPurchaser == "")
                         {
@@ -1467,7 +1467,7 @@ namespace Temple.FET.Lights
                 case 2:
                     //普度服務
                     reback = "https://bobibobi.tw/Temples/templeService_purdue_da.aspx";
-                    if (objLightDAC.checkedappcharge_Purdue_da(ApplicantID, AdminID))
+                    if (objLightDAC.Checkedappcharge_Purdue_da(ApplicantID, AdminID, Year))
                     {
                         if (OrderPurchaser == "")
                         {
@@ -1498,7 +1498,7 @@ namespace Temple.FET.Lights
             LightDAC objLightDAC = new LightDAC(this);
             int cost = 0;
 
-            DataTable dtData = objLightDAC.Getlights_h_info(ApplicantID, Year);
+            DataTable dtData = objLightDAC.Getlights_h_Info(ApplicantID, Year);
 
             if (dtData.Rows.Count > 0)
             {
@@ -1552,7 +1552,7 @@ namespace Temple.FET.Lights
                 case 1:
                     //點燈服務
                     string reback = "https://bobibobi.tw/Temples/templeService_lights_h.aspx";
-                    if (objLightDAC.checkedappcharge_Lights_h(ApplicantID, AdminID, Year))
+                    if (objLightDAC.Checkedappcharge_Lights_h(ApplicantID, AdminID, Year))
                     {
                         if (OrderPurchaser == "")
                         {
@@ -1575,7 +1575,7 @@ namespace Temple.FET.Lights
                 case 2:
                     //普度服務
                     reback = "https://bobibobi.tw/Temples/templeService_purdue_h.aspx";
-                    if (objLightDAC.checkedappcharge_Purdue_h(ApplicantID, AdminID))
+                    if (objLightDAC.Checkedappcharge_Purdue_h(ApplicantID, AdminID, Year))
                     {
                         if (OrderPurchaser == "")
                         {
@@ -1605,7 +1605,7 @@ namespace Temple.FET.Lights
             LightDAC objLightDAC = new LightDAC(this);
             int cost = 0;
 
-            DataTable dtData = objLightDAC.Getlights_wu_info(ApplicantID, Year);
+            DataTable dtData = objLightDAC.Getlights_wu_Info(ApplicantID, Year);
 
             if (dtData.Rows.Count > 0)
             {
@@ -1669,7 +1669,7 @@ namespace Temple.FET.Lights
                 case 1:
                     //點燈服務
                     string reback = "https://bobibobi.tw/Temples/templeService_lights_wu.aspx";
-                    if (objLightDAC.checkedappcharge_Lights_wu(ApplicantID, AdminID, Year))
+                    if (objLightDAC.Checkedappcharge_Lights_wu(ApplicantID, AdminID, Year))
                     {
                         if (OrderPurchaser == "")
                         {
@@ -1692,7 +1692,7 @@ namespace Temple.FET.Lights
                 case 2:
                     //普度服務
                     reback = "https://bobibobi.tw/Temples/templeService_purdue_wu.aspx";
-                    if (objLightDAC.checkedappcharge_Purdue_wu(ApplicantID, AdminID))
+                    if (objLightDAC.Checkedappcharge_Purdue_wu(ApplicantID, AdminID, Year))
                     {
                         if (OrderPurchaser == "")
                         {
@@ -1715,7 +1715,7 @@ namespace Temple.FET.Lights
                 case 4:
                     //補財庫-下元補庫
                     reback = "https://bobibobi.tw/Temples/templeService_supplies.aspx";
-                    if (objLightDAC.checkedappcharge_Supplies_wu(ApplicantID, AdminID, Year))
+                    if (objLightDAC.Checkedappcharge_Supplies_wu(ApplicantID, AdminID, Year))
                     {
                         if (OrderPurchaser == "")
                         {
@@ -1738,7 +1738,7 @@ namespace Temple.FET.Lights
                 case 5:
                     //補財庫-呈疏補庫
                     reback = "https://bobibobi.tw/Temples/templeService_supplies2.aspx";
-                    if (objLightDAC.checkedappcharge_Supplies_wu2(ApplicantID, AdminID, Year))
+                    if (objLightDAC.Checkedappcharge_Supplies_wu2(ApplicantID, AdminID, Year))
                     {
                         if (OrderPurchaser == "")
                         {
@@ -1762,7 +1762,7 @@ namespace Temple.FET.Lights
                     //補財庫-企業補財庫
                     Year = dtNow.Year.ToString();
                     reback = "https://bobibobi.tw/Temples/templeService_supplies3.aspx";
-                    if (objLightDAC.checkedappcharge_Supplies_wu3(ApplicantID, AdminID, Year))
+                    if (objLightDAC.Checkedappcharge_Supplies_wu3(ApplicantID, AdminID, Year))
                     {
                         if (OrderPurchaser == "")
                         {
@@ -1792,7 +1792,7 @@ namespace Temple.FET.Lights
             LightDAC objLightDAC = new LightDAC(this);
             int cost = 0;
 
-            DataTable dtData = objLightDAC.Getlights_Fu_info(ApplicantID, Year);
+            DataTable dtData = objLightDAC.Getlights_Fu_Info(ApplicantID, Year);
 
             if (dtData.Rows.Count > 0)
             {
@@ -1846,7 +1846,7 @@ namespace Temple.FET.Lights
                 case 1:
                     //點燈服務
                     string reback = "https://bobibobi.tw/Temples/templeService_lights_Fu.aspx";
-                    if (objLightDAC.checkedappcharge_Lights_Fu(ApplicantID, AdminID, Year))
+                    if (objLightDAC.Checkedappcharge_Lights_Fu(ApplicantID, AdminID, Year))
                     {
                         if (OrderPurchaser == "")
                         {
@@ -1869,7 +1869,7 @@ namespace Temple.FET.Lights
                 case 2:
                     //普度服務
                     reback = "https://bobibobi.tw/Temples/templeService_purdue_Fu.aspx";
-                    if (objLightDAC.checkedappcharge_Purdue_Fu(ApplicantID, AdminID))
+                    if (objLightDAC.Checkedappcharge_Purdue_Fu(ApplicantID, AdminID, Year))
                     {
                         if (OrderPurchaser == "")
                         {
@@ -1900,7 +1900,7 @@ namespace Temple.FET.Lights
             LightDAC objLightDAC = new LightDAC(this);
             int cost = 0;
 
-            DataTable dtData = objLightDAC.Getlights_Luer_info(ApplicantID, Year);
+            DataTable dtData = objLightDAC.Getlights_Luer_Info(ApplicantID, Year);
 
             if (dtData.Rows.Count > 0)
             {
@@ -1972,7 +1972,7 @@ namespace Temple.FET.Lights
             //{
             //    reback = "https://bobibobi.tw/Temples/templeService_marriagelights_Luer_twm.aspx?twm=1";
             //}
-            if (objLightDAC.checkedappcharge_Lights_Luer(ApplicantID, AdminID, Year))
+            if (objLightDAC.Checkedappcharge_Lights_Luer(ApplicantID, AdminID, Year))
             {
                 if (OrderInfo == "")
                 {
@@ -2000,7 +2000,7 @@ namespace Temple.FET.Lights
             LightDAC objLightDAC = new LightDAC(this);
             int cost = 0;
 
-            DataTable dtData = objLightDAC.Getlights_ty_info(ApplicantID, Year);
+            DataTable dtData = objLightDAC.Getlights_ty_Info(ApplicantID, Year);
 
             if (dtData.Rows.Count > 0)
             {
@@ -2053,7 +2053,7 @@ namespace Temple.FET.Lights
                 case 1:
                     //點燈服務
                     string reback = "https://bobibobi.tw/Temples/templeService_lights_ty.aspx";
-                    if (objLightDAC.checkedappcharge_Lights_ty(ApplicantID, AdminID, Year))
+                    if (objLightDAC.Checkedappcharge_Lights_ty(ApplicantID, AdminID, Year))
                     {
                         if (OrderPurchaser == "")
                         {
@@ -2076,7 +2076,7 @@ namespace Temple.FET.Lights
                 case 2:
                     //普度服務
                     //reback = "https://bobibobi.tw/Temples/templeService_purdue_ty.aspx";
-                    //if (objLightDAC.checkedappcharge_Purdue_ty(ApplicantID, AdminID))
+                    //if (objLightDAC.Checkedappcharge_Purdue_ty(ApplicantID, AdminID))
                     //{
                     //    if (OrderPurchaser == "")
                     //    {
@@ -2107,7 +2107,7 @@ namespace Temple.FET.Lights
             LightDAC objLightDAC = new LightDAC(this);
             int cost = 0;
 
-            DataTable dtData = objLightDAC.Getlights_Fw_info(ApplicantID, Year);
+            DataTable dtData = objLightDAC.Getlights_Fw_Info(ApplicantID, Year);
 
             if (dtData.Rows.Count > 0)
             {
@@ -2161,7 +2161,7 @@ namespace Temple.FET.Lights
                 case 1:
                     //點燈服務
                     string reback = "https://bobibobi.tw/Temples/templeService_lights_Fw.aspx";
-                    if (objLightDAC.checkedappcharge_Lights_Fw(ApplicantID, AdminID, Year))
+                    if (objLightDAC.Checkedappcharge_Lights_Fw(ApplicantID, AdminID, Year))
                     {
                         if (OrderPurchaser == "")
                         {
@@ -2184,7 +2184,7 @@ namespace Temple.FET.Lights
                 case 2:
                     //普度服務
                     //reback = "https://bobibobi.tw/Temples/templeService_purdue_Fw.aspx";
-                    //if (objLightDAC.checkedappcharge_Purdue_Fw(ApplicantID, AdminID))
+                    //if (objLightDAC.Checkedappcharge_Purdue_Fw(ApplicantID, AdminID))
                     //{
                     //    if (OrderPurchaser == "")
                     //    {
@@ -2215,7 +2215,7 @@ namespace Temple.FET.Lights
             LightDAC objLightDAC = new LightDAC(this);
             int cost = 0;
 
-            DataTable dtData = objLightDAC.Getlights_dh_info(ApplicantID, Year);
+            DataTable dtData = objLightDAC.Getlights_dh_Info(ApplicantID, Year);
 
             if (dtData.Rows.Count > 0)
             {
@@ -2269,7 +2269,7 @@ namespace Temple.FET.Lights
                 case 1:
                     //點燈服務
                     string reback = "https://bobibobi.tw/Temples/templeService_lights_dh.aspx";
-                    if (objLightDAC.checkedappcharge_Lights_dh(ApplicantID, AdminID, Year))
+                    if (objLightDAC.Checkedappcharge_Lights_dh(ApplicantID, AdminID, Year))
                     {
                         if (OrderPurchaser == "")
                         {
@@ -2292,7 +2292,7 @@ namespace Temple.FET.Lights
                 case 2:
                     //普度服務
                     reback = "https://bobibobi.tw/Temples/templeService_purdue_dh.aspx";
-                    //if (objLightDAC.checkedappcharge_Purdue_dh(ApplicantID, AdminID))
+                    //if (objLightDAC.Checkedappcharge_Purdue_dh(ApplicantID, AdminID))
                     //{
                     //    if (OrderPurchaser == "")
                     //    {
@@ -2322,7 +2322,7 @@ namespace Temple.FET.Lights
             LightDAC objLightDAC = new LightDAC(this);
             int cost = 0;
 
-            DataTable dtData = objLightDAC.Getlights_Lk_info(ApplicantID, Year);
+            DataTable dtData = objLightDAC.Getlights_Lk_Info(ApplicantID, Year);
 
             if (dtData.Rows.Count > 0)
             {
@@ -2392,7 +2392,7 @@ namespace Temple.FET.Lights
                 case 1:
                     //點燈服務
                     string reback = "https://bobibobi.tw/Temples/templeService_lights_Lk.aspx";
-                    if (objLightDAC.checkedappcharge_Lights_Lk(ApplicantID, AdminID, Year))
+                    if (objLightDAC.Checkedappcharge_Lights_Lk(ApplicantID, AdminID, Year))
                     {
                         if (OrderPurchaser == "")
                         {
@@ -2415,7 +2415,7 @@ namespace Temple.FET.Lights
                 case 2:
                     //普度服務
                     //reback = "https://bobibobi.tw/Temples/templeService_purdue_Lk.aspx";
-                    //if (objLightDAC.checkedappcharge_Purdue_Lk(ApplicantID, AdminID))
+                    //if (objLightDAC.Checkedappcharge_Purdue_Lk(ApplicantID, AdminID))
                     //{
                     //    if (OrderPurchaser == "")
                     //    {

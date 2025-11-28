@@ -140,6 +140,8 @@
                             <p>6.	收費失敗將有專人撥打聯繫電話聯絡，如聯繫不上將視為取消服務</p>
                             <p>7.	北港武德宮 推行"無紙功德"環保理念" 原紙本感謝狀之提供改為 Email提供電子感謝狀。</p>
                         </div>
+                        <input type="button" id="subBtn2" class="subBtn" value="報名按鈕"/>
+                        <br />
                         <%--<div>
                             <h2>▌降文開示-庚寅年</h2>
                             <p>度功甘露指三千</p>
@@ -155,7 +157,7 @@
             3.每個欄位呈現為<div class="FormInput {項目}">，項目請由下方自行挑選複製使用，若有缺的話，亦可通知補上。
             4.因欄位搭配很多JS的生成及檢核，若有使用到"地址"及"生日(或日期)"的部份，需特別注意JS的部份。
         -->
-                <div class="OrderForm">
+                <div id="OrderForm" runat="server" class="OrderForm">
                     <form>
                         <div class="FormTitle_A">購買人資料<span>（資料務必填寫正確，日後查詢訂單使用。聯絡電話請填09開頭號碼，例：0912345678。）</span></div>
                         <div class="FormInput text_s">
@@ -272,7 +274,7 @@
                                 <input type="checkbox" id="checkedprivate" />
                                 <label for="checkedprivate">本人同意
                                     <a href="PrivacyPolicy.aspx" target="_blank">隱私權政策</a>
-                                    並已取得當事人同意，為「保必保庇線上宮廟服務平台」之所有交易行為，新薪網元得基於
+                                    並已取得當事人同意，為「保必保庇線上宮廟服務平台」之所有交易行為，九九商通得基於
                                     <a href="PrivacyPolicy.aspx" target="_blank">隱私權政策</a>
                                     蒐集、處理及利用本人所提供之資料，並提供予合作廠商及服務宮廟。</label>
                             </div>
@@ -303,6 +305,10 @@
         //if (!checkEndTime()) {
         //    alert('親愛的大德您好\n北港伍德公 企業補財庫活動已截止！！\n感謝您的支持, 謝謝!');
         //}
+
+        $("#subBtn2").on("click", function () {
+            location = 'https://templeonline.fetnet.net/worship?merechandiseId=GSPYCPA000032505000045&brandId=CPA00003&categoryId=pudu_rc&_ga=2.158792378.1274450527.1750402841-1606902412.1678867216';
+        });
 
         $("input[type='tel']").on("keypress keyup blur", function (event) {
             $(this).val($(this).val().replace(/[^\d].+/, ""));
@@ -589,7 +595,7 @@
                     //alert("活動尚未開始!");
 
                     gotoChecked_wu();
-                    //if (location.search.indexOf('ad') >= 0 || checkedStartTime()) {
+                    //if (checkedStartTime()) {
                     //    if (checkEndTime()) {
                     //        gotoChecked_wu();
                     //    }

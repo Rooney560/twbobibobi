@@ -274,6 +274,54 @@
         return true;
     }
 
+    /**
+     * 強制以 JSON 格式呼叫後端 WebMethod
+     * @param {string} serverMethod - 後端方法名稱
+     * @param {object} sdata - 要送出的物件 (會被 JSON.stringify)
+     * @param {function} handler - 成功回傳的處理函數
+     */
+    function ac_loadServerMethodJson(serverMethod, sdata, handler) {
+        var urlParams = "RequestPageType=json&RequestMethod=" + serverMethod;
+        var url = location.href;
+        if (url.indexOf("?") > 0) {
+            url = url + "&" + urlParams;
+        } else {
+            url = url + "?" + urlParams;
+        }
+
+        $.ajax({
+            url: url,
+            type: "POST",
+            contentType: "application/json; charset=utf-8", // 🚀 JSON 格式
+            dataType: "json",
+            data: JSON.stringify(sdata),                    // 🚀 轉 JSON 字串
+            success: function (ret) {
+                // .NET WebMethod 回傳會包在 ret.d
+                var data = (ret && ret.d) ? ret.d : ret;
+                handler(data);
+            },
+            error: function (xhr, textStatus, errorThrown) {
+                var detail = xhr.responseJSON || xhr.responseText || errorThrown;
+                if (typeof detail === "object") {
+                    detail = detail.message || JSON.stringify(detail, null, 2);
+                }
+
+                console.error("AJAX JSON 錯誤：", {
+                    status: xhr.status,
+                    statusText: xhr.statusText,
+                    textStatus: textStatus,
+                    errorThrown: errorThrown,
+                    responseText: xhr.responseText
+                });
+
+                handler({
+                    StatusCode: -1,
+                    ErrorMessage: "訪問服務器失敗: " + detail
+                });
+            }
+        });
+    }
+
     function ac_loadServerMethod(serverMethod, sdata, handler) {
         var urlParams = "RequestPageType=json&RequestMethod=" + serverMethod;
         var url = location.href;
@@ -314,9 +362,39 @@
             url: url,
             type: postType,
             data: send_data,
-            error: function (XMLHttpRequest, textStatus, errorThrown) {
-                alert("訪問服務器失敗，請檢查網絡狀態是否有效。錯誤代碼：" + XMLHttpRequest, + "," + textStatus + "," + errorThrown);
-                callbackHandler();
+            error: function (xhr, textStatus, errorThrown) {
+                //alert("訪問服務器失敗，請檢查網絡狀態是否有效。錯誤代碼：" + XMLHttpRequest, + "," + textStatus + "," + errorThrown);
+                //callbackHandler();
+                // 把有用的欄位挑出來
+                var details = {
+                    status: xhr.status,
+                    statusText: xhr.statusText,
+                    textStatus: textStatus,
+                    errorThrown: errorThrown,
+                    responseText: xhr.responseText  // 後端回的錯誤訊息
+                };
+
+                // 先印到 console，方便開發時 debug
+                console.error("AJAX 錯誤：", details);
+
+                // 優先用 responseJSON，如果沒有再退回純文字
+                var detail = xhr.responseJSON || xhr.responseText || errorThrown;
+                // 如果是物件 (responseJSON)，你可以取它裡面的某個欄位
+                if (typeof detail === 'object') {
+                    // 假設後端回 { message: "…中文錯誤訊息…" }
+                    detail = detail.message || JSON.stringify(detail, null, 2);
+                }
+                // 用 JSON.stringify，把 details 變成可讀字串
+                var msg = "訪問服務器失敗，請檢查網絡狀態。\n" +
+                    "錯誤訊息: " + detail;
+
+                //alert(msg);
+
+                // 再把錯誤也交給你的 gotopay 來統一處理
+                ac_proc_ret(
+                    { StatusCode: -1, ErrorMessage: msg },
+                    proc_handler
+                );
             },
             success: function (ret) {
                 //alert(ret.status);
@@ -324,13 +402,14 @@
             }
         });
     }
+
     function ac_proc_ret(ret, proc_handler) {
         try {
             //res = $.parseJSON(ret); // ret is already JSON from .net
 
             callbackHandler(ret);
 
-            if (ret.StatusCode == 1 || ret.StatusCode == 0) {
+            if (ret.StatusCode !== undefined) {
                 proc_handler(ret);
             }
         } catch (e) {

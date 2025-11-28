@@ -187,6 +187,49 @@
 
                 var resultQty = $(".PupContent ul li").length;
 
+                var index = 0;
+                $(".PupContent ul li").each(function () {
+                    var name = $('.name', this);
+                    var img = $('img', this);
+                    var text = $('.lightsType', this);
+
+                    //if (name.length > 0) {
+                    //    alert($('.name', this).text());
+                    //}
+
+                    if (img.length > 0) {
+                        img.each(function () {
+                            var imgh = $(this).height();
+                            $('.PupContent ul li .Light').eq(index).css("top", ("-" + imgh + "px"))
+
+                            var url = img.attr('src');
+                            if (url.indexOf('lights2') >= 0) {
+                                $(".PupContent ul li .lights2 span").css('color', "#752006");
+                                $('.PupContent ul li .lights2').css("height", ((imgh * 1.1) + "px"))
+
+                                //var h = imgh * 0.643;
+                                var baseRatio = imgh * 0.67
+
+                                // 取 span 高度 (含行高)
+                                var textHeight = text.outerHeight();
+
+                                // ✅ 上邊界要再往上移半個文字高度 (大約三行字的中間偏上)
+                                var h = baseRatio - (textHeight * 0.6);
+
+                                $('.PupContent ul li .lightsType').eq(index).css("top", h + "px");
+                            }
+                            if (url.indexOf('lights.png') >= 0) {
+                                $('.PupContent ul li .lights').css("height", ((imgh * 1.1) + "px"))
+
+                                var h = imgh * (350 / 700);
+                                $('.PupContent ul li .lightsType').eq(index).css("top", h + "px");
+                                $('.PupContent ul li .name').css("top", h + "px");
+                            }
+                        });
+                    }
+
+                    index++;
+                });
                 //判斷資料數量
                 if (resultQty == 0) {
                     $(".NoData").show();
@@ -262,6 +305,7 @@
 
         //搜尋結果呈現
         function pupOpen() {
+            $(".loader").removeClass("is-active");
             $("#DataResult").fadeIn();
             var resultQty = $(".PupContent ul li").length;
 
@@ -269,6 +313,7 @@
             $(".PupContent ul li").each(function () {
                 var name = $('.name', this);
                 var img = $('img', this);
+                var text = $('.lightsType', this);
 
                 //if (name.length > 0) {
                 //    alert($('.name', this).text());
@@ -284,7 +329,14 @@
                             $(".PupContent ul li .lights2 span").css('color', "#752006");
                             $('.PupContent ul li .lights2').css("height", ((imgh * 1.1) + "px"))
 
-                            var h = imgh * (440 / 723);
+                            //var h = imgh * 0.643;
+                            var baseRatio = imgh * 0.67
+
+                            // 取 span 高度 (含行高)
+                            var textHeight = text.outerHeight();
+
+                            // ✅ 上邊界要再往上移半個文字高度 (大約三行字的中間偏上)
+                            var h = baseRatio - (textHeight * 0.6);
                             $('.PupContent ul li .lightsType').eq(index).css("top", h + "px");
                         }
                         if (url.indexOf('lights.png') >= 0) {
@@ -497,7 +549,9 @@
                         </div>
                         <div class="lights2">
                             <div>
-                                <span class="lightsType">光　明　燈<br />
+                                <span class="lightsType">
+                                    大甲鎮瀾宮<br />
+                                    光　明　燈<br />
                                     楊Ｏ興</span>
                                 <img src="images/lights2.png?t=77777" alt="">
                                 <div class="Light2 Light">

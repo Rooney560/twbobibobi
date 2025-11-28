@@ -33,6 +33,7 @@ namespace WorkTime.data
         #endregion
 
         #region ZXing生成二維碼
+
         /// <summary>
         /// 生成二維碼
         /// </summary>
@@ -40,7 +41,7 @@ namespace WorkTime.data
         /// <param name="width">寬度</param>
         /// <param name="height">高度</param>
         /// <returns>圖片</returns>
-        public Bitmap GenerateQRcode(string text, int width, int height)
+        public static Bitmap GenerateQRcode(string text, int width, int height)
         {
             BarcodeWriter writer = new BarcodeWriter();
             writer.Format = BarcodeFormat.QR_CODE;
@@ -57,6 +58,62 @@ namespace WorkTime.data
             writer.Options = options;
             Bitmap map = writer.Write(text);
             return map;
+        }
+
+        /// <summary>
+        /// 生成二維碼
+        /// </summary>
+        /// <param name="text">內容</param>
+        /// <param name="width">寬度</param>
+        /// <param name="height">高度</param>
+        /// <returns>圖片</returns>
+        public static Bitmap GenerateQRcode2(string text, int width, int height)
+        {
+            // 1. 產生最小化、無 margin 的 PixelData（只包含 QR 矩陣本體）
+            var pixelWriter = new BarcodeWriterPixelData
+            {
+                Format = BarcodeFormat.QR_CODE,
+                Options = new QrCodeEncodingOptions
+                {
+                    DisableECI = true,
+                    CharacterSet = "UTF-8",
+                    ErrorCorrection = ErrorCorrectionLevel.H,
+                    Margin = 0   // 不留規範中的 Quiet Zone
+                }
+            };
+            var pixelData = pixelWriter.Write(text);
+
+            // 2. 將 PixelData 轉成「原始大小」Bitmap
+            using (var rawBmp = new Bitmap(pixelData.Width, pixelData.Height, PixelFormat.Format32bppRgb))
+            {
+                var bmpData = rawBmp.LockBits(
+                    new Rectangle(0, 0, rawBmp.Width, rawBmp.Height),
+                    ImageLockMode.WriteOnly,
+                    rawBmp.PixelFormat);
+
+                // PixelData.Pixels 是一維 byte[]：BGRA 排序
+                System.Runtime.InteropServices.Marshal.Copy(
+                    pixelData.Pixels, 0, bmpData.Scan0, pixelData.Pixels.Length);
+                rawBmp.UnlockBits(bmpData);
+
+                // 3. 用 Nearest-Neighbor 插值，將它精確拉到 width×height
+                var finalBmp = new Bitmap(width, height);
+                using (var g = Graphics.FromImage(finalBmp))
+                {
+                    g.InterpolationMode = InterpolationMode.NearestNeighbor;
+                    g.CompositingQuality = CompositingQuality.HighQuality;
+                    g.SmoothingMode = SmoothingMode.None;
+
+                    // 原圖 (rawBmp) → 目標 (finalBmp)
+                    g.DrawImage(
+                        rawBmp,
+                        new Rectangle(0, 0, width, height),
+                        new Rectangle(0, 0, rawBmp.Width, rawBmp.Height),
+                        GraphicsUnit.Pixel);
+                }
+
+                return finalBmp;
+            }
         }
 
         /// <summary>
@@ -99,7 +156,7 @@ namespace WorkTime.data
         /// <param name="width">寬度</param>
         /// <param name="height">高度</param>
         /// <returns></returns>
-        public Bitmap Generate1DBarcode(string text, int width, int height)
+        public static Bitmap Generate1DBarcode(string text, int width, int height)
         {
             BarcodeWriter writer = new BarcodeWriter();
             //使用ITF 格式，不能被現在常用的支付寶、微信掃出來
@@ -145,6 +202,32 @@ namespace WorkTime.data
             map.Save(filename, imagesFrt);
             return imagesname.ToLower();
         }
+        /// <summary>
+        /// 生成一維條形碼
+        /// </summary>
+        /// <param name="text">只支援數字 只支援偶數個 最大長度80</param>
+        /// <param name="width">寬度</param>
+        /// <param name="height">高度</param>
+        /// <returns></returns>
+        public static Bitmap GenerateCode39(string text, int width, int height)
+        {
+            BarcodeWriter writer = new BarcodeWriter();
+            //使用ITF 格式，不能被現在常用的支付寶、微信掃出來
+            //如果想生成可識別的可以使用 CODE_128 格式
+            //writer.Format = BarcodeFormat.ITF;
+            writer.Format = BarcodeFormat.CODE_39;
+            EncodingOptions options = new EncodingOptions()
+            {
+                Width = width,
+                Height = height,
+                Margin = 0,
+                PureBarcode = true    // 不產生下方 human‐readable 文字
+            };
+            writer.Options = options;
+            Bitmap map = writer.Write(text);
+            return map;
+        }
+
         #endregion
 
         #region ZXing生成Logo二維碼

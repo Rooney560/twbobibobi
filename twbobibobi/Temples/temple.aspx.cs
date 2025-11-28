@@ -1,4 +1,4 @@
-﻿using MotoSystem.Data;
+﻿using twbobibobi.Data;
 using Read.data;
 using System;
 using System.Collections.Generic;
@@ -23,30 +23,22 @@ namespace Temple.Temples
                 DateTime dtNow = TimeZoneInfo.ConvertTime(DateTime.Now, info);
 
                 AdminDAC objAdminDAC = new AdminDAC(this);
-                DataTable dtAdmin = objAdminDAC.GetAdminList(9);
-
-                if (dtAdmin.Rows.Count > 0)
+                DataTable dtTempleInfo = objAdminDAC.GetTempleInfo();
+                for (int i = 0; i < dtTempleInfo.Rows.Count; i++)
                 {
-                    for (int i = 0; i < dtAdmin.Rows.Count; i++)
-                    {
-                        string adminID = dtAdmin.Rows[i]["AdminID"].ToString();
-                        DataTable dtTempleInfo = objAdminDAC.GetTempleInfo(adminID);
-                        if (dtTempleInfo.Rows.Count > 0)
-                        {
-                            string title = dtTempleInfo.Rows[0]["Name"].ToString();
-                            string img = dtTempleInfo.Rows[0]["OriginalImageAddress"].ToString();
-                            string lightsService = dtTempleInfo.Rows[0]["LightsService"].ToString();
-                            string purdueService = dtTempleInfo.Rows[0]["PurdueService"].ToString();
-                            string suppliesService = dtTempleInfo.Rows[0]["SuppliesService"].ToString();
-                            string supplies2Service = dtTempleInfo.Rows[0]["Supplies2Service"].ToString();
-                            string supplies3Service = dtTempleInfo.Rows[0]["Supplies3Service"].ToString();
-                            string Supplies4Service = dtTempleInfo.Rows[0]["Supplies4Service"].ToString();
-                            string lights2Service = dtTempleInfo.Rows[0]["Lights2Service"].ToString();
-                            if(adminID != "30")
-                                TempleList += InitTemplelist(adminID, title, img, lightsService, purdueService, suppliesService, supplies2Service, lights2Service, supplies3Service,
-                                    Supplies4Service);
-                        }
-                    }
+                    string adminID = dtTempleInfo.Rows[i]["AdminID"].ToString();
+                    string title = dtTempleInfo.Rows[i]["Name"].ToString();
+                    string img = dtTempleInfo.Rows[i]["OriginalImageAddress"].ToString();
+                    string lightsService = dtTempleInfo.Rows[i]["LightsService"].ToString();
+                    string purdueService = dtTempleInfo.Rows[i]["PurdueService"].ToString();
+                    string suppliesService = dtTempleInfo.Rows[i]["SuppliesService"].ToString();
+                    string supplies2Service = dtTempleInfo.Rows[i]["Supplies2Service"].ToString();
+                    string supplies3Service = dtTempleInfo.Rows[i]["Supplies3Service"].ToString();
+                    string Supplies4Service = dtTempleInfo.Rows[i]["Supplies4Service"].ToString();
+                    string lights2Service = dtTempleInfo.Rows[i]["Lights2Service"].ToString();
+                    string BlessingService = dtTempleInfo.Rows[i]["BlessingService"].ToString();
+                    TempleList += InitTemplelist(adminID, title, img, lightsService, purdueService, suppliesService, supplies2Service, lights2Service, supplies3Service,
+                        Supplies4Service, BlessingService);
                 }
             }
         }
@@ -99,7 +91,7 @@ namespace Temple.Temples
         //}
 
         protected string InitTemplelist(string adminID, string title, string img, string lightsService, string purdueService, string suppliesService, string supplies2Service,
-            string lights2Service, string supplies3Service, string Supplies4Service)
+            string lights2Service, string supplies3Service, string Supplies4Service, string BlessingService)
         {
             string result = string.Empty;
 
@@ -139,6 +131,11 @@ namespace Temple.Temples
             if (Supplies4Service == "1")
             {
                 result += "<li class=\"Tag_05\">補財庫</li>";
+            }
+
+            if (BlessingService == "1")
+            {
+                result += "<li class=\"Tag_09\">祈安植福</li>";
             }
 
             if (lights2Service == "1")

@@ -1,8 +1,10 @@
 ﻿using BCFBaseLibrary.Net;
 using BCFBaseLibrary.String;
+using Newtonsoft.Json;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Drawing;
 using System.IO;
 using System.Linq;
@@ -14,8 +16,9 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Web;
 using System.Web.UI;
+using twbobibobi.Helpers;
 
-namespace MotoSystem.Data
+namespace twbobibobi.Data
 {
     public class BasePage : System.Web.UI.Page
     {
@@ -26,9 +29,11 @@ namespace MotoSystem.Data
         public static string CONST_CONFIG_REQUEST_CAPTCHACode_LOG_PATH = "RequestCAPTCHACodeLogPath";
         public static string CONST_CONFIG_REQUEST_LOG_SAVE = "RequestLogSave";
         public static string CONST_CONFIG_REQUEST_JSON_LOG_SAVE = "RequestJsonLogSave";
+        public static string CONST_CONFIG_TIMING_LOG_PATH = "TimingLogPath";
 
+        private static readonly object _logLock = new object();
         protected Boolean mIsJsonPage = false;
-        protected Boolean mSupportSaveRequestURL = true;
+        protected static Boolean mSupportSaveRequestURL = true;
         protected Boolean mSupportSaveRequest = false;
         public JSonHelper mJSonHelper = new JSonHelper();
         public string TransactionID = string.Empty;
@@ -442,6 +447,27 @@ namespace MotoSystem.Data
 
             this.TransactionID = Session.SessionID + DateTime.Now.ToString("yyyyMMddHHmmssfff");
 
+            //// 擷取訪問者 IP
+            //string clientIp = GetClientIp();
+
+            //// 黑名單 IP：直接封鎖
+            //if (IPBlocker.IsIpBlocked(clientIp))
+            //{
+            //    Response.StatusCode = 403;
+            //    Response.End();
+            //    return;
+            //}
+
+            //// 請求過於頻繁：封鎖 + 加入黑名單
+            //if (IsRequestTooFrequent(clientIp, 20, TimeSpan.FromSeconds(1)))
+            //{
+            //    IPBlocker.BlockIp(clientIp);
+            //    LogBlockedAttempt(clientIp, HttpContext.Current.Request.Url.ToString());
+            //    Response.StatusCode = 429;
+            //    Response.End();
+            //    return;
+            //}
+
             string szLogSaveFlag = GetConfigValue(CONST_CONFIG_REQUEST_LOG_SAVE);
             if (mSupportSaveRequest || szLogSaveFlag == "1")
             {
@@ -480,6 +506,81 @@ namespace MotoSystem.Data
                 this.mJSonHelper.AddContent("StatusCode", -1);
                 this.ResponseJSonString();
             }
+        }
+
+        /// </summary>
+        /// <param name="ip">用戶 IP</param>
+        /// <param name="maxCount">最大請求次數</param>
+        /// <param name="interval">時間區間</param>
+        /// <returns>若超過限制則回傳 true</returns>
+        private bool IsRequestTooFrequent(string ip, int maxCount, TimeSpan interval)
+        {
+            string key = $"REQ_COUNT_{ip}";
+            object obj = HttpRuntime.Cache[key];
+
+            int count = (obj == null) ? 0 : (int)obj;
+            count++;
+
+            if (count > maxCount)
+                return true;
+
+            if (obj == null)
+            {
+                HttpRuntime.Cache.Insert(
+                    key,
+                    count,
+                    null,
+                    DateTime.UtcNow.Add(interval),
+                    System.Web.Caching.Cache.NoSlidingExpiration
+                );
+            }
+            else
+            {
+                HttpRuntime.Cache[key] = count;
+            }
+
+            return false;
+        }
+
+        /// <summary>
+        /// 取得訪問者真實 IP（考慮 Proxy）
+        /// </summary>
+        /// <returns>用戶 IP 字串</returns>
+        private string GetClientIp()
+        {
+            string ip = HttpContext.Current.Request.ServerVariables["HTTP_X_FORWARDED_FOR"];
+            if (!string.IsNullOrEmpty(ip))
+            {
+                return ip.Split(',')[0];
+            }
+            return HttpContext.Current.Request.ServerVariables["REMOTE_ADDR"];
+        }
+
+        /// <summary>
+        /// 將封鎖紀錄寫入 Log（每 IP 僅記錄一次）
+        /// </summary>
+        /// <param name="ip">被封鎖的 IP</param>
+        /// <param name="url">封鎖時嘗試訪問的 URL</param>
+        private void LogBlockedAttempt(string ip, string url)
+        {
+            try
+            {
+                string logDir = Server.MapPath("~/Log/BlockedIP");
+                Directory.CreateDirectory(logDir);
+
+                string filePath = Path.Combine(logDir, "BlockedAttempt.log");
+
+                // 檢查是否已經存在
+                var lines = File.Exists(filePath) ? File.ReadAllLines(filePath) : new string[0];
+                foreach (var line in lines)
+                {
+                    if (line.Contains(ip)) return; // 已存在就不重複記錄
+                }
+
+                string log = $"{DateTime.Now:yyyy-MM-dd HH:mm:ss} | IP: {ip} | URL: {url}";
+                File.AppendAllLines(filePath, new[] { log });
+            }
+            catch { /* 忽略錯誤 */ }
         }
 
         protected string RemoveHTML(string html)
@@ -536,25 +637,61 @@ namespace MotoSystem.Data
             //忽略之後ASP.NET Pipeline的處理步驟，直接跳關到EndRequest
             HttpContext.Current.ApplicationInstance.CompleteRequest();
         }
-
-        public void ResponseJSonString()
+        public void ResponseJSonString(int? httpStatus = null)
         {
-            Response.AddHeader("Content-Type", "application/json; charset=UTF-8");
+            // 清掉任何既有輸出 (可選)
+            HttpResponse response = HttpContext.Current.Response;
+            response.Clear();
+
+            //if (httpStatus.HasValue)
+            //    response.StatusCode = httpStatus.Value;
+
+            // 設定 Content-Type
+            Response.ContentType = "application/json; charset=UTF-8";
+
+            // 產生 JSON
             string jsonString = mJSonHelper.ToJSonString();
-            Response.Write(jsonString);
+
+            // 如果需記錄請求，保留
             if (mSupportSaveRequest)
             {
                 SaveRequestLog(jsonString);
             }
-            try
-            {
-                //Response.End();
-            }
-            catch (Exception error)
-            {
 
-            }
+            // 把 "\uXXXX" 形式的 unicode escape 全部 decode 成真正的字元
+            //    這樣 raw response 就會直接是中文，而不是 \uXXXX
+            //jsonString = Regex.Unescape(jsonString);
+
+
+            string json = JsonConvert.SerializeObject(jsonString);
+
+            // 寫入 JSON
+            Response.Write(jsonString);
+
+            // 推送到客戶端
+            Response.Flush();
+
+            // 5. 強制中止後續 ASP.NET 處理，立即送出
+            response.End();
         }
+        //public void ResponseJSonString()
+        //{
+        //    Response.AddHeader("Content-Type", "application/json; charset=UTF-8");
+        //    string jsonString = mJSonHelper.ToJSonString();
+        //    Response.Write(jsonString);
+        //    if (mSupportSaveRequest)
+        //    {
+        //        SaveRequestLog(jsonString);
+        //    }
+        //    try
+        //    {
+        //        //Response.End();
+        //    }
+        //    catch (Exception error)
+        //    {
+
+        //    }
+        //}
 
         public void ResponseJSonString(string jsonString)
         {
@@ -705,52 +842,141 @@ namespace MotoSystem.Data
             }
         }
 
-        public void SaveErrorLog(string log)
+        /// <summary>
+        /// 写错误日志到：{BaseDirectory}/{ErrorLogPath}/{Prefix}_{yyyyMMdd}.txt
+        /// </summary>
+        /// <param name="log">要写入的错误内容</param>
+        /// <param name="TransactionID">可选的交易编号</param>
+        public void SaveErrorLog(string log, string TransactionID = null)
         {
-            string logPath = GetConfigValue(CONST_CONFIG_ERROR_LOG_PATH);
-            if (string.IsNullOrEmpty(logPath))
-                logPath = @"\err";
-
-            string fullPath = Server.MapPath(Request.ApplicationPath) + logPath + "_" + DateTime.Now.ToString("yyyyMMdd") + ".txt";
-
-            lock (logLock)
+            try
             {
-                using (StreamWriter sw = new StreamWriter(fullPath, true))
-                {
-                    sw.WriteLine(DateTime.Now.ToString());
+                // 取当前 HttpContext（可能为 null）
+                HttpContext context = HttpContext.Current;
 
-                    if (mSupportSaveRequestURL)
+                // 从配置里拿到 "./Log/Temple_err"
+                string configValue = ConfigurationManager.AppSettings[CONST_CONFIG_ERROR_LOG_PATH];
+                if (string.IsNullOrWhiteSpace(configValue))
+                {
+                    // 万一没配，就用这个
+                    configValue = "Log/Temple_err";
+                }
+
+                // 把配置拆成：目录 + 前缀
+                // 目录部分 => "./Log"
+                string relativeDir = Path.GetDirectoryName(configValue);
+                if (string.IsNullOrWhiteSpace(relativeDir))
+                {
+                    // 如果只有一个段，比如 configValue="Temple_err"
+                    relativeDir = configValue;
+                }
+
+                // 前缀 => "Temple_err"
+                string prefix = Path.GetFileName(configValue) ?? "error";
+
+                // 应用程序根目录
+                string basePath = AppDomain.CurrentDomain.BaseDirectory;
+
+                // 合成并规范化目录路径（去掉 "./"）
+                string fullLogDir = Path.GetFullPath(Path.Combine(basePath, relativeDir));
+
+                // 确保目录存在
+                Directory.CreateDirectory(fullLogDir);
+
+                // 构建文件名：Temple_err_yyyyMMdd.txt
+                string fileName = $"{prefix}_{DateTime.Now:yyyyMMdd}.txt";
+
+                // 最终完整路径
+                string filePath = Path.Combine(fullLogDir, fileName);
+
+                // 多线程安全写入
+                lock (_logLock)
+                {
+                    using (var writer = new StreamWriter(filePath, true))
                     {
-                        sw.WriteLine(Request.Url.ToString());
+                        // 时间精确到毫秒
+                        writer.WriteLine(DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.fff"));
+
+                        if (mSupportSaveRequestURL && context != null)
+                        {
+                            writer.WriteLine(context.Request?.Url?.ToString() ?? "[No Request URL]");
+                        }
+
+                        if (!string.IsNullOrWhiteSpace(TransactionID))
+                        {
+                            writer.WriteLine(TransactionID);
+                        }
+
+                        if (!string.IsNullOrEmpty(log))
+                        {
+                            writer.WriteLine(log);
+                        }
                     }
-                    if (!string.IsNullOrEmpty(log))
-                    {
-                        sw.WriteLine(log);
-                    }
-                }  // `using` 结束时，文件会自动释放
+                }
+            }
+            catch (Exception ex)
+            {
+                // 如果写日志失败，可择一：写到 EventLog，或静默略过，避免二次异常
             }
         }
 
+        //public void SaveErrorLog(string log)
+        //{
+        //    string logPath = GetConfigValue(CONST_CONFIG_ERROR_LOG_PATH);
+        //    if (string.IsNullOrEmpty(logPath))
+        //        logPath = @"\err";
+
+        //    string fullPath = Server.MapPath(Request.ApplicationPath) + logPath + "_" + DateTime.Now.ToString("yyyyMMdd") + ".txt";
+
+        //    lock (logLock)
+        //    {
+        //        using (StreamWriter sw = new StreamWriter(fullPath, true))
+        //        {
+        //            sw.WriteLine(DateTime.Now.ToString());
+
+        //            if (mSupportSaveRequestURL)
+        //            {
+        //                sw.WriteLine(Request.Url.ToString());
+        //            }
+        //            if (!string.IsNullOrEmpty(log))
+        //            {
+        //                sw.WriteLine(log);
+        //            }
+        //        }  // `using` 结束时，文件会自动释放
+        //    }
+        //}
+
         public void SaveRequestLog(string log)
         {
-            string logPath = GetConfigValue(CONST_CONFIG_REQUEST_LOG_PATH);
-            if (string.IsNullOrEmpty(logPath))
-                logPath = "\request";
-
-            string fullPath = Path.Combine(Server.MapPath("~"), logPath + "_" + DateTime.Now.ToString("yyyyMMdd") + ".txt");
-
-            lock (logLock)
+            var path = Request.Path.ToLowerInvariant();
+            if (path.Contains(".aspx/js") || path.Contains(".aspx/css") || path.Contains(".aspx/images"))
             {
-                using (StreamWriter sw = new StreamWriter(fullPath, true))
+                // 直接 return 或跳過 logging
+                Response.StatusCode = 404;
+                Response.End();
+                return;
+            }
+            else
+            {
+                string logPath = GetConfigValue(CONST_CONFIG_REQUEST_LOG_PATH);
+                if (string.IsNullOrEmpty(logPath))
+                    logPath = "\request";
+
+                string fullPath = Path.Combine(Server.MapPath("~"), logPath + "_" + DateTime.Now.ToString("yyyyMMdd") + ".txt");
+
+                lock (logLock)
                 {
-                    sw.WriteLine(DateTime.Now.ToString());
-                    if (mSupportSaveRequestURL)
+                    using (StreamWriter sw = new StreamWriter(fullPath, true))
                     {
-                        sw.WriteLine(Request.Url.ToString());
-                    }
-                    if (!string.IsNullOrEmpty(log))
-                    {
-                        sw.WriteLine(log);
+                        sw.WriteLine(DateTime.Now.ToString());
+                        if (mSupportSaveRequestURL)
+                        {
+                            sw.WriteLine(Request.Url.ToString());
+                        }
+                        if (!string.IsNullOrEmpty(log))
+                        {
+                            sw.WriteLine(log);
+                        }
                     }
                 }
             }
@@ -798,6 +1024,34 @@ namespace MotoSystem.Data
             }
         }
 
+        public void SaveTimingLog(string stepDescription, long elapsedMilliseconds)
+        {
+            string logPath = GetConfigValue(CONST_CONFIG_TIMING_LOG_PATH);
+            if (string.IsNullOrEmpty(logPath))
+                logPath = @"\err";
+
+            string fullPath = Server.MapPath(Request.ApplicationPath) + logPath + "_" + DateTime.Now.ToString("yyyyMMdd") + ".txt";
+
+            string logLine = $"{DateTime.Now:yyyy-MM-dd HH:mm:ss.fff}\t[{stepDescription}]\t耗时：{elapsedMilliseconds} ms";
+
+            lock (logLock)
+            {
+                using (StreamWriter sw = new StreamWriter(fullPath, true))
+                {
+                    sw.WriteLine(DateTime.Now.ToString());
+
+                    if (mSupportSaveRequestURL)
+                    {
+                        sw.WriteLine(Request.Url.ToString());
+                    }
+                    if (!string.IsNullOrEmpty(logLine))
+                    {
+                        sw.WriteLine(logLine + Environment.NewLine);
+                    }
+                }  // `using` 结束时，文件会自动释放
+            }
+        }
+
 
         public string GetConfigValue(string paramName)
         {
@@ -812,17 +1066,51 @@ namespace MotoSystem.Data
         }
 
         private static Regex RegMoblie = new Regex("^09[0-9]{8}|^8869[0-9]{8}");
-        private static Regex RegTWMoblie = new Regex("^(8869)[0-9]{8}$");
+        private static Regex RegTWMobile = new Regex("^(8869)[0-9]{8}$");
+        private static Regex RegTWMobileCoed = new Regex("^\\/[0-9A-Z\\+\\-\\.]{7}$");
+        private static Regex RegTWCDD = new Regex("^TP[0-9]{14}$");
 
+        /// <summary>
+        /// 檢查 台灣手機號碼 的格式
+        /// </summary>
+        /// <param name="inputData"></param>
+        /// <returns></returns>
         public static bool IsMoblie(string inputData)
         {
             Match m = RegMoblie.Match(inputData);
             return m.Success;
         }
 
-        public static bool IsTWMoblie(string inputData)
+        /// <summary>
+        /// 檢查 台灣手機號碼 的格式
+        /// </summary>
+        /// <param name="inputData"></param>
+        /// <returns></returns>
+        public static bool IsTWMobile(string inputData)
         {
-            Match m = RegTWMoblie.Match(inputData);
+            Match m = RegTWMobile.Match(inputData);
+            return m.Success;
+        }
+
+        /// <summary>
+        /// 檢查 手機載具 的格式
+        /// </summary>
+        /// <param name="inputData"></param>
+        /// <returns></returns>
+        public static bool IsTWMobileCode(string inputData)
+        {
+            Match m = RegTWMobileCoed.Match(inputData);
+            return m.Success;
+        }
+
+        /// <summary>
+        /// 檢查 自然人憑證 的格式
+        /// </summary>
+        /// <param name="inputData"></param>
+        /// <returns></returns>
+        public static bool IsTWCDC(string inputData)
+        {
+            Match m = RegTWCDD.Match(inputData);
             return m.Success;
         }
 
@@ -836,7 +1124,7 @@ namespace MotoSystem.Data
             {
                 if (NumList[i] != null)
                 {
-                    if (IsTWMoblie(NumList[i]))
+                    if (IsTWMobile(NumList[i]))
                     {
                         newNumList[i] = NumList[i];
                     }

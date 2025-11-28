@@ -34,7 +34,7 @@
                         </a>
                     </li>
                     <li id="shop" class="Demo">
-                        <a href="https://shop.bobibobi.tw/" target="_blank" title="開運商品">
+                        <a href="https://shop.bobibobi.tw" target="_blank" title="開運商品">
                             <div>
                                 <img src="https://bobibobi.tw/Temples/images/menu_05.png" width="75" height="75" alt="" />
                             </div>

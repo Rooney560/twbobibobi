@@ -6,7 +6,7 @@ using System.Data;
 using System.Collections;
 using System.Security.Cryptography;
 
-namespace MotoSystem.Data
+namespace twbobibobi.Data
 {
     public class JSonHelper
     {

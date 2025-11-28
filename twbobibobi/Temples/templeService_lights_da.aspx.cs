@@ -1,4 +1,4 @@
-﻿using MotoSystem.Data;
+﻿using twbobibobi.Data;
 using Newtonsoft.Json.Linq;
 using Read.data;
 using System;
@@ -14,32 +14,55 @@ using Temple.data;
 
 namespace Temple.Temples
 {
+    /// <summary>
+    /// 大甲鎮瀾宮 點燈服務頁面 (光明燈/安太歲/文昌燈)
+    /// </summary>
+    /// <remarks>
+    /// 此頁面繼承自 AjaxBasePage，負責：
+    /// 1. 控制祈福燈顯示狀態（光明燈、安太歲、文昌燈）
+    /// 2. 初始化 Ajax 處理器（建立/修改報名資料）
+    /// 3. 處理購買人與祈福人資料寫入流程
+    /// </remarks>
     public partial class templeService_lights_da : AjaxBasePage
     {
+        /// <summary> 購買人編號 ApplicantID </summary>
         public int aid = 0;
+        /// <summary> 宮廟代碼對應 AdminID </summary>
         public int a = 0;
-        public string EndDate = "2025/06/30 23:59";
-        protected static string Year = "2025";
+        /// <summary> 當前年份（動態設定年度資料庫名稱用） </summary>
+        protected static string Year = "2026";
 
+        /// <summary>
+        /// 初始化 Ajax Handler（綁定 gotochecked / editinfo）
+        /// </summary>
         protected override void InitAjaxHandler()
         {
             AddAjaxHandler(typeof(AjaxPageHandler), "gotochecked");
             AddAjaxHandler(typeof(AjaxPageHandler), "editinfo");
         }
 
+        /// <summary>
+        /// 頁面載入事件
+        /// </summary>
+        /// <param name="sender">觸發者物件</param>
+        /// <param name="e">事件參數</param>
         protected void Page_Load(object sender, EventArgs e)
         {
             if (!IsPostBack)
             {
-                TimeZoneInfo info = TimeZoneInfo.FindSystemTimeZoneById("Taipei Standard Time");
-                DateTime dtNow = TimeZoneInfo.ConvertTime(DateTime.Now, info);
+                // 設定時區為台北標準時間
+                DateTime dtNow = LightDAC.GetTaipeiNow();
 
+                // 取得購買人編號
                 if (Request["aid"] != null)
                 {
                     aid = int.Parse(Request["aid"]);
                 }
 
+                // 固定 大甲鎮瀾宮 AdminID = 3
                 int adminID = a = 3;
+
+                // 預設三種燈種已額滿字串都隱藏
                 this.light1.Visible = false;
                 this.light2.Visible = false;
                 this.light3.Visible = false;
@@ -48,53 +71,45 @@ namespace Temple.Temples
 
                 LightDAC objLightDAC = new LightDAC(this);
 
-                if (objLightDAC.checkedLightsNum("3", adminID.ToString(), 1, -1, Year))
-                {
-                    this.light1.Visible = true;
-                }
-                else
-                {
-                    this.light1.Visible = false;
-                }
+                // 顯示 光明燈
+                this.light1.Visible = objLightDAC.CheckedLightsNum("3", adminID.ToString(), 1, Year, this);
 
-                if (objLightDAC.checkedLightsNum("4", adminID.ToString(), 1, -1, Year))
-                {
-                    this.light2.Visible = true;
-                }
-                else
-                {
-                    this.light2.Visible = false;
-                }
+                // 顯示 安太歲
+                this.light2.Visible = objLightDAC.CheckedLightsNum("4", adminID.ToString(), 1, Year, this);
 
-                if (objLightDAC.checkedLightsNum("5", adminID.ToString(), 1, -1, Year))
-                {
-                    this.light3.Visible = true;
-                }
-                else
-                {
-                    this.light3.Visible = false;
-                }
+                // 顯示 文昌燈
+                this.light3.Visible = objLightDAC.CheckedLightsNum("5", adminID.ToString(), 1, Year, this);
 
-                //if (dtNow >= DateTime.Parse(EndDate))
-                //{
-                //    Response.Write("<script>alert('親愛的大德您好\\n 大甲鎮瀾宮 2024點燈活動已截止！！\\n感謝您的支持, 謝謝!');</script>");
-                //}
             }
         }
+
+        /// <summary>
+        /// 處理 AJAX 要求的內部類別
+        /// </summary>
         public class AjaxPageHandler
         {
+            /// <summary> 購買人編號 Applicant ID </summary>
             public int ApplicantID = 0;
+            /// <summary> 祈福人編號 Lights ID </summary>
             public int LightsID = 0;
 
+            /// <summary>
+            /// 建立資料（新增購買人與祈福人資料）
+            /// </summary>
+            /// <param name="basePage">基礎頁面物件 (繼承 BasePage)</param>
             public void gotochecked(BasePage basePage)
             {
                 basePage.mJSonHelper.AddContent("StatusCode", 0);
 
                 LightDAC objLightDAC = new LightDAC(basePage);
                 string AdminID = "3";
+
+                // === 購買人資料 ===
                 string AppName = basePage.Request["Appname"];                                       //購買人姓名
                 string AppMobile = basePage.Request["Appmobile"];                                   //購買人電話
+                string AppEmail = basePage.Request["AppEmail"];                                     //購買人信箱
 
+                // === 祈福人相關資料（多筆） ===
                 string name_Tag = basePage.Request["name_Tag"];                                     //祈福人姓名
                 string mobile_Tag = basePage.Request["mobile_Tag"];                                 //祈福人電話
                 string sex_Tag = basePage.Request["sex_Tag"];                                       //祈福人性別
@@ -102,17 +117,17 @@ namespace Temple.Temples
                 string leapMonth_Tag = basePage.Request["leapMonth_Tag"];                           //閏月 Y-是 N-否
                 string birthtime_Tag = basePage.Request["birthtime_Tag"];                           //祈福人農曆時辰
                 string sbirth_Tag = basePage.Request["sbirth_Tag"];                                 //祈福人國曆生日
-                string email_Tag = basePage.Request["email_Tag"];                                   //祈福人信箱
                 string oversea_Tag = basePage.Request["oversea_Tag"];                               //國內-1 國外-2
                 string zipCode_Tag = basePage.Request["zipCode_Tag"];                               //祈福人郵遞區號
                 string county_Tag = basePage.Request["county_Tag"];                                 //祈福人縣市
                 string dist_Tag = basePage.Request["dist_Tag"];                                     //祈福人區域
                 string addr_Tag = basePage.Request["addr_Tag"];                                     //祈福人部分地址
+                string remark_Tag = basePage.Request["remark_Tag"];                                 //備註
                 string LightsString_Tag = basePage.Request["LightsString_Tag"];                     //服務項目
 
                 int listcount = int.Parse(basePage.Request["listcount"]);                           //祈福人數量
 
-
+                // === 轉換為 JArray 以便後續處理 ===
                 JArray Jname = JArray.Parse(name_Tag);
                 JArray Jmobile = JArray.Parse(mobile_Tag);
                 JArray Jsex = JArray.Parse(sex_Tag);
@@ -120,66 +135,32 @@ namespace Temple.Temples
                 JArray JleapMonth = JArray.Parse(leapMonth_Tag);
                 JArray Jbirthtime = JArray.Parse(birthtime_Tag);
                 JArray Jsbirth = JArray.Parse(sbirth_Tag);
-                JArray Jemail = JArray.Parse(email_Tag);
                 JArray Joversea = JArray.Parse(oversea_Tag);
                 JArray JzipCode = JArray.Parse(zipCode_Tag);
                 JArray Jcounty = JArray.Parse(county_Tag);
                 JArray Jdist = JArray.Parse(dist_Tag);
                 JArray Jaddr = JArray.Parse(addr_Tag);
+                JArray Jremark = JArray.Parse(remark_Tag);
                 JArray JLightsString_Tag = JArray.Parse(LightsString_Tag);
 
                 string postURL_Init = "Lights_da_Index";
-
                 string url = HttpContext.Current.Request.Url.AbsoluteUri;
-
                 string postURL = GetRequestURL(url, postURL_Init);
 
-                //postURL += basePage.Request["twm"] != null ? "_TWM" : "";
-
-                //postURL += basePage.Request["cht"] != null ? "_CHT" : "";
-
-                //postURL += basePage.Request["line"] != null ? "_LINE" : "";
-
-                //postURL += basePage.Request["fb"] != null ? "_FB" : "";
-
-                //postURL += basePage.Request["fbda"] != null ? "_FBDA" : "";
-
-                //postURL += basePage.Request["ig"] != null ? "_IG" : "";
-
-                //postURL += basePage.Request["fetsms"] != null ? "_fetSMS" : "";
-
-                //postURL += basePage.Request["jkos"] != null ? "_JKOS" : "";
-
-                //postURL += basePage.Request["pxpayplues"] != null ? "_PXPAY" : "";
-
-                //postURL += basePage.Request["gads"] != null ? "_GADS" : "";
-
-                //postURL += basePage.Request["inda"] != null ? "_INDA" : "";
-
-                //postURL += basePage.Request["elv"] != null ? "_ELV" : "";
-
+                // === 確認各燈種數量 ===
                 int[] count_da_lights = new int[3];
                 bool checkednum_da = true;
                 for (int i = 0; i < listcount; i++)
                 {
                     switch (JLightsString_Tag[i].ToString())
                     {
-                        case "光明燈":
-                            //光明燈
-                            count_da_lights[0]++;
-                            break;
-                        case "安太歲":
-                            //安太歲
-                            count_da_lights[1]++;
-                            break;
-                        case "文昌燈":
-                            //文昌燈
-                            count_da_lights[2]++;
-                            break;
+                        case "光明燈": count_da_lights[0]++; break;
+                        case "安太歲": count_da_lights[1]++; break;
+                        case "文昌燈": count_da_lights[2]++; break;
                     }
                 }
 
-                //string[] Lightstypelist = new string[] { "3", "4", "5" };
+                // === 確認可否報名（名額檢查） ===
                 for (int i = 0; i < JLightsString_Tag.Count; i++)
                 {
                     string lightsType = GetLightsType(JLightsString_Tag[i].ToString(), "3");
@@ -189,16 +170,16 @@ namespace Temple.Temples
                     c += lightsType == "4" ? count_da_lights[1] : 0;
                     c += lightsType == "5" ? count_da_lights[2] : 0;
 
-                    if (objLightDAC.checkedLightsNum(lightsType, AdminID.ToString(), c, -1, Year))
+                    if (objLightDAC.CheckedLightsNum(lightsType, AdminID.ToString(), c, Year, basePage))
                     {
                         checkednum_da = false;
-
                         basePage.mJSonHelper.AddContent("overnumType", GetLightsType(JLightsString_Tag[i].ToString(), "3"));
 
-                        if (basePage.Request["ad"] != null)
-                        {
-                            checkednum_da = true;
-                        }
+                        // 若有 ad 參數允許強制通過
+                        //if (basePage.Request["ad"] == "0610")
+                        //{
+                        //    checkednum_da = true;
+                        //}
                         
                         break;
                     }
@@ -206,15 +187,40 @@ namespace Temple.Temples
 
                 if (checkednum_da)
                 {
-                    ApplicantID = objLightDAC.addapplicantinfo_lights_da(AppName, AppMobile, "0", "", "", "", "0", "N", "", "", 0, AdminID, postURL, Year);
+                    string AppSendback = "N";                                                           // 寄送方式 N-不寄回(會轉送給弱勢團體) Y-寄回(加收運費120元)
+                    string Apprname = AppName;                                                          // 收件人姓名
+                    string Apprmobile = AppMobile;                                                      // 收件人電話
+                    string Appcounty = string.Empty;                                                    // 購買人縣市
+                    string Appdist = string.Empty;                                                      // 購買人區域
+                    string Appaddr = string.Empty;                                                      // 購買人部分地址
+                    string AppzipCode = "0";                                                            // 購買人郵遞區號
+
+                    // === 建立購買人資料 ===
+                    ApplicantID = objLightDAC.Addapplicantinfo_lights_da(
+                        Name: AppName,
+                        Mobile: AppMobile,
+                        Cost: "0",
+                        County: Appcounty,
+                        Dist: Appdist,
+                        Addr: Appaddr,
+                        ZipCode: AppzipCode,
+                        Sendback: AppSendback,
+                        ReceiptName: Apprname,
+                        ReceiptMobile: Apprmobile,
+                        Email: AppEmail,
+                        Status: 0,
+                        AdminID: AdminID,
+                        PostURL: postURL,
+                        Year: Year);
                     bool lightsinfo = false;
 
+                    // === 新增祈福人資料 ===
                     if (ApplicantID > 0)
                     {
                         for (int i = 0; i < listcount; i++)
                         {
-                            TimeZoneInfo info = TimeZoneInfo.FindSystemTimeZoneById("Taipei Standard Time");
-                            DateTime dtNow = TimeZoneInfo.ConvertTime(DateTime.Now, info);
+                            // 設定時區為台北標準時間
+                            DateTime dtNow = LightDAC.GetTaipeiNow();
 
                             string name = Jname[i].ToString();
                             string mobile = Jmobile[i].ToString();
@@ -223,7 +229,6 @@ namespace Temple.Temples
                             string leapMonth = JleapMonth[i].ToString();
                             string birthTime = Jbirthtime[i].ToString();
                             string sBirth = Jsbirth[i].ToString();
-                            string email = Jemail[i].ToString();
                             string lightsString = JLightsString_Tag[i].ToString(); ;
                             string lightsType = GetLightsType(lightsString, "3");
                             string addr = Jaddr[i].ToString();
@@ -231,7 +236,7 @@ namespace Temple.Temples
                             string dist = Jdist[i].ToString();
                             string zipCode = JzipCode[i].ToString();
                             string oversea = Joversea[i].ToString();
-                            //string oversea = "1";
+                            string remark = Jremark[i].ToString();
                             string birthMonth = "0";
                             string age = "0";
                             string Zodiac = string.Empty;
@@ -333,29 +338,64 @@ namespace Temple.Temples
 
                             birthMonth = CheckedDateZero(birthMonth, 1);
 
+                            int cost = GetLightsCost(3, lightsType);
+
                             if (name != "")
                             {
                                 lightsinfo = true;
-                                LightsID = objLightDAC.addLights_da(ApplicantID, name, mobile, sex, lightsType, lightsString,
-                                    oversea, Birth, leapMonth, birthTime, birthMonth, age, Zodiac, sBirth, email, 1, addr, county, dist, zipCode, Year);
+                                LightsID = objLightDAC.AddLights_da(
+                                    ApplicantID: ApplicantID,
+                                    Name: name,
+                                    Mobile: mobile,
+                                    Cost: cost,
+                                    Sex: sex,
+                                    LightsType: lightsType,
+                                    LightsString: lightsString,
+                                    Oversea: oversea,
+                                    Birth: Birth,
+                                    LeapMonth: leapMonth,
+                                    BirthTime: birthTime,
+                                    BirthMonth: birthMonth,
+                                    Age: age,
+                                    Zodiac: Zodiac,
+                                    sBirth: sBirth,
+                                    Email: "",
+                                    Count: 1,
+                                    Remark: remark,
+                                    Addr: addr,
+                                    County: county,
+                                    Dist: dist,
+                                    ZipCode: zipCode,
+                                    Year: Year);
                             }
                         }
                     }
 
+                    // === 成功建立資料，回傳前端 ===
                     if (ApplicantID > 0 && lightsinfo)
                     {
                         basePage.mJSonHelper.AddContent("StatusCode", 1);
-                        basePage.mJSonHelper.AddContent("redirect", "templeCheck.aspx?kind=1&a=" + AdminID + "&aid=" + ApplicantID +
-                            (basePage.Request["ad"] != null ? "&ad=" + basePage.Request["ad"] : "") +
-                            (basePage.Request["jkos"] != null ? "&jkos=1" : "") +
-                            (basePage.Request["pxpayplues"] != null ? "&pxpayplues=1" : "") +
-                            (basePage.Request["twm"] != null ? "&twm=1" : ""));
+
+                        string redirectUrl = BuildRedirectUrl(
+                            "templeCheck.aspx",
+                            1,
+                            AdminID,
+                            ApplicantID,
+                            basePage.Request
+                        );
+
+                        // 加入 JSON 回傳內容
+                        basePage.mJSonHelper.AddContent("redirect", redirectUrl);
 
                         basePage.Session["ApplicantID"] = ApplicantID;
                     }
                 }
             }
 
+            /// <summary>
+            /// 修改資料（取得既有報名資料）
+            /// </summary>
+            /// <param name="basePage">基礎頁面物件</param>
             public void editinfo(BasePage basePage)
             {
                 basePage.mJSonHelper.AddContent("StatusCode", 0);
@@ -367,7 +407,7 @@ namespace Temple.Temples
 
                 string AdminID = basePage.Request["a"];
 
-                dtData = objLightDAC.Getlights_da_info(applicantID, Year);
+                dtData = objLightDAC.Getlights_da_Info(applicantID, Year);
 
                 if (dtData.Rows.Count > 0)
                 {
@@ -377,11 +417,17 @@ namespace Temple.Temples
                     basePage.mJSonHelper.AddContent("a", AdminID);
                     basePage.mJSonHelper.AddContent("AppName", dtData.Rows[0]["AppName"].ToString());
                     basePage.mJSonHelper.AddContent("AppMobile", dtData.Rows[0]["AppMobile"].ToString());
+                    basePage.mJSonHelper.AddContent("AppEmail", dtData.Rows[0]["AppEmail"].ToString());
 
                     basePage.mJSonHelper.AddDataTable("DataSource", dtData);
                 }
             }
 
+            /// <summary>
+            /// 檢查並安全轉換 JArray
+            /// </summary>
+            /// <param name="str">輸入的 JSON 字串</param>
+            /// <param name="jArry">輸出的 JArray 參照</param>
             public void nullChecked(string str, ref JArray jArry)
             {
                 if (str != null)

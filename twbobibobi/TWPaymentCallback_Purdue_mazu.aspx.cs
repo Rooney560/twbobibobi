@@ -1,15 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using System.Web.UI;
-using System.Web.UI.WebControls;
-using System.Data;
-using BCFBaseLibrary.Web;
+﻿using BCFBaseLibrary.Security;
 using Read.data;
-using BCFBaseLibrary.Security;
+using System;
 using System.Collections;
+using System.Collections.Generic;
+using System.Data;
 using Temple.data;
+using TempleAdmin.Helper;
+using twbobibobi.Data;
+using twbobibobi.Helpers;
+using twbobibobi.Model;
+using twbobibobi.Services;
 
 namespace Temple
 {
@@ -17,182 +17,182 @@ namespace Temple
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-            TimeZoneInfo info = TimeZoneInfo.FindSystemTimeZoneById("Taipei Standard Time");
-            DateTime dtNow = TimeZoneInfo.ConvertTime(DateTime.Now, info);
-            if (Request["uid"] != null && Request["oid"] != null && Request["tid"] != null && Request["mac"] != null)
-            {
-                try
-                {
-                    string uid = "Temple";
-                    string tid = Request["tid"];
-                    string oid = Request["oid"];
-                    string ValidationKey = "Ov7BmaT5l1C89t5FNj0cEsR";
-                    string Timestamp = dtNow.ToString("yyyyMMddHHmmssfff");
+            //TimeZoneInfo info = TimeZoneInfo.FindSystemTimeZoneById("Taipei Standard Time");
+            //DateTime dtNow = TimeZoneInfo.ConvertTime(DateTime.Now, info);
+            //if (Request["uid"] != null && Request["oid"] != null && Request["tid"] != null && Request["mac"] != null)
+            //{
+            //    try
+            //    {
+            //        string uid = "Temple";
+            //        string tid = Request["tid"];
+            //        string oid = Request["oid"];
+            //        string ValidationKey = "Ov7BmaT5l1C89t5FNj0cEsR";
+            //        string Timestamp = dtNow.ToString("yyyyMMddHHmmssfff");
 
-                    string Year = dtNow.Year.ToString();
+            //        string Year = dtNow.Year.ToString();
 
-                    string m1 = Request["m1"];
-                    string m2 = Request["m2"];
+            //        string m1 = Request["m1"];
+            //        string m2 = Request["m2"];
 
-                    string mac = MD5.Encode(uid + tid + oid + Timestamp + ValidationKey).Replace("-", "");
+            //        string mac = MD5.Encode(uid + tid + oid + Timestamp + ValidationKey).Replace("-", "");
 
-                    string[] purduelist = new string[0];
-                    string[] Purduelist = new string[0];
+            //        string[] purduelist = new string[0];
+            //        string[] Purduelist = new string[0];
 
-                    string url = "https://paygate.tw/xpay/committrans?uid=" + uid + "&tid=" + tid + "&oid=" + oid + "&timestamp=" + Timestamp + "&mac=" + mac;
+            //        string url = "https://paygate.tw/xpay/committrans?uid=" + uid + "&tid=" + tid + "&oid=" + oid + "&timestamp=" + Timestamp + "&mac=" + mac;
 
-                    string resp = "";
-                    if (!BCFBaseLibrary.Net.HTTPClient.Get(url, string.Empty, ref resp))
-                    {
-                        //resp = "交易網址連結失敗";
-                        SaveErrorLog(resp + ", CommitTransAPI 錯誤!");
-                    }
+            //        string resp = "";
+            //        if (!BCFBaseLibrary.Net.HTTPClient.Get(url, string.Empty, ref resp))
+            //        {
+            //            //resp = "交易網址連結失敗";
+            //            SaveErrorLog(resp + ", CommitTransAPI 錯誤!");
+            //        }
 
-                    if (Request["ad"] != null)
-                    {
-                        resp = "1|18062216041218500003|100|TELEPAY|twm|0934315020|20180622160559423|F6C5E389052469CC441A402A3F0D0C9F";
-                    }
-                    //resp = "1|18062216041218500003|100|TELEPAY|twm|0934315020|20180622160559423|F6C5E389052469CC441A402A3F0D0C9F";
-                    string orderId = oid;
-                    string CallbackLog = tid + "," + resp;
-                    DatabaseHelper objDatabaseHelper = new DatabaseHelper(this);
-                    int aid = int.Parse(m1);
-                    int status = 999;
+            //        if (Request["ad"] != null)
+            //        {
+            //            resp = "1|18062216041218500003|100|TELEPAY|twm|0934315020|20180622160559423|F6C5E389052469CC441A402A3F0D0C9F";
+            //        }
+            //        //resp = "1|18062216041218500003|100|TELEPAY|twm|0934315020|20180622160559423|F6C5E389052469CC441A402A3F0D0C9F";
+            //        string orderId = oid;
+            //        string CallbackLog = tid + "," + resp;
+            //        DatabaseHelper objDatabaseHelper = new DatabaseHelper(this);
+            //        int aid = int.Parse(m1);
+            //        int status = 999;
 
-                    DataTable dtCharge = objDatabaseHelper.GetChargeLog_Purdue_mazu(orderId, Year);
+            //        DataTable dtCharge = objDatabaseHelper.GetChargeLog_Purdue_mazu(orderId, Year);
 
-                    if (dtCharge.Rows.Count > 0)
-                    {
-                        int cost = 0;
-                        int.TryParse(dtCharge.Rows[0]["Amount"].ToString(), out cost);
-                        int.TryParse(dtCharge.Rows[0]["Status"].ToString(), out status);
-                        if (status == 0)
-                        {
-                            int purduetype = objDatabaseHelper.GetPurdueType_mazu(aid, Year);
+            //        if (dtCharge.Rows.Count > 0)
+            //        {
+            //            int cost = 0;
+            //            int.TryParse(dtCharge.Rows[0]["Amount"].ToString(), out cost);
+            //            int.TryParse(dtCharge.Rows[0]["Status"].ToString(), out status);
+            //            if (status == 0)
+            //            {
+            //                int purduetype = objDatabaseHelper.GetPurdueType_mazu(aid, Year);
 
-                            string rebackURL = "https://bobibobi.tw/Temples/templeService_purdue_mazu.aspx";
+            //                string rebackURL = "https://bobibobi.tw/Temples/templeService_purdue_mazu.aspx";
 
-                            if (dtCharge.Rows[0]["ChargeType"].ToString() == "Twm")
-                            {
-                                rebackURL = rebackURL.IndexOf("?") > 0 ? rebackURL + "&twm=1" : rebackURL + "?twm=1";
-                            }
+            //                if (dtCharge.Rows[0]["ChargeType"].ToString() == "Twm")
+            //                {
+            //                    rebackURL = rebackURL.IndexOf("?") > 0 ? rebackURL + "&twm=1" : rebackURL + "?twm=1";
+            //                }
 
-                            string[] result = resp.Split("|".ToCharArray());
-                            if (result[0] == "1" || result[0] == "2")
-                            {
-                                if (result.Length > 1)
-                                {
-                                    string mobile = result[5];
+            //                string[] result = resp.Split("|".ToCharArray());
+            //                if (result[0] == "1" || result[0] == "2")
+            //                {
+            //                    if (result.Length > 1)
+            //                    {
+            //                        string mobile = result[5];
 
-                                    int adminID = 30;
+            //                        int adminID = 30;
 
-                                    //更新普渡資料表並取得訂單編號
-                                    objDatabaseHelper.UpdatePurdue_mazu_Info(aid, purduetype, Year, ref purduelist, ref Purduelist);
-                                    //取得申請人資料表
-                                    //DataTable dtapplicantinfo = objDatabaseHelper.Getapplicantinfo_Purdue_mazu(aid, adminID, Year);
-                                    ////更新購買表內購買人狀態為已付款(Status=2)
-                                    //int cost = dtapplicantinfo.Rows.Count > 0 ? int.Parse(dtapplicantinfo.Rows[0]["Cost"].ToString()) : 0;
-                                    objDatabaseHelper.Updateapplicantinfo_Purdue_mazu(aid, cost, 2, Year);
+            //                        //更新普渡資料表並取得訂單編號
+            //                        objDatabaseHelper.UpdatePurdue_mazu_Info(aid, purduetype, Year, ref purduelist, ref Purduelist);
+            //                        //取得申請人資料表
+            //                        //DataTable dtapplicantinfo = objDatabaseHelper.Getapplicantinfo_Purdue_mazu(aid, adminID, Year);
+            //                        ////更新購買表內購買人狀態為已付款(Status=2)
+            //                        //int cost = dtapplicantinfo.Rows.Count > 0 ? int.Parse(dtapplicantinfo.Rows[0]["Cost"].ToString()) : 0;
+            //                        objDatabaseHelper.Updateapplicantinfo_Purdue_mazu(aid, cost, 2, Year);
 
-                                    string msg = "感謝購買,已成功付款" + cost + "元,您的訂單編號 ";
+            //                        string msg = "感謝購買,已成功付款" + cost + "元,您的訂單編號 ";
 
-                                    for (int i = 0; i < purduelist.Length; i++)
-                                    {
-                                        msg += purduelist[i];
-                                        if (i < purduelist.Length - 1)
-                                        {
-                                            msg += ",";
-                                        }
-                                    }
+            //                        for (int i = 0; i < purduelist.Length; i++)
+            //                        {
+            //                            msg += purduelist[i];
+            //                            if (i < purduelist.Length - 1)
+            //                            {
+            //                                msg += ",";
+            //                            }
+            //                        }
 
-                                    msg += "。客服電話：04-36092299。";
+            //                        msg += "。客服電話：04-36092299。";
 
 
-                                    //msg = "感謝大德參與線上點燈,茲收您1960元功德金,訂單編號 光明燈:T2204, 安太歲:25351, 文昌燈:六1214。";
-                                    //mobile = "0903002568";
+            //                        //msg = "感謝大德參與線上點燈,茲收您1960元功德金,訂單編號 光明燈:T2204, 安太歲:25351, 文昌燈:六1214。";
+            //                        //mobile = "0903002568";
 
-                                    SMSHepler objSMSHepler = new SMSHepler();
-                                    string ChargeType = string.Empty;
-                                    //更新流水付費表資訊(付費成功)
-                                    if (objDatabaseHelper.UpdateChargeLog_Purdue_mazu(orderId, tid, msg, Request.UserHostAddress, CallbackLog, Year, ref ChargeType))
-                                    {
-                                        if (objSMSHepler.SendMsg_SL(mobile, msg))
-                                        {
+            //                        SMSHepler objSMSHepler = new SMSHepler();
+            //                        string ChargeType = string.Empty;
+            //                        //更新流水付費表資訊(付費成功)
+            //                        if (objDatabaseHelper.UpdateChargeLog_Purdue_mazu(orderId, tid, msg, Request.UserHostAddress, CallbackLog, Year, ref ChargeType))
+            //                        {
+            //                            if (objSMSHepler.SendMsg_SL(mobile, msg))
+            //                            {
 
-                                            //m2 = m2.IndexOf("aid=") > 0 ? m2 : (m2.IndexOf("?") > 0 ? m2 + "&aid=" + m1 : m2 + "?aid=" + m1 + "&a=" + adminID);
-                                            m2 = "https://bobibobi.tw/Temples/templeComplete.aspx?kind=2&a=" + adminID + "&aid=" + aid + (ChargeType == "Twm" ? "&twm=1" : "");
-                                            Response.Redirect(m2, true);
-                                        }
-                                        else
-                                        {
-                                            Response.Write("<script>alert('傳送簡訊失敗。請聯繫管理員。客服電話：04-36092299。');window.location.href='" + rebackURL + "'</script>");
-                                        }
-                                    }
-                                    else
-                                    {
-                                        Response.Write("<script>alert('付款過程失敗。請聯繫管理員。客服電話：04-36092299。');window.location.href='" + rebackURL + "'</script>");
-                                    }
-                                }
-                                else
-                                {
-                                    SaveErrorLog(resp + ", 回傳值 錯誤!");
-                                    Response.Write("<script>window.location.href='" + rebackURL + "'</script>");
-                                }
-                            }
-                            else if (result[0] == "4")
-                            {
-                                if (objDatabaseHelper.UpdateChargeStatus_Purdue_mazu(orderId, -2, Request.UserHostAddress, CallbackLog, Year))
-                                {
-                                    Response.Write("<script>alert('此用戶已退款。');window.location.href='" + rebackURL + "'</script>");
-                                }
-                            }
-                            else
-                            {
-                                objDatabaseHelper.UpdateChargeStatus_Purdue_mazu(orderId, -1, Request.UserHostAddress, CallbackLog, Year);
+            //                                //m2 = m2.IndexOf("aid=") > 0 ? m2 : (m2.IndexOf("?") > 0 ? m2 + "&aid=" + m1 : m2 + "?aid=" + m1 + "&a=" + adminID);
+            //                                m2 = "https://bobibobi.tw/Temples/templeComplete.aspx?kind=2&a=" + adminID + "&aid=" + aid + (ChargeType == "Twm" ? "&twm=1" : "");
+            //                                Response.Redirect(m2, true);
+            //                            }
+            //                            else
+            //                            {
+            //                                Response.Write("<script>alert('傳送簡訊失敗。請聯繫管理員。客服電話：04-36092299。');window.location.href='" + rebackURL + "'</script>");
+            //                            }
+            //                        }
+            //                        else
+            //                        {
+            //                            Response.Write("<script>alert('付款過程失敗。請聯繫管理員。客服電話：04-36092299。');window.location.href='" + rebackURL + "'</script>");
+            //                        }
+            //                    }
+            //                    else
+            //                    {
+            //                        SaveErrorLog(resp + ", 回傳值 錯誤!");
+            //                        Response.Write("<script>window.location.href='" + rebackURL + "'</script>");
+            //                    }
+            //                }
+            //                else if (result[0] == "4")
+            //                {
+            //                    if (objDatabaseHelper.UpdateChargeStatus_Purdue_mazu(orderId, -2, Request.UserHostAddress, CallbackLog, Year))
+            //                    {
+            //                        Response.Write("<script>alert('此用戶已退款。');window.location.href='" + rebackURL + "'</script>");
+            //                    }
+            //                }
+            //                else
+            //                {
+            //                    objDatabaseHelper.UpdateChargeStatus_Purdue_mazu(orderId, -1, Request.UserHostAddress, CallbackLog, Year);
 
-                                if (m2.IndexOf("APPPaymentResult") > 0)
-                                {
-                                    Response.Redirect(m2, true);
-                                }
-                                else
-                                {
-                                    Response.Write("<script>alert('付款失敗，錯誤代碼：" + result[0] + "。客服電話：04-36092299。');window.location.href='" + rebackURL + "'</script>");
-                                }
-                            }
-                        }
-                        else if (status == 1)
-                        {
-                            //已經付費成功。
-                            m2 = "https://bobibobi.tw/Temples/templeComplete.aspx?kind=2&a=30&aid=" + aid + (dtCharge.Rows[0]["ChargeType"].ToString() == "Twm" ? "&twm=1" : "");
-                            Response.Redirect(m2, true);
-                        }
-                        else
-                        {
-                            SaveErrorLog(resp + ", 此訂單已交易失敗!");
-                            Response.Write("<script>alert('此訂單已交易失敗，交易代碼：" + resp + "如有疑問。請洽客服電話：04-36092299。');window.location.href='https://bobibobi.tw/Temples/templeInfo.aspx?a=23'</script>");
-                        }
-                    }
-                    else
-                    {
-                        //resp = "invalid_orderid";
-                        SaveErrorLog(resp + ", 取得付款資料失敗!");
-                        Response.Write("<script>alert('取得付款資料失敗，錯誤代碼：" + resp + "。客服電話：04-36092299。');window.location.href='https://bobibobi.tw/Temples/templeInfo.aspx?a=23'</script>");
-                    }
-                }
-                catch (System.Threading.ThreadAbortException)
-                {
-                    //忽略
-                }
-                catch (Exception ex)
-                {
-                    SaveErrorLog(ex + ", 不知道哪裡錯誤!");
-                }
-            }
-            else
-            {
-                Response.Write("網頁參數錯誤");
-                Response.End();
-            }
+            //                    if (m2.IndexOf("APPPaymentResult") > 0)
+            //                    {
+            //                        Response.Redirect(m2, true);
+            //                    }
+            //                    else
+            //                    {
+            //                        Response.Write("<script>alert('付款失敗，錯誤代碼：" + result[0] + "。客服電話：04-36092299。');window.location.href='" + rebackURL + "'</script>");
+            //                    }
+            //                }
+            //            }
+            //            else if (status == 1)
+            //            {
+            //                //已經付費成功。
+            //                m2 = "https://bobibobi.tw/Temples/templeComplete.aspx?kind=2&a=30&aid=" + aid + (dtCharge.Rows[0]["ChargeType"].ToString() == "Twm" ? "&twm=1" : "");
+            //                Response.Redirect(m2, true);
+            //            }
+            //            else
+            //            {
+            //                SaveErrorLog(resp + ", 此訂單已交易失敗!");
+            //                Response.Write("<script>alert('此訂單已交易失敗，交易代碼：" + resp + "如有疑問。請洽客服電話：04-36092299。');window.location.href='https://bobibobi.tw/Temples/templeInfo.aspx?a=23'</script>");
+            //            }
+            //        }
+            //        else
+            //        {
+            //            //resp = "invalid_orderid";
+            //            SaveErrorLog(resp + ", 取得付款資料失敗!");
+            //            Response.Write("<script>alert('取得付款資料失敗，錯誤代碼：" + resp + "。客服電話：04-36092299。');window.location.href='https://bobibobi.tw/Temples/templeInfo.aspx?a=23'</script>");
+            //        }
+            //    }
+            //    catch (System.Threading.ThreadAbortException)
+            //    {
+            //        //忽略
+            //    }
+            //    catch (Exception ex)
+            //    {
+            //        SaveErrorLog(ex + ", 不知道哪裡錯誤!");
+            //    }
+            //}
+            //else
+            //{
+            //    Response.Write("網頁參數錯誤");
+            //    Response.End();
+            //}
         }
     }
 }
