@@ -97,9 +97,13 @@ namespace twbobibobi.ApiClients
 
                 case InvoiceIssueScenario.TaxIdPrint:
                     // 打統編，需要計算稅額並使用未稅價
-                    req.TaxAmount   = Math.Round(req.SalesAmount * 0.05m, 2);
-                    req.TotalAmount = req.SalesAmount + req.TaxAmount;
-                    req.DetailVat   = 0;
+                    //req.TaxAmount   = Math.Round(req.SalesAmount * 0.05m, 2);
+                    //req.TotalAmount = req.SalesAmount + req.TaxAmount;
+                    //req.DetailVat   = 0;
+
+                    req.SalesAmount = Math.Round(req.TotalAmount / 1.05m, 0); // 未稅
+                    req.TaxAmount = Math.Round(req.TotalAmount - req.SalesAmount, 0); // 稅額
+                    req.DetailVat = 1;
                     req.PrintDetail = 1;
                     break;
 

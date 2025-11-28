@@ -713,15 +713,25 @@
                 $mobileSection.hide();
             }
         }
+
         function updatepayFields() {
             var sel = $radios_pay.filter(':checked').val();
 
             if (sel.indexOf('CSP') >= 0) {
+                invoiceInit();
+
                 $invoiceInfo.hide();
             }
             else {
+                invoiceInit();
+
                 $invoiceInfo.show();
             }
+        }
+
+        function invoiceInit() {
+            $radios_invoice.eq(0).prop('checked', true);
+            updateInvoiceFields();
         }
 
         // 綁定 change 事件

@@ -3809,8 +3809,8 @@ namespace Temple
             public void checkedapplicant(BasePage basePage)
             {
                 basePage.mJSonHelper.AddContent("StatusCode", 0);
-                TimeZoneInfo info = TimeZoneInfo.FindSystemTimeZoneById("Taipei Standard Time");
-                DateTime dtNow = TimeZoneInfo.ConvertTime(DateTime.Now, info);
+                // 取得台北標準時間
+                DateTime dtNow = LightDAC.GetTaipeiNow();
                 string StartYear = "2022";
 
                 string m_Name = basePage.Request["m_Name"].ToString().Trim();

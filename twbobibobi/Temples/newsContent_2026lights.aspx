@@ -315,7 +315,7 @@
                                         <li><%=Status_Lights_Lk_2026 %></li>
                                         <li><%=Status_Lights_ma_2026 %></li>
                                         <li><%=Status_Lights_wjsan_2026 %></li>
-                                        <%--<li><%=Status_Lights_ld_2026 %></li>--%>
+                                        <li><%=Status_Lights_ld_2026 %></li>
                                         <li><%=Status_Lights_st_2026 %></li>
                                         <li><%=Status_Lights_bj_2026 %></li>
                                         <li><%=Status_Lights_sbbt_2026 %></li>
@@ -382,18 +382,21 @@
 
         // 對 .ServiceTempleList 中的所有 <a> 加上 purl
         $(".ServiceTempleList a").each(function () {
-            var href = $(this).attr("href");
+            var $link = $(this); // ← 先抓住 this，後面 forEach 就可以用
+            var href = $link.attr("href");
 
             if (!href) return;
 
-            // 判斷 href 是否已有 query string
-            if (href.indexOf("?") > -1) {
-                href += "&purl=" + encodeURIComponent(purl);
-            } else {
-                href += "?purl=" + encodeURIComponent(purl);
+            if (purl) {
+                // 判斷 href 是否已有 query string
+                if (href.indexOf("?") > -1) {
+                    href += "&purl=" + encodeURIComponent(purl);
+                } else {
+                    href += "?purl=" + encodeURIComponent(purl);
+                }
             }
 
-            $(this).attr("href", href);
+            $link.attr("href", href);
         });
     })
 </script>

@@ -49610,18 +49610,24 @@ namespace twbobibobi.Data
 
                 if (TypeID > 0)
                 {
+                    // 更新 Item_Product
                     sql = @"
-                            SELECT *
-                            FROM Item_Product
+                            UPDATE Item_Product
+                            SET 
+                                Usecount = Usecount + @AddCount,
+                                UpdateinfoDate = @Date
                             WHERE TypeID = @TypeID
                               AND Status = 0
                         ";
                 }
                 else
                 {
+                    // 更新 Product
                     sql = @"
-                            SELECT *
-                            FROM Product
+                            UPDATE Product
+                            SET 
+                                Usecount = Usecount + @AddCount,
+                                UpdateinfoDate = @Date
                             WHERE ProductID = @ProductID
                               AND Status = 0
                         ";
@@ -49629,25 +49635,16 @@ namespace twbobibobi.Data
 
                 using (DatabaseAdapter da = new DatabaseAdapter(sql, this.DBSource))
                 {
-                    da.SetSqlCommandBuilder();
+                    da.AddParameterToSelectCommand("@AddCount", Count);
+                    da.AddParameterToSelectCommand("@Date", dtNow.ToString("yyyy-MM-dd HH:mm:ss"));
 
                     if (TypeID > 0)
                         da.AddParameterToSelectCommand("@TypeID", TypeID);
                     else
                         da.AddParameterToSelectCommand("@ProductID", ProductID);
 
-                    DataTable dt = new DataTable();
-                    da.Fill(dt);
-
-                    if (dt.Rows.Count > 0)
-                    {
-                        int useCount = Convert.ToInt32(dt.Rows[0]["Usecount"]);
-                        dt.Rows[0]["Usecount"] = useCount + Count;
-                        dt.Rows[0]["UpdateinfoDate"] = dtNow.ToString("yyyy-MM-dd HH:mm:ss");
-
-                        da.Update(dt);
-                        bResult = true;
-                    }
+                    int affected = da.ExecuteSql();
+                    bResult = affected > 0;
                 }
             }
             catch (Exception error)
@@ -50297,7 +50294,7 @@ namespace twbobibobi.Data
                                                 SELECT ApplicantID
                                                 FROM Temple_{Year}..ApplicantInfo_Moneymother
                                                 WHERE ApplicantID = @ApplicantID
-                                                  AND Num = 0
+                                                  AND (Num = 0 OR Num IS NULL)
                                                 ORDER BY ApplicantID
                                             ";
 
@@ -50327,7 +50324,7 @@ namespace twbobibobi.Data
                         DataRow row = dtToAssign.Rows[i];
                         int dbApplicantID = Convert.ToInt32(row["ApplicantID"]);
 
-                        int nextNum = 2001;
+                        int nextNum = 1001;
 
                         // 找下一個可用編號 (從 1001 開始往上搜尋)
                         while (usedNums.Contains(nextNum))

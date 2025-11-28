@@ -1,49 +1,52 @@
-﻿using twbobibobi.Data;
-using Read.data;
+﻿/************************************************************************************************
+ * 專案名稱：twbobibobi
+ * 檔案名稱：TempleOrderProcessorBase.cs
+ * 類別說明：宮廟訂單處理的抽象基底類別，提供各宮廟共用的下單流程與工具方法，
+ *          包含購買人與祈福人生辰解析、地址補全、燈種額滿檢查、以及供品數量解析等。
+ * 建立日期：2025-11-27
+ * 建立人員：Rooney
+ * 修改記錄：2025-11-27 Rooney 重構：加入 ResolveOfferingQty、補齊 XML 註解、優化區段結構與可讀性
+ * 目前維護人員：Rooney
+ ************************************************************************************************/
+
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using System.Web;
-using System.Web.UI;
 using Temple.data;
+using twbobibobi.Data;
 using twbobibobi.FET.Dto;
 
 namespace twbobibobi.FET.Processors
 {
     /// <summary>
-    /// Class: TempleOrderProcessorBase
-    /// Namespace: twbobibobi.FET.Processors
-    /// 
-    /// 宮廟訂單處理的抽象基底類別，定義所有 Processor 共用的欄位與方法，
-    /// 包含：
-    /// - 購買人與祈福人生辰解析（ParseBirth）
-    /// - 地址資料補全邏輯
-    /// - 燈種額滿檢查（ValidateLightingAvailability）
-    /// - 子類別實作的下單流程（HandleOrderAsync）
+    /// 宮廟訂單處理的抽象基底類別，供所有宮廟 Processor 繼承使用。
+    /// 提供共用邏輯包含：
+    /// 1. 生辰解析(ParseBirth)
+    /// 2. 地址補全
+    /// 3. 燈種額滿檢查
+    /// 4. 子類別建單流程 Delegation(HandleOrderAsync)
+    /// 5. 供品數量解析 ResolveOfferingQty
     /// </summary>
     public abstract class TempleOrderProcessorBase : ITempleOrderProcessor
     {
-        #region Protected Fields
+        #region Protected Fields // 共用欄位
 
         /// <summary> 當前頁面實例，用於取得 HttpContext 或記錄日誌。 </summary>
         protected readonly BasePage _page;
-        /// <summary> 操作燈種與祈福資料的資料存取層物件。 </summary>
+        /// <summary> 操作資料存取層物件。 </summary>
         protected readonly LightDAC _lightDAC;
-        /// <summary> 操作商品資料的資料存取層物件。 </summary>
-        protected readonly ProductDAC _productDAC;
         /// <summary> 當前處理的資料年度（例如 "2025"、"2026"）。 </summary>
         protected readonly string _year;
 
         #endregion
 
-        #region Constructor
+        #region Constructor // 建構式
 
         /// <summary>
         /// 建構式：初始化共用的頁面、資料庫輔助類別與年度。
         /// </summary>
         /// <param name="page">目前頁面 BasePage 實例。</param>
-        /// <param name="dbHelper">資料庫輔助類別。</param>
         /// <param name="year">處理的資料年度字串。</param>
         protected TempleOrderProcessorBase(
             BasePage page,
@@ -52,12 +55,11 @@ namespace twbobibobi.FET.Processors
             _page = page;
             _year = year;
             _lightDAC = new LightDAC(page);
-            _productDAC = new ProductDAC(page);
         }
 
         #endregion
 
-        #region Main Process Flow
+        #region Main Process Flow // 主流程：購買人/祈福人解析 + 庫存檢查
 
         /// <summary>
         /// 通用的訂單處理流程。
@@ -85,7 +87,9 @@ namespace twbobibobi.FET.Processors
             string itemsInfo,
             string OrderId)
         {
-            // 0. 如果購買人生辰存在，解析（共用）
+            // ------------------------------
+            // 共用：先解析購買人生辰
+            // ------------------------------
             string appBirth, appBirthMonth, appAge, appZodiac, appsBirth;
 
             ParseBirth(
@@ -104,7 +108,9 @@ namespace twbobibobi.FET.Processors
             applicant.appZodiac = appZodiac;
             applicant.appsBirth = appsBirth;
 
-            // 1. 若購買人地址缺漏，從祈福人補全
+            // ------------------------------
+            // 地址補全（若購買人缺漏，從祈福人補）
+            // ------------------------------
             string appAddr, appCounty, appdist, appZipcode;
 
             appCounty = applicant.appCity;
@@ -112,11 +118,15 @@ namespace twbobibobi.FET.Processors
             appAddr = applicant.appAddr;
             appZipcode = applicant.appzipCode;
 
-            // 2. 先解析祈福人生辰（共用）
+            // ------------------------------
+            // 共用：解析祈福人生辰 + 補地址
+            // ------------------------------
             foreach (var p in prayedPersons)
             {
                 // 祈福人生辰解析
                 string Birth, birthMonth, age, zodiac, sBirth;
+
+                int cost = p.Cost;
 
                 ParseBirth(
                     "1",
@@ -134,6 +144,7 @@ namespace twbobibobi.FET.Processors
                 p.Zodiac = zodiac;
                 p.sBirth = sBirth;
 
+                // 地址補全：祈福人住在海外不補
                 if (string.IsNullOrEmpty(appCounty) && p.Oversea != "2") appCounty = p.City;
                 if (string.IsNullOrEmpty(appdist) && p.Oversea != "2") appdist = p.Region;
                 if (string.IsNullOrEmpty(appAddr) && p.Oversea != "2") appAddr = p.Addr;
@@ -151,10 +162,14 @@ namespace twbobibobi.FET.Processors
             //    applicant.appzipCode = "0";
             //}
 
-            // 3. 共用：檢查所有燈種庫存
+            // ------------------------------
+            // 共用：檢查燈種庫存（額滿則中止）
+            // ------------------------------
             ValidateLightingAvailability(prayedPersons, GetAdminId(), kind);
 
-            // 4. 將剩下的宮廟專屬流程委派給子類
+            // ------------------------------
+            // 委派給子類別實作
+            // ------------------------------
             return await HandleOrderAsync(
                 applicant,
                 prayedPersons,
@@ -168,7 +183,7 @@ namespace twbobibobi.FET.Processors
 
         #endregion
 
-        #region Abstract Method
+        #region Abstract Method - Order Handler // 抽象：宮廟建單流程
 
         /// <summary>
         /// 抽象方法：由各宮廟子類別實作實際的建單邏輯。
@@ -194,7 +209,24 @@ namespace twbobibobi.FET.Processors
 
         #endregion
 
-        #region Helper: ParseBirth
+        #region Helper: Resolve Offering Quantity // 共用：供品數量解析
+
+        /// <summary>
+        /// 共用：解析供品 OfferingQty（int? → int）。
+        /// 若 API 未傳值、傳入 null、0、負數，則回傳 1。
+        /// 若為正數，回傳該值。
+        /// </summary>
+        /// <param name="qty">API 傳入的 OfferingQty（nullable）。</param>
+        /// <returns>有效的供品數量（至少為 1）。</returns>
+        protected int ResolveOfferingQty(int? qty)
+        {
+            int value = qty.GetValueOrDefault(1);
+            return value > 0 ? value : 1;
+        }
+
+        #endregion
+
+        #region Helper: ParseBirth // 共用：生辰解析
 
         /// <summary>
         /// 共用：解析農曆與國曆生日，互相轉換並計算年齡與生肖。
@@ -340,7 +372,7 @@ namespace twbobibobi.FET.Processors
 
         #endregion
 
-        #region Helper: ValidateLightingAvailability
+        #region Helper: ValidateLightingAvailability // 共用：燈種額滿檢查
 
         /// <summary>
         /// 共用：依照 TypeID 分組後檢查各燈種是否額滿。
@@ -378,7 +410,7 @@ namespace twbobibobi.FET.Processors
 
         #endregion
 
-        #region Virtual: GetAdminId
+        #region Virtual: GetAdminId // 取得宮廟代碼
 
         /// <summary>
         /// 取得目前處理器對應的宮廟代碼。

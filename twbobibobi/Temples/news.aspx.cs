@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
+using twbobibobi.Data;
 
 namespace Temple.Temples
 {
@@ -306,6 +307,9 @@ namespace Temple.Temples
         /// <returns>對應的 HTML 狀態字串</returns>
         private string GetEventStatus(string eventKey)
         {
+            // 取得台北標準時間
+            DateTime dtNow = LightDAC.GetTaipeiNow();
+
             if (!_events.ContainsKey(eventKey))
                 return string.Empty;
 
@@ -314,7 +318,7 @@ namespace Temple.Temples
             if (ev.IsPermanent || ev.Deadline == null)
                 return status_ing; // 永久活動 → 永遠進行中
 
-            return DateTime.Now <= ev.Deadline.Value ? status_ing : status_end;
+            return dtNow <= ev.Deadline.Value ? status_ing : status_end;
         }
     }
 }

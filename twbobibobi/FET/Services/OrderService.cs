@@ -58,7 +58,6 @@ namespace twbobibobi.FET.Services
             // 2. 批次查 TempleCode（會回傳 AdminID/ServiceID/TypeID/TypeString）
             var codeInfos = await _templeCodeRepo.GetByProductCodesAsync(productCodes);
 
-
             // 3. 將每筆 ItemDto.PrayedPerson 都打上對應的 codeInfo
             var flatList = new List<PrayedPersonDto>();
 
@@ -71,7 +70,7 @@ namespace twbobibobi.FET.Services
                 // 用 TryGetValue 保证不会 KeyNotFound
                 if (!codeInfos.TryGetValue(productCode, out var info))
                 {
-                    // 找不到就跳错或记录 log
+                    // 找不到就跳错或紀錄 log
                     throw new KeyNotFoundException($"找不到廟宇代碼 {productCode} 的對應資料");
                 }
 
@@ -89,13 +88,13 @@ namespace twbobibobi.FET.Services
                     pp.ServiceID = info.ServiceID;
                     pp.TypeID = info.TypeID;
                     pp.TypeString = info.TypeString;
+                    pp.Cost = (int)item.UnitPrice;         // ← 取這筆 item 的 UnitPrice
 
                     // 文創小販部
                     if (info.ServiceID == 3)
                     {
-                        pp.ItemTypeID = info.ItemTypeID;
                         pp.Qty = item.Qty;                    // ← 取這筆 item 的 Qty
-                        pp.Cost = (int)item.UnitPrice;         // ← 取這筆 item 的 UnitPrice
+                        pp.ItemTypeID = info.ItemTypeID;
                     }
 
                     flatList.Add(pp);

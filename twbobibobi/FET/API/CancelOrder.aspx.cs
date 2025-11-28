@@ -46,8 +46,7 @@ namespace Temple.FET.APITEST
             string clientOrderNumber = mJSonHelper.GetStringFromJson("clientOrderNumber", stream);
             string encryptText = mJSonHelper.GetStringFromJson("paramContent", stream);
             string URL = Request.Url.Authority;
-            TimeZoneInfo info = TimeZoneInfo.FindSystemTimeZoneById("Taipei Standard Time");
-            DateTime dtNow = TimeZoneInfo.ConvertTime(DateTime.Now, info);
+            DateTime dtNow = LightDAC.GetTaipeiNow();
 
             //channel = "FETnet";
             //clientOrderNumber = "CMPO20231019000076";

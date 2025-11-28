@@ -66,9 +66,8 @@ namespace twbobibobi.FET.Processors
         {
             var resultOrderNumbers = new List<string>();
 
-            // 台北時區時間
-            TimeZoneInfo tz = TimeZoneInfo.FindSystemTimeZoneById("Taipei Standard Time");
-            DateTime dtNow = TimeZoneInfo.ConvertTime(DateTime.Now, tz);
+            // 取得台北標準時間
+            DateTime dtNow = LightDAC.GetTaipeiNow();
 
             // 處理 Receipt 欄位預設
             string receiptName = string.IsNullOrEmpty(applicant.reName) ? applicant.appName : applicant.reName;
@@ -308,7 +307,7 @@ namespace twbobibobi.FET.Processors
                     sBirth: p.sBirth,
                     Email: p.Email,
                     HomeNum: p.HomeNum,
-                    Count: p.OfferingQty ?? 1,
+                    Count: ResolveOfferingQty(p.OfferingQty),
                     Addr: p.Addr,
                     County: city,
                     Dist: region,
@@ -417,7 +416,7 @@ namespace twbobibobi.FET.Processors
                     sBirth: p.sBirth,
                     HomeNum: p.HomeNum,
                     Email: p.Email,
-                    Count: p.OfferingQty ?? 1,
+                    Count: ResolveOfferingQty(p.OfferingQty),
                     Remark: p.Remark,
                     Addr: p.Addr,
                     County: city,
@@ -526,7 +525,7 @@ namespace twbobibobi.FET.Processors
                     sBirth: p.sBirth,
                     Email: p.Email,
                     HomeNum: p.HomeNum,
-                    Count: 1,
+                    Count: ResolveOfferingQty(p.OfferingQty),
                     Remark: p.Remark,
                     Addr: p.Addr,
                     County: city,
@@ -632,7 +631,7 @@ namespace twbobibobi.FET.Processors
                     sBirth: p.sBirth,
                     Email: p.Email,
                     HomeNum: p.HomeNum,
-                    Count: 1,
+                    Count: ResolveOfferingQty(p.OfferingQty),
                     Remark: p.Remark,
                     Addr: p.Addr,
                     County: city,
@@ -738,7 +737,7 @@ namespace twbobibobi.FET.Processors
                     sBirth: p.sBirth,
                     Email: p.Email,
                     HomeNum: p.HomeNum,
-                    Count: 1,
+                    Count: ResolveOfferingQty(p.OfferingQty),
                     Remark: p.Remark,
                     Addr: p.Addr,
                     County: city,

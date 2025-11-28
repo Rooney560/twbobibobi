@@ -29,8 +29,8 @@ namespace Temple.Temples
         {
             if (Request.QueryString["a"] != null && int.TryParse(Request.QueryString["a"], out int a))
             {
-                TimeZoneInfo info = TimeZoneInfo.FindSystemTimeZoneById("Taipei Standard Time");
-                DateTime dtNow = TimeZoneInfo.ConvertTime(DateTime.Now, info);
+                // 取得台北標準時間
+                DateTime dtNow = LightDAC.GetTaipeiNow();
 
                 ogurl = "https://bobibobi.tw" + Request.RawUrl.ToString();
 

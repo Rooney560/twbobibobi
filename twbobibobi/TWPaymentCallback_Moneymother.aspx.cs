@@ -34,7 +34,7 @@ namespace Temple
                     string ValidationKey = "Ov7BmaT5l1C89t5FNj0cEsR";
                     string Timestamp = dtNow.ToString("yyyyMMddHHmmssfff");
 
-                    string Year = dtNow.Year.ToString();
+                    string Year = "2026";
 
                     string m1 = Request["m1"];
                     string m2 = Request["m2"];

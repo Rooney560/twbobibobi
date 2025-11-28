@@ -134,20 +134,18 @@ namespace twbobibobi.FET.API
                     // ⑤ 构造各层依赖并调用服务
                     //swSegment.Restart();
                     // 7. 建構各層依賴並呼叫服務
+                    // 取得台北標準時間
+                    DateTime dtNow = LightDAC.GetTaipeiNow();
                     var lightDAC = new LightDAC(this);
                     var codeRepo = new TempleCodeRepository(lightDAC);
-                    //var orderRepo = new OrderRepository(lightDAC, dbHelper, DateTime.Now.Year.ToString());
-                    var Year = env == "Prod" ? DateTime.Now.Year.ToString() : "TEST";
+                    //var orderRepo = new OrderRepository(lightDAC, dbHelper, dtNow.Year.ToString());
+                    var Year = env == "Prod" ? dtNow.ToString() : "TEST";
                     var factory = new TempleOrderProcessorFactory(this, Year);
                     var service = new OrderService(codeRepo, factory);
 
                     SaveRequestLog(Request.Url + stream);
 
                     var fetOrderNumber = order.FetOrderNumber;
-
-                    // 台北時區時間
-                    TimeZoneInfo tz = TimeZoneInfo.FindSystemTimeZoneById("Taipei Standard Time");
-                    DateTime dtNow = TimeZoneInfo.ConvertTime(DateTime.Now, tz);
 
                     string OrderId = dtNow.ToString("yyyyMMddHHmmssfff");
                     //swSegment.Stop();

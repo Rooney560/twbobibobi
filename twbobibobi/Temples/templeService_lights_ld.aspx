@@ -272,7 +272,7 @@
                 <div class="TempleServiceInfo">
                     <div class="EventTime">
                         <div>活動開始日期：</div>
-                        <div id="startTime">2025/11/01 00:00</div>
+                        <div id="startTime">2025/12/01 00:00</div>
                         <br />
                         <div>活動截止日期：</div>
                         <div id="endTime">2026/10/31 23:59</div>
@@ -551,6 +551,10 @@
 
         if (!checkEndTime()) {
             alert('親愛的大德您好\n桃園龍德宮 2026點燈活動已截止！！\n感謝您的支持, 謝謝!');
+        }
+
+        if (!checkedStartTime()) {
+            alert('親愛的大德您好\n桃園龍德宮 2026點燈活動尚未開始！！\n感謝您的支持, 謝謝!');
         }
 
         $("input[type='tel']").on("keypress keyup blur", function (event) {
@@ -1092,7 +1096,7 @@
         // =====================================================
         console.log("所有欄位都已填寫正確，準備送出");
         // 如果活動時間判斷...
-        if (location.search.indexOf('ad') >= 0 || checkedStartTime()) {
+        if (checkedStartTime()) {
             if (checkEndTime()) {
                 gotoChecked_ld();
             } else {

@@ -295,8 +295,8 @@ namespace twbobibobi
         {
             if (!Page.IsPostBack)
             {
-                TimeZoneInfo info = TimeZoneInfo.FindSystemTimeZoneById("Taipei Standard Time");
-                DateTime dtNow = TimeZoneInfo.ConvertTime(DateTime.Now, info);
+                // 取得台北標準時間
+                DateTime dtNow = LightDAC.GetTaipeiNow();
 
                 //SEO設定，數據從 database 拿 /////////////////////////////////////
                 //SEO_Title = "SEO【保必保庇】線上宮廟服務平台";
@@ -513,6 +513,9 @@ namespace twbobibobi
         /// <returns>對應的 HTML 狀態字串</returns>
         private string GetEventStatus(string eventKey)
         {
+            // 取得台北標準時間
+            DateTime dtNow = LightDAC.GetTaipeiNow();
+
             if (!_events.ContainsKey(eventKey))
                 return string.Empty;
 
@@ -521,7 +524,7 @@ namespace twbobibobi
             if (ev.IsPermanent || ev.Deadline == null)
                 return status_ing; // 永久活動 → 永遠進行中
 
-            return DateTime.Now <= ev.Deadline.Value ? status_ing : status_end;
+            return dtNow <= ev.Deadline.Value ? status_ing : status_end;
         }
 
         /// <summary>

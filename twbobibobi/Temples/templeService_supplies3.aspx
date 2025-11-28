@@ -595,7 +595,7 @@
                     //alert("活動尚未開始!");
 
                     gotoChecked_wu();
-                    //if (location.search.indexOf('ad') >= 0 || checkedStartTime()) {
+                    //if (checkedStartTime()) {
                     //    if (checkEndTime()) {
                     //        gotoChecked_wu();
                     //    }

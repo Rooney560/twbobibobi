@@ -59,33 +59,35 @@ namespace twbobibobi.Data
                 }
                 catch (Exception error)
                 {
+                    string detailedError = ErrorLogger.FormatError(error, typeof(AjaxBasePage).FullName);
+                    SaveErrorLog("twbobibobi Ajax Error：\r\n" + detailedError);
                     var msg = error.InnerException != null
                     ? error.InnerException.Message
                     : error.Message;
 
-                    // 取得最內層的例外（真實的 NullReferenceException 通常在這裡）
-                    Exception inner = error.InnerException ?? error;
+                    //// 取得最內層的例外（真實的 NullReferenceException 通常在這裡）
+                    //Exception inner = error.InnerException ?? error;
 
-                    // 組合詳細錯誤訊息
-                    string detailedError = string.Format(
-                        "==== Temple Ajax Error ====\r\n" +
-                        "Time: {0}\r\n" +
-                        "Request URL: {1}\r\n" +
-                        "Handler: {2}\r\n" +
-                        "Error Type: {3}\r\n" +
-                        "Message: {4}\r\n" +
-                        "Inner Message: {5}\r\n" +
-                        "StackTrace:\r\n{6}\r\n\r\n",
-                        DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"),
-                        Request.Url.ToString(),
-                        this.GetType().FullName,
-                        error.GetType().FullName,
-                        error.Message,
-                        error.InnerException != null ? error.InnerException.Message : "N/A",
-                        (inner.StackTrace ?? "(no stack trace)")
-                    );
+                    //// 組合詳細錯誤訊息
+                    //string detailedError = string.Format(
+                    //    "==== Temple Ajax Error ====\r\n" +
+                    //    "Time: {0}\r\n" +
+                    //    "Request URL: {1}\r\n" +
+                    //    "Handler: {2}\r\n" +
+                    //    "Error Type: {3}\r\n" +
+                    //    "Message: {4}\r\n" +
+                    //    "Inner Message: {5}\r\n" +
+                    //    "StackTrace:\r\n{6}\r\n\r\n",
+                    //    DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"),
+                    //    Request.Url.ToString(),
+                    //    this.GetType().FullName,
+                    //    error.GetType().FullName,
+                    //    error.Message,
+                    //    error.InnerException != null ? error.InnerException.Message : "N/A",
+                    //    (inner.StackTrace ?? "(no stack trace)")
+                    //);
 
-                    SaveErrorLog(detailedError);
+                    //SaveErrorLog(detailedError);
                     this.mJSonHelper.AddContent("StatusCode", -1);
                     this.mJSonHelper.AddContent("ErrorMessage", msg);
 
@@ -283,8 +285,8 @@ namespace twbobibobi.Data
 
         public static int GetAge(int Year, int Month, int Day)
         {
-            TimeZoneInfo info = TimeZoneInfo.FindSystemTimeZoneById("Taipei Standard Time");
-            DateTime dtNow = TimeZoneInfo.ConvertTime(DateTime.Now, info);
+            // 取得台北標準時間
+            DateTime dtNow = LightDAC.GetTaipeiNow();
 
             int age = dtNow.Year - Year;
             if (dtNow.Month < Month || (dtNow.Month == Month && dtNow.Day < Day))
@@ -2333,35 +2335,35 @@ namespace twbobibobi.Data
                     {
                         case "3":
                             //元神光明燈
-                            result = 500;
+                            result = 600;
                             break;
                         case "4":
                             //太歲平安符
-                            result = 500;
+                            result = 600;
                             break;
                         case "5":
                             //文魁智慧燈
-                            result = 500;
+                            result = 600;
                             break;
                         case "6":
                             //正財福報燈
-                            result = 500;
+                            result = 600;
                             break;
                         case "15":
                             //轉運納福燈
-                            result = 1000;
+                            result = 1100;
                             break;
                         case "16":
                             //光明燈上層
-                            result = 1000;
+                            result = 1100;
                             break;
                         case "17":
                             //偏財旺旺燈
-                            result = 500;
+                            result = 600;
                             break;
                         case "18":
                             //廣進安財庫
-                            result = 500;
+                            result = 600;
                             break;
                     }
                     break;
@@ -2481,6 +2483,15 @@ namespace twbobibobi.Data
                     {
                         default:
                             result = 560;
+
+                            DateTime dtNow = LightDAC.GetTaipeiNow();
+                            string startDate = "2025/12/01 00:00:00";
+                            int ijj = DateTime.Compare(DateTime.Parse(startDate), dtNow);
+                            if (DateTime.Compare(DateTime.Parse(startDate), dtNow) < 0)
+                            {
+                                result = 500;
+                            }
+
                             break;
                     }
                     break;

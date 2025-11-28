@@ -49,8 +49,8 @@ namespace Temple.Temples
             {
                 if (Request["a"] != null && Request["aid"] != null)
                 {
-                    TimeZoneInfo info = TimeZoneInfo.FindSystemTimeZoneById("Taipei Standard Time");
-                    DateTime dtNow = TimeZoneInfo.ConvertTime(DateTime.Now, info);
+                    // 取得台北標準時間
+                    DateTime dtNow = LightDAC.GetTaipeiNow();
 
                     ogurl = Request.RawUrl.ToString() + "?a=" + Request["a"] + "&aid=" + Request["aid"] + "&kind=" + Request["kind"]; ;
 
@@ -96,7 +96,7 @@ namespace Temple.Temples
                                             out DateTime endTime))
                                     {
                                         // 如果已過期，就隱藏按鈕；否則照原來綁定
-                                        if (DateTime.Now > endTime)
+                                        if (dtNow > endTime)
                                         {
                                             HidePayButton();
                                         }
@@ -133,7 +133,7 @@ namespace Temple.Temples
                                             out endTime))
                                     {
                                         // 如果已過期，就隱藏按鈕；否則照原來綁定
-                                        if (DateTime.Now > endTime)
+                                        if (dtNow > endTime)
                                         {
                                             HidePayButton();
                                         }
@@ -170,7 +170,7 @@ namespace Temple.Temples
                                             out endTime))
                                     {
                                         // 如果已過期，就隱藏按鈕；否則照原來綁定
-                                        if (DateTime.Now > endTime)
+                                        if (dtNow > endTime)
                                         {
                                             HidePayButton();
                                         }
@@ -207,7 +207,7 @@ namespace Temple.Temples
                                             out endTime))
                                     {
                                         // 如果已過期，就隱藏按鈕；否則照原來綁定
-                                        if (DateTime.Now > endTime)
+                                        if (dtNow > endTime)
                                         {
                                             HidePayButton();
                                         }
@@ -244,7 +244,7 @@ namespace Temple.Temples
                                             out endTime))
                                     {
                                         // 如果已過期，就隱藏按鈕；否則照原來綁定
-                                        if (DateTime.Now > endTime)
+                                        if (dtNow > endTime)
                                         {
                                             HidePayButton();
                                         }
@@ -297,7 +297,7 @@ namespace Temple.Temples
                                             out endTime))
                                     {
                                         // 如果已過期，就隱藏按鈕；否則照原來綁定
-                                        if (DateTime.Now > endTime)
+                                        if (dtNow > endTime)
                                         {
                                             HidePayButton();
                                         }
@@ -338,7 +338,7 @@ namespace Temple.Temples
                                             out endTime))
                                     {
                                         // 如果已過期，就隱藏按鈕；否則照原來綁定
-                                        if (DateTime.Now > endTime)
+                                        if (dtNow > endTime)
                                         {
                                             HidePayButton();
                                         }
@@ -375,7 +375,7 @@ namespace Temple.Temples
                                             out endTime))
                                     {
                                         // 如果已過期，就隱藏按鈕；否則照原來綁定
-                                        if (DateTime.Now > endTime)
+                                        if (dtNow > endTime)
                                         {
                                             HidePayButton();
                                         }
@@ -411,7 +411,7 @@ namespace Temple.Temples
                                             out endTime))
                                     {
                                         // 如果已過期，就隱藏按鈕；否則照原來綁定
-                                        if (DateTime.Now > endTime)
+                                        if (dtNow > endTime)
                                         {
                                             HidePayButton();
                                         }
@@ -447,7 +447,7 @@ namespace Temple.Temples
                                             out endTime))
                                     {
                                         // 如果已過期，就隱藏按鈕；否則照原來綁定
-                                        if (DateTime.Now > endTime)
+                                        if (dtNow > endTime)
                                         {
                                             HidePayButton();
                                         }
@@ -484,7 +484,7 @@ namespace Temple.Temples
                                             out endTime))
                                     {
                                         // 如果已過期，就隱藏按鈕；否則照原來綁定
-                                        if (DateTime.Now > endTime)
+                                        if (dtNow > endTime)
                                         {
                                             HidePayButton();
                                         }
@@ -524,7 +524,7 @@ namespace Temple.Temples
                                             out endTime))
                                     {
                                         // 如果已過期，就隱藏按鈕；否則照原來綁定
-                                        if (DateTime.Now > endTime)
+                                        if (dtNow > endTime)
                                         {
                                             HidePayButton();
                                         }
@@ -560,13 +560,13 @@ namespace Temple.Temples
                                             out endTime))
                                     {
                                         // 如果已過期，就隱藏按鈕；否則照原來綁定
-                                        if (DateTime.Now > endTime)
+                                        if (dtNow > endTime)
                                         {
                                             HidePayButton();
                                         }
                                         else
                                         {
-                                            bindPayButton(false, true, true, false, false, false, false, true, true);
+                                            bindPayButton(fetCSP: true, card: true, linepay: true, jkospay: true, chtCSP: false, twmCSP: true, union: false, pxpaypluspay: true, applepay: true);
                                             //if (payStatus)
                                             //{
                                             //    bindPayButton(false, true, true, true, false, false, false, true, true);
@@ -597,13 +597,13 @@ namespace Temple.Temples
                                             out endTime))
                                     {
                                         // 如果已過期，就隱藏按鈕；否則照原來綁定
-                                        if (DateTime.Now > endTime)
+                                        if (dtNow > endTime)
                                         {
                                             HidePayButton();
                                         }
                                         else
                                         {
-                                            bindPayButton(true, true, true, false, true, false, false, true, true);
+                                            bindPayButton(true, true, true, false, true, true, false, true, true);
                                             //if (payStatus)
                                             //{
                                             //    bindPayButton(false, true, true, true, false, false, false, true, true);
@@ -634,13 +634,13 @@ namespace Temple.Temples
                                             out endTime))
                                     {
                                         // 如果已過期，就隱藏按鈕；否則照原來綁定
-                                        if (DateTime.Now > endTime)
+                                        if (dtNow > endTime)
                                         {
                                             HidePayButton();
                                         }
                                         else
                                         {
-                                            bindPayButton(false, true, true, true, false, false, false, true, true);
+                                            bindPayButton(fetCSP: true, card: true, linepay: true, jkospay: true, chtCSP: false, twmCSP: true, union: false, pxpaypluspay: true, applepay: true);
                                             //if (payStatus)
                                             //{
                                             //    bindPayButton(false, true, true, true, false, false, false, true, true);
@@ -671,13 +671,13 @@ namespace Temple.Temples
                                             out endTime))
                                     {
                                         // 如果已過期，就隱藏按鈕；否則照原來綁定
-                                        if (DateTime.Now > endTime)
+                                        if (dtNow > endTime)
                                         {
                                             HidePayButton();
                                         }
                                         else
                                         {
-                                            bindPayButton(false, true, true, true, false, false, false, true, true);
+                                            bindPayButton(fetCSP: true, card: true, linepay: true, jkospay: true, chtCSP: false, twmCSP: true, union: false, pxpaypluspay: true, applepay: true);
                                             //if (payStatus)
                                             //{
                                             //    bindPayButton(false, true, true, true, false, false, false, true, true);
@@ -708,13 +708,13 @@ namespace Temple.Temples
                                             out endTime))
                                     {
                                         // 如果已過期，就隱藏按鈕；否則照原來綁定
-                                        if (DateTime.Now > endTime)
+                                        if (dtNow > endTime)
                                         {
                                             HidePayButton();
                                         }
                                         else
                                         {
-                                            bindPayButton(false, true, true, true, false, false, false, true, true);
+                                            bindPayButton(fetCSP: true, card: true, linepay: true, jkospay: true, chtCSP: false, twmCSP: true, union: false, pxpaypluspay: true, applepay: true);
                                             //if (payStatus)
                                             //{
                                             //    bindPayButton(false, true, true, true, false, false, false, true, true);
@@ -745,13 +745,13 @@ namespace Temple.Temples
                                             out endTime))
                                     {
                                         // 如果已過期，就隱藏按鈕；否則照原來綁定
-                                        if (DateTime.Now > endTime)
+                                        if (dtNow > endTime)
                                         {
                                             HidePayButton();
                                         }
                                         else
                                         {
-                                            bindPayButton(false, true, true, true, false, false, false, true, true);
+                                            bindPayButton(fetCSP: true, card: true, linepay: true, jkospay: true, chtCSP: false, twmCSP: true, union: false, pxpaypluspay: true, applepay: true);
                                             //if (payStatus)
                                             //{
                                             //    bindPayButton(false, true, true, true, false, false, false, true, true);
@@ -790,7 +790,7 @@ namespace Temple.Temples
                                             out DateTime endTime))
                                     {
                                         // 如果已過期，就隱藏按鈕；否則照原來綁定
-                                        if (DateTime.Now > endTime)
+                                        if (dtNow > endTime)
                                         {
                                             HidePayButton();
                                         }
@@ -826,7 +826,7 @@ namespace Temple.Temples
                                             out endTime))
                                     {
                                         // 如果已過期，就隱藏按鈕；否則照原來綁定
-                                        if (DateTime.Now > endTime)
+                                        if (dtNow > endTime)
                                         {
                                             HidePayButton();
                                         }
@@ -862,7 +862,7 @@ namespace Temple.Temples
                                             out endTime))
                                     {
                                         // 如果已過期，就隱藏按鈕；否則照原來綁定
-                                        if (DateTime.Now > endTime)
+                                        if (dtNow > endTime)
                                         {
                                             HidePayButton();
                                         }
@@ -898,7 +898,7 @@ namespace Temple.Temples
                                             out endTime))
                                     {
                                         // 如果已過期，就隱藏按鈕；否則照原來綁定
-                                        if (DateTime.Now > endTime)
+                                        if (dtNow > endTime)
                                         {
                                             HidePayButton();
                                         }
@@ -934,7 +934,7 @@ namespace Temple.Temples
                                             out endTime))
                                     {
                                         // 如果已過期，就隱藏按鈕；否則照原來綁定
-                                        if (DateTime.Now > endTime)
+                                        if (dtNow > endTime)
                                         {
                                             HidePayButton();
                                         }
@@ -971,7 +971,7 @@ namespace Temple.Temples
                                             out endTime))
                                     {
                                         // 如果已過期，就隱藏按鈕；否則照原來綁定
-                                        if (DateTime.Now > endTime)
+                                        if (dtNow > endTime)
                                         {
                                             HidePayButton();
                                         }
@@ -1007,7 +1007,7 @@ namespace Temple.Temples
                                             out endTime))
                                     {
                                         // 如果已過期，就隱藏按鈕；否則照原來綁定
-                                        if (DateTime.Now > endTime)
+                                        if (dtNow > endTime)
                                         {
                                             HidePayButton();
                                         }
@@ -1043,7 +1043,7 @@ namespace Temple.Temples
                                             out endTime))
                                     {
                                         // 如果已過期，就隱藏按鈕；否則照原來綁定
-                                        if (DateTime.Now > endTime)
+                                        if (dtNow > endTime)
                                         {
                                             HidePayButton();
                                         }
@@ -1079,7 +1079,7 @@ namespace Temple.Temples
                                             out endTime))
                                     {
                                         // 如果已過期，就隱藏按鈕；否則照原來綁定
-                                        if (DateTime.Now > endTime)
+                                        if (dtNow > endTime)
                                         {
                                             HidePayButton();
                                         }
@@ -1116,7 +1116,7 @@ namespace Temple.Temples
                                             out endTime))
                                     {
                                         // 如果已過期，就隱藏按鈕；否則照原來綁定
-                                        if (DateTime.Now > endTime)
+                                        if (dtNow > endTime)
                                         {
                                             HidePayButton();
                                         }
@@ -1152,7 +1152,7 @@ namespace Temple.Temples
                                             out endTime))
                                     {
                                         // 如果已過期，就隱藏按鈕；否則照原來綁定
-                                        if (DateTime.Now > endTime)
+                                        if (dtNow > endTime)
                                         {
                                             HidePayButton();
                                         }
@@ -1202,7 +1202,7 @@ namespace Temple.Temples
                                             out DateTime endTime))
                                     {
                                         // 如果已過期，就隱藏按鈕；否則照原來綁定
-                                        if (DateTime.Now > endTime)
+                                        if (dtNow > endTime)
                                         {
                                             HidePayButton();
                                         }
@@ -1246,7 +1246,7 @@ namespace Temple.Temples
                                             out DateTime endTime))
                                     {
                                         // 如果已過期，就隱藏按鈕；否則照原來綁定
-                                        if (DateTime.Now > endTime)
+                                        if (dtNow > endTime)
                                         {
                                             HidePayButton();
                                         }
@@ -1308,7 +1308,7 @@ namespace Temple.Temples
                                             out DateTime endTime))
                                     {
                                         // 如果已過期，就隱藏按鈕；否則照原來綁定
-                                        if (DateTime.Now > endTime)
+                                        if (dtNow > endTime)
                                         {
                                             HidePayButton();
                                         }
@@ -1344,7 +1344,7 @@ namespace Temple.Temples
                                             out endTime))
                                     {
                                         // 如果已過期，就隱藏按鈕；否則照原來綁定
-                                        if (DateTime.Now > endTime)
+                                        if (dtNow > endTime)
                                         {
                                             HidePayButton();
                                         }
@@ -1404,7 +1404,7 @@ namespace Temple.Temples
                                             out DateTime endTime))
                                     {
                                         // 如果已過期，就隱藏按鈕；否則照原來綁定
-                                        if (DateTime.Now > endTime)
+                                        if (dtNow > endTime)
                                         {
                                             HidePayButton();
                                         }
@@ -1451,7 +1451,7 @@ namespace Temple.Temples
                                             out DateTime endTime))
                                     {
                                         // 如果已過期，就隱藏按鈕；否則照原來綁定
-                                        if (DateTime.Now > endTime)
+                                        if (dtNow > endTime)
                                         {
                                             HidePayButton();
                                         }
@@ -1495,7 +1495,7 @@ namespace Temple.Temples
                                             out DateTime endTime))
                                     {
                                         // 如果已過期，就隱藏按鈕；否則照原來綁定
-                                        if (DateTime.Now > endTime)
+                                        if (dtNow > endTime)
                                         {
                                             HidePayButton();
                                         }
@@ -1570,7 +1570,7 @@ namespace Temple.Temples
                                             out DateTime endTime))
                                     {
                                         // 如果已過期，就隱藏按鈕；否則照原來綁定
-                                        if (DateTime.Now > endTime)
+                                        if (dtNow > endTime)
                                         {
                                             HidePayButton();
                                         }
@@ -1615,7 +1615,7 @@ namespace Temple.Temples
                                             out DateTime endTime))
                                     {
                                         // 如果已過期，就隱藏按鈕；否則照原來綁定
-                                        if (DateTime.Now > endTime)
+                                        if (dtNow > endTime)
                                         {
                                             HidePayButton();
                                         }
@@ -1660,7 +1660,7 @@ namespace Temple.Temples
                                             out DateTime endTime))
                                     {
                                         // 如果已過期，就隱藏按鈕；否則照原來綁定
-                                        if (DateTime.Now > endTime)
+                                        if (dtNow > endTime)
                                         {
                                             HidePayButton();
                                         }
@@ -1703,7 +1703,7 @@ namespace Temple.Temples
                                             out  endTime))
                                     {
                                         // 如果已過期，就隱藏按鈕；否則照原來綁定
-                                        if (DateTime.Now > endTime)
+                                        if (dtNow > endTime)
                                         {
                                             HidePayButton();
                                         }
@@ -1756,7 +1756,7 @@ namespace Temple.Temples
                                             out DateTime endTime))
                                     {
                                         // 如果已過期，就隱藏按鈕；否則照原來綁定
-                                        if (DateTime.Now > endTime)
+                                        if (dtNow > endTime)
                                         {
                                             HidePayButton();
                                         }
@@ -1815,7 +1815,7 @@ namespace Temple.Temples
                                             out DateTime endTime))
                                     {
                                         // 如果已過期，就隱藏按鈕；否則照原來綁定
-                                        if (DateTime.Now > endTime)
+                                        if (dtNow > endTime)
                                         {
                                             HidePayButton();
                                         }
@@ -1861,7 +1861,7 @@ namespace Temple.Temples
                                             out DateTime endTime))
                                     {
                                         // 如果已過期，就隱藏按鈕；否則照原來綁定
-                                        if (DateTime.Now > endTime)
+                                        if (dtNow > endTime)
                                         {
                                             HidePayButton();
                                         }
@@ -1906,7 +1906,7 @@ namespace Temple.Temples
                                             out DateTime endTime))
                                     {
                                         // 如果已過期，就隱藏按鈕；否則照原來綁定
-                                        if (DateTime.Now > endTime)
+                                        if (dtNow > endTime)
                                         {
                                             HidePayButton();
                                         }
@@ -1942,7 +1942,7 @@ namespace Temple.Temples
                                             out endTime))
                                     {
                                         // 如果已過期，就隱藏按鈕；否則照原來綁定
-                                        if (DateTime.Now > endTime)
+                                        if (dtNow > endTime)
                                         {
                                             HidePayButton();
                                         }
@@ -1987,7 +1987,7 @@ namespace Temple.Temples
                                             out DateTime endTime))
                                     {
                                         // 如果已過期，就隱藏按鈕；否則照原來綁定
-                                        if (DateTime.Now > endTime)
+                                        if (dtNow > endTime)
                                         {
                                             HidePayButton();
                                         }
@@ -2032,7 +2032,7 @@ namespace Temple.Temples
                                             out DateTime endTime))
                                     {
                                         // 如果已過期，就隱藏按鈕；否則照原來綁定
-                                        if (DateTime.Now > endTime)
+                                        if (dtNow > endTime)
                                         {
                                             HidePayButton();
                                         }
@@ -2077,7 +2077,7 @@ namespace Temple.Temples
                                             out DateTime endTime))
                                     {
                                         // 如果已過期，就隱藏按鈕；否則照原來綁定
-                                        if (DateTime.Now > endTime)
+                                        if (dtNow > endTime)
                                         {
                                             HidePayButton();
                                         }
@@ -2127,7 +2127,7 @@ namespace Temple.Temples
                                             out DateTime endTime))
                                     {
                                         // 如果已過期，就隱藏按鈕；否則照原來綁定
-                                        if (DateTime.Now > endTime)
+                                        if (dtNow > endTime)
                                         {
                                             HidePayButton();
                                         }
@@ -2248,9 +2248,8 @@ namespace Temple.Temples
             {
                 basePage.mJSonHelper.AddContent("StatusCode", 0);
 
-                // 取得當前時間
-                var tz = TimeZoneInfo.FindSystemTimeZoneById("Taipei Standard Time");
-                var dtNow = TimeZoneInfo.ConvertTime(DateTime.Now, tz);
+                // 取得台北標準時間
+                DateTime dtNow = LightDAC.GetTaipeiNow();
 
                 AdminID = int.Parse(basePage.Request["a"] ?? throw new ArgumentException("缺少廟宇參數"));
                 kind = int.Parse(basePage.Request["kind"] ?? throw new ArgumentException("缺少服務項目參數"));
@@ -2298,7 +2297,7 @@ namespace Temple.Temples
                     {
                         string startDate = "2025/11/01 00:00:00";
                         int ijj = DateTime.Compare(DateTime.Parse(startDate), dtNow);
-                        if (DateTime.Compare(DateTime.Parse(startDate), dtNow) < 0 || basePage.Request["ad"] == "2")
+                        if (DateTime.Compare(DateTime.Parse(startDate), dtNow) < 0)
                         {
                             Year = "2026";
                         }
@@ -5266,8 +5265,8 @@ namespace Temple.Temples
                         LightDAC objLightDAC = new LightDAC(basePage);
                         SMSHepler objSMSHepler = new SMSHepler();
 
-                        TimeZoneInfo info = TimeZoneInfo.FindSystemTimeZoneById("Taipei Standard Time");
-                        DateTime dtNow = TimeZoneInfo.ConvertTime(DateTime.Now, info);
+                        // 取得台北標準時間
+                        DateTime dtNow = LightDAC.GetTaipeiNow();
                         string orderId = dtNow.ToString("yyyyMMddHHmmssfff");
                         string Year = "2025";
                         string Codeerror = "0";
@@ -5328,8 +5327,8 @@ namespace Temple.Temples
                 //        LightDAC objLightDAC = new LightDAC(basePage);
                 //        SMSHepler objSMSHepler = new SMSHepler();
 
-                //        TimeZoneInfo info = TimeZoneInfo.FindSystemTimeZoneById("Taipei Standard Time");
-                //        DateTime dtNow = TimeZoneInfo.ConvertTime(DateTime.Now, info);
+                //        // 取得台北標準時間
+                //        DateTime dtNow = LightDAC.GetTaipeiNow();
                 //        string Year = (kind == 1) ? "2026" : dtNow.Year.ToString();
                 //        string Codeerror = "0";
                 //        string code = CreateRandomWord(6);
@@ -5404,8 +5403,8 @@ namespace Temple.Temples
             public string TWWebPay_lights_da(BasePage basePag, string orderid, int applicantID, string paytype, string telco, int price, string m_phone, string returnUrl, 
                 string Year)
             {
-                TimeZoneInfo info = TimeZoneInfo.FindSystemTimeZoneById("Taipei Standard Time");
-                DateTime dtNow = TimeZoneInfo.ConvertTime(DateTime.Now, info);
+                // 取得台北標準時間
+                DateTime dtNow = LightDAC.GetTaipeiNow();
                 BasePage basePage = new BasePage();
                 string oid = orderid;
                 string uid = "Temple";
@@ -5492,8 +5491,8 @@ namespace Temple.Temples
             protected string TWWebPay_lights_h(BasePage basePag, string orderid, int applicantID, string paytype, string telco, int price, string m_phone, string returnUrl, 
                 string Year)
             {
-                TimeZoneInfo info = TimeZoneInfo.FindSystemTimeZoneById("Taipei Standard Time");
-                DateTime dtNow = TimeZoneInfo.ConvertTime(DateTime.Now, info);
+                // 取得台北標準時間
+                DateTime dtNow = LightDAC.GetTaipeiNow();
                 BasePage basePage = new BasePage();
                 string oid = orderid;
                 string uid = "Temple";
@@ -5580,8 +5579,8 @@ namespace Temple.Temples
             protected string TWWebPay_lights_wu(BasePage basePag, string orderid, int applicantID, string paytype, string telco, int price, string m_phone, string returnUrl, 
                 string Year)
             {
-                TimeZoneInfo info = TimeZoneInfo.FindSystemTimeZoneById("Taipei Standard Time");
-                DateTime dtNow = TimeZoneInfo.ConvertTime(DateTime.Now, info);
+                // 取得台北標準時間
+                DateTime dtNow = LightDAC.GetTaipeiNow();
                 BasePage basePage = new BasePage();
                 string oid = orderid;
                 string uid = "Temple";
@@ -5668,8 +5667,8 @@ namespace Temple.Temples
             protected string TWWebPay_lights_Fu(BasePage basePag, string orderid, int applicantID, string paytype, string telco, int price, string m_phone, string returnUrl, 
                 string Year)
             {
-                TimeZoneInfo info = TimeZoneInfo.FindSystemTimeZoneById("Taipei Standard Time");
-                DateTime dtNow = TimeZoneInfo.ConvertTime(DateTime.Now, info);
+                // 取得台北標準時間
+                DateTime dtNow = LightDAC.GetTaipeiNow();
                 BasePage basePage = new BasePage();
                 string oid = orderid;
                 string uid = "Temple";
@@ -5756,8 +5755,8 @@ namespace Temple.Temples
             protected string TWWebPay_lights_Luer(BasePage basePag, string orderid, int applicantID, string paytype, string telco, int price, string m_phone, string returnUrl, 
                 string Year)
             {
-                TimeZoneInfo info = TimeZoneInfo.FindSystemTimeZoneById("Taipei Standard Time");
-                DateTime dtNow = TimeZoneInfo.ConvertTime(DateTime.Now, info);
+                // 取得台北標準時間
+                DateTime dtNow = LightDAC.GetTaipeiNow();
                 BasePage basePage = new BasePage();
                 string oid = orderid;
                 string uid = "Temple";
@@ -5844,8 +5843,8 @@ namespace Temple.Temples
             protected string TWWebPay_lights_ty(BasePage basePag, string orderid, int applicantID, string paytype, string telco, int price, string m_phone, string returnUrl, 
                 int type, string Year)
             {
-                TimeZoneInfo info = TimeZoneInfo.FindSystemTimeZoneById("Taipei Standard Time");
-                DateTime dtNow = TimeZoneInfo.ConvertTime(DateTime.Now, info);
+                // 取得台北標準時間
+                DateTime dtNow = LightDAC.GetTaipeiNow();
                 BasePage basePage = new BasePage();
                 string oid = orderid;
                 string uid = "Temple";
@@ -5931,8 +5930,8 @@ namespace Temple.Temples
             protected string TWWebPay_lights_ty_mom(BasePage basePag, string orderid, int applicantID, string paytype, string telco, int price, string m_phone, string returnUrl,
                 int type, string Year)
             {
-                TimeZoneInfo info = TimeZoneInfo.FindSystemTimeZoneById("Taipei Standard Time");
-                DateTime dtNow = TimeZoneInfo.ConvertTime(DateTime.Now, info);
+                // 取得台北標準時間
+                DateTime dtNow = LightDAC.GetTaipeiNow();
                 BasePage basePage = new BasePage();
                 string oid = orderid;
                 string uid = "Temple";
@@ -6033,8 +6032,8 @@ namespace Temple.Temples
             protected string TWWebPay_qnlight_ty(BasePage basePag, string orderid, int applicantID, string paytype, string telco, int price, string m_phone, string returnUrl,
                 int type, string Year)
             {
-                TimeZoneInfo info = TimeZoneInfo.FindSystemTimeZoneById("Taipei Standard Time");
-                DateTime dtNow = TimeZoneInfo.ConvertTime(DateTime.Now, info);
+                // 取得台北標準時間
+                DateTime dtNow = LightDAC.GetTaipeiNow();
                 BasePage basePage = new BasePage();
                 string oid = orderid;
                 string uid = "Temple";
@@ -6118,8 +6117,8 @@ namespace Temple.Temples
             protected string TWWebPay_lights_Fw(BasePage basePag, string orderid, int applicantID, string paytype, string telco, int price, string m_phone, string returnUrl, 
                 string Year)
             {
-                TimeZoneInfo info = TimeZoneInfo.FindSystemTimeZoneById("Taipei Standard Time");
-                DateTime dtNow = TimeZoneInfo.ConvertTime(DateTime.Now, info);
+                // 取得台北標準時間
+                DateTime dtNow = LightDAC.GetTaipeiNow();
                 BasePage basePage = new BasePage();
                 string oid = orderid;
                 string uid = "Temple";
@@ -6206,8 +6205,8 @@ namespace Temple.Temples
             protected string TWWebPay_andou_Fw(BasePage basePag, string orderid, int applicantID, string paytype, string telco, int price, string m_phone, string returnUrl,
                 string Year)
             {
-                TimeZoneInfo info = TimeZoneInfo.FindSystemTimeZoneById("Taipei Standard Time");
-                DateTime dtNow = TimeZoneInfo.ConvertTime(DateTime.Now, info);
+                // 取得台北標準時間
+                DateTime dtNow = LightDAC.GetTaipeiNow();
                 BasePage basePage = new BasePage();
                 string oid = orderid;
                 string uid = "Temple";
@@ -6294,8 +6293,8 @@ namespace Temple.Temples
             protected string TWWebPay_lights_dh(BasePage basePag, string orderid, int applicantID, string paytype, string telco, int price, string m_phone, string returnUrl, 
                 string Year)
             {
-                TimeZoneInfo info = TimeZoneInfo.FindSystemTimeZoneById("Taipei Standard Time");
-                DateTime dtNow = TimeZoneInfo.ConvertTime(DateTime.Now, info);
+                // 取得台北標準時間
+                DateTime dtNow = LightDAC.GetTaipeiNow();
                 BasePage basePage = new BasePage();
                 string oid = orderid;
                 string uid = "Temple";
@@ -6382,8 +6381,8 @@ namespace Temple.Temples
             protected string TWWebPay_lights_Hs(BasePage basePag, string orderid, int applicantID, string paytype, string telco, int price, string m_phone, string returnUrl,
                 string Year)
             {
-                TimeZoneInfo info = TimeZoneInfo.FindSystemTimeZoneById("Taipei Standard Time");
-                DateTime dtNow = TimeZoneInfo.ConvertTime(DateTime.Now, info);
+                // 取得台北標準時間
+                DateTime dtNow = LightDAC.GetTaipeiNow();
                 BasePage basePage = new BasePage();
                 string oid = orderid;
                 string uid = "Temple";
@@ -6470,8 +6469,8 @@ namespace Temple.Temples
             protected string TWWebPay_lights_Lk(BasePage basePag, string orderid, int applicantID, string paytype, string telco, int price, string m_phone, string returnUrl, 
                 string Year)
             {
-                TimeZoneInfo info = TimeZoneInfo.FindSystemTimeZoneById("Taipei Standard Time");
-                DateTime dtNow = TimeZoneInfo.ConvertTime(DateTime.Now, info);
+                // 取得台北標準時間
+                DateTime dtNow = LightDAC.GetTaipeiNow();
                 BasePage basePage = new BasePage();
                 string oid = orderid;
                 string uid = "Temple";
@@ -6558,8 +6557,8 @@ namespace Temple.Temples
             protected string TWWebPay_lights_ma(BasePage basePag, string orderid, int applicantID, string paytype, string telco, int price, string m_phone, string returnUrl,
                 string Year)
             {
-                TimeZoneInfo info = TimeZoneInfo.FindSystemTimeZoneById("Taipei Standard Time");
-                DateTime dtNow = TimeZoneInfo.ConvertTime(DateTime.Now, info);
+                // 取得台北標準時間
+                DateTime dtNow = LightDAC.GetTaipeiNow();
                 BasePage basePage = new BasePage();
                 string oid = orderid;
                 string uid = "Temple";
@@ -6646,8 +6645,8 @@ namespace Temple.Temples
             protected string TWWebPay_lights_wjsan(BasePage basePag, string orderid, int applicantID, string paytype, string telco, int price, string m_phone, string returnUrl,
                 string Year)
             {
-                TimeZoneInfo info = TimeZoneInfo.FindSystemTimeZoneById("Taipei Standard Time");
-                DateTime dtNow = TimeZoneInfo.ConvertTime(DateTime.Now, info);
+                // 取得台北標準時間
+                DateTime dtNow = LightDAC.GetTaipeiNow();
                 BasePage basePage = new BasePage();
                 string oid = orderid;
                 string uid = "Temple";
@@ -6734,8 +6733,8 @@ namespace Temple.Temples
             protected string TWWebPay_andou_wjsan(BasePage basePag, string orderid, int applicantID, string paytype, string telco, int price, string m_phone, string returnUrl,
                 string Year)
             {
-                TimeZoneInfo info = TimeZoneInfo.FindSystemTimeZoneById("Taipei Standard Time");
-                DateTime dtNow = TimeZoneInfo.ConvertTime(DateTime.Now, info);
+                // 取得台北標準時間
+                DateTime dtNow = LightDAC.GetTaipeiNow();
                 BasePage basePage = new BasePage();
                 string oid = orderid;
                 string uid = "Temple";
@@ -6822,8 +6821,8 @@ namespace Temple.Temples
             protected string TWWebPay_huaguo_wjsan(BasePage basePag, string orderid, int applicantID, string paytype, string telco, int price, string m_phone, string returnUrl,
                 string Year)
             {
-                TimeZoneInfo info = TimeZoneInfo.FindSystemTimeZoneById("Taipei Standard Time");
-                DateTime dtNow = TimeZoneInfo.ConvertTime(DateTime.Now, info);
+                // 取得台北標準時間
+                DateTime dtNow = LightDAC.GetTaipeiNow();
                 BasePage basePage = new BasePage();
                 string oid = orderid;
                 string uid = "Temple";
@@ -6910,8 +6909,8 @@ namespace Temple.Temples
             protected string TWWebPay_lights_ld(BasePage basePag, string orderid, int applicantID, string paytype, string telco, int price, string m_phone, string returnUrl,
                 string Year)
             {
-                TimeZoneInfo info = TimeZoneInfo.FindSystemTimeZoneById("Taipei Standard Time");
-                DateTime dtNow = TimeZoneInfo.ConvertTime(DateTime.Now, info);
+                // 取得台北標準時間
+                DateTime dtNow = LightDAC.GetTaipeiNow();
                 BasePage basePage = new BasePage();
                 string oid = orderid;
                 string uid = "Temple";
@@ -6998,8 +6997,8 @@ namespace Temple.Temples
             protected string TWWebPay_lights_st(BasePage basePag, string orderid, int applicantID, string paytype, string telco, int price, string m_phone, string returnUrl,
                 string Year)
             {
-                TimeZoneInfo info = TimeZoneInfo.FindSystemTimeZoneById("Taipei Standard Time");
-                DateTime dtNow = TimeZoneInfo.ConvertTime(DateTime.Now, info);
+                // 取得台北標準時間
+                DateTime dtNow = LightDAC.GetTaipeiNow();
                 BasePage basePage = new BasePage();
                 string oid = orderid;
                 string uid = "Temple";
@@ -7086,8 +7085,8 @@ namespace Temple.Temples
             protected string TWWebPay_lights_nt(BasePage basePag, string orderid, int applicantID, string paytype, string telco, int price, string m_phone, string returnUrl,
                 string Year)
             {
-                TimeZoneInfo info = TimeZoneInfo.FindSystemTimeZoneById("Taipei Standard Time");
-                DateTime dtNow = TimeZoneInfo.ConvertTime(DateTime.Now, info);
+                // 取得台北標準時間
+                DateTime dtNow = LightDAC.GetTaipeiNow();
                 BasePage basePage = new BasePage();
                 string oid = orderid;
                 string uid = "Temple";
@@ -7174,8 +7173,8 @@ namespace Temple.Temples
             protected string TWWebPay_lights_bj(BasePage basePag, string orderid, int applicantID, string paytype, string telco, int price, string m_phone, string returnUrl,
                 string Year)
             {
-                TimeZoneInfo info = TimeZoneInfo.FindSystemTimeZoneById("Taipei Standard Time");
-                DateTime dtNow = TimeZoneInfo.ConvertTime(DateTime.Now, info);
+                // 取得台北標準時間
+                DateTime dtNow = LightDAC.GetTaipeiNow();
                 BasePage basePage = new BasePage();
                 string oid = orderid;
                 string uid = "Temple";
@@ -7262,8 +7261,8 @@ namespace Temple.Temples
             protected string TWWebPay_lights_sbbt(BasePage basePag, string orderid, int applicantID, string paytype, string telco, int price, string m_phone, string returnUrl,
                 string Year)
             {
-                TimeZoneInfo info = TimeZoneInfo.FindSystemTimeZoneById("Taipei Standard Time");
-                DateTime dtNow = TimeZoneInfo.ConvertTime(DateTime.Now, info);
+                // 取得台北標準時間
+                DateTime dtNow = LightDAC.GetTaipeiNow();
                 BasePage basePage = new BasePage();
                 string oid = orderid;
                 string uid = "Temple";
@@ -7350,8 +7349,8 @@ namespace Temple.Temples
             protected string TWWebPay_lights_bpy(BasePage basePag, string orderid, int applicantID, string paytype, string telco, int price, string m_phone, string returnUrl,
                 string Year)
             {
-                TimeZoneInfo info = TimeZoneInfo.FindSystemTimeZoneById("Taipei Standard Time");
-                DateTime dtNow = TimeZoneInfo.ConvertTime(DateTime.Now, info);
+                // 取得台北標準時間
+                DateTime dtNow = LightDAC.GetTaipeiNow();
                 BasePage basePage = new BasePage();
                 string oid = orderid;
                 string uid = "Temple";
@@ -7438,8 +7437,8 @@ namespace Temple.Temples
             protected string TWWebPay_lights_ssy(BasePage basePag, string orderid, int applicantID, string paytype, string telco, int price, string m_phone, string returnUrl,
                 string Year)
             {
-                TimeZoneInfo info = TimeZoneInfo.FindSystemTimeZoneById("Taipei Standard Time");
-                DateTime dtNow = TimeZoneInfo.ConvertTime(DateTime.Now, info);
+                // 取得台北標準時間
+                DateTime dtNow = LightDAC.GetTaipeiNow();
                 BasePage basePage = new BasePage();
                 string oid = orderid;
                 string uid = "Temple";
@@ -7526,8 +7525,8 @@ namespace Temple.Temples
             protected string TWWebPay_purdue_da(BasePage basePag, string orderid, int applicantID, string paytype, string telco, int price, string m_phone, string returnUrl, 
                 string Year)
             {
-                TimeZoneInfo info = TimeZoneInfo.FindSystemTimeZoneById("Taipei Standard Time");
-                DateTime dtNow = TimeZoneInfo.ConvertTime(DateTime.Now, info);
+                // 取得台北標準時間
+                DateTime dtNow = LightDAC.GetTaipeiNow();
                 BasePage basePage = new BasePage();
                 string oid = orderid;
                 string uid = "Temple";
@@ -7614,8 +7613,8 @@ namespace Temple.Temples
             protected string TWWebPay_purdue_h(BasePage basePag, string orderid, int applicantID, string paytype, string telco, int price, string m_phone, string returnUrl, 
                 string Year)
             {
-                TimeZoneInfo info = TimeZoneInfo.FindSystemTimeZoneById("Taipei Standard Time");
-                DateTime dtNow = TimeZoneInfo.ConvertTime(DateTime.Now, info);
+                // 取得台北標準時間
+                DateTime dtNow = LightDAC.GetTaipeiNow();
                 BasePage basePage = new BasePage();
                 string oid = orderid;
                 string uid = "Temple";
@@ -7702,8 +7701,8 @@ namespace Temple.Temples
             protected string TWWebPay_purdue_wu(BasePage basePag, string orderid, int applicantID, string paytype, string telco, int price, string m_phone, string returnUrl, 
                 string Year)
             {
-                TimeZoneInfo info = TimeZoneInfo.FindSystemTimeZoneById("Taipei Standard Time");
-                DateTime dtNow = TimeZoneInfo.ConvertTime(DateTime.Now, info);
+                // 取得台北標準時間
+                DateTime dtNow = LightDAC.GetTaipeiNow();
                 BasePage basePage = new BasePage();
                 string oid = orderid;
                 string uid = "Temple";
@@ -7790,8 +7789,8 @@ namespace Temple.Temples
             protected string TWWebPay_purdue_Fu(BasePage basePag, string orderid, int applicantID, string paytype, string telco, int price, string m_phone, string returnUrl, 
                 string Year)
             {
-                TimeZoneInfo info = TimeZoneInfo.FindSystemTimeZoneById("Taipei Standard Time");
-                DateTime dtNow = TimeZoneInfo.ConvertTime(DateTime.Now, info);
+                // 取得台北標準時間
+                DateTime dtNow = LightDAC.GetTaipeiNow();
                 BasePage basePage = new BasePage();
                 string oid = orderid;
                 string uid = "Temple";
@@ -7878,8 +7877,8 @@ namespace Temple.Temples
             protected string TWWebPay_purdue_Jing(BasePage basePag, string orderid, int applicantID, string paytype, string telco, int price, string m_phone, string returnUrl, 
                 string Year)
             {
-                TimeZoneInfo info = TimeZoneInfo.FindSystemTimeZoneById("Taipei Standard Time");
-                DateTime dtNow = TimeZoneInfo.ConvertTime(DateTime.Now, info);
+                // 取得台北標準時間
+                DateTime dtNow = LightDAC.GetTaipeiNow();
                 BasePage basePage = new BasePage();
                 string oid = orderid;
                 string uid = "Temple";
@@ -7952,8 +7951,8 @@ namespace Temple.Temples
             protected string TWWebPay_purdue_Luer(BasePage basePag, string orderid, int applicantID, string paytype, string telco, int price, string m_phone, string returnUrl, 
                 string Year)
             {
-                TimeZoneInfo info = TimeZoneInfo.FindSystemTimeZoneById("Taipei Standard Time");
-                DateTime dtNow = TimeZoneInfo.ConvertTime(DateTime.Now, info);
+                // 取得台北標準時間
+                DateTime dtNow = LightDAC.GetTaipeiNow();
                 BasePage basePage = new BasePage();
                 string oid = orderid;
                 string uid = "Temple";
@@ -8040,8 +8039,8 @@ namespace Temple.Temples
             protected string TWWebPay_purdue_ty(BasePage basePag, string orderid, int applicantID, string paytype, string telco, int price, string m_phone, string returnUrl, 
                 string Year)
             {
-                TimeZoneInfo info = TimeZoneInfo.FindSystemTimeZoneById("Taipei Standard Time");
-                DateTime dtNow = TimeZoneInfo.ConvertTime(DateTime.Now, info);
+                // 取得台北標準時間
+                DateTime dtNow = LightDAC.GetTaipeiNow();
                 BasePage basePage = new BasePage();
                 string oid = orderid;
                 string uid = "Temple";
@@ -8128,8 +8127,8 @@ namespace Temple.Temples
             protected string TWWebPay_purdue_Fw(BasePage basePag, string orderid, int applicantID, string paytype, string telco, int price, string m_phone, string returnUrl, 
                 string Year)
             {
-                TimeZoneInfo info = TimeZoneInfo.FindSystemTimeZoneById("Taipei Standard Time");
-                DateTime dtNow = TimeZoneInfo.ConvertTime(DateTime.Now, info);
+                // 取得台北標準時間
+                DateTime dtNow = LightDAC.GetTaipeiNow();
                 BasePage basePage = new BasePage();
                 string oid = orderid;
                 string uid = "Temple";
@@ -8216,8 +8215,8 @@ namespace Temple.Temples
             protected string TWWebPay_purdue_dh(BasePage basePag, string orderid, int applicantID, string paytype, string telco, int price, string m_phone, string returnUrl, 
                 string Year)
             {
-                TimeZoneInfo info = TimeZoneInfo.FindSystemTimeZoneById("Taipei Standard Time");
-                DateTime dtNow = TimeZoneInfo.ConvertTime(DateTime.Now, info);
+                // 取得台北標準時間
+                DateTime dtNow = LightDAC.GetTaipeiNow();
                 BasePage basePage = new BasePage();
                 string oid = orderid;
                 string uid = "Temple";
@@ -8304,8 +8303,8 @@ namespace Temple.Temples
             protected string TWWebPay_purdue_Lk(BasePage basePag, string orderid, int applicantID, string paytype, string telco, int price, string m_phone, string returnUrl, 
                 string Year)
             {
-                TimeZoneInfo info = TimeZoneInfo.FindSystemTimeZoneById("Taipei Standard Time");
-                DateTime dtNow = TimeZoneInfo.ConvertTime(DateTime.Now, info);
+                // 取得台北標準時間
+                DateTime dtNow = LightDAC.GetTaipeiNow();
                 BasePage basePage = new BasePage();
                 string oid = orderid;
                 string uid = "Temple";
@@ -8392,8 +8391,8 @@ namespace Temple.Temples
             protected string TWWebPay_purdue_ma(BasePage basePag, string orderid, int applicantID, string paytype, string telco, int price, string m_phone, string returnUrl, 
                 string Year)
             {
-                TimeZoneInfo info = TimeZoneInfo.FindSystemTimeZoneById("Taipei Standard Time");
-                DateTime dtNow = TimeZoneInfo.ConvertTime(DateTime.Now, info);
+                // 取得台北標準時間
+                DateTime dtNow = LightDAC.GetTaipeiNow();
                 BasePage basePage = new BasePage();
                 string oid = orderid;
                 string uid = "Temple";
@@ -8480,8 +8479,8 @@ namespace Temple.Temples
             //protected string TWWebPay_purdue_mazu(BasePage basePag, string orderid, int applicantID, string paytype, string telco, int price, string m_phone, string returnUrl, 
             //    string Year)
             //{
-            //    TimeZoneInfo info = TimeZoneInfo.FindSystemTimeZoneById("Taipei Standard Time");
-            //    DateTime dtNow = TimeZoneInfo.ConvertTime(DateTime.Now, info);
+            //    // 取得台北標準時間
+            //    DateTime dtNow = LightDAC.GetTaipeiNow();
             //    BasePage basePage = new BasePage();
             //    string oid = orderid;
             //    string uid = "Temple";
@@ -8545,8 +8544,8 @@ namespace Temple.Temples
             protected string TWWebPay_purdue_wjsan(BasePage basePag, string orderid, int applicantID, string paytype, string telco, int price, string m_phone, string returnUrl,
                 string Year)
             {
-                TimeZoneInfo info = TimeZoneInfo.FindSystemTimeZoneById("Taipei Standard Time");
-                DateTime dtNow = TimeZoneInfo.ConvertTime(DateTime.Now, info);
+                // 取得台北標準時間
+                DateTime dtNow = LightDAC.GetTaipeiNow();
                 BasePage basePage = new BasePage();
                 string oid = orderid;
                 string uid = "Temple";
@@ -8633,8 +8632,8 @@ namespace Temple.Temples
             protected string TWWebPay_emperorGuansheng_ty(BasePage basePag, string orderid, int applicantID, string paytype, string telco, int price, string m_phone, 
                 string returnUrl, string Year)
             {
-                TimeZoneInfo info = TimeZoneInfo.FindSystemTimeZoneById("Taipei Standard Time");
-                DateTime dtNow = TimeZoneInfo.ConvertTime(DateTime.Now, info);
+                // 取得台北標準時間
+                DateTime dtNow = LightDAC.GetTaipeiNow();
                 BasePage basePage = new BasePage();
                 string oid = orderid;
                 string uid = "Temple";
@@ -8721,8 +8720,8 @@ namespace Temple.Temples
             protected string TWWebPay_lingbaolidou_ma(BasePage basePag, string orderid, int applicantID, string paytype, string telco, int price, string m_phone, string returnUrl, 
                 string Year)
             {
-                TimeZoneInfo info = TimeZoneInfo.FindSystemTimeZoneById("Taipei Standard Time");
-                DateTime dtNow = TimeZoneInfo.ConvertTime(DateTime.Now, info);
+                // 取得台北標準時間
+                DateTime dtNow = LightDAC.GetTaipeiNow();
                 BasePage basePage = new BasePage();
                 string oid = orderid;
                 string uid = "Temple";
@@ -8809,8 +8808,8 @@ namespace Temple.Temples
             protected string TWWebPay_taoistJiaoCeremony_da(BasePage basePag, string orderid, int applicantID, string paytype, string telco, int price, string m_phone, 
                 string returnUrl, string Year)
             {
-                TimeZoneInfo info = TimeZoneInfo.FindSystemTimeZoneById("Taipei Standard Time");
-                DateTime dtNow = TimeZoneInfo.ConvertTime(DateTime.Now, info);
+                // 取得台北標準時間
+                DateTime dtNow = LightDAC.GetTaipeiNow();
                 BasePage basePage = new BasePage();
                 string oid = orderid;
                 string uid = "Temple";
@@ -8897,8 +8896,8 @@ namespace Temple.Temples
             protected string TWWebPay_lybc_dh(BasePage basePag, string orderid, int applicantID, string paytype, string telco, int price, string m_phone,
                 string returnUrl, string Year)
             {
-                TimeZoneInfo info = TimeZoneInfo.FindSystemTimeZoneById("Taipei Standard Time");
-                DateTime dtNow = TimeZoneInfo.ConvertTime(DateTime.Now, info);
+                // 取得台北標準時間
+                DateTime dtNow = LightDAC.GetTaipeiNow();
                 BasePage basePage = new BasePage();
                 string oid = orderid;
                 string uid = "Temple";
@@ -8985,8 +8984,8 @@ namespace Temple.Temples
             protected string TWWebPay_supplies_sx(BasePage basePag, string orderid, int applicantID, string paytype, string telco, int price, string m_phone, string returnUrl,
                 string Year)
             {
-                TimeZoneInfo info = TimeZoneInfo.FindSystemTimeZoneById("Taipei Standard Time");
-                DateTime dtNow = TimeZoneInfo.ConvertTime(DateTime.Now, info);
+                // 取得台北標準時間
+                DateTime dtNow = LightDAC.GetTaipeiNow();
                 BasePage basePage = new BasePage();
                 string oid = orderid;
                 string uid = "Temple";
@@ -9073,8 +9072,8 @@ namespace Temple.Temples
             protected string TWWebPay_supplies2_sx(BasePage basePag, string orderid, int applicantID, string paytype, string telco, int price, string m_phone, string returnUrl,
                 string Year)
             {
-                TimeZoneInfo info = TimeZoneInfo.FindSystemTimeZoneById("Taipei Standard Time");
-                DateTime dtNow = TimeZoneInfo.ConvertTime(DateTime.Now, info);
+                // 取得台北標準時間
+                DateTime dtNow = LightDAC.GetTaipeiNow();
                 BasePage basePage = new BasePage();
                 string oid = orderid;
                 string uid = "Temple";
@@ -9161,8 +9160,8 @@ namespace Temple.Temples
             protected string TWWebPay_supplies_Lk(BasePage basePag, string orderid, int applicantID, string paytype, string telco, int price, string m_phone, string returnUrl,
                 string Year)
             {
-                TimeZoneInfo info = TimeZoneInfo.FindSystemTimeZoneById("Taipei Standard Time");
-                DateTime dtNow = TimeZoneInfo.ConvertTime(DateTime.Now, info);
+                // 取得台北標準時間
+                DateTime dtNow = LightDAC.GetTaipeiNow();
                 BasePage basePage = new BasePage();
                 string oid = orderid;
                 string uid = "Temple";
@@ -9249,8 +9248,8 @@ namespace Temple.Temples
             protected string TWWebPay_supplies_Fw(BasePage basePag, string orderid, int applicantID, string paytype, string telco, int price, string m_phone, string returnUrl,
                 string Year)
             {
-                TimeZoneInfo info = TimeZoneInfo.FindSystemTimeZoneById("Taipei Standard Time");
-                DateTime dtNow = TimeZoneInfo.ConvertTime(DateTime.Now, info);
+                // 取得台北標準時間
+                DateTime dtNow = LightDAC.GetTaipeiNow();
                 BasePage basePage = new BasePage();
                 string oid = orderid;
                 string uid = "Temple";
@@ -9337,8 +9336,8 @@ namespace Temple.Temples
             protected string TWWebPay_supplies_dh(BasePage basePag, string orderid, int applicantID, string paytype, string telco, int price, string m_phone, string returnUrl, 
                 string Year)
             {
-                TimeZoneInfo info = TimeZoneInfo.FindSystemTimeZoneById("Taipei Standard Time");
-                DateTime dtNow = TimeZoneInfo.ConvertTime(DateTime.Now, info);
+                // 取得台北標準時間
+                DateTime dtNow = LightDAC.GetTaipeiNow();
                 BasePage basePage = new BasePage();
                 string oid = orderid;
                 string uid = "Temple";
@@ -9425,8 +9424,8 @@ namespace Temple.Temples
             protected string TWWebPay_supplies_ma(BasePage basePag, string orderid, int applicantID, string paytype, string telco, int price, string m_phone, string returnUrl,
                 string Year)
             {
-                TimeZoneInfo info = TimeZoneInfo.FindSystemTimeZoneById("Taipei Standard Time");
-                DateTime dtNow = TimeZoneInfo.ConvertTime(DateTime.Now, info);
+                // 取得台北標準時間
+                DateTime dtNow = LightDAC.GetTaipeiNow();
                 BasePage basePage = new BasePage();
                 string oid = orderid;
                 string uid = "Temple";
@@ -9513,8 +9512,8 @@ namespace Temple.Temples
             protected string TWWebPay_supplies_ty(BasePage basePag, string orderid, int applicantID, string paytype, string telco, int price, string m_phone, string returnUrl, 
                 string Year)
             {
-                TimeZoneInfo info = TimeZoneInfo.FindSystemTimeZoneById("Taipei Standard Time");
-                DateTime dtNow = TimeZoneInfo.ConvertTime(DateTime.Now, info);
+                // 取得台北標準時間
+                DateTime dtNow = LightDAC.GetTaipeiNow();
                 BasePage basePage = new BasePage();
                 string oid = orderid;
                 string uid = "Temple";
@@ -9601,8 +9600,8 @@ namespace Temple.Temples
             protected string TWWebPay_supplies2_ty(BasePage basePag, string orderid, int applicantID, string paytype, string telco, int price, string m_phone, string returnUrl, 
                 string Year)
             {
-                TimeZoneInfo info = TimeZoneInfo.FindSystemTimeZoneById("Taipei Standard Time");
-                DateTime dtNow = TimeZoneInfo.ConvertTime(DateTime.Now, info);
+                // 取得台北標準時間
+                DateTime dtNow = LightDAC.GetTaipeiNow();
                 BasePage basePage = new BasePage();
                 string oid = orderid;
                 string uid = "Temple";
@@ -9689,8 +9688,8 @@ namespace Temple.Temples
             protected string TWWebPay_supplies3_ty(BasePage basePag, string orderid, int applicantID, string paytype, string telco, int price, string m_phone, string returnUrl,
                 string Year)
             {
-                TimeZoneInfo info = TimeZoneInfo.FindSystemTimeZoneById("Taipei Standard Time");
-                DateTime dtNow = TimeZoneInfo.ConvertTime(DateTime.Now, info);
+                // 取得台北標準時間
+                DateTime dtNow = LightDAC.GetTaipeiNow();
                 BasePage basePage = new BasePage();
                 string oid = orderid;
                 string uid = "Temple";
@@ -9777,8 +9776,8 @@ namespace Temple.Temples
             protected string TWWebPay_supplies_wu(BasePage basePag, string orderid, int applicantID, string paytype, string telco, int price, string m_phone, string returnUrl, 
                 string Year)
             {
-                TimeZoneInfo info = TimeZoneInfo.FindSystemTimeZoneById("Taipei Standard Time");
-                DateTime dtNow = TimeZoneInfo.ConvertTime(DateTime.Now, info);
+                // 取得台北標準時間
+                DateTime dtNow = LightDAC.GetTaipeiNow();
                 BasePage basePage = new BasePage();
                 string oid = orderid;
                 string uid = "Temple";
@@ -9865,8 +9864,8 @@ namespace Temple.Temples
             protected string TWWebPay_supplies_wu2(BasePage basePag, string orderid, int applicantID, string paytype, string telco, int price, string m_phone, string returnUrl, 
                 string Year)
             {
-                TimeZoneInfo info = TimeZoneInfo.FindSystemTimeZoneById("Taipei Standard Time");
-                DateTime dtNow = TimeZoneInfo.ConvertTime(DateTime.Now, info);
+                // 取得台北標準時間
+                DateTime dtNow = LightDAC.GetTaipeiNow();
                 BasePage basePage = new BasePage();
                 string oid = orderid;
                 string uid = "Temple";
@@ -9953,8 +9952,8 @@ namespace Temple.Temples
             protected string TWWebPay_supplies_wu3(BasePage basePag, string orderid, int applicantID, string paytype, string telco, int price, string m_phone, string returnUrl, 
                 string Year)
             {
-                TimeZoneInfo info = TimeZoneInfo.FindSystemTimeZoneById("Taipei Standard Time");
-                DateTime dtNow = TimeZoneInfo.ConvertTime(DateTime.Now, info);
+                // 取得台北標準時間
+                DateTime dtNow = LightDAC.GetTaipeiNow();
                 BasePage basePage = new BasePage();
                 string oid = orderid;
                 string uid = "Temple";
@@ -10016,8 +10015,8 @@ namespace Temple.Temples
             protected string TWWebPay_blessing_st(BasePage basePag, string orderid, int applicantID, string paytype, string telco, int price, string m_phone, string returnUrl,
                 string Year)
             {
-                TimeZoneInfo info = TimeZoneInfo.FindSystemTimeZoneById("Taipei Standard Time");
-                DateTime dtNow = TimeZoneInfo.ConvertTime(DateTime.Now, info);
+                // 取得台北標準時間
+                DateTime dtNow = LightDAC.GetTaipeiNow();
                 BasePage basePage = new BasePage();
                 string oid = orderid;
                 string uid = "Temple";
@@ -10488,8 +10487,8 @@ namespace Temple.Temples
         }
         public void Checkedtemple_da(int AdminID, int ApplicantID, int kind, string Year)
         {
-            TimeZoneInfo info = TimeZoneInfo.FindSystemTimeZoneById("Taipei Standard Time");
-            DateTime dtNow = TimeZoneInfo.ConvertTime(DateTime.Now, info);
+            // 取得台北標準時間
+            DateTime dtNow = LightDAC.GetTaipeiNow();
             LightDAC objLightDAC = new LightDAC(this);
 
             switch (kind)
@@ -10873,8 +10872,8 @@ namespace Temple.Temples
         }
         public void Checkedtemple_h(int AdminID, int ApplicantID, int kind, string Year)
         {
-            TimeZoneInfo info = TimeZoneInfo.FindSystemTimeZoneById("Taipei Standard Time");
-            DateTime dtNow = TimeZoneInfo.ConvertTime(DateTime.Now, info);
+            // 取得台北標準時間
+            DateTime dtNow = LightDAC.GetTaipeiNow();
             LightDAC objLightDAC = new LightDAC(this);
 
             switch (kind)
@@ -11434,8 +11433,8 @@ namespace Temple.Temples
         }
         public void Checkedtemple_wu(int AdminID, int ApplicantID, int kind, string Year)
         {
-            TimeZoneInfo info = TimeZoneInfo.FindSystemTimeZoneById("Taipei Standard Time");
-            DateTime dtNow = TimeZoneInfo.ConvertTime(DateTime.Now, info);
+            // 取得台北標準時間
+            DateTime dtNow = LightDAC.GetTaipeiNow();
             LightDAC objLightDAC = new LightDAC(this);
 
             switch (kind)
@@ -11826,8 +11825,8 @@ namespace Temple.Temples
         }
         public void Checkedtemple_Fu(int AdminID, int ApplicantID, int kind, string Year)
         {
-            TimeZoneInfo info = TimeZoneInfo.FindSystemTimeZoneById("Taipei Standard Time");
-            DateTime dtNow = TimeZoneInfo.ConvertTime(DateTime.Now, info);
+            // 取得台北標準時間
+            DateTime dtNow = LightDAC.GetTaipeiNow();
             LightDAC objLightDAC = new LightDAC(this);
 
             switch (kind)
@@ -12083,8 +12082,8 @@ namespace Temple.Temples
         }
         public void Checkedtemple_Luer(int AdminID, int ApplicantID, int kind, string Year, int type)
         {
-            TimeZoneInfo info = TimeZoneInfo.FindSystemTimeZoneById("Taipei Standard Time");
-            DateTime dtNow = TimeZoneInfo.ConvertTime(DateTime.Now, info);
+            // 取得台北標準時間
+            DateTime dtNow = LightDAC.GetTaipeiNow();
             LightDAC objLightDAC = new LightDAC(this);
 
             switch (kind)
@@ -12856,8 +12855,8 @@ namespace Temple.Temples
         }
         public void Checkedtemple_ty(int AdminID, int ApplicantID, int kind, int type, string Year)
         {
-            TimeZoneInfo info = TimeZoneInfo.FindSystemTimeZoneById("Taipei Standard Time");
-            DateTime dtNow = TimeZoneInfo.ConvertTime(DateTime.Now, info);
+            // 取得台北標準時間
+            DateTime dtNow = LightDAC.GetTaipeiNow();
             LightDAC objLightDAC = new LightDAC(this);
             string reback = string.Empty;
 
@@ -13570,8 +13569,8 @@ namespace Temple.Temples
         }
         public void Checkedtemple_Fw(int AdminID, int ApplicantID, int kind, string Year)
         {
-            TimeZoneInfo info = TimeZoneInfo.FindSystemTimeZoneById("Taipei Standard Time");
-            DateTime dtNow = TimeZoneInfo.ConvertTime(DateTime.Now, info);
+            // 取得台北標準時間
+            DateTime dtNow = LightDAC.GetTaipeiNow();
             LightDAC objLightDAC = new LightDAC(this);
 
             switch (kind)
@@ -14152,8 +14151,8 @@ namespace Temple.Temples
         }
         public void Checkedtemple_dh(int AdminID, int ApplicantID, int kind, string Year)
         {
-            TimeZoneInfo info = TimeZoneInfo.FindSystemTimeZoneById("Taipei Standard Time");
-            DateTime dtNow = TimeZoneInfo.ConvertTime(DateTime.Now, info);
+            // 取得台北標準時間
+            DateTime dtNow = LightDAC.GetTaipeiNow();
             LightDAC objLightDAC = new LightDAC(this);
 
             switch (kind)
@@ -14328,8 +14327,8 @@ namespace Temple.Temples
         }
         public void Checkedtemple_Hs(int AdminID, int ApplicantID, int kind, string Year)
         {
-            TimeZoneInfo info = TimeZoneInfo.FindSystemTimeZoneById("Taipei Standard Time");
-            DateTime dtNow = TimeZoneInfo.ConvertTime(DateTime.Now, info);
+            // 取得台北標準時間
+            DateTime dtNow = LightDAC.GetTaipeiNow();
             LightDAC objLightDAC = new LightDAC(this);
 
             switch (kind)
@@ -14433,7 +14432,7 @@ namespace Temple.Temples
 
                     //服務項目金額
                     cost = int.Parse(dtData.Rows[i]["Count"].ToString()) * GetLightsCost(AdminID, lightsType);
-                    cost += 100;
+                    //cost += 100;
 
                     //祈福人內容列表
                     OrderInfo += "<div class=\"ProductsInfo\">";
@@ -14679,8 +14678,8 @@ namespace Temple.Temples
         }
         public void Checkedtemple_Lk(int AdminID, int ApplicantID, int kind, string Year)
         {
-            TimeZoneInfo info = TimeZoneInfo.FindSystemTimeZoneById("Taipei Standard Time");
-            DateTime dtNow = TimeZoneInfo.ConvertTime(DateTime.Now, info);
+            // 取得台北標準時間
+            DateTime dtNow = LightDAC.GetTaipeiNow();
             LightDAC objLightDAC = new LightDAC(this);
 
             switch (kind)
@@ -15114,8 +15113,8 @@ namespace Temple.Temples
         }
         public void Checkedtemple_ma(int AdminID, int ApplicantID, int kind, string Year)
         {
-            TimeZoneInfo info = TimeZoneInfo.FindSystemTimeZoneById("Taipei Standard Time");
-            DateTime dtNow = TimeZoneInfo.ConvertTime(DateTime.Now, info);
+            // 取得台北標準時間
+            DateTime dtNow = LightDAC.GetTaipeiNow();
             LightDAC objLightDAC = new LightDAC(this);
 
             switch (kind)
@@ -15583,8 +15582,8 @@ namespace Temple.Temples
         }
         public void Checkedtemple_wjsan(int AdminID, int ApplicantID, int kind, string Year)
         {
-            TimeZoneInfo info = TimeZoneInfo.FindSystemTimeZoneById("Taipei Standard Time");
-            DateTime dtNow = TimeZoneInfo.ConvertTime(DateTime.Now, info);
+            // 取得台北標準時間
+            DateTime dtNow = LightDAC.GetTaipeiNow();
             LightDAC objLightDAC = new LightDAC(this);
 
             switch (kind)
@@ -15935,8 +15934,8 @@ namespace Temple.Temples
         }
         public void Checkedtemple_sx(int AdminID, int ApplicantID, int kind, string Year)
         {
-            TimeZoneInfo info = TimeZoneInfo.FindSystemTimeZoneById("Taipei Standard Time");
-            DateTime dtNow = TimeZoneInfo.ConvertTime(DateTime.Now, info);
+            // 取得台北標準時間
+            DateTime dtNow = LightDAC.GetTaipeiNow();
             LightDAC objLightDAC = new LightDAC(this);
             string reback = "https://bobibobi.tw";
 
@@ -16050,6 +16049,7 @@ namespace Temple.Temples
         {
             LightDAC objLightDAC = new LightDAC(this);
             int cost = 0;
+            var AppSendback = "N";
 
             DataTable dtData = objLightDAC.Getlights_ld_Info(ApplicantID, Year);
 
@@ -16078,10 +16078,10 @@ namespace Temple.Temples
                     var rawAppSendback = dtData.Rows[0]["AppSendback"];
                     if (rawAppSendback != DBNull.Value)
                     {
-                        var appSendbackText = rawAppSendback.ToString();
-                        OrderPurchaser += OrderData("贈品處理方式", appSendbackText);
+                        AppSendback = rawAppSendback.ToString();
+                        OrderPurchaser += OrderData("贈品處理方式", AppSendback);
 
-                        if (appSendbackText == "Y")
+                        if (AppSendback == "Y")
                         {
                             OrderPurchaser += OrderData("收件人姓名", dtData.Rows[0]["ReceiptName"].ToString());
                             OrderPurchaser += OrderData("收件人電話", dtData.Rows[0]["ReceiptMobile"].ToString());
@@ -16129,6 +16129,9 @@ namespace Temple.Temples
 
                     //服務項目金額
                     cost = int.Parse(dtData.Rows[i]["Count"].ToString()) * GetLightsCost(AdminID, lightsType);
+
+                    cost += AppSendback == "Y" ? 60 : 0;
+
                     OrderInfo += "<div>$ " + cost + "元</div>";
                     Total += cost;
 
@@ -16140,8 +16143,8 @@ namespace Temple.Temples
         }
         public void Checkedtemple_ld(int AdminID, int ApplicantID, int kind, string Year)
         {
-            TimeZoneInfo info = TimeZoneInfo.FindSystemTimeZoneById("Taipei Standard Time");
-            DateTime dtNow = TimeZoneInfo.ConvertTime(DateTime.Now, info);
+            // 取得台北標準時間
+            DateTime dtNow = LightDAC.GetTaipeiNow();
             LightDAC objLightDAC = new LightDAC(this);
 
             switch (kind)
@@ -16330,8 +16333,8 @@ namespace Temple.Temples
         }
         public void Checkedtemple_st(int AdminID, int ApplicantID, int kind, string Year)
         {
-            TimeZoneInfo info = TimeZoneInfo.FindSystemTimeZoneById("Taipei Standard Time");
-            DateTime dtNow = TimeZoneInfo.ConvertTime(DateTime.Now, info);
+            // 取得台北標準時間
+            DateTime dtNow = LightDAC.GetTaipeiNow();
             LightDAC objLightDAC = new LightDAC(this);
 
             switch (kind)
@@ -16471,8 +16474,8 @@ namespace Temple.Temples
         }
         public void Checkedtemple_bj(int AdminID, int ApplicantID, int kind, string Year)
         {
-            TimeZoneInfo info = TimeZoneInfo.FindSystemTimeZoneById("Taipei Standard Time");
-            DateTime dtNow = TimeZoneInfo.ConvertTime(DateTime.Now, info);
+            // 取得台北標準時間
+            DateTime dtNow = LightDAC.GetTaipeiNow();
             LightDAC objLightDAC = new LightDAC(this);
 
             switch (kind)
@@ -16586,8 +16589,8 @@ namespace Temple.Temples
         }
         public void Checkedtemple_sbbt(int AdminID, int ApplicantID, int kind, string Year)
         {
-            TimeZoneInfo info = TimeZoneInfo.FindSystemTimeZoneById("Taipei Standard Time");
-            DateTime dtNow = TimeZoneInfo.ConvertTime(DateTime.Now, info);
+            // 取得台北標準時間
+            DateTime dtNow = LightDAC.GetTaipeiNow();
             LightDAC objLightDAC = new LightDAC(this);
 
             switch (kind)
@@ -16701,8 +16704,8 @@ namespace Temple.Temples
         }
         public void Checkedtemple_bpy(int AdminID, int ApplicantID, int kind, string Year)
         {
-            TimeZoneInfo info = TimeZoneInfo.FindSystemTimeZoneById("Taipei Standard Time");
-            DateTime dtNow = TimeZoneInfo.ConvertTime(DateTime.Now, info);
+            // 取得台北標準時間
+            DateTime dtNow = LightDAC.GetTaipeiNow();
             LightDAC objLightDAC = new LightDAC(this);
 
             switch (kind)
@@ -16816,8 +16819,8 @@ namespace Temple.Temples
         }
         public void Checkedtemple_ssy(int AdminID, int ApplicantID, int kind, string Year)
         {
-            TimeZoneInfo info = TimeZoneInfo.FindSystemTimeZoneById("Taipei Standard Time");
-            DateTime dtNow = TimeZoneInfo.ConvertTime(DateTime.Now, info);
+            // 取得台北標準時間
+            DateTime dtNow = LightDAC.GetTaipeiNow();
             LightDAC objLightDAC = new LightDAC(this);
 
             switch (kind)

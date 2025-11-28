@@ -180,21 +180,24 @@ namespace twbobibobi.FET.Processors
             string receiptName = string.IsNullOrEmpty(applicant.reName) ? applicant.appName : applicant.reName;
             string receiptMobile = string.IsNullOrEmpty(applicant.reMobile) ? applicant.appMobile : applicant.reMobile;
 
+            int.TryParse(totalAmount, out int cost);
+
             // 新增購買人資料
-            int applicantId = _productDAC.addapplicantinfo_Product(
+            int applicantId = _lightDAC.Addapplicantinfo_Product(
                 AdminID: _adminID.ToString(),
                 Name: applicant.appName,
-                Phone: applicant.appMobile,
-                Country: applicant.appCity,
+                Mobile:applicant.appMobile,
+                Cost: cost,
+                County: applicant.appCity,
                 Dist: applicant.appRegion,
                 Addr: applicant.appAddr,
-                Zipcode: applicant.appzipCode,
+                ZipCode: applicant.appzipCode,
                 Sendback: applicant.sendback,
                 ReceiptName: receiptName,
                 ReceiptMobile: receiptMobile,
+                Email: applicant.appEmail,
                 Status: 2,
-                Cost: totalAmount,
-                postURL: PostUrl,
+                PostURL: PostUrl,
                 Year: _year
             );
 
@@ -229,16 +232,19 @@ namespace twbobibobi.FET.Processors
             // 逐筆插入燈明細
             foreach (var p in prayedPersons)
             {
+                int.TryParse(p.ItemTypeID, out int typeID);
+                int.TryParse(p.TypeID, out int productID);
+
                 // 呼叫 LightDAC
-                int productId = _productDAC.addproductinfo(
-                    AdminID: _adminID.ToString(),
+                int productId = _lightDAC.Addproductinfo(
+                    AdminID: _adminID,
                     ApplicantID: applicantId,
                     tAID: 0,
                     UserID: 0,
-                    TypeID: int.Parse(p.ItemTypeID),
-                    ProductID: p.TypeID,
-                    Cost: p.Cost.ToString(),
-                    Count: p.Qty.ToString(),
+                    TypeID: typeID,
+                    ProductID: productID,
+                    Cost: p.Cost,
+                    Count: p.Qty,
                     Year: _year);
             }
 

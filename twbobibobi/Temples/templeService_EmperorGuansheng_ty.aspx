@@ -951,7 +951,7 @@
         // 5. 全部通過，送出
         console.log("所有欄位都已填寫正確，準備送出");
         // 如果活動時間判斷...
-        if (location.search.indexOf('ad') >= 0 || checkedStartTime()) {
+        if (checkedStartTime()) {
             if (checkEndTime()) {
                 gotoChecked_ty();
             } else {
@@ -1092,7 +1092,7 @@
         //                console.log('所有欄位都已填寫');
         //                //alert("活動尚未開始!");
 
-        //                if (location.search.indexOf('ad') >= 0 || checkedStartTime()) {
+        //                if (checkedStartTime()) {
         //                    if (checkEndTime()) {
         //                        gotoChecked_ty();
         //                    }

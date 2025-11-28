@@ -31,7 +31,7 @@ namespace Temple.Temples
         public string OrderStateContent = string.Empty;
         public string OrderPurchaser = string.Empty;
         public string OrderInfo = string.Empty;
-        public string EndDate = "2023/07/09 23:59";
+        public string EndDate = string.Empty;
 
         public int Total = 0;
 
@@ -41,11 +41,17 @@ namespace Temple.Temples
             {
                 if (Request["a"] != null && Request["aid"] != null)
                 {
+                    // 取得台北標準時間
+                    DateTime dtNow = LightDAC.GetTaipeiNow();
 
-                    TimeZoneInfo info = TimeZoneInfo.FindSystemTimeZoneById("Taipei Standard Time");
-                    DateTime dtNow = TimeZoneInfo.ConvertTime(DateTime.Now, info);
-
-                    index += (Request["twm"] != null ? "&twm=1" : "");
+                    if (Request["twm"] != null)
+                    {
+                        index += "&purl=twm";
+                    }
+                    else if (Request["purl"] != null)
+                    {
+                        index += "&purl=" + Request["purl"];
+                    }
 
                     ogurl = "https://bobibobi.tw" + Request.RawUrl.ToString();
 
@@ -132,18 +138,19 @@ namespace Temple.Temples
                                     case 14:
                                         //桃園威天宮
                                         title = "桃園威天宮";
-                                        if (type == 1)
-                                        {
-                                            //一般點燈
-                                            GetStateContentlist_ty(adminID, ApplicantID, kind, type, Year);       //購買人資料列表
-                                            EndDate = "2026/09/15 23:59";
-                                        }
-                                        else if (type == 2)
-                                        {
-                                            //孝親祈福燈
-                                            GetStateContentlist_ty(adminID, ApplicantID, kind, type, Year);       //購買人資料列表
-                                            EndDate = "2025/05/08 23:59";
-                                        }
+
+                                        //一般點燈
+                                        GetStateContentlist_ty(adminID, ApplicantID, kind, type, Year);       //購買人資料列表
+                                        EndDate = "2026/09/15 23:59";
+                                        //if (type == 1)
+                                        //{
+                                        //}
+                                        //else if (type == 2)
+                                        //{
+                                        //    //孝親祈福燈
+                                        //    GetStateContentlist_ty(adminID, ApplicantID, kind, type, Year);       //購買人資料列表
+                                        //    EndDate = "2025/05/08 23:59";
+                                        //}
                                         break;
                                     case 15:
                                         //斗六五路財神宮
