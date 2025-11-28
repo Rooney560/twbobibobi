@@ -3246,16 +3246,15 @@
     <VisualStudio>
       <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
         <WebProjectProperties>
-          <UseIIS>True</UseIIS>
-          <AutoAssignPort>True</AutoAssignPort>
-          <DevelopmentServerPort>56371</DevelopmentServerPort>
-          <DevelopmentServerVPath>/</DevelopmentServerVPath>
-          <IISUrl>http://localhost:56371/</IISUrl>
-          <NTLMAuthentication>False</NTLMAuthentication>
-          <UseCustomServer>False</UseCustomServer>
-          <CustomServerUrl>
-          </CustomServerUrl>
-          <SaveServerSettingsInUserFile>False</SaveServerSettingsInUserFile>
+          <UseIIS>true</UseIIS>  <!-- 設定為 Local IIS -->
+  <AutoAssignPort>false</AutoAssignPort> <!-- 禁用自動端口分配 -->
+  <DevelopmentServerPort>57610</DevelopmentServerPort> <!-- 使用端口 80 或其他指定端口 -->
+  <DevelopmentServerVPath>/twbobibobi</DevelopmentServerVPath> <!-- 你的 IIS 路徑 -->
+  <IISUrl>http://localhost/twbobibobi</IISUrl> <!-- Local IIS 的 URL -->
+  <NTLMAuthentication>false</NTLMAuthentication>
+  <UseCustomServer>false</UseCustomServer>
+  <CustomServerUrl></CustomServerUrl>
+  <SaveServerSettingsInUserFile>false</SaveServerSettingsInUserFile>
         </WebProjectProperties>
       </FlavorProperties>
     </VisualStudio>
