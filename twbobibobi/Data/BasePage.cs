@@ -1005,7 +1005,7 @@ namespace twbobibobi.Data
 
         public void SaveCAPTCHACodeLog(string log)
         {
-            string logPath = GetConfigValue(CONST_CONFIG_REQUEST_PAY_LOG_PATH);
+            string logPath = GetConfigValue(CONST_CONFIG_REQUEST_CAPTCHACode_LOG_PATH);
             if (string.IsNullOrEmpty(logPath))
                 logPath = "\request";
 

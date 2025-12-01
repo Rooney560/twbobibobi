@@ -5291,11 +5291,14 @@ namespace Temple.Temples
 
                         Year = "2025";
 
-                        string startDate = "2025/11/01 00:00:00";
-                        int ijj = DateTime.Compare(DateTime.Parse(startDate), dtNow);
-                        if (DateTime.Compare(DateTime.Parse(startDate), dtNow) < 0)
+                        if (kind == 1)
                         {
-                            Year = "2026";
+                            string startDate = "2025/11/01 00:00:00";
+                            int ijj = DateTime.Compare(DateTime.Parse(startDate), dtNow);
+                            if (DateTime.Compare(DateTime.Parse(startDate), dtNow) < 0)
+                            {
+                                Year = "2026";
+                            }
                         }
 
                         if (objLightDAC.CheckedCAPTCHACodeCount(ApplicantID, AdminID, kind, AppMobile, Year, ref Codeerror))
