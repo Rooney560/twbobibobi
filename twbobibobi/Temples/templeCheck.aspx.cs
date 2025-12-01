@@ -1179,12 +1179,13 @@ namespace Temple.Temples
                         //商品販賣服務
                         case 3:
                             //typeString = "商品販賣小舖";
+                            Year = dtNow.Year.ToString();
                             ExpirationDate = false;
                             break;
                         //下元補庫
                         case 4:
                             typeString = " 2025下元補庫";
-                            Year = "2025";
+                            Year = dtNow.Year.ToString();
 
                             switch (adminID)
                             {
@@ -1229,6 +1230,7 @@ namespace Temple.Temples
                         //呈疏補庫
                         case 5:
                             typeString = " 2025天官武財神聖誕補財庫";
+                            Year = dtNow.Year.ToString();
 
                             switch (adminID)
                             {
@@ -1291,6 +1293,7 @@ namespace Temple.Temples
                         //天赦日招財補運
                         case 7:
                             typeString = " 2025天赦日招財補運";
+                            Year = dtNow.Year.ToString();
 
                             switch (adminID)
                             {
@@ -1371,6 +1374,7 @@ namespace Temple.Temples
                         //天赦日祭改
                         case 8:
                             typeString = " 2024天赦日祭改";
+                            Year = dtNow.Year.ToString();
 
                             switch (adminID)
                             {
@@ -1387,6 +1391,7 @@ namespace Temple.Temples
                         //關聖帝君聖誕
                         case 9:
                             typeString = " 2025關聖帝君聖誕千秋祝壽謝恩祈福活動";
+                            Year = dtNow.Year.ToString();
 
                             switch (adminID)
                             {
@@ -1434,6 +1439,7 @@ namespace Temple.Temples
                         //天貺納福添運法會
                         case 11:
                             typeString = " 2025天貺納福添運法會";
+                            Year = dtNow.Year.ToString();
 
                             switch (adminID)
                             {
@@ -1478,6 +1484,7 @@ namespace Temple.Temples
                         //靈寶禮斗
                         case 12:
                             typeString = " 2025靈寶禮斗";
+                            Year = dtNow.Year.ToString();
 
                             switch (adminID)
                             {
@@ -1539,6 +1546,7 @@ namespace Temple.Temples
                         //九九重陽天赦日補運
                         case 14:
                             typeString = " 2024九九重陽天赦日雙重加持招財補運";
+                            Year = dtNow.Year.ToString();
 
                             switch (adminID)
                             {
@@ -1597,7 +1605,7 @@ namespace Temple.Temples
                         //護國息災梁皇大法會
                         case 15:
                             typeString = " 護國息災梁皇大法會";
-                            Year = "2025";
+                            Year = dtNow.Year.ToString();
 
                             switch (adminID)
                             {
@@ -1642,7 +1650,7 @@ namespace Temple.Temples
                         //補財庫
                         case 16:
                             typeString = " 補財庫";
-                            Year = "2025";
+                            Year = dtNow.Year.ToString();
 
                             switch (adminID)
                             {
@@ -1738,7 +1746,7 @@ namespace Temple.Temples
                         //赦罪補庫
                         case 17:
                             typeString = " 赦罪補庫";
-                            Year = "2025";
+                            Year = dtNow.Year.ToString();
 
                             switch (adminID)
                             {
@@ -1784,7 +1792,7 @@ namespace Temple.Temples
                         //天公生招財補運
                         case 18:
                             typeString = " 2025天公生招財補運";
-                            Year = "2025";
+                            Year = dtNow.Year.ToString();
 
                             switch (adminID)
                             {
@@ -1842,7 +1850,7 @@ namespace Temple.Temples
                         //供香轉運
                         case 19:
                             typeString = " 供香轉運";
-                            Year = "2025";
+                            Year = dtNow.Year.ToString();
 
                             switch (adminID)
                             {
@@ -1888,7 +1896,8 @@ namespace Temple.Temples
                             break;
                         //安斗服務
                         case 20:
-                            typeString = " 2025安斗";
+                            typeString = " 2026安斗";
+                            Year = "2026";
 
                             switch (adminID)
                             {
@@ -1897,7 +1906,7 @@ namespace Temple.Temples
                                     title = "斗六五路財神宮";
                                     GetPurchaserlist_Fw_AnDou(adminID, ApplicantID, Year, ref payStatus);          //斗六五路財神宮資料列表
                                     Checkedtemple_Fw(adminID, ApplicantID, kind, Year);
-                                    EndDate = "2025/10/31 23:59";
+                                    EndDate = "2026/10/31 23:59";
                                     if (DateTime.TryParseExact(
                                             EndDate,
                                             "yyyy/MM/dd HH:mm",
@@ -1933,7 +1942,7 @@ namespace Temple.Temples
                                     title = "台灣道教總廟無極三清總道院";
                                     GetPurchaserlist_wjsan_AnDou(adminID, ApplicantID, Year, ref payStatus);          //台灣道教總廟無極三清總道院資料列表
                                     Checkedtemple_wjsan(adminID, ApplicantID, kind, Year);
-                                    EndDate = "2025/10/31 23:59";
+                                    EndDate = "2026/10/31 23:59";
                                     if (DateTime.TryParseExact(
                                             EndDate,
                                             "yyyy/MM/dd HH:mm",
@@ -1969,6 +1978,7 @@ namespace Temple.Temples
                         //供花供果服務
                         case 21:
                             typeString = " 2025供花供果";
+                            Year = dtNow.Year.ToString();
 
                             switch (adminID)
                             {
@@ -2014,6 +2024,7 @@ namespace Temple.Temples
                         //孝親祈福燈服務
                         case 22:
                             typeString = " 2025孝親祈福燈";
+                            Year = dtNow.Year.ToString();
 
                             switch (adminID)
                             {
@@ -2059,6 +2070,7 @@ namespace Temple.Temples
                         //祈安植福
                         case 23:
                             typeString = " 2025祈安植福";
+                            Year = dtNow.Year.ToString();
 
                             switch (adminID)
                             {
@@ -2105,10 +2117,12 @@ namespace Temple.Temples
                         //祈安禮斗
                         case 24:
                             typeString = " 2025祈安禮斗";
+                            Year = dtNow.Year.ToString();
                             break;
                         //千手觀音千燈迎佛法會
                         case 25:
                             typeString = " 2025千手觀音千燈迎佛法會";
+                            Year = dtNow.Year.ToString();
 
                             switch (adminID)
                             {
