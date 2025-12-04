@@ -5289,8 +5289,6 @@ namespace Temple.Temples
 
                         string msg = "【保必保庇】線上宮廟服務平臺，購買人電話OTP認證，【" + code + "】簡訊密碼180秒有效，驗證碼請勿提供他人，以防詐騙";
 
-                        string log = String.Format("aid={0}&a={1}&kind={2}&Year={3}&code={4}&VerifyType{5}", ApplicantID, AdminID, kind, Year, code, VerifyType);
-
                         if (kind == 1)
                         {
                             string startDate = "2025/11/01 00:00:00";
@@ -5300,6 +5298,8 @@ namespace Temple.Temples
                                 Year = "2026";
                             }
                         }
+
+                        string log = String.Format("aid={0}&a={1}&kind={2}&Year={3}&code={4}&VerifyType{5}", ApplicantID, AdminID, kind, Year, code, VerifyType);
 
                         int codeType = VerifyType == "email" ? 1 : 0;
 
