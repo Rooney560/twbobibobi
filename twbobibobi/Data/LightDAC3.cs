@@ -22347,7 +22347,7 @@ namespace Temple.data
                     int cid = 0;
                     if (int.TryParse(dtGetData.Rows[0]["CodeID"].ToString(), out cid))
                     {
-                        if (objLightDAC.UpdateCAPTCHACodeStatus(cid, Year))
+                        if (objLightDAC.UpdateCAPTCHACodeStatus(cid, 0, Year))
                         {
                             result = true;
                         }

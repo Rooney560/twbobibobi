@@ -14,9 +14,15 @@
     <RootNamespace>twbobibobi</RootNamespace>
     <AssemblyName>twbobibobi</AssemblyName>
     <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
-
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
+    <UseIISExpress>false</UseIISExpress>
+    <Use64BitIISExpress />
+    <IISExpressSSLPort />
+    <IISExpressAnonymousAuthentication />
+    <IISExpressWindowsAuthentication />
+    <IISExpressUseClassicPipelineMode />
+    <UseGlobalApplicationHostFile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -1334,6 +1340,8 @@
     <Compile Include="Helpers\InvoiceHelper.cs" />
     <Compile Include="Helpers\InvoiceResponseExtensions.cs" />
     <Compile Include="Helpers\IPBlocker.cs" />
+    <Compile Include="Helpers\OtpTokenCache.cs" />
+    <Compile Include="Helpers\OtpTokenHelper.cs" />
     <Compile Include="Helpers\ServiceTemplateHelper.cs" />
     <Compile Include="Helpers\TempleHelper.cs" />
     <Compile Include="Helpers\TokenHelper.cs" />
@@ -3246,15 +3254,16 @@
     <VisualStudio>
       <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
         <WebProjectProperties>
-          <UseIIS>true</UseIIS>  <!-- 設定為 Local IIS -->
-  <AutoAssignPort>false</AutoAssignPort> <!-- 禁用自動端口分配 -->
-  <DevelopmentServerPort>57610</DevelopmentServerPort> <!-- 使用端口 80 或其他指定端口 -->
-  <DevelopmentServerVPath>/twbobibobi</DevelopmentServerVPath> <!-- 你的 IIS 路徑 -->
-  <IISUrl>http://localhost/twbobibobi</IISUrl> <!-- Local IIS 的 URL -->
-  <NTLMAuthentication>false</NTLMAuthentication>
-  <UseCustomServer>false</UseCustomServer>
-  <CustomServerUrl></CustomServerUrl>
-  <SaveServerSettingsInUserFile>false</SaveServerSettingsInUserFile>
+          <UseIIS>True</UseIIS>
+          <AutoAssignPort>False</AutoAssignPort>
+          <DevelopmentServerPort>57610</DevelopmentServerPort>
+          <DevelopmentServerVPath>/twbobibobi</DevelopmentServerVPath>
+          <IISUrl>http://localhost/twbobibobi</IISUrl>
+          <NTLMAuthentication>False</NTLMAuthentication>
+          <UseCustomServer>False</UseCustomServer>
+          <CustomServerUrl>
+          </CustomServerUrl>
+          <SaveServerSettingsInUserFile>False</SaveServerSettingsInUserFile>
         </WebProjectProperties>
       </FlavorProperties>
     </VisualStudio>

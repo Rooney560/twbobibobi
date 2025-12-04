@@ -1,18 +1,23 @@
-﻿using twbobibobi.Data;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Read.data;
 using System;
 using System.Collections.Generic;
 using System.Data;
+using System.EnterpriseServices;
 using System.Globalization;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Runtime.Remoting.Metadata.W3cXsd2001;
+using System.Security.Cryptography;
 using System.Text;
 using System.Web;
 using Temple.data;
+using twbobibobi.Data;
+using twbobibobi.Helpers;
 using twbobibobi.Services;
+using ZXing.QrCode.Internal;
 using static System.Net.Mime.MediaTypeNames;
 using static ZXing.QrCode.Internal.Mode;
 
@@ -41,6 +46,7 @@ namespace Temple.Temples
         {
             AddAjaxHandler(typeof(AjaxPageHandler), "gotopay");
             AddAjaxHandler(typeof(AjaxPageHandler), "sendsms");
+            AddAjaxHandler(typeof(AjaxPageHandler), "verifyOTP");
         }
 
         protected void Page_Load(object sender, EventArgs e)
@@ -2335,81 +2341,76 @@ namespace Temple.Temples
 
                     try
                     {
-                        // 檢查驗證碼是否有效且正確。
-                        if (objLightDAC.CheckedCAPTCHACode(Code, ApplicantID, AdminID, kind, Year, ref CodeError))
+                        string token = OtpTokenHelper.GenerateToken(ApplicantID, kind, AdminID, Code, "true");
+                        bool isValid3 = OtpTokenCache.Validate(token);
+                        if (!isValid3)
                         {
-                            // 更新驗證碼狀態，標記已使用。
-                            if (objLightDAC.UpdateCAPTCHACodeStatus(AdminID, ApplicantID, kind, Year))
+                            basePage.mJSonHelper.AddContent("StatusCode", 0);
+                            basePage.mJSonHelper.AddContent("ErrorMessage", "驗證碼無效或已過期。");
+                            isValid = false;
+                        }
+                        else
+                        {
+                            // 檢查發票類型是否為手機載具且非小額付款支付
+                            if (InvoiceType == 2 && ChargeType.IndexOf("CSP", StringComparison.OrdinalIgnoreCase) < 0)
                             {
-                                // 檢查發票類型是否為手機載具且非小額付款支付
-                                if (InvoiceType == 2 && ChargeType.IndexOf("CSP", StringComparison.OrdinalIgnoreCase) < 0)
+                                // 驗證手機載舉正確性
+                                if (!ValidateMobileCarrier(CarrierCode, out MobileCarrierError))
                                 {
-                                    // 驗證手機載舉正確性
-                                    if (!ValidateMobileCarrier(CarrierCode, out MobileCarrierError))
-                                    {
-                                        // 顯示錯誤給使用者
-                                        basePage.mJSonHelper.AddContent("StatusCode", 0);
-                                        basePage.mJSonHelper.AddContent("CodeError", "-6");
-                                    }
-                                    else
-                                    {
-                                        isValid2 = true;
-                                    }
+                                    // 顯示錯誤給使用者
+                                    basePage.mJSonHelper.AddContent("StatusCode", 0);
+                                    basePage.mJSonHelper.AddContent("CodeError", "-6");
                                 }
                                 else
                                 {
                                     isValid2 = true;
                                 }
+                            }
+                            else
+                            {
+                                isValid2 = true;
+                            }
 
-                                // 先檢查是否已有發票紀錄（不論是否已開立發票）
-                                DataTable invoiceInfo = objLightDAC.GetInvoiceDetail(ApplicantID, AdminID, kind, Year);
+                            // 先檢查是否已有發票紀錄（不論是否已開立發票）
+                            DataTable invoiceInfo = objLightDAC.GetInvoiceDetail(ApplicantID, AdminID, kind, Year);
 
-                                if (invoiceInfo.Rows.Count > 0)
+                            if (invoiceInfo.Rows.Count > 0)
+                            {
+                                // 情境 A：已開立發票（已有 InvoiceNumber）
+                                if (!string.IsNullOrEmpty(invoiceInfo.Rows[0]["InvoiceNumber"].ToString()))
                                 {
-                                    // 情境 A：已開立發票（已有 InvoiceNumber）
-                                    if (!string.IsNullOrEmpty(invoiceInfo.Rows[0]["InvoiceNumber"].ToString()))
-                                    {
-                                        isValid2 = false;
-                                        basePage.mJSonHelper.AddContent("StatusCode", 0);
-                                        basePage.mJSonHelper.AddContent("CodeError", "-8"); // 已開立發票
-                                    }
-                                    else
-                                    {
-                                        // 情境 B：已有紀錄但未開立發票，直接沿用既有資料 ID
-                                        isValid = true; // 視你的流程需求，直接當作通過最終驗證
-                                    }
+                                    isValid2 = false;
+                                    basePage.mJSonHelper.AddContent("StatusCode", 0);
+                                    basePage.mJSonHelper.AddContent("CodeError", "-8"); // 已開立發票
                                 }
                                 else
                                 {
-                                    // 情境 C：完全沒有資料 → 正常新增
-                                    if (isValid2)
-                                    {
-                                        // 小額支付以外，開立發票
-                                        int id = objLightDAC.AddInvoiceDetail(ApplicantID, AdminID, kind, InvoiceType, CarrierCode, InvoiceCode, InvoiceName, Year);
-
-                                        if (id > 0)
-                                        {
-                                            isValid = true;
-                                        }
-                                        else
-                                        {
-                                            basePage.mJSonHelper.AddContent("StatusCode", 0);
-                                            basePage.mJSonHelper.AddContent("CodeError", "-7");
-                                        }
-                                    }
+                                    // 情境 B：已有紀錄但未開立發票，直接沿用既有資料 ID
+                                    isValid = true; // 視你的流程需求，直接當作通過最終驗證
                                 }
                             }
                             else
                             {
-                                basePage.mJSonHelper.AddContent("StatusCode", 0);
-                                basePage.mJSonHelper.AddContent("CodeError", "-4");
+                                // 情境 C：完全沒有資料 → 正常新增
+                                if (isValid2)
+                                {
+                                    // 小額支付以外，開立發票
+                                    int id = objLightDAC.AddInvoiceDetail(ApplicantID, AdminID, kind, InvoiceType, CarrierCode, InvoiceCode, InvoiceName, Year);
+
+                                    if (id > 0)
+                                    {
+                                        isValid = true;
+                                    }
+                                    else
+                                    {
+                                        basePage.mJSonHelper.AddContent("StatusCode", 0);
+                                        basePage.mJSonHelper.AddContent("CodeError", "-7");
+                                    }
+                                }
                             }
+
                         }
-                        else
-                        {
-                            basePage.mJSonHelper.AddContent("StatusCode", 0);
-                            basePage.mJSonHelper.AddContent("CodeError", CodeError);
-                        }
+
 
                         if (isValid)
                         {
@@ -5260,36 +5261,35 @@ namespace Temple.Temples
                 {
                     basePage.mJSonHelper.AddContent("StatusCode", 0);
 
-                    string AppMobile = basePage.Request["AppMobile"];
+                    // 取得台北標準時間
+                    DateTime dtNow = LightDAC.GetTaipeiNow();
 
-                    ApplicantID = int.Parse(basePage.Request["aid"]);
+                    AdminID = int.Parse(basePage.Request["a"] ?? throw new ArgumentException("缺少廟宇參數"));
+                    kind = int.Parse(basePage.Request["kind"] ?? throw new ArgumentException("缺少服務項目參數"));
+                    string AppName = basePage.Request["AppName"] ?? throw new ArgumentException("缺少購買人姓名參數");
+                    string AppMobile = basePage.Request["AppMobile"] ?? throw new ArgumentException("缺少購買人電話參數");
+                    string AppEmail = basePage.Request["AppEmail"] ?? throw new ArgumentException("缺少購買人信箱參數");
+                    string VerifyType = basePage.Request["VerifyType"] ?? throw new ArgumentException("缺少取得驗證碼方式參數");
+                    ApplicantID = int.Parse(basePage.Request["aid"] ?? throw new ArgumentException("缺少購買人編號參數"));
 
-                    if (basePage.Request["a"] != null)
-                    {
-                        AdminID = int.Parse(basePage.Request["a"].ToString());
-                    }
-
-                    if (basePage.Request["kind"] != null)
-                    {
-                        kind = int.Parse(basePage.Request["kind"].ToString());
-                    }
+                    // 假設 Request["kind"] = "5"
+                    if (!Enum.TryParse(basePage.Request["kind"], out ServiceKind kindEnum))
+                        throw new ArgumentException("kind 參數錯誤");
 
                     if (ApplicantID > 0 && AdminID > 0 && kind > 0)
                     {
                         LightDAC objLightDAC = new LightDAC(basePage);
                         SMSHepler objSMSHepler = new SMSHepler();
 
-                        // 取得台北標準時間
-                        DateTime dtNow = LightDAC.GetTaipeiNow();
                         string orderId = dtNow.ToString("yyyyMMddHHmmssfff");
-                        string Year = "2025";
+                        string Year = dtNow.Year.ToString();
                         string Codeerror = "0";
 
                         string code = CreateRandomWord(6);
 
                         string msg = "【保必保庇】線上宮廟服務平臺，購買人電話OTP認證，【" + code + "】簡訊密碼180秒有效，驗證碼請勿提供他人，以防詐騙";
 
-                        Year = "2025";
+                        string log = String.Format("aid={0}&a={1}&kind={2}&Year={3}&code={4}&VerifyType{5}", ApplicantID, AdminID, kind, Year, code, VerifyType);
 
                         if (kind == 1)
                         {
@@ -5301,19 +5301,53 @@ namespace Temple.Temples
                             }
                         }
 
-                        if (objLightDAC.CheckedCAPTCHACodeCount(ApplicantID, AdminID, kind, AppMobile, Year, ref Codeerror))
+                        int codeType = VerifyType == "email" ? 1 : 0;
+
+                        if (objLightDAC.CheckedCAPTCHACodeCount(ApplicantID, AdminID, kind, codeType, AppMobile, Year, ref Codeerror))
                         {
-                            if (objLightDAC.AddCAPTCHACode(ApplicantID, AdminID, kind, code, AppMobile, Year))
+                            if (objLightDAC.AddCAPTCHACode(ApplicantID, AdminID, kind, codeType, code, AppMobile, Year))
                             {
-                                if (objSMSHepler.SendMsg_SL(AppMobile, msg))
+                                switch (VerifyType)
                                 {
-                                    string log = String.Format("aid={0}&a={1}&kind={2}&Year={3}&code={4}", ApplicantID, AdminID, kind, Year, code);
-                                    basePage.SaveCAPTCHACodeLog(log);
+                                    case "email":
+                                        if (CaptchaEmailSender.Send(
+                                            buyerEmail: AppEmail,
+                                            buyerName: AppName,
+                                            code: code))
+                                        {
+                                            basePage.SaveCAPTCHACodeLog(log);
 
-                                    basePage.mJSonHelper.AddContent("StatusCode", 1);
+                                            basePage.mJSonHelper.AddContent("StatusCode", 1);
 
-                                    basePage.Session["ApplicantID"] = ApplicantID;
+                                            basePage.Session["ApplicantID"] = ApplicantID;
+                                        }
+                                        else
+                                        {
+                                            basePage.mJSonHelper.AddContent("StatusCode", 0);
+                                            basePage.mJSonHelper.AddContent("CodeError", "-11");
+                                        }
+                                        break;
+                                    default:
+                                        if (objSMSHepler.SendMsg_SL(AppMobile, msg))
+                                        {
+                                            basePage.SaveCAPTCHACodeLog(log);
+
+                                            basePage.mJSonHelper.AddContent("StatusCode", 1);
+
+                                            basePage.Session["ApplicantID"] = ApplicantID;
+                                        }
+                                        else
+                                        {
+                                            basePage.mJSonHelper.AddContent("StatusCode", 0);
+                                            basePage.mJSonHelper.AddContent("CodeError", "-10");
+                                        }
+                                        break;
                                 }
+                            }
+                            else
+                            {
+                                basePage.mJSonHelper.AddContent("StatusCode", 0);
+                                basePage.mJSonHelper.AddContent("CodeError", "-9");
                             }
                         }
                         else
@@ -5324,74 +5358,9 @@ namespace Temple.Temples
                     }
                     else
                     {
-
+                        throw new ArgumentException("缺少必要參數");
                     }
                 }
-                //lock (_thisLock)
-                //{
-                //    basePage.mJSonHelper.AddContent("StatusCode", 0);
-                //    string AppName = basePage.Request["AppName"];
-                //    string AppMobile = basePage.Request["AppMobile"];
-                //    string AppEmail = basePage.Request["AppEmail"];
-                //    string VerifyType = string.IsNullOrEmpty(AppEmail) ? "sms" : "email";
-
-                //    int ApplicantID = Convert.ToInt32(basePage.Request["aid"]);
-                //    int AdminID = Convert.ToInt32(basePage.Request["a"]);
-                //    int kind = Convert.ToInt32(basePage.Request["kind"]);
-
-                //    if (ApplicantID > 0 && AdminID > 0 && kind > 0)
-                //    {
-                //        LightDAC objLightDAC = new LightDAC(basePage);
-                //        SMSHepler objSMSHepler = new SMSHepler();
-
-                //        // 取得台北標準時間
-                //        DateTime dtNow = LightDAC.GetTaipeiNow();
-                //        string Year = (kind == 1) ? "2026" : dtNow.Year.ToString();
-                //        string Codeerror = "0";
-                //        string code = CreateRandomWord(6);
-
-                //        bool sentSuccess = false;
-                //        string msg = $"【保必保庇】線上宮廟服務平臺，購買人{(VerifyType == "sms" ? "電話" : "信箱")}OTP認證，【{code}】驗證碼180秒有效，請勿提供他人。";
-
-                //        switch (VerifyType)
-                //        {
-                //            case "sms":
-                //                // 手機OTP驗證
-                //                SMSHepler sms = new SMSHepler();
-                //                if (objLightDAC.CheckedCAPTCHACodeCount(ApplicantID, AdminID, kind, AppMobile, Year, ref Codeerror))
-                //                {
-                //                    if (objLightDAC.AddCAPTCHACode(ApplicantID, AdminID, kind, code, AppMobile, Year))
-                //                        sentSuccess = sms.SendMsg_SL(AppMobile, msg);
-                //                }
-                //                break;
-                //            case "email":
-                //                // 信箱OTP驗證
-                //                if (objLightDAC.CheckedCAPTCHACodeCount(ApplicantID, AdminID, kind, AppEmail, Year, ref Codeerror))
-                //                {
-                //                    if (objLightDAC.AddCAPTCHACode(ApplicantID, AdminID, kind, code, AppEmail, Year))
-                //                        sentSuccess = CaptchaEmailSender.Send(AppEmail, AppName, code);
-                //                }
-                //                break;
-                //        }
-
-                //        if (sentSuccess)
-                //        {
-                //            string log = String.Format("aid={0}&a={1}&kind={2}&Year={3}&code={4}&VerifyType={5}", ApplicantID, AdminID, kind, Year, code, VerifyType);
-                //            basePage.SaveCAPTCHACodeLog(log);
-
-                //            basePage.mJSonHelper.AddContent("StatusCode", 1);
-                //            basePage.Session["ApplicantID"] = ApplicantID;
-                //        }
-                //        else
-                //        {
-                //            basePage.mJSonHelper.AddContent("CodeError", Codeerror);
-                //        }
-                //    }
-                //    else
-                //    {
-                //        basePage.mJSonHelper.AddContent("CodeError", -999);
-                //    }
-                //}
             }
 
             /// <summary>
@@ -5410,6 +5379,76 @@ namespace Temple.Temples
                     buffer[i] = chars[random.Next(chars.Length)];
                 }
                 return new string(buffer);
+            }
+
+            /// <summary>
+            /// AJAX：驗證OTP驗證碼（支援手機簡訊與Email）
+            /// </summary>
+            /// <param name="basePage">目前的頁面基底物件</param>
+            public void verifyOTP(BasePage basePage)
+            {
+                lock (_thisLock)
+                {
+                    basePage.mJSonHelper.AddContent("StatusCode", 0);
+
+                    // 取得台北標準時間
+                    DateTime dtNow = LightDAC.GetTaipeiNow();
+
+                    AdminID = int.Parse(basePage.Request["a"] ?? throw new ArgumentException("缺少廟宇參數"));
+                    kind = int.Parse(basePage.Request["kind"] ?? throw new ArgumentException("缺少服務項目參數"));
+                    string Code = basePage.Request["Code"] ?? throw new ArgumentException("缺少驗證碼參數");
+                    string VerifyType = basePage.Request["VerifyType"] ?? throw new ArgumentException("缺少取得驗證碼方式參數");
+                    ApplicantID = int.Parse(basePage.Request["aid"] ?? throw new ArgumentException("缺少購買人編號參數"));
+
+                    if (ApplicantID > 0 && AdminID > 0 && kind > 0)
+                    {
+                        LightDAC objLightDAC = new LightDAC(basePage);
+                        SMSHepler objSMSHepler = new SMSHepler();
+
+                        string orderId = dtNow.ToString("yyyyMMddHHmmssfff");
+                        string Year = dtNow.Year.ToString();
+                        string Codeerror = "0";
+
+                        if (kind == 1)
+                        {
+                            string startDate = "2025/11/01 00:00:00";
+                            int ijj = DateTime.Compare(DateTime.Parse(startDate), dtNow);
+                            if (DateTime.Compare(DateTime.Parse(startDate), dtNow) < 0)
+                            {
+                                Year = "2026";
+                            }
+                        }
+
+                        int codeType = VerifyType == "email" ? 1 : 0;
+
+                        // 檢查驗證碼是否有效且正確。
+                        if (objLightDAC.CheckedCAPTCHACode(Code, ApplicantID, AdminID, kind, codeType, Year, ref Codeerror))
+                        {
+                            // 更新驗證碼狀態，標記已使用。
+                            if (objLightDAC.UpdateCAPTCHACodeStatus(AdminID, ApplicantID, kind, codeType, Year))
+                            {
+                                string otpToken = OtpTokenHelper.GenerateToken(ApplicantID, kind, AdminID, Code, "true");
+                                OtpTokenCache.Save(otpToken, dtNow.AddMinutes(20));
+
+                                basePage.mJSonHelper.AddContent("StatusCode", 1);
+                            }
+                            else
+                            {
+                                basePage.mJSonHelper.AddContent("StatusCode", 0);
+                                basePage.mJSonHelper.AddContent("CodeError", "-4");
+                            }
+                        }
+                        else
+                        {
+                            basePage.mJSonHelper.AddContent("StatusCode", 0);
+                            basePage.mJSonHelper.AddContent("CodeError", Codeerror);
+                        }
+                    }
+                    else
+                    {
+
+                    }
+                }
             }
 
             public void checkedDiscountCode(BasePage basePage)
@@ -10154,10 +10193,11 @@ namespace Temple.Temples
                 OrderPurchaser = OrderData("購買人姓名", dtData.Rows[0]["AppName"].ToString());
 
 
-                string result = "<div class=\"OrderData\">\r\n                                                <div class=\"label\">{0}：</div>\r\n                                                <div id=\"AppMobile\" class=\"txt\">{1}</div>\r\n                                            </div>";
+                string result_mobile = "<div class=\"OrderData\">\r\n                                                <div class=\"label\">{0}：</div>\r\n                                                <div id=\"AppMobile\" class=\"txt\">{1}</div>\r\n                                            </div>";
+                string result_email = "<div class=\"OrderData\">\r\n                                                <div class=\"label\">{0}：</div>\r\n                                                <div id=\"AppEmail\" class=\"txt\">{1}</div>\r\n                                            </div>";
 
                 AppMobile = dtData.Rows[0]["AppMobile"].ToString();
-                OrderPurchaser += String.Format(result, "購買人電話", dtData.Rows[0]["AppMobile"].ToString());
+                OrderPurchaser += String.Format(result_mobile, "購買人電話", dtData.Rows[0]["AppMobile"].ToString());
 
                 if (dtData.Columns.Contains("AppEmail"))
                 {
@@ -10165,7 +10205,8 @@ namespace Temple.Temples
                     if (rawAppEmail != DBNull.Value)
                     {
                         var appEmailText = rawAppEmail.ToString();
-                        OrderPurchaser += OrderData("購買人信箱", appEmailText);
+                        AppEmail = appEmailText;
+                        OrderPurchaser += String.Format(result_email, "購買人信箱", appEmailText);
                     }
                 }
 
@@ -10253,10 +10294,11 @@ namespace Temple.Temples
                 OrderPurchaser = OrderData("購買人姓名", dtData.Rows[0]["AppName"].ToString());
 
 
-                string result = "<div class=\"OrderData\">\r\n                                                <div class=\"label\">{0}：</div>\r\n                                                <div id=\"AppMobile\" class=\"txt\">{1}</div>\r\n                                            </div>";
+                string result_mobile = "<div class=\"OrderData\">\r\n                                                <div class=\"label\">{0}：</div>\r\n                                                <div id=\"AppMobile\" class=\"txt\">{1}</div>\r\n                                            </div>";
+                string result_email = "<div class=\"OrderData\">\r\n                                                <div class=\"label\">{0}：</div>\r\n                                                <div id=\"AppEmail\" class=\"txt\">{1}</div>\r\n                                            </div>";
 
                 AppMobile = dtData.Rows[0]["AppMobile"].ToString();
-                OrderPurchaser += String.Format(result, "購買人電話", dtData.Rows[0]["AppMobile"].ToString());
+                OrderPurchaser += String.Format(result_mobile, "購買人電話", dtData.Rows[0]["AppMobile"].ToString());
 
                 if (dtData.Columns.Contains("AppEmail"))
                 {
@@ -10264,7 +10306,8 @@ namespace Temple.Temples
                     if (rawAppEmail != DBNull.Value)
                     {
                         var appEmailText = rawAppEmail.ToString();
-                        OrderPurchaser += OrderData("購買人信箱", appEmailText);
+                        AppEmail = appEmailText;
+                        OrderPurchaser += String.Format(result_email, "購買人信箱", appEmailText);
                     }
                 }
 
@@ -10376,10 +10419,11 @@ namespace Temple.Temples
                 OrderPurchaser = OrderData("購買人姓名", dtData.Rows[0]["AppName"].ToString());
 
 
-                string result = "<div class=\"OrderData\">\r\n                                                <div class=\"label\">{0}：</div>\r\n                                                <div id=\"AppMobile\" class=\"txt\">{1}</div>\r\n                                            </div>";
+                string result_mobile = "<div class=\"OrderData\">\r\n                                                <div class=\"label\">{0}：</div>\r\n                                                <div id=\"AppMobile\" class=\"txt\">{1}</div>\r\n                                            </div>";
+                string result_email = "<div class=\"OrderData\">\r\n                                                <div class=\"label\">{0}：</div>\r\n                                                <div id=\"AppEmail\" class=\"txt\">{1}</div>\r\n                                            </div>";
 
                 AppMobile = dtData.Rows[0]["AppMobile"].ToString();
-                OrderPurchaser += String.Format(result, "購買人電話", dtData.Rows[0]["AppMobile"].ToString());
+                OrderPurchaser += String.Format(result_mobile, "購買人電話", dtData.Rows[0]["AppMobile"].ToString());
 
                 if (dtData.Columns.Contains("AppEmail"))
                 {
@@ -10387,7 +10431,8 @@ namespace Temple.Temples
                     if (rawAppEmail != DBNull.Value)
                     {
                         var appEmailText = rawAppEmail.ToString();
-                        OrderPurchaser += OrderData("購買人信箱", appEmailText);
+                        AppEmail = appEmailText;
+                        OrderPurchaser += String.Format(result_email, "購買人信箱", appEmailText);
                     }
                 }
 
@@ -10606,10 +10651,11 @@ namespace Temple.Temples
                 OrderPurchaser = OrderData("購買人姓名", dtData.Rows[0]["AppName"].ToString());
 
 
-                string result = "<div class=\"OrderData\">\r\n                                                <div class=\"label\">{0}：</div>\r\n                                                <div id=\"AppMobile\" class=\"txt\">{1}</div>\r\n                                            </div>";
+                string result_mobile = "<div class=\"OrderData\">\r\n                                                <div class=\"label\">{0}：</div>\r\n                                                <div id=\"AppMobile\" class=\"txt\">{1}</div>\r\n                                            </div>";
+                string result_email = "<div class=\"OrderData\">\r\n                                                <div class=\"label\">{0}：</div>\r\n                                                <div id=\"AppEmail\" class=\"txt\">{1}</div>\r\n                                            </div>";
 
                 AppMobile = dtData.Rows[0]["AppMobile"].ToString();
-                OrderPurchaser += String.Format(result, "購買人電話", dtData.Rows[0]["AppMobile"].ToString());
+                OrderPurchaser += String.Format(result_mobile, "購買人電話", dtData.Rows[0]["AppMobile"].ToString());
 
                 if (dtData.Columns.Contains("AppEmail"))
                 {
@@ -10617,7 +10663,8 @@ namespace Temple.Temples
                     if (rawAppEmail != DBNull.Value)
                     {
                         var appEmailText = rawAppEmail.ToString();
-                        OrderPurchaser += OrderData("購買人信箱", appEmailText);
+                        AppEmail = appEmailText;
+                        OrderPurchaser += String.Format(result_email, "購買人信箱", appEmailText);
                     }
                 }
 
@@ -10697,10 +10744,11 @@ namespace Temple.Temples
                 OrderPurchaser = OrderData("購買人姓名", dtData.Rows[0]["AppName"].ToString());
 
 
-                string result = "<div class=\"OrderData\">\r\n                                                <div class=\"label\">{0}：</div>\r\n                                                <div id=\"AppMobile\" class=\"txt\">{1}</div>\r\n                                            </div>";
+                string result_mobile = "<div class=\"OrderData\">\r\n                                                <div class=\"label\">{0}：</div>\r\n                                                <div id=\"AppMobile\" class=\"txt\">{1}</div>\r\n                                            </div>";
+                string result_email = "<div class=\"OrderData\">\r\n                                                <div class=\"label\">{0}：</div>\r\n                                                <div id=\"AppEmail\" class=\"txt\">{1}</div>\r\n                                            </div>";
 
                 AppMobile = dtData.Rows[0]["AppMobile"].ToString();
-                OrderPurchaser += String.Format(result, "購買人電話", dtData.Rows[0]["AppMobile"].ToString());
+                OrderPurchaser += String.Format(result_mobile, "購買人電話", dtData.Rows[0]["AppMobile"].ToString());
 
                 if (dtData.Columns.Contains("AppEmail"))
                 {
@@ -10708,7 +10756,8 @@ namespace Temple.Temples
                     if (rawAppEmail != DBNull.Value)
                     {
                         var appEmailText = rawAppEmail.ToString();
-                        OrderPurchaser += OrderData("購買人信箱", appEmailText);
+                        AppEmail = appEmailText;
+                        OrderPurchaser += String.Format(result_email, "購買人信箱", appEmailText);
                     }
                 }
 
@@ -11033,10 +11082,11 @@ namespace Temple.Temples
                 OrderPurchaser = OrderData("購買人姓名", dtData.Rows[0]["AppName"].ToString());
 
 
-                string result = "<div class=\"OrderData\">\r\n                                                <div class=\"label\">{0}：</div>\r\n                                                <div id=\"AppMobile\" class=\"txt\">{1}</div>\r\n                                            </div>";
+                string result_mobile = "<div class=\"OrderData\">\r\n                                                <div class=\"label\">{0}：</div>\r\n                                                <div id=\"AppMobile\" class=\"txt\">{1}</div>\r\n                                            </div>";
+                string result_email = "<div class=\"OrderData\">\r\n                                                <div class=\"label\">{0}：</div>\r\n                                                <div id=\"AppEmail\" class=\"txt\">{1}</div>\r\n                                            </div>";
 
                 AppMobile = dtData.Rows[0]["AppMobile"].ToString();
-                OrderPurchaser += String.Format(result, "購買人電話", dtData.Rows[0]["AppMobile"].ToString());
+                OrderPurchaser += String.Format(result_mobile, "購買人電話", dtData.Rows[0]["AppMobile"].ToString());
 
                 if (dtData.Columns.Contains("AppEmail"))
                 {
@@ -11044,7 +11094,8 @@ namespace Temple.Temples
                     if (rawAppEmail != DBNull.Value)
                     {
                         var appEmailText = rawAppEmail.ToString();
-                        OrderPurchaser += OrderData("購買人信箱", appEmailText);
+                        AppEmail = appEmailText;
+                        OrderPurchaser += String.Format(result_email, "購買人信箱", appEmailText);
                     }
                 }
 
@@ -11133,10 +11184,11 @@ namespace Temple.Temples
                 OrderPurchaser = OrderData("購買人姓名", dtData.Rows[0]["AppName"].ToString());
 
 
-                string result = "<div class=\"OrderData\">\r\n                                                <div class=\"label\">{0}：</div>\r\n                                                <div id=\"AppMobile\" class=\"txt\">{1}</div>\r\n                                            </div>";
+                string result_mobile = "<div class=\"OrderData\">\r\n                                                <div class=\"label\">{0}：</div>\r\n                                                <div id=\"AppMobile\" class=\"txt\">{1}</div>\r\n                                            </div>";
+                string result_email = "<div class=\"OrderData\">\r\n                                                <div class=\"label\">{0}：</div>\r\n                                                <div id=\"AppEmail\" class=\"txt\">{1}</div>\r\n                                            </div>";
 
                 AppMobile = dtData.Rows[0]["AppMobile"].ToString();
-                OrderPurchaser += String.Format(result, "購買人電話", dtData.Rows[0]["AppMobile"].ToString());
+                OrderPurchaser += String.Format(result_mobile, "購買人電話", dtData.Rows[0]["AppMobile"].ToString());
 
                 if (dtData.Columns.Contains("AppEmail"))
                 {
@@ -11144,7 +11196,8 @@ namespace Temple.Temples
                     if (rawAppEmail != DBNull.Value)
                     {
                         var appEmailText = rawAppEmail.ToString();
-                        OrderPurchaser += OrderData("購買人信箱", appEmailText);
+                        AppEmail = appEmailText;
+                        OrderPurchaser += String.Format(result_email, "購買人信箱", appEmailText);
                     }
                 }
 
@@ -11231,10 +11284,11 @@ namespace Temple.Temples
                 OrderPurchaser = OrderData("購買人姓名", dtData.Rows[0]["AppName"].ToString());
 
 
-                string result = "<div class=\"OrderData\">\r\n                                                <div class=\"label\">{0}：</div>\r\n                                                <div id=\"AppMobile\" class=\"txt\">{1}</div>\r\n                                            </div>";
+                string result_mobile = "<div class=\"OrderData\">\r\n                                                <div class=\"label\">{0}：</div>\r\n                                                <div id=\"AppMobile\" class=\"txt\">{1}</div>\r\n                                            </div>";
+                string result_email = "<div class=\"OrderData\">\r\n                                                <div class=\"label\">{0}：</div>\r\n                                                <div id=\"AppEmail\" class=\"txt\">{1}</div>\r\n                                            </div>";
 
                 AppMobile = dtData.Rows[0]["AppMobile"].ToString();
-                OrderPurchaser += String.Format(result, "購買人電話", dtData.Rows[0]["AppMobile"].ToString());
+                OrderPurchaser += String.Format(result_mobile, "購買人電話", dtData.Rows[0]["AppMobile"].ToString());
 
                 if (dtData.Columns.Contains("AppEmail"))
                 {
@@ -11242,7 +11296,8 @@ namespace Temple.Temples
                     if (rawAppEmail != DBNull.Value)
                     {
                         var appEmailText = rawAppEmail.ToString();
-                        OrderPurchaser += OrderData("購買人信箱", appEmailText);
+                        AppEmail = appEmailText;
+                        OrderPurchaser += String.Format(result_email, "購買人信箱", appEmailText);
                     }
                 }
 
@@ -11302,10 +11357,11 @@ namespace Temple.Temples
                 OrderPurchaser = OrderData("購買人姓名", dtData.Rows[0]["AppName"].ToString());
 
 
-                string result = "<div class=\"OrderData\">\r\n                                                <div class=\"label\">{0}：</div>\r\n                                                <div id=\"AppMobile\" class=\"txt\">{1}</div>\r\n                                            </div>";
+                string result_mobile = "<div class=\"OrderData\">\r\n                                                <div class=\"label\">{0}：</div>\r\n                                                <div id=\"AppMobile\" class=\"txt\">{1}</div>\r\n                                            </div>";
+                string result_email = "<div class=\"OrderData\">\r\n                                                <div class=\"label\">{0}：</div>\r\n                                                <div id=\"AppEmail\" class=\"txt\">{1}</div>\r\n                                            </div>";
 
                 AppMobile = dtData.Rows[0]["AppMobile"].ToString();
-                OrderPurchaser += String.Format(result, "購買人電話", dtData.Rows[0]["AppMobile"].ToString());
+                OrderPurchaser += String.Format(result_mobile, "購買人電話", dtData.Rows[0]["AppMobile"].ToString());
 
                 if (dtData.Columns.Contains("AppEmail"))
                 {
@@ -11313,7 +11369,8 @@ namespace Temple.Temples
                     if (rawAppEmail != DBNull.Value)
                     {
                         var appEmailText = rawAppEmail.ToString();
-                        OrderPurchaser += OrderData("購買人信箱", appEmailText);
+                        AppEmail = appEmailText;
+                        OrderPurchaser += String.Format(result_email, "購買人信箱", appEmailText);
                     }
                 }
 
@@ -11381,10 +11438,11 @@ namespace Temple.Temples
                 OrderPurchaser = OrderData("購買人姓名", dtData.Rows[0]["AppName"].ToString());
 
 
-                string result = "<div class=\"OrderData\">\r\n                                                <div class=\"label\">{0}：</div>\r\n                                                <div id=\"AppMobile\" class=\"txt\">{1}</div>\r\n                                            </div>";
+                string result_mobile = "<div class=\"OrderData\">\r\n                                                <div class=\"label\">{0}：</div>\r\n                                                <div id=\"AppMobile\" class=\"txt\">{1}</div>\r\n                                            </div>";
+                string result_email = "<div class=\"OrderData\">\r\n                                                <div class=\"label\">{0}：</div>\r\n                                                <div id=\"AppEmail\" class=\"txt\">{1}</div>\r\n                                            </div>";
 
                 AppMobile = dtData.Rows[0]["AppMobile"].ToString();
-                OrderPurchaser += String.Format(result, "購買人電話", dtData.Rows[0]["AppMobile"].ToString());
+                OrderPurchaser += String.Format(result_mobile, "購買人電話", dtData.Rows[0]["AppMobile"].ToString());
 
                 if (dtData.Columns.Contains("AppEmail"))
                 {
@@ -11392,7 +11450,8 @@ namespace Temple.Temples
                     if (rawAppEmail != DBNull.Value)
                     {
                         var appEmailText = rawAppEmail.ToString();
-                        OrderPurchaser += OrderData("購買人信箱", appEmailText);
+                        AppEmail = appEmailText;
+                        OrderPurchaser += String.Format(result_email, "購買人信箱", appEmailText);
                     }
                 }
 
@@ -11604,10 +11663,11 @@ namespace Temple.Temples
                 OrderPurchaser = OrderData("購買人姓名", dtData.Rows[0]["AppName"].ToString());
 
 
-                string result = "<div class=\"OrderData\">\r\n                                                <div class=\"label\">{0}：</div>\r\n                                                <div id=\"AppMobile\" class=\"txt\">{1}</div>\r\n                                            </div>";
+                string result_mobile = "<div class=\"OrderData\">\r\n                                                <div class=\"label\">{0}：</div>\r\n                                                <div id=\"AppMobile\" class=\"txt\">{1}</div>\r\n                                            </div>";
+                string result_email = "<div class=\"OrderData\">\r\n                                                <div class=\"label\">{0}：</div>\r\n                                                <div id=\"AppEmail\" class=\"txt\">{1}</div>\r\n                                            </div>";
 
                 AppMobile = dtData.Rows[0]["AppMobile"].ToString();
-                OrderPurchaser += String.Format(result, "購買人電話", dtData.Rows[0]["AppMobile"].ToString());
+                OrderPurchaser += String.Format(result_mobile, "購買人電話", dtData.Rows[0]["AppMobile"].ToString());
 
                 if (dtData.Columns.Contains("AppEmail"))
                 {
@@ -11615,7 +11675,8 @@ namespace Temple.Temples
                     if (rawAppEmail != DBNull.Value)
                     {
                         var appEmailText = rawAppEmail.ToString();
-                        OrderPurchaser += OrderData("購買人信箱", appEmailText);
+                        AppEmail = appEmailText;
+                        OrderPurchaser += String.Format(result_email, "購買人信箱", appEmailText);
                     }
                 }
 
@@ -11687,10 +11748,11 @@ namespace Temple.Temples
                 OrderPurchaser = OrderData("購買人姓名", dtData.Rows[0]["AppName"].ToString());
 
 
-                string result = "<div class=\"OrderData\">\r\n                                                <div class=\"label\">{0}：</div>\r\n                                                <div id=\"AppMobile\" class=\"txt\">{1}</div>\r\n                                            </div>";
+                string result_mobile = "<div class=\"OrderData\">\r\n                                                <div class=\"label\">{0}：</div>\r\n                                                <div id=\"AppMobile\" class=\"txt\">{1}</div>\r\n                                            </div>";
+                string result_email = "<div class=\"OrderData\">\r\n                                                <div class=\"label\">{0}：</div>\r\n                                                <div id=\"AppEmail\" class=\"txt\">{1}</div>\r\n                                            </div>";
 
                 AppMobile = dtData.Rows[0]["AppMobile"].ToString();
-                OrderPurchaser += String.Format(result, "購買人電話", dtData.Rows[0]["AppMobile"].ToString());
+                OrderPurchaser += String.Format(result_mobile, "購買人電話", dtData.Rows[0]["AppMobile"].ToString());
 
                 if (dtData.Columns.Contains("AppEmail"))
                 {
@@ -11698,7 +11760,8 @@ namespace Temple.Temples
                     if (rawAppEmail != DBNull.Value)
                     {
                         var appEmailText = rawAppEmail.ToString();
-                        OrderPurchaser += OrderData("購買人信箱", appEmailText);
+                        AppEmail = appEmailText;
+                        OrderPurchaser += String.Format(result_email, "購買人信箱", appEmailText);
                     }
                 }
 
@@ -11918,10 +11981,11 @@ namespace Temple.Temples
                 OrderPurchaser = OrderData("購買人姓名", dtData.Rows[0]["AppName"].ToString());
 
 
-                string result = "<div class=\"OrderData\">\r\n                                                <div class=\"label\">{0}：</div>\r\n                                                <div id=\"AppMobile\" class=\"txt\">{1}</div>\r\n                                            </div>";
+                string result_mobile = "<div class=\"OrderData\">\r\n                                                <div class=\"label\">{0}：</div>\r\n                                                <div id=\"AppMobile\" class=\"txt\">{1}</div>\r\n                                            </div>";
+                string result_email = "<div class=\"OrderData\">\r\n                                                <div class=\"label\">{0}：</div>\r\n                                                <div id=\"AppEmail\" class=\"txt\">{1}</div>\r\n                                            </div>";
 
                 AppMobile = dtData.Rows[0]["AppMobile"].ToString();
-                OrderPurchaser += String.Format(result, "購買人電話", dtData.Rows[0]["AppMobile"].ToString());
+                OrderPurchaser += String.Format(result_mobile, "購買人電話", dtData.Rows[0]["AppMobile"].ToString());
 
                 if (dtData.Columns.Contains("AppEmail"))
                 {
@@ -11929,7 +11993,8 @@ namespace Temple.Temples
                     if (rawAppEmail != DBNull.Value)
                     {
                         var appEmailText = rawAppEmail.ToString();
-                        OrderPurchaser += OrderData("購買人信箱", appEmailText);
+                        AppEmail = appEmailText;
+                        OrderPurchaser += String.Format(result_email, "購買人信箱", appEmailText);
                     }
                 }
 
@@ -12023,10 +12088,11 @@ namespace Temple.Temples
                 OrderPurchaser = OrderData("購買人姓名", dtData.Rows[0]["AppName"].ToString());
 
 
-                string result = "<div class=\"OrderData\">\r\n                                                <div class=\"label\">{0}：</div>\r\n                                                <div id=\"AppMobile\" class=\"txt\">{1}</div>\r\n                                            </div>";
+                string result_mobile = "<div class=\"OrderData\">\r\n                                                <div class=\"label\">{0}：</div>\r\n                                                <div id=\"AppMobile\" class=\"txt\">{1}</div>\r\n                                            </div>";
+                string result_email = "<div class=\"OrderData\">\r\n                                                <div class=\"label\">{0}：</div>\r\n                                                <div id=\"AppEmail\" class=\"txt\">{1}</div>\r\n                                            </div>";
 
                 AppMobile = dtData.Rows[0]["AppMobile"].ToString();
-                OrderPurchaser += String.Format(result, "購買人電話", dtData.Rows[0]["AppMobile"].ToString());
+                OrderPurchaser += String.Format(result_mobile, "購買人電話", dtData.Rows[0]["AppMobile"].ToString());
 
                 if (dtData.Columns.Contains("AppEmail"))
                 {
@@ -12034,7 +12100,8 @@ namespace Temple.Temples
                     if (rawAppEmail != DBNull.Value)
                     {
                         var appEmailText = rawAppEmail.ToString();
-                        OrderPurchaser += OrderData("購買人信箱", appEmailText);
+                        AppEmail = appEmailText;
+                        OrderPurchaser += String.Format(result_email, "購買人信箱", appEmailText);
                     }
                 }
 
@@ -12185,10 +12252,11 @@ namespace Temple.Temples
                         OrderPurchaser = OrderData("購買人姓名", dtData.Rows[0]["AppName"].ToString());
 
 
-                        string result = "<div class=\"OrderData\">\r\n                                                <div class=\"label\">{0}：</div>\r\n                                                <div id=\"AppMobile\" class=\"txt\">{1}</div>\r\n                                            </div>";
+                        string result_mobile = "<div class=\"OrderData\">\r\n                                                <div class=\"label\">{0}：</div>\r\n                                                <div id=\"AppMobile\" class=\"txt\">{1}</div>\r\n                                            </div>";
+                        string result_email = "<div class=\"OrderData\">\r\n                                                <div class=\"label\">{0}：</div>\r\n                                                <div id=\"AppEmail\" class=\"txt\">{1}</div>\r\n                                            </div>";
 
                         AppMobile = dtData.Rows[0]["AppMobile"].ToString();
-                        OrderPurchaser += String.Format(result, "購買人電話", dtData.Rows[0]["AppMobile"].ToString());
+                        OrderPurchaser += String.Format(result_mobile, "購買人電話", dtData.Rows[0]["AppMobile"].ToString());
 
                         if (dtData.Columns.Contains("AppEmail"))
                         {
@@ -12196,7 +12264,8 @@ namespace Temple.Temples
                             if (rawAppEmail != DBNull.Value)
                             {
                                 var appEmailText = rawAppEmail.ToString();
-                                OrderPurchaser += OrderData("購買人信箱", appEmailText);
+                                AppEmail = appEmailText;
+                                OrderPurchaser += String.Format(result_email, "購買人信箱", appEmailText);
                             }
                         }
 
@@ -12264,10 +12333,11 @@ namespace Temple.Temples
                         OrderPurchaser = OrderData("購買人姓名", dtData.Rows[0]["AppName"].ToString());
 
 
-                        string result = "<div class=\"OrderData\">\r\n                                                <div class=\"label\">{0}：</div>\r\n                                                <div id=\"AppMobile\" class=\"txt\">{1}</div>\r\n                                            </div>";
+                        string result_mobile = "<div class=\"OrderData\">\r\n                                                <div class=\"label\">{0}：</div>\r\n                                                <div id=\"AppMobile\" class=\"txt\">{1}</div>\r\n                                            </div>";
+                        string result_email = "<div class=\"OrderData\">\r\n                                                <div class=\"label\">{0}：</div>\r\n                                                <div id=\"AppEmail\" class=\"txt\">{1}</div>\r\n                                            </div>";
 
                         AppMobile = dtData.Rows[0]["AppMobile"].ToString();
-                        OrderPurchaser += String.Format(result, "購買人電話", dtData.Rows[0]["AppMobile"].ToString());
+                        OrderPurchaser += String.Format(result_mobile, "購買人電話", dtData.Rows[0]["AppMobile"].ToString());
                         OrderPurchaser += OrderData("國歷生日", dtData.Rows[0]["AppsBirth"].ToString());
 
                         if (dtData.Columns.Contains("AppEmail"))
@@ -12276,7 +12346,8 @@ namespace Temple.Temples
                             if (rawAppEmail != DBNull.Value)
                             {
                                 var appEmailText = rawAppEmail.ToString();
-                                OrderPurchaser += OrderData("購買人信箱", appEmailText);
+                                AppEmail = appEmailText;
+                                OrderPurchaser += String.Format(result_email, "購買人信箱", appEmailText);
                             }
                         }
 
@@ -12346,10 +12417,11 @@ namespace Temple.Temples
                 OrderPurchaser = OrderData("購買人姓名", dtData.Rows[0]["AppName"].ToString());
 
 
-                string result = "<div class=\"OrderData\">\r\n                                                <div class=\"label\">{0}：</div>\r\n                                                <div id=\"AppMobile\" class=\"txt\">{1}</div>\r\n                                            </div>";
+                string result_mobile = "<div class=\"OrderData\">\r\n                                                <div class=\"label\">{0}：</div>\r\n                                                <div id=\"AppMobile\" class=\"txt\">{1}</div>\r\n                                            </div>";
+                string result_email = "<div class=\"OrderData\">\r\n                                                <div class=\"label\">{0}：</div>\r\n                                                <div id=\"AppEmail\" class=\"txt\">{1}</div>\r\n                                            </div>";
 
                 AppMobile = dtData.Rows[0]["AppMobile"].ToString();
-                OrderPurchaser += String.Format(result, "購買人電話", dtData.Rows[0]["AppMobile"].ToString());
+                OrderPurchaser += String.Format(result_mobile, "購買人電話", dtData.Rows[0]["AppMobile"].ToString());
 
                 if (dtData.Columns.Contains("AppEmail"))
                 {
@@ -12357,7 +12429,8 @@ namespace Temple.Temples
                     if (rawAppEmail != DBNull.Value)
                     {
                         var appEmailText = rawAppEmail.ToString();
-                        OrderPurchaser += OrderData("購買人信箱", appEmailText);
+                        AppEmail = appEmailText;
+                        OrderPurchaser += String.Format(result_email, "購買人信箱", appEmailText);
                     }
                 }
 
@@ -12482,10 +12555,11 @@ namespace Temple.Temples
                 OrderPurchaser = OrderData("購買人姓名", dtData.Rows[0]["AppName"].ToString());
 
 
-                string result = "<div class=\"OrderData\">\r\n                                                <div class=\"label\">{0}：</div>\r\n                                                <div id=\"AppMobile\" class=\"txt\">{1}</div>\r\n                                            </div>";
+                string result_mobile = "<div class=\"OrderData\">\r\n                                                <div class=\"label\">{0}：</div>\r\n                                                <div id=\"AppMobile\" class=\"txt\">{1}</div>\r\n                                            </div>";
+                string result_email = "<div class=\"OrderData\">\r\n                                                <div class=\"label\">{0}：</div>\r\n                                                <div id=\"AppEmail\" class=\"txt\">{1}</div>\r\n                                            </div>";
 
                 AppMobile = dtData.Rows[0]["AppMobile"].ToString();
-                OrderPurchaser += String.Format(result, "購買人電話", dtData.Rows[0]["AppMobile"].ToString());
+                OrderPurchaser += String.Format(result_mobile, "購買人電話", dtData.Rows[0]["AppMobile"].ToString());
                 OrderPurchaser += OrderData("國歷生日", dtData.Rows[0]["AppsBirth"].ToString());
 
                 if (dtData.Columns.Contains("AppEmail"))
@@ -12494,7 +12568,8 @@ namespace Temple.Temples
                     if (rawAppEmail != DBNull.Value)
                     {
                         var appEmailText = rawAppEmail.ToString();
-                        OrderPurchaser += OrderData("購買人信箱", appEmailText);
+                        AppEmail = appEmailText;
+                        OrderPurchaser += String.Format(result_email, "購買人信箱", appEmailText);
                     }
                 }
 
@@ -12562,10 +12637,11 @@ namespace Temple.Temples
                 OrderPurchaser = OrderData("購買人姓名", dtData.Rows[0]["AppName"].ToString());
 
 
-                string result = "<div class=\"OrderData\">\r\n                                                <div class=\"label\">{0}：</div>\r\n                                                <div id=\"AppMobile\" class=\"txt\">{1}</div>\r\n                                            </div>";
+                string result_mobile = "<div class=\"OrderData\">\r\n                                                <div class=\"label\">{0}：</div>\r\n                                                <div id=\"AppMobile\" class=\"txt\">{1}</div>\r\n                                            </div>";
+                string result_email = "<div class=\"OrderData\">\r\n                                                <div class=\"label\">{0}：</div>\r\n                                                <div id=\"AppEmail\" class=\"txt\">{1}</div>\r\n                                            </div>";
 
                 AppMobile = dtData.Rows[0]["AppMobile"].ToString();
-                OrderPurchaser += String.Format(result, "購買人電話", dtData.Rows[0]["AppMobile"].ToString());
+                OrderPurchaser += String.Format(result_mobile, "購買人電話", dtData.Rows[0]["AppMobile"].ToString());
                 OrderPurchaser += OrderData("國歷生日", dtData.Rows[0]["AppsBirth"].ToString());
 
                 if (dtData.Columns.Contains("AppEmail"))
@@ -12574,7 +12650,8 @@ namespace Temple.Temples
                     if (rawAppEmail != DBNull.Value)
                     {
                         var appEmailText = rawAppEmail.ToString();
-                        OrderPurchaser += OrderData("購買人信箱", appEmailText);
+                        AppEmail = appEmailText;
+                        OrderPurchaser += String.Format(result_email, "購買人信箱", appEmailText);
                     }
                 }
 
@@ -12645,10 +12722,11 @@ namespace Temple.Temples
                 OrderPurchaser = OrderData("購買人姓名", dtData.Rows[0]["AppName"].ToString());
 
 
-                string result = "<div class=\"OrderData\">\r\n                                                <div class=\"label\">{0}：</div>\r\n                                                <div id=\"AppMobile\" class=\"txt\">{1}</div>\r\n                                            </div>";
+                string result_mobile = "<div class=\"OrderData\">\r\n                                                <div class=\"label\">{0}：</div>\r\n                                                <div id=\"AppMobile\" class=\"txt\">{1}</div>\r\n                                            </div>";
+                string result_email = "<div class=\"OrderData\">\r\n                                                <div class=\"label\">{0}：</div>\r\n                                                <div id=\"AppEmail\" class=\"txt\">{1}</div>\r\n                                            </div>";
 
                 AppMobile = dtData.Rows[0]["AppMobile"].ToString();
-                OrderPurchaser += String.Format(result, "購買人電話", dtData.Rows[0]["AppMobile"].ToString());
+                OrderPurchaser += String.Format(result_mobile, "購買人電話", dtData.Rows[0]["AppMobile"].ToString());
                 OrderPurchaser += OrderData("國歷生日", dtData.Rows[0]["AppsBirth"].ToString());
 
                 if (dtData.Columns.Contains("AppEmail"))
@@ -12657,7 +12735,8 @@ namespace Temple.Temples
                     if (rawAppEmail != DBNull.Value)
                     {
                         var appEmailText = rawAppEmail.ToString();
-                        OrderPurchaser += OrderData("購買人信箱", appEmailText);
+                        AppEmail = appEmailText;
+                        OrderPurchaser += String.Format(result_email, "購買人信箱", appEmailText);
                     }
                 }
 
@@ -12723,10 +12802,11 @@ namespace Temple.Temples
                 OrderPurchaser = OrderData("購買人姓名", dtData.Rows[0]["AppName"].ToString());
 
 
-                string result = "<div class=\"OrderData\">\r\n                                                <div class=\"label\">{0}：</div>\r\n                                                <div id=\"AppMobile\" class=\"txt\">{1}</div>\r\n                                            </div>";
+                string result_mobile = "<div class=\"OrderData\">\r\n                                                <div class=\"label\">{0}：</div>\r\n                                                <div id=\"AppMobile\" class=\"txt\">{1}</div>\r\n                                            </div>";
+                string result_email = "<div class=\"OrderData\">\r\n                                                <div class=\"label\">{0}：</div>\r\n                                                <div id=\"AppEmail\" class=\"txt\">{1}</div>\r\n                                            </div>";
 
                 AppMobile = dtData.Rows[0]["AppMobile"].ToString();
-                OrderPurchaser += String.Format(result, "購買人電話", dtData.Rows[0]["AppMobile"].ToString());
+                OrderPurchaser += String.Format(result_mobile, "購買人電話", dtData.Rows[0]["AppMobile"].ToString());
                 OrderPurchaser += OrderData("國歷生日", dtData.Rows[0]["AppsBirth"].ToString());
 
                 if (dtData.Columns.Contains("AppEmail"))
@@ -12735,7 +12815,8 @@ namespace Temple.Temples
                     if (rawAppEmail != DBNull.Value)
                     {
                         var appEmailText = rawAppEmail.ToString();
-                        OrderPurchaser += OrderData("購買人信箱", appEmailText);
+                        AppEmail = appEmailText;
+                        OrderPurchaser += String.Format(result_email, "購買人信箱", appEmailText);
                     }
                 }
 
@@ -12801,10 +12882,11 @@ namespace Temple.Temples
                 OrderPurchaser = OrderData("購買人姓名", dtData.Rows[0]["AppName"].ToString());
 
 
-                string result = "<div class=\"OrderData\">\r\n                                                <div class=\"label\">{0}：</div>\r\n                                                <div id=\"AppMobile\" class=\"txt\">{1}</div>\r\n                                            </div>";
+                string result_mobile = "<div class=\"OrderData\">\r\n                                                <div class=\"label\">{0}：</div>\r\n                                                <div id=\"AppMobile\" class=\"txt\">{1}</div>\r\n                                            </div>";
+                string result_email = "<div class=\"OrderData\">\r\n                                                <div class=\"label\">{0}：</div>\r\n                                                <div id=\"AppEmail\" class=\"txt\">{1}</div>\r\n                                            </div>";
 
                 AppMobile = dtData.Rows[0]["AppMobile"].ToString();
-                OrderPurchaser += String.Format(result, "購買人電話", dtData.Rows[0]["AppMobile"].ToString());
+                OrderPurchaser += String.Format(result_mobile, "購買人電話", dtData.Rows[0]["AppMobile"].ToString());
                 OrderPurchaser += OrderData("國歷生日", dtData.Rows[0]["AppsBirth"].ToString());
 
                 if (dtData.Columns.Contains("AppEmail"))
@@ -12813,7 +12895,8 @@ namespace Temple.Temples
                     if (rawAppEmail != DBNull.Value)
                     {
                         var appEmailText = rawAppEmail.ToString();
-                        OrderPurchaser += OrderData("購買人信箱", appEmailText);
+                        AppEmail = appEmailText;
+                        OrderPurchaser += String.Format(result_email, "購買人信箱", appEmailText);
                     }
                 }
 
@@ -13220,10 +13303,11 @@ namespace Temple.Temples
                 OrderPurchaser = OrderData("購買人姓名", dtData.Rows[0]["AppName"].ToString());
 
 
-                string result = "<div class=\"OrderData\">\r\n                                                <div class=\"label\">{0}：</div>\r\n                                                <div id=\"AppMobile\" class=\"txt\">{1}</div>\r\n                                            </div>";
+                string result_mobile = "<div class=\"OrderData\">\r\n                                                <div class=\"label\">{0}：</div>\r\n                                                <div id=\"AppMobile\" class=\"txt\">{1}</div>\r\n                                            </div>";
+                string result_email = "<div class=\"OrderData\">\r\n                                                <div class=\"label\">{0}：</div>\r\n                                                <div id=\"AppEmail\" class=\"txt\">{1}</div>\r\n                                            </div>";
 
                 AppMobile = dtData.Rows[0]["AppMobile"].ToString();
-                OrderPurchaser += String.Format(result, "購買人電話", dtData.Rows[0]["AppMobile"].ToString());
+                OrderPurchaser += String.Format(result_mobile, "購買人電話", dtData.Rows[0]["AppMobile"].ToString());
 
                 if (dtData.Columns.Contains("AppEmail"))
                 {
@@ -13231,7 +13315,8 @@ namespace Temple.Temples
                     if (rawAppEmail != DBNull.Value)
                     {
                         var appEmailText = rawAppEmail.ToString();
-                        OrderPurchaser += OrderData("購買人信箱", appEmailText);
+                        AppEmail = appEmailText;
+                        OrderPurchaser += String.Format(result_email, "購買人信箱", appEmailText);
                     }
                 }
 
@@ -13320,10 +13405,11 @@ namespace Temple.Temples
                 OrderPurchaser = OrderData("購買人姓名", dtData.Rows[0]["AppName"].ToString());
 
 
-                string result = "<div class=\"OrderData\">\r\n                                                <div class=\"label\">{0}：</div>\r\n                                                <div id=\"AppMobile\" class=\"txt\">{1}</div>\r\n                                            </div>";
+                string result_mobile = "<div class=\"OrderData\">\r\n                                                <div class=\"label\">{0}：</div>\r\n                                                <div id=\"AppMobile\" class=\"txt\">{1}</div>\r\n                                            </div>";
+                string result_email = "<div class=\"OrderData\">\r\n                                                <div class=\"label\">{0}：</div>\r\n                                                <div id=\"AppEmail\" class=\"txt\">{1}</div>\r\n                                            </div>";
 
                 AppMobile = dtData.Rows[0]["AppMobile"].ToString();
-                OrderPurchaser += String.Format(result, "購買人電話", dtData.Rows[0]["AppMobile"].ToString());
+                OrderPurchaser += String.Format(result_mobile, "購買人電話", dtData.Rows[0]["AppMobile"].ToString());
 
                 if (dtData.Columns.Contains("AppEmail"))
                 {
@@ -13331,7 +13417,8 @@ namespace Temple.Temples
                     if (rawAppEmail != DBNull.Value)
                     {
                         var appEmailText = rawAppEmail.ToString();
-                        OrderPurchaser += OrderData("購買人信箱", appEmailText);
+                        AppEmail = appEmailText;
+                        OrderPurchaser += String.Format(result_email, "購買人信箱", appEmailText);
                     }
                 }
 
@@ -13409,10 +13496,11 @@ namespace Temple.Temples
                 OrderPurchaser = OrderData("購買人姓名", dtData.Rows[0]["AppName"].ToString());
 
 
-                string result = "<div class=\"OrderData\">\r\n                                                <div class=\"label\">{0}：</div>\r\n                                                <div id=\"AppMobile\" class=\"txt\">{1}</div>\r\n                                            </div>";
+                string result_mobile = "<div class=\"OrderData\">\r\n                                                <div class=\"label\">{0}：</div>\r\n                                                <div id=\"AppMobile\" class=\"txt\">{1}</div>\r\n                                            </div>";
+                string result_email = "<div class=\"OrderData\">\r\n                                                <div class=\"label\">{0}：</div>\r\n                                                <div id=\"AppEmail\" class=\"txt\">{1}</div>\r\n                                            </div>";
 
                 AppMobile = dtData.Rows[0]["AppMobile"].ToString();
-                OrderPurchaser += String.Format(result, "購買人電話", dtData.Rows[0]["AppMobile"].ToString());
+                OrderPurchaser += String.Format(result_mobile, "購買人電話", dtData.Rows[0]["AppMobile"].ToString());
 
                 if (dtData.Columns.Contains("AppEmail"))
                 {
@@ -13420,7 +13508,8 @@ namespace Temple.Temples
                     if (rawAppEmail != DBNull.Value)
                     {
                         var appEmailText = rawAppEmail.ToString();
-                        OrderPurchaser += OrderData("購買人信箱", appEmailText);
+                        AppEmail = appEmailText;
+                        OrderPurchaser += String.Format(result_email, "購買人信箱", appEmailText);
                     }
                 }
 
@@ -13495,10 +13584,11 @@ namespace Temple.Temples
                 OrderPurchaser = OrderData("購買人姓名", dtData.Rows[0]["AppName"].ToString());
 
 
-                string result = "<div class=\"OrderData\">\r\n                                                <div class=\"label\">{0}：</div>\r\n                                                <div id=\"AppMobile\" class=\"txt\">{1}</div>\r\n                                            </div>";
+                string result_mobile = "<div class=\"OrderData\">\r\n                                                <div class=\"label\">{0}：</div>\r\n                                                <div id=\"AppMobile\" class=\"txt\">{1}</div>\r\n                                            </div>";
+                string result_email = "<div class=\"OrderData\">\r\n                                                <div class=\"label\">{0}：</div>\r\n                                                <div id=\"AppEmail\" class=\"txt\">{1}</div>\r\n                                            </div>";
 
                 AppMobile = dtData.Rows[0]["AppMobile"].ToString();
-                OrderPurchaser += String.Format(result, "購買人電話", dtData.Rows[0]["AppMobile"].ToString());
+                OrderPurchaser += String.Format(result_mobile, "購買人電話", dtData.Rows[0]["AppMobile"].ToString());
 
                 if (dtData.Columns.Contains("AppEmail"))
                 {
@@ -13506,7 +13596,8 @@ namespace Temple.Temples
                     if (rawAppEmail != DBNull.Value)
                     {
                         var appEmailText = rawAppEmail.ToString();
-                        OrderPurchaser += OrderData("購買人信箱", appEmailText);
+                        AppEmail = appEmailText;
+                        OrderPurchaser += String.Format(result_email, "購買人信箱", appEmailText);
                     }
                 }
 
@@ -13714,10 +13805,11 @@ namespace Temple.Temples
                 OrderPurchaser = OrderData("購買人姓名", dtData.Rows[0]["AppName"].ToString());
 
 
-                string result = "<div class=\"OrderData\">\r\n                                                <div class=\"label\">{0}：</div>\r\n                                                <div id=\"AppMobile\" class=\"txt\">{1}</div>\r\n                                            </div>";
+                string result_mobile = "<div class=\"OrderData\">\r\n                                                <div class=\"label\">{0}：</div>\r\n                                                <div id=\"AppMobile\" class=\"txt\">{1}</div>\r\n                                            </div>";
+                string result_email = "<div class=\"OrderData\">\r\n                                                <div class=\"label\">{0}：</div>\r\n                                                <div id=\"AppEmail\" class=\"txt\">{1}</div>\r\n                                            </div>";
 
                 AppMobile = dtData.Rows[0]["AppMobile"].ToString();
-                OrderPurchaser += String.Format(result, "購買人電話", dtData.Rows[0]["AppMobile"].ToString());
+                OrderPurchaser += String.Format(result_mobile, "購買人電話", dtData.Rows[0]["AppMobile"].ToString());
 
                 if (dtData.Columns.Contains("AppEmail"))
                 {
@@ -13725,7 +13817,8 @@ namespace Temple.Temples
                     if (rawAppEmail != DBNull.Value)
                     {
                         var appEmailText = rawAppEmail.ToString();
-                        OrderPurchaser += OrderData("購買人信箱", appEmailText);
+                        AppEmail = appEmailText;
+                        OrderPurchaser += String.Format(result_email, "購買人信箱", appEmailText);
                     }
                 }
 
@@ -13797,10 +13890,11 @@ namespace Temple.Temples
                 OrderPurchaser = OrderData("購買人姓名", dtData.Rows[0]["AppName"].ToString());
 
 
-                string result = "<div class=\"OrderData\">\r\n                                                <div class=\"label\">{0}：</div>\r\n                                                <div id=\"AppMobile\" class=\"txt\">{1}</div>\r\n                                            </div>";
+                string result_mobile = "<div class=\"OrderData\">\r\n                                                <div class=\"label\">{0}：</div>\r\n                                                <div id=\"AppMobile\" class=\"txt\">{1}</div>\r\n                                            </div>";
+                string result_email = "<div class=\"OrderData\">\r\n                                                <div class=\"label\">{0}：</div>\r\n                                                <div id=\"AppEmail\" class=\"txt\">{1}</div>\r\n                                            </div>";
 
                 AppMobile = dtData.Rows[0]["AppMobile"].ToString();
-                OrderPurchaser += String.Format(result, "購買人電話", dtData.Rows[0]["AppMobile"].ToString());
+                OrderPurchaser += String.Format(result_mobile, "購買人電話", dtData.Rows[0]["AppMobile"].ToString());
 
                 if (dtData.Columns.Contains("AppEmail"))
                 {
@@ -13808,7 +13902,8 @@ namespace Temple.Temples
                     if (rawAppEmail != DBNull.Value)
                     {
                         var appEmailText = rawAppEmail.ToString();
-                        OrderPurchaser += OrderData("購買人信箱", appEmailText);
+                        AppEmail = appEmailText;
+                        OrderPurchaser += String.Format(result_email, "購買人信箱", appEmailText);
                     }
                 }
 
@@ -13899,10 +13994,11 @@ namespace Temple.Temples
                 OrderPurchaser = OrderData("購買人姓名", dtData.Rows[0]["AppName"].ToString());
 
 
-                string result = "<div class=\"OrderData\">\r\n                                                <div class=\"label\">{0}：</div>\r\n                                                <div id=\"AppMobile\" class=\"txt\">{1}</div>\r\n                                            </div>";
+                string result_mobile = "<div class=\"OrderData\">\r\n                                                <div class=\"label\">{0}：</div>\r\n                                                <div id=\"AppMobile\" class=\"txt\">{1}</div>\r\n                                            </div>";
+                string result_email = "<div class=\"OrderData\">\r\n                                                <div class=\"label\">{0}：</div>\r\n                                                <div id=\"AppEmail\" class=\"txt\">{1}</div>\r\n                                            </div>";
 
                 AppMobile = dtData.Rows[0]["AppMobile"].ToString();
-                OrderPurchaser += String.Format(result, "購買人電話", dtData.Rows[0]["AppMobile"].ToString());
+                OrderPurchaser += String.Format(result_mobile, "購買人電話", dtData.Rows[0]["AppMobile"].ToString());
 
                 if (dtData.Columns.Contains("AppEmail"))
                 {
@@ -13910,7 +14006,8 @@ namespace Temple.Temples
                     if (rawAppEmail != DBNull.Value)
                     {
                         var appEmailText = rawAppEmail.ToString();
-                        OrderPurchaser += OrderData("購買人信箱", appEmailText);
+                        AppEmail = appEmailText;
+                        OrderPurchaser += String.Format(result_email, "購買人信箱", appEmailText);
                     }
                 }
 
@@ -14096,10 +14193,11 @@ namespace Temple.Temples
                 OrderPurchaser = OrderData("購買人姓名", dtData.Rows[0]["AppName"].ToString());
 
 
-                string result = "<div class=\"OrderData\">\r\n                                                <div class=\"label\">{0}：</div>\r\n                                                <div id=\"AppMobile\" class=\"txt\">{1}</div>\r\n                                            </div>";
+                string result_mobile = "<div class=\"OrderData\">\r\n                                                <div class=\"label\">{0}：</div>\r\n                                                <div id=\"AppMobile\" class=\"txt\">{1}</div>\r\n                                            </div>";
+                string result_email = "<div class=\"OrderData\">\r\n                                                <div class=\"label\">{0}：</div>\r\n                                                <div id=\"AppEmail\" class=\"txt\">{1}</div>\r\n                                            </div>";
 
                 AppMobile = dtData.Rows[0]["AppMobile"].ToString();
-                OrderPurchaser += String.Format(result, "購買人電話", dtData.Rows[0]["AppMobile"].ToString());
+                OrderPurchaser += String.Format(result_mobile, "購買人電話", dtData.Rows[0]["AppMobile"].ToString());
 
                 if (dtData.Columns.Contains("AppEmail"))
                 {
@@ -14107,7 +14205,8 @@ namespace Temple.Temples
                     if (rawAppEmail != DBNull.Value)
                     {
                         var appEmailText = rawAppEmail.ToString();
-                        OrderPurchaser += OrderData("購買人信箱", appEmailText);
+                        AppEmail = appEmailText;
+                        OrderPurchaser += String.Format(result_email, "購買人信箱", appEmailText);
                     }
                 }
 
@@ -14270,10 +14369,11 @@ namespace Temple.Temples
                 OrderPurchaser = OrderData("購買人姓名", dtData.Rows[0]["AppName"].ToString());
 
 
-                string result = "<div class=\"OrderData\">\r\n                                                <div class=\"label\">{0}：</div>\r\n                                                <div id=\"AppMobile\" class=\"txt\">{1}</div>\r\n                                            </div>";
+                string result_mobile = "<div class=\"OrderData\">\r\n                                                <div class=\"label\">{0}：</div>\r\n                                                <div id=\"AppMobile\" class=\"txt\">{1}</div>\r\n                                            </div>";
+                string result_email = "<div class=\"OrderData\">\r\n                                                <div class=\"label\">{0}：</div>\r\n                                                <div id=\"AppEmail\" class=\"txt\">{1}</div>\r\n                                            </div>";
 
                 AppMobile = dtData.Rows[0]["AppMobile"].ToString();
-                OrderPurchaser += String.Format(result, "購買人電話", dtData.Rows[0]["AppMobile"].ToString());
+                OrderPurchaser += String.Format(result_mobile, "購買人電話", dtData.Rows[0]["AppMobile"].ToString());
 
                 if (dtData.Columns.Contains("AppEmail"))
                 {
@@ -14281,7 +14381,8 @@ namespace Temple.Temples
                     if (rawAppEmail != DBNull.Value)
                     {
                         var appEmailText = rawAppEmail.ToString();
-                        OrderPurchaser += OrderData("購買人信箱", appEmailText);
+                        AppEmail = appEmailText;
+                        OrderPurchaser += String.Format(result_email, "購買人信箱", appEmailText);
                     }
                 }
 
@@ -14393,10 +14494,11 @@ namespace Temple.Temples
                 OrderPurchaser = OrderData("購買人姓名", dtData.Rows[0]["AppName"].ToString());
 
 
-                string result = "<div class=\"OrderData\">\r\n                                                <div class=\"label\">{0}：</div>\r\n                                                <div id=\"AppMobile\" class=\"txt\">{1}</div>\r\n                                            </div>";
+                string result_mobile = "<div class=\"OrderData\">\r\n                                                <div class=\"label\">{0}：</div>\r\n                                                <div id=\"AppMobile\" class=\"txt\">{1}</div>\r\n                                            </div>";
+                string result_email = "<div class=\"OrderData\">\r\n                                                <div class=\"label\">{0}：</div>\r\n                                                <div id=\"AppEmail\" class=\"txt\">{1}</div>\r\n                                            </div>";
 
                 AppMobile = dtData.Rows[0]["AppMobile"].ToString();
-                OrderPurchaser += String.Format(result, "購買人電話", dtData.Rows[0]["AppMobile"].ToString());
+                OrderPurchaser += String.Format(result_mobile, "購買人電話", dtData.Rows[0]["AppMobile"].ToString());
 
                 if (dtData.Columns.Contains("AppEmail"))
                 {
@@ -14404,7 +14506,8 @@ namespace Temple.Temples
                     if (rawAppEmail != DBNull.Value)
                     {
                         var appEmailText = rawAppEmail.ToString();
-                        OrderPurchaser += OrderData("購買人信箱", appEmailText);
+                        AppEmail = appEmailText;
+                        OrderPurchaser += String.Format(result_email, "購買人信箱", appEmailText);
                     }
                 }
                 //OrderPurchaser += OrderData("贈品處理方式", dtData.Rows[0]["AppSendback"].ToString() == "Y" ? "寄回（運費+$100）" : "不寄回");
@@ -14504,10 +14607,11 @@ namespace Temple.Temples
                 OrderPurchaser = OrderData("購買人姓名", dtData.Rows[0]["AppName"].ToString());
 
 
-                string result = "<div class=\"OrderData\">\r\n                                                <div class=\"label\">{0}：</div>\r\n                                                <div id=\"AppMobile\" class=\"txt\">{1}</div>\r\n                                            </div>";
+                string result_mobile = "<div class=\"OrderData\">\r\n                                                <div class=\"label\">{0}：</div>\r\n                                                <div id=\"AppMobile\" class=\"txt\">{1}</div>\r\n                                            </div>";
+                string result_email = "<div class=\"OrderData\">\r\n                                                <div class=\"label\">{0}：</div>\r\n                                                <div id=\"AppEmail\" class=\"txt\">{1}</div>\r\n                                            </div>";
 
                 AppMobile = dtData.Rows[0]["AppMobile"].ToString();
-                OrderPurchaser += String.Format(result, "購買人電話", dtData.Rows[0]["AppMobile"].ToString());
+                OrderPurchaser += String.Format(result_mobile, "購買人電話", dtData.Rows[0]["AppMobile"].ToString());
 
                 if (dtData.Columns.Contains("AppEmail"))
                 {
@@ -14515,7 +14619,8 @@ namespace Temple.Temples
                     if (rawAppEmail != DBNull.Value)
                     {
                         var appEmailText = rawAppEmail.ToString();
-                        OrderPurchaser += OrderData("購買人信箱", appEmailText);
+                        AppEmail = appEmailText;
+                        OrderPurchaser += String.Format(result_email, "購買人信箱", appEmailText);
                     }
                 }
 
@@ -14602,10 +14707,11 @@ namespace Temple.Temples
                 OrderPurchaser = OrderData("購買人姓名", dtData.Rows[0]["AppName"].ToString());
 
 
-                string result = "<div class=\"OrderData\">\r\n                                                <div class=\"label\">{0}：</div>\r\n                                                <div id=\"AppMobile\" class=\"txt\">{1}</div>\r\n                                            </div>";
+                string result_mobile = "<div class=\"OrderData\">\r\n                                                <div class=\"label\">{0}：</div>\r\n                                                <div id=\"AppMobile\" class=\"txt\">{1}</div>\r\n                                            </div>";
+                string result_email = "<div class=\"OrderData\">\r\n                                                <div class=\"label\">{0}：</div>\r\n                                                <div id=\"AppEmail\" class=\"txt\">{1}</div>\r\n                                            </div>";
 
                 AppMobile = dtData.Rows[0]["AppMobile"].ToString();
-                OrderPurchaser += String.Format(result, "購買人電話", dtData.Rows[0]["AppMobile"].ToString());
+                OrderPurchaser += String.Format(result_mobile, "購買人電話", dtData.Rows[0]["AppMobile"].ToString());
 
                 if (dtData.Columns.Contains("AppEmail"))
                 {
@@ -14613,7 +14719,8 @@ namespace Temple.Temples
                     if (rawAppEmail != DBNull.Value)
                     {
                         var appEmailText = rawAppEmail.ToString();
-                        OrderPurchaser += OrderData("購買人信箱", appEmailText);
+                        AppEmail = appEmailText;
+                        OrderPurchaser += String.Format(result_email, "購買人信箱", appEmailText);
                     }
                 }
                 //OrderPurchaser += OrderData("贈品處理方式", dtData.Rows[0]["AppSendback"].ToString() == "Y" ? "寄回（運費+$100）" : "不寄回");
@@ -14797,10 +14904,11 @@ namespace Temple.Temples
                 OrderPurchaser = OrderData("購買人姓名", dtData.Rows[0]["AppName"].ToString());
 
 
-                string result = "<div class=\"OrderData\">\r\n                                                <div class=\"label\">{0}：</div>\r\n                                                <div id=\"AppMobile\" class=\"txt\">{1}</div>\r\n                                            </div>";
+                string result_mobile = "<div class=\"OrderData\">\r\n                                                <div class=\"label\">{0}：</div>\r\n                                                <div id=\"AppMobile\" class=\"txt\">{1}</div>\r\n                                            </div>";
+                string result_email = "<div class=\"OrderData\">\r\n                                                <div class=\"label\">{0}：</div>\r\n                                                <div id=\"AppEmail\" class=\"txt\">{1}</div>\r\n                                            </div>";
 
                 AppMobile = dtData.Rows[0]["AppMobile"].ToString();
-                OrderPurchaser += String.Format(result, "購買人電話", dtData.Rows[0]["AppMobile"].ToString());
+                OrderPurchaser += String.Format(result_mobile, "購買人電話", dtData.Rows[0]["AppMobile"].ToString());
 
                 if (dtData.Columns.Contains("AppEmail"))
                 {
@@ -14808,7 +14916,8 @@ namespace Temple.Temples
                     if (rawAppEmail != DBNull.Value)
                     {
                         var appEmailText = rawAppEmail.ToString();
-                        OrderPurchaser += OrderData("購買人信箱", appEmailText);
+                        AppEmail = appEmailText;
+                        OrderPurchaser += String.Format(result_email, "購買人信箱", appEmailText);
                     }
                 }
 
@@ -14884,10 +14993,11 @@ namespace Temple.Temples
                 OrderPurchaser = OrderData("購買人姓名", dtData.Rows[0]["AppName"].ToString());
 
 
-                string result = "<div class=\"OrderData\">\r\n                                                <div class=\"label\">{0}：</div>\r\n                                                <div id=\"AppMobile\" class=\"txt\">{1}</div>\r\n                                            </div>";
+                string result_mobile = "<div class=\"OrderData\">\r\n                                                <div class=\"label\">{0}：</div>\r\n                                                <div id=\"AppMobile\" class=\"txt\">{1}</div>\r\n                                            </div>";
+                string result_email = "<div class=\"OrderData\">\r\n                                                <div class=\"label\">{0}：</div>\r\n                                                <div id=\"AppEmail\" class=\"txt\">{1}</div>\r\n                                            </div>";
 
                 AppMobile = dtData.Rows[0]["AppMobile"].ToString();
-                OrderPurchaser += String.Format(result, "購買人電話", dtData.Rows[0]["AppMobile"].ToString());
+                OrderPurchaser += String.Format(result_mobile, "購買人電話", dtData.Rows[0]["AppMobile"].ToString());
 
                 if (dtData.Columns.Contains("AppEmail"))
                 {
@@ -14895,7 +15005,8 @@ namespace Temple.Temples
                     if (rawAppEmail != DBNull.Value)
                     {
                         var appEmailText = rawAppEmail.ToString();
-                        OrderPurchaser += OrderData("購買人信箱", appEmailText);
+                        AppEmail = appEmailText;
+                        OrderPurchaser += String.Format(result_email, "購買人信箱", appEmailText);
                     }
                 }
 
@@ -14974,10 +15085,11 @@ namespace Temple.Temples
                 OrderPurchaser = OrderData("購買人姓名", dtData.Rows[0]["AppName"].ToString());
 
 
-                string result = "<div class=\"OrderData\">\r\n                                                <div class=\"label\">{0}：</div>\r\n                                                <div id=\"AppMobile\" class=\"txt\">{1}</div>\r\n                                            </div>";
+                string result_mobile = "<div class=\"OrderData\">\r\n                                                <div class=\"label\">{0}：</div>\r\n                                                <div id=\"AppMobile\" class=\"txt\">{1}</div>\r\n                                            </div>";
+                string result_email = "<div class=\"OrderData\">\r\n                                                <div class=\"label\">{0}：</div>\r\n                                                <div id=\"AppEmail\" class=\"txt\">{1}</div>\r\n                                            </div>";
 
                 AppMobile = dtData.Rows[0]["AppMobile"].ToString();
-                OrderPurchaser += String.Format(result, "購買人電話", dtData.Rows[0]["AppMobile"].ToString());
+                OrderPurchaser += String.Format(result_mobile, "購買人電話", dtData.Rows[0]["AppMobile"].ToString());
 
                 if (dtData.Columns.Contains("AppEmail"))
                 {
@@ -14985,7 +15097,8 @@ namespace Temple.Temples
                     if (rawAppEmail != DBNull.Value)
                     {
                         var appEmailText = rawAppEmail.ToString();
-                        OrderPurchaser += OrderData("購買人信箱", appEmailText);
+                        AppEmail = appEmailText;
+                        OrderPurchaser += String.Format(result_email, "購買人信箱", appEmailText);
                     }
                 }
 
@@ -15057,10 +15170,11 @@ namespace Temple.Temples
                 OrderPurchaser = OrderData("購買人姓名", dtData.Rows[0]["AppName"].ToString());
 
 
-                string result = "<div class=\"OrderData\">\r\n                                                <div class=\"label\">{0}：</div>\r\n                                                <div id=\"AppMobile\" class=\"txt\">{1}</div>\r\n                                            </div>";
+                string result_mobile = "<div class=\"OrderData\">\r\n                                                <div class=\"label\">{0}：</div>\r\n                                                <div id=\"AppMobile\" class=\"txt\">{1}</div>\r\n                                            </div>";
+                string result_email = "<div class=\"OrderData\">\r\n                                                <div class=\"label\">{0}：</div>\r\n                                                <div id=\"AppEmail\" class=\"txt\">{1}</div>\r\n                                            </div>";
 
                 AppMobile = dtData.Rows[0]["AppMobile"].ToString();
-                OrderPurchaser += String.Format(result, "購買人電話", dtData.Rows[0]["AppMobile"].ToString());
+                OrderPurchaser += String.Format(result_mobile, "購買人電話", dtData.Rows[0]["AppMobile"].ToString());
 
                 if (dtData.Columns.Contains("AppEmail"))
                 {
@@ -15068,7 +15182,8 @@ namespace Temple.Temples
                     if (rawAppEmail != DBNull.Value)
                     {
                         var appEmailText = rawAppEmail.ToString();
-                        OrderPurchaser += OrderData("購買人信箱", appEmailText);
+                        AppEmail = appEmailText;
+                        OrderPurchaser += String.Format(result_email, "購買人信箱", appEmailText);
                     }
                 }
 
@@ -15262,10 +15377,11 @@ namespace Temple.Temples
                 OrderPurchaser = OrderData("購買人姓名", dtData.Rows[0]["AppName"].ToString());
 
 
-                string result = "<div class=\"OrderData\">\r\n                                                <div class=\"label\">{0}：</div>\r\n                                                <div id=\"AppMobile\" class=\"txt\">{1}</div>\r\n                                            </div>";
+                string result_mobile = "<div class=\"OrderData\">\r\n                                                <div class=\"label\">{0}：</div>\r\n                                                <div id=\"AppMobile\" class=\"txt\">{1}</div>\r\n                                            </div>";
+                string result_email = "<div class=\"OrderData\">\r\n                                                <div class=\"label\">{0}：</div>\r\n                                                <div id=\"AppEmail\" class=\"txt\">{1}</div>\r\n                                            </div>";
 
                 AppMobile = dtData.Rows[0]["AppMobile"].ToString();
-                OrderPurchaser += String.Format(result, "購買人電話", dtData.Rows[0]["AppMobile"].ToString());
+                OrderPurchaser += String.Format(result_mobile, "購買人電話", dtData.Rows[0]["AppMobile"].ToString());
 
                 if (dtData.Columns.Contains("AppEmail"))
                 {
@@ -15273,7 +15389,8 @@ namespace Temple.Temples
                     if (rawAppEmail != DBNull.Value)
                     {
                         var appEmailText = rawAppEmail.ToString();
-                        OrderPurchaser += OrderData("購買人信箱", appEmailText);
+                        AppEmail = appEmailText;
+                        OrderPurchaser += String.Format(result_email, "購買人信箱", appEmailText);
                     }
                 }
 
@@ -15353,17 +15470,19 @@ namespace Temple.Temples
                 OrderPurchaser = OrderData("購買人姓名", dtData.Rows[0]["AppName"].ToString());
 
 
-                string result = "<div class=\"OrderData\">\r\n                                                <div class=\"label\">{0}：</div>\r\n                                                <div id=\"AppMobile\" class=\"txt\">{1}</div>\r\n                                            </div>";
+                string result_mobile = "<div class=\"OrderData\">\r\n                                                <div class=\"label\">{0}：</div>\r\n                                                <div id=\"AppMobile\" class=\"txt\">{1}</div>\r\n                                            </div>";
+                string result_email = "<div class=\"OrderData\">\r\n                                                <div class=\"label\">{0}：</div>\r\n                                                <div id=\"AppEmail\" class=\"txt\">{1}</div>\r\n                                            </div>";
 
                 AppMobile = dtData.Rows[0]["AppMobile"].ToString();
-                OrderPurchaser += String.Format(result, "購買人電話", dtData.Rows[0]["AppMobile"].ToString());
+                OrderPurchaser += String.Format(result_mobile, "購買人電話", dtData.Rows[0]["AppMobile"].ToString());
                 if (dtData.Columns.Contains("AppEmail"))
                 {
                     var rawAppEmail = dtData.Rows[0]["AppEmail"];
                     if (rawAppEmail != DBNull.Value)
                     {
                         var appEmailText = rawAppEmail.ToString();
-                        OrderPurchaser += OrderData("購買人信箱", appEmailText);
+                        AppEmail = appEmailText;
+                        OrderPurchaser += String.Format(result_email, "購買人信箱", appEmailText);
                     }
                 }
 
@@ -15425,10 +15544,11 @@ namespace Temple.Temples
                 OrderPurchaser = OrderData("購買人姓名", dtData.Rows[0]["AppName"].ToString());
 
 
-                string result = "<div class=\"OrderData\">\r\n                                                <div class=\"label\">{0}：</div>\r\n                                                <div id=\"AppMobile\" class=\"txt\">{1}</div>\r\n                                            </div>";
+                string result_mobile = "<div class=\"OrderData\">\r\n                                                <div class=\"label\">{0}：</div>\r\n                                                <div id=\"AppMobile\" class=\"txt\">{1}</div>\r\n                                            </div>";
+                string result_email = "<div class=\"OrderData\">\r\n                                                <div class=\"label\">{0}：</div>\r\n                                                <div id=\"AppEmail\" class=\"txt\">{1}</div>\r\n                                            </div>";
 
                 AppMobile = dtData.Rows[0]["AppMobile"].ToString();
-                OrderPurchaser += String.Format(result, "購買人電話", dtData.Rows[0]["AppMobile"].ToString());
+                OrderPurchaser += String.Format(result_mobile, "購買人電話", dtData.Rows[0]["AppMobile"].ToString());
 
                 if (dtData.Columns.Contains("AppEmail"))
                 {
@@ -15436,7 +15556,8 @@ namespace Temple.Temples
                     if (rawAppEmail != DBNull.Value)
                     {
                         var appEmailText = rawAppEmail.ToString();
-                        OrderPurchaser += OrderData("購買人信箱", appEmailText);
+                        AppEmail = appEmailText;
+                        OrderPurchaser += String.Format(result_email, "購買人信箱", appEmailText);
                     }
                 }
 
@@ -15517,10 +15638,11 @@ namespace Temple.Temples
                 OrderPurchaser = OrderData("購買人姓名", dtData.Rows[0]["AppName"].ToString());
 
 
-                string result = "<div class=\"OrderData\">\r\n                                                <div class=\"label\">{0}：</div>\r\n                                                <div id=\"AppMobile\" class=\"txt\">{1}</div>\r\n                                            </div>";
+                string result_mobile = "<div class=\"OrderData\">\r\n                                                <div class=\"label\">{0}：</div>\r\n                                                <div id=\"AppMobile\" class=\"txt\">{1}</div>\r\n                                            </div>";
+                string result_email = "<div class=\"OrderData\">\r\n                                                <div class=\"label\">{0}：</div>\r\n                                                <div id=\"AppEmail\" class=\"txt\">{1}</div>\r\n                                            </div>";
 
                 AppMobile = dtData.Rows[0]["AppMobile"].ToString();
-                OrderPurchaser += String.Format(result, "購買人電話", dtData.Rows[0]["AppMobile"].ToString());
+                OrderPurchaser += String.Format(result_mobile, "購買人電話", dtData.Rows[0]["AppMobile"].ToString());
 
                 if (dtData.Columns.Contains("AppEmail"))
                 {
@@ -15528,7 +15650,8 @@ namespace Temple.Temples
                     if (rawAppEmail != DBNull.Value)
                     {
                         var appEmailText = rawAppEmail.ToString();
-                        OrderPurchaser += OrderData("購買人信箱", appEmailText);
+                        AppEmail = appEmailText;
+                        OrderPurchaser += String.Format(result_email, "購買人信箱", appEmailText);
                     }
                 }
 
@@ -15727,10 +15850,11 @@ namespace Temple.Temples
         //        OrderPurchaser = OrderData("購買人姓名", dtData.Rows[0]["AppName"].ToString());
 
 
-        //        string result = "<div class=\"OrderData\">\r\n                                                <div class=\"label\">{0}：</div>\r\n                                                <div id=\"AppMobile\" class=\"txt\">{1}</div>\r\n                                            </div>";
+        //        string result_mobile = "<div class=\"OrderData\">\r\n                                                <div class=\"label\">{0}：</div>\r\n                                                <div id=\"AppMobile\" class=\"txt\">{1}</div>\r\n                                            </div>";
+        //        string result_email = "<div class=\"OrderData\">\r\n                                                <div class=\"label\">{0}：</div>\r\n                                                <div id=\"AppEmail\" class=\"txt\">{1}</div>\r\n                                            </div>";
 
         //        AppMobile = dtData.Rows[0]["AppMobile"].ToString();
-        //        OrderPurchaser += String.Format(result, "購買人電話", dtData.Rows[0]["AppMobile"].ToString());
+        //        OrderPurchaser += String.Format(result_mobile, "購買人電話", dtData.Rows[0]["AppMobile"].ToString());
         //        OrderPurchaser += OrderData("贈品處理方式", dtData.Rows[0]["AppSendback"].ToString() == "Y" ? "寄回（運費+$100）" : "不寄回");
 
         //        if (dtData.Rows[0]["AppSendback"].ToString() == "Y")
@@ -15805,10 +15929,11 @@ namespace Temple.Temples
         //        OrderPurchaser = OrderData("購買人姓名", dtData.Rows[0]["AppName"].ToString());
 
 
-        //        string result = "<div class=\"OrderData\">\r\n                                                <div class=\"label\">{0}：</div>\r\n                                                <div id=\"AppMobile\" class=\"txt\">{1}</div>\r\n                                            </div>";
+                //string result_mobile = "<div class=\"OrderData\">\r\n                                                <div class=\"label\">{0}：</div>\r\n                                                <div id=\"AppMobile\" class=\"txt\">{1}</div>\r\n                                            </div>";
+                //string result_email = "<div class=\"OrderData\">\r\n                                                <div class=\"label\">{0}：</div>\r\n                                                <div id=\"AppEmail\" class=\"txt\">{1}</div>\r\n                                            </div>";
 
         //        AppMobile = dtData.Rows[0]["AppMobile"].ToString();
-        //        OrderPurchaser += String.Format(result, "購買人電話", dtData.Rows[0]["AppMobile"].ToString());
+        //        OrderPurchaser += String.Format(result_mobile, "購買人電話", dtData.Rows[0]["AppMobile"].ToString());
 
         //        OrderInfo = string.Empty;
 
@@ -15867,10 +15992,11 @@ namespace Temple.Temples
                 OrderPurchaser = OrderData("購買人姓名", dtData.Rows[0]["AppName"].ToString());
 
 
-                string result = "<div class=\"OrderData\">\r\n                                                <div class=\"label\">{0}：</div>\r\n                                                <div id=\"AppMobile\" class=\"txt\">{1}</div>\r\n                                            </div>";
+                string result_mobile = "<div class=\"OrderData\">\r\n                                                <div class=\"label\">{0}：</div>\r\n                                                <div id=\"AppMobile\" class=\"txt\">{1}</div>\r\n                                            </div>";
+                string result_email = "<div class=\"OrderData\">\r\n                                                <div class=\"label\">{0}：</div>\r\n                                                <div id=\"AppEmail\" class=\"txt\">{1}</div>\r\n                                            </div>";
 
                 AppMobile = dtData.Rows[0]["AppMobile"].ToString();
-                OrderPurchaser += String.Format(result, "購買人電話", dtData.Rows[0]["AppMobile"].ToString());
+                OrderPurchaser += String.Format(result_mobile, "購買人電話", dtData.Rows[0]["AppMobile"].ToString());
 
                 if (dtData.Columns.Contains("AppEmail"))
                 {
@@ -15878,7 +16004,8 @@ namespace Temple.Temples
                     if (rawAppEmail != DBNull.Value)
                     {
                         var appEmailText = rawAppEmail.ToString();
-                        OrderPurchaser += OrderData("購買人信箱", appEmailText);
+                        AppEmail = appEmailText;
+                        OrderPurchaser += String.Format(result_email, "購買人信箱", appEmailText);
                     }
                 }
 
@@ -16075,10 +16202,11 @@ namespace Temple.Temples
                 OrderPurchaser = OrderData("購買人姓名", dtData.Rows[0]["AppName"].ToString());
 
 
-                string result = "<div class=\"OrderData\">\r\n                                                <div class=\"label\">{0}：</div>\r\n                                                <div id=\"AppMobile\" class=\"txt\">{1}</div>\r\n                                            </div>";
+                string result_mobile = "<div class=\"OrderData\">\r\n                                                <div class=\"label\">{0}：</div>\r\n                                                <div id=\"AppMobile\" class=\"txt\">{1}</div>\r\n                                            </div>";
+                string result_email = "<div class=\"OrderData\">\r\n                                                <div class=\"label\">{0}：</div>\r\n                                                <div id=\"AppEmail\" class=\"txt\">{1}</div>\r\n                                            </div>";
 
                 AppMobile = dtData.Rows[0]["AppMobile"].ToString();
-                OrderPurchaser += String.Format(result, "購買人電話", dtData.Rows[0]["AppMobile"].ToString());
+                OrderPurchaser += String.Format(result_mobile, "購買人電話", dtData.Rows[0]["AppMobile"].ToString());
 
                 if (dtData.Columns.Contains("AppEmail"))
                 {
@@ -16086,7 +16214,8 @@ namespace Temple.Temples
                     if (rawAppEmail != DBNull.Value)
                     {
                         var appEmailText = rawAppEmail.ToString();
-                        OrderPurchaser += OrderData("購買人信箱", appEmailText);
+                        AppEmail = appEmailText;
+                        OrderPurchaser += String.Format(result_email, "購買人信箱", appEmailText);
                     }
                 }
 
@@ -16210,10 +16339,11 @@ namespace Temple.Temples
                 OrderPurchaser = OrderData("購買人姓名", dtData.Rows[0]["AppName"].ToString());
 
 
-                string result = "<div class=\"OrderData\">\r\n                                                <div class=\"label\">{0}：</div>\r\n                                                <div id=\"AppMobile\" class=\"txt\">{1}</div>\r\n                                            </div>";
+                string result_mobile = "<div class=\"OrderData\">\r\n                                                <div class=\"label\">{0}：</div>\r\n                                                <div id=\"AppMobile\" class=\"txt\">{1}</div>\r\n                                            </div>";
+                string result_email = "<div class=\"OrderData\">\r\n                                                <div class=\"label\">{0}：</div>\r\n                                                <div id=\"AppEmail\" class=\"txt\">{1}</div>\r\n                                            </div>";
 
                 AppMobile = dtData.Rows[0]["AppMobile"].ToString();
-                OrderPurchaser += String.Format(result, "購買人電話", dtData.Rows[0]["AppMobile"].ToString());
+                OrderPurchaser += String.Format(result_mobile, "購買人電話", dtData.Rows[0]["AppMobile"].ToString());
 
                 if (dtData.Columns.Contains("AppEmail"))
                 {
@@ -16221,7 +16351,8 @@ namespace Temple.Temples
                     if (rawAppEmail != DBNull.Value)
                     {
                         var appEmailText = rawAppEmail.ToString();
-                        OrderPurchaser += OrderData("購買人信箱", appEmailText);
+                        AppEmail = appEmailText;
+                        OrderPurchaser += String.Format(result_email, "購買人信箱", appEmailText);
                     }
                 }
 
@@ -16285,10 +16416,11 @@ namespace Temple.Temples
                 OrderPurchaser = OrderData("購買人姓名", dtData.Rows[0]["AppName"].ToString());
 
 
-                string result = "<div class=\"OrderData\">\r\n                                                <div class=\"label\">{0}：</div>\r\n                                                <div id=\"AppMobile\" class=\"txt\">{1}</div>\r\n                                            </div>";
+                string result_mobile = "<div class=\"OrderData\">\r\n                                                <div class=\"label\">{0}：</div>\r\n                                                <div id=\"AppMobile\" class=\"txt\">{1}</div>\r\n                                            </div>";
+                string result_email = "<div class=\"OrderData\">\r\n                                                <div class=\"label\">{0}：</div>\r\n                                                <div id=\"AppEmail\" class=\"txt\">{1}</div>\r\n                                            </div>";
 
                 AppMobile = dtData.Rows[0]["AppMobile"].ToString();
-                OrderPurchaser += String.Format(result, "購買人電話", dtData.Rows[0]["AppMobile"].ToString());
+                OrderPurchaser += String.Format(result_mobile, "購買人電話", dtData.Rows[0]["AppMobile"].ToString());
 
                 if (dtData.Columns.Contains("AppEmail"))
                 {
@@ -16296,7 +16428,8 @@ namespace Temple.Temples
                     if (rawAppEmail != DBNull.Value)
                     {
                         var appEmailText = rawAppEmail.ToString();
-                        OrderPurchaser += OrderData("購買人信箱", appEmailText);
+                        AppEmail = appEmailText;
+                        OrderPurchaser += String.Format(result_email, "購買人信箱", appEmailText);
                     }
                 }
 
@@ -16426,10 +16559,11 @@ namespace Temple.Temples
                 OrderPurchaser = OrderData("購買人姓名", dtData.Rows[0]["AppName"].ToString());
 
 
-                string result = "<div class=\"OrderData\">\r\n                                                <div class=\"label\">{0}：</div>\r\n                                                <div id=\"AppMobile\" class=\"txt\">{1}</div>\r\n                                            </div>";
+                string result_mobile = "<div class=\"OrderData\">\r\n                                                <div class=\"label\">{0}：</div>\r\n                                                <div id=\"AppMobile\" class=\"txt\">{1}</div>\r\n                                            </div>";
+                string result_email = "<div class=\"OrderData\">\r\n                                                <div class=\"label\">{0}：</div>\r\n                                                <div id=\"AppEmail\" class=\"txt\">{1}</div>\r\n                                            </div>";
 
                 AppMobile = dtData.Rows[0]["AppMobile"].ToString();
-                OrderPurchaser += String.Format(result, "購買人電話", dtData.Rows[0]["AppMobile"].ToString());
+                OrderPurchaser += String.Format(result_mobile, "購買人電話", dtData.Rows[0]["AppMobile"].ToString());
 
                 if (dtData.Columns.Contains("AppEmail"))
                 {
@@ -16437,7 +16571,8 @@ namespace Temple.Temples
                     if (rawAppEmail != DBNull.Value)
                     {
                         var appEmailText = rawAppEmail.ToString();
-                        OrderPurchaser += OrderData("購買人信箱", appEmailText);
+                        AppEmail = appEmailText;
+                        OrderPurchaser += String.Format(result_email, "購買人信箱", appEmailText);
                     }
                 }
 
@@ -16541,10 +16676,11 @@ namespace Temple.Temples
                 OrderPurchaser = OrderData("購買人姓名", dtData.Rows[0]["AppName"].ToString());
 
 
-                string result = "<div class=\"OrderData\">\r\n                                                <div class=\"label\">{0}：</div>\r\n                                                <div id=\"AppMobile\" class=\"txt\">{1}</div>\r\n                                            </div>";
+                string result_mobile = "<div class=\"OrderData\">\r\n                                                <div class=\"label\">{0}：</div>\r\n                                                <div id=\"AppMobile\" class=\"txt\">{1}</div>\r\n                                            </div>";
+                string result_email = "<div class=\"OrderData\">\r\n                                                <div class=\"label\">{0}：</div>\r\n                                                <div id=\"AppEmail\" class=\"txt\">{1}</div>\r\n                                            </div>";
 
                 AppMobile = dtData.Rows[0]["AppMobile"].ToString();
-                OrderPurchaser += String.Format(result, "購買人電話", dtData.Rows[0]["AppMobile"].ToString());
+                OrderPurchaser += String.Format(result_mobile, "購買人電話", dtData.Rows[0]["AppMobile"].ToString());
 
                 if (dtData.Columns.Contains("AppEmail"))
                 {
@@ -16552,7 +16688,8 @@ namespace Temple.Temples
                     if (rawAppEmail != DBNull.Value)
                     {
                         var appEmailText = rawAppEmail.ToString();
-                        OrderPurchaser += OrderData("購買人信箱", appEmailText);
+                        AppEmail = appEmailText;
+                        OrderPurchaser += String.Format(result_email, "購買人信箱", appEmailText);
                     }
                 }
 
@@ -16656,10 +16793,11 @@ namespace Temple.Temples
                 OrderPurchaser = OrderData("購買人姓名", dtData.Rows[0]["AppName"].ToString());
 
 
-                string result = "<div class=\"OrderData\">\r\n                                                <div class=\"label\">{0}：</div>\r\n                                                <div id=\"AppMobile\" class=\"txt\">{1}</div>\r\n                                            </div>";
+                string result_mobile = "<div class=\"OrderData\">\r\n                                                <div class=\"label\">{0}：</div>\r\n                                                <div id=\"AppMobile\" class=\"txt\">{1}</div>\r\n                                            </div>";
+                string result_email = "<div class=\"OrderData\">\r\n                                                <div class=\"label\">{0}：</div>\r\n                                                <div id=\"AppEmail\" class=\"txt\">{1}</div>\r\n                                            </div>";
 
                 AppMobile = dtData.Rows[0]["AppMobile"].ToString();
-                OrderPurchaser += String.Format(result, "購買人電話", dtData.Rows[0]["AppMobile"].ToString());
+                OrderPurchaser += String.Format(result_mobile, "購買人電話", dtData.Rows[0]["AppMobile"].ToString());
 
                 if (dtData.Columns.Contains("AppEmail"))
                 {
@@ -16667,7 +16805,8 @@ namespace Temple.Temples
                     if (rawAppEmail != DBNull.Value)
                     {
                         var appEmailText = rawAppEmail.ToString();
-                        OrderPurchaser += OrderData("購買人信箱", appEmailText);
+                        AppEmail = appEmailText;
+                        OrderPurchaser += String.Format(result_email, "購買人信箱", appEmailText);
                     }
                 }
 
@@ -16771,10 +16910,11 @@ namespace Temple.Temples
                 OrderPurchaser = OrderData("購買人姓名", dtData.Rows[0]["AppName"].ToString());
 
 
-                string result = "<div class=\"OrderData\">\r\n                                                <div class=\"label\">{0}：</div>\r\n                                                <div id=\"AppMobile\" class=\"txt\">{1}</div>\r\n                                            </div>";
+                string result_mobile = "<div class=\"OrderData\">\r\n                                                <div class=\"label\">{0}：</div>\r\n                                                <div id=\"AppMobile\" class=\"txt\">{1}</div>\r\n                                            </div>";
+                string result_email = "<div class=\"OrderData\">\r\n                                                <div class=\"label\">{0}：</div>\r\n                                                <div id=\"AppEmail\" class=\"txt\">{1}</div>\r\n                                            </div>";
 
                 AppMobile = dtData.Rows[0]["AppMobile"].ToString();
-                OrderPurchaser += String.Format(result, "購買人電話", dtData.Rows[0]["AppMobile"].ToString());
+                OrderPurchaser += String.Format(result_mobile, "購買人電話", dtData.Rows[0]["AppMobile"].ToString());
 
                 if (dtData.Columns.Contains("AppEmail"))
                 {
@@ -16782,7 +16922,8 @@ namespace Temple.Temples
                     if (rawAppEmail != DBNull.Value)
                     {
                         var appEmailText = rawAppEmail.ToString();
-                        OrderPurchaser += OrderData("購買人信箱", appEmailText);
+                        AppEmail = appEmailText;
+                        OrderPurchaser += String.Format(result_email, "購買人信箱", appEmailText);
                     }
                 }
 

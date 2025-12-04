@@ -108,6 +108,7 @@ namespace twbobibobi.Data
         /// 23-祈安植福
         /// 24-祈安禮斗
         /// 25-千手觀音千燈迎佛法會
+        /// <param name="CodeType">驗證碼方式 0-sms 1-email。</param>
         /// <param name="Code">驗證碼。</param>
         /// <param name="AppMobile">購買人電話。</param>
         /// <param name="Year">資料年份。</param>
@@ -115,7 +116,8 @@ namespace twbobibobi.Data
         public bool AddCAPTCHACode(
             int ApplicantID, 
             int AdminID, 
-            int Kind, 
+            int Kind,
+            int CodeType,
             string Code, 
             string AppMobile, 
             string Year)
@@ -129,8 +131,8 @@ namespace twbobibobi.Data
 
                 string sql = $@"
                     INSERT INTO Temple_{Year}..CAPTCHACode
-                    (ApplicantID, AdminID, Kind, Code, AppMobile, ExpirationDate, ExpirationDateString, Status, CreateDate, CreateDateString)
-                    VALUES (@ApplicantID, @AdminID, @Kind, @Code, @AppMobile, @ExpirationDate, @ExpirationDateString, @Status, @CreateDate, @CreateDateString);
+                    (ApplicantID, AdminID, Kind, CodeType, Code, AppMobile, ExpirationDate, ExpirationDateString, Status, CreateDate, CreateDateString)
+                    VALUES (@ApplicantID, @AdminID, @Kind, @CodeType, @Code, @AppMobile, @ExpirationDate, @ExpirationDateString, @Status, @CreateDate, @CreateDateString);
                     SELECT CAST(SCOPE_IDENTITY() AS INT);";
 
                 using (var adapter = new DatabaseAdapter(sql, this.DBSource))
@@ -138,6 +140,7 @@ namespace twbobibobi.Data
                     adapter.AddParameterToSelectCommand("@ApplicantID", ApplicantID);
                     adapter.AddParameterToSelectCommand("@AdminID", AdminID);
                     adapter.AddParameterToSelectCommand("@Kind", Kind);
+                    adapter.AddParameterToSelectCommand("@CodeType", CodeType);
                     adapter.AddParameterToSelectCommand("@Code", Code);
                     adapter.AddParameterToSelectCommand("@AppMobile", AppMobile);
                     adapter.AddParameterToSelectCommand("@Status", 0); // 0-未使用 1-已使用 -1-錯誤
@@ -30809,6 +30812,7 @@ namespace twbobibobi.Data
         /// 23-祈安植福
         /// 24-祈安禮斗
         /// 25-千手觀音千燈迎佛法會
+        /// <param name="CodeType">驗證碼方式 0-sms 1-email。</param>
         /// <param name="Year">年度資料表後綴（例如 "2025"）。</param>
         /// <param name="Codeerror">
         /// 錯誤代碼：
@@ -30826,6 +30830,7 @@ namespace twbobibobi.Data
             int ApplicantID,
             int AdminID,
             int Kind,
+            int CodeType,
             string Year,
             ref string Codeerror)
         {
@@ -30842,6 +30847,7 @@ namespace twbobibobi.Data
                     WHERE ApplicantID = @ApplicantID
                       AND AdminID = @AdminID
                       AND Kind = @Kind
+                      AND CodeType = @CodeType 
                       AND ExpirationDate > @ExpirationDate
                     ORDER BY CreateDate DESC";
 
@@ -30852,6 +30858,7 @@ namespace twbobibobi.Data
                     adapter.AddParameterToSelectCommand("@ApplicantID", ApplicantID);
                     adapter.AddParameterToSelectCommand("@AdminID", AdminID);
                     adapter.AddParameterToSelectCommand("@Kind", Kind);
+                    adapter.AddParameterToSelectCommand("@CodeType", CodeType);
                     adapter.AddParameterToSelectCommand("@ExpirationDate", dtNow);
                     adapter.Fill(dtGetData);
                 }
@@ -30916,6 +30923,7 @@ namespace twbobibobi.Data
         /// 23-祈安植福
         /// 24-祈安禮斗
         /// 25-千手觀音千燈迎佛法會
+        /// <param name="CodeType">驗證碼方式 0-sms 1-email。</param>
         /// <param name="AppMobile">購買人電話。</param>
         /// <param name="Year">年度資料表名稱後綴，例如 "2025"。</param>
         /// <param name="Codeerror">若超出限制，回傳錯誤代碼（-5 表示超過上限）。</param>
@@ -30927,6 +30935,7 @@ namespace twbobibobi.Data
             int ApplicantID,
             int AdminID,
             int Kind,
+            int CodeType,
             string AppMobile,
             string Year,
             ref string Codeerror)
@@ -30944,6 +30953,7 @@ namespace twbobibobi.Data
                     WHERE ApplicantID = @ApplicantID 
                       AND AdminID = @AdminID 
                       AND Kind = @Kind 
+                      AND CodeType = @CodeType 
                       AND AppMobile = @AppMobile
                       AND CreateDate BETWEEN @StartDate AND @EndDate
                     ORDER BY CreateDate DESC";
@@ -30955,6 +30965,7 @@ namespace twbobibobi.Data
                     adapter.AddParameterToSelectCommand("@ApplicantID", ApplicantID);
                     adapter.AddParameterToSelectCommand("@AdminID", AdminID);
                     adapter.AddParameterToSelectCommand("@Kind", Kind);
+                    adapter.AddParameterToSelectCommand("@CodeType", CodeType);
                     adapter.AddParameterToSelectCommand("@AppMobile", AppMobile);
                     adapter.AddParameterToSelectCommand("@StartDate", dtNow.ToString("yyyy-MM-dd 00:00:00"));
                     adapter.AddParameterToSelectCommand("@EndDate", dtNow.ToString("yyyy-MM-dd 23:59:59"));
@@ -34095,6 +34106,7 @@ namespace twbobibobi.Data
         /// 23-祈安植福
         /// 24-祈安禮斗
         /// 25-千手觀音千燈迎佛法會
+        /// <param name="CodeType">驗證碼方式 0-sms 1-email。</param>
         /// <param name="Year">年度字串（例如："2025"）。</param>
         /// <returns>
         /// 回傳 <c>true</c> 表示更新成功；
@@ -34103,7 +34115,8 @@ namespace twbobibobi.Data
         public bool UpdateCAPTCHACodeStatus(
             int AdminID, 
             int ApplicantID, 
-            int Kind, 
+            int Kind,
+            int CodeType,
             string Year)
         {
             bool result = false;
@@ -34119,6 +34132,7 @@ namespace twbobibobi.Data
                     WHERE ApplicantID = @ApplicantID 
                       AND AdminID = @AdminID 
                       AND Kind = @Kind 
+                      AND CodeType = @CodeType 
                     ORDER BY CreateDate DESC";
 
                 DataTable dtGetData = new DataTable();
@@ -34129,6 +34143,7 @@ namespace twbobibobi.Data
                     adapter.AddParameterToSelectCommand("@ApplicantID", ApplicantID);
                     adapter.AddParameterToSelectCommand("@AdminID", AdminID);
                     adapter.AddParameterToSelectCommand("@Kind", Kind);
+                    adapter.AddParameterToSelectCommand("@CodeType", CodeType);
                     adapter.Fill(dtGetData);
                 }
 
@@ -34136,7 +34151,7 @@ namespace twbobibobi.Data
                 {
                     using (BasePage basePage = new BasePage())
                     {
-                        if (UpdateCAPTCHACodeStatus(codeId, Year))
+                        if (UpdateCAPTCHACodeStatus(codeId, CodeType, Year))
                         {
                             result = true;
                         }
@@ -34157,10 +34172,12 @@ namespace twbobibobi.Data
         /// 更新指定驗證碼（CAPTCHACode）的使用狀態，並記錄使用時間。
         /// </summary>
         /// <param name="CodeID">驗證碼識別碼</param>
+        /// <param name="CodeType">驗證碼方式 0-sms 1-email。</param>
         /// <param name="Year">資料庫年度</param>
         /// <returns>true=更新成功；false=更新失敗</returns>
         public bool UpdateCAPTCHACodeStatus(
-            int CodeID, 
+            int CodeID,
+            int CodeType,
             string Year)
         {
             bool bResult = false;
@@ -34173,6 +34190,7 @@ namespace twbobibobi.Data
                 string sql = $@"
                                 UPDATE Temple_{Year}..CAPTCHACode
                                 SET 
+                                    CodeType = @CodeType,
                                     Status = 1,
                                     UseDate = @UseDate,
                                     UseDateString = @UseDateString
@@ -34184,6 +34202,7 @@ namespace twbobibobi.Data
                     adapter.AddParameterToSelectCommand("@UseDate", dtNow.ToString("yyyy-MM-dd HH:mm:ss"));
                     adapter.AddParameterToSelectCommand("@UseDateString", dtNow.ToString("yyyy-MM-dd"));
                     adapter.AddParameterToSelectCommand("@CodeID", CodeID);
+                    adapter.AddParameterToSelectCommand("@CodeType", CodeType);
 
                     int res = adapter.ExecuteSql();
                     if (res > 0)
