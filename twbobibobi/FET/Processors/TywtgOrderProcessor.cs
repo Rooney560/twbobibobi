@@ -399,7 +399,7 @@ namespace twbobibobi.FET.Processors
             {
                 int lightsType = _lightDAC.GetLightsType_ty(applicantId, _year);
 
-                string msg = "感謝購買,已成功付款" + totalAmount + "元,您的訂單編號 ";
+                string msg = "【保必保庇】線上宮廟服務平臺，感謝購買，已成功付款" + totalAmount + "元，您的訂單編號 ";
 
                 var lightsArr = new string[lightsList.Length];
                 _lightDAC.UpdateLights_ty_Info(
@@ -668,7 +668,7 @@ namespace twbobibobi.FET.Processors
             {
                 int purdueType = _lightDAC.GetPurdueType_ty(applicantId, _year);
 
-                string msg = "感謝購買,已成功付款" + totalAmount + "元,您的訂單編號 ";
+                string msg = "【保必保庇】線上宮廟服務平臺，感謝購買，已成功付款" + totalAmount + "元，您的訂單編號 ";
 
                 var purdueArr = new string[purdueList.Length];
                 _lightDAC.UpdatePurdue_ty_Info(
@@ -773,7 +773,7 @@ namespace twbobibobi.FET.Processors
             DataTable dtCharge = _lightDAC.GetChargeLog_Supplies_ty(OrderId, _year);
             if (dtCharge != null && dtCharge.Rows.Count > 0 && Convert.ToInt32(dtCharge.Rows[0]["Status"]) == 0)
             {
-                string msg = "感謝購買,已成功付款" + totalAmount + "元,您的訂單編號 ";
+                string msg = "【保必保庇】線上宮廟服務平臺，感謝購買，已成功付款" + totalAmount + "元，您的訂單編號 ";
 
                 var suppliesArr = new string[suppliesList.Length];
                 _lightDAC.UpdateSupplies_ty_Info(
@@ -877,7 +877,7 @@ namespace twbobibobi.FET.Processors
             DataTable dtCharge = _lightDAC.GetChargeLog_EmperorGuansheng_ty(OrderId, _year);
             if (dtCharge != null && dtCharge.Rows.Count > 0 && Convert.ToInt32(dtCharge.Rows[0]["Status"]) == 0)
             {
-                string msg = "感謝購買,已成功付款" + totalAmount + "元,您的訂單編號 ";
+                string msg = "【保必保庇】線上宮廟服務平臺，感謝購買，已成功付款" + totalAmount + "元，您的訂單編號 ";
 
                 var emperorGuanshengArr = new string[emperorGuanshengList.Length];
                 _lightDAC.UpdateEmperorGuansheng_ty_Info(
@@ -981,7 +981,7 @@ namespace twbobibobi.FET.Processors
             DataTable dtCharge = _lightDAC.GetChargeLog_Supplies3_ty(OrderId, _year);
             if (dtCharge != null && dtCharge.Rows.Count > 0 && Convert.ToInt32(dtCharge.Rows[0]["Status"]) == 0)
             {
-                string msg = "感謝購買,已成功付款" + totalAmount + "元,您的訂單編號 ";
+                string msg = "【保必保庇】線上宮廟服務平臺，感謝購買，已成功付款" + totalAmount + "元，您的訂單編號 ";
 
                 var suppliesArr = new string[suppliesList.Length];
                 _lightDAC.UpdateSupplies3_ty_Info(
@@ -1087,7 +1087,7 @@ namespace twbobibobi.FET.Processors
             {
                 int qnlightType = _lightDAC.GetQnLightType_ty(applicantId, _year);
 
-                string msg = "感謝購買,已成功付款" + totalAmount + "元,您的訂單編號 ";
+                string msg = "【保必保庇】線上宮廟服務平臺，感謝購買，已成功付款" + totalAmount + "元，您的訂單編號 ";
 
                 var qnlightArr = new string[qnlightList.Length];
                 _lightDAC.UpdateQnLight_ty_Info(

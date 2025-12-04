@@ -329,7 +329,7 @@ namespace twbobibobi.FET.Processors
             {
                 int lightsType = _lightDAC.GetLightsType_wjsan(applicantId, _year);
 
-                string msg = "感謝購買,已成功付款" + totalAmount + "元,您的訂單編號 ";
+                string msg = "【保必保庇】線上宮廟服務平臺，感謝購買，已成功付款" + totalAmount + "元，您的訂單編號 ";
 
                 var lightsArr = new string[lightsList.Length];
                 _lightDAC.UpdateLights_wjsan_Info(
@@ -460,7 +460,7 @@ namespace twbobibobi.FET.Processors
             {
                 int purdueType = _lightDAC.GetPurdueType_wjsan(applicantId, _year);
 
-                string msg = "感謝購買,已成功付款" + totalAmount + "元,您的訂單編號 ";
+                string msg = "【保必保庇】線上宮廟服務平臺，感謝購買，已成功付款" + totalAmount + "元，您的訂單編號 ";
 
                 var purdueArr = new string[purdueList.Length];
                 _lightDAC.UpdatePurdue_wjsan_Info(
@@ -567,7 +567,7 @@ namespace twbobibobi.FET.Processors
             {
                 int andouType = _lightDAC.GetAnDouType_wjsan(applicantId, _year);
 
-                string msg = "感謝購買,已成功付款" + totalAmount + "元,您的訂單編號 ";
+                string msg = "【保必保庇】線上宮廟服務平臺，感謝購買，已成功付款" + totalAmount + "元，您的訂單編號 ";
 
                 var andouArr = new string[andouList.Length];
                 _lightDAC.UpdateAnDou_wjsan_Info(
@@ -675,7 +675,7 @@ namespace twbobibobi.FET.Processors
             {
                 int andouType = _lightDAC.GetHuaguoType_wjsan(applicantId, _year);
 
-                string msg = "感謝購買,已成功付款" + totalAmount + "元,您的訂單編號 ";
+                string msg = "【保必保庇】線上宮廟服務平臺，感謝購買，已成功付款" + totalAmount + "元，您的訂單編號 ";
 
                 var andouArr = new string[andouList.Length];
                 _lightDAC.UpdateHuaguo_wjsan_Info(

@@ -77,7 +77,7 @@ namespace Temple.FET.Lights
 
                             int adminID = 10;
 
-                            string msg = "感謝購買,已成功付款" + cost + "元,您的訂單編號 ";
+                            string msg = "【保必保庇】線上宮廟服務平臺，感謝購買，已成功付款" + cost + "元，您的訂單編號 ";
 
                             objLightDAC.UpdateLights_Luer_Info(aid, type, Year, ref msg, ref lightslist, ref Lightslist);
                             //DataTable dtapplicantinfo = objDatabaseHelper.Getapplicantinfo_Lights_Luer(aid, adminID, Year);

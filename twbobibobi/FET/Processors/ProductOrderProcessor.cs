@@ -267,7 +267,7 @@ namespace twbobibobi.FET.Processors
             DataTable dtCharge = _lightDAC.GetChargeLog_Product(OrderId, _year);
             if (dtCharge != null && dtCharge.Rows.Count > 0 && Convert.ToInt32(dtCharge.Rows[0]["Status"]) == 0)
             {
-                string msg = "感謝購買,已成功付款" + totalAmount + "元,您的訂單編號 ";
+                string msg = "【保必保庇】線上宮廟服務平臺，感謝購買，已成功付款" + totalAmount + "元，您的訂單編號 ";
 
                 var productArr = new string[productList.Length];
                 _lightDAC.UpdateProductInfo(

@@ -923,6 +923,7 @@
                                     <span class="AppMobile" style="color: red;">我們將會寄發簡訊至您的購買人電話，已驗證您的電話是否正確。(每筆每日以3次為限)<br />
                                         請輸入驗證碼後，再點選您所要支付的按鈕。
                                     </span>
+                                    <span class="AppMobile" style="color: blue;">※如果收不到手機驗證碼，請改用EMAIL驗證。</span>
                                 </div>
                                 <div class="AppEmail">
                                     <h1 class="TempleName AppEmail" id="AppEmail" style="display:inline;"><%=AppEmail %></h1>

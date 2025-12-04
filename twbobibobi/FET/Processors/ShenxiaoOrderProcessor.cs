@@ -241,7 +241,7 @@ namespace twbobibobi.FET.Processors
             //{
             //    int lightsType = _dbHelper.GetLightsType_sx(applicantId, _year);
 
-            //    string msg = "感謝購買,已成功付款" + totalAmount + "元,您的訂單編號 ";
+            //    string msg = "【保必保庇】線上宮廟服務平臺，感謝購買，已成功付款" + totalAmount + "元，您的訂單編號 ";
 
             //    var lightsArr = new string[lightsList.Length];
             //    _dbHelper.UpdateLights_sx_Info(

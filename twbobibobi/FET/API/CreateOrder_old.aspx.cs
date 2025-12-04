@@ -6967,7 +6967,7 @@ namespace Temple.FET.APITEST
         //                    {
         //                        int LightsType = objLightDAC.GetLightsType_da(aid, Year);
 
-        //                        string msg = "感謝購買,已成功付款" + cost + "元,您的訂單編號 ";
+        //                        string msg = "【保必保庇】線上宮廟服務平臺，感謝購買，已成功付款" + cost + "元，您的訂單編號 ";
 
         //                        //更新點燈資料表並取得訂單編號
         //                        objLightDAC.UpdateLights_da_Info(aid, LightsType, Year, ref msg, ref lightslist, ref Lightslist);
@@ -7226,7 +7226,7 @@ namespace Temple.FET.APITEST
         //                    {
         //                        int LightsType = objLightDAC.GetLightsType_h(aid, Year);
 
-        //                        string msg = "感謝購買,已成功付款" + cost + "元,您的訂單編號 ";
+        //                        string msg = "【保必保庇】線上宮廟服務平臺，感謝購買，已成功付款" + cost + "元，您的訂單編號 ";
 
         //                        //更新點燈資料表並取得訂單編號
         //                        objLightDAC.UpdateLights_h_Info(aid, LightsType, Year, ref msg, ref lightslist, ref Lightslist);
@@ -7484,7 +7484,7 @@ namespace Temple.FET.APITEST
         //                    {
         //                        int LightsType = objLightDAC.GetLightsType_wu(aid, Year);
 
-        //                        string msg = "感謝購買,已成功付款" + cost + "元,您的訂單編號 ";
+        //                        string msg = "【保必保庇】線上宮廟服務平臺，感謝購買，已成功付款" + cost + "元，您的訂單編號 ";
 
         //                        //更新點燈資料表並取得訂單編號
         //                        objLightDAC.UpdateLights_wu_Info(aid, LightsType, Year, ref msg, ref lightslist, ref Lightslist);
@@ -7743,7 +7743,7 @@ namespace Temple.FET.APITEST
         //                    {
         //                        int LightsType = objLightDAC.GetLightsType_Fu(aid, Year);
 
-        //                        string msg = "感謝購買,已成功付款" + cost + "元,您的訂單編號 ";
+        //                        string msg = "【保必保庇】線上宮廟服務平臺，感謝購買，已成功付款" + cost + "元，您的訂單編號 ";
 
         //                        //更新點燈資料表並取得訂單編號
         //                        objLightDAC.UpdateLights_Fu_Info(aid, LightsType, Year, ref msg, ref lightslist, ref Lightslist);
@@ -8004,7 +8004,7 @@ namespace Temple.FET.APITEST
         //                    {
         //                        int LightsType = objLightDAC.GetLightsType_Luer(aid, Year);
 
-        //                        string msg = "感謝購買,已成功付款" + cost + "元,您的訂單編號 ";
+        //                        string msg = "【保必保庇】線上宮廟服務平臺，感謝購買，已成功付款" + cost + "元，您的訂單編號 ";
 
         //                        //更新點燈資料表並取得訂單編號
         //                        objLightDAC.UpdateLights_Luer_Info(aid, LightsType, Year, ref msg, ref lightslist, ref Lightslist);
@@ -8263,7 +8263,7 @@ namespace Temple.FET.APITEST
         //                    {
         //                        int LightsType = objLightDAC.GetLightsType_ty(aid, Year);
 
-        //                        string msg = "感謝購買,已成功付款" + cost + "元,您的訂單編號 ";
+        //                        string msg = "【保必保庇】線上宮廟服務平臺，感謝購買，已成功付款" + cost + "元，您的訂單編號 ";
 
         //                        //更新點燈資料表並取得訂單編號
         //                        objLightDAC.UpdateLights_ty_Info(aid, LightsType, Year, ref msg, ref lightslist, ref Lightslist);
@@ -8470,7 +8470,7 @@ namespace Temple.FET.APITEST
         //                    {
         //                        int LightsType = 21;
 
-        //                        string msg = "感謝購買,已成功付款" + cost + "元,您的訂單編號 ";
+        //                        string msg = "【保必保庇】線上宮廟服務平臺，感謝購買，已成功付款" + cost + "元，您的訂單編號 ";
 
         //                        //更新點燈資料表並取得訂單編號
         //                        objLightDAC.UpdateLights_ty_mom_Info(aid, LightsType, Year, ref msg, ref lightslist, ref Lightslist);
@@ -8731,7 +8731,7 @@ namespace Temple.FET.APITEST
         //                    {
         //                        int LightsType = objLightDAC.GetLightsType_Fw(aid, Year);
 
-        //                        string msg = "感謝購買,已成功付款" + cost + "元,您的訂單編號 ";
+        //                        string msg = "【保必保庇】線上宮廟服務平臺，感謝購買，已成功付款" + cost + "元，您的訂單編號 ";
 
         //                        //更新點燈資料表並取得訂單編號
         //                        objLightDAC.UpdateLights_Fw_Info(aid, LightsType, Year, ref msg, ref lightslist, ref Lightslist);
@@ -8992,7 +8992,7 @@ namespace Temple.FET.APITEST
         //                    {
         //                        int AnDouType = objLightDAC.GetAnDouType_Fw(aid, Year);
 
-        //                        string msg = "感謝購買,已成功付款" + cost + "元,您的訂單編號 ";
+        //                        string msg = "【保必保庇】線上宮廟服務平臺，感謝購買，已成功付款" + cost + "元，您的訂單編號 ";
 
         //                        //更新點燈資料表並取得訂單編號
         //                        objLightDAC.UpdateAnDou_Fw_Info(aid, AnDouType, Year, ref msg, ref andoulist, ref AnDoulist);
@@ -9250,7 +9250,7 @@ namespace Temple.FET.APITEST
         //                    {
         //                        int LightsType = objLightDAC.GetLightsType_dh(aid, Year);
 
-        //                        string msg = "感謝購買,已成功付款" + cost + "元,您的訂單編號 ";
+        //                        string msg = "【保必保庇】線上宮廟服務平臺，感謝購買，已成功付款" + cost + "元，您的訂單編號 ";
 
         //                        //更新點燈資料表並取得訂單編號
         //                        objLightDAC.UpdateLights_dh_Info(aid, LightsType, Year, ref msg, ref lightslist, ref Lightslist);
@@ -9531,7 +9531,7 @@ namespace Temple.FET.APITEST
         //                    {
         //                        int LightsType = objLightDAC.GetLightsType_Lk(aid, Year);
 
-        //                        string msg = "感謝購買,已成功付款" + cost + "元,您的訂單編號 ";
+        //                        string msg = "【保必保庇】線上宮廟服務平臺，感謝購買，已成功付款" + cost + "元，您的訂單編號 ";
 
         //                        //更新點燈資料表並取得訂單編號
         //                        objLightDAC.UpdateLights_Lk_Info(aid, LightsType, Year, ref msg, ref lightslist, ref Lightslist);
@@ -9820,7 +9820,7 @@ namespace Temple.FET.APITEST
         //                    {
         //                        int LightsType = objLightDAC.GetLightsType_ma(aid, Year);
 
-        //                        string msg = "感謝購買,已成功付款" + cost + "元,您的訂單編號 ";
+        //                        string msg = "【保必保庇】線上宮廟服務平臺，感謝購買，已成功付款" + cost + "元，您的訂單編號 ";
 
         //                        //更新點燈資料表並取得訂單編號
         //                        objLightDAC.UpdateLights_ma_Info(aid, LightsType, Year, ref msg, ref lightslist, ref Lightslist);
@@ -10143,7 +10143,7 @@ namespace Temple.FET.APITEST
         //                    {
         //                        int LightsType = objLightDAC.GetLightsType_jb(aid, Year);
 
-        //                        string msg = "感謝購買,已成功付款" + cost + "元,您的訂單編號 ";
+        //                        string msg = "【保必保庇】線上宮廟服務平臺，感謝購買，已成功付款" + cost + "元，您的訂單編號 ";
 
         //                        //更新點燈資料表並取得訂單編號
         //                        objLightDAC.UpdateLights_jb_Info(aid, LightsType, Year, ref msg, ref lightslist, ref Lightslist);
@@ -10432,7 +10432,7 @@ namespace Temple.FET.APITEST
         //                    {
         //                        int LightsType = objLightDAC.GetLightsType_wjsan(aid, Year);
 
-        //                        string msg = "感謝購買,已成功付款" + cost + "元,您的訂單編號 ";
+        //                        string msg = "【保必保庇】線上宮廟服務平臺，感謝購買，已成功付款" + cost + "元，您的訂單編號 ";
 
         //                        //更新點燈資料表並取得訂單編號
         //                        objLightDAC.UpdateLights_wjsan_Info(aid, LightsType, Year, ref msg, ref lightslist, ref Lightslist);
@@ -10721,7 +10721,7 @@ namespace Temple.FET.APITEST
         //                    {
         //                        int AnDouType = objLightDAC.GetAnDouType_wjsan(aid, Year);
 
-        //                        string msg = "感謝購買,已成功付款" + cost + "元,您的訂單編號 ";
+        //                        string msg = "【保必保庇】線上宮廟服務平臺，感謝購買，已成功付款" + cost + "元，您的訂單編號 ";
 
         //                        //更新點燈資料表並取得訂單編號
         //                        objLightDAC.UpdateAnDou_wjsan_Info(aid, AnDouType, Year, ref msg, ref andoulist, ref AnDoulist);
@@ -11010,7 +11010,7 @@ namespace Temple.FET.APITEST
         //                    {
         //                        int LightsType = objLightDAC.GetLightsType_ld(aid, Year);
 
-        //                        string msg = "感謝購買,已成功付款" + cost + "元,您的訂單編號 ";
+        //                        string msg = "【保必保庇】線上宮廟服務平臺，感謝購買，已成功付款" + cost + "元，您的訂單編號 ";
 
         //                        //更新點燈資料表並取得訂單編號
         //                        objLightDAC.UpdateLights_ld_Info(aid, LightsType, Year, ref msg, ref lightslist, ref Lightslist);
@@ -11299,7 +11299,7 @@ namespace Temple.FET.APITEST
         //                    {
         //                        int LightsType = objLightDAC.GetLightsType_wh(aid, Year);
 
-        //                        string msg = "感謝購買,已成功付款" + cost + "元,您的訂單編號 ";
+        //                        string msg = "【保必保庇】線上宮廟服務平臺，感謝購買，已成功付款" + cost + "元，您的訂單編號 ";
 
         //                        //更新點燈資料表並取得訂單編號
         //                        objLightDAC.UpdateLights_wh_Info(aid, LightsType, Year, ref msg, ref lightslist, ref Lightslist);
@@ -11661,7 +11661,7 @@ namespace Temple.FET.APITEST
         //                        //更新點燈資料表並取得訂單編號
         //                        objLightDAC.UpdatePurdue_da_Info(aid, PurdueType, Year, ref purduelist, ref Purduelist);
 
-        //                        string msg = "感謝購買,已成功付款" + cost + "元,您的訂單編號 ";
+        //                        string msg = "【保必保庇】線上宮廟服務平臺，感謝購買，已成功付款" + cost + "元，您的訂單編號 ";
 
         //                        for (int i = 0; i < purduelist.Length; i++)
         //                        {
@@ -12047,7 +12047,7 @@ namespace Temple.FET.APITEST
         //                        //更新點燈資料表並取得訂單編號
         //                        objLightDAC.UpdatePurdue_h_Info(aid, PurdueType, Year, ref purduelist, ref Purduelist);
 
-        //                        string msg = "感謝購買,已成功付款" + cost + "元,您的訂單編號 ";
+        //                        string msg = "【保必保庇】線上宮廟服務平臺，感謝購買，已成功付款" + cost + "元，您的訂單編號 ";
 
         //                        for (int i = 0; i < purduelist.Length; i++)
         //                        {
@@ -12307,7 +12307,7 @@ namespace Temple.FET.APITEST
         //                        //更新點燈資料表並取得訂單編號
         //                        objLightDAC.UpdatePurdue_wu_Info(aid, PurdueType, Year, ref purduelist, ref Purduelist);
 
-        //                        string msg = "感謝購買,已成功付款" + cost + "元,您的訂單編號 ";
+        //                        string msg = "【保必保庇】線上宮廟服務平臺，感謝購買，已成功付款" + cost + "元，您的訂單編號 ";
 
         //                        for (int i = 0; i < purduelist.Length; i++)
         //                        {
@@ -12613,7 +12613,7 @@ namespace Temple.FET.APITEST
         //                        //更新點燈資料表並取得訂單編號
         //                        objLightDAC.UpdatePurdue_Fu_Info(aid, PurdueType, Year, ref purduelist, ref Purduelist);
 
-        //                        string msg = "感謝購買,已成功付款" + cost + "元,您的訂單編號 ";
+        //                        string msg = "【保必保庇】線上宮廟服務平臺，感謝購買，已成功付款" + cost + "元，您的訂單編號 ";
 
         //                        for (int i = 0; i < purduelist.Length; i++)
         //                        {
@@ -12873,7 +12873,7 @@ namespace Temple.FET.APITEST
         //                        //更新點燈資料表並取得訂單編號
         //                        objLightDAC.UpdatePurdue_Luer_Info(aid, PurdueType, Year, ref purduelist, ref Purduelist);
 
-        //                        string msg = "感謝購買,已成功付款" + cost + "元,您的訂單編號 ";
+        //                        string msg = "【保必保庇】線上宮廟服務平臺，感謝購買，已成功付款" + cost + "元，您的訂單編號 ";
 
         //                        for (int i = 0; i < purduelist.Length; i++)
         //                        {
@@ -13205,7 +13205,7 @@ namespace Temple.FET.APITEST
         //                        //更新點燈資料表並取得訂單編號
         //                        objLightDAC.UpdatePurdue_ty_Info(aid, PurdueType, Year, ref purduelist, ref Purduelist);
 
-        //                        string msg = "感謝購買,已成功付款" + cost + "元,您的訂單編號 ";
+        //                        string msg = "【保必保庇】線上宮廟服務平臺，感謝購買，已成功付款" + cost + "元，您的訂單編號 ";
 
         //                        for (int i = 0; i < purduelist.Length; i++)
         //                        {
@@ -13465,7 +13465,7 @@ namespace Temple.FET.APITEST
         //                        //更新點燈資料表並取得訂單編號
         //                        objLightDAC.UpdatePurdue_Fw_Info(aid, PurdueType, Year, ref purduelist, ref Purduelist);
 
-        //                        string msg = "感謝購買,已成功付款" + cost + "元,您的訂單編號 ";
+        //                        string msg = "【保必保庇】線上宮廟服務平臺，感謝購買，已成功付款" + cost + "元，您的訂單編號 ";
 
         //                        for (int i = 0; i < purduelist.Length; i++)
         //                        {
@@ -13819,7 +13819,7 @@ namespace Temple.FET.APITEST
         //                        //更新點燈資料表並取得訂單編號
         //                        objLightDAC.UpdatePurdue_dh_Info(aid, PurdueType, Year, ref purduelist, ref Purduelist);
 
-        //                        string msg = "感謝購買,已成功付款" + cost + "元,您的訂單編號 ";
+        //                        string msg = "【保必保庇】線上宮廟服務平臺，感謝購買，已成功付款" + cost + "元，您的訂單編號 ";
 
         //                        for (int i = 0; i < purduelist.Length; i++)
         //                        {
@@ -14079,7 +14079,7 @@ namespace Temple.FET.APITEST
         //                        //更新點燈資料表並取得訂單編號
         //                        objLightDAC.UpdatePurdue_Lk_Info(aid, PurdueType, Year, ref purduelist, ref Purduelist);
 
-        //                        string msg = "感謝購買,已成功付款" + cost + "元,您的訂單編號 ";
+        //                        string msg = "【保必保庇】線上宮廟服務平臺，感謝購買，已成功付款" + cost + "元，您的訂單編號 ";
 
         //                        for (int i = 0; i < purduelist.Length; i++)
         //                        {
@@ -14341,7 +14341,7 @@ namespace Temple.FET.APITEST
         //                        //更新點燈資料表並取得訂單編號
         //                        objLightDAC.UpdatePurdue_ma_Info(aid, PurdueType, Year, ref purduelist, ref Purduelist);
 
-        //                        string msg = "感謝購買,已成功付款" + cost + "元,您的訂單編號 ";
+        //                        string msg = "【保必保庇】線上宮廟服務平臺，感謝購買，已成功付款" + cost + "元，您的訂單編號 ";
 
         //                        for (int i = 0; i < purduelist.Length; i++)
         //                        {
@@ -14614,7 +14614,7 @@ namespace Temple.FET.APITEST
         //                        //更新點燈資料表並取得訂單編號
         //                        objLightDAC.UpdatePurdue_mazu_Info(aid, PurdueType, Year, ref purduelist, ref Purduelist);
 
-        //                        string msg = "感謝購買,已成功付款" + cost + "元,您的訂單編號 ";
+        //                        string msg = "【保必保庇】線上宮廟服務平臺，感謝購買，已成功付款" + cost + "元，您的訂單編號 ";
 
         //                        for (int i = 0; i < purduelist.Length; i++)
         //                        {
@@ -14782,7 +14782,7 @@ namespace Temple.FET.APITEST
         //                    objLightDAC.UpdateProductInfo(aid, adminID, dtNow.Year.ToString(), ref productlist, ref Productlist);
         //                    objLightDAC.UpdateCount2Product(aid, dtNow.Year.ToString()); //更新購買數量至商品表or商品類別表
 
-        //                    string msg = "感謝購買,已成功付款" + total + "元,您的訂單編號 ";
+        //                    string msg = "【保必保庇】線上宮廟服務平臺，感謝購買，已成功付款" + total + "元，您的訂單編號 ";
 
         //                    for (int i = 0; i < productlist.Length; i++)
         //                    {
@@ -14933,7 +14933,7 @@ namespace Temple.FET.APITEST
         //                    objLightDAC.UpdateProductInfo(aid, adminID, dtNow.Year.ToString(), ref productlist, ref Productlist);
         //                    objLightDAC.UpdateCount2Product(aid, dtNow.Year.ToString()); //更新購買數量至商品表or商品類別表
 
-        //                    string msg = "感謝購買,已成功付款" + cost + "元,您的訂單編號 ";
+        //                    string msg = "【保必保庇】線上宮廟服務平臺，感謝購買，已成功付款" + cost + "元，您的訂單編號 ";
 
         //                    for (int i = 0; i < productlist.Length; i++)
         //                    {
@@ -15084,7 +15084,7 @@ namespace Temple.FET.APITEST
         //                    objLightDAC.UpdateProductInfo(aid, adminID, dtNow.Year.ToString(), ref productlist, ref Productlist);
         //                    objLightDAC.UpdateCount2Product(aid, dtNow.Year.ToString()); //更新購買數量至商品表or商品類別表
 
-        //                    string msg = "感謝購買,已成功付款" + cost + "元,您的訂單編號 ";
+        //                    string msg = "【保必保庇】線上宮廟服務平臺，感謝購買，已成功付款" + cost + "元，您的訂單編號 ";
 
         //                    for (int i = 0; i < productlist.Length; i++)
         //                    {
@@ -15236,7 +15236,7 @@ namespace Temple.FET.APITEST
         //                    objLightDAC.UpdateProductInfo(aid, adminID, dtNow.Year.ToString(), ref productlist, ref Productlist);
         //                    objLightDAC.UpdateCount2Product(aid, dtNow.Year.ToString()); //更新購買數量至商品表or商品類別表
 
-        //                    string msg = "感謝購買,已成功付款" + cost + "元,您的訂單編號 ";
+        //                    string msg = "【保必保庇】線上宮廟服務平臺，感謝購買，已成功付款" + cost + "元，您的訂單編號 ";
 
         //                    for (int i = 0; i < productlist.Length; i++)
         //                    {
@@ -15380,7 +15380,7 @@ namespace Temple.FET.APITEST
         //                    objLightDAC.UpdateProductInfo(aid, adminID, dtNow.Year.ToString(), ref productlist, ref Productlist);
         //                    objLightDAC.UpdateCount2Product(aid, dtNow.Year.ToString()); //更新購買數量至商品表or商品類別表
 
-        //                    string msg = "感謝購買,已成功付款" + total + "元,您的訂單編號 ";
+        //                    string msg = "【保必保庇】線上宮廟服務平臺，感謝購買，已成功付款" + total + "元，您的訂單編號 ";
 
         //                    for (int i = 0; i < productlist.Length; i++)
         //                    {
@@ -15523,7 +15523,7 @@ namespace Temple.FET.APITEST
         //                    objLightDAC.UpdateProductInfo(aid, adminID, dtNow.Year.ToString(), ref productlist, ref Productlist);
         //                    objLightDAC.UpdateCount2Product(aid, dtNow.Year.ToString()); //更新購買數量至商品表or商品類別表
 
-        //                    string msg = "感謝購買,已成功付款" + cost + "元,您的訂單編號 ";
+        //                    string msg = "【保必保庇】線上宮廟服務平臺，感謝購買，已成功付款" + cost + "元，您的訂單編號 ";
 
         //                    for (int i = 0; i < productlist.Length; i++)
         //                    {
@@ -15666,7 +15666,7 @@ namespace Temple.FET.APITEST
         //                    objLightDAC.UpdateProductInfo(aid, adminID, dtNow.Year.ToString(), ref productlist, ref Productlist);
         //                    objLightDAC.UpdateCount2Product(aid, dtNow.Year.ToString()); //更新購買數量至商品表or商品類別表
 
-        //                    string msg = "感謝購買,已成功付款" + cost + "元,您的訂單編號 ";
+        //                    string msg = "【保必保庇】線上宮廟服務平臺，感謝購買，已成功付款" + cost + "元，您的訂單編號 ";
 
         //                    for (int i = 0; i < productlist.Length; i++)
         //                    {
@@ -15809,7 +15809,7 @@ namespace Temple.FET.APITEST
         //                    objLightDAC.UpdateProductInfo(aid, adminID, dtNow.Year.ToString(), ref productlist, ref Productlist);
         //                    objLightDAC.UpdateCount2Product(aid, dtNow.Year.ToString()); //更新購買數量至商品表or商品類別表
 
-        //                    string msg = "感謝購買,已成功付款" + cost + "元,您的訂單編號 ";
+        //                    string msg = "【保必保庇】線上宮廟服務平臺，感謝購買，已成功付款" + cost + "元，您的訂單編號 ";
 
         //                    for (int i = 0; i < productlist.Length; i++)
         //                    {
@@ -16091,7 +16091,7 @@ namespace Temple.FET.APITEST
         //                        //更新點燈資料表並取得訂單編號
         //                        //objLightDAC.UpdateSupplies_wu_Info(aid, Year, ref Supplieslist);
 
-        //                        string msg = "感謝購買,已成功付款" + cost + "元,您的訂單編號 ";
+        //                        string msg = "【保必保庇】線上宮廟服務平臺，感謝購買，已成功付款" + cost + "元，您的訂單編號 ";
 
         //                        for (int i = 0; i < Supplieslist.Length; i++)
         //                        {
@@ -16374,7 +16374,7 @@ namespace Temple.FET.APITEST
         //                {
         //                    if ((int)dtCharge.Rows[0]["Status"] == 0)
         //                    {
-        //                        string msg = "感謝購買,已成功付款" + cost + "元,您的訂單編號 ";
+        //                        string msg = "【保必保庇】線上宮廟服務平臺，感謝購買，已成功付款" + cost + "元，您的訂單編號 ";
 
         //                        //更新點燈資料表並取得訂單編號
         //                        //objLightDAC.UpdateSupplies_wu_Info2(aid, Year, ref msg, ref Supplieslist);
@@ -16634,7 +16634,7 @@ namespace Temple.FET.APITEST
         //                {
         //                    if ((int)dtCharge.Rows[0]["Status"] == 0)
         //                    {
-        //                        string msg = "感謝購買,已成功付款" + cost + "元,您的訂單編號 ";
+        //                        string msg = "【保必保庇】線上宮廟服務平臺，感謝購買，已成功付款" + cost + "元，您的訂單編號 ";
 
         //                        //更新點燈資料表並取得訂單編號
         //                        //objLightDAC.UpdateSupplies_wu_Info3(aid, Year, ref msg, ref Supplieslist);
@@ -16833,7 +16833,7 @@ namespace Temple.FET.APITEST
         //                    if ((int)dtCharge.Rows[0]["Status"] == 0)
         //                    {
 
-        //                        string msg = "感謝購買,已成功付款" + cost + "元,您的訂單編號 ";
+        //                        string msg = "【保必保庇】線上宮廟服務平臺，感謝購買，已成功付款" + cost + "元，您的訂單編號 ";
 
         //                        //更新點燈資料表並取得訂單編號
         //                        objLightDAC.UpdateSupplies_ty_Info(aid, Year, ref msg, ref Supplieslist);
@@ -17021,7 +17021,7 @@ namespace Temple.FET.APITEST
         //                        //更新點燈資料表並取得訂單編號
         //                        objLightDAC.UpdateSupplies_ma_Info(aid, Year, ref Supplieslist);
 
-        //                        string msg = "感謝購買,已成功付款" + cost + "元,您的訂單編號 ";
+        //                        string msg = "【保必保庇】線上宮廟服務平臺，感謝購買，已成功付款" + cost + "元，您的訂單編號 ";
 
         //                        for (int i = 0; i < Supplieslist.Length; i++)
         //                        {
@@ -17251,7 +17251,7 @@ namespace Temple.FET.APITEST
         //                        //更新點燈資料表並取得訂單編號
         //                        objLightDAC.UpdateSupplies_jb_Info(aid, Year, ref Supplieslist);
 
-        //                        string msg = "感謝購買,已成功付款" + cost + "元,您的訂單編號 ";
+        //                        string msg = "【保必保庇】線上宮廟服務平臺，感謝購買，已成功付款" + cost + "元，您的訂單編號 ";
 
         //                        for (int i = 0; i < Supplieslist.Length; i++)
         //                        {
@@ -17511,7 +17511,7 @@ namespace Temple.FET.APITEST
         //                        //更新點燈資料表並取得訂單編號
         //                        objLightDAC.UpdateBPO_jb_Info(aid, Year, ref BPOlist);
 
-        //                        string msg = "感謝購買,已成功付款" + cost + "元,您的訂單編號 ";
+        //                        string msg = "【保必保庇】線上宮廟服務平臺，感謝購買，已成功付款" + cost + "元，您的訂單編號 ";
 
         //                        for (int i = 0; i < BPOlist.Length; i++)
         //                        {
@@ -17804,7 +17804,7 @@ namespace Temple.FET.APITEST
         //                        //更新點燈資料表並取得訂單編號
         //                        objLightDAC.UpdateLingbaolidou_ma_Info(aid, Year, ref Lingbaolidoulist);
 
-        //                        string msg = "感謝購買,已成功付款" + cost + "元,您的訂單編號 ";
+        //                        string msg = "【保必保庇】線上宮廟服務平臺，感謝購買，已成功付款" + cost + "元，您的訂單編號 ";
 
         //                        for (int i = 0; i < Lingbaolidoulist.Length; i++)
         //                        {
@@ -18102,7 +18102,7 @@ namespace Temple.FET.APITEST
         //                        //更新點燈資料表並取得訂單編號
         //                        //objLightDAC.UpdateTaoistJiaoCeremony_da_Info(aid, Year, ref TaoistJiaoCeremonylist);
 
-        //                        string msg = "感謝購買,已成功付款" + cost + "元,您的訂單編號 ";
+        //                        string msg = "【保必保庇】線上宮廟服務平臺，感謝購買，已成功付款" + cost + "元，您的訂單編號 ";
 
         //                        for (int i = 0; i < TaoistJiaoCeremonylist.Length; i++)
         //                        {
@@ -18397,7 +18397,7 @@ namespace Temple.FET.APITEST
         //                {
         //                    if ((int)dtCharge.Rows[0]["Status"] == 0)
         //                    {
-        //                        string msg = "感謝購買,已成功付款" + cost + "元,您的訂單編號 ";
+        //                        string msg = "【保必保庇】線上宮廟服務平臺，感謝購買，已成功付款" + cost + "元，您的訂單編號 ";
 
         //                        //更新點燈資料表並取得訂單編號
         //                        objLightDAC.UpdateSupplies_Fw_Info(aid, Year, ref msg, ref Supplieslist);
@@ -18765,7 +18765,7 @@ namespace Temple.FET.APITEST
         //                        //更新點燈資料表並取得訂單編號
         //                        objLightDAC.UpdateSupplies_Lk_Info(aid, Year, ref Supplieslist);
 
-        //                        string msg = "感謝購買,已成功付款" + cost + "元,您的訂單編號 ";
+        //                        string msg = "【保必保庇】線上宮廟服務平臺，感謝購買，已成功付款" + cost + "元，您的訂單編號 ";
 
         //                        for (int i = 0; i < Supplieslist.Length; i++)
         //                        {
@@ -19057,7 +19057,7 @@ namespace Temple.FET.APITEST
         //                    if ((int)dtCharge.Rows[0]["Status"] == 0)
         //                    {
         //                        //更新點燈資料表並取得訂單編號
-        //                        string msg = "感謝購買,已成功付款" + cost + "元,您的訂單編號 ";
+        //                        string msg = "【保必保庇】線上宮廟服務平臺，感謝購買，已成功付款" + cost + "元，您的訂單編號 ";
 
         //                        objLightDAC.UpdateSupplies3_ty_Info(aid, Year, ref msg, ref Supplieslist);
 

@@ -281,7 +281,7 @@ namespace twbobibobi.FET.Processors
             {
                 int lightsType = _lightDAC.GetLightsType_da(applicantId, _year);
 
-                string msg = "感謝購買,已成功付款" + totalAmount + "元,您的訂單編號 ";
+                string msg = "【保必保庇】線上宮廟服務平臺，感謝購買，已成功付款" + totalAmount + "元，您的訂單編號 ";
 
                 var lightsArr = new string[lightsList.Length];
                 _lightDAC.UpdateLights_da_Info(
@@ -478,7 +478,7 @@ namespace twbobibobi.FET.Processors
             {
                 int purdueType = _lightDAC.GetPurdueType_da(applicantId, _year);
 
-                string msg = "感謝購買,已成功付款" + totalAmount + "元,您的訂單編號 ";
+                string msg = "【保必保庇】線上宮廟服務平臺，感謝購買，已成功付款" + totalAmount + "元，您的訂單編號 ";
 
                 var purdueArr = new string[purdueList.Length];
                 _lightDAC.UpdatePurdue_da_Info(
@@ -595,7 +595,7 @@ namespace twbobibobi.FET.Processors
             DataTable dtCharge = _lightDAC.GetChargeLog_TaoistJiaoCeremony_da(OrderId, _year);
             if (dtCharge != null && dtCharge.Rows.Count > 0 && Convert.ToInt32(dtCharge.Rows[0]["Status"]) == 0)
             {
-                string msg = "感謝購買,已成功付款" + totalAmount + "元,您的訂單編號 ";
+                string msg = "【保必保庇】線上宮廟服務平臺，感謝購買，已成功付款" + totalAmount + "元，您的訂單編號 ";
 
                 var TaoistJiaoCeremonyArr = new string[TaoistJiaoCeremonyList.Length];
                 _lightDAC.UpdateTaoistJiaoCeremony_da_Info(

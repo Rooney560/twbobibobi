@@ -77,7 +77,7 @@ namespace Temple
             //                DataTable dtapplicantinfo = objDatabaseHelper.Getapplicantinfo_Purdue(aid, adminID);
             //                objDatabaseHelper.Updateapplicantinfo_Purdue(aid); //更新購買表內購買人狀態為已付款(Status=2)
 
-            //                string msg = "感謝購買,已成功付款" + dtapplicantinfo.Rows[0]["Cost"].ToString() + "元,您的訂單編號 ";
+            //                string msg = "【保必保庇】線上宮廟服務平臺，感謝購買，已成功付款" + dtapplicantinfo.Rows[0]["Cost"].ToString() + "元，您的訂單編號 ";
 
             //                for (int i = 0; i < zamplist.Length; i++)
             //                {

@@ -77,7 +77,7 @@ namespace twbobibobi.Temples
             string Year = dtNow.Year.ToString();
             string[] Lightslist = { "WJSY1171", "WJSY1172" };
             string mobile = "0900671268";
-            string msg = "感謝購買,已成功付款1000元,您的訂單編號 藥師燈:WJSY1171,藥師燈:WJSY1172。客服電話：04-36092299。";
+            string msg = "【保必保庇】線上宮廟服務平臺，感謝購買，已成功付款1000元,您的訂單編號 藥師燈:WJSY1171,藥師燈:WJSY1172。客服電話：04-36092299。";
             int cost = 1000;
 
             twbobibobi.Data.BasePage _basePage = new twbobibobi.Data.BasePage();

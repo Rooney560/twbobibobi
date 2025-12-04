@@ -99,7 +99,7 @@ namespace Temple
 
                                     int adminID = 16;
 
-                                    string msg = "感謝購買,已成功付款" + cost + "元,您的訂單編號 ";
+                                    string msg = "【保必保庇】線上宮廟服務平臺，感謝購買，已成功付款" + cost + "元，您的訂單編號 ";
 
                                     //更新普渡資料表並取得訂單編號
                                     objLightDAC.UpdateLights_dh_Info(aid, type, Year, ref msg, ref lightslist, ref Lightslist);

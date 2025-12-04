@@ -98,7 +98,7 @@ namespace twbobibobi
                                 {
                                     string mobile = result[5];
 
-                                    string msg = "感謝購買,已成功付款" + cost + "元,您的訂單編號 ";
+                                    string msg = "【保必保庇】線上宮廟服務平臺，感謝購買，已成功付款" + cost + "元，您的訂單編號 ";
 
                                     //更新補財庫資料表並取得訂單編號
                                     objLightDAC.UpdateSupplies_Fw_Info(aid, Year, ref msg, ref supplieslist, ref Supplieslist);

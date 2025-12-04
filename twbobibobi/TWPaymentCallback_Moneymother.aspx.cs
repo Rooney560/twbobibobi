@@ -102,7 +102,7 @@ namespace Temple
                                 {
                                     string mobile = result[5];
 
-                                    string msg = "感謝購買新港奉天宮授權開運商品,已成功付款" + cost + "元,您的訂單編號 ";
+                                    string msg = "感謝購買新港奉天宮授權開運商品,已成功付款" + cost + "元，您的訂單編號 ";
 
                                     //更新錢母資料表並取得訂單編號
                                     objLightDAC.UpdateMoneymother_Info(aid, Year, ref msg, ref moneymotherlist, ref Moneymotherlist);

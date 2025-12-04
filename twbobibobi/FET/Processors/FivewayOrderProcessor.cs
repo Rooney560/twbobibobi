@@ -297,7 +297,7 @@ namespace twbobibobi.FET.Processors
             {
                 int lightsType = _lightDAC.GetLightsType_Fw(applicantId, _year);
 
-                string msg = "感謝購買,已成功付款" + totalAmount + "元,您的訂單編號 ";
+                string msg = "【保必保庇】線上宮廟服務平臺，感謝購買，已成功付款" + totalAmount + "元，您的訂單編號 ";
 
                 var lightsArr = new string[lightsList.Length];
                 _lightDAC.UpdateLights_Fw_Info(
@@ -405,7 +405,7 @@ namespace twbobibobi.FET.Processors
             {
                 int purdueType = _lightDAC.GetPurdueType_Fw(applicantId, _year);
 
-                string msg = "感謝購買,已成功付款" + totalAmount + "元,您的訂單編號 ";
+                string msg = "【保必保庇】線上宮廟服務平臺，感謝購買，已成功付款" + totalAmount + "元，您的訂單編號 ";
 
                 var purdueArr = new string[purdueList.Length];
                 _lightDAC.UpdatePurdue_Fw_Info(
@@ -511,7 +511,7 @@ namespace twbobibobi.FET.Processors
             DataTable dtCharge = _lightDAC.GetChargeLog_Supplies_Fw(OrderId, _year);
             if (dtCharge != null && dtCharge.Rows.Count > 0 && Convert.ToInt32(dtCharge.Rows[0]["Status"]) == 0)
             {
-                string msg = "感謝購買,已成功付款" + totalAmount + "元,您的訂單編號 ";
+                string msg = "【保必保庇】線上宮廟服務平臺，感謝購買，已成功付款" + totalAmount + "元，您的訂單編號 ";
 
                 var suppliesArr = new string[suppliesList.Length];
                 _lightDAC.UpdateSupplies_Fw_Info(
@@ -620,7 +620,7 @@ namespace twbobibobi.FET.Processors
             {
                 int andouType = _lightDAC.GetAnDouType_Fw(applicantId, _year);
 
-                string msg = "感謝購買,已成功付款" + totalAmount + "元,您的訂單編號 ";
+                string msg = "【保必保庇】線上宮廟服務平臺，感謝購買，已成功付款" + totalAmount + "元，您的訂單編號 ";
 
                 var andouArr = new string[andouList.Length];
                 _lightDAC.UpdateAnDou_Fw_Info(

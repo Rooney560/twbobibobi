@@ -94,7 +94,7 @@ namespace Temple
             //                        //int cost = dtapplicantinfo.Rows.Count > 0 ? int.Parse(dtapplicantinfo.Rows[0]["Cost"].ToString()) : 0;
             //                        objDatabaseHelper.Updateapplicantinfo_Purdue_mazu(aid, cost, 2, Year);
 
-            //                        string msg = "感謝購買,已成功付款" + cost + "元,您的訂單編號 ";
+            //                        string msg = "【保必保庇】線上宮廟服務平臺，感謝購買，已成功付款" + cost + "元，您的訂單編號 ";
 
             //                        for (int i = 0; i < purduelist.Length; i++)
             //                        {
