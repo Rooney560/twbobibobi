@@ -78,7 +78,7 @@ namespace twbobibobi.FET.Processors
             switch (kind)
             {
                 // 點燈
-                case "1":  
+                case "1":
                     PostUrl = "Lights" + PostUrl;
 
                     // 新增購買人資料
@@ -120,12 +120,12 @@ namespace twbobibobi.FET.Processors
                         Name: applicant.appName,
                         Mobile: applicant.appMobile,
                         Cost: totalAmount,
-                        Birth: applicant.appBirth,
-                        LeapMonth: applicant.appLeapMonth,
-                        BirthTime: applicant.appBirthTime,
-                        BirthMonth: applicant.appBirthMonth,
-                        Age: applicant.appAge,
-                        Zodiac: applicant.appZodiac,
+                        Birth: applicant.appBirth ?? "",
+                        LeapMonth: applicant.appLeapMonth ?? "N",
+                        BirthTime: applicant.appBirthTime ?? "吉",
+                        BirthMonth: applicant.appBirthMonth ?? "",
+                        Age: applicant.appAge ?? "0",
+                        Zodiac: applicant.appZodiac ?? "",
                         sBirth: applicant.appsBirth,
                         Email: applicant.appEmail,
                         County: applicant.appCity,
@@ -253,6 +253,10 @@ namespace twbobibobi.FET.Processors
                     County: city,
                     Dist: region,
                     ZipCode: p.ZipCode,
+                    PetName: p.PetName,
+                    PetType: p.PetType,
+                    PetSex: p.PetGender,
+                    PetBirth: p.PetsBirth,
                     Year: _year);
             }
 

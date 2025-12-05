@@ -4697,6 +4697,10 @@ namespace twbobibobi.Data
         /// <param name="County">祈福人地址縣市。</param>
         /// <param name="Dist">祈福人地址區域。</param>
         /// <param name="ZipCode">祈福人地址郵遞區號。</param>
+        /// <param name="PetName">寵物姓名。</param>
+        /// <param name="PetType">寵物品種。</param>
+        /// <param name="PetSex">寵物性別 (M-公，F-母)。</param>
+        /// <param name="PetBirth">寵物國曆生日。</param>
         /// <param name="Year">資料年份（例如 "2025"）。</param>
         /// <returns>回傳建立成功後的主鍵編號（Identity 值）。</returns>
         public int AddLights_wh(
@@ -4722,6 +4726,10 @@ namespace twbobibobi.Data
             string County,
             string Dist,
             string ZipCode,
+            string PetName,
+            string PetType,
+            string PetSex,
+            string PetBirth,
             string Year)
         {
             int newId = 0;
@@ -4742,14 +4750,14 @@ namespace twbobibobi.Data
                         ApplicantID, AdminID, Name, Mobile, Cost, Sex, 
                         LightsType, LightsString, oversea, Birth, LeapMonth, 
                         BirthTime, BirthMonth, Age, Zodiac, sBirth, 
-                        Email, Count, Remark, Address, Addr, County, dist, ZipCode, CreateDate
+                        Email, Count, Remark, Address, Addr, County, dist, ZipCode, PetName, PetType, PetSex, PetBirth, CreateDate
                     )
                     VALUES
                     (
                         @ApplicantID, @AdminID, @Name, @Mobile, @Cost, @Sex, 
                         @LightsType, @LightsString, @oversea, @Birth, @LeapMonth, 
                         @BirthTime, @BirthMonth, @Age, @Zodiac, @sBirth, 
-                        @Email, @Count, @Remark, @Address, @Addr, @County, @dist, @ZipCode, @CreateDate
+                        @Email, @Count, @Remark, @Address, @Addr, @County, @dist, @ZipCode, @PetName, @PetType, @PetSex, @PetBirth, @CreateDate
                     )";
 
                 using (DatabaseAdapter adapter = new DatabaseAdapter(sql, this.DBSource))
@@ -4778,6 +4786,10 @@ namespace twbobibobi.Data
                     adapter.AddParameterToSelectCommand("@County", County);
                     adapter.AddParameterToSelectCommand("@dist", Dist);
                     adapter.AddParameterToSelectCommand("@ZipCode", ZipCode);
+                    adapter.AddParameterToSelectCommand("@PetName", PetName);
+                    adapter.AddParameterToSelectCommand("@PetType", PetType);
+                    adapter.AddParameterToSelectCommand("@PetSex", PetSex);
+                    adapter.AddParameterToSelectCommand("@PetBirth", PetBirth);
                     adapter.AddParameterToSelectCommand("@CreateDate", dtNow.ToString("yyyy-MM-dd HH:mm:ss"));
 
                     DataTable dtTemp = new DataTable();
@@ -8375,7 +8387,7 @@ namespace twbobibobi.Data
                     )
                     VALUES
                     (
-                        @Name, @Mobile, @Cost, Birth, LeapMonth, BirthTime, BirthMonth, Age, Zodiac, sBirth, 
+                        @Name, @Mobile, @Cost, @Birth, @LeapMonth, @BirthTime, @BirthMonth, @Age, @Zodiac, @sBirth, 
                         @Email, @County, @dist, @Addr, @ZipCode, @Address, @Sendback, @ReceiptName, @ReceiptMobile, 
                         @PostURL, @AdminID, @Status, @CreateDate, @CreateDateString
                     )";
@@ -10912,6 +10924,7 @@ namespace twbobibobi.Data
                     adapter.AddParameterToSelectCommand("@Zodiac", Zodiac);
                     adapter.AddParameterToSelectCommand("@sBirth", sBirth);
                     adapter.AddParameterToSelectCommand("@Count", Count);
+                    adapter.AddParameterToSelectCommand("@GoldPaperCount", GoldPaperCount);
                     adapter.AddParameterToSelectCommand("@Remark", Remark);
                     adapter.AddParameterToSelectCommand("@Address", fullAddress);
                     adapter.AddParameterToSelectCommand("@Addr", Addr);
@@ -20982,6 +20995,22 @@ namespace twbobibobi.Data
                             case "35":
                                 // 松柏嶺受天宮
                                 sql = $"Select * from Temple_{Year}..view_Lights_st_InfowithAPPCharge Where AppcStatus = 1 and Transaction_id = @Transaction_id";
+                                break;
+                            case "38":
+                                // 池上北極玄天宮
+                                sql = $"Select * from Temple_{Year}..view_Lights_bj_InfowithAPPCharge Where AppcStatus = 1 and Transaction_id = @Transaction_id";
+                                break;
+                            case "39":
+                                // 慈惠石壁部堂
+                                sql = $"Select * from Temple_{Year}..view_Lights_sbbt_InfowithAPPCharge Where AppcStatus = 1 and Transaction_id = @Transaction_id";
+                                break;
+                            case "40":
+                                // 真武山受玄宮
+                                sql = $"Select * from Temple_{Year}..view_Lights_bpy_InfowithAPPCharge Where AppcStatus = 1 and Transaction_id = @Transaction_id";
+                                break;
+                            case "41":
+                                // 壽山巖觀音寺
+                                sql = $"Select * from Temple_{Year}..view_Lights_ssy_InfowithAPPCharge Where AppcStatus = 1 and Transaction_id = @Transaction_id";
                                 break;
                         }
                         break;

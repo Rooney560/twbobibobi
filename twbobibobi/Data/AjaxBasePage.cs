@@ -3582,7 +3582,7 @@ namespace twbobibobi.Data
         /// <summary>
         /// 輔助方法：統一加密、回應並記錄日誌
         /// </summary>
-        private void WriteEncryptedResponse(object detailObj, string key, string resultCode, bool isError = false, string errorMsg = null)
+        private void WriteEncryptedResponse(object detailObj, string key, string resultCode, string errorMsg = null)
         {
             // 1. 將 detail 物件序列化
             string detailJson = JsonConvert.SerializeObject(detailObj);
@@ -3600,17 +3600,19 @@ namespace twbobibobi.Data
 
             // 4. 寫出並記錄
             Response.Write(output);
-            if (isError)
-            {
-                SaveErrorLog(output + (errorMsg != null ? $"\nErr: {errorMsg}" : ""));
-            }
-            else
-            {
-                SaveRequestLog(Request.Url + output);
-            }
-            //Response.End();
+            SaveRequestLog(Request.Url + output);
         }
-        // 範例：重構後的 JSONStringOrder
+
+        /// <summary>
+        /// 重構後的 JSONStringOrder
+        /// </summary>
+        /// <param name="key"></param>
+        /// <param name="clientOrderNumber"></param>
+        /// <param name="orderID"></param>
+        /// <param name="list"></param>
+        /// <param name="itemsInfo"></param>
+        /// <exception cref="InvalidOperationException"></exception>
+        /// <exception cref="IndexOutOfRangeException"></exception>
         protected void JSONStringOrder(string key, string clientOrderNumber, string orderID, string[] list, JArray itemsInfo)
         {
             // 先算出所有 prayedPerson 总数
@@ -3728,7 +3730,10 @@ namespace twbobibobi.Data
             //    }).ToArray()
             //};
 
-            WriteEncryptedResponse(detail, key, "0000", isError: false);
+            WriteEncryptedResponse(
+                detailObj: detail, 
+                key: key, 
+                resultCode: "0000");
         }
 
         // 範例：重構後的 JSONCancelOrder
@@ -3738,13 +3743,25 @@ namespace twbobibobi.Data
             string orderStatus = clientOrderNumberList.Contains(clientOrderNumber) ? "1001" : "1002";
             var detail = new { orderMsg = "fail", orderStatus };
 
-            WriteEncryptedResponse(detail, key, "0000", isError: false);
+            WriteEncryptedResponse(
+                detailObj: detail,
+                key: key,
+                resultCode: "0000");
         }
-        // 範例：重構後的 JSONErrorOrder
+
+        /// <summary>
+        /// 重構後的 JSONErrorOrder
+        /// </summary>
+        /// <param name="key"></param>
+        /// <param name="errorMsg"></param>
         protected void JSONErrorOrder(string key, string errorMsg)
         {
             var detail = new { orderMsg = "fail", orderStatus = "1003" };
-            WriteEncryptedResponse(detail, key, "9999", isError: true, errorMsg: errorMsg);
+            WriteEncryptedResponse(
+                detailObj: detail,
+                key: key,
+                resultCode: "9999",
+                errorMsg: errorMsg);
         }
 
         protected void JSONStringOrder(string checkedkey, string clientOrderNumber, string OrderID, string encrypt, string kind, string[] list, JArray itemsInfo)

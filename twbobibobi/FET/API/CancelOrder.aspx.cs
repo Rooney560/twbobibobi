@@ -150,6 +150,7 @@ namespace Temple.FET.APITEST
                     string kind = string.Empty;
                     bool checkeddata = true;
                     int type = 1;
+                    Year = dtNow.Year.ToString();
 
                     while (dtData.Rows.Count > 0 || checkeddata)
                     {
@@ -165,6 +166,10 @@ namespace Temple.FET.APITEST
                                 if (DateTime.Compare(DateTime.Parse(startDate), dtNow) < 0 && j == 1)
                                 {
                                     Year = "2026";
+                                }
+                                else
+                                {
+                                    Year = dtNow.Year.ToString();
                                 }
 
                                 if (URL.IndexOf("20.6.8.46") >= 0 || URL.IndexOf("fettest") >= 0)
@@ -230,6 +235,10 @@ namespace Temple.FET.APITEST
                             if (DateTime.Compare(DateTime.Parse(startDate), dtNow) < 0 && kind == "1")
                             {
                                 Year = "2026";
+                            }
+                            else
+                            {
+                                Year = dtNow.Year.ToString();
                             }
 
 
