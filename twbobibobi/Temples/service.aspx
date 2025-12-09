@@ -162,7 +162,11 @@
                                     <li><a onclick="ActivityTime(1, 21)" href="javascript: void(0)" title="鹿港城隍廟">鹿港城隍廟</a></li>
                                     <li><a onclick="ActivityTime(1, 23)" href="javascript: void(0)" title="玉敕大樹朝天宮">玉敕大樹朝天宮</a></li>
                                     <li><a onclick="ActivityTime(1, 31)" href="javascript: void(0)" title="台灣道教總廟無極三清總道院">台灣道教總廟無極三清總道院</a></li>
+                                    <li><a onclick="ActivityTime(1, 32)" href="javascript: void(0)" title="桃園龍德宮">桃園龍德宮</a></li>
                                     <li><a onclick="ActivityTime(1, 35)" href="javascript: void(0)" title="松柏嶺受天宮">松柏嶺受天宮</a></li>
+                                    <li><a onclick="ActivityTime(1, 38)" href="javascript: void(0)" title="池上北極玄天宮">池上北極玄天宮</a></li>
+                                    <li><a onclick="ActivityTime(1, 39)" href="javascript: void(0)" title="慈惠石壁部堂">慈惠石壁部堂</a></li>
+                                    <li><a onclick="ActivityTime(1, 40)" href="javascript: void(0)" title="真武山受玄宮">真武山受玄宮</a></li>
                                 </ul>
                             </div>
                         </li>
@@ -197,7 +201,12 @@
                                     <li><a onclick="ActivityTime(1, 21)" href="javascript: void(0)" title="鹿港城隍廟">鹿港城隍廟</a></li>
                                     <li><a onclick="ActivityTime(1, 23)" href="javascript: void(0)" title="玉敕大樹朝天宮">玉敕大樹朝天宮</a></li>
                                     <li><a onclick="ActivityTime(1, 31)" href="javascript: void(0)" title="台灣道教總廟無極三清總道院">台灣道教總廟無極三清總道院</a></li>
+                                    <li><a onclick="ActivityTime(1, 32)" href="javascript: void(0)" title="桃園龍德宮">桃園龍德宮</a></li>
                                     <li><a onclick="ActivityTime(1, 35)" href="javascript: void(0)" title="松柏嶺受天宮">松柏嶺受天宮</a></li>
+                                    <li><a onclick="ActivityTime(1, 38)" href="javascript: void(0)" title="池上北極玄天宮">池上北極玄天宮</a></li>
+                                    <li><a onclick="ActivityTime(1, 39)" href="javascript: void(0)" title="慈惠石壁部堂">慈惠石壁部堂</a></li>
+                                    <li><a onclick="ActivityTime(1, 40)" href="javascript: void(0)" title="真武山受玄宮">真武山受玄宮</a></li>
+                                    <li><a onclick="ActivityTime(1, 41)" href="javascript: void(0)" title="壽山巖觀音寺">壽山巖觀音寺</a></li>
                                 </ul>
                             </div>
                         </li>
@@ -222,7 +231,10 @@
                                     <li><a onclick="ActivityTime(1, 21)" href="javascript: void(0)" title="鹿港城隍廟">鹿港城隍廟</a></li>
                                     <li><a onclick="ActivityTime(1, 23)" href="javascript: void(0)" title="玉敕大樹朝天宮">玉敕大樹朝天宮</a></li>
                                     <li><a onclick="ActivityTime(1, 31)" href="javascript: void(0)" title="台灣道教總廟無極三清總道院">台灣道教總廟無極三清總道院</a></li>
+                                    <li><a onclick="ActivityTime(1, 32)" href="javascript: void(0)" title="桃園龍德宮">桃園龍德宮</a></li>
                                     <li><a onclick="ActivityTime(1, 35)" href="javascript: void(0)" title="松柏嶺受天宮">松柏嶺受天宮</a></li>
+                                    <li><a onclick="ActivityTime(1, 39)" href="javascript: void(0)" title="慈惠石壁部堂">慈惠石壁部堂</a></li>
+                                    <li><a onclick="ActivityTime(1, 40)" href="javascript: void(0)" title="真武山受玄宮">真武山受玄宮</a></li>
                                 </ul>
                             </div>
                         </li>
@@ -247,7 +259,9 @@
                                     <li><a onclick="ActivityTime(1, 15)" href="javascript: void(0)" title="斗六五路財神宮">斗六五路財神宮</a></li>
                                     <li><a onclick="ActivityTime(1, 16)" href="javascript: void(0)" title="台東東海龍門天聖宮">台東東海龍門天聖宮</a></li>
                                     <li><a onclick="ActivityTime(1, 21)" href="javascript: void(0)" title="鹿港城隍廟">鹿港城隍廟</a></li>
+                                    <li><a onclick="ActivityTime(1, 23)" href="javascript: void(0)" title="玉敕大樹朝天宮">玉敕大樹朝天宮</a></li>
                                     <li><a onclick="ActivityTime(1, 31)" href="javascript: void(0)" title="台灣道教總廟無極三清總道院">台灣道教總廟無極三清總道院</a></li>
+                                    <li><a onclick="ActivityTime(1, 32)" href="javascript: void(0)" title="桃園龍德宮">桃園龍德宮</a></li>
                                     <li><a onclick="ActivityTime(1, 35)" href="javascript: void(0)" title="松柏嶺受天宮">松柏嶺受天宮</a></li>
                                 </ul>
                             </div>
@@ -256,11 +270,25 @@
                             <div class="ServiceType">
                                 <div>
                                     <img src="images/icon_09.png" width="50" height="50" alt="" /></div>
-                                <div>福財燈</div>
+                                <div>財利燈</div>
                             </div>
                             <div class="ServiceTempleList">
                                 <ul>
-                                    <li><a onclick="ActivityTime(1, 23)" href="javascript: void(0)" title="玉敕大樹朝天宮">玉敕大樹朝天宮</a></li>
+                                    <li><a onclick="ActivityTime(1, 10)" href="javascript: void(0)" title="台南正統鹿耳門聖母廟">台南正統鹿耳門聖母廟</a></li>
+                                    <li><a onclick="ActivityTime(1, 40)" href="javascript: void(0)" title="真武山受玄宮">真武山受玄宮</a></li>
+                                </ul>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="ServiceType">
+                                <div>
+                                    <img src="images/icon_09.png" width="50" height="50" alt="" /></div>
+                                <div>財庫燈</div>
+                            </div>
+                            <div class="ServiceTempleList">
+                                <ul>
+                                    <li><a onclick="ActivityTime(1, 15)" href="javascript: void(0)" title="斗六五路財神宮">斗六五路財神宮</a></li>
+                                    <li><a onclick="ActivityTime(1, 21)" href="javascript: void(0)" title="鹿港城隍廟">鹿港城隍廟</a></li>
                                 </ul>
                             </div>
                         </li>
@@ -276,6 +304,7 @@
                                     <li><a href="templeService_lights_Fw.aspx?t=7" title="斗六五路財神宮">斗六五路財神宮</a></li>--%>
 
                                     <li><a onclick="ActivityTime(1, 10)" href="javascript: void(0)" title="台南正統鹿耳門聖母廟">台南正統鹿耳門聖母廟</a></li>
+                                    <li><a onclick="ActivityTime(1, 32)" href="javascript: void(0)" title="桃園龍德宮">桃園龍德宮</a></li>
                                 </ul>
                             </div>
                         </li>
@@ -306,6 +335,7 @@
                                     <li><a href="templeService_lights_ty.aspx?t=10" title="桃園威天宮">桃園威天宮</a></li>--%>
 
                                     <li><a onclick="ActivityTime(1, 14)" href="javascript: void(0)" title="桃園威天宮">桃園威天宮</a></li>
+                                    <li><a onclick="ActivityTime(1, 39)" href="javascript: void(0)" title="慈惠石壁部堂">慈惠石壁部堂</a></li>
                                 </ul>
                             </div>
                         </li>
@@ -313,26 +343,13 @@
                             <div class="ServiceType">
                                 <div>
                                     <img src="images/icon_12.png" width="50" height="50" alt="" /></div>
-                                <div>福壽燈</div>
+                                <div>福壽(祿)燈</div>
                             </div>
                             <div class="ServiceTempleList">
                                 <ul>
                                     <%--<li><a href="templeService_lights_Luer.aspx?t=11" title="台南正統鹿耳門聖母廟">台南正統鹿耳門聖母廟</a></li>--%>
 
                                     <li><a onclick="ActivityTime(1, 10)" href="javascript: void(0)" title="台南正統鹿耳門聖母廟">台南正統鹿耳門聖母廟</a></li>
-                                </ul>
-                            </div>
-                        </li>
-                        <li>
-                            <div class="ServiceType">
-                                <div>
-                                    <img src="images/icon_12.png" width="50" height="50" alt="" /></div>
-                                <div>福祿燈</div>
-                            </div>
-                            <div class="ServiceTempleList">
-                                <ul>
-                                    <%--<li><a href="templeService_lights_Luer.aspx?t=11" title="台南正統鹿耳門聖母廟">台南正統鹿耳門聖母廟</a></li>--%>
-
                                     <li><a onclick="ActivityTime(1, 14)" href="javascript: void(0)" title="桃園威天宮">桃園威天宮</a></li>
                                 </ul>
                             </div>
@@ -345,9 +362,6 @@
                             </div>
                             <div class="ServiceTempleList">
                                 <ul>
-                                    <%--<li><a href="templeService_lights_Luer.aspx?t=12" title="台南正統鹿耳門聖母廟">台南正統鹿耳門聖母廟</a></li>
-                                    <li><a href="templeService_lights_Fw.aspx?t=12" title="斗六五路財神宮">斗六五路財神宮</a></li>--%>
-
                                     <li><a onclick="ActivityTime(1, 15)" href="javascript: void(0)" title="斗六五路財神宮">斗六五路財神宮</a></li>
                                 </ul>
                             </div>
@@ -365,7 +379,10 @@
                                     
                                     <li><a onclick="ActivityTime(1, 8)" href="javascript: void(0)" title="西螺福興宮">西螺福興宮</a></li>
                                     <li><a onclick="ActivityTime(1, 14)" href="javascript: void(0)" title="桃園威天宮">桃園威天宮</a></li>
+                                    <li><a onclick="ActivityTime(1, 15)" href="javascript: void(0)" title="斗六五路財神宮">斗六五路財神宮</a></li>
                                     <li><a onclick="ActivityTime(1, 31)" href="javascript: void(0)" title="台灣道教總廟無極三清總道院">台灣道教總廟無極三清總道院</a></li>
+                                    <li><a onclick="ActivityTime(1, 32)" href="javascript: void(0)" title="桃園龍德宮">桃園龍德宮</a></li>
+                                    <li><a onclick="ActivityTime(1, 39)" href="javascript: void(0)" title="慈惠石壁部堂">慈惠石壁部堂</a></li>
                                 </ul>
                             </div>
                         </li>
@@ -394,6 +411,56 @@
                                     <%--<li><a href="templeService_lights_dh.aspx?t=14" title="台東東海龍門天聖宮">台東東海龍門天聖宮</a></li>--%>
                                     
                                     <li><a onclick="ActivityTime(1, 16)" href="javascript: void(0)" title="台東東海龍門天聖宮">台東東海龍門天聖宮</a></li>
+                                </ul>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="ServiceType">
+                                <div>
+                                    <img src="images/icon_01.png" width="50" height="50" alt="" /></div>
+                                <div>觀音佛祖燈</div>
+                            </div>
+                            <div class="ServiceTempleList">
+                                <ul>                             
+                                    <li><a onclick="ActivityTime(1, 8)" href="javascript: void(0)" title="西螺福興宮">西螺福興宮</a></li>
+                                </ul>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="ServiceType">
+                                <div>
+                                    <img src="images/icon_02.png" width="50" height="50" alt="" /></div>
+                                <div>智慧燈</div>
+                            </div>
+                            <div class="ServiceTempleList">
+                                <ul>                             
+                                    <li><a onclick="ActivityTime(1, 14)" href="javascript: void(0)" title="桃園威天宮">桃園威天宮</a></li>       
+                                    <li><a onclick="ActivityTime(1, 32)" href="javascript: void(0)" title="桃園龍德宮">桃園龍德宮</a></li>
+                                </ul>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="ServiceType">
+                                <div>
+                                    <img src="images/icon_01.png" width="50" height="50" alt="" /></div>
+                                <div>事業燈</div>
+                            </div>
+                            <div class="ServiceTempleList">
+                                <ul>                             
+                                    <li><a onclick="ActivityTime(1, 31)" href="javascript: void(0)" title="台灣道教總廟無極三清總道院">台灣道教總廟無極三清總道院</a></li>
+                                    <li><a onclick="ActivityTime(1, 39)" href="javascript: void(0)" title="慈惠石壁部堂">慈惠石壁部堂</a></li>
+                                </ul>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="ServiceType">
+                                <div>
+                                    <img src="images/icon_01.png" width="50" height="50" alt="" /></div>
+                                <div>求(護)子燈</div>
+                            </div>
+                            <div class="ServiceTempleList">
+                                <ul>                             
+                                    <li><a onclick="ActivityTime(1, 39)" href="javascript: void(0)" title="慈惠石壁部堂">慈惠石壁部堂</a></li>
                                 </ul>
                             </div>
                         </li>

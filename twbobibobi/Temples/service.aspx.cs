@@ -172,13 +172,13 @@ namespace Temple.Temples
                                     endDate = lights_wjsan[2];
                                     Url = lights_wjsan[3];
                                     break;
-                                //case "32":
-                                //    //桃園龍德宮
-                                //    name = lights_ld[0];
-                                //    startDate = lights_ld[1];
-                                //    endDate = lights_ld[2];
-                                //    Url = lights_ld[3];
-                                //    break;
+                                case "32":
+                                    //桃園龍德宮
+                                    name = lights_ld[0];
+                                    startDate = lights_ld[1];
+                                    endDate = lights_ld[2];
+                                    Url = lights_ld[3];
+                                    break;
                                 case "35":
                                     //松柏嶺受天宮
                                     name = lights_st[0];

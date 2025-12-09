@@ -340,7 +340,7 @@
                             </tbody>
                         </table>
                         <br />
-                        <p>馬年點燈推廣計畫:</p>
+                        <p>馬年點燈推廣計畫: (結緣品隨機出貨)</p>
                         <p>
                             1.個人點二盞, 贈 
                             <a target="_blank" class="content_a" href="https://bobibobi.tw/Temples/images/temple/product/ld/001.jpg">嗶. 好運卡(看圖)</a> 一張
