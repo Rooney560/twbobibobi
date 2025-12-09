@@ -225,9 +225,23 @@
     <style>
         .OrderData .label,
         .OrderData div, 
-        .OrderInfo li > div:last-child {
+        .OrderInfo li > div:last-child,
+        .appsendback {
             font-size: 1.5vw;
         }
+
+        .OrderPurchaser .appsendback {            
+            display: inline-block;
+            vertical-align: middle;
+        }
+        .OrderPurchaser .appsendback:first-child {    
+            width: 80%;
+        }
+        .OrderPurchaser .appsendback:last-child {    
+            width: 20%;
+            text-align: center;
+        }
+
 
         .FormInput label, 
         .FormInput div, 
@@ -481,7 +495,8 @@
         @media only screen and (max-width: 1180px) {
             .OrderData .label,
             .OrderData div, 
-            .OrderInfo li > div:last-child {
+            .OrderInfo li > div:last-child,
+            .appsendback {
                 font-size: 2vw;
             }
 
@@ -505,8 +520,17 @@
         @media only screen and (max-width: 720px) {
             .OrderData .label,
             .OrderData div, 
-            .OrderInfo li > div:last-child {
+            .OrderInfo li > div:last-child,
+            .appsendback {
                 font-size: 3.5vw;
+            }
+
+            .OrderPurchaser .appsendback {
+                display: block;
+                width: 100% !important;
+            }
+            .OrderPurchaser .appsendback:last-child {
+                text-align: right;
             }
 
             .FormInput label, 
@@ -587,7 +611,8 @@
         @media only screen and (max-width: 420px) {
             .OrderData .label,
             .OrderData div, 
-            .OrderInfo li > div:last-child {
+            .OrderInfo li > div:last-child,
+            .appsendback {
                 font-size: 4.3vw;
             }
             .FormInput label, 

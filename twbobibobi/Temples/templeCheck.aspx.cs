@@ -16199,7 +16199,9 @@ namespace Temple.Temples
 
             if (dtData.Rows.Count > 0)
             {
-                OrderPurchaser = OrderData("購買人姓名", dtData.Rows[0]["AppName"].ToString());
+                OrderPurchaser = "<div class='appsendback'>";
+
+                OrderPurchaser += OrderData("購買人姓名", dtData.Rows[0]["AppName"].ToString());
 
 
                 string result_mobile = "<div class=\"OrderData\">\r\n                                                <div class=\"label\">{0}：</div>\r\n                                                <div id=\"AppMobile\" class=\"txt\">{1}</div>\r\n                                            </div>";
@@ -16229,11 +16231,19 @@ namespace Temple.Temples
 
                         if (AppSendback == "Y")
                         {
+                            Total += AppSendback == "Y" ? 60 : 0;
                             OrderPurchaser += OrderData("收件人姓名", dtData.Rows[0]["ReceiptName"].ToString());
                             OrderPurchaser += OrderData("收件人電話", dtData.Rows[0]["ReceiptMobile"].ToString());
                             OrderPurchaser += OrderData("收件人地址", dtData.Rows[0]["AppAddress"].ToString());
                         }
                     }
+                }
+
+                OrderPurchaser += "</div>";
+
+                if (AppSendback == "Y")
+                {
+                    OrderPurchaser += "<div class='appsendback'>$ " + 60 + "元</div>";
                 }
 
                 OrderInfo = string.Empty;
@@ -16275,8 +16285,6 @@ namespace Temple.Temples
 
                     //服務項目金額
                     cost = int.Parse(dtData.Rows[i]["Count"].ToString()) * GetLightsCost(AdminID, lightsType);
-
-                    cost += AppSendback == "Y" ? 60 : 0;
 
                     OrderInfo += "<div>$ " + cost + "元</div>";
                     Total += cost;
