@@ -10,6 +10,7 @@ namespace twbobibobi.FET.Dto
     /// </summary>
     public class TempleCodeInfoDto
     {
+        public int CodeID { get; set; }
         public string ProductCode { get; set; }
         public int AdminID { get; set; }
         public int ServiceID { get; set; }

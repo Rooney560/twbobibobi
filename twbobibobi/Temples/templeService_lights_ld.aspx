@@ -278,7 +278,7 @@
                         <div id="endTime">2026/10/31 23:59</div>
                         <br />
                         <div>點燈祈福時間：</div>
-                        <div>大年初一上燈。</div>
+                        <div>正月十六日午時上燈。</div>
                     </div>
                     <div class="EventServiceContent">
                         <h1 class="TempleName">丙五馬年線上報名點燈</h1>
@@ -340,7 +340,7 @@
                             </tbody>
                         </table>
                         <br />
-                        <p>馬年點燈推廣計畫: (結緣品隨機出貨)</p>
+                        <p>馬年點燈推廣計畫: (結緣品數量有限，送完為止。)</p>
                         <p>
                             1.個人點二盞, 贈 
                             <a target="_blank" class="content_a" href="https://bobibobi.tw/Temples/images/temple/product/ld/001.jpg">嗶. 好運卡(看圖)</a> 一張

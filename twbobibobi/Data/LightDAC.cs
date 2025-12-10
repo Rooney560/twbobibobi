@@ -20236,6 +20236,33 @@ namespace twbobibobi.Data
         /// <summary>
         /// 取得 FET 對應商品編號資料 (Get FET mapped product code info)
         /// </summary>
+        /// <returns>回傳符合條件的商品代碼資料表。</returns>
+        public DataTable GetTempleCodeInfo()
+        {
+            try
+            {
+                DataTable dtGetData = new DataTable();
+                string sql = "SELECT * FROM view_TempleCode WHERE Status = 0";
+
+                using (var adapter = new DatabaseAdapter(sql, this.DBSource))
+                {
+                    adapter.Fill(dtGetData);
+                }
+
+                return dtGetData;
+            }
+            catch (Exception error)
+            {
+                string detailedError = ErrorLogger.FormatError(error, typeof(LightDAC).FullName);
+                twbobibobi.Data.BasePage basePage = new twbobibobi.Data.BasePage();
+                basePage.SaveErrorLog("LightDAC.GetTempleCodeInfo()：\r\n" + detailedError);
+                throw;
+            }
+        }
+
+        /// <summary>
+        /// 取得 FET 對應商品編號資料 (Get FET mapped product code info)
+        /// </summary>
         /// <param name="id">商品代碼（ProductCode）。</param>
         /// <returns>回傳符合條件的商品代碼資料表。</returns>
         public DataTable GetTempleCodeInfo(string id)
@@ -20257,7 +20284,7 @@ namespace twbobibobi.Data
             {
                 string detailedError = ErrorLogger.FormatError(error, typeof(LightDAC).FullName);
                 twbobibobi.Data.BasePage basePage = new twbobibobi.Data.BasePage();
-                basePage.SaveErrorLog("LightDAC.GetTempleCodeInfo：\r\n" + detailedError);
+                basePage.SaveErrorLog("LightDAC.GetTempleCodeInfo(id)：\r\n" + detailedError);
                 throw;
             }
         }

@@ -1168,10 +1168,15 @@
     <Compile Include="Data\DatabaseAdapter.cs" />
     <Compile Include="Data\DatabaseHelper.cs" />
     <Compile Include="Data\LightDAC.cs" />
+    <Compile Include="FET\Data\ComboProductRuleRepository.cs" />
+    <Compile Include="FET\Data\IComboProductRuleRepository.cs" />
+    <Compile Include="FET\Dto\ComboProductRuleDto.cs" />
     <Compile Include="FET\Processors\BeijitaitungOrderProcessor.cs" />
     <Compile Include="FET\Processors\BopeeyouOrderProcessor.cs" />
     <Compile Include="FET\Processors\ShibibutangOrderProcessor.cs" />
     <Compile Include="FET\Processors\ShoushanyanOrderProcessor.cs" />
+    <Compile Include="FET\Services\ComboProductRuleService.cs" />
+    <Compile Include="FET\Services\IComboProductRuleService.cs" />
     <Compile Include="Helpers\EmailImageHelper.cs" />
     <Compile Include="Data\EventDAC.cs" />
     <Compile Include="Data\EventTitbitsDAC.cs" />

@@ -91,7 +91,7 @@ namespace Temple.FET.API
             string channel = "FETnet";
             string clientOrderNumber = string.Empty;
 
-            string env = "UAT";
+            string env = "Prod";
             string FkeyName = $"EncryptionKey_F{env}";
             string Fkey = ConfigurationManager.AppSettings[FkeyName];
 

@@ -138,10 +138,12 @@ namespace twbobibobi.FET.API
                     DateTime dtNow = LightDAC.GetTaipeiNow();
                     var lightDAC = new LightDAC(this);
                     var codeRepo = new TempleCodeRepository(lightDAC);
+                    var comboRepo = new ComboProductRuleRepository(this);
                     //var orderRepo = new OrderRepository(lightDAC, dbHelper, dtNow.Year.ToString());
                     var Year = env == "Prod" ? dtNow.ToString() : "TEST";
                     var factory = new TempleOrderProcessorFactory(this, Year);
-                    var service = new OrderService(codeRepo, factory);
+                    var combo = new ComboProductRuleService(comboRepo);
+                    var service = new OrderService(codeRepo, factory, combo);
 
                     SaveRequestLog(Request.Url + stream);
 

@@ -280,9 +280,13 @@ namespace twbobibobi.FET.Processors
                 orderNumbers.AddRange(productArr);
 
                 //更新購買數量至商品表or商品類別表
-                _lightDAC.UpdateCount2Product(
+                if (!_lightDAC.UpdateCount2Product(
                     ApplicantID: applicantId,
-                    Year: _year.ToString());
+                    Year: _year.ToString()))
+                {
+                    // 沒有更新到數量表，都當作失敗
+                    throw new InvalidOperationException("更新數量狀態異常");
+                }
 
                 string ChargeType = string.Empty;
                 int uStatus = 0;

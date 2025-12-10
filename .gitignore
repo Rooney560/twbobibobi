@@ -43,3 +43,4 @@ Log/
 *.db
 *.bak
 *.DS_Store
+/twbobibobi/ErrorLog.txt
