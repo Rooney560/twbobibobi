@@ -133,6 +133,11 @@ namespace twbobibobi
         public string Status_Supplies_wu_2025 = string.Empty;
 
         /// <summary>
+        /// 2026 短影片徵稿活動 活動狀態字串
+        /// </summary>
+        public string Status_Video_contest_2026 = string.Empty;
+
+        /// <summary>
         /// 活動清單（可擴充）
         /// Key = 活動代碼, Value = EventInfo
         /// </summary>
@@ -288,6 +293,16 @@ namespace twbobibobi
                         Deadline = new DateTime(2026, 10, 31, 23, 59, 59),
                         IsPermanent = false
                     }
+                },
+                {
+                    "Video_contest_2026",
+                    new EventInfo
+                    {
+                        Key = "Video_contest_2026",
+                        Name = "【保必保庇全民影展】",
+                        Deadline = new DateTime(2026, 2, 28, 23, 59, 59),
+                        IsPermanent = true
+                    }
                 }
             };
 
@@ -343,6 +358,7 @@ namespace twbobibobi
                 Status_Supplies_wu_2025 = GetEventStatus("Supplies_wu_2025");
                 Status_Lights_2026 = GetEventStatus("Lights_2026");
                 Status_AnDou_2026 = GetEventStatus("AnDou_2026");
+                Status_Video_contest_2026 = GetEventStatus("Video_contest_2026");
             }
         }
 

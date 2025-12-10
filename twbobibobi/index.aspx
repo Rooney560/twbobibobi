@@ -485,22 +485,23 @@
                                 </a>
                             </div>     
                             <div class="col-lg-4 col-sm-12 py-3">
-                                <a href="https://bobibobi.tw/Temples/newsContent_2026andou.aspx">
+                                <a href="https://bobibobi.tw/Temples/Video_contest.aspx">
                                     <div class="card shadow h-100" style="background-color: white; color: #707070;">
                                     <%--<div class="Newsimg">--%>
-                                        <img src="https://bobibobi.tw/Temples/SiteFile/News/20250422_NewsImg_s.jpg" class="card-img-top p-3" alt="保必保庇２０２６丙午馬年安奉斗燈" title="保必保庇２０２６丙午馬年安奉斗燈" />
+                                        <img src="https://bobibobi.tw/Temples/SiteFile/News/20251210_NewsImg_s.jpg?t=666168" class="card-img-top p-3" alt="【保必保庇全民影展】" title="【保必保庇全民影展】" />
                                     <%--</div>--%>
                                         <div class="card-body">
-                                            <div class="fs-3">安奉斗燈補元神，祈福轉運避災厄，神明庇佑照光明</div>
-                                            <div class="fs-5">安奉斗燈，為自己在天上安一盞護身之燈！向天界上奏元神，祈求神明庇佑、消災解厄、補運轉運。不論是祈求平安、財運、事業、健康或學業，皆可依所願安奉專屬斗燈，護佑全年。</div>
-                                            <%=Status_AnDou_2026 %>
+                                            <div class="fs-3">【保必保庇全民影展】</div>
+                                            <div class="fs-5">拍出你眼中的神明力量｜投稿就有機會拿獎金3000元！<br />
+                                                            信仰，不只存在廟裡，也在每個人生活裡。我們邀請全台信眾、創作者，一起用鏡頭拍下屬於你的「宮廟故事」。</div>
+                                            <%=Status_Video_contest_2026 %>
                                         </div>
                                         <div class="card-footer pb-3" style="border-top: none; background-color: transparent;">
                                             <div class="ReadMoreBtn"><span>&nbsp;詳情&nbsp;</span></div>
                                         </div>
                                     </div>
                                 </a>
-                            </div>   
+                            </div>      
                         </div>
                     </div>
                 </div>

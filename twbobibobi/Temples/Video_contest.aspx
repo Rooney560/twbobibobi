@@ -9,7 +9,7 @@
 <head runat="server">
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
     <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport" />
-    <meta property="og:title" content="保必保庇全民影展。拍出你的信仰日常，就有機會獲得獎金2000元！｜保必保庇" />
+    <meta property="og:title" content="保必保庇全民影展。拍出你的信仰日常，就有機會獲得獎金3000元！｜保必保庇" />
     <!--標題-->
     <meta property="og:url" content="https://bobibobi.tw/Temples/Video_contest.aspx" />
     <!--網址：請補上網址-->
@@ -17,7 +17,7 @@
     <!--簡介-->
     <meta property="og:description" content="保必保庇｜信仰，不只存在廟裡，也在每個人生活裡。這次，我們邀請全台信眾、創作者，一起用鏡頭拍下屬於你的「宮廟故事」。不論是神明靈驗感應、遶境盛事、點燈祈福、廟口日常，只要你願意拍、敢分享，就有機會登上保必保庇官方平台，還能抱走獎金3000元！" />
     <!--簡介-->
-    <meta property="og:site_name" content="保必保庇全民影展。拍出你的信仰日常，就有機會獲得獎金2000元！｜保必保庇" />
+    <meta property="og:site_name" content="保必保庇全民影展。拍出你的信仰日常，就有機會獲得獎金3000元！｜保必保庇" />
     <!--標題-->
     <meta property="og:type" content="website" />
 
@@ -31,7 +31,7 @@
     <link href="images/favicon.png" rel="apple-touch-icon" sizes="192x192" />
 
 
-    <title>保必保庇全民影展。拍出你的信仰日常，就有機會獲得獎金2000元！｜保必保庇</title>
+    <title>保必保庇全民影展。拍出你的信仰日常，就有機會獲得獎金3000元！｜保必保庇</title>
     <!--標題-->
 
     <!--資源項目-->
@@ -151,7 +151,7 @@
                         <img src="https://bobibobi.tw/Temples/images/temple/shortvideo/video_contest_001.jpg" /><br />
                         <img src="https://bobibobi.tw/Temples/images/temple/shortvideo/video_contest_002.jpg" /><br />
                         <img src="https://bobibobi.tw/Temples/images/temple/shortvideo/video_contest_003.jpg" /><br />
-                        <img src="https://bobibobi.tw/Temples/images/temple/shortvideo/video_contest_004.jpg" /><br />
+                        <img src="https://bobibobi.tw/Temples/images/temple/shortvideo/video_contest_004.jpg?t=123" /><br />
                         <img src="https://bobibobi.tw/Temples/images/temple/shortvideo/video_contest_005.jpg" /><br />
                         <img src="https://bobibobi.tw/Temples/images/temple/shortvideo/video_contest_006.jpg" /><br />
                         <img src="https://bobibobi.tw/Temples/images/temple/shortvideo/video_contest_007.jpg" /><br />

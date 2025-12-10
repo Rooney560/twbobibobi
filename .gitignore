@@ -11,7 +11,7 @@ obj/
 Debug/
 Release/
 
-# �קK�M�פ��l��Ƨ��]�Q commit �X bin/obj
+#  קK M פ  l  Ƨ  ] Q commit  X bin/obj
 */bin/
 */obj/
 
@@ -19,7 +19,7 @@ Release/
 IISExpress/
 *.vspscc
 
-# ���n�� VS �Ұʳ]�w (.csproj.user) commit �i repo
+#    n   VS  Ұʳ] w (.csproj.user) commit  i repo
 *.csproj.user
 *.pubxml.user
 *.publishsettings
@@ -44,3 +44,5 @@ Log/
 *.bak
 *.DS_Store
 /twbobibobi/ErrorLog.txt
+/twbobibobi/Web.config
+/twbobibobi/Web.config

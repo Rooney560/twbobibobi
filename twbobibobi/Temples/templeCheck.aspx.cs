@@ -2512,7 +2512,7 @@ namespace Temple.Temples
                                                                     "&kind=" + kind + (basePage.Request["twm"] != null ? "&twm=1" : ""), Year);
                                                                 break;
                                                             case "ChtCSP":
-                                                                link = TWWebPay_lights_da(basePage, orderId, ApplicantID, "TELEPAY", "", cost, AppMobile, "a=" + AdminID + "&aid=" + ApplicantID + "&kind=" + kind + (basePage.Request["twm"] != null ? "&twm=1" : ""), Year);
+                                                                link = TWWebPay_lights_da(basePage, orderId, ApplicantID, "TELEPAY", "cht", cost, AppMobile, "a=" + AdminID + "&aid=" + ApplicantID + "&kind=" + kind + (basePage.Request["twm"] != null ? "&twm=1" : ""), Year);
                                                                 break;
                                                             case "TwmCSP":
                                                                 link = TWWebPay_lights_da(basePage, orderId, ApplicantID, "TELEPAY", "twm", cost, AppMobile, "a=" + AdminID + "&aid=" + ApplicantID + "&kind=" + kind + (basePage.Request["twm"] != null ? "&twm=1" : ""), Year);
@@ -2550,7 +2550,7 @@ namespace Temple.Temples
                                                                 "&kind=" + kind + (basePage.Request["twm"] != null ? "&twm=1" : ""), Year);
                                                             break;
                                                         case "ChtCSP":
-                                                            link = TWWebPay_lights_h(basePage, orderId, ApplicantID, "TELEPAY", "", cost, AppMobile, "a=" + AdminID + "&aid=" + ApplicantID + "&kind=" + kind + (basePage.Request["twm"] != null ? "&twm=1" : ""), Year);
+                                                            link = TWWebPay_lights_h(basePage, orderId, ApplicantID, "TELEPAY", "cht", cost, AppMobile, "a=" + AdminID + "&aid=" + ApplicantID + "&kind=" + kind + (basePage.Request["twm"] != null ? "&twm=1" : ""), Year);
                                                             break;
                                                         case "TwmCSP":
                                                             link = TWWebPay_lights_h(basePage, orderId, ApplicantID, "TELEPAY", "twm", cost, AppMobile, "a=" + AdminID + "&aid=" + ApplicantID + "&kind=" + kind + (basePage.Request["twm"] != null ? "&twm=1" : ""), Year);
@@ -2635,7 +2635,7 @@ namespace Temple.Temples
                                                                     "&kind=" + kind + (basePage.Request["twm"] != null ? "&twm=1" : ""), Year);
                                                                 break;
                                                             case "ChtCSP":
-                                                                link = TWWebPay_lights_wu(basePage, orderId, ApplicantID, "TELEPAY", "", cost, AppMobile, "a=" + AdminID + "&aid=" + ApplicantID + "&kind=" + kind + (basePage.Request["twm"] != null ? "&twm=1" : ""), Year);
+                                                                link = TWWebPay_lights_wu(basePage, orderId, ApplicantID, "TELEPAY", "cht", cost, AppMobile, "a=" + AdminID + "&aid=" + ApplicantID + "&kind=" + kind + (basePage.Request["twm"] != null ? "&twm=1" : ""), Year);
                                                                 break;
                                                             case "TwmCSP":
                                                                 link = TWWebPay_lights_wu(basePage, orderId, ApplicantID, "TELEPAY", "twm", cost, AppMobile, "a=" + AdminID + "&aid=" + ApplicantID + "&kind=" + kind + (basePage.Request["twm"] != null ? "&twm=1" : ""), Year);
@@ -2673,7 +2673,7 @@ namespace Temple.Temples
                                                                 "&kind=" + kind + (basePage.Request["twm"] != null ? "&twm=1" : ""), Year);
                                                             break;
                                                         case "ChtCSP":
-                                                            link = TWWebPay_lights_Fu(basePage, orderId, ApplicantID, "TELEPAY", "", cost, AppMobile, "a=" + AdminID + "&aid=" + ApplicantID + "&kind=" + kind + (basePage.Request["twm"] != null ? "&twm=1" : ""), Year);
+                                                            link = TWWebPay_lights_Fu(basePage, orderId, ApplicantID, "TELEPAY", "cht", cost, AppMobile, "a=" + AdminID + "&aid=" + ApplicantID + "&kind=" + kind + (basePage.Request["twm"] != null ? "&twm=1" : ""), Year);
                                                             break;
                                                         case "TwmCSP":
                                                             link = TWWebPay_lights_Fu(basePage, orderId, ApplicantID, "TELEPAY", "twm", cost, AppMobile, "a=" + AdminID + "&aid=" + ApplicantID + "&kind=" + kind + (basePage.Request["twm"] != null ? "&twm=1" : ""), Year);
@@ -2710,7 +2710,7 @@ namespace Temple.Temples
                                                                 "&kind=" + kind + (basePage.Request["twm"] != null ? "&twm=1" : ""), Year);
                                                             break;
                                                         case "ChtCSP":
-                                                            link = TWWebPay_lights_Luer(basePage, orderId, ApplicantID, "TELEPAY", "", cost, AppMobile, "a=" + AdminID + "&aid=" + ApplicantID + "&kind=" + kind + (basePage.Request["twm"] != null ? "&twm=1" : ""), Year);
+                                                            link = TWWebPay_lights_Luer(basePage, orderId, ApplicantID, "TELEPAY", "cht", cost, AppMobile, "a=" + AdminID + "&aid=" + ApplicantID + "&kind=" + kind + (basePage.Request["twm"] != null ? "&twm=1" : ""), Year);
                                                             break;
                                                         case "TwmCSP":
                                                             link = TWWebPay_lights_Luer(basePage, orderId, ApplicantID, "TELEPAY", "twm", cost, AppMobile, "a=" + AdminID + "&aid=" + ApplicantID + "&kind=" + kind + (basePage.Request["twm"] != null ? "&twm=1" : ""), Year);
@@ -2815,7 +2815,7 @@ namespace Temple.Temples
                                                                     "&kind=" + kind + (basePage.Request["twm"] != null ? "&twm=1" : ""), type, Year);
                                                                 break;
                                                             case "ChtCSP":
-                                                                link = TWWebPay_lights_ty(basePage, orderId, ApplicantID, "TELEPAY", "", cost, AppMobile, "a=" + AdminID + "&aid=" + ApplicantID + "&kind=" + kind + (basePage.Request["twm"] != null ? "&twm=1" : "") + ("&type=" + basePage.Request["type"]), type, Year);
+                                                                link = TWWebPay_lights_ty(basePage, orderId, ApplicantID, "TELEPAY", "cht", cost, AppMobile, "a=" + AdminID + "&aid=" + ApplicantID + "&kind=" + kind + (basePage.Request["twm"] != null ? "&twm=1" : "") + ("&type=" + basePage.Request["type"]), type, Year);
                                                                 break;
                                                             case "TwmCSP":
                                                                 link = TWWebPay_lights_ty(basePage, orderId, ApplicantID, "TELEPAY", "twm", cost, AppMobile, "a=" + AdminID + "&aid=" + ApplicantID + "&kind=" + kind + (basePage.Request["twm"] != null ? "&twm=1" : "") + ("&type=" + basePage.Request["type"]), type, Year);
@@ -2853,7 +2853,7 @@ namespace Temple.Temples
                                                                 "&kind=" + kind + (basePage.Request["twm"] != null ? "&twm=1" : ""), Year);
                                                             break;
                                                         case "ChtCSP":
-                                                            link = TWWebPay_lights_Fw(basePage, orderId, ApplicantID, "TELEPAY", "", cost, AppMobile, "a=" + AdminID + "&aid=" + ApplicantID + "&kind=" + kind + (basePage.Request["twm"] != null ? "&twm=1" : ""), Year);
+                                                            link = TWWebPay_lights_Fw(basePage, orderId, ApplicantID, "TELEPAY", "cht", cost, AppMobile, "a=" + AdminID + "&aid=" + ApplicantID + "&kind=" + kind + (basePage.Request["twm"] != null ? "&twm=1" : ""), Year);
                                                             break;
                                                         case "TwmCSP":
                                                             link = TWWebPay_lights_Fw(basePage, orderId, ApplicantID, "TELEPAY", "twm", cost, AppMobile, "a=" + AdminID + "&aid=" + ApplicantID + "&kind=" + kind + (basePage.Request["twm"] != null ? "&twm=1" : ""), Year);
@@ -2890,7 +2890,7 @@ namespace Temple.Temples
                                                                 "&kind=" + kind + (basePage.Request["twm"] != null ? "&twm=1" : ""), Year);
                                                             break;
                                                         case "ChtCSP":
-                                                            link = TWWebPay_lights_dh(basePage, orderId, ApplicantID, "TELEPAY", "", cost, AppMobile, "a=" + AdminID + "&aid=" + ApplicantID + "&kind=" + kind + (basePage.Request["twm"] != null ? "&twm=1" : ""), Year);
+                                                            link = TWWebPay_lights_dh(basePage, orderId, ApplicantID, "TELEPAY", "cht", cost, AppMobile, "a=" + AdminID + "&aid=" + ApplicantID + "&kind=" + kind + (basePage.Request["twm"] != null ? "&twm=1" : ""), Year);
                                                             break;
                                                         case "TwmCSP":
                                                             link = TWWebPay_lights_dh(basePage, orderId, ApplicantID, "TELEPAY", "twm", cost, AppMobile, "a=" + AdminID + "&aid=" + ApplicantID + "&kind=" + kind + (basePage.Request["twm"] != null ? "&twm=1" : ""), Year);
@@ -2927,7 +2927,7 @@ namespace Temple.Temples
                                                                 "&kind=" + kind + (basePage.Request["twm"] != null ? "&twm=1" : ""), Year);
                                                             break;
                                                         case "ChtCSP":
-                                                            link = TWWebPay_lights_Hs(basePage, orderId, ApplicantID, "TELEPAY", "", cost, AppMobile, "a=" + AdminID + "&aid=" + ApplicantID + "&kind=" + kind + (basePage.Request["twm"] != null ? "&twm=1" : ""), Year);
+                                                            link = TWWebPay_lights_Hs(basePage, orderId, ApplicantID, "TELEPAY", "cht", cost, AppMobile, "a=" + AdminID + "&aid=" + ApplicantID + "&kind=" + kind + (basePage.Request["twm"] != null ? "&twm=1" : ""), Year);
                                                             break;
                                                         case "TwmCSP":
                                                             link = TWWebPay_lights_Hs(basePage, orderId, ApplicantID, "TELEPAY", "twm", cost, AppMobile, "a=" + AdminID + "&aid=" + ApplicantID + "&kind=" + kind + (basePage.Request["twm"] != null ? "&twm=1" : ""), Year);
@@ -2964,7 +2964,7 @@ namespace Temple.Temples
                                                                 "&kind=" + kind + (basePage.Request["twm"] != null ? "&twm=1" : ""), Year);
                                                             break;
                                                         case "ChtCSP":
-                                                            link = TWWebPay_lights_Lk(basePage, orderId, ApplicantID, "TELEPAY", "", cost, AppMobile, "a=" + AdminID + "&aid=" + ApplicantID + "&kind=" + kind + (basePage.Request["twm"] != null ? "&twm=1" : ""), Year);
+                                                            link = TWWebPay_lights_Lk(basePage, orderId, ApplicantID, "TELEPAY", "cht", cost, AppMobile, "a=" + AdminID + "&aid=" + ApplicantID + "&kind=" + kind + (basePage.Request["twm"] != null ? "&twm=1" : ""), Year);
                                                             break;
                                                         case "TwmCSP":
                                                             link = TWWebPay_lights_Lk(basePage, orderId, ApplicantID, "TELEPAY", "twm", cost, AppMobile, "a=" + AdminID + "&aid=" + ApplicantID + "&kind=" + kind + (basePage.Request["twm"] != null ? "&twm=1" : ""), Year);
@@ -3059,7 +3059,7 @@ namespace Temple.Temples
                                                                     "&kind=" + kind + (basePage.Request["twm"] != null ? "&twm=1" : ""), Year);
                                                                 break;
                                                             case "ChtCSP":
-                                                                link = TWWebPay_lights_ma(basePage, orderId, ApplicantID, "TELEPAY", "", cost, AppMobile, "a=" + AdminID + "&aid=" + ApplicantID +
+                                                                link = TWWebPay_lights_ma(basePage, orderId, ApplicantID, "TELEPAY", "cht", cost, AppMobile, "a=" + AdminID + "&aid=" + ApplicantID +
                                                                     "&kind=" + kind + (basePage.Request["twm"] != null ? "&twm=1" : ""), Year);
                                                                 break;
                                                             case "TwmCSP":
@@ -3104,7 +3104,7 @@ namespace Temple.Temples
                                                                     "&kind=" + kind + (basePage.Request["twm"] != null ? "&twm=1" : ""), Year);
                                                                 break;
                                                             case "ChtCSP":
-                                                                link = TWWebPay_lights_wjsan(basePage, orderId, ApplicantID, "TELEPAY", "", cost, AppMobile, "a=" + AdminID + "&aid=" + ApplicantID +
+                                                                link = TWWebPay_lights_wjsan(basePage, orderId, ApplicantID, "TELEPAY", "cht", cost, AppMobile, "a=" + AdminID + "&aid=" + ApplicantID +
                                                                     "&kind=" + kind + (basePage.Request["twm"] != null ? "&twm=1" : ""), Year);
                                                                 break;
                                                             case "TwmCSP":
@@ -3149,7 +3149,7 @@ namespace Temple.Temples
                                                                     "&kind=" + kind + (basePage.Request["twm"] != null ? "&twm=1" : ""), Year);
                                                                 break;
                                                             case "ChtCSP":
-                                                                link = TWWebPay_lights_ld(basePage, orderId, ApplicantID, "TELEPAY", "", cost, AppMobile, "a=" + AdminID + "&aid=" + ApplicantID +
+                                                                link = TWWebPay_lights_ld(basePage, orderId, ApplicantID, "TELEPAY", "cht", cost, AppMobile, "a=" + AdminID + "&aid=" + ApplicantID +
                                                                     "&kind=" + kind + (basePage.Request["twm"] != null ? "&twm=1" : ""), Year);
                                                                 break;
                                                             case "TwmCSP":
@@ -3194,7 +3194,7 @@ namespace Temple.Temples
                                                                     "&kind=" + kind + (basePage.Request["twm"] != null ? "&twm=1" : ""), Year);
                                                                 break;
                                                             case "ChtCSP":
-                                                                link = TWWebPay_lights_st(basePage, orderId, ApplicantID, "TELEPAY", "", cost, AppMobile, "a=" + AdminID + "&aid=" + ApplicantID +
+                                                                link = TWWebPay_lights_st(basePage, orderId, ApplicantID, "TELEPAY", "cht", cost, AppMobile, "a=" + AdminID + "&aid=" + ApplicantID +
                                                                     "&kind=" + kind + (basePage.Request["twm"] != null ? "&twm=1" : ""), Year);
                                                                 break;
                                                             case "TwmCSP":
@@ -3239,7 +3239,7 @@ namespace Temple.Temples
                                                                     "&kind=" + kind + (basePage.Request["twm"] != null ? "&twm=1" : ""), Year);
                                                                 break;
                                                             case "ChtCSP":
-                                                                link = TWWebPay_lights_bj(basePage, orderId, ApplicantID, "TELEPAY", "", cost, AppMobile, "a=" + AdminID + "&aid=" + ApplicantID +
+                                                                link = TWWebPay_lights_bj(basePage, orderId, ApplicantID, "TELEPAY", "cht", cost, AppMobile, "a=" + AdminID + "&aid=" + ApplicantID +
                                                                     "&kind=" + kind + (basePage.Request["twm"] != null ? "&twm=1" : ""), Year);
                                                                 break;
                                                             case "TwmCSP":
@@ -3284,7 +3284,7 @@ namespace Temple.Temples
                                                                     "&kind=" + kind + (basePage.Request["twm"] != null ? "&twm=1" : ""), Year);
                                                                 break;
                                                             case "ChtCSP":
-                                                                link = TWWebPay_lights_sbbt(basePage, orderId, ApplicantID, "TELEPAY", "", cost, AppMobile, "a=" + AdminID + "&aid=" + ApplicantID +
+                                                                link = TWWebPay_lights_sbbt(basePage, orderId, ApplicantID, "TELEPAY", "cht", cost, AppMobile, "a=" + AdminID + "&aid=" + ApplicantID +
                                                                     "&kind=" + kind + (basePage.Request["twm"] != null ? "&twm=1" : ""), Year);
                                                                 break;
                                                             case "TwmCSP":
@@ -3329,7 +3329,7 @@ namespace Temple.Temples
                                                                     "&kind=" + kind + (basePage.Request["twm"] != null ? "&twm=1" : ""), Year);
                                                                 break;
                                                             case "ChtCSP":
-                                                                link = TWWebPay_lights_bpy(basePage, orderId, ApplicantID, "TELEPAY", "", cost, AppMobile, "a=" + AdminID + "&aid=" + ApplicantID +
+                                                                link = TWWebPay_lights_bpy(basePage, orderId, ApplicantID, "TELEPAY", "cht", cost, AppMobile, "a=" + AdminID + "&aid=" + ApplicantID +
                                                                     "&kind=" + kind + (basePage.Request["twm"] != null ? "&twm=1" : ""), Year);
                                                                 break;
                                                             case "TwmCSP":
@@ -3374,7 +3374,7 @@ namespace Temple.Temples
                                                                     "&kind=" + kind + (basePage.Request["twm"] != null ? "&twm=1" : ""), Year);
                                                                 break;
                                                             case "ChtCSP":
-                                                                link = TWWebPay_lights_ssy(basePage, orderId, ApplicantID, "TELEPAY", "", cost, AppMobile, "a=" + AdminID + "&aid=" + ApplicantID +
+                                                                link = TWWebPay_lights_ssy(basePage, orderId, ApplicantID, "TELEPAY", "cht", cost, AppMobile, "a=" + AdminID + "&aid=" + ApplicantID +
                                                                     "&kind=" + kind + (basePage.Request["twm"] != null ? "&twm=1" : ""), Year);
                                                                 break;
                                                             case "TwmCSP":
@@ -3442,7 +3442,7 @@ namespace Temple.Temples
                                                                 "&kind=" + kind + (basePage.Request["twm"] != null ? "&twm=1" : ""), Year);
                                                             break;
                                                         case "ChtCSP":
-                                                            link = TWWebPay_purdue_da(basePage, orderId, ApplicantID, "TELEPAY", "", cost, AppMobile, "a=" + AdminID + "&aid=" + ApplicantID + "&kind=" + kind + (basePage.Request["twm"] != null ? "&twm=1" : ""), Year);
+                                                            link = TWWebPay_purdue_da(basePage, orderId, ApplicantID, "TELEPAY", "cht", cost, AppMobile, "a=" + AdminID + "&aid=" + ApplicantID + "&kind=" + kind + (basePage.Request["twm"] != null ? "&twm=1" : ""), Year);
                                                             break;
                                                         case "TwmCSP":
                                                             link = TWWebPay_purdue_da(basePage, orderId, ApplicantID, "TELEPAY", "twm", cost, AppMobile, "a=" + AdminID + "&aid=" + ApplicantID + "&kind=" + kind + (basePage.Request["twm"] != null ? "&twm=1" : ""), Year);
@@ -3477,7 +3477,7 @@ namespace Temple.Temples
                                                                 "&kind=" + kind + (basePage.Request["twm"] != null ? "&twm=1" : ""), Year);
                                                             break;
                                                         case "ChtCSP":
-                                                            link = TWWebPay_purdue_h(basePage, orderId, ApplicantID, "TELEPAY", "", cost, AppMobile, "a=" + AdminID + "&aid=" + ApplicantID + "&kind=" + kind + (basePage.Request["twm"] != null ? "&twm=1" : ""), Year);
+                                                            link = TWWebPay_purdue_h(basePage, orderId, ApplicantID, "TELEPAY", "cht", cost, AppMobile, "a=" + AdminID + "&aid=" + ApplicantID + "&kind=" + kind + (basePage.Request["twm"] != null ? "&twm=1" : ""), Year);
                                                             break;
                                                         case "TwmCSP":
                                                             link = TWWebPay_purdue_h(basePage, orderId, ApplicantID, "TELEPAY", "twm", cost, AppMobile, "a=" + AdminID + "&aid=" + ApplicantID + "&kind=" + kind + (basePage.Request["twm"] != null ? "&twm=1" : ""), Year);
@@ -3512,7 +3512,7 @@ namespace Temple.Temples
                                                                 "&kind=" + kind + (basePage.Request["twm"] != null ? "&twm=1" : ""), Year);
                                                             break;
                                                         case "ChtCSP":
-                                                            link = TWWebPay_purdue_wu(basePage, orderId, ApplicantID, "TELEPAY", "", cost, AppMobile, "a=" + AdminID + "&aid=" + ApplicantID + "&kind=" + kind + (basePage.Request["twm"] != null ? "&twm=1" : ""), Year);
+                                                            link = TWWebPay_purdue_wu(basePage, orderId, ApplicantID, "TELEPAY", "cht", cost, AppMobile, "a=" + AdminID + "&aid=" + ApplicantID + "&kind=" + kind + (basePage.Request["twm"] != null ? "&twm=1" : ""), Year);
                                                             break;
                                                         case "TwmCSP":
                                                             link = TWWebPay_purdue_wu(basePage, orderId, ApplicantID, "TELEPAY", "twm", cost, AppMobile, "a=" + AdminID + "&aid=" + ApplicantID + "&kind=" + kind + (basePage.Request["twm"] != null ? "&twm=1" : ""), Year);
@@ -3547,7 +3547,7 @@ namespace Temple.Temples
                                                                 "&kind=" + kind + (basePage.Request["twm"] != null ? "&twm=1" : ""), Year);
                                                             break;
                                                         case "ChtCSP":
-                                                            link = TWWebPay_purdue_Fu(basePage, orderId, ApplicantID, "TELEPAY", "", cost, AppMobile, "a=" + AdminID + "&aid=" + ApplicantID + "&kind=" + kind + (basePage.Request["twm"] != null ? "&twm=1" : ""), Year);
+                                                            link = TWWebPay_purdue_Fu(basePage, orderId, ApplicantID, "TELEPAY", "cht", cost, AppMobile, "a=" + AdminID + "&aid=" + ApplicantID + "&kind=" + kind + (basePage.Request["twm"] != null ? "&twm=1" : ""), Year);
                                                             break;
                                                         case "TwmCSP":
                                                             link = TWWebPay_purdue_Fu(basePage, orderId, ApplicantID, "TELEPAY", "twm", cost, AppMobile, "a=" + AdminID + "&aid=" + ApplicantID + "&kind=" + kind + (basePage.Request["twm"] != null ? "&twm=1" : ""), Year);
@@ -3582,7 +3582,7 @@ namespace Temple.Temples
                                                                 "&kind=" + kind + (basePage.Request["twm"] != null ? "&twm=1" : ""), Year);
                                                             break;
                                                         case "ChtCSP":
-                                                            link = TWWebPay_purdue_Luer(basePage, orderId, ApplicantID, "TELEPAY", "", cost, AppMobile, "a=" + AdminID + "&aid=" + ApplicantID + "&kind=" + kind + (basePage.Request["twm"] != null ? "&twm=1" : ""), Year);
+                                                            link = TWWebPay_purdue_Luer(basePage, orderId, ApplicantID, "TELEPAY", "cht", cost, AppMobile, "a=" + AdminID + "&aid=" + ApplicantID + "&kind=" + kind + (basePage.Request["twm"] != null ? "&twm=1" : ""), Year);
                                                             break;
                                                         case "TwmCSP":
                                                             link = TWWebPay_purdue_Luer(basePage, orderId, ApplicantID, "TELEPAY", "twm", cost, AppMobile, "a=" + AdminID + "&aid=" + ApplicantID + "&kind=" + kind + (basePage.Request["twm"] != null ? "&twm=1" : ""), Year);
@@ -3617,7 +3617,7 @@ namespace Temple.Temples
                                                                 "&kind=" + kind + (basePage.Request["twm"] != null ? "&twm=1" : ""), Year);
                                                             break;
                                                         case "ChtCSP":
-                                                            link = TWWebPay_purdue_ty(basePage, orderId, ApplicantID, "TELEPAY", "", cost, AppMobile, "a=" + AdminID + "&aid=" + ApplicantID + "&kind=" + kind + (basePage.Request["twm"] != null ? "&twm=1" : ""), Year);
+                                                            link = TWWebPay_purdue_ty(basePage, orderId, ApplicantID, "TELEPAY", "cht", cost, AppMobile, "a=" + AdminID + "&aid=" + ApplicantID + "&kind=" + kind + (basePage.Request["twm"] != null ? "&twm=1" : ""), Year);
                                                             break;
                                                         case "TwmCSP":
                                                             link = TWWebPay_purdue_ty(basePage, orderId, ApplicantID, "TELEPAY", "twm", cost, AppMobile, "a=" + AdminID + "&aid=" + ApplicantID + "&kind=" + kind + (basePage.Request["twm"] != null ? "&twm=1" : ""), Year);
@@ -3652,7 +3652,7 @@ namespace Temple.Temples
                                                                 "&kind=" + kind + (basePage.Request["twm"] != null ? "&twm=1" : ""), Year);
                                                             break;
                                                         case "ChtCSP":
-                                                            link = TWWebPay_purdue_Fw(basePage, orderId, ApplicantID, "TELEPAY", "", cost, AppMobile, "a=" + AdminID + "&aid=" + ApplicantID + "&kind=" + kind + (basePage.Request["twm"] != null ? "&twm=1" : ""), Year);
+                                                            link = TWWebPay_purdue_Fw(basePage, orderId, ApplicantID, "TELEPAY", "cht", cost, AppMobile, "a=" + AdminID + "&aid=" + ApplicantID + "&kind=" + kind + (basePage.Request["twm"] != null ? "&twm=1" : ""), Year);
                                                             break;
                                                         case "TwmCSP":
                                                             link = TWWebPay_purdue_Fw(basePage, orderId, ApplicantID, "TELEPAY", "twm", cost, AppMobile, "a=" + AdminID + "&aid=" + ApplicantID + "&kind=" + kind + (basePage.Request["twm"] != null ? "&twm=1" : ""), Year);
@@ -3687,7 +3687,7 @@ namespace Temple.Temples
                                                                 "&kind=" + kind + (basePage.Request["twm"] != null ? "&twm=1" : ""), Year);
                                                             break;
                                                         case "ChtCSP":
-                                                            link = TWWebPay_purdue_dh(basePage, orderId, ApplicantID, "TELEPAY", "", cost, AppMobile, "a=" + AdminID + "&aid=" + ApplicantID + "&kind=" + kind + (basePage.Request["twm"] != null ? "&twm=1" : ""), Year);
+                                                            link = TWWebPay_purdue_dh(basePage, orderId, ApplicantID, "TELEPAY", "cht", cost, AppMobile, "a=" + AdminID + "&aid=" + ApplicantID + "&kind=" + kind + (basePage.Request["twm"] != null ? "&twm=1" : ""), Year);
                                                             break;
                                                         case "TwmCSP":
                                                             link = TWWebPay_purdue_dh(basePage, orderId, ApplicantID, "TELEPAY", "twm", cost, AppMobile, "a=" + AdminID + "&aid=" + ApplicantID + "&kind=" + kind + (basePage.Request["twm"] != null ? "&twm=1" : ""), Year);
@@ -3722,7 +3722,7 @@ namespace Temple.Temples
                                                                 "&kind=" + kind + (basePage.Request["twm"] != null ? "&twm=1" : ""), Year);
                                                             break;
                                                         case "ChtCSP":
-                                                            link = TWWebPay_purdue_Lk(basePage, orderId, ApplicantID, "TELEPAY", "", cost, AppMobile, "a=" + AdminID + "&aid=" + ApplicantID + "&kind=" + kind + (basePage.Request["twm"] != null ? "&twm=1" : ""), Year);
+                                                            link = TWWebPay_purdue_Lk(basePage, orderId, ApplicantID, "TELEPAY", "cht", cost, AppMobile, "a=" + AdminID + "&aid=" + ApplicantID + "&kind=" + kind + (basePage.Request["twm"] != null ? "&twm=1" : ""), Year);
                                                             break;
                                                         case "TwmCSP":
                                                             link = TWWebPay_purdue_Lk(basePage, orderId, ApplicantID, "TELEPAY", "twm", cost, AppMobile, "a=" + AdminID + "&aid=" + ApplicantID + "&kind=" + kind + (basePage.Request["twm"] != null ? "&twm=1" : ""), Year);
@@ -3757,7 +3757,7 @@ namespace Temple.Temples
                                                                 "&kind=" + kind + (basePage.Request["twm"] != null ? "&twm=1" : ""), Year);
                                                             break;
                                                         case "ChtCSP":
-                                                            link = TWWebPay_purdue_ma(basePage, orderId, ApplicantID, "TELEPAY", "", cost, AppMobile, "a=" + AdminID + "&aid=" + ApplicantID + "&kind=" + kind + (basePage.Request["twm"] != null ? "&twm=1" : ""), Year);
+                                                            link = TWWebPay_purdue_ma(basePage, orderId, ApplicantID, "TELEPAY", "cht", cost, AppMobile, "a=" + AdminID + "&aid=" + ApplicantID + "&kind=" + kind + (basePage.Request["twm"] != null ? "&twm=1" : ""), Year);
                                                             break;
                                                         case "TwmCSP":
                                                             link = TWWebPay_purdue_ma(basePage, orderId, ApplicantID, "TELEPAY", "twm", cost, AppMobile, "a=" + AdminID + "&aid=" + ApplicantID + "&kind=" + kind + (basePage.Request["twm"] != null ? "&twm=1" : ""), Year);
@@ -3792,7 +3792,7 @@ namespace Temple.Temples
                                                                 "&kind=" + kind + (basePage.Request["twm"] != null ? "&twm=1" : ""), Year);
                                                             break;
                                                         case "ChtCSP":
-                                                            link = TWWebPay_purdue_wjsan(basePage, orderId, ApplicantID, "TELEPAY", "", cost, AppMobile, "a=" + AdminID + "&aid=" + ApplicantID + "&kind=" + kind + (basePage.Request["twm"] != null ? "&twm=1" : ""), Year);
+                                                            link = TWWebPay_purdue_wjsan(basePage, orderId, ApplicantID, "TELEPAY", "cht", cost, AppMobile, "a=" + AdminID + "&aid=" + ApplicantID + "&kind=" + kind + (basePage.Request["twm"] != null ? "&twm=1" : ""), Year);
                                                             break;
                                                         case "TwmCSP":
                                                             link = TWWebPay_purdue_wjsan(basePage, orderId, ApplicantID, "TELEPAY", "twm", cost, AppMobile, "a=" + AdminID + "&aid=" + ApplicantID + "&kind=" + kind + (basePage.Request["twm"] != null ? "&twm=1" : ""), Year);
@@ -3865,7 +3865,7 @@ namespace Temple.Temples
                                                         "&kind=" + kind + (basePage.Request["twm"] != null ? "&twm=1" : ""), Year);
                                                     break;
                                                 case "ChtCSP":
-                                                    link = TWWebPay_supplies_wu(basePage, orderId, ApplicantID, "TELEPAY", "", cost, AppMobile, "a=" + AdminID + "&aid=" + ApplicantID + "&kind=" + kind + (basePage.Request["twm"] != null ? "&twm=1" : ""), Year);
+                                                    link = TWWebPay_supplies_wu(basePage, orderId, ApplicantID, "TELEPAY", "cht", cost, AppMobile, "a=" + AdminID + "&aid=" + ApplicantID + "&kind=" + kind + (basePage.Request["twm"] != null ? "&twm=1" : ""), Year);
                                                     break;
                                                 case "TwmCSP":
                                                     link = TWWebPay_supplies_wu(basePage, orderId, ApplicantID, "TELEPAY", "twm", cost, AppMobile, "a=" + AdminID + "&aid=" + ApplicantID + "&kind=" + kind + (basePage.Request["twm"] != null ? "&twm=1" : ""), Year);
@@ -3921,7 +3921,7 @@ namespace Temple.Temples
                                                         "&kind=" + kind + (basePage.Request["twm"] != null ? "&twm=1" : ""), Year);
                                                     break;
                                                 case "ChtCSP":
-                                                    link = TWWebPay_supplies_wu2(basePage, orderId, ApplicantID, "TELEPAY", "", cost, AppMobile, "a=" + AdminID + "&aid=" + ApplicantID + "&kind=" + kind + (basePage.Request["twm"] != null ? "&twm=1" : ""), Year);
+                                                    link = TWWebPay_supplies_wu2(basePage, orderId, ApplicantID, "TELEPAY", "cht", cost, AppMobile, "a=" + AdminID + "&aid=" + ApplicantID + "&kind=" + kind + (basePage.Request["twm"] != null ? "&twm=1" : ""), Year);
                                                     break;
                                                 case "TwmCSP":
                                                     link = TWWebPay_supplies_wu2(basePage, orderId, ApplicantID, "TELEPAY", "twm", cost, AppMobile, "a=" + AdminID + "&aid=" + ApplicantID + "&kind=" + kind + (basePage.Request["twm"] != null ? "&twm=1" : ""), Year);
@@ -3984,7 +3984,7 @@ namespace Temple.Temples
                                                                 "&kind=" + kind + (basePage.Request["twm"] != null ? "&twm=1" : ""), Year);
                                                             break;
                                                         case "ChtCSP":
-                                                            link = TWWebPay_supplies_ty(basePage, orderId, ApplicantID, "TELEPAY", "", cost, AppMobile, "a=" + AdminID + "&aid=" + ApplicantID + "&kind=" + kind + (basePage.Request["twm"] != null ? "&twm=1" : ""), Year);
+                                                            link = TWWebPay_supplies_ty(basePage, orderId, ApplicantID, "TELEPAY", "cht", cost, AppMobile, "a=" + AdminID + "&aid=" + ApplicantID + "&kind=" + kind + (basePage.Request["twm"] != null ? "&twm=1" : ""), Year);
                                                             break;
                                                         case "TwmCSP":
                                                             link = TWWebPay_supplies_ty(basePage, orderId, ApplicantID, "TELEPAY", "twm", cost, AppMobile, "a=" + AdminID + "&aid=" + ApplicantID + "&kind=" + kind + (basePage.Request["twm"] != null ? "&twm=1" : ""), Year);
@@ -4018,7 +4018,7 @@ namespace Temple.Temples
                                                                 "&kind=" + kind + (basePage.Request["twm"] != null ? "&twm=1" : ""), Year);
                                                             break;
                                                         case "ChtCSP":
-                                                            link = TWWebPay_supplies_ma(basePage, orderId, ApplicantID, "TELEPAY", "", cost, AppMobile, "a=" + AdminID + "&aid=" + ApplicantID + "&kind=" + kind + (basePage.Request["twm"] != null ? "&twm=1" : ""), Year);
+                                                            link = TWWebPay_supplies_ma(basePage, orderId, ApplicantID, "TELEPAY", "cht", cost, AppMobile, "a=" + AdminID + "&aid=" + ApplicantID + "&kind=" + kind + (basePage.Request["twm"] != null ? "&twm=1" : ""), Year);
                                                             break;
                                                         case "TwmCSP":
                                                             link = TWWebPay_supplies_ma(basePage, orderId, ApplicantID, "TELEPAY", "twm", cost, AppMobile, "a=" + AdminID + "&aid=" + ApplicantID + "&kind=" + kind + (basePage.Request["twm"] != null ? "&twm=1" : ""), Year);
@@ -4080,7 +4080,7 @@ namespace Temple.Temples
                                                         "&kind=" + kind + (basePage.Request["twm"] != null ? "&twm=1" : ""), Year);
                                                     break;
                                                 case "ChtCSP":
-                                                    link = TWWebPay_emperorGuansheng_ty(basePage, orderId, ApplicantID, "TELEPAY", "", cost, AppMobile, "a=" + AdminID + "&aid=" + ApplicantID + "&kind=" + kind + (basePage.Request["twm"] != null ? "&twm=1" : "") + (basePage.Request["bobi"] != null ? "&bobi=1" : ""), Year);
+                                                    link = TWWebPay_emperorGuansheng_ty(basePage, orderId, ApplicantID, "TELEPAY", "cht", cost, AppMobile, "a=" + AdminID + "&aid=" + ApplicantID + "&kind=" + kind + (basePage.Request["twm"] != null ? "&twm=1" : "") + (basePage.Request["bobi"] != null ? "&bobi=1" : ""), Year);
                                                     break;
                                                 case "TwmCSP":
                                                     link = TWWebPay_emperorGuansheng_ty(basePage, orderId, ApplicantID, "TELEPAY", "twm", cost, AppMobile, "a=" + AdminID + "&aid=" + ApplicantID + "&kind=" + kind + (basePage.Request["twm"] != null ? "&twm=1" : "") + (basePage.Request["bobi"] != null ? "&bobi=1" : ""), Year);
@@ -4139,7 +4139,7 @@ namespace Temple.Temples
                                                         "&kind=" + kind + (basePage.Request["twm"] != null ? "&twm=1" : ""), Year);
                                                     break;
                                                 case "ChtCSP":
-                                                    link = TWWebPay_supplies_dh(basePage, orderId, ApplicantID, "TELEPAY", "", cost, AppMobile, "a=" + AdminID + "&aid=" + ApplicantID +
+                                                    link = TWWebPay_supplies_dh(basePage, orderId, ApplicantID, "TELEPAY", "cht", cost, AppMobile, "a=" + AdminID + "&aid=" + ApplicantID +
                                                         "&kind=" + kind + (basePage.Request["twm"] != null ? "&twm=1" : ""), Year);
                                                     break;
                                                 case "TwmCSP":
@@ -4198,7 +4198,7 @@ namespace Temple.Temples
                                                         "&kind=" + kind + (basePage.Request["twm"] != null ? "&twm=1" : ""), Year);
                                                     break;
                                                 case "ChtCSP":
-                                                    link = TWWebPay_lingbaolidou_ma(basePage, orderId, ApplicantID, "TELEPAY", "", cost, AppMobile, "a=" + AdminID + "&aid=" + ApplicantID + "&kind=" + kind + (basePage.Request["twm"] != null ? "&twm=1" : "") + (basePage.Request["line"] != null ? "&line=1" : "") + (basePage.Request["fb"] != null ? "&fb=1" : ""), Year);
+                                                    link = TWWebPay_lingbaolidou_ma(basePage, orderId, ApplicantID, "TELEPAY", "cht", cost, AppMobile, "a=" + AdminID + "&aid=" + ApplicantID + "&kind=" + kind + (basePage.Request["twm"] != null ? "&twm=1" : "") + (basePage.Request["line"] != null ? "&line=1" : "") + (basePage.Request["fb"] != null ? "&fb=1" : ""), Year);
                                                     break;
                                                 case "TwmCSP":
                                                     link = TWWebPay_lingbaolidou_ma(basePage, orderId, ApplicantID, "TELEPAY", "twm", cost, AppMobile, "a=" + AdminID + "&aid=" + ApplicantID + "&kind=" + kind + (basePage.Request["twm"] != null ? "&twm=1" : "") + (basePage.Request["line"] != null ? "&line=1" : "") + (basePage.Request["fb"] != null ? "&fb=1" : ""), Year);
@@ -4267,7 +4267,7 @@ namespace Temple.Temples
                                                         "&kind=" + kind + (basePage.Request["twm"] != null ? "&twm=1" : ""), Year);
                                                     break;
                                                 case "ChtCSP":
-                                                    link = TWWebPay_taoistJiaoCeremony_da(basePage, orderId, ApplicantID, "TELEPAY", "", cost, AppMobile, "a=" + AdminID + "&aid=" +
+                                                    link = TWWebPay_taoistJiaoCeremony_da(basePage, orderId, ApplicantID, "TELEPAY", "cht", cost, AppMobile, "a=" + AdminID + "&aid=" +
                                                         ApplicantID + "&kind=" + kind + (basePage.Request["twm"] != null ? "&twm=1" : "") +
                                                         (basePage.Request["bobi"] != null ? "&bobi=1" : ""), Year);
                                                     break;
@@ -4330,7 +4330,7 @@ namespace Temple.Temples
                                                         "&kind=" + kind + (basePage.Request["twm"] != null ? "&twm=1" : ""), Year);
                                                     break;
                                                 case "ChtCSP":
-                                                    link = TWWebPay_supplies2_ty(basePage, orderId, ApplicantID, "TELEPAY", "", cost, AppMobile, "a=" + AdminID + "&aid=" + ApplicantID +
+                                                    link = TWWebPay_supplies2_ty(basePage, orderId, ApplicantID, "TELEPAY", "cht", cost, AppMobile, "a=" + AdminID + "&aid=" + ApplicantID +
                                                         "&kind=" + kind + (basePage.Request["twm"] != null ? "&twm=1" : "") + (basePage.Request["bobi"] != null ? "&bobi=1" : ""), Year);
                                                     break;
                                                 case "TwmCSP":
@@ -4391,7 +4391,7 @@ namespace Temple.Temples
                                                         "&kind=" + kind + (basePage.Request["twm"] != null ? "&twm=1" : ""), Year);
                                                     break;
                                                 case "ChtCSP":
-                                                    link = TWWebPay_lybc_dh(basePage, orderId, ApplicantID, "TELEPAY", "", cost, AppMobile, "a=" + AdminID + "&aid=" +
+                                                    link = TWWebPay_lybc_dh(basePage, orderId, ApplicantID, "TELEPAY", "cht", cost, AppMobile, "a=" + AdminID + "&aid=" +
                                                         ApplicantID + "&kind=" + kind + (basePage.Request["twm"] != null ? "&twm=1" : "") +
                                                         (basePage.Request["bobi"] != null ? "&bobi=1" : ""), Year);
                                                     break;
@@ -4458,7 +4458,7 @@ namespace Temple.Temples
                                                                 "&kind=" + kind + (basePage.Request["twm"] != null ? "&twm=1" : ""), Year);
                                                             break;
                                                         case "ChtCSP":
-                                                            link = TWWebPay_supplies_Fw(basePage, orderId, ApplicantID, "TELEPAY", "", cost, AppMobile, "a=" + AdminID + "&aid=" +
+                                                            link = TWWebPay_supplies_Fw(basePage, orderId, ApplicantID, "TELEPAY", "cht", cost, AppMobile, "a=" + AdminID + "&aid=" +
                                                                 ApplicantID + "&kind=" + kind + (basePage.Request["twm"] != null ? "&twm=1" : "") +
                                                                 (basePage.Request["bobi"] != null ? "&bobi=1" : ""), Year);
                                                             break;
@@ -4521,7 +4521,7 @@ namespace Temple.Temples
                                                                 "&kind=" + kind + (basePage.Request["twm"] != null ? "&twm=1" : ""), Year);
                                                             break;
                                                         case "ChtCSP":
-                                                            link = TWWebPay_supplies_Lk(basePage, orderId, ApplicantID, "TELEPAY", "", cost, AppMobile, "a=" + AdminID + "&aid=" +
+                                                            link = TWWebPay_supplies_Lk(basePage, orderId, ApplicantID, "TELEPAY", "cht", cost, AppMobile, "a=" + AdminID + "&aid=" +
                                                                 ApplicantID + "&kind=" + kind + (basePage.Request["twm"] != null ? "&twm=1" : "") +
                                                                 (basePage.Request["bobi"] != null ? "&bobi=1" : ""), Year);
                                                             break;
@@ -4590,7 +4590,7 @@ namespace Temple.Temples
                                                                 "&kind=" + kind + (basePage.Request["twm"] != null ? "&twm=1" : ""), Year);
                                                             break;
                                                         case "ChtCSP":
-                                                            link = TWWebPay_supplies_sx(basePage, orderId, ApplicantID, "TELEPAY", "", cost, AppMobile, "a=" + AdminID + "&aid=" +
+                                                            link = TWWebPay_supplies_sx(basePage, orderId, ApplicantID, "TELEPAY", "cht", cost, AppMobile, "a=" + AdminID + "&aid=" +
                                                                 ApplicantID + "&kind=" + kind + (basePage.Request["twm"] != null ? "&twm=1" : "") +
                                                                 (basePage.Request["bobi"] != null ? "&bobi=1" : ""), Year);
                                                             break;
@@ -4655,7 +4655,7 @@ namespace Temple.Temples
                                                         "&kind=" + kind + (basePage.Request["twm"] != null ? "&twm=1" : ""), Year);
                                                     break;
                                                 case "ChtCSP":
-                                                    link = TWWebPay_supplies3_ty(basePage, orderId, ApplicantID, "TELEPAY", "", cost, AppMobile, "a=" + AdminID + "&aid=" + ApplicantID +
+                                                    link = TWWebPay_supplies3_ty(basePage, orderId, ApplicantID, "TELEPAY", "cht", cost, AppMobile, "a=" + AdminID + "&aid=" + ApplicantID +
                                                         "&kind=" + kind + (basePage.Request["twm"] != null ? "&twm=1" : "") + (basePage.Request["bobi"] != null ? "&bobi=1" : ""), Year);
                                                     break;
                                                 case "TwmCSP":
@@ -4719,7 +4719,7 @@ namespace Temple.Temples
                                                                 "&kind=" + kind + (basePage.Request["twm"] != null ? "&twm=1" : ""), Year);
                                                             break;
                                                         case "ChtCSP":
-                                                            link = TWWebPay_supplies2_sx(basePage, orderId, ApplicantID, "TELEPAY", "", cost, AppMobile, "a=" + AdminID + "&aid=" +
+                                                            link = TWWebPay_supplies2_sx(basePage, orderId, ApplicantID, "TELEPAY", "cht", cost, AppMobile, "a=" + AdminID + "&aid=" +
                                                                 ApplicantID + "&kind=" + kind + (basePage.Request["twm"] != null ? "&twm=1" : "") +
                                                                 (basePage.Request["bobi"] != null ? "&bobi=1" : ""), Year);
                                                             break;
@@ -4790,7 +4790,7 @@ namespace Temple.Temples
                                                                 "&kind=" + kind + (basePage.Request["twm"] != null ? "&twm=1" : ""), Year);
                                                             break;
                                                         case "ChtCSP":
-                                                            link = TWWebPay_andou_Fw(basePage, orderId, ApplicantID, "TELEPAY", "", cost, AppMobile, "a=" + AdminID + "&aid=" + ApplicantID + "&kind=" + kind + (basePage.Request["twm"] != null ? "&twm=1" : ""), Year);
+                                                            link = TWWebPay_andou_Fw(basePage, orderId, ApplicantID, "TELEPAY", "cht", cost, AppMobile, "a=" + AdminID + "&aid=" + ApplicantID + "&kind=" + kind + (basePage.Request["twm"] != null ? "&twm=1" : ""), Year);
                                                             break;
                                                         case "TwmCSP":
                                                             link = TWWebPay_andou_Fw(basePage, orderId, ApplicantID, "TELEPAY", "twm", cost, AppMobile, "a=" + AdminID + "&aid=" + ApplicantID + "&kind=" + kind + (basePage.Request["twm"] != null ? "&twm=1" : ""), Year);
@@ -4829,7 +4829,7 @@ namespace Temple.Temples
                                                                     "&kind=" + kind + (basePage.Request["twm"] != null ? "&twm=1" : ""), Year);
                                                                 break;
                                                             case "ChtCSP":
-                                                                link = TWWebPay_andou_wjsan(basePage, orderId, ApplicantID, "TELEPAY", "", cost, AppMobile, "a=" + AdminID + "&aid=" + ApplicantID +
+                                                                link = TWWebPay_andou_wjsan(basePage, orderId, ApplicantID, "TELEPAY", "cht", cost, AppMobile, "a=" + AdminID + "&aid=" + ApplicantID +
                                                                     "&kind=" + kind + (basePage.Request["twm"] != null ? "&twm=1" : ""), Year);
                                                                 break;
                                                             case "TwmCSP":
@@ -4901,7 +4901,7 @@ namespace Temple.Temples
                                                                     "&kind=" + kind + (basePage.Request["twm"] != null ? "&twm=1" : ""), Year);
                                                                 break;
                                                             case "ChtCSP":
-                                                                link = TWWebPay_huaguo_wjsan(basePage, orderId, ApplicantID, "TELEPAY", "", cost, AppMobile, "a=" + AdminID + "&aid=" + ApplicantID +
+                                                                link = TWWebPay_huaguo_wjsan(basePage, orderId, ApplicantID, "TELEPAY", "cht", cost, AppMobile, "a=" + AdminID + "&aid=" + ApplicantID +
                                                                     "&kind=" + kind + (basePage.Request["twm"] != null ? "&twm=1" : ""), Year);
                                                                 break;
                                                             case "TwmCSP":
@@ -4980,7 +4980,7 @@ namespace Temple.Temples
                                                                     "&kind=" + kind + (basePage.Request["twm"] != null ? "&twm=1" : ""), type, Year);
                                                                 break;
                                                             case "ChtCSP":
-                                                                link = TWWebPay_lights_ty_mom(basePage, orderId, ApplicantID, "TELEPAY", "", cost, AppMobile, "a=" + AdminID + "&aid=" + ApplicantID + "&kind=" + kind + (basePage.Request["twm"] != null ? "&twm=1" : "") + ("&type=" + basePage.Request["type"]), type, Year);
+                                                                link = TWWebPay_lights_ty_mom(basePage, orderId, ApplicantID, "TELEPAY", "cht", cost, AppMobile, "a=" + AdminID + "&aid=" + ApplicantID + "&kind=" + kind + (basePage.Request["twm"] != null ? "&twm=1" : "") + ("&type=" + basePage.Request["type"]), type, Year);
                                                                 break;
                                                             case "TwmCSP":
                                                                 link = TWWebPay_lights_ty_mom(basePage, orderId, ApplicantID, "TELEPAY", "twm", cost, AppMobile, "a=" + AdminID + "&aid=" + ApplicantID + "&kind=" + kind + (basePage.Request["twm"] != null ? "&twm=1" : "") + ("&type=" + basePage.Request["type"]), type, Year);
@@ -5050,7 +5050,7 @@ namespace Temple.Temples
                                                                     "&kind=" + kind + (basePage.Request["twm"] != null ? "&twm=1" : ""), Year);
                                                                 break;
                                                             case "ChtCSP":
-                                                                link = TWWebPay_blessing_st(basePage, orderId, ApplicantID, "TELEPAY", "", cost, AppMobile, "a=" + AdminID + "&aid=" + ApplicantID +
+                                                                link = TWWebPay_blessing_st(basePage, orderId, ApplicantID, "TELEPAY", "cht", cost, AppMobile, "a=" + AdminID + "&aid=" + ApplicantID +
                                                                     "&kind=" + kind + (basePage.Request["twm"] != null ? "&twm=1" : ""), Year);
                                                                 break;
                                                             case "TwmCSP":
@@ -5118,7 +5118,7 @@ namespace Temple.Temples
                                                                 "&kind=" + kind + (basePage.Request["twm"] != null ? "&twm=1" : ""), type, Year);
                                                             break;
                                                         case "ChtCSP":
-                                                            link = TWWebPay_qnlight_ty(basePage, orderId, ApplicantID, "TELEPAY", "", cost, AppMobile, "a=" + AdminID + "&aid=" + ApplicantID + "&kind=" + kind + (basePage.Request["twm"] != null ? "&twm=1" : "") + ("&type=" + basePage.Request["type"]), type, Year);
+                                                            link = TWWebPay_qnlight_ty(basePage, orderId, ApplicantID, "TELEPAY", "cht", cost, AppMobile, "a=" + AdminID + "&aid=" + ApplicantID + "&kind=" + kind + (basePage.Request["twm"] != null ? "&twm=1" : "") + ("&type=" + basePage.Request["type"]), type, Year);
                                                             break;
                                                         case "TwmCSP":
                                                             link = TWWebPay_qnlight_ty(basePage, orderId, ApplicantID, "TELEPAY", "twm", cost, AppMobile, "a=" + AdminID + "&aid=" + ApplicantID + "&kind=" + kind + (basePage.Request["twm"] != null ? "&twm=1" : "") + ("&type=" + basePage.Request["type"]), type, Year);
