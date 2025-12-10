@@ -126,6 +126,8 @@ namespace twbobibobi.FET.Processors
                 case "1":  
                     PostUrl = "Lights" + PostUrl;
 
+                    string sendback = applicant.appshippingFee != "0" ? "Y" : "N";
+
                     // 新增購買人資料
                     int applicantId = _lightDAC.Addapplicantinfo_lights_ld(
                         Name: applicant.appName,
@@ -135,7 +137,7 @@ namespace twbobibobi.FET.Processors
                         Dist: applicant.appRegion,
                         Addr: applicant.appAddr,
                         ZipCode: applicant.appzipCode,
-                        Sendback: applicant.sendback,
+                        Sendback: sendback,
                         ShippingFee: applicant.appshippingFee,
                         ReceiptName: receiptName,
                         ReceiptMobile: receiptMobile,
