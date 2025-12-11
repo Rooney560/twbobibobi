@@ -150,6 +150,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Api\AllowanceInvoice.aspx" />
     <Content Include="Api\CancelInvoice.aspx" />
     <Content Include="Api\InvoiceAPI.aspx" />
     <Content Include="Api\InvoiceCancel.aspx" />
@@ -1089,6 +1090,13 @@
   <ItemGroup>
     <Compile Include="ApiClients\InvoiceCaller.cs" />
     <Compile Include="ApiClients\InvoiceRequestFactory.cs" />
+    <Compile Include="Api\AllowanceInvoice.aspx.cs">
+      <DependentUpon>AllowanceInvoice.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Api\AllowanceInvoice.aspx.designer.cs">
+      <DependentUpon>AllowanceInvoice.aspx</DependentUpon>
+    </Compile>
     <Compile Include="Api\CancelInvoice.aspx.cs">
       <DependentUpon>CancelInvoice.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>

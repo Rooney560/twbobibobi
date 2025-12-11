@@ -4,7 +4,14 @@
  * 類別說明：訂單建立服務，負責整合批量讀取、組合商品拆分、資料展平、分組、並交由各宮廟 Processor 執行
  * 建立日期：2025-12-09
  * 建立人員：Rooney
- * 修改記錄：2025-12-09 - 新增資料驅動版組合商品展開（雙重驗證：ServiceID=26 AND ComboRules > 0）；加入 TempleCode 反查 ProductCode，移除硬編碼 ProductCode；
+ * 修改記錄：
+ *  - 2025-12-09 - 新增資料驅動版組合商品展開（雙重驗證：ServiceID=26 AND ComboRules > 0）；加入 TempleCode 反查 ProductCode，移除硬編碼 ProductCode；
+ *  - 2025-12-10：新增 comboAmounts 支援、三模式自動判斷：
+ *      1. FillRemaining（Formula=1）
+ *      2. Average（Formula>1 且無 Fixed）
+ *      3. Custom（Formula>1 且有 Fixed）
+ *  - 2025-12-10：新增完整金額驗證（comboTotalPrice、remainingAmount）
+ *  - 2025-12-10：ServiceID=3 文創不帶祈福人，其餘保留原祈福人
  * 
  * 目前維護人員：Rooney
  **************************************************************************************************/
@@ -191,16 +198,16 @@ namespace twbobibobi.FET.Services
         }
 
         /// <summary>
-        /// 偵測組合商品並展開為多筆 item。（需同時符合：ServiceID=26 AND ComboRules > 0）
-        /// 以「奉天宮安太歲 + 文創商品」為例：
-        /// 1. 安太歲固定 620 元
-        /// 2. 文創商品金額 = TotalAmount - 620
-        /// 3. 原始祈福人資料保留給安太歲使用
+        /// 偵測組合商品並展開為多筆 item。（需同時符合：ServiceID=26 AND ComboRules 存在）
+        /// 自動支援 3 種 Formula 模式（無需新增欄位）：
+        /// 1. FillRemaining：Formula 只有 1 筆 → 將剩餘金額全部給它。
+        /// 2. Average：Formula ≥2 且沒有 Fixed → 均分剩餘金額，最後一筆補差額。
+        /// 3. Custom：Formula ≥2 且有 Fixed → 扣除 LightsCost + Fixed 後均分，最後一筆補差額。
         /// </summary>
-        /// <param name="items">原始 ItemDto 清單。</param>
-        /// <param name="codeInfos">TempleCode 資訊。</param>
-        /// <param name="totalAmountString">訂單總金額字串。</param>
-        /// <returns>展開後的新 ItemDto 清單。</returns>
+        /// <param name="items">原始項目清單。</param>
+        /// <param name="codeInfos">商品代碼對照的宮廟代碼資訊。</param>
+        /// <param name="totalAmountString">整筆訂單總金額。</param>
+        /// <returns>展開後的新項目清單。</returns>
         private List<ItemDto> ExpandComboItemsIfNeeded(
             List<ItemDto> items,
             Dictionary<string, TempleCodeInfoDto> codeInfos,
@@ -211,6 +218,40 @@ namespace twbobibobi.FET.Services
             int totalAmount = int.Parse(totalAmountString);
 
             var result = new List<ItemDto>();
+
+            // ------------------------------------------------------------------------------------
+            // 第一步：計算非組合商品金額 + 收集組合商品金額（comboAmounts）
+            // ------------------------------------------------------------------------------------
+            int nonComboAmount = 0;
+            List<int> comboAmounts = new List<int>();  // 每個組合商品的金額（N 筆組合商品 → N 筆金額）
+
+            foreach (var item in items)
+            {
+                // 先取得此商品資訊
+                if (!codeInfos.TryGetValue(item.ProductCode, out var info))
+                {
+                    // 找不到就直接原樣加入
+                    result.Add(item);
+                    continue;
+                }
+
+                // 如果不是組合商品，則累加到 nonComboAmount
+                if (info.ServiceID != comboKind)
+                {
+                    nonComboAmount += (int)item.UnitPrice;
+                }
+                else
+                {
+                    // 如果是組合商品，將此商品的金額加入陣列
+                    comboAmounts.Add((int)item.UnitPrice);
+                }
+            }
+
+            // ------------------------------------------------------------------------------------
+            // 第二步：展開組合商品（逐筆展開 combos）
+            // ------------------------------------------------------------------------------------
+
+            int comboIndex = 0; // 用來對應 comboAmounts[i]
 
             foreach (var item in items)
             {
@@ -229,7 +270,7 @@ namespace twbobibobi.FET.Services
                 bool isCombo =
                     info.ServiceID == comboKind   // 舊邏輯
                     && rules != null
-                    && rules.Count > 0;          // 新資料規則
+                    && rules.Count > 0;           // 新資料規則
 
                 if (!isCombo)
                 {
@@ -237,9 +278,67 @@ namespace twbobibobi.FET.Services
                     continue;
                 }
 
-                // 開始展開 Combo 子商品
-                int usedAmount = 0;
+                // 取得此組合商品的金額
+                int comboAmount = comboAmounts[comboIndex];
+                comboIndex++;
 
+                // ================================
+                // 計算固定金額（Fixed + LightsCost）
+                // ================================
+                int mainServicePrice = 0; // 主服務價格（例如點燈、普度、法會）
+                int fixedTotal = 0;
+                int formulaCount = 0;
+
+                foreach (var rule in rules)
+                {
+                    switch (rule.PriceSource)
+                    {
+                        case "Fixed":
+                            fixedTotal += rule.FixedPrice.Value;
+                            break;
+
+                        case "LightsCost":
+                            mainServicePrice += AjaxBasePage.GetLightsCost(rule.AdminID, rule.TypeID.ToString());
+                            break;
+
+                        case "PurdueCost":
+                            mainServicePrice += AjaxBasePage.GetPurdueCost(rule.AdminID, rule.TypeID.ToString());
+                            break;
+
+                        case "SuppliesCost":
+                            mainServicePrice += AjaxBasePage.GetSuppliesCost(rule.AdminID, rule.TypeID.ToString());
+                            break;
+
+                        case "Formula":
+                            formulaCount++;
+                            break;
+                    }
+                }
+
+                int remaining = comboAmount - fixedTotal - mainServicePrice;
+                if (remaining < 0)
+                    throw new Exception($"組合商品金額不足以支付固定成本。Combo={comboAmount}, MainServicePrice={mainServicePrice}, Fixed={fixedTotal}");
+
+                // ================================
+                // 自動判斷模式（FillRemaining / Average / Custom）
+                // ================================
+                string mode;
+
+                if (formulaCount == 1)
+                    mode = "FillRemaining";
+                else if (formulaCount > 1 && fixedTotal == 0)
+                    mode = "Average";
+                else
+                    mode = "Custom";
+
+                // ================================
+                // 計算每個 rule 的金額
+                // ================================
+                int usedAmount = 0;
+                int formulaIndex = 0;
+                int comboTotalPrice = 0;
+
+                // 開始展開 Combo 子商品
                 foreach (var rule in rules.OrderBy(r => r.SortOrder))
                 {
                     // 反查 ProductCode（不寫死）
@@ -257,15 +356,44 @@ namespace twbobibobi.FET.Services
                             break;
 
                         case "LightsCost":
-                            price = AjaxBasePage.GetLightsCost(rule.AdminID, rule.TypeID.ToString());
+                            price += AjaxBasePage.GetLightsCost(rule.AdminID, rule.TypeID.ToString());
+                            break;
+
+                        case "PurdueCost":
+                            price += AjaxBasePage.GetPurdueCost(rule.AdminID, rule.TypeID.ToString());
+                            break;
+
+                        case "SuppliesCost":
+                            price += AjaxBasePage.GetSuppliesCost(rule.AdminID, rule.TypeID.ToString());
                             break;
 
                         case "Formula":
-                            price = totalAmount - usedAmount;
+
+                            // --- FillRemaining（只有 1 筆）---
+                            if (mode == "FillRemaining")
+                            {
+                                price = remaining;
+                            }
+                            else
+                            {
+                                // --- Average / Custom ---
+                                int per = remaining / formulaCount; // 無條件捨去
+                                // 先處理第一筆（填補差額）
+                                if (formulaIndex == 0)
+                                {
+                                    price = remaining - (per * (formulaCount - 1));
+                                }
+                                else
+                                {
+                                    price = per;
+                                }
+                                formulaIndex++;
+                            }
                             break;
                     }
 
                     usedAmount += price;
+                    comboTotalPrice += price;
 
                     // 建立子商品
                     result.Add(new ItemDto
@@ -278,6 +406,22 @@ namespace twbobibobi.FET.Services
                             : item.PrayedPerson)
                     });
                 }
+
+                // ================================
+                // 驗證：此組合商品展開後總額是否正確
+                // ================================
+                if (comboTotalPrice != comboAmount)
+                    throw new Exception($"組合商品拆分金額錯誤：ComboAmount={comboAmount}, Sum={comboTotalPrice}");
+
+                // ----------------------------------------------------------
+                // 驗證所有組合商品金額總和是否 = totalAmount - nonComboAmount
+                // ----------------------------------------------------------
+                int expectedComboTotal = totalAmount - nonComboAmount;
+                int actualComboTotal = comboAmounts.Sum();
+
+                if (expectedComboTotal != actualComboTotal)
+                    throw new Exception($"組合商品金額不符。Expected={expectedComboTotal}, Actual={actualComboTotal}");
+
             }
 
             return result;

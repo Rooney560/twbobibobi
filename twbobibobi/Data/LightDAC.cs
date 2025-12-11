@@ -49683,6 +49683,46 @@ namespace twbobibobi.Data
 
                 string sql = string.Empty;
 
+                // 檢查更新前的 Usecount
+                int currentUseCount = 0;
+                if (TypeID > 0)
+                {
+                    // 查詢 Item_Product 中的 Usecount
+                    sql = @"
+                    SELECT Usecount
+                    FROM Item_Product
+                    WHERE TypeID = @TypeID
+                      AND Status = 0
+                ";
+                }
+                else
+                {
+                    // 查詢 Product 中的 Usecount
+                    sql = @"
+                    SELECT Usecount
+                    FROM Product
+                    WHERE ProductID = @ProductID
+                      AND Status = 0
+                ";
+                }
+
+                using (DatabaseAdapter da = new DatabaseAdapter(sql, this.DBSource))
+                {
+                    if (TypeID > 0)
+                        da.AddParameterToSelectCommand("@TypeID", TypeID);
+                    else
+                        da.AddParameterToSelectCommand("@ProductID", ProductID);
+
+                    currentUseCount = Convert.ToInt32(da.ExecuteScalar());
+                }
+
+                // 若當前 Usecount 小於 1 且 Count 為負數，則不進行更新
+                if (currentUseCount + Count < 0)
+                {
+                    return false;  // 不進行更新，返回 false
+                }
+
+                // 根據 TypeID 更新 Item_Product 或 Product
                 if (TypeID > 0)
                 {
                     // 更新 Item_Product

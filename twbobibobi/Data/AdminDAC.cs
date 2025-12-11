@@ -10,6 +10,8 @@
 
 using System;
 using System.Data;
+using Temple.data;
+using Temple.FET.APITEST;
 using twbobibobi.Helpers;
 
 namespace twbobibobi.Data
@@ -1728,6 +1730,8 @@ namespace twbobibobi.Data
                 string sql = string.Empty;
                 string view = string.Empty;
                 DataTable dtUpdateStatus = new DataTable();
+                BasePage basePage = new BasePage();
+                LightDAC _lightDAC = new LightDAC(basePage);
 
                 //──────────────────────────────
                 // 根據 AdminID 指定正確的 Temple 資料表
@@ -1788,6 +1792,44 @@ namespace twbobibobi.Data
                                 int res = updateAdapter.ExecuteSql();
                                 if (res > 0)
                                     result = true;
+                            }
+
+                            if (result)
+                            {
+                                int productID = 0;
+                                int.TryParse(row["ProductID"].ToString(), out productID);
+
+                                int typeID = 0;
+                                int.TryParse(row["TypeID"].ToString(), out typeID);
+
+                                int count = 0;
+                                int.TryParse(row["Count"].ToString(), out count);
+
+                                if (productID > 0)
+                                {
+                                    if (count > 0)
+                                    {
+                                        //更新購買數量至商品表or商品類別表
+                                        if (!_lightDAC.UpdateCount2Product(
+                                        ProductID: productID,
+                                        TypeID: typeID,
+                                        Count: -count))
+                                        {
+                                            // 沒有更新到數量表，都當作失敗
+                                            throw new InvalidOperationException("更新數量狀態異常");
+                                        }
+                                    }
+                                    else
+                                    {
+                                        // 沒有更新到數量表，都當作失敗
+                                        throw new InvalidOperationException("更新數量狀態異常；取得數量失敗；");
+                                    }
+                                }
+                                else
+                                {
+                                    // 沒有更新到數量表，都當作失敗
+                                    throw new InvalidOperationException("更新數量狀態異常；取得ProductID失敗；");
+                                }
                             }
                         }
                     }
