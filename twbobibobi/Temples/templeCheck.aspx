@@ -1833,6 +1833,13 @@
                             break;
                     }
                     break;
+                case "27":
+                    switch (url.searchParams.get('a')) {
+                        case "14":
+                            window.location = 'templeService_luckaltar_ty.aspx' + window.location.search;
+                            break;
+                    }
+                    break;
             }
         }
     </script>

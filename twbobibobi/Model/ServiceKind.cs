@@ -34,7 +34,17 @@ namespace twbobibobi.Model
         /// <summary>
         /// 祈安植福。
         /// </summary>
-        QnLight = 25
+        QnLight = 25,
+
+        /// <summary>
+        /// 組合商品。
+        /// </summary>
+        Productlist = 26,
+
+        /// <summary>
+        /// 祈安植福。
+        /// </summary>
+        Luckaltar = 27
 
     }
 }

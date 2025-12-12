@@ -128,6 +128,11 @@ namespace twbobibobi
         public string Status_QnLight_ty_2025 = string.Empty;
 
         /// <summary>
+        /// 2026 桃園威天宮 新春賀歲感恩招財祿位 活動狀態字串
+        /// </summary>
+        public string Status_Luckaltar_ty_2026 = string.Empty;
+
+        /// <summary>
         /// 2025 北港武德宮 下元補庫 活動狀態字串
         /// </summary>
         public string Status_Supplies_wu_2025 = string.Empty;
@@ -265,6 +270,16 @@ namespace twbobibobi
                     }
                 },
                 {
+                    "Luckaltar_2026",
+                    new EventInfo
+                    {
+                        Key = "Luckaltar_2026",
+                        Name = "2026 新春賀歲感恩招財祿位",
+                        Deadline = new DateTime(2026, 02, 19, 23, 59, 59),
+                        IsPermanent = false
+                    }
+                },
+                {
                     "Supplies_wu_2025",
                     new EventInfo
                     {
@@ -359,6 +374,7 @@ namespace twbobibobi
                 Status_Lights_2026 = GetEventStatus("Lights_2026");
                 Status_AnDou_2026 = GetEventStatus("AnDou_2026");
                 Status_Video_contest_2026 = GetEventStatus("Video_contest_2026");
+                Status_Luckaltar_ty_2026 = GetEventStatus("QnLight_2026");
             }
         }
 

@@ -2966,6 +2966,80 @@ namespace Temple.Temples
                         }
                     }
                     break;
+                case 27:
+                    //新春賀歲感恩招財祿位服務
+                    dtData = objLightDAC.GetAPPCharge_ty_Luckaltar(ApplicantID, Year);
+                    if (dtData.Rows.Count > 0)
+                    {
+                        OrderStateContent = OrderState("付款時間", DateTime.Parse(dtData.Rows[0]["ChargeDate"].ToString()).ToString("yyyy-MM-dd HH:mm:ss"));
+
+                        OrderPurchaser = OrderData("購買人姓名", dtData.Rows[0]["AppName"].ToString());
+                        OrderPurchaser += OrderData("購買人電話", dtData.Rows[0]["AppMobile"].ToString());
+                        OrderPurchaser += OrderData("國曆生日", dtData.Rows[0]["AppsBirth"].ToString());
+
+                        if (dtData.Columns.Contains("AppEmail"))
+                        {
+                            var rawAppEmail = dtData.Rows[0]["AppEmail"];
+                            if (rawAppEmail != DBNull.Value)
+                            {
+                                var appEmailText = rawAppEmail.ToString();
+                                OrderPurchaser += OrderData("購買人信箱", appEmailText);
+                            }
+                        }
+
+                        if (dtData.Columns.Contains("AppAddress"))
+                        {
+                            DataRow firstRow = dtData.Rows[0];
+                            string appAddressText = firstRow.Field<string>("AppAddress");
+                            if (!string.IsNullOrWhiteSpace(appAddressText))
+                            {
+                                OrderPurchaser += OrderData("購買人地址", appAddressText);
+                            }
+                        }
+
+                        OrderInfo = string.Empty;
+
+                        for (int i = 0; i < dtData.Rows.Count; i++)
+                        {
+                            OrderInfo += "<li><div>";
+
+                            string lightsString = dtData.Rows[i]["LuckaltarString"].ToString();
+                            string lightsType = dtData.Rows[i]["LuckaltarType"].ToString();
+
+                            ////服務項目
+                            OrderInfo += String.Format("<div class=\"ProductsName\">{0}</div>", lightsString);
+
+                            //祈福人內容列表
+                            OrderInfo += "<div class=\"ProductsInfo\">";
+
+                            OrderInfo += OrderData("宮廟名稱", "桃園威天宮");
+                            OrderInfo += OrderData("訂單編號", dtData.Rows[i]["Num2String"].ToString());
+                            OrderInfo += OrderData("祈福人姓名", dtData.Rows[i]["Name"].ToString());
+                            OrderInfo += OrderData("祈福人電話", dtData.Rows[i]["Mobile"].ToString());
+                            OrderInfo += OrderData("祈福人國曆生日", dtData.Rows[i]["sBirth"].ToString());
+                            OrderInfo += OrderData("祈福人地址", dtData.Rows[i]["Address"].ToString());
+
+                            if (dtData.Columns.Contains("Remark"))
+                            {
+                                var rawRemark = dtData.Rows[i]["Remark"];
+                                if (rawRemark != DBNull.Value)
+                                {
+                                    var remarkText = rawRemark.ToString();
+                                    OrderInfo += OrderData("備註", TextToHtml(remarkText));
+                                }
+                            }
+
+                            OrderInfo += "</div></div>";
+
+                            //服務項目金額
+                            int cost = int.Parse(dtData.Rows[i]["Count"].ToString()) * GetLuckaltarCost(AdminID, lightsType);
+                            OrderInfo += "<div>$ " + cost + "元</div>";
+                            Total += cost;
+
+                            OrderInfo += "</li>";
+                        }
+                    }
+                    break;
             }
         }
 

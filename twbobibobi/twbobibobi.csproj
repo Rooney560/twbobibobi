@@ -975,6 +975,7 @@
     <Content Include="Temples\templeService_lights_wu.aspx" />
     <Content Include="Temples\templeService_lingbaolidou_ma.aspx" />
     <Content Include="Temples\templeService_lingbaolidou_ma_fet.aspx" />
+    <Content Include="Temples\templeService_luckaltar_ty.aspx" />
     <Content Include="Temples\templeService_lybc_dh.aspx" />
     <Content Include="Temples\templeService_marriagelights_Luer.aspx" />
     <Content Include="Temples\templeService_marriagelights_Luer_twm.aspx" />
@@ -1004,6 +1005,7 @@
     <Content Include="Temples\templeService_supplies_sx.aspx" />
     <Content Include="Temples\templeService_supplies_ty.aspx" />
     <Content Include="Temples\templeService_TaoistJiaoCeremony_da.aspx" />
+    <Content Include="Temples\TWPaymentCallback_Luckaltar_ty.aspx" />
     <Content Include="Temples\Video_contest.aspx" />
     <Content Include="Temples\ZodiacFortune_2026.aspx" />
     <Content Include="Temples\ZodiacFortune_Lixia.aspx" />
@@ -2409,6 +2411,13 @@
     <Compile Include="Temples\templeService_lingbaolidou_ma_fet.aspx.designer.cs">
       <DependentUpon>templeService_lingbaolidou_ma_fet.aspx</DependentUpon>
     </Compile>
+    <Compile Include="Temples\templeService_luckaltar_ty.aspx.cs">
+      <DependentUpon>templeService_luckaltar_ty.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Temples\templeService_luckaltar_ty.aspx.designer.cs">
+      <DependentUpon>templeService_luckaltar_ty.aspx</DependentUpon>
+    </Compile>
     <Compile Include="Temples\templeService_lybc_dh.aspx.cs">
       <DependentUpon>templeService_lybc_dh.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -2611,6 +2620,13 @@
     </Compile>
     <Compile Include="Temples\templeService_TaoistJiaoCeremony_da.aspx.designer.cs">
       <DependentUpon>templeService_TaoistJiaoCeremony_da.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Temples\TWPaymentCallback_Luckaltar_ty.aspx.cs">
+      <DependentUpon>TWPaymentCallback_Luckaltar_ty.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Temples\TWPaymentCallback_Luckaltar_ty.aspx.designer.cs">
+      <DependentUpon>TWPaymentCallback_Luckaltar_ty.aspx</DependentUpon>
     </Compile>
     <Compile Include="Temples\Video_contest.aspx.cs">
       <DependentUpon>Video_contest.aspx</DependentUpon>

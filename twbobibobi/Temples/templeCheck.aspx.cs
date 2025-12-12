@@ -2171,6 +2171,52 @@ namespace Temple.Temples
                                     break;
                             }
                             break;
+                        //新春賀歲感恩招財祿位
+                        case 27:
+                            typeString = " 2026新春賀歲感恩招財祿位";
+                            Year = "2026";
+
+                            switch (adminID)
+                            {
+                                case 14:
+                                    //桃園威天宮
+                                    title = "桃園威天宮";
+                                    GetPurchaserlist_ty_Luckaltar(adminID, ApplicantID, Year, ref payStatus);          //桃園威天宮資料列表
+                                    Checkedtemple_ty(adminID, ApplicantID, kind, 1, Year);
+                                    EndDate = "2026/02/19 23:59";
+
+                                    if (DateTime.TryParseExact(
+                                            EndDate,
+                                            "yyyy/MM/dd HH:mm",
+                                            CultureInfo.InvariantCulture,
+                                            DateTimeStyles.None,
+                                            out DateTime endTime))
+                                    {
+                                        // 如果已過期，就隱藏按鈕；否則照原來綁定
+                                        if (dtNow > endTime)
+                                        {
+                                            HidePayButton();
+                                        }
+                                        else
+                                        {
+                                            if (payStatus)
+                                            {
+                                                bindPayButton(false, true, true, true, false, false, false, true, true);
+                                            }
+                                            else
+                                            {
+                                                bindPayButton(true, true, true, true, true, true, false, true, true);
+                                            }
+                                        }
+                                    }
+                                    else
+                                    {
+                                        // 解析失敗時，為保險起見先隱藏按鈕
+                                        HidePayButton();
+                                    }
+                                    break;
+                            }
+                            break;
                     }
 
                     if (Request["ad"] != null)
@@ -2246,7 +2292,11 @@ namespace Temple.Temples
                 /// <summary>24 – 祈安禮斗</summary>
                 祈安禮斗 = 24,
                 /// <summary>25 – 千手觀音千燈迎佛法會</summary>
-                千手觀音千燈迎佛法會 = 25
+                千手觀音千燈迎佛法會 = 25,
+                /// <summary>26 – 組合商品</summary>
+                組合商品 = 26,
+                /// <summary>27 – 新春賀歲感恩招財祿位</summary>
+                新春賀歲感恩招財祿位 = 27
             }
 
             /// <summary> 購買人編號 </summary>
@@ -5159,6 +5209,77 @@ namespace Temple.Temples
                                             }
                                         }
                                         break;
+                                    case 27:
+                                        // 新春賀歲感恩招財祿位
+                                        dtLASTTIME = objLightDAC.GetInfoLastDate(ApplicantID, AdminID, 27, type, Year);
+                                        if (dtLASTTIME.AddMinutes(20) < dtNow)
+                                        {
+                                            basePage.mJSonHelper.AddContent("Timeover", 1);
+                                        }
+                                        else
+                                        {
+                                            int cost = Total;
+                                            string link = string.Empty;
+                                            switch (AdminID)
+                                            {
+                                                case 14:
+                                                    //桃園威天宮
+                                                    switch (ChargeType)
+                                                    {
+                                                        case "LinePay":
+                                                            link = TWWebPay_luckaltar_ty(basePage, orderId, ApplicantID, "LINEPAY", "", cost, AppMobile, "a=" + AdminID + "&aid=" + ApplicantID +
+                                                                "&kind=" + kind + (basePage.Request["twm"] != null ? "&twm=1" : ""), type, Year);
+                                                            break;
+                                                        case "JkosPay":
+                                                            link = TWWebPay_luckaltar_ty(basePage, orderId, ApplicantID, "JKOPAY", "", cost, AppMobile, "a=" + AdminID + "&aid=" + ApplicantID +
+                                                                "&kind=" + kind + (basePage.Request["twm"] != null ? "&twm=1" : ""), type, Year);
+                                                            break;
+                                                        case "PXPayPlus":
+                                                            link = TWWebPay_luckaltar_ty(basePage, orderId, ApplicantID, "PXPAY", "", cost, AppMobile, "a=" + AdminID + "&aid=" + ApplicantID +
+                                                                "&kind=" + kind + (basePage.Request["twm"] != null ? "&twm=1" : ""), type, Year);
+                                                            break;
+                                                        case "ChtCSP":
+                                                            link = TWWebPay_luckaltar_ty(basePage, orderId, ApplicantID, "TELEPAY", "cht", cost, AppMobile, "a=" + AdminID + "&aid=" + ApplicantID + "&kind=" + kind + (basePage.Request["twm"] != null ? "&twm=1" : "") + ("&type=" + basePage.Request["type"]), type, Year);
+                                                            break;
+                                                        case "TwmCSP":
+                                                            link = TWWebPay_luckaltar_ty(basePage, orderId, ApplicantID, "TELEPAY", "twm", cost, AppMobile, "a=" + AdminID + "&aid=" + ApplicantID + "&kind=" + kind + (basePage.Request["twm"] != null ? "&twm=1" : "") + ("&type=" + basePage.Request["type"]), type, Year);
+                                                            break;
+                                                        case "UnionPay":
+                                                            link = TWWebPay_luckaltar_ty(basePage, orderId, ApplicantID, "CreditCard", "UNIONPAY", cost, AppMobile, "a=" + AdminID + "&aid=" + ApplicantID +
+                                                                "&kind=" + kind + (basePage.Request["twm"] != null ? "&twm=1" : ""), type, Year);
+                                                            break;
+                                                        case "ApplePay":
+                                                            link = TWWebPay_luckaltar_ty(basePage, orderId, ApplicantID, "APPLEPAY", "", cost, AppMobile, "a=" + AdminID + "&aid=" + ApplicantID +
+                                                                "&kind=" + kind + (basePage.Request["twm"] != null ? "&twm=1" : ""), type, Year);
+                                                            break;
+                                                        default:
+                                                            link = TWWebPay_luckaltar_ty(basePage, orderId, ApplicantID, ChargeType, "", cost, AppMobile, "a=" + AdminID + "&aid=" + ApplicantID + "&kind=" + kind + (basePage.Request["twm"] != null ? "&twm=1" : "") + ("&type=" + basePage.Request["type"]), type, Year);
+                                                            break;
+                                                    }
+                                                    break;
+                                            }
+
+
+                                            if (link != "")
+                                            {
+                                                basePage.SavePayLog(link);
+
+                                                basePage.mJSonHelper.AddContent("StatusCode", 1);
+                                                basePage.mJSonHelper.AddContent("redirect", link);
+
+                                                basePage.Session["ApplicantID"] = ApplicantID;
+                                            }
+                                            else
+                                            {
+                                                string logMsg = $"[支付例外] OrderId={orderId}, ApplicantID={ApplicantID}, Error=付款API取得失敗，請重新嘗試!";
+                                                basePage.SaveErrorLog(logMsg);
+
+                                                basePage.mJSonHelper.AddContent("StatusCode", -98);
+                                                basePage.mJSonHelper.AddContent("ErrorMessage", "付款API取得失敗，請重新嘗試!");
+                                                basePage.ResponseJSonString();
+                                            }
+                                        }
+                                        break;
                                 }
                             }
                         }
@@ -6163,6 +6284,105 @@ namespace Temple.Temples
                     else
                     {
                         link = "桃園威天宮 千手觀音千燈迎佛法會 更新購買人資料 錯誤！";
+                        basePag.SaveErrorLog(link);
+                    }
+                }
+
+                return link;
+            }
+
+            /// <summary>
+            /// CALL 付款API - 新春賀歲感恩招財祿位 - 桃園威天宮
+            /// </summary>
+            /// <param name="basePag"></param>
+            /// <param name="orderid"></param>
+            /// <param name="applicantID"></param>
+            /// <param name="paytype"></param>
+            /// <param name="telco"></param>
+            /// <param name="price"></param>
+            /// <param name="m_phone"></param>
+            /// <param name="returnUrl"></param>
+            /// <param name="type"></param>
+            /// <param name="Year"></param>
+            /// <returns></returns>
+            protected string TWWebPay_luckaltar_ty(BasePage basePag, string orderid, int applicantID, string paytype, string telco, int price, string m_phone, string returnUrl,
+                int type, string Year)
+            {
+                // 取得台北標準時間
+                DateTime dtNow = LightDAC.GetTaipeiNow();
+                BasePage basePage = new BasePage();
+                string oid = orderid;
+                string uid = "Temple";
+                string Sid = "Temple-TaoyuanWeitian";    //桃園威天宮_宮廟服務 PR00004719
+                string item = "桃園威天宮新春賀歲感恩招財祿位服務";
+                string ValidationKey = "Ov7BmaT5l1C89t5FNj0cEsR";
+                string link = "";
+                string PaymentReceiveURL = basePag.GetConfigValue("PaymentLuckaltar_ty_ReceiveURL");
+                string Timestamp = dtNow.ToString("yyyyMMddHHmmssfff");
+                string msisdn = m_phone;
+                string chrgtype = "1";
+                string m1 = applicantID.ToString();
+                string m2 = returnUrl;
+
+                string mac = MD5.MD5Encrypt(uid + oid + price + item + paytype + Sid + PaymentReceiveURL + m1 + m2
+                                      + telco + chrgtype + msisdn + Timestamp + ValidationKey).Replace("-", "").ToLower();
+
+                string paymentChannelLog = returnUrl;
+                LightDAC objLightDAC = new LightDAC(basePage);
+                string ChargeType = paytype;
+                if (ChargeType == "TELEPAY")
+                {
+                    if (telco == "twm")
+                    {
+                        ChargeType = "Twm";
+                    }
+                    else
+                    {
+                        ChargeType = "Cht";
+                    }
+                }
+
+                if (ChargeType == "CreditCard")
+                {
+                    if (telco == "UNIONPAY")
+                    {
+                        ChargeType = "UNIONPAY";
+                    }
+                }
+
+                if (ChargeType == "JKOPAY")
+                {
+                    ChargeType = "JKOSPAY";
+                }
+
+                // 檢查此購買人訂單是否有訂單產品紀錄
+                if (!objLightDAC.CheckedAPPChargeHaving(applicantID, 14, 27, Year, ref oid))
+                {
+                    if (oid != "")
+                    {
+                        link = link + uid + "&oid=" + oid + "&returl=" + basePage.Server.UrlEncode(PaymentReceiveURL) + "&point=" + price + "&pw=" + paytype
+                            + "&sid=" + Sid + "&item=" + item + "&timestamp=" + Timestamp + "&chrgtype=" + chrgtype + "&mac="
+                            + mac + "&m1=" + basePage.Server.UrlEncode(m1) + "&m2=" + System.Web.HttpUtility.UrlEncode(m2) + "&telco=" + telco + "&msisdn=" + msisdn;
+                    }
+                    else
+                    {
+                        link = "桃園威天宮 新春賀歲感恩招財祿位 AppChargeLog ID 錯誤！";
+                        basePag.SaveErrorLog(link);
+                    }
+                }
+                else
+                {
+                    long id = objLightDAC.AddChargeLog_Luckaltar_ty(oid, applicantID, price, ChargeType, 0, "", "", paymentChannelLog, basePag.Request.UserHostAddress, Year);
+                    if (id > 0 && objLightDAC.Updatecost2applicantinfo_Luckaltar_ty(applicantID, AdminID, price, Year))
+                    {
+                        link = "https://paygate.tw/xpay/pay?uid=" + uid + "&oid=" + oid + "&returl=" + basePage.Server.UrlEncode(PaymentReceiveURL) + "&point=" + price + "&pw=" + paytype
+                            + "&sid=" + Sid + "&item=" + item + "&timestamp=" + Timestamp + "&chrgtype=" + chrgtype + "&mac="
+                            + mac + "&m1=" + basePage.Server.UrlEncode(m1) + "&m2=" + System.Web.HttpUtility.UrlEncode(m2) + "&telco=" + telco + "&msisdn=" + msisdn;
+
+                    }
+                    else
+                    {
+                        link = "桃園威天宮 新春賀歲感恩招財祿位 更新購買人資料 錯誤！";
                         basePag.SaveErrorLog(link);
                     }
                 }
@@ -12953,6 +13173,88 @@ namespace Temple.Temples
                 }
             }
         }
+        public void GetPurchaserlist_ty_Luckaltar(int AdminID, int ApplicantID, string Year, ref bool payStatus)
+        {
+            LightDAC objLightDAC = new LightDAC(this);
+            int cost = 0;
+
+            DataTable dtData = objLightDAC.Getluckaltar_ty_Info(ApplicantID, Year);
+            if (dtData.Rows.Count > 0)
+            {
+                OrderPurchaser = OrderData("購買人姓名", dtData.Rows[0]["AppName"].ToString());
+
+
+                string result_mobile = "<div class=\"OrderData\">\r\n                                                <div class=\"label\">{0}：</div>\r\n                                                <div id=\"AppMobile\" class=\"txt\">{1}</div>\r\n                                            </div>";
+                string result_email = "<div class=\"OrderData\">\r\n                                                <div class=\"label\">{0}：</div>\r\n                                                <div id=\"AppEmail\" class=\"txt\">{1}</div>\r\n                                            </div>";
+
+                AppMobile = dtData.Rows[0]["AppMobile"].ToString();
+                OrderPurchaser += String.Format(result_mobile, "購買人電話", dtData.Rows[0]["AppMobile"].ToString());
+                OrderPurchaser += OrderData("國歷生日", dtData.Rows[0]["AppsBirth"].ToString());
+
+                if (dtData.Columns.Contains("AppEmail"))
+                {
+                    var rawAppEmail = dtData.Rows[0]["AppEmail"];
+                    if (rawAppEmail != DBNull.Value)
+                    {
+                        var appEmailText = rawAppEmail.ToString();
+                        AppEmail = appEmailText;
+                        OrderPurchaser += String.Format(result_email, "購買人信箱", appEmailText);
+                    }
+                }
+
+                if (dtData.Columns.Contains("AppAddress"))
+                {
+                    DataRow firstRow = dtData.Rows[0];
+                    string appAddressText = firstRow.Field<string>("AppAddress");
+                    if (!string.IsNullOrWhiteSpace(appAddressText))
+                    {
+                        OrderPurchaser += OrderData("購買人地址", appAddressText);
+                    }
+                }
+
+                OrderInfo = string.Empty;
+
+                for (int i = 0; i < dtData.Rows.Count; i++)
+                {
+                    OrderInfo += "<li><div>";
+
+                    string luckaltarString = dtData.Rows[i]["LuckaltarString"].ToString();
+                    string luckaltarType = dtData.Rows[i]["LuckaltarType"].ToString();
+
+                    OrderInfo += String.Format("<div class=\"ProductsName\">{0}</div>", luckaltarString);
+
+                    //祈福人內容列表
+                    OrderInfo += "<div class=\"ProductsInfo\">";
+
+                    OrderInfo += OrderData("祈福人姓名", dtData.Rows[i]["Name"].ToString());
+                    OrderInfo += OrderData("祈福人電話", dtData.Rows[i]["Mobile"].ToString());
+                    OrderInfo += OrderData("祈福人國曆生日", dtData.Rows[i]["sBirth"].ToString());
+                    OrderInfo += OrderData("祈福人地址", dtData.Rows[i]["Address"].ToString());
+
+                    if (dtData.Columns.Contains("Remark"))
+                    {
+                        var rawRemark = dtData.Rows[i]["Remark"];
+                        if (rawRemark != DBNull.Value)
+                        {
+                            var remarkText = rawRemark.ToString();
+                            OrderInfo += OrderData("備註", TextToHtml(remarkText));
+                        }
+                    }
+
+                    OrderInfo += "</div></div>";
+
+                    //服務項目金額
+                    cost = int.Parse(dtData.Rows[i]["Count"].ToString()) * GetLuckaltarCost(AdminID, luckaltarType);
+
+                    OrderInfo += "<div>$ " + cost + "元</div>";
+                    Total += cost;
+
+                    payStatus = Total > 3000 ? true : false;
+
+                    OrderInfo += "</li>";
+                }
+            }
+        }
         public void Checkedtemple_ty(int AdminID, int ApplicantID, int kind, int type, string Year)
         {
             // 取得台北標準時間
@@ -13164,7 +13466,7 @@ namespace Temple.Temples
                     break;
                 case 25:
                     //千手觀音千燈迎佛法會服務
-                    reback = "https://bobibobi.tw/Temples/templeService_qnlight_ty.aspx";
+                    reback = "https://bobibobi.tw/Temples/templeService_luckaltar_ty.aspx";
 
                     CheckedURL(reback);
 
@@ -13177,6 +13479,32 @@ namespace Temple.Temples
                         else
                         {
                             DateTime dtLASTTIME = objLightDAC.GetInfoLastDate(ApplicantID, AdminID, 25, 1, Year);
+                            if (dtLASTTIME.AddMinutes(20) < dtNow)
+                            {
+                                Response.Write("<script>alert('此購買人付款時間已超時20分鐘，請重新購買。');location='" + reback + "'</script>");
+                            }
+                        }
+                    }
+                    else
+                    {
+                        Response.Write("<script>alert('此購買人已進行付款動作。請重新購買。');location='" + reback + "'</script>");
+                    }
+                    break;
+                case 27:
+                    //新春賀歲感恩招財祿位服務
+                    reback = "https://bobibobi.tw/Temples/templeService_luckaltar_ty.aspx";
+
+                    CheckedURL(reback);
+
+                    if (objLightDAC.Checkedappcharge_Luckaltar_ty(ApplicantID, AdminID, Year))
+                    {
+                        if (OrderPurchaser == "")
+                        {
+                            Response.Write("<script>alert('讀取購買人資料錯誤。請重新購買。');location='" + reback + "'</script>");
+                        }
+                        else
+                        {
+                            DateTime dtLASTTIME = objLightDAC.GetInfoLastDate(ApplicantID, AdminID, 27, 1, Year);
                             if (dtLASTTIME.AddMinutes(20) < dtNow)
                             {
                                 Response.Write("<script>alert('此購買人付款時間已超時20分鐘，請重新購買。');location='" + reback + "'</script>");

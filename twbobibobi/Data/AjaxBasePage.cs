@@ -614,6 +614,25 @@ namespace twbobibobi.Data
             return result;
         }
 
+        public static string GetLuckaltarType(string LuckaltarString, string adminID)
+        {
+            string result = "-1";
+            switch (LuckaltarString)
+            {
+                case "吉祥招財祿位":
+                    result = "1";
+                    break;
+                case "如意招財祿位":
+                    result = "2";
+                    break;
+                case "帝王招財祿位":
+                    //result = "3";
+                    break;
+            }
+
+            return result;
+        }
+
 
         /// <param name="LightsString">LightsString= 燈種 
         /// 3-光明燈、元神光明燈(鹿港城隍廟)、貴人燈(斗六五路財神宮)、平安燈(北極玄天宮、壽山巖觀音寺)
@@ -2990,6 +3009,41 @@ namespace twbobibobi.Data
         }
 
         /// <summary>
+        /// 新春賀歲感恩祿位項目
+        /// </summary>
+        /// <param name="AdminID"></param>
+        /// <param name="LuckaltarType"></param>
+        /// <returns></returns>
+        public static int GetLuckaltarCost(int AdminID, string LuckaltarType)
+        {
+            int result = 0;
+
+            switch (AdminID)
+            {
+                case 14:
+                    //桃園威天宮
+                    switch (LuckaltarType)
+                    {
+                        case "1":
+                            //吉祥招財祿位
+                            result = 1000;
+                            break;
+                        case "2":
+                            //如意招財祿位
+                            result = 3600;
+                            break;
+                        case "3":
+                            //帝王招財祿位
+                            //result = 10000;
+                            break;
+                    }
+                    break;
+            }
+
+            return result;
+        }
+
+        /// <summary>
         /// 代燒金紙項目
         /// </summary>
         /// <param name="AdminID"></param>
@@ -4087,6 +4141,8 @@ namespace twbobibobi.Data
         /// 23-祈安植福
         /// 24-祈安禮斗
         /// 25-千手觀音千燈迎佛法會
+        /// 26-組合商品
+        /// 27-新春賀歲感恩招財祿位
         /// <param name="adminId">a 參數值，通常是管理者或發起者 ID</param>
         /// <param name="applicantId">aid 參數值，通常是參與者或申請者 ID</param>
         /// <param name="request">目前頁面的 HttpRequest，用來抓取 URL 中的參數值</param>

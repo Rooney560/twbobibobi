@@ -38,6 +38,8 @@ namespace TempleAdmin.Helper
                 case 23: // 祈安植福
                 case 24: // 祈安禮斗
                 case 25: // 千手觀音千燈迎佛法會
+                case 26: // 組合商品
+                case 27: // 新春賀歲感恩招財祿位
                 default:
                     return "份";
             }
@@ -60,6 +62,8 @@ namespace TempleAdmin.Helper
                     return "座";
                 case 22: // 孝親祈福燈
                     return "盞";
+                case 27:  // 新春賀歲感恩招財祿位
+                    return "座";
                 case 2:  // 普渡
                 case 4:  // 下元補庫
                 case 5:  // 呈疏補庫
@@ -80,6 +84,7 @@ namespace TempleAdmin.Helper
                 case 23: // 祈安植福
                 case 24: // 祈安禮斗
                 case 25: // 千手觀音千燈迎佛法會
+                case 26: // 組合商品
                 default:
                     return "份"; // 多數活動以「份」為單位
             }
@@ -143,6 +148,8 @@ namespace TempleAdmin.Helper
                     return ("SuppliesType", "SuppliesString");
                 case 25: // 千手觀音千燈迎佛法會
                     return ("QnLightType", "QnLightString");
+                case 27: // 新春賀歲感恩招財祿位
+                    return ("LuckaltarType", "LuckaltarString");
                 default:
                     string msg = $"❌ 未定義的 kind={kind}，請確認對應的 ServiceType / ServiceString 欄位。";
                     SaveErrorLog(msg);
@@ -209,6 +216,8 @@ namespace TempleAdmin.Helper
                     return AjaxBasePage.GetSuppliesCost(adminId, serviceType);
                 case 25: // 千手觀音千燈迎佛法會
                     return AjaxBasePage.GetQnLightCost(adminId, serviceType);
+                case 27: // 新春賀歲感恩招財祿位
+                    return AjaxBasePage.GetLuckaltarCost(adminId, serviceType);
                 default:
                     string msg = $"❌ 未定義的單價計算方法 (kind={kind}, adminId={adminId}, serviceType={serviceType})";
                     SaveErrorLog(msg);

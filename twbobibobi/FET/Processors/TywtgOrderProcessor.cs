@@ -317,6 +317,47 @@ namespace twbobibobi.FET.Processors
 
                     resultOrderNumbers.AddRange(ProcessQnLighting(applicantId, applicant, prayedPersons, Tid, fetOrderNumber, amount, itemsInfo, OrderId, dtNow));
                     break;
+                // 新春賀歲感恩招財祿位
+                case "27":
+                    PostUrl = "Luckaltar" + PostUrl;
+
+                    // 新增購買人資料
+                    applicantId = _lightDAC.Addapplicantinfo_luckaltar_ty(
+                        AdminID: _adminID.ToString(),
+                        Name: applicant.appName,
+                        Mobile: applicant.appMobile,
+                        Cost: totalAmount,
+                        Birth: applicant.appBirth,
+                        LeapMonth: applicant.appLeapMonth,
+                        BirthTime: applicant.appBirthTime,
+                        BirthMonth: applicant.appBirthMonth,
+                        Age: applicant.appAge,
+                        Zodiac: applicant.appZodiac,
+                        sBirth: applicant.appsBirth,
+                        Email: applicant.appEmail,
+                        County: applicant.appCity,
+                        Dist: applicant.appRegion,
+                        Addr: applicant.appAddr,
+                        ZipCode: applicant.appzipCode,
+                        Sendback: applicant.sendback,
+                        ReceiptName: receiptName,
+                        ReceiptMobile: receiptMobile,
+                        Status: 2,
+                        PostURL: PostUrl,
+                        Year: _year
+                    );
+
+                    if (applicantId <= 0)
+                        return Task.FromResult(resultOrderNumbers);
+
+                    // 做 JSON 備份
+                    itemsJson = JsonConvert.SerializeObject(prayedPersons);
+
+                    amount = 0;
+                    int.TryParse(totalAmount, out amount);
+
+                    resultOrderNumbers.AddRange(ProcessLuckaltaring(applicantId, applicant, prayedPersons, Tid, fetOrderNumber, amount, itemsInfo, OrderId, dtNow));
+                    break;
 
                 default:
                     throw new NotSupportedException($"不支援的服務種類 kind={kind}");
@@ -1103,6 +1144,114 @@ namespace twbobibobi.FET.Processors
                 int uStatus = 0;
                 //更新流水付費表資訊(付費成功)
                 if (!_lightDAC.UpdateChargeLog_QnLight_ty(
+                    OrderId,
+                    Tid,
+                    msg,
+                    _page.Request.UserHostAddress,
+                    callbackLog, _year, ref ChargeType, ref uStatus))
+                {
+                    // 沒有查到任何 ChargeLog，或 Status != 0，都當作失敗
+                    throw new InvalidOperationException("更新交易流水或狀態異常");
+                }
+            }
+            else
+            {
+                // 沒有查到任何 ChargeLog，或 Status != 0，都當作失敗
+                throw new InvalidOperationException("查無交易流水或狀態異常");
+            }
+
+            return orderNumbers;
+        }
+
+
+        // 新春賀歲感恩招財祿位服務
+        private List<string> ProcessLuckaltaring(int applicantId,
+                                             ApplicantDto applicant,
+                                             List<PrayedPersonDto> prayedPersons,
+                                             string Tid,
+                                             string fetOrderNumber,
+                                             int totalAmount,
+                                             string itemsJson,
+                                             string OrderId,
+                                             DateTime dtNow)
+        {
+            var orderNumbers = new List<string>();
+            string[] luckaltarList = new string[0];
+
+            // 逐筆插入燈明細
+            foreach (var p in prayedPersons)
+            {
+                // 取電話與性別
+                string mobile = !string.IsNullOrEmpty(p.Mobile) ? p.Mobile : applicant.appMobile;
+                string gender = p.Gender == "F" ? "信女" : "善男";
+
+                // 地址
+                string oversea = p.Oversea ?? "1";
+                string city = oversea == "1" ? p.City : (p.City ?? string.Empty);
+                string region = oversea == "1" ? p.Region : (p.Region ?? string.Empty);
+
+                // 呼叫 LightDAC
+                int luckaltarId = _lightDAC.AddLuckaltar_ty(
+                    ApplicantID: applicantId,
+                    Name: p.Name,
+                    Mobile: mobile,
+                    Cost: p.Cost,
+                    Sex: gender,
+                    LuckaltarType: p.TypeID,
+                    LuckaltarString: p.TypeString,
+                    Oversea: oversea,
+                    Birth: p.Birth,
+                    LeapMonth: p.LeapMonth,
+                    BirthTime: p.BirthTime,
+                    BirthMonth: p.BirthMonth,
+                    Age: p.Age,
+                    Zodiac: p.Zodiac,
+                    sBirth: p.sBirth,
+                    Count: p.OfferingQty ?? 1,
+                    Remark: p.Remark,
+                    Addr: p.Addr,
+                    County: city,
+                    Dist: region,
+                    ZipCode: p.ZipCode,
+                    Year: _year);
+            }
+
+            // 建立交易流水
+            string callbackLog = $"{Tid},{fetOrderNumber}";
+            _lightDAC.AddChargeLog_Luckaltar_ty(
+                OrderID: OrderId,
+                ApplicantID: applicantId,
+                Amount: totalAmount,
+                ChargeType: "FETAPI",
+                Status: 0,
+                Description: itemsJson,
+                Comment: string.Empty,
+                PayChannelLog: fetOrderNumber,
+                IP: _page.Request.UserHostAddress,
+                Year: _year);
+
+            // 更新並獲取燈號
+            DataTable dtCharge = _lightDAC.GetChargeLog_Luckaltar_ty(OrderId, _year);
+            if (dtCharge != null && dtCharge.Rows.Count > 0 && Convert.ToInt32(dtCharge.Rows[0]["Status"]) == 0)
+            {
+                int luckaltarType = _lightDAC.GetLuckaltarType_ty(applicantId, _year);
+
+                string msg = "【保必保庇】線上宮廟服務平臺，感謝購買，已成功付款" + totalAmount + "元，您的訂單編號 ";
+
+                var luckaltarArr = new string[luckaltarList.Length];
+                _lightDAC.UpdateLuckaltar_ty_Info(
+                    applicantID: applicantId,
+                    LuckaltarType: luckaltarType,
+                    Year: _year,
+                    ref msg,
+                    ref luckaltarList,
+                    ref luckaltarArr);
+                orderNumbers.AddRange(luckaltarArr);
+
+                string ChargeType = string.Empty;
+                int uStatus = 0;
+                //更新流水付費表資訊(付費成功)
+                if (!_lightDAC.UpdateChargeLog_Luckaltar_ty(
                     OrderId,
                     Tid,
                     msg,

@@ -108,6 +108,8 @@ namespace twbobibobi.Data
         /// 23-祈安植福
         /// 24-祈安禮斗
         /// 25-千手觀音千燈迎佛法會
+        /// 26-組合商品
+        /// 27-新春賀歲感恩招財祿位
         /// <param name="CodeType">驗證碼方式 0-sms 1-email。</param>
         /// <param name="Code">驗證碼。</param>
         /// <param name="AppMobile">購買人電話。</param>
@@ -195,6 +197,8 @@ namespace twbobibobi.Data
         /// 23-祈安植福
         /// 24-祈安禮斗
         /// 25-千手觀音千燈迎佛法會
+        /// 26-組合商品
+        /// 27-新春賀歲感恩招財祿位
         /// <param name="InvoiceType">發票類型（0-二聯、1-三聯、2-載具）。</param>
         /// <param name="CarrierCode">載具代碼。</param>
         /// <param name="InvoiceCode">發票號碼。</param>
@@ -18232,6 +18236,123 @@ namespace twbobibobi.Data
             return newId;
         }
 
+        /// <summary>
+        /// 建立購買人資料 - 新春賀歲感恩招財祿位 - 桃園威天宮
+        /// </summary>
+        /// <param name="Name">購買人姓名。</param>
+        /// <param name="Mobile">購買人電話。</param>
+        /// <param name="Birth">農曆生日。</param>
+        /// <param name="LeapMonth">閏月（Y=是，N=否）。</param>
+        /// <param name="BirthTime">農曆時辰。</param>
+        /// <param name="BirthMonth">農曆月份。</param>
+        /// <param name="Age">年齡。</param>
+        /// <param name="Zodiac">生肖。</param>
+        /// <param name="sBirth">國曆生日。</param>
+        /// <param name="Email">購買人信箱。</param>
+        /// <param name="Cost">金額。</param>
+        /// <param name="ZipCode">郵遞區號。</param>
+        /// <param name="County">縣市。</param>
+        /// <param name="Dist">鄉鎮市區。</param>
+        /// <param name="Addr">部分地址。</param>
+        /// <param name="Sendback">是否回郵（N=否、Y=是）。</param>
+        /// <param name="ReceiptName">收件人姓名。</param>
+        /// <param name="ReceiptMobile">收件人電話。</param>
+        /// <param name="Status">狀態碼（0=未付款、1=付款中、2=已付款、-1=已退款等）。</param>
+        /// <param name="AdminID">宮廟編號。</param>
+        /// <param name="PostURL">來源網址。</param>
+        /// <param name="Year">資料年度（例如 "2025"）。</param>
+        /// <returns>回傳新建立的購買人資料之自動遞增編號（Identity 值）。</returns>
+        public int Addapplicantinfo_luckaltar_ty(
+            string AdminID,
+            string Name,
+            string Mobile,
+            string Cost,
+            string Birth,
+            string LeapMonth,
+            string BirthTime,
+            string BirthMonth,
+            string Age,
+            string Zodiac,
+            string sBirth,
+            string Email,
+            string County,
+            string Dist,
+            string Addr,
+            string ZipCode,
+            string Sendback,
+            string ReceiptName,
+            string ReceiptMobile,
+            int Status,
+            string PostURL,
+            string Year)
+        {
+            int newId = 0;
+
+            try
+            {
+                // 取得台北標準時間
+                DateTime dtNow = GetTaipeiNow();
+
+                string fullAddress = County + (Dist == "*" ? "" : Dist) + Addr;
+
+                string sql = $@"
+                    INSERT INTO Temple_{Year}..ApplicantInfo_ty_Luckaltar
+                    (
+                        AdminID, Name, Mobile, Cost, Birth, LeapMonth, BirthTime, BirthMonth, Age, Zodiac, sBirth, 
+                        Email, Address, County, dist, Addr, ZipCode, Sendback, ReceiptName, ReceiptMobile, 
+                        Status, PostURL, CreateDate, CreateDateString
+                    )
+                    VALUES
+                    (
+                        @AdminID, @Name, @Mobile, @Cost, @Birth, @LeapMonth, @BirthTime, @BirthMonth, @Age, @Zodiac, @sBirth, 
+                        @Email, @Address, @County, @dist, @Addr, @ZipCode, @Sendback, @ReceiptName, @ReceiptMobile, 
+                        @Status, @PostURL, @CreateDate, @CreateDateString
+                    )";
+
+                using (DatabaseAdapter adapter = new DatabaseAdapter(sql, this.DBSource))
+                {
+                    adapter.AddParameterToSelectCommand("@AdminID", AdminID);
+                    adapter.AddParameterToSelectCommand("@Name", Name);
+                    adapter.AddParameterToSelectCommand("@Mobile", Mobile);
+                    adapter.AddParameterToSelectCommand("@Cost", Cost);
+                    adapter.AddParameterToSelectCommand("@Birth", Birth);
+                    adapter.AddParameterToSelectCommand("@LeapMonth", LeapMonth);
+                    adapter.AddParameterToSelectCommand("@BirthTime", BirthTime);
+                    adapter.AddParameterToSelectCommand("@BirthMonth", BirthMonth);
+                    adapter.AddParameterToSelectCommand("@Age", Age);
+                    adapter.AddParameterToSelectCommand("@Zodiac", Zodiac);
+                    adapter.AddParameterToSelectCommand("@sBirth", sBirth);
+                    adapter.AddParameterToSelectCommand("@Email", Email);
+                    adapter.AddParameterToSelectCommand("@Address", fullAddress);
+                    adapter.AddParameterToSelectCommand("@County", County);
+                    adapter.AddParameterToSelectCommand("@dist", Dist);
+                    adapter.AddParameterToSelectCommand("@Addr", Addr);
+                    adapter.AddParameterToSelectCommand("@ZipCode", ZipCode);
+                    adapter.AddParameterToSelectCommand("@Sendback", Sendback);
+                    adapter.AddParameterToSelectCommand("@ReceiptName", ReceiptName);
+                    adapter.AddParameterToSelectCommand("@ReceiptMobile", ReceiptMobile);
+                    adapter.AddParameterToSelectCommand("@Status", Status);
+                    adapter.AddParameterToSelectCommand("@PostURL", PostURL);
+                    adapter.AddParameterToSelectCommand("@CreateDate", dtNow.ToString("yyyy-MM-dd HH:mm:ss"));
+                    adapter.AddParameterToSelectCommand("@CreateDateString", dtNow.ToString("yyyy-MM-dd"));
+
+                    DataTable dtTemp = new DataTable();
+                    adapter.SetSqlCommandBuilder();
+                    adapter.Fill(dtTemp);
+
+                    newId = adapter.GetLastIdentity();
+                }
+            }
+            catch (Exception error)
+            {
+                string detailedError = ErrorLogger.FormatError(error, typeof(LightDAC).FullName);
+                twbobibobi.Data.BasePage basePage = new twbobibobi.Data.BasePage();
+                basePage.SaveErrorLog("LightDAC.Addapplicantinfo_luckaltar_ty：\r\n" + detailedError);
+            }
+
+            return newId;
+        }
+
         #endregion
 
         #region 祈福人資料建立 (OtherInfo)
@@ -19458,6 +19579,128 @@ namespace twbobibobi.Data
             return newId;
         }
 
+        /// <summary>
+        /// 建立祈福人資料 - 新春賀歲感恩招財祿位 - 桃園威天宮
+        /// </summary>
+        /// <param name="ApplicantID">購買人編號。</param>
+        /// <param name="Name">祈福人姓名。</param>
+        /// <param name="Mobile">祈福人電話。</param>
+        /// <param name="Cost">金額。</param>
+        /// <param name="Sex">性別（善男、信女）。</param>
+        /// <param name="LuckaltarType">祈安植福項目。</param>
+        /// <param name="LuckaltarString"></param>
+        /// <param name="Oversea">地址是否在國外（1=國內，2=國外）。</param>
+        /// <param name="Birth">農曆生日。</param>
+        /// <param name="LeapMonth">閏月（Y=是，N=否）。</param>
+        /// <param name="BirthTime">農曆時辰。</param>
+        /// <param name="BirthMonth">農曆月份。</param>
+        /// <param name="Age">年齡。</param>
+        /// <param name="Zodiac">生肖。</param>
+        /// <param name="sBirth">國曆生日。</param>
+        /// <param name="Count">數量。</param>
+        /// <param name="Remark">備註。</param>
+        /// <param name="Addr">祈福人地址部分地址。</param>
+        /// <param name="County">祈福人地址縣市。</param>
+        /// <param name="Dist">祈福人地址區域。</param>
+        /// <param name="ZipCode">祈福人地址郵遞區號。</param>
+        /// <param name="Year">資料年份（例如 "2025"）。</param>
+        /// <returns>回傳建立成功後的主鍵編號（Identity 值）。</returns>
+        public int AddLuckaltar_ty(
+            int ApplicantID,
+            string Name,
+            string Mobile,
+            int Cost,
+            string Sex,
+            string LuckaltarType,
+            string LuckaltarString,
+            string Oversea,
+            string Birth,
+            string LeapMonth,
+            string BirthTime,
+            string BirthMonth,
+            string Age,
+            string Zodiac,
+            string sBirth,
+            int Count,
+            string Remark,
+            string Addr,
+            string County,
+            string Dist,
+            string ZipCode,
+            string Year)
+        {
+            int newId = 0;
+
+            try
+            {
+                // 取得台北標準時間
+                DateTime dtNow = GetTaipeiNow();
+
+                string fullAddress = County + (Dist == "*" ? "" : Dist) + Addr;
+
+                // 計算金額（依燈種）
+                //int cost = AjaxBasePage.GetLuckaltarCost(14, LuckaltarType);
+
+                string sql = $@"
+                    INSERT INTO Temple_{Year}..Luckaltar_ty_info
+                    (
+                        ApplicantID, AdminID, Name, Mobile, Cost, Sex, 
+                        LuckaltarType, LuckaltarString, oversea, Birth, LeapMonth, 
+                        BirthTime, BirthMonth, Age, Zodiac, sBirth, 
+                        Count, Remark, Address, Addr, County, dist, ZipCode, CreateDate
+                    )
+                    VALUES
+                    (
+                        @ApplicantID, @AdminID, @Name, @Mobile, @Cost, @Sex, 
+                        @LuckaltarType, @LuckaltarString, @oversea, @Birth, @LeapMonth, 
+                        @BirthTime, @BirthMonth, @Age, @Zodiac, @sBirth, 
+                        @Count, @Remark, @Address, @Addr, @County, @dist, @ZipCode, @CreateDate
+                    )";
+
+                using (DatabaseAdapter adapter = new DatabaseAdapter(sql, this.DBSource))
+                {
+                    adapter.AddParameterToSelectCommand("@ApplicantID", ApplicantID);
+                    adapter.AddParameterToSelectCommand("@AdminID", 14); // 宮廟固定編號
+                    adapter.AddParameterToSelectCommand("@Name", Name);
+                    adapter.AddParameterToSelectCommand("@Mobile", Mobile);
+                    adapter.AddParameterToSelectCommand("@Cost", Cost);
+                    adapter.AddParameterToSelectCommand("@Sex", Sex);
+                    adapter.AddParameterToSelectCommand("@LuckaltarType", LuckaltarType);
+                    adapter.AddParameterToSelectCommand("@LuckaltarString", LuckaltarString);
+                    adapter.AddParameterToSelectCommand("@oversea", Oversea);
+                    adapter.AddParameterToSelectCommand("@Birth", Birth);
+                    adapter.AddParameterToSelectCommand("@LeapMonth", LeapMonth);
+                    adapter.AddParameterToSelectCommand("@BirthTime", BirthTime);
+                    adapter.AddParameterToSelectCommand("@BirthMonth", BirthMonth);
+                    adapter.AddParameterToSelectCommand("@Age", Age);
+                    adapter.AddParameterToSelectCommand("@Zodiac", Zodiac);
+                    adapter.AddParameterToSelectCommand("@sBirth", sBirth);
+                    adapter.AddParameterToSelectCommand("@Count", Count);
+                    adapter.AddParameterToSelectCommand("@Remark", Remark);
+                    adapter.AddParameterToSelectCommand("@Address", fullAddress);
+                    adapter.AddParameterToSelectCommand("@Addr", Addr);
+                    adapter.AddParameterToSelectCommand("@County", County);
+                    adapter.AddParameterToSelectCommand("@dist", Dist);
+                    adapter.AddParameterToSelectCommand("@ZipCode", ZipCode);
+                    adapter.AddParameterToSelectCommand("@CreateDate", dtNow.ToString("yyyy-MM-dd HH:mm:ss"));
+
+                    DataTable dtTemp = new DataTable();
+                    adapter.SetSqlCommandBuilder();
+                    adapter.Fill(dtTemp);
+
+                    newId = adapter.GetLastIdentity();
+                }
+            }
+            catch (Exception error)
+            {
+                string detailedError = ErrorLogger.FormatError(error, typeof(LightDAC).FullName);
+                twbobibobi.Data.BasePage basePage = new twbobibobi.Data.BasePage();
+                basePage.SaveErrorLog("LightDAC.AddLuckaltar_ty：\r\n" + detailedError);
+            }
+
+            return newId;
+        }
+
         #endregion
 
         #region 交易流水資料建立 (APPChargeInfo)
@@ -20074,6 +20317,74 @@ namespace twbobibobi.Data
             return newId;
         }
 
+        /// <summary>
+        /// 建立交易流水表資料 - 新春賀歲感恩招財祿位 - 桃園威天宮
+        /// </summary>
+        /// <param name="OrderID">訂單編號</param>
+        /// <param name="ApplicantID">購買人編號</param>
+        /// <param name="Amount">支付金額</param>
+        /// <param name="ChargeType">支付方式</param>
+        /// <param name="Status">狀態（0:待支付,1:成功,-1:錯誤,-2:已退款）</param>
+        /// <param name="Description">支付說明</param>
+        /// <param name="Comment">備註</param>
+        /// <param name="PayChannelLog">支付介面日誌</param>
+        /// <param name="IP">來源IP</param>
+        /// <param name="Year">年度（資料庫分區）</param>
+        /// <returns>回傳新增資料的自動編號（Identity）</returns>
+        public long AddChargeLog_Luckaltar_ty(
+            string OrderID,
+            int ApplicantID,
+            int Amount,
+            string ChargeType,
+            int Status,
+            string Description,
+            string Comment,
+            string PayChannelLog,
+            string IP,
+            string Year)
+        {
+            long newId = 0;
+
+            try
+            {
+                // 取得台北標準時間
+                DateTime dtNow = GetTaipeiNow();
+
+                string sql = $"INSERT INTO Temple_{Year}..APPCharge_ty_Luckaltar " +
+                             "(OrderID, ApplicantID, Amount, Status, Description, ChargeType, Comment, PayChannelLog, IP, CreateDate, CreateDateString) " +
+                             "VALUES(@OrderID, @ApplicantID, @Amount, @Status, @Description, @ChargeType, @Comment, @PayChannelLog, @IP, @CreateDate, @CreateDateString)";
+
+                using (DatabaseAdapter adapter = new DatabaseAdapter(sql, this.DBSource))
+                {
+                    adapter.AddParameterToSelectCommand("@OrderID", OrderID);
+                    adapter.AddParameterToSelectCommand("@ApplicantID", ApplicantID);
+                    adapter.AddParameterToSelectCommand("@Amount", Amount);
+                    adapter.AddParameterToSelectCommand("@Status", Status);
+                    adapter.AddParameterToSelectCommand("@Description", Description);
+                    adapter.AddParameterToSelectCommand("@ChargeType", ChargeType);
+                    adapter.AddParameterToSelectCommand("@Comment", Comment);
+                    adapter.AddParameterToSelectCommand("@PayChannelLog", PayChannelLog);
+                    adapter.AddParameterToSelectCommand("@IP", IP);
+                    adapter.AddParameterToSelectCommand("@CreateDate", dtNow);
+                    adapter.AddParameterToSelectCommand("@CreateDateString", dtNow.ToString("yyyy-MM-dd"));
+
+                    adapter.SetSqlCommandBuilder();
+                    DataTable dtData = new DataTable();
+                    adapter.Fill(dtData);
+
+                    newId = adapter.GetLastIdentity();
+                }
+            }
+            catch (Exception error)
+            {
+                string detailedError = ErrorLogger.FormatError(error, typeof(LightDAC).FullName);
+                twbobibobi.Data.BasePage basePage = new twbobibobi.Data.BasePage();
+                basePage.SaveErrorLog("LightDAC.AddChargeLog_Luckaltar_ty：\r\n" + detailedError);
+            }
+
+            return newId;
+        }
+
         #endregion
 
         #endregion
@@ -20127,6 +20438,7 @@ namespace twbobibobi.Data
             {(14, 18), "Select SUM(Cost) as Total from Temple_{0}..view_Supplies3_ty_info Where ApplicantID = @aid"},       // 天公生招財補運
             {(14, 22), "Select SUM(Cost) as Total from Temple_{0}..view_Lights_ty_mom_info Where ApplicantID = @aid"},      // 孝親祈福燈
             {(14, 25), "Select SUM(Cost) as Total from Temple_{0}..view_QnLight_ty_info Where ApplicantID = @aid"},         // 千手觀音千燈迎佛法會
+            {(14, 27), "Select SUM(Cost) as Total from Temple_{0}..view_Luckaltar_ty_info Where ApplicantID = @aid"},       // 新春賀歲感恩招財祿位
 
             // 斗六五路財神宮
             {(15, 1), "Select SUM(Cost) as Total from Temple_{0}..view_Lights_Fw_info Where ApplicantID = @aid"},
@@ -20319,6 +20631,8 @@ namespace twbobibobi.Data
         /// 23-祈安植福
         /// 24-祈安禮斗
         /// 25-千手觀音千燈迎佛法會
+        /// 26-組合商品
+        /// 27-新春賀歲感恩招財祿位
         /// <param name="Year">資料年度（例如："2025"）。</param>
         /// <returns>實際金額總和，若查無資料則回傳 0。</returns>
         public int GetApplicantTotal(
@@ -20392,6 +20706,8 @@ namespace twbobibobi.Data
         /// 23-祈安植福
         /// 24-祈安禮斗
         /// 25-千手觀音千燈迎佛法會
+        /// 26-組合商品
+        /// 27-新春賀歲感恩招財祿位
         /// <param name="Type">類型代碼（例如威天宮有一般燈與活動燈）。</param>
         /// <param name="Year">資料年度（例如："2025"）。</param>
         /// <returns>回傳最後建立日期（若無資料則回傳當前時間）。</returns>
@@ -20461,6 +20777,8 @@ namespace twbobibobi.Data
         /// 23-祈安植福
         /// 24-祈安禮斗
         /// 25-千手觀音千燈迎佛法會
+        /// 26-組合商品
+        /// 27-新春賀歲感恩招財祿位
         /// <param name="Type">類型代碼（例如威天宮有一般燈與活動燈）。</param>
         /// <param name="Year">資料年度（例如："2025"）。</param>
         private string GetApplicantInfoSql(int ApplicantID, int AdminID, int Kind, int Type, string Year)
@@ -20592,6 +20910,10 @@ namespace twbobibobi.Data
                         case 25:
                             // 千手觀音千燈迎佛法會
                             sql = $"SELECT TOP 1 CreateDate FROM Temple_{Year}..ApplicantInfo_ty_QnLight Where ApplicantID = @aid ORDER BY CreateDate DESC";
+                            break;
+                        case 27:
+                            // 新春賀歲感恩招財祿位
+                            sql = $"SELECT TOP 1 CreateDate FROM Temple_{Year}..ApplicantInfo_ty_Luckaltar Where ApplicantID = @aid ORDER BY CreateDate DESC";
                             break;
                     }
                     break;
@@ -20937,6 +21259,8 @@ namespace twbobibobi.Data
         /// 23-祈安植福
         /// 24-祈安禮斗
         /// 25-千手觀音千燈迎佛法會
+        /// 26-組合商品
+        /// 27-新春賀歲感恩招財祿位
         /// </param>
         /// <param name="Type">部分宮廟活動使用的分類型別 (例如桃園威天宮孝親祈福燈為 type = 2)</param>
         /// <param name="Year">年度 (資料表年度)</param>
@@ -21371,6 +21695,16 @@ namespace twbobibobi.Data
                             case "14":
                                 // 桃園威天宮
                                 sql = $"Select * from Temple_{Year}..view_QnLight_ty_InfowithAPPCharge Where AppcStatus = 1 and Transaction_id = @Transaction_id";
+                                break;
+                        }
+                        break;
+                    case "27":
+                        // 新春賀歲感恩招財祿位
+                        switch (AdminID)
+                        {
+                            case "14":
+                                // 桃園威天宮
+                                sql = $"Select * from Temple_{Year}..view_Luckaltar_ty_InfowithAPPCharge Where AppcStatus = 1 and Transaction_id = @Transaction_id";
                                 break;
                         }
                         break;
@@ -29489,6 +29823,56 @@ namespace twbobibobi.Data
             return dtResult;
         }
 
+        /// <summary>
+        /// 取得購買人資料 - 新春賀歲感恩招財祿位 - 桃園威天宮
+        /// </summary>
+        /// <param name="Name">購買人姓名。</param>
+        /// <param name="Mobile">購買人電話。</param>
+        /// <param name="AdminID">宮廟編號。</param>
+        /// <param name="Year">資料年份（例如 "2025"）。</param>
+        /// <returns>
+        /// 回傳包含購買人資料的 <see cref="DataTable"/>。
+        /// 若查無資料則回傳空的資料表。
+        /// </returns>
+        public DataTable Getapplicantinfo_LuckaltarInfo(
+            string Name,
+            string Mobile,
+            int AdminID,
+            string Year)
+        {
+            DataTable dtResult = new DataTable();
+
+            try
+            {
+                string sql = $@"
+                    SELECT * 
+                    FROM Temple_{Year}..view_Luckaltar_ty_InfowithAPPCharge 
+                    WHERE Num > 0 
+                      AND AppStatus = 2 
+                      AND AppcStatus = 1 
+                      AND Status = 0 
+                      AND AdminID = @AdminID 
+                      AND AppName = @Name 
+                      AND AppMobile = @Mobile";
+
+                using (DatabaseAdapter adapter = new DatabaseAdapter(sql, this.DBSource))
+                {
+                    adapter.AddParameterToSelectCommand("@Name", Name);
+                    adapter.AddParameterToSelectCommand("@Mobile", Mobile);
+                    adapter.AddParameterToSelectCommand("@AdminID", AdminID);
+                    adapter.Fill(dtResult);
+                }
+            }
+            catch (Exception error)
+            {
+                string detailedError = ErrorLogger.FormatError(error, typeof(LightDAC).FullName);
+                twbobibobi.Data.BasePage basePage = new twbobibobi.Data.BasePage();
+                basePage.SaveErrorLog("LightDAC.Getapplicantinfo_LuckaltarInfo：\r\n" + detailedError);
+            }
+
+            return dtResult;
+        }
+
         #endregion
 
         #region 祈福人資料查詢 (OtherInfo)
@@ -29759,6 +30143,39 @@ namespace twbobibobi.Data
             return result;
         }
 
+        /// <summary>
+        /// 取得新春賀歲感恩招財祿位資料 - 桃園威天宮
+        /// </summary>
+        /// <param name="ApplicantID">購買人編號。</param>
+        /// <param name="Year">資料年份（例如："2025"）。</param>
+        /// <returns>
+        /// 回傳包含該購買人於點燈紀錄的 <see cref="DataTable"/>；
+        /// 若查無資料則為空表。
+        /// </returns>
+        public DataTable Getluckaltar_ty_Info(int ApplicantID, string Year)
+        {
+            DataTable result = new DataTable();
+
+            try
+            {
+                string sql = $"SELECT * FROM Temple_{Year}..view_Luckaltar_ty_info WHERE Status = 0 AND ApplicantID = @ApplicantID";
+
+                using (DatabaseAdapter adapter = new DatabaseAdapter(sql, this.DBSource))
+                {
+                    adapter.AddParameterToSelectCommand("@ApplicantID", ApplicantID);
+                    adapter.Fill(result);
+                }
+            }
+            catch (Exception error)
+            {
+                string detailedError = ErrorLogger.FormatError(error, typeof(LightDAC).FullName);
+                twbobibobi.Data.BasePage basePage = new twbobibobi.Data.BasePage();
+                basePage.SaveErrorLog("LightDAC.Getluckaltar_ty_Info：\r\n" + detailedError);
+            }
+
+            return result;
+        }
+
         #endregion
 
         #region 交易流水資料查詢 (APPChargeInfo)
@@ -30006,6 +30423,37 @@ namespace twbobibobi.Data
                 string detailedError = ErrorLogger.FormatError(error, typeof(LightDAC).FullName);
                 twbobibobi.Data.BasePage basePage = new twbobibobi.Data.BasePage();
                 basePage.SaveErrorLog("LightDAC.GetAPPCharge_ty_QnLight：\r\n" + detailedError);
+            }
+
+            return dtGetData;
+        }
+
+        /// <summary>
+        /// 取得付款資料 - 新春賀歲感恩招財祿位 - 桃園威天宮
+        /// </summary>
+        /// <param name="ApplicantID">購買人編號。</param>
+        /// <param name="Year">年度（例如 "2025"）。</param>
+        /// <returns>回傳付款資料的 DataTable。</returns>
+        public DataTable GetAPPCharge_ty_Luckaltar(int ApplicantID, string Year)
+        {
+            DataTable dtGetData = new DataTable();
+
+            try
+            {
+                string sql = $"SELECT * FROM Temple_{Year}..view_Luckaltar_ty_InfowithAPPCharge " +
+                             "WHERE AppcStatus = 1 AND AppStatus = 2 AND Num > 0 AND ApplicantID = @ApplicantID";
+
+                using (DatabaseAdapter adapter = new DatabaseAdapter(sql, this.DBSource))
+                {
+                    adapter.AddParameterToSelectCommand("@ApplicantID", ApplicantID);
+                    adapter.Fill(dtGetData);
+                }
+            }
+            catch (Exception error)
+            {
+                string detailedError = ErrorLogger.FormatError(error, typeof(LightDAC).FullName);
+                twbobibobi.Data.BasePage basePage = new twbobibobi.Data.BasePage();
+                basePage.SaveErrorLog("LightDAC.GetAPPCharge_ty_Luckaltar：\r\n" + detailedError);
             }
 
             return dtGetData;
@@ -30318,6 +30766,40 @@ namespace twbobibobi.Data
         }
 
         /// <summary>
+        /// 取得 APPCharge_ty_Luckaltar 的付款紀錄（取最新一筆）。
+        /// </summary>
+        /// <param name="OrderID">訂單編號。</param>
+        /// <param name="Year">資料年度（例如 2026）。</param>
+        /// <returns>回傳符合條件的 DataTable，最多一筆資料。</returns>
+        public DataTable GetChargeLog_Luckaltar_ty(string OrderID, string Year)
+        {
+            DataTable dtDataList = new DataTable();
+
+            try
+            {
+                string sql = $@"
+                        SELECT TOP 1 *
+                        FROM Temple_{Year}..APPCharge_ty_Luckaltar
+                        WHERE OrderID = @OrderID;
+                      ";
+
+                using (DatabaseAdapter adapter = new DatabaseAdapter(sql, this.DBSource))
+                {
+                    adapter.AddParameterToSelectCommand("@OrderID", OrderID);
+                    adapter.Fill(dtDataList);
+                }
+            }
+            catch (Exception error)
+            {
+                string detailedError = ErrorLogger.FormatError(error, typeof(LightDAC).FullName);
+                twbobibobi.Data.BasePage basePage = new twbobibobi.Data.BasePage();
+                basePage.SaveErrorLog("LightDAC.GetChargeLog_Luckaltar_ty：\r\n" + detailedError);
+            }
+
+            return dtDataList;
+        }
+
+        /// <summary>
         /// 取得服務項目 - 關聖帝君聖誕 - 桃園威天宮
         /// </summary>
         /// <param name="ApplicantID">購買人編號。</param>
@@ -30527,6 +31009,49 @@ namespace twbobibobi.Data
                 string detailedError = ErrorLogger.FormatError(error, typeof(LightDAC).FullName);
                 twbobibobi.Data.BasePage basePage = new twbobibobi.Data.BasePage();
                 basePage.SaveErrorLog("LightDAC.GetQnLightType_ty：\r\n" + detailedError);
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        /// 取得服務項目 - 新春賀歲感恩招財祿位 - 桃園威天宮
+        /// </summary>
+        /// <param name="ApplicantID">購買人編號。</param>
+        /// <param name="Year">資料年度（例如 2026）。</param>
+        /// <returns>回傳 LuckaltarType，若無資料則回傳 0。</returns>
+        public int GetLuckaltarType_ty(int ApplicantID, string Year)
+        {
+            int result = 0;
+            string sql = string.Empty;
+
+            try
+            {
+                sql = $@"
+                SELECT *
+                FROM Temple_{Year}..Luckaltar_ty_info
+                WHERE Status = 0
+                  AND ApplicantID = @ApplicantID;
+               ";
+
+                using (DatabaseAdapter adapter = new DatabaseAdapter(sql, this.DBSource))
+                {
+                    adapter.AddParameterToSelectCommand("@ApplicantID", ApplicantID);
+
+                    DataTable dtGetData = new DataTable();
+                    adapter.Fill(dtGetData);
+
+                    if (dtGetData.Rows.Count > 0)
+                    {
+                        int.TryParse(dtGetData.Rows[0]["LuckaltarType"].ToString(), out result);
+                    }
+                }
+            }
+            catch (Exception error)
+            {
+                string detailedError = ErrorLogger.FormatError(error, typeof(LightDAC).FullName);
+                twbobibobi.Data.BasePage basePage = new twbobibobi.Data.BasePage();
+                basePage.SaveErrorLog("LightDAC.GetLuckaltarType_ty：\r\n" + detailedError);
             }
 
             return result;
@@ -30868,6 +31393,8 @@ namespace twbobibobi.Data
         /// 23-祈安植福
         /// 24-祈安禮斗
         /// 25-千手觀音千燈迎佛法會
+        /// 26-組合商品
+        /// 27-新春賀歲感恩招財祿位
         /// <param name="CodeType">驗證碼方式 0-sms 1-email。</param>
         /// <param name="Year">年度資料表後綴（例如 "2025"）。</param>
         /// <param name="Codeerror">
@@ -30979,6 +31506,8 @@ namespace twbobibobi.Data
         /// 23-祈安植福
         /// 24-祈安禮斗
         /// 25-千手觀音千燈迎佛法會
+        /// 26-組合商品
+        /// 27-新春賀歲感恩招財祿位
         /// <param name="CodeType">驗證碼方式 0-sms 1-email。</param>
         /// <param name="AppMobile">購買人電話。</param>
         /// <param name="Year">年度資料表名稱後綴，例如 "2025"。</param>
@@ -31088,6 +31617,8 @@ namespace twbobibobi.Data
         /// 23-祈安植福
         /// 24-祈安禮斗
         /// 25-千手觀音千燈迎佛法會
+        /// 26-組合商品
+        /// 27-新春賀歲感恩招財祿位
         /// <param name="TotalFromRequest">前端傳入的金額。</param>
         /// <param name="Year">資料年度（例如："2025"）。</param>
         /// <returns>
@@ -31211,6 +31742,8 @@ namespace twbobibobi.Data
                             case 22: sql = $"Select * from Temple_{Year}..APPCharge_ty_mom_Lights Where ApplicantID = @aid"; break;
                             // 千手觀音千燈迎佛法會
                             case 25: sql = $"Select * from Temple_{Year}..APPCharge_ty_QnLight Where ApplicantID = @aid"; break;
+                            // 新春賀歲感恩招財祿位
+                            case 27: sql = $"Select * from Temple_{Year}..APPCharge_ty_Luckaltar Where ApplicantID = @aid"; break;
                         }
                         break;
                     case 15:
@@ -31514,6 +32047,10 @@ namespace twbobibobi.Data
                             case 25:
                                 // 千手觀音千燈迎佛法會
                                 sql = $"Select * from Temple_{Year}..view_QnLight_ty_InfowithAPPCharge Where Status = 0 and ApplicantID = @ApplicantID and AdminID = @AdminID Order by Num Desc";
+                                break;
+                            case 27:
+                                // 新春賀歲感恩招財祿位
+                                sql = $"Select * from Temple_{Year}..view_Luckaltar_ty_InfowithAPPCharge Where Status = 0 and ApplicantID = @ApplicantID and AdminID = @AdminID Order by Num Desc";
                                 break;
                         }
                         break;
@@ -34121,6 +34658,47 @@ namespace twbobibobi.Data
             return result;
         }
 
+        /// <summary>
+        /// 檢查購買人是否已有已付款訂單 - 新春賀歲感恩招財祿位 - 桃園威天宮
+        /// </summary>
+        /// <param name="ApplicantID">購買人編號。</param>
+        /// <param name="AdminID">宮廟編號。</param>
+        /// <param name="Year">資料年份（例如 "2025"）。</param>
+        /// <returns>
+        /// 若購買人已有已付款紀錄（AppStatus=1 或 2），則回傳 <c>false</c>；
+        /// 若無付款紀錄，則回傳 <c>true</c>。
+        /// </returns>
+        public bool Checkedappcharge_Luckaltar_ty(
+            int ApplicantID,
+            int AdminID,
+            string Year)
+        {
+            bool result = true;
+            try
+            {
+                string sql = $"SELECT * FROM Temple_{Year}..view_APPCharge_ty_Luckaltar WHERE (AppStatus = 1 OR AppStatus = 2) AND ApplicantID = @ApplicantID AND AdminID = @AdminID";
+
+                using (DatabaseAdapter adapter = new DatabaseAdapter(sql, this.DBSource))
+                {
+                    adapter.AddParameterToSelectCommand("@ApplicantID", ApplicantID);
+                    adapter.AddParameterToSelectCommand("@AdminID", AdminID);
+                    DataTable dt = new DataTable();
+                    adapter.Fill(dt);
+
+                    if (dt.Rows.Count > 0)
+                        result = false;
+                }
+            }
+            catch (Exception error)
+            {
+                string detailedError = ErrorLogger.FormatError(error, typeof(LightDAC).FullName);
+                twbobibobi.Data.BasePage basePage = new twbobibobi.Data.BasePage();
+                basePage.SaveErrorLog("LightDAC.Checkedappcharge_Luckaltar_ty：\r\n" + detailedError);
+            }
+
+            return result;
+        }
+
         #endregion
 
         #endregion
@@ -34162,6 +34740,8 @@ namespace twbobibobi.Data
         /// 23-祈安植福
         /// 24-祈安禮斗
         /// 25-千手觀音千燈迎佛法會
+        /// 26-組合商品
+        /// 27-新春賀歲感恩招財祿位
         /// <param name="CodeType">驗證碼方式 0-sms 1-email。</param>
         /// <param name="Year">年度字串（例如："2025"）。</param>
         /// <returns>
@@ -57431,6 +58011,48 @@ namespace twbobibobi.Data
         }
 
         /// <summary>
+        /// 更新購買人資料的費用與狀態 - 新春賀歲感恩招財祿位 - 桃園威天宮
+        /// </summary>
+        /// <param name="ApplicantID">購買人編號。</param>
+        /// <param name="AdminID">宮廟編號。</param>
+        /// <param name="Cost">實際金額。</param>
+        /// <param name="Year">資料年份（例如 "2025"）。</param>
+        /// <returns>若更新成功回傳 <c>true</c>，否則回傳 <c>false</c>。</returns>
+        public bool Updatecost2applicantinfo_Luckaltar_ty(
+            int ApplicantID,
+            int AdminID,
+            int Cost,
+            string Year)
+        {
+            bool result = false;
+            try
+            {
+                string sql = $"SELECT TOP 1 * FROM Temple_{Year}..ApplicantInfo_ty_Luckaltar WHERE ApplicantID=@ApplicantID AND AdminID=@AdminID AND Status = 0";
+
+                using (DatabaseAdapter adapter = new DatabaseAdapter(sql, this.DBSource))
+                {
+                    adapter.AddParameterToSelectCommand("@ApplicantID", ApplicantID);
+                    adapter.AddParameterToSelectCommand("@AdminID", AdminID);
+                    DataTable dt = new DataTable();
+                    adapter.Fill(dt);
+
+                    if (dt.Rows.Count > 0 && Convert.ToInt32(dt.Rows[0]["Status"]) == 0)
+                    {
+                        result = Updateapplicantinfo_Luckaltar_ty(ApplicantID, Cost, 1, Year);
+                    }
+                }
+            }
+            catch (Exception error)
+            {
+                string detailedError = ErrorLogger.FormatError(error, typeof(LightDAC).FullName);
+                twbobibobi.Data.BasePage basePage = new twbobibobi.Data.BasePage();
+                basePage.SaveErrorLog("LightDAC.Updatecost2applicantinfo_Luckaltar_ty：\r\n" + detailedError);
+            }
+
+            return result;
+        }
+
+        /// <summary>
         /// 更新付費資訊 - 關聖帝君聖誕 - 桃園威天宮
         /// </summary>
         /// <param name="OrderID">訂單編號</param>
@@ -58151,6 +58773,96 @@ namespace twbobibobi.Data
         }
 
         /// <summary>
+        /// 更新付費資訊 - 新春賀歲感恩招財祿位 - 桃園威天宮
+        /// </summary>
+        /// <param name="OrderID">訂單編號</param>
+        /// <param name="Status">要更新的狀態</param>
+        /// <param name="BillIP">付款端 IP</param>
+        /// <param name="CallbackLog">回傳紀錄</param>
+        /// <param name="Year">年度</param>
+        /// <returns>true 表示更新成功；否則 false</returns>
+        public bool UpdateChargeStatus_Luckaltar_ty(
+            string OrderID,
+            int Status,
+            string BillIP,
+            string CallbackLog,
+            string Year)
+        {
+            bool bResult = false;
+            twbobibobi.Data.BasePage basePage = new twbobibobi.Data.BasePage();
+
+            try
+            {
+                // 取得台北標準時間
+                DateTime dtNow = GetTaipeiNow();
+
+                // ------------------------------------------------------------------
+                // 1. 取得現有資料
+                // ------------------------------------------------------------------
+                string sqlSelect = $@"
+                                        SELECT TOP 1 *
+                                        FROM Temple_{Year}..APPCharge_ty_Luckaltar
+                                        WHERE OrderID = @OrderID
+                                    ";
+
+                DataTable dtDataList = new DataTable();
+
+                using (DatabaseAdapter da = new DatabaseAdapter(sqlSelect, this.DBSource))
+                {
+                    da.SetSqlCommandBuilder();
+                    da.AddParameterToSelectCommand("@OrderID", OrderID);
+                    da.Fill(dtDataList);
+                }
+
+                // 若沒有資料 → 不更新，直接 return false
+                if (dtDataList.Rows.Count == 0)
+                    return false;
+
+                // ------------------------------------------------------------------
+                // 2. 僅 Status = 0 才能更新（保留你的業務規則）
+                // ------------------------------------------------------------------
+                int currentStatus = Convert.ToInt32(dtDataList.Rows[0]["Status"]);
+                if (currentStatus != 0)
+                    return false;
+
+                // ------------------------------------------------------------------
+                // 3. 進行更新（參數化）
+                // ------------------------------------------------------------------
+                string sqlUpdate = $@"
+                                        UPDATE Temple_{Year}..APPCharge_ty_Luckaltar
+                                        SET 
+                                            Status = @Status,
+                                            BillIP = @BillIP,
+                                            CallbackLog = @CallbackLog,
+                                            ChargeDate = @ChargeDate,
+                                            ChargeDateString = @ChargeDateString
+                                        WHERE OrderID = @OrderID
+                                    ";
+
+                using (DatabaseAdapter daUpdate = new DatabaseAdapter(sqlUpdate, this.DBSource))
+                {
+                    daUpdate.AddParameterToSelectCommand("@Status", Status);
+                    daUpdate.AddParameterToSelectCommand("@BillIP", BillIP ?? "");
+                    daUpdate.AddParameterToSelectCommand("@CallbackLog", CallbackLog ?? "");
+                    daUpdate.AddParameterToSelectCommand("@ChargeDate", dtNow.ToString("yyyy-MM-dd HH:mm:ss"));
+                    daUpdate.AddParameterToSelectCommand("@ChargeDateString", dtNow.ToString("yyyy-MM-dd"));
+                    daUpdate.AddParameterToSelectCommand("@OrderID", OrderID);
+
+                    int res = daUpdate.ExecuteSql();
+                    if (res > 0)
+                        bResult = true;
+                }
+            }
+            catch (Exception error)
+            {
+                string detail = ErrorLogger.FormatError(error, typeof(LightDAC).FullName);
+                basePage.SaveErrorLog("LightDAC.UpdateChargeStatus_Luckaltar_ty：\r\n" + detail);
+            }
+
+            return bResult;
+        }
+
+        /// <summary>
         /// 更新 ApplicantInfo_ty_EmperorGuansheng 的 Status 與 Cost 欄位資料。
         /// </summary>
         /// <param name="ApplicantID">購買人編號。</param>
@@ -58521,6 +59233,53 @@ namespace twbobibobi.Data
                 string detailedError = ErrorLogger.FormatError(error, typeof(LightDAC).FullName);
                 twbobibobi.Data.BasePage basePage = new twbobibobi.Data.BasePage();
                 basePage.SaveErrorLog("LightDAC.Updateapplicantinfo_QnLight_ty：\r\n" + detailedError);
+            }
+
+            return bResult;
+        }
+
+        /// <summary>
+        /// 更新 ApplicantInfo_ty_Luckaltar 的 Status 與 Cost 欄位資料。
+        /// </summary>
+        /// <param name="ApplicantID">購買人編號。</param>
+        /// <param name="Cost">費用欄位。</param>
+        /// <param name="Status">狀態欄位。</param>
+        /// <param name="Year">資料年度（例如 2026）。</param>
+        /// <returns>回傳 true 表示更新成功；false 表示未更新任何資料。</returns>
+        public bool Updateapplicantinfo_Luckaltar_ty(
+            int ApplicantID,
+            int Cost,
+            int Status,
+            string Year)
+        {
+            bool bResult = false;
+
+            try
+            {
+                string sql = $@"
+                        UPDATE Temple_{Year}..ApplicantInfo_ty_Luckaltar
+                        SET 
+                            Status = @Status,
+                            Cost = @Cost
+                        WHERE ApplicantID = @ApplicantID;
+                    ";
+
+                using (DatabaseAdapter adapter = new DatabaseAdapter(sql, this.DBSource))
+                {
+                    adapter.AddParameterToSelectCommand("@Status", Status);
+                    adapter.AddParameterToSelectCommand("@Cost", Cost);
+                    adapter.AddParameterToSelectCommand("@ApplicantID", ApplicantID);
+
+                    int res = adapter.ExecuteSql();
+                    if (res > 0)
+                        bResult = true;
+                }
+            }
+            catch (Exception error)
+            {
+                string detailedError = ErrorLogger.FormatError(error, typeof(LightDAC).FullName);
+                twbobibobi.Data.BasePage basePage = new twbobibobi.Data.BasePage();
+                basePage.SaveErrorLog("LightDAC.Updateapplicantinfo_Luckaltar_ty：\r\n" + detailedError);
             }
 
             return bResult;
@@ -59358,6 +60117,99 @@ namespace twbobibobi.Data
                 string detailedError = ErrorLogger.FormatError(error, typeof(LightDAC).FullName);
                 twbobibobi.Data.BasePage basePage = new twbobibobi.Data.BasePage();
                 basePage.SaveErrorLog("LightDAC.UpdateChargeLog_QnLight_ty：\r\n" + detailedError);
+            }
+
+            return bResult;
+        }
+
+        /// <summary>
+        /// 更新 APPCharge_ty_Luckaltar 的付款紀錄（更新狀態、交易資料、Callback 記錄等）。
+        /// </summary>
+        /// <param name="OrderID">訂單編號。</param>
+        /// <param name="Transaction_id">金流交易編號。</param>
+        /// <param name="Comment">備註。</param>
+        /// <param name="BillIP">付款者 IP。</param>
+        /// <param name="CallbackLog">回傳紀錄。</param>
+        /// <param name="Year">資料年度（例如 2026）。</param>
+        /// <param name="ChargeType">回填付款方式。</param>
+        /// <param name="Status">回填付款狀態。</param>
+        /// <returns>成功更新時回傳 true。</returns>
+        public bool UpdateChargeLog_Luckaltar_ty(
+            string OrderID,
+            string Transaction_id,
+            string Comment,
+            string BillIP,
+            string CallbackLog,
+            string Year,
+            ref string ChargeType,
+            ref int Status)
+        {
+            bool bResult = false;
+
+            try
+            {
+                // 取得台北標準時間
+                DateTime dtNow = GetTaipeiNow();
+
+                DataTable dtDataList = new DataTable();
+
+                string sql = $@"
+                        SELECT TOP 1 *
+                        FROM Temple_{Year}..APPCharge_ty_Luckaltar
+                        WHERE OrderID = @OrderID;
+                      ";
+
+                // 查詢付款紀錄
+                using (DatabaseAdapter adapter = new DatabaseAdapter(sql, this.DBSource))
+                {
+                    adapter.AddParameterToSelectCommand("@OrderID", OrderID);
+                    adapter.Fill(dtDataList);
+                }
+
+                if (dtDataList.Rows.Count == 0)
+                    return false;
+
+                // 取出狀態與付款方式
+                Status = (int)dtDataList.Rows[0]["Status"];
+
+                if (Status == 0)
+                {
+                    ChargeType = dtDataList.Rows[0]["ChargeType"].ToString();
+
+                    string updateSql = $@"
+                                UPDATE Temple_{Year}..APPCharge_ty_Luckaltar
+                                SET 
+                                    Status = 1,
+                                    BillIP = @BillIP,
+                                    Transaction_id = @Transaction_id,
+                                    CallbackLog = @CallbackLog,
+                                    Comment = @Comment,
+                                    ChargeDate = @ChargeDate,
+                                    ChargeDateString = @ChargeDateString
+                                WHERE OrderID = @OrderID;
+                                ";
+
+                    using (DatabaseAdapter adapter = new DatabaseAdapter(updateSql, this.DBSource))
+                    {
+                        adapter.AddParameterToSelectCommand("@BillIP", BillIP);
+                        adapter.AddParameterToSelectCommand("@Transaction_id", Transaction_id);
+                        adapter.AddParameterToSelectCommand("@CallbackLog", CallbackLog);
+                        adapter.AddParameterToSelectCommand("@Comment", Comment);
+                        adapter.AddParameterToSelectCommand("@ChargeDate", dtNow.ToString("yyyy-MM-dd HH:mm:ss"));
+                        adapter.AddParameterToSelectCommand("@ChargeDateString", dtNow.ToString("yyyy-MM-dd"));
+                        adapter.AddParameterToSelectCommand("@OrderID", OrderID);
+
+                        int res = adapter.ExecuteSql();
+                        if (res > 0)
+                            bResult = true;
+                    }
+                }
+            }
+            catch (Exception error)
+            {
+                string detailedError = ErrorLogger.FormatError(error, typeof(LightDAC).FullName);
+                twbobibobi.Data.BasePage basePage = new twbobibobi.Data.BasePage();
+                basePage.SaveErrorLog("LightDAC.UpdateChargeLog_Luckaltar_ty：\r\n" + detailedError);
             }
 
             return bResult;
@@ -60841,6 +61693,188 @@ namespace twbobibobi.Data
                 {
                     string detailedError = ErrorLogger.FormatError(error, typeof(LightDAC).FullName);
                     basePage.SaveErrorLog("LightDAC.UpdateQnLight_ty_Info：\r\n" + detailedError);
+                }
+
+                return bResult;
+            }
+        }
+
+        #endregion
+
+        #region －－ 新春賀歲感恩招財祿位 訂單編號更新 －－
+
+        /// <summary>
+        /// 更新並取得燈號資料 - 新春賀歲感恩招財祿位 - 桃園威天宮
+        /// </summary>
+        /// <param name="applicantID">購買人編號</param>
+        /// <param name="LuckaltarType">
+        /// 活動代碼：
+        /// 1－吉祥招財祿位;2－如意招財祿位;3－帝王招財祿位；
+        /// </param>
+        /// <param name="Year">資料庫年度</param>
+        /// <param name="msg">回傳訊息（活動名稱＋編號＋客服電話）</param>
+        /// <param name="luckaltarlist">回傳活動陣列（如「吉祥招財祿位:QNLH1001」）</param>
+        /// <param name="Luckaltarlist">備用字串陣列</param>
+        /// <returns>true 表示補號成功；否則 false</returns>
+        public bool UpdateLuckaltar_ty_Info(
+            int applicantID,
+            int LuckaltarType,
+            string Year,
+            ref string msg,
+            ref string[] luckaltarlist,
+            ref string[] Luckaltarlist)
+        {
+            lock (_thisLock)
+            {
+                bool bResult = false;
+                twbobibobi.Data.BasePage basePage = new twbobibobi.Data.BasePage();
+
+                try
+                {
+                    // --------------------------------------------------------------------------------------
+                    // 1. 一次性取得所有已分配的編號 (Num > 0 且 Num2String 有值)
+                    // --------------------------------------------------------------------------------------
+                    string sqlFetchExisting = $@"
+                                                SELECT LuckaltarType, Num
+                                                FROM Temple_{Year}..Luckaltar_ty_info
+                                                WHERE Status = 0
+                                                  AND Num <> 0
+                                                  AND Num2String IS NOT NULL
+                                                  AND Num2String <> ''
+                                            ";
+
+                    // 建立各燈種對應的已用號碼集合
+                    Dictionary<int, HashSet<int>> usedNumsByType = new Dictionary<int, HashSet<int>>();
+                    using (DatabaseAdapter da = new DatabaseAdapter(sqlFetchExisting, this.DBSource))
+                    {
+                        DataTable dtExisting = new DataTable();
+                        da.Fill(dtExisting);
+
+                        foreach (DataRow row in dtExisting.Rows)
+                        {
+                            int type = Convert.ToInt32(row["LuckaltarType"]);
+                            int num = Convert.ToInt32(row["Num"]);
+
+                            if (!usedNumsByType.ContainsKey(type))
+                                usedNumsByType[type] = new HashSet<int>();
+
+                            usedNumsByType[type].Add(num);
+                        }
+                    }
+
+                    // --------------------------------------------------------------------------------------
+                    // 2. 找出所有 Num = 0 的燈種，需要補號
+                    // --------------------------------------------------------------------------------------
+                    string sqlFetchToAssign = $@"
+                                                SELECT LuckaltarID, LuckaltarType
+                                                FROM Temple_{Year}..Luckaltar_ty_info
+                                                WHERE ApplicantID = @ApplicantID
+                                                  AND Status = 0
+                                                  AND Num = 0
+                                                ORDER BY LuckaltarID
+                                            ";
+
+                    DataTable dtToAssign = new DataTable();
+                    using (DatabaseAdapter daAssign = new DatabaseAdapter(sqlFetchToAssign, this.DBSource))
+                    {
+                        daAssign.AddParameterToSelectCommand("@ApplicantID", applicantID);
+                        daAssign.Fill(dtToAssign);
+                    }
+
+                    int rowCount = dtToAssign.Rows.Count;
+                    if (rowCount == 0)
+                        return false;
+
+                    luckaltarlist = new string[rowCount];
+                    Luckaltarlist = new string[rowCount];
+
+                    // 暫存待更新資料
+                    List<(int LuckaltarID, int Num, string NumString)> updatedRecords =
+                        new List<(int, int, string)>();
+
+                    // --------------------------------------------------------------------------------------
+                    // 3. 分配最小可用號碼
+                    // --------------------------------------------------------------------------------------
+                    for (int i = 0; i < rowCount; i++)
+                    {
+                        DataRow row = dtToAssign.Rows[i];
+                        int dbLuckaltarID = Convert.ToInt32(row["LuckaltarID"]);
+                        int dbLuckaltarType = Convert.ToInt32(row["LuckaltarType"]);
+
+                        if (!usedNumsByType.ContainsKey(dbLuckaltarType))
+                            usedNumsByType[dbLuckaltarType] = new HashSet<int>();
+
+                        int nextNum = 1001;
+
+                        // 找下一個可用編號 (從 1001 開始往上搜尋)
+                        var usedSet = usedNumsByType[dbLuckaltarType];
+                        while (usedSet.Contains(nextNum))
+                        {
+                            nextNum++;
+                        }
+
+                        // 根據活動代碼決定前綴字串
+                        string prefix = "";
+                        switch (dbLuckaltarType)
+                        {
+                            case 1: prefix = "LCJS"; break;     // 吉祥招財祿位
+                            case 2: prefix = "LCRY"; break;     // 如意招財祿位
+                        }
+
+                        string numString = prefix + nextNum.ToString();
+                        Luckaltarlist[i] = numString;
+
+                        // 組成要返回前端的「活動名稱:編號」
+                        string typeName = "";
+                        switch (dbLuckaltarType)
+                        {
+                            case 1: typeName = "吉祥招財祿位"; break;
+                            case 2: typeName = "如意招財祿位"; break;
+                        }
+
+                        luckaltarlist[i] = $"{typeName}:{numString}";
+
+                        // 把這筆資料記錄到暫存待更新資料中
+                        updatedRecords.Add((dbLuckaltarID, nextNum, numString));
+
+                        // 把已分配的 nextNum 加入 usedNumsByType，避免重複
+                        usedSet.Add(nextNum);
+                    }
+
+                    // --------------------------------------------------------------------------------------
+                    // 4. 回傳訊息組裝
+                    // --------------------------------------------------------------------------------------
+                    msg += string.Join(",", luckaltarlist) + "。客服電話：04-36092299。";
+
+                    // --------------------------------------------------------------------------------------
+                    // 5. 批次 UPDATE（安全參數化）
+                    // --------------------------------------------------------------------------------------
+                    foreach (var rec in updatedRecords)
+                    {
+                        string sqlUpdate = $@"
+                                                UPDATE Temple_{Year}..Luckaltar_ty_info
+                                                SET 
+                                                    Num = @Num,
+                                                    Num2String = @Num2String
+                                                WHERE LuckaltarID = @LuckaltarID;
+                                            ";
+
+                        using (DatabaseAdapter daUpdate = new DatabaseAdapter(sqlUpdate, this.DBSource))
+                        {
+                            daUpdate.AddParameterToSelectCommand("@Num", rec.Num);
+                            daUpdate.AddParameterToSelectCommand("@Num2String", rec.NumString);
+                            daUpdate.AddParameterToSelectCommand("@LuckaltarID", rec.LuckaltarID);
+
+                            int res = daUpdate.ExecuteSql();
+                            if (res > 0)
+                                bResult = true;
+                        }
+                    }
+                }
+                catch (Exception error)
+                {
+                    string detailedError = ErrorLogger.FormatError(error, typeof(LightDAC).FullName);
+                    basePage.SaveErrorLog("LightDAC.UpdateLuckaltar_ty_Info：\r\n" + detailedError);
                 }
 
                 return bResult;

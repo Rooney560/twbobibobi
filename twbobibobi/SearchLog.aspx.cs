@@ -1199,6 +1199,63 @@ namespace Temple
             return lightslist;
         }
 
+        public static string add_Luckaltar_ty_blessed(
+            string AppName,
+            string AppMobile,
+            string AppsBirth,
+            string AppEmail,
+            string AppAddress,
+            string Name,
+            string Mobile,
+            string sBirth,
+            string Count,
+            string Address,
+            string Remark,
+            int numZampBlessed,
+            string AppStatus,
+            string Num2String,
+            string LuckaltarType,
+            string LuckaltarString,
+            string ChargeDate,
+            ref int total)
+        {
+            string lightslist = string.Empty;
+            int cost = GetLuckaltarCost(14, LuckaltarType);
+
+            cost = cost * int.Parse(Count);
+
+            total += cost;
+
+            lightslist = "<li>";
+
+            if (AppName != "" && AppMobile != "")
+            {
+                lightslist += addData_Content("購買人姓名", AppName);
+                lightslist += addData_Content("購買人電話", AppMobile);
+                lightslist += addData_Content("購買人信箱", AppEmail);
+                lightslist += addData_Content("國曆生日", sBirth);
+                lightslist += addData_Content("購買人地址", AppAddress);
+            }
+
+
+            lightslist += addData_Content("宮廟名稱", "桃園威天宮");
+            lightslist += addData_Content("訂單編號", Num2String);
+            lightslist += addData_Content("祈福人姓名", Name);
+            lightslist += addData_Content("祈福人電話", Mobile);
+            lightslist += addData_Content("國曆生日", sBirth);
+            lightslist += addData_Content("祈福人地址", Address);
+            lightslist += addData_Content("服務項目", LuckaltarString);
+
+            lightslist += addData_Content("金額", cost.ToString());
+            lightslist += addData_Content("狀態", Status2String(int.Parse(AppStatus)));
+            lightslist += addData_Content("受理日期", ChargeDate);
+            lightslist += addData_Content("備註", Remark.Replace("\n", "<br>").Replace(" ", "").Replace("\t", "").Replace("\r", ""));
+
+            lightslist += "</li>";
+
+            return lightslist;
+        }
+
         public static string add_Lights_ld_blessed(string AppName, string AppMobile, string Name, string Mobile, string Sex, string Birth, string LeapMonth, string BirthTime,
             string Email, string Count, string Address, int numZampBlessed, string AppStatus, string Num2String, string LightsType, string LightsString, string ChargeDate, ref int total)
         {
@@ -4261,8 +4318,11 @@ namespace Temple
                                         }
                                     }
 
-                                    //千手觀音千燈迎佛法會
+                                    // 千手觀音千燈迎佛法會
                                     GetQnLightInfo(basePage, dtapplecantinfo, m_Name, m_Mobile, 1, adminID, Yearlist[y], ref Datalist, ref Total);
+
+                                    // 新春賀歲感恩招財祿位
+                                    GetLuckaltarInfo(basePage, dtapplecantinfo, m_Name, m_Mobile, 1, adminID, Yearlist[y], ref Datalist, ref Total);
                                 }
                             }
                         }
@@ -5660,6 +5720,61 @@ namespace Temple
                                 Num2String,
                                 QnLightType,
                                 QnLightString,
+                                ChargeDate,
+                                ref Total);
+                        }
+                        break;
+                }
+            }
+        }
+
+        protected static void GetLuckaltarInfo(BasePage basePage, DataTable dtapplecantinfo, string m_Name, string m_Mobile, int type, int adminID, string Year, ref string Datalist,
+            ref int Total)
+        {
+            LightDAC objLightDAC = new LightDAC(basePage);
+
+            dtapplecantinfo = objLightDAC.Getapplicantinfo_LuckaltarInfo(m_Name, m_Mobile, adminID, Year);
+            if (dtapplecantinfo.Rows.Count > 0)
+            {
+                switch (adminID)
+                {
+                    case 14:
+                        //桃園威天宮
+                        for (int i = 0; i < dtapplecantinfo.Rows.Count; i++)
+                        {
+                            string AppName = UtilDataMask.MaskName(dtapplecantinfo.Rows[i]["AppName"].ToString());
+                            string AppMobile = UtilDataMask.MaskMobile(dtapplecantinfo.Rows[i]["AppMobile"].ToString(), 5, 3);
+                            string AppEmail = dtapplecantinfo.Rows[i]["AppEmail"].ToString();
+                            string AppsBirth = dtapplecantinfo.Rows[i]["AppsBirth"].ToString();
+                            string AppAddress = UtilDataMask.MaskTWAddr(dtapplecantinfo.Rows[i]["AppAddress"].ToString());
+                            string Name = UtilDataMask.MaskName(dtapplecantinfo.Rows[i]["Name"].ToString());
+                            string Mobile = UtilDataMask.MaskMobile(dtapplecantinfo.Rows[i]["Mobile"].ToString(), 5, 3);
+                            string sBirth = dtapplecantinfo.Rows[i]["sBirth"].ToString();
+                            string Count = dtapplecantinfo.Rows[i]["Count"].ToString();
+                            string Address = UtilDataMask.MaskTWAddr(dtapplecantinfo.Rows[i]["Address"].ToString());
+                            string Remark = dtapplecantinfo.Rows[i]["Remark"].ToString();
+                            string AppStatus = dtapplecantinfo.Rows[i]["AppStatus"].ToString();
+                            string Num2String = dtapplecantinfo.Rows[i]["Num2String"].ToString();
+                            string LuckaltarType = dtapplecantinfo.Rows[i]["LuckaltarType"].ToString();
+                            string LuckaltarString = dtapplecantinfo.Rows[i]["LuckaltarString"].ToString();
+                            string ChargeDate = dtapplecantinfo.Rows[i]["ChargeDateString"].ToString();
+                            Datalist += add_Luckaltar_ty_blessed(
+                                AppName,
+                                AppMobile,
+                                AppEmail,
+                                AppsBirth,
+                                AppAddress,
+                                Name,
+                                Mobile,
+                                sBirth,
+                                Count,
+                                Address,
+                                Remark,
+                                i,
+                                AppStatus,
+                                Num2String,
+                                LuckaltarType,
+                                LuckaltarString,
                                 ChargeDate,
                                 ref Total);
                         }

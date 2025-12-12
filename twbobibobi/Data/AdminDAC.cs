@@ -83,6 +83,8 @@ namespace twbobibobi.Data
         /// 23-祈安植福
         /// 24-祈安禮斗
         /// 25-千手觀音千燈迎佛法會
+        /// 26-組合商品
+        /// 27-新春賀歲感恩招財祿位
         /// <param name="type">類型，用於部分分支（例如桃園威天宮燈別）。</param>
         /// <param name="Year">資料年份。</param>
         /// <returns>更新與刪除皆成功回傳 true，否則 false。</returns>
@@ -116,6 +118,7 @@ namespace twbobibobi.Data
                 case "23": bResult = DeleteBlessingInfo(applicantId, adminId, year); break;
                 case "24": bResult = DeleteSuppliesInfo(applicantId, adminId, 24, year); break;
                 case "25": bResult = DeleteQnLightInfo(applicantId, adminId, year); break;
+                case "27": bResult = DeleteLuckaltarInfo(applicantId, adminId, year); break;
             }
             return bResult;
         }
@@ -923,6 +926,17 @@ namespace twbobibobi.Data
                                 break;
                         }
                         break;
+                    case "27":
+                        //新春賀歲感恩招財祿位
+                        switch (AdminID)
+                        {
+                            case "14":
+                                //桃園威天宮
+                                view = $"Temple_{Year}..APPCharge_ty_Luckaltar";
+                                sql = $"SELECT * FROM {view} WHERE Status=1 AND UniqueID=@UniqueID";
+                                break;
+                        }
+                        break;
                 }
 
                 //===============================================
@@ -1456,6 +1470,17 @@ namespace twbobibobi.Data
                             case "14":
                                 //桃園威天宮
                                 view = $"Temple_{Year}..ApplicantInfo_ty_QnLight";
+                                sql = $"SELECT * FROM {view} WHERE Status=2 AND ApplicantID=@ApplicantID";
+                                break;
+                        }
+                        break;
+                    case "27":
+                        //新春賀歲感恩招財祿位
+                        switch (AdminID)
+                        {
+                            case "14":
+                                //桃園威天宮
+                                view = $"Temple_{Year}..ApplicantInfo_ty_Luckaltar";
                                 sql = $"SELECT * FROM {view} WHERE Status=2 AND ApplicantID=@ApplicantID";
                                 break;
                         }
@@ -2542,6 +2567,78 @@ namespace twbobibobi.Data
                 string detailedError = ErrorLogger.FormatError(error, typeof(AdminDAC).FullName);
                 twbobibobi.Data.BasePage basePage = new twbobibobi.Data.BasePage();
                 basePage.SaveErrorLog("AdminDAC.DeleteQnLightInfo：\r\n" + detailedError);
+                throw;
+            }
+        }
+
+        /// <summary>
+        /// 刪除新春賀歲感恩招財祿位訂單編號（將 Num 與 Num2String 清空為 0 與空字串）。
+        /// </summary>
+        /// <param name="ApplicantID">購買人編號。</param>
+        /// <param name="AdminID">廟宇編號（例如：14=桃園威天宮等）。</param>
+        /// <param name="Year">資料年份。</param>
+        /// <returns>清除成功回傳 true，否則 false。</returns>
+        public bool DeleteLuckaltarInfo(
+            int ApplicantID,
+            string AdminID,
+            string Year)
+        {
+            bool result = false;
+            try
+            {
+                string sql = string.Empty;
+                string view = string.Empty;
+                DataTable dtUpdateStatus = new DataTable();
+
+                //──────────────────────────────
+                // 根據 AdminID 指定正確的 Temple 資料表
+                //──────────────────────────────
+                switch (AdminID)
+                {
+                    case "14":
+                        view = $"Temple_{Year}..Luckaltar_ty_info"; break;
+                }
+
+                if (!string.IsNullOrEmpty(view))
+                {
+                    sql = $"SELECT * FROM {view} WHERE ApplicantID=@ApplicantID AND Status=0";
+
+                    // 讀取對應燈號
+                    using (var adapter = new DatabaseAdapter(sql, this.DBSource))
+                    {
+                        adapter.AddParameterToSelectCommand("@ApplicantID", ApplicantID);
+                        adapter.Fill(dtUpdateStatus);
+                    }
+
+                    if (dtUpdateStatus.Rows.Count > 0)
+                    {
+                        foreach (DataRow row in dtUpdateStatus.Rows)
+                        {
+                            int qnlightId = Convert.ToInt32(row["LuckaltarID"]);
+
+                            // 使用參數化 SQL 清除 Num 與 Num2String
+                            string updateSql = $"UPDATE {view} SET Num2String=@Num2String, Num=@Num WHERE LuckaltarID=@LuckaltarID";
+                            using (var updateAdapter = new DatabaseAdapter(updateSql, this.DBSource))
+                            {
+                                updateAdapter.AddParameterToSelectCommand("@Num2String", string.Empty);
+                                updateAdapter.AddParameterToSelectCommand("@Num", 0);
+                                updateAdapter.AddParameterToSelectCommand("@LuckaltarID", qnlightId);
+
+                                int res = updateAdapter.ExecuteSql();
+                                if (res > 0)
+                                    result = true;
+                            }
+                        }
+                    }
+                }
+
+                return result;
+            }
+            catch (Exception error)
+            {
+                string detailedError = ErrorLogger.FormatError(error, typeof(AdminDAC).FullName);
+                twbobibobi.Data.BasePage basePage = new twbobibobi.Data.BasePage();
+                basePage.SaveErrorLog("AdminDAC.DeleteLuckaltarInfo：\r\n" + detailedError);
                 throw;
             }
         }
