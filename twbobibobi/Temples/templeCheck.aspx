@@ -1415,6 +1415,13 @@
 
                 $radios = $('input[name="InvoiceType"]');
 
+                var $lastSendback = $('.appsendback').last();
+
+                var appsendback = $lastSendback.is('input, select, textarea')
+                    ? $lastSendback.val()
+                    : $lastSendback.text().trim();
+
+
                 data = {
                     AppName: $("#AppName").text(),
                     AppMobile: $("#AppMobile").text(),
@@ -1425,6 +1432,7 @@
                     CarrierCode: $("#CarrierCode").val(),
                     InvoiceCode: $("#InvoiceCode").val(),
                     InvoiceName: $("#InvoiceName").val(),
+                    AppSendback: appsendback,
                     ChargeType: ChargeType
                 };
 

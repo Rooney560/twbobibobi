@@ -1,13 +1,19 @@
-﻿using System;
+﻿/* ===================================================================================================
+   專案名稱：twbobibobi
+   檔案名稱：InvoiceWrapperInput.cs
+   類別說明：電子發票的輸入資料封裝，包含買方資訊、商品項目、金額等。
+   建立日期：2025-11-28
+   建立人員：Rooney
+
+   目前維護人員：Rooney
+   =================================================================================================== */
+
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Web;
 
 namespace twbobibobi.Model
 {
     /// <summary>
-    /// 給共用發票處理器使用的輸入參數封裝類別
+    /// 用來封裝電子發票的輸入資料
     /// </summary>
     public class InvoiceWrapperInput
     {
@@ -21,7 +27,7 @@ namespace twbobibobi.Model
         public List<ProductItem> Items { get; set; }
 
         /// <summary>統一編號（選填，預設為 "0000000000"）</summary>
-        public string BuyerIdentifier { get; set; }
+        public string BuyerIdentifier { get; set; } = "0000000000";
 
         /// <summary>公司或個人名稱</summary>
         public string BuyerName { get; set; }

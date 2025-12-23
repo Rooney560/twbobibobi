@@ -459,15 +459,14 @@ namespace Temple.Temples
                                         }
                                         else
                                         {
-                                            bindPayButton(true, false, false, false, true, true, false, false, false);
-                                            //if (payStatus)
-                                            //{
-                                            //    bindPayButton(false, true, true, true, false, false, false, true, true);
-                                            //}
-                                            //else
-                                            //{
-                                            //    bindPayButton(true, true, true, true, true, true, false, true, true);
-                                            //}
+                                            if (payStatus)
+                                            {
+                                                bindPayButton(false, true, true, true, false, false, false, true, true);
+                                            }
+                                            else
+                                            {
+                                                bindPayButton(true, true, true, true, true, true, false, true, true);
+                                            }
                                         }
                                     }
                                     else
@@ -1308,7 +1307,7 @@ namespace Temple.Temples
                                     title = "桃園威天宮";
                                     GetPurchaserlist_ty_Supplies(adminID, ApplicantID, Year, ref payStatus);          //購買人資料列表
                                     Checkedtemple_ty(adminID, ApplicantID, kind, 1, Year);
-                                    EndDate = "2025/12/18 23:59";
+                                    EndDate = "2025/12/18 11:00";
                                     if (DateTime.TryParseExact(
                                             EndDate,
                                             "yyyy/MM/dd HH:mm",
@@ -2343,6 +2342,7 @@ namespace Temple.Temples
                 string CarrierCode = basePage.Request["CarrierCode"];
                 string InvoiceCode = basePage.Request["InvoiceCode"];
                 string InvoiceName = basePage.Request["InvoiceName"];
+                string AppSenback = basePage.Request["AppSendback"] ?? "";
 
                 if (ChargeType.IndexOf("CSP", StringComparison.OrdinalIgnoreCase) >= 0)
                 {
@@ -2375,6 +2375,11 @@ namespace Temple.Temples
 
                     // 實際金額（DB 計算）
                     int dbTotal = objLightDAC.GetApplicantTotal(ApplicantID, AdminID, kind, Year);
+
+                    if (AdminID == 32 && kind == 1 && Year == "2026" && AppSenback == "$ 60元")
+                    {
+                        dbTotal += 60;
+                    }
 
                     if (dbTotal != Total)
                     {
@@ -16567,12 +16572,14 @@ namespace Temple.Temples
                     }
                 }
 
-                OrderPurchaser += "</div>";
+                OrderPurchaser += "</div><div class='appsendback'>";
 
                 if (AppSendback == "Y")
                 {
-                    OrderPurchaser += "<div class='appsendback'>$ " + 60 + "元</div>";
+                    OrderPurchaser += "$ " + 60 + "元";
                 }
+
+                OrderPurchaser += "</div>";
 
                 OrderInfo = string.Empty;
 

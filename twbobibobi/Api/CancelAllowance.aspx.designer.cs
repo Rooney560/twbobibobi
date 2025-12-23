@@ -11,7 +11,7 @@ namespace twbobibobi.Api
 {
 
 
-    public partial class AllowanceInvoice
+    public partial class CancelAllowance
     {
     }
 }

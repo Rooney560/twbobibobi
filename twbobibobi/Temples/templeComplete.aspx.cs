@@ -398,7 +398,7 @@ namespace Temple.Temples
                                         typeString = " 2025天赦日招財補運";
                                         title = " 桃園威天宮";
                                         GetStateContentlist_ty(adminID, ApplicantID, kind, 1, Year);           //購買人資料列表
-                                        EndDate = "2025/12/18 23:59";
+                                        EndDate = "2025/12/18 11:00";
                                         break;
                                     case 23:
                                         // 玉敕大樹朝天宮天赦日招財補運

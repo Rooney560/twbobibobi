@@ -1,10 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Data;
 using System.Collections;
+using System.Collections.Generic;
+using System.Configuration;
+using System.Data;
+using System.Linq;
 using System.Security.Cryptography;
+using System.Text;
 
 namespace twbobibobi.Data
 {
@@ -352,5 +353,73 @@ namespace twbobibobi.Data
                 return BitConverter.ToString(hashMessage).Replace("-", "").ToLower();
             }
         }
+
+        /// <summary>
+        /// 驗證 HMAC-SHA256 簽章  
+        /// payload = "{invoiceNumber}|{a}|{aid}|{kind}...{env}|{ts}"
+        /// </summary>
+        /// <param name="env">環境 ("prod" 或 "uat")</param>
+        /// <param name="ts">時間戳</param>
+        /// <param name="sig">簽章</param>
+        /// <param name="extraParams">可變長度的字串參數，這些參數會被拼接進簽章</param>
+        /// <returns>是否驗證成功</returns>
+        public static bool ValidateSignature(string env, string ts, string sig, params string[] extraParams)
+        {
+            // 由 env 決定要用哪組密鑰
+            string keyName = "ApiAuthSecret_" + (env == "uat" ? "UAT" : "Prod");
+            string secret = ConfigurationManager.AppSettings[keyName];
+            if (string.IsNullOrEmpty(secret))
+                return false;
+
+            // 構建 payload，動態加入額外的參數
+            StringBuilder payloadBuilder = new StringBuilder();
+
+            // 加入 extraParams 中的每個參數
+            if (extraParams != null && extraParams.Length > 0)
+            {
+                foreach (var param in extraParams)
+                {
+                    payloadBuilder.Append(param);  // 每個額外參數直接拼接
+                    payloadBuilder.Append("|");    // 用 "|" 作為分隔符
+                }
+            }
+
+            // 追加固定的 env 和 ts 參數
+            payloadBuilder.Append($"{env}|{ts}");
+
+            string payload = payloadBuilder.ToString().TrimEnd('|');
+            //string payload = $"{invoiceNumber}|{oid}|{a}|{aid}|{kind}|{env}|{ts}";
+
+            // 計算簽章
+            byte[] keyBytes = Encoding.UTF8.GetBytes(secret);
+            byte[] dataBytes = Encoding.UTF8.GetBytes(payload);
+            using (var hmac = new HMACSHA256(keyBytes))
+            {
+                byte[] hash = hmac.ComputeHash(dataBytes);
+                string expected = BitConverter
+                    .ToString(hash)
+                    .Replace("-", "")
+                    .ToLowerInvariant();
+
+                // 返回與簽章進行比對
+                return expected == sig;
+            }
+        }
+
+        /// <summary>
+        /// 檢查時間戳 UNIX Timestamp 是否落在允許的 ±N 秒內（預設 300 秒）。
+        /// </summary>
+        /// <param name="ts">時間戳</param>
+        /// <param name="allowedWindowSeconds">允許的時間窗口（預設 300 秒）</param>
+        /// <returns>是否時間戳有效</returns>
+        public static bool ValidateTimestamp(string ts, int allowedWindowSeconds)
+        {
+            if (!long.TryParse(ts, out long unixSec))
+                return false;
+            var reqTime = DateTimeOffset.FromUnixTimeSeconds(unixSec);
+            var now = DateTimeOffset.UtcNow;
+            return Math.Abs((now - reqTime).TotalSeconds) <= allowedWindowSeconds;
+        }
+
     }
 }

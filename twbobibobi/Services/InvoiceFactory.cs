@@ -1,8 +1,16 @@
-﻿using Newtonsoft.Json.Linq;
+﻿/* ===================================================================================================
+   專案名稱：twbobibobi
+   檔案名稱：InvoiceFactory.cs
+   類別說明：發票處理工具類別，負責將 CreateInvoiceDto 傳送至發票 API，並處理回應結果
+   建立日期：2025-11-28
+   建立人員：Rooney
+
+   目前維護人員：Rooney
+   =================================================================================================== */
+
+using Newtonsoft.Json.Linq;
 using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Net;
 using System.Web;
 using System.Web.Script.Serialization;
@@ -13,6 +21,10 @@ namespace twbobibobi.Services
     /// <summary>
     /// 發票處理工具類別，負責將 CreateInvoiceDto 傳送至發票 API，並處理回應結果
     /// </summary>
+    /// <remarks>
+    /// 這個類別提供了一個靜態方法 `CreateInvoice`，該方法會將 `CreateInvoiceDto` 傳送至發票 API，
+    /// 並解析回應結果，將其轉換為結構化的 `InvoiceResponseDto` 物件。
+    /// </remarks>
     public static class InvoiceFactory
     {
         /// <summary>
@@ -20,6 +32,10 @@ namespace twbobibobi.Services
         /// </summary>
         /// <param name="dto">已組裝好的發票資料</param>
         /// <returns>InvoiceResponseDto，包含是否成功、發票號碼、原始回應 JSON 等</returns>
+        /// <remarks>
+        /// 這個方法會將傳入的 `CreateInvoiceDto` 資料序列化為 JSON 格式，並透過 HTTP POST 請求將資料傳送至發票 API。
+        /// API 回應的結果會被解析為 `InvoiceResponseDto`，並返回給呼叫者。
+        /// </remarks>
         public static InvoiceResponseDto CreateInvoice(CreateInvoiceDto dto)
         {
             try

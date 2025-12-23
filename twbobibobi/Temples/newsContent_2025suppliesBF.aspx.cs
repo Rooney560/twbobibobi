@@ -72,7 +72,7 @@ namespace twbobibobi.Temples
                         TempleCode = "ty",
                         TempleName = "桃園威天宮",
                         Name = "2025 天赦日招財補運",
-                        Deadline = new DateTime(2025, 12, 18, 23, 59, 59),
+                        Deadline = new DateTime(2025, 12, 18, 11, 00, 00),
                         IsPermanent = false
                     }
                 },

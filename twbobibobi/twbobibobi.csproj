@@ -150,7 +150,12 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Api\AllowanceInvoice.aspx" />
+    <Content Include="Api\AddAllowance.aspx" />
+    <Content Include="Api\AllowanceAPI.aspx" />
+    <Content Include="Api\AllowanceCancel.aspx" />
+    <Content Include="Api\AllowanceQuery.aspx" />
+    <Content Include="Api\AllowanceStatus.aspx" />
+    <Content Include="Api\CancelAllowance.aspx" />
     <Content Include="Api\CancelInvoice.aspx" />
     <Content Include="Api\InvoiceAPI.aspx" />
     <Content Include="Api\InvoiceCancel.aspx" />
@@ -519,6 +524,7 @@
     <Content Include="scripts\js\_notes\dwsync.xml" />
     <Content Include="SearchLog.aspx" />
     <Content Include="SearchLog3.aspx" />
+    <Content Include="AllowanceTEST.aspx" />
     <Content Include="Temples\AnDouInformation.aspx" />
     <Content Include="Temples\AnDouVsBaiDou.aspx" />
     <Content Include="Temples\ArticleColumn.aspx" />
@@ -1092,12 +1098,48 @@
   <ItemGroup>
     <Compile Include="ApiClients\InvoiceCaller.cs" />
     <Compile Include="ApiClients\InvoiceRequestFactory.cs" />
-    <Compile Include="Api\AllowanceInvoice.aspx.cs">
-      <DependentUpon>AllowanceInvoice.aspx</DependentUpon>
+    <Compile Include="Api\AddAllowance.aspx.cs">
+      <DependentUpon>AddAllowance.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="Api\AllowanceInvoice.aspx.designer.cs">
-      <DependentUpon>AllowanceInvoice.aspx</DependentUpon>
+    <Compile Include="Api\AddAllowance.aspx.designer.cs">
+      <DependentUpon>AddAllowance.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Api\AllowanceAPI.aspx.cs">
+      <DependentUpon>AllowanceAPI.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Api\AllowanceAPI.aspx.designer.cs">
+      <DependentUpon>AllowanceAPI.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="ApiClients\AllowanceRequestFactory.cs" />
+    <Compile Include="Api\AllowanceCancel.aspx.cs">
+      <DependentUpon>AllowanceCancel.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Api\AllowanceCancel.aspx.designer.cs">
+      <DependentUpon>AllowanceCancel.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Api\AllowanceQuery.aspx.cs">
+      <DependentUpon>AllowanceQuery.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Api\AllowanceQuery.aspx.designer.cs">
+      <DependentUpon>AllowanceQuery.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Api\AllowanceStatus.aspx.cs">
+      <DependentUpon>AllowanceStatus.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Api\AllowanceStatus.aspx.designer.cs">
+      <DependentUpon>AllowanceStatus.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Api\CancelAllowance.aspx.cs">
+      <DependentUpon>CancelAllowance.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Api\CancelAllowance.aspx.designer.cs">
+      <DependentUpon>CancelAllowance.aspx</DependentUpon>
     </Compile>
     <Compile Include="Api\CancelInvoice.aspx.cs">
       <DependentUpon>CancelInvoice.aspx</DependentUpon>
@@ -1187,6 +1229,7 @@
     <Compile Include="FET\Processors\ShoushanyanOrderProcessor.cs" />
     <Compile Include="FET\Services\ComboProductRuleService.cs" />
     <Compile Include="FET\Services\IComboProductRuleService.cs" />
+    <Compile Include="Helpers\AllowanceResponseExtensions.cs" />
     <Compile Include="Helpers\EmailImageHelper.cs" />
     <Compile Include="Data\EventDAC.cs" />
     <Compile Include="Data\EventTitbitsDAC.cs" />
@@ -1368,10 +1411,22 @@
     <Compile Include="LogPurlScanner.aspx.designer.cs">
       <DependentUpon>LogPurlScanner.aspx</DependentUpon>
     </Compile>
+    <Compile Include="Model\AllowanceQueryResponseDto.cs" />
+    <Compile Include="Model\AllowanceStatusResponseDto.cs" />
+    <Compile Include="Model\Allowance\AllowanceAmountContext.cs" />
+    <Compile Include="Model\Allowance\AllowanceSummary.cs" />
+    <Compile Include="Model\Allowance\AllowanceUsageContext.cs" />
+    <Compile Include="Model\CancelAllowanceResponseDto.cs" />
+    <Compile Include="Services\AllowanceCancelService.cs" />
+    <Compile Include="Services\AllowanceProcessor.cs" />
+    <Compile Include="Model\AllowanceRequest.cs" />
+    <Compile Include="Model\AllowanceResponseDto.cs" />
+    <Compile Include="Model\AllowanceWrapperInput.cs" />
     <Compile Include="Model\ApplicantResult.cs" />
     <Compile Include="Model\CancelInvoiceResponseDto.cs" />
     <Compile Include="Model\CaptchaModel.cs" />
     <Compile Include="Model\Common\ApiResponse.cs" />
+    <Compile Include="Model\CreateAllowanceDto.cs" />
     <Compile Include="Model\CreateInvoiceDto.cs" />
     <Compile Include="Model\InvoiceIssueScenario.cs" />
     <Compile Include="Model\InvoiceQueryResponseDto.cs" />
@@ -1428,6 +1483,11 @@
     <Compile Include="SearchLog3.aspx.designer.cs">
       <DependentUpon>SearchLog3.aspx</DependentUpon>
     </Compile>
+    <Compile Include="Services\AllowanceFactory.cs" />
+    <Compile Include="Services\AllowanceQueryService.cs" />
+    <Compile Include="Services\AllowanceService.cs" />
+    <Compile Include="Services\AllowanceServiceFactory.cs" />
+    <Compile Include="Services\AllowanceStatusService.cs" />
     <Compile Include="Services\CaptchaEmailSender.cs" />
     <Compile Include="Services\CaptchaEmailService.cs" />
     <Compile Include="Services\CarrierChecker.cs" />
@@ -1454,6 +1514,13 @@
     <Compile Include="Services\SearchLogService.cs" />
     <Compile Include="Services\ThankYouEmailSender.cs" />
     <Compile Include="Services\ThankYouEmailService.cs" />
+    <Compile Include="AllowanceTEST.aspx.cs">
+      <DependentUpon>AllowanceTEST.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="AllowanceTEST.aspx.designer.cs">
+      <DependentUpon>AllowanceTEST.aspx</DependentUpon>
+    </Compile>
     <Compile Include="Temples\AnDouInformation.aspx.cs">
       <DependentUpon>AnDouInformation.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>

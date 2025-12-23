@@ -29,6 +29,7 @@ namespace twbobibobi.FET.Processors
         private readonly Dictionary<int, DateTime> _yearChangeDate = new Dictionary<int, DateTime>
         {
             { 1, new DateTime(2025, 11, 1) } // 點燈
+            ,{ 20, new DateTime(2025, 11, 1) } // 安斗
         };
 
         /// <summary>

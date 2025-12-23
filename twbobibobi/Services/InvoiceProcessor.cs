@@ -1,7 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
+﻿/* ===================================================================================================
+   專案名稱：twbobibobi
+   檔案名稱：InvoiceProcessor.cs
+   類別說明：發票共用流程處理器，提供標準化開立發票的介面。
+   建立日期：2025-11-28
+   建立人員：Rooney
+
+   目前維護人員：Rooney
+   =================================================================================================== */
+
 using twbobibobi.Model;
 
 namespace twbobibobi.Services
@@ -9,6 +15,11 @@ namespace twbobibobi.Services
     /// <summary>
     /// 發票共用流程處理器，提供標準化開立發票的介面
     /// </summary>
+    /// <remarks>
+    /// 這個靜態類別封裝了開立發票的標準流程。它提供了兩個主要功能：
+    /// 1. 將發票輸入資料封裝成 `CreateInvoiceDto` 並呼叫發票 API 來創建發票。
+    /// 2. 根據發票類型代碼轉換為對應的發票開立情境（Scenario）。
+    /// </remarks>
     public static class InvoiceProcessor
     {
         /// <summary>
@@ -16,6 +27,10 @@ namespace twbobibobi.Services
         /// </summary>
         /// <param name="input">發票輸入參數封裝</param>
         /// <returns>發票處理結果資訊</returns>
+        /// <remarks>
+        /// 這個方法接收一個 `InvoiceWrapperInput` 物件，將其轉換為 `CreateInvoiceDto`，
+        /// 然後透過 `InvoiceFactory.CreateInvoice` 呼叫發票 API 並回傳發票處理結果。
+        /// </remarks>
         public static InvoiceResponseDto ProcessInvoice(InvoiceWrapperInput input)
         {
             var dto = new CreateInvoiceDto
@@ -36,6 +51,36 @@ namespace twbobibobi.Services
 
             return InvoiceFactory.CreateInvoice(dto);
         }
+
+        /// <summary>
+        /// 組裝 CreateAllowanceDto 並呼叫廠商折讓單 API，回傳處理結果
+        /// </summary>
+        /// <param name="input">折讓單輸入參數封裝</param>
+        /// <returns>折讓單處理結果資訊</returns>
+        /// <remarks>
+        /// 這個方法接收一個 `AllowanceWrapperInput` 物件，將其轉換為 `CreateAllowanceDto`，
+        /// 然後透過 `AllowanceFactory.CreateAllowance` 呼叫折讓單 API 並回傳折讓單處理結果。
+        /// </remarks>
+        public static AllowanceResponseDto ProcessAllowance(AllowanceWrapperInput input)
+        {
+            var dto = new CreateAllowanceDto
+            {
+                AllowanceNumber = input.AllowanceNumber,
+                AllowanceDate = input.AllowanceDate,
+                AllowanceType = input.AllowanceType,
+                BuyerIdentifier = string.IsNullOrEmpty(input.BuyerIdentifier) ? "0000000000" : input.BuyerIdentifier,
+                BuyerName = string.IsNullOrEmpty(input.BuyerName) ? "消費者" : input.BuyerName,
+                BuyerAddress = input.BuyerAddress ?? "",
+                BuyerTelephoneNumber = input.BuyerTelephoneNumber ?? "",
+                BuyerEmailAddress = input.BuyerEmailAddress ?? "",
+                ProductItem = input.Items,
+                TaxAmount = input.TaxAmount,
+                TotalAmount = input.TotalAmount
+            };
+
+            return AllowanceFactory.CreateAllowance(dto);
+        }
+
         /// <summary>
         /// 將發票類型代碼轉換為發票開立情境（Scenario）
         /// </summary>
@@ -49,6 +94,13 @@ namespace twbobibobi.Services
         /// </list>
         /// </param>
         /// <returns>對應的 <see cref="InvoiceIssueScenario"/> 列舉值</returns>
+        /// <remarks>
+        /// 這個方法將發票類型代碼轉換為對應的發票開立情境（`InvoiceIssueScenario`），
+        /// 以便於後續處理發票請求的邏輯。
+        /// </remarks>
+        /// <example>
+        /// var scenario = InvoiceProcessor.GetScenario("1"); // StandardPrint
+        /// </example>
         public static InvoiceIssueScenario GetScenario(string invoiceType)
         {
             switch (invoiceType)

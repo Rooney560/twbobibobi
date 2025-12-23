@@ -39,7 +39,7 @@ namespace twbobibobi.Temples
             {
                 if (Request["aid"] != null && Request["a"] != null && Request["kind"] != null)
                 {
-                    //PostInvoiceAsync();
+                    PostInvoiceAsync();
                     //PostInvoiceAsync_jkos(
                     //    16,
                     //    "陳宣鈴",
@@ -74,16 +74,16 @@ namespace twbobibobi.Temples
             int a = 0;
             int.TryParse(Request["a"].ToString(), out a);
             string kind = Request["kind"].ToString();
-            string Year = dtNow.Year.ToString();
-            string[] Lightslist = { "WJSY1171", "WJSY1172" };
-            string mobile = "0900671268";
-            string msg = "【保必保庇】線上宮廟服務平臺，感謝購買，已成功付款1000元,您的訂單編號 藥師燈:WJSY1171,藥師燈:WJSY1172。客服電話：04-36092299。";
-            int cost = 1000;
+            string Year = "2026";
+            string[] Lightslist = { "FWT1040", "FW2T1041", "FWA1006" };
+            string mobile = "0919215237";
+            string msg = "【保必保庇】線上宮廟服務平臺，感謝購買，已成功付款1500元，您的訂單編號 發財燈:FWT1040,財庫燈:FW2T1041,安太歲:FWA1006。客服電話：04-36092299。";
+            int cost = 1500;
 
             twbobibobi.Data.BasePage _basePage = new twbobibobi.Data.BasePage();
             LightDAC objALightDAC = new LightDAC(_basePage);
             SMSHepler objSMSHepler = new SMSHepler();
-            DataTable dtApplicantInfo = objALightDAC.GetAPPCharge_wjsan_Lights(aid, Year);
+            DataTable dtApplicantInfo = objALightDAC.GetAPPCharge_Fw_Lights(aid, Year);
             if (dtApplicantInfo.Rows.Count > 0)
             {
                 DataRow invoiceRow = dtApplicantInfo.Rows[0]; // 只取代表開發票的那一筆（通常是第一筆）
@@ -216,40 +216,40 @@ namespace twbobibobi.Temples
                         string Date = dtNow.ToString("yyyy-MM-dd");
                         string Time = dtNow.ToString("HH:mm:ss");
 
-                        if (objALightDAC.UpdateInvoiceDetail(aid, adminId, 1, invoiceNo, rawJson, "1", Year))
+                        if (objALightDAC.UpdateInvoiceDetail(aid, adminId, int.Parse(kind), invoiceNo, rawJson, "1", Year))
                         {
-                            SendEmailandSMS(
-                                rs,
-                                Emailitems,
-                                buyerEmail,
-                                buyerName,
-                                invoiceRow["BuyerIdentifier"]?.ToString() ?? "0000000000",
-                                NumString,
-                                cost,
-                                dtNow,
-                                YearROC,
-                                Month,
-                                Date,
-                                Time,
-                                mobile,
-                                msg,
-                                orderId,
-                                invoiceNo);
-                            //if (InvoiceEmailSender.Send(rs, Emailitems, buyerEmail, buyerName, invoiceRow["BuyerIdentifier"]?.ToString() ?? "0000000000", NumString, cost, dtNow, YearROC, Month, Date, Time))
-                            //{
-                            //    Response.Write($"{orderId} 寄送完成！");
-                            //}
+                            //SendEmailandSMS(
+                            //    rs,
+                            //    Emailitems,
+                            //    buyerEmail,
+                            //    buyerName,
+                            //    invoiceRow["BuyerIdentifier"]?.ToString() ?? "0000000000",
+                            //    NumString,
+                            //    cost,
+                            //    dtNow,
+                            //    YearROC,
+                            //    Month,
+                            //    Date,
+                            //    Time,
+                            //    mobile,
+                            //    msg,
+                            //    orderId,
+                            //    invoiceNo);
+                            if (InvoiceEmailSender.Send(rs, Emailitems, buyerEmail, buyerName, invoiceRow["BuyerIdentifier"]?.ToString() ?? "0000000000", NumString, cost, dtNow, YearROC, Month, Date, Time))
+                            {
+                                Response.Write($"{orderId} 寄送完成！");
+                            }
                         }
                         else
                         {
                             // ❌ 發票失敗，記錄錯誤
-                            SaveErrorLog("TWPaymentCallback_Lights_wjsan" + $"更新發票失敗");
+                            SaveErrorLog("TWPaymentCallback_Lights_Fw" + $"更新發票失敗");
                         }
                     }
                     else
                     {
                         // ❌ 發票失敗，記錄錯誤
-                        SaveErrorLog("TWPaymentCallback_Lights_wjsan" + $"開立發票失敗 AdminID: {adminId}, " + new Exception(rs.ErrorMessage));
+                        SaveErrorLog("TWPaymentCallback_Lights_Fw" + $"開立發票失敗 AdminID: {adminId}, " + new Exception(rs.ErrorMessage));
                     }
                 }
                 else
@@ -401,7 +401,7 @@ namespace twbobibobi.Temples
                 else
                 {
                     // ❌ 發票失敗，記錄錯誤
-                    SaveErrorLog("TWPaymentCallback_Purdue_ty" + $"開立發票失敗 AdminID: {adminId}, " + new Exception(rs.ErrorMessage));
+                    SaveErrorLog("TWPaymentCallback_Purdue_Fw" + $"開立發票失敗 AdminID: {adminId}, " + new Exception(rs.ErrorMessage));
                 }
             }
         }

@@ -373,7 +373,7 @@ namespace twbobibobi.Temples
 
                             int cost = GetLightsCost(32, lightsType);
 
-                            cost += AppSendback == "Y" ? 60 : 0;
+                            //cost += AppSendback == "Y" ? 60 : 0;
 
                             if (name != "")
                             {

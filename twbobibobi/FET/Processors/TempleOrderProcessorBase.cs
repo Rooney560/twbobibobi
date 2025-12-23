@@ -126,6 +126,9 @@ namespace twbobibobi.FET.Processors
                 // 祈福人生辰解析
                 string Birth, birthMonth, age, zodiac, sBirth;
 
+                // 寵物生辰解析
+                string petBirth, petbirthMonth, petage, petzodiac, petsBirth;
+
                 int cost = p.Cost;
 
                 ParseBirth(
@@ -143,6 +146,22 @@ namespace twbobibobi.FET.Processors
                 p.Age = age;
                 p.Zodiac = zodiac;
                 p.sBirth = sBirth;
+
+                ParseBirth(
+                    "1",
+                    "",
+                    p.petDate,
+                    out petBirth,
+                    out petbirthMonth,
+                    out petage,
+                    out petzodiac,
+                    out petsBirth);
+
+                //p.petBirth = Birth;
+                //p.petBirthMonth = birthMonth;
+                //p.petAge = age;
+                //p.petZodiac = zodiac;
+                p.PetsBirth = petsBirth;
 
                 // 地址補全：祈福人住在海外不補
                 if (string.IsNullOrEmpty(appCounty) && p.Oversea != "2") appCounty = p.City;

@@ -2501,7 +2501,7 @@ namespace twbobibobi.Data
                     switch (LightsType)
                     {
                         default:
-                            result = 560;
+                            result = 500;
 
                             DateTime dtNow = LightDAC.GetTaipeiNow();
                             string startDate = "2025/12/01 00:00:00";

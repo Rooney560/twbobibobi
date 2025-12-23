@@ -240,7 +240,7 @@
                         <div id="startTime">2025/10/27 00:00</div>
                             <br />
                             <div>活動截止日期：</div>
-                            <div id="endTime">2025/12/18 23:59</div>
+                            <div id="endTime">2025/12/18 11:00</div>
                         </div>
                         <div class="EventServiceContent">
                             <div>

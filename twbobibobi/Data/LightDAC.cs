@@ -4,6 +4,7 @@
  * 類別說明：處理「點燈」相關資料存取作業（建立、查詢、更新、刪除）
  * 建立日期：2025-11-14
  * 建立人員：Rooney
+ * 
  * 修改記錄：2025-11-14 全面改用 DatabaseAdapter.ExecuteSql / ExecuteScalar，移除 Fill + Update；依新版 DatabaseAdapter 重構，加入錯誤記錄與分區結構
  * 目前維護人員：Rooney
  ************************************************************************************************/
@@ -21766,6 +21767,377 @@ namespace twbobibobi.Data
             return dtResult;
         }
 
+        /// <summary>
+        /// 取得購買人訂單資料
+        /// </summary>
+        /// <param name="ApplicantID">購買人編號</param>
+        /// <param name="AdminID">廟宇編號</param>
+        /// <param name="Kind">活動種類：1-點燈、2-普度等</param>
+        /// <param name="Year">年度資料表</param>
+        /// 回傳包含購買人資料的 <see cref="DataTable"/>。
+        /// 若查無資料則回傳空的資料表。
+        public DataTable GetApplicantInfo(
+            int ApplicantID,
+            int AdminID,
+            int Kind,
+            string Year)
+        {
+            string sql = string.Empty;
+            DataTable dtGetData = new DataTable();
+
+            try
+            {
+                switch (AdminID)
+                {
+                    case 3:
+                        // 大甲鎮瀾宮
+                        switch (Kind)
+                        {
+                            case 1:
+                                sql = $"Select * from Temple_{Year}..view_Lights_da_InfowithAPPCharge Where Status = 0 and ApplicantID = @ApplicantID and AdminID = @AdminID Order by Num Desc";
+                                break;
+                            case 2:
+                                sql = $"Select * from Temple_{Year}..view_Purdue_da_InfowithAPPCharge Where Status = 0 and ApplicantID = @ApplicantID and AdminID = @AdminID Order by Num Desc";
+                                break;
+                            case 13:
+                                // 七朝清醮
+                                sql = $"Select * from Temple_{Year}..view_TaoistJiaoCeremony_da_InfowithAPPCharge Where Status = 0 and ApplicantID = @ApplicantID and AdminID = @AdminID Order by Num Desc";
+                                break;
+                        }
+                        break;
+                    case 4:
+                        // 新港奉天宮
+                        switch (Kind)
+                        {
+                            case 1:
+                                sql = $"Select * from Temple_{Year}..view_Lights_h_InfowithAPPCharge Where Status = 0 and ApplicantID = @ApplicantID and AdminID = @AdminID Order by Num Desc";
+                                break;
+                            case 2:
+                                sql = $"Select * from Temple_{Year}..view_Purdue_h_InfowithAPPCharge Where Status = 0 and ApplicantID = @ApplicantID and AdminID = @AdminID Order by Num Desc";
+                                break;
+                        }
+                        break;
+                    case 6:
+                        // 北港武德宮
+                        switch (Kind)
+                        {
+                            case 1:
+                                sql = $"Select * from Temple_{Year}..view_Lights_wu_InfowithAPPCharge Where Status = 0 and ApplicantID = @ApplicantID and AdminID = @AdminID Order by Num Desc";
+                                break;
+                            case 2:
+                                sql = $"Select * from Temple_{Year}..view_Purdue_wu_InfowithAPPCharge Where Status = 0 and ApplicantID = @ApplicantID and AdminID = @AdminID Order by Num Desc";
+                                break;
+                            case 4:
+                                // 下元補庫
+                                sql = $"Select * from Temple_{Year}..view_Supplies_wu_InfowithAPPCharge Where Status = 0 and ApplicantID = @ApplicantID and AdminID = @AdminID Order by Num Desc";
+                                break;
+                            case 5:
+                                // 呈疏補庫(天官武財神聖誕補財庫)
+                                sql = $"Select * from Temple_{Year}..view_Supplies_wu_InfowithAPPCharge2 Where Status = 0 and ApplicantID = @ApplicantID and AdminID = @AdminID Order by Num Desc";
+                                break;
+                            case 6:
+                                // 企業補財庫
+                                sql = $"Select * from Temple_{Year}..view_Supplies_wu_InfowithAPPCharge3 Where Status = 0 and ApplicantID = @ApplicantID and AdminID = @AdminID Order by Num Desc";
+                                break;
+                        }
+                        break;
+                    case 8:
+                        // 西螺福興宮
+                        switch (Kind)
+                        {
+                            case 1:
+                                sql = $"Select * from Temple_{Year}..view_Lights_Fu_InfowithAPPCharge Where Status = 0 and ApplicantID = @ApplicantID and AdminID = @AdminID Order by Num Desc";
+                                break;
+                            case 2:
+                                sql = $"Select * from Temple_{Year}..view_Purdue_Fu_InfowithAPPCharge Where Status = 0 and ApplicantID = @ApplicantID and AdminID = @AdminID Order by Num Desc";
+                                break;
+                        }
+                        break;
+                    case 10:
+                        // 台南正統鹿耳門聖母廟
+                        switch (Kind)
+                        {
+                            case 1:
+                                sql = $"Select * from Temple_{Year}..view_Lights_Luer_InfowithAPPCharge Where Status = 0 and ApplicantID = @ApplicantID and AdminID = @AdminID Order by Num Desc";
+                                break;
+                            case 2:
+                                sql = $"Select * from Temple_{Year}..view_Purdue_Luer_InfowithAPPCharge Where Status = 0 and ApplicantID = @ApplicantID and AdminID = @AdminID Order by Num Desc";
+                                break;
+                        }
+                        break;
+                    case 11:
+                        // 鎮宅錢母擺件文創小販部
+                        switch (Kind)
+                        {
+                            case 3:
+                                sql = $"Select * from Temple_{Year}..view_Product_MoneymotherwithAPPCharge Where Status = 0 and ApplicantID = @ApplicantID and AdminID = @AdminID Order by Num Desc";
+                                break;
+                        }
+                        break;
+                    case 14:
+                        // 桃園威天宮
+                        switch (Kind)
+                        {
+                            case 1:
+                                sql = $"Select * from Temple_{Year}..view_Lights_ty_InfowithAPPCharge Where Status = 0 and ApplicantID = @ApplicantID and AdminID = @AdminID Order by Num Desc";
+                                break;
+                            case 2:
+                                sql = $"Select * from Temple_{Year}..view_Purdue_ty_InfowithAPPCharge Where Status = 0 and ApplicantID = @ApplicantID and AdminID = @AdminID Order by Num Desc";
+                                break;
+                            case 7:
+                                // 天赦日招財補運
+                                sql = $"Select * from Temple_{Year}..view_Supplies_ty_InfowithAPPCharge Where Status = 0 and ApplicantID = @ApplicantID and AdminID = @AdminID Order by Num Desc";
+                                break;
+                            case 9:
+                                // 關聖帝君聖誕
+                                sql = $"Select * from Temple_{Year}..view_EmperorGuansheng_ty_InfowithAPPCharge Where Status = 0 and ApplicantID = @ApplicantID and AdminID = @AdminID Order by Num Desc";
+                                break;
+                            case 14:
+                                // 九九重陽天赦日招財補運
+                                sql = $"Select * from Temple_{Year}..view_Supplies2_ty_InfowithAPPCharge Where Status = 0 and ApplicantID = @ApplicantID and AdminID = @AdminID Order by Num Desc";
+                                break;
+                            case 18:
+                                // 天公生招財補運
+                                sql = $"Select * from Temple_{Year}..view_Supplies3_ty_InfowithAPPCharge Where Status = 0 and ApplicantID = @ApplicantID and AdminID = @AdminID Order by Num Desc";
+                                break;
+                            case 22:
+                                // 孝親祈福燈
+                                sql = $"Select * from Temple_{Year}..view_Lights_ty_mom_InfowithAPPCharge Where Status = 0 and ApplicantID = @ApplicantID and AdminID = @AdminID Order by Num Desc";
+                                break;
+                            case 25:
+                                // 千手觀音千燈迎佛法會
+                                sql = $"Select * from Temple_{Year}..view_QnLight_ty_InfowithAPPCharge Where Status = 0 and ApplicantID = @ApplicantID and AdminID = @AdminID Order by Num Desc";
+                                break;
+                            case 27:
+                                // 新春賀歲感恩招財祿位
+                                sql = $"Select * from Temple_{Year}..view_Luckaltar_ty_InfowithAPPCharge Where Status = 0 and ApplicantID = @ApplicantID and AdminID = @AdminID Order by Num Desc";
+                                break;
+                        }
+                        break;
+                    case 15:
+                        // 斗六五路財神宮
+                        switch (Kind)
+                        {
+                            case 1:
+                                sql = $"Select * from Temple_{Year}..view_Lights_Fw_InfowithAPPCharge Where Status = 0 and ApplicantID = @ApplicantID and AdminID = @AdminID Order by Num Desc";
+                                break;
+                            case 2:
+                                sql = $"Select * from Temple_{Year}..view_Purdue_Fw_InfowithAPPCharge Where Status = 0 and ApplicantID = @ApplicantID and AdminID = @AdminID Order by Num Desc";
+                                break;
+                            case 20:
+                                // 安奉斗燈
+                                sql = $"Select * from Temple_{Year}..view_AnDou_Fw_InfowithAPPCharge Where Status = 0 and ApplicantID = @ApplicantID and AdminID = @AdminID Order by Num Desc";
+                                break;
+                        }
+                        break;
+                    case 16:
+                        // 台東東海龍門天聖宮
+                        switch (Kind)
+                        {
+                            case 1:
+                                sql = $"Select * from Temple_{Year}..view_Lights_dh_InfowithAPPCharge Where Status = 0 and ApplicantID = @ApplicantID and AdminID = @AdminID Order by Num Desc";
+                                break;
+                            case 2:
+                                sql = $"Select * from Temple_{Year}..view_Purdue_dh_InfowithAPPCharge Where Status = 0 and ApplicantID = @ApplicantID and AdminID = @AdminID Order by Num Desc";
+                                break;
+                            case 11:
+                                // 天貺納福添運法會
+                                sql = $"Select * from Temple_{Year}..view_Supplies_dh_InfowithAPPCharge Where Status = 0 and ApplicantID = @ApplicantID and AdminID = @AdminID Order by Num Desc";
+                                break;
+                            case 15:
+                                // 護國息災梁皇大法會
+                                sql = $"Select * from Temple_{Year}..view_Lybc_dh_infowithAPPCharge Where Status = 0 and ApplicantID = @ApplicantID and AdminID = @AdminID Order by Num Desc";
+                                break;
+                        }
+                        break;
+                    case 21:
+                        // 鹿港城隍廟
+                        switch (Kind)
+                        {
+                            case 1:
+                                sql = $"Select * from Temple_{Year}..view_Lights_Lk_InfowithAPPCharge Where Status = 0 and ApplicantID = @ApplicantID and AdminID = @AdminID Order by Num Desc";
+                                break;
+                            case 2:
+                                sql = $"Select * from Temple_{Year}..view_Purdue_Lk_InfowithAPPCharge Where Status = 0 and ApplicantID = @ApplicantID and AdminID = @AdminID Order by Num Desc";
+                                break;
+                            case 16:
+                                // 補財庫
+                                sql = $"Select * from Temple_{Year}..view_Supplies_Lk_InfowithAPPCharge Where Status = 0 and ApplicantID = @ApplicantID and AdminID = @AdminID Order by Num Desc";
+                                break;
+                        }
+                        break;
+                    case 23:
+                        // 玉敕大樹朝天宮
+                        switch (Kind)
+                        {
+                            case 1:
+                                sql = $"Select * from Temple_{Year}..view_Lights_ma_InfowithAPPCharge Where Status = 0 and ApplicantID = @ApplicantID and AdminID = @AdminID Order by Num Desc";
+                                break;
+                            case 2:
+                                sql = $"Select * from Temple_{Year}..view_Purdue_ma_InfowithAPPCharge Where Status = 0 and ApplicantID = @ApplicantID and AdminID = @AdminID Order by Num Desc";
+                                break;
+                            case 7:
+                                // 天赦日招財補運
+                                sql = $"Select * from Temple_{Year}..view_Supplies_ma_InfowithAPPCharge Where Status = 0 and ApplicantID = @ApplicantID and AdminID = @AdminID Order by Num Desc";
+                                break;
+                            case 12:
+                                // 靈寶禮斗
+                                sql = $"Select * from Temple_{Year}..view_Lingbaolidou_ma_InfowithAPPCharge Where Status = 0 and ApplicantID = @ApplicantID and AdminID = @AdminID Order by Num Desc";
+                                break;
+                        }
+                        break;
+                    case 29:
+                        // 進寶財神廟
+                        switch (Kind)
+                        {
+                            case 1:
+                                sql = $"Select * from Temple_{Year}..view_Lights_jb_InfowithAPPCharge Where Status = 0 and ApplicantID = @ApplicantID and AdminID = @AdminID Order by Num Desc";
+                                break;
+                            case 2:
+                                sql = $"Select * from Temple_{Year}..view_Purdue_jb_InfowithAPPCharge Where Status = 0 and ApplicantID = @ApplicantID and AdminID = @AdminID Order by Num Desc";
+                                break;
+                            case 8:
+                                // 天赦日祭改
+                                sql = $"Select * from Temple_{Year}..view_Supplies_jb_InfowithAPPCharge Where Status = 0 and ApplicantID = @ApplicantID and AdminID = @AdminID Order by Num Desc";
+                                break;
+                            case 10:
+                                // 代燒金紙
+                                sql = $"Select * from Temple_{Year}..view_BPO_jb_InfowithAPPCharge Where Status = 0 and ApplicantID = @ApplicantID and AdminID = @AdminID Order by Num Desc";
+                                break;
+                        }
+                        break;
+                    case 31:
+                        // 台灣道教總廟無極三清總道院
+                        switch (Kind)
+                        {
+                            case 1:
+                                sql = $"Select * from Temple_{Year}..view_Lights_wjsan_InfowithAPPCharge Where Status = 0 and ApplicantID = @ApplicantID and AdminID = @AdminID Order by Num Desc";
+                                break;
+                            case 2:
+                                sql = $"Select * from Temple_{Year}..view_Purdue_wjsan_InfowithAPPCharge Where Status = 0 and ApplicantID = @ApplicantID and AdminID = @AdminID Order by Num Desc";
+                                break;
+                            case 20:
+                                // 安奉斗燈
+                                sql = $"Select * from Temple_{Year}..view_AnDou_wjsan_InfowithAPPCharge Where Status = 0 and ApplicantID = @ApplicantID and AdminID = @AdminID Order by Num Desc";
+                                break;
+                            case 21:
+                                // 供花供果
+                                sql = $"Select * from Temple_{Year}..view_Huaguo_wjsan_InfowithAPPCharge Where Status = 0 and ApplicantID = @ApplicantID and AdminID = @AdminID Order by Num Desc";
+                                break;
+                        }
+                        break;
+                    case 32:
+                        // 桃園龍德宮
+                        switch (Kind)
+                        {
+                            case 1:
+                                sql = $"Select * from Temple_{Year}..view_Lights_ld_InfowithAPPCharge Where Status = 0 and ApplicantID = @ApplicantID and AdminID = @AdminID Order by Num Desc";
+                                break;
+                            case 2:
+                                sql = $"Select * from Temple_{Year}..view_Purdue_ld_InfowithAPPCharge Where Status = 0 and ApplicantID = @ApplicantID and AdminID = @AdminID Order by Num Desc";
+                                break;
+                        }
+                        break;
+                    case 33:
+                        // 神霄玉府財神會館
+                        switch (Kind)
+                        {
+                            case 17:
+                                sql = $"Select * from Temple_{Year}..view_Supplies_sx_InfowithAPPCharge Where Status = 0 and ApplicantID = @ApplicantID and AdminID = @AdminID Order by Num Desc";
+                                break;
+                            case 19:
+                                sql = $"Select * from Temple_{Year}..view_Supplies2_sx_InfowithAPPCharge Where Status = 0 and ApplicantID = @ApplicantID and AdminID = @AdminID Order by Num Desc";
+                                break;
+                        }
+                        break;
+                    case 34:
+                        // 基隆悟玄宮
+                        switch (Kind)
+                        {
+                            case 1:
+                                sql = $"Select * from Temple_{Year}..view_Lights_wh_InfowithAPPCharge Where Status = 0 and ApplicantID = @ApplicantID and AdminID = @AdminID Order by Num Desc";
+                                break;
+                            case 2:
+                                sql = $"Select * from Temple_{Year}..view_Purdue_wh_InfowithAPPCharge Where Status = 0 and ApplicantID = @ApplicantID and AdminID = @AdminID Order by Num Desc";
+                                break;
+                            case 24:
+                                // 祈安禮斗
+                                sql = $"Select * from Temple_{Year}..view_Supplies_wh_InfowithAPPCharge Where Status = 0 and ApplicantID = @ApplicantID and AdminID = @AdminID Order by Num Desc";
+                                break;
+                        }
+                        break;
+                    case 35:
+                        // 松柏嶺受天宮
+                        switch (Kind)
+                        {
+                            case 1:
+                                sql = $"Select * from Temple_{Year}..view_Lights_st_InfowithAPPCharge Where Status = 0 and ApplicantID = @ApplicantID and AdminID = @AdminID Order by Num Desc";
+                                break;
+                            case 23:
+                                // 祈安植福
+                                sql = $"Select * from Temple_{Year}..view_Blessing_st_InfowithAPPCharge Where Status = 0 and ApplicantID = @ApplicantID and AdminID = @AdminID Order by Num Desc";
+                                break;
+                        }
+                        break;
+                    case 38:
+                        // 池上北極玄天宮
+                        switch (Kind)
+                        {
+                            case 1:
+                                sql = $"Select * from Temple_{Year}..view_Lights_bj_InfowithAPPCharge Where Status = 0 and ApplicantID = @ApplicantID and AdminID = @AdminID Order by Num Desc";
+                                break;
+                        }
+                        break;
+                    case 39:
+                        // 慈惠石壁部堂
+                        switch (Kind)
+                        {
+                            case 1:
+                                sql = $"Select * from Temple_{Year}..view_Lights_sbbt_InfowithAPPCharge Where Status = 0 and ApplicantID = @ApplicantID and AdminID = @AdminID Order by Num Desc";
+                                break;
+                        }
+                        break;
+                    case 40:
+                        // 真武山受玄宮
+                        switch (Kind)
+                        {
+                            case 1:
+                                sql = $"Select * from Temple_{Year}..view_Lights_bpy_InfowithAPPCharge Where Status = 0 and ApplicantID = @ApplicantID and AdminID = @AdminID Order by Num Desc";
+                                break;
+                        }
+                        break;
+                    case 41:
+                        // 壽山巖觀音寺
+                        switch (Kind)
+                        {
+                            case 1:
+                                sql = $"Select * from Temple_{Year}..view_Lights_ssy_InfowithAPPCharge Where Status = 0 and ApplicantID = @ApplicantID and AdminID = @AdminID Order by Num Desc";
+                                break;
+                        }
+                        break;
+                }
+
+                if (!string.IsNullOrEmpty(sql))
+                {
+                    using (DatabaseAdapter adapter = new DatabaseAdapter(sql, this.DBSource))
+                    {
+                        adapter.AddParameterToSelectCommand("@ApplicantID", ApplicantID);
+                        adapter.AddParameterToSelectCommand("@AdminID", AdminID);
+
+                        adapter.Fill(dtGetData);
+                    }
+                }
+            }
+            catch (Exception error)
+            {
+                string detailedError = ErrorLogger.FormatError(error, typeof(LightDAC).FullName);
+                twbobibobi.Data.BasePage basePage = new twbobibobi.Data.BasePage();
+                basePage.SaveErrorLog("LightDAC.GetApplicantInfo：\r\n" + detailedError);
+            }
+
+            return dtGetData;
+        }
+
 
         #region 點燈資料查詢 (Lights)
 
@@ -31962,10 +32334,10 @@ namespace twbobibobi.Data
                         switch (Kind)
                         {
                             case 1:
-                                sql = $"Select * from Temple_{Year}..view_Lights_h_InfowithAPPCharge Where Status = 0 and ApplicantID = @ApplicantID and AdminID = @AdminID Order by Num Desc";
+                                sql = $"Select * from Temple_{Year}..view_Lights_wu_InfowithAPPCharge Where Status = 0 and ApplicantID = @ApplicantID and AdminID = @AdminID Order by Num Desc";
                                 break;
                             case 2:
-                                sql = $"Select * from Temple_{Year}..view_Purdue_h_InfowithAPPCharge Where Status = 0 and ApplicantID = @ApplicantID and AdminID = @AdminID Order by Num Desc";
+                                sql = $"Select * from Temple_{Year}..view_Purdue_wu_InfowithAPPCharge Where Status = 0 and ApplicantID = @ApplicantID and AdminID = @AdminID Order by Num Desc";
                                 break;
                             case 4:
                                 // 下元補庫
@@ -32064,6 +32436,10 @@ namespace twbobibobi.Data
                             case 2:
                                 sql = $"Select * from Temple_{Year}..view_Purdue_Fw_InfowithAPPCharge Where Status = 0 and ApplicantID = @ApplicantID and AdminID = @AdminID Order by Num Desc";
                                 break;
+                            case 16:
+                                // 補財庫
+                                sql = $"Select * from Temple_{Year}..view_Supplies_Fw_InfowithAPPCharge Where Status = 0 and ApplicantID = @ApplicantID and AdminID = @AdminID Order by Num Desc";
+                                break;
                             case 20:
                                 // 安奉斗燈
                                 sql = $"Select * from Temple_{Year}..view_AnDou_Fw_InfowithAPPCharge Where Status = 0 and ApplicantID = @ApplicantID and AdminID = @AdminID Order by Num Desc";
@@ -32075,10 +32451,10 @@ namespace twbobibobi.Data
                         switch (Kind)
                         {
                             case 1:
-                                sql = $"Select * from Temple_{Year}..view_Lights_h_InfowithAPPCharge Where Status = 0 and ApplicantID = @ApplicantID and AdminID = @AdminID Order by Num Desc";
+                                sql = $"Select * from Temple_{Year}..view_Lights_dh_InfowithAPPCharge Where Status = 0 and ApplicantID = @ApplicantID and AdminID = @AdminID Order by Num Desc";
                                 break;
                             case 2:
-                                sql = $"Select * from Temple_{Year}..view_Purdue_h_InfowithAPPCharge Where Status = 0 and ApplicantID = @ApplicantID and AdminID = @AdminID Order by Num Desc";
+                                sql = $"Select * from Temple_{Year}..view_Purdue_dh_InfowithAPPCharge Where Status = 0 and ApplicantID = @ApplicantID and AdminID = @AdminID Order by Num Desc";
                                 break;
                             case 11:
                                 // 天貺納福添運法會

@@ -141,10 +141,10 @@ namespace twbobibobi
                 new ProductItem
                 {
                     Description = "線上服務費(大甲鎮瀾宮-安太歲)",
-                    Quantity    = 2m,
+                    Quantity    = 1m,
                     Unit        = "盞",
                     UnitPrice   = 520m,
-                    Amount      = 1040m,
+                    Amount      = 520m,
                     TaxType     = 1
                 }
             };
@@ -156,7 +156,7 @@ namespace twbobibobi
                 orderId,
                 items,
                 buyerIdentifier: "0000000000",
-                buyerName:       "香客"
+                buyerName:       "ROONEY"
             );
 
             // 2) 手機載具
@@ -210,7 +210,7 @@ namespace twbobibobi
             };
 
             // 選擇其中一個請求 DTO 進行呼叫
-            var request = taxIdRequest; // 或 mobileRequest, donationRequest, taxIdRequest
+            var request = standardRequest; // 或 mobileRequest, donationRequest, taxIdRequest
 
             // 建立 API Client 實例並發送請求
             const string apiUrl = "https://invoice-api.amego.tw/json/f0401";

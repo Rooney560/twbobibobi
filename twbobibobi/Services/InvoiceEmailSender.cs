@@ -58,6 +58,14 @@ namespace twbobibobi.Services
             string Date,
             string Time)
         {
+            var debug =
+                "[InvoiceEmail Debug] " +
+                "dto=" + (dto == null ? "null" : "ok") + ", " +
+                "items=" + (items == null ? "null" : items.Count.ToString()) + ", " +
+                "buyerEmail=" + (buyerEmail ?? "null") + ", " +
+                "buyerName=" + (buyerName ?? "null") + ", " +
+                "buyerTaxId=" + (buyerTaxId ?? "null") + ", " +
+                "NumString=" + (NumString ?? "null");
             try
             {
                 // 🔹 統一稅號格式
@@ -131,7 +139,7 @@ namespace twbobibobi.Services
                 );
 
                 AjaxBasePage _ajaxBasePage = new AjaxBasePage();
-                _ajaxBasePage.SaveErrorLog($"寄送發票通知失敗：\r\n{detailedError}");
+                _ajaxBasePage.SaveErrorLog($"寄送發票通知失敗：\r\n{detailedError}\r\n{debug}");
                 return false;
             }
         }

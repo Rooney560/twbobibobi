@@ -287,7 +287,7 @@
                                         <option value="太歲燈">太歲燈 $300</option>
                                         <option value="智慧燈">智慧燈 $300</option>
                                         <option value="財神燈">財神燈 $600</option>
-                                        <option value="貴人燈">藥師燈 $600</option>
+                                        <option value="藥師燈">藥師燈 $600</option>
                                         <option value="貴人燈">貴人燈 $600</option>
                                         <option value="福祿燈">福祿燈 $600</option>
                                     </select>

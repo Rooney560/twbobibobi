@@ -1,26 +1,44 @@
-﻿using System;
+﻿/* ===================================================================================================
+   專案名稱：twbobibobi
+   檔案名稱：InvoiceCancelService.cs
+   類別說明：電子發票作廢建立服務，負責呼叫廠商 API 建立折讓單。
+   建立日期：2025-11-28
+   建立人員：Rooney
+
+   目前維護人員：Rooney
+   =================================================================================================== */
+
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
-using System.Web;
 using twbobibobi.ApiClients;
 
 namespace twbobibobi.Services
 {
     /// <summary>
-    /// 提供發票作廢的實作服務。
+    /// 電子發票作廢服務。
+    /// 此服務負責組裝作廢資料並呼叫電子發票廠商 API。
     /// </summary>
+    /// <remarks>
+    /// 這個服務負責處理發票的作廢流程，接收要作廢的發票號碼，並將其提交給廠商 API。
+    /// 在作廢完成後，會返回 API 的回應結果，通常為 JSON 格式，包含是否成功等信息。
+    /// </remarks>
     public class InvoiceCancelService : IInvoiceCancelService
     {
-        private readonly InvoiceApiClient _apiClient;
+        /// <summary>
+        /// API 端點 URL（由外部 Factory 注入）
+        /// </summary>
+        private readonly InvoiceApiClient _apiUrl;
 
         /// <summary>
         /// 建構子，初始化發票作廢服務，並注入 API 客戶端。
         /// </summary>
-        /// <param name="apiClient">用於呼叫遠端 API 的發票客戶端</param>
-        public InvoiceCancelService(InvoiceApiClient apiClient)
+        /// <param name="apiUrl">用於呼叫電子發票廠商的發票作廢 API</param>
+        /// <remarks>
+        /// 透過建構子注入 `InvoiceApiClient` 實例，這樣服務可以使用該客戶端與發票廠商進行通信。
+        /// </remarks>
+        public InvoiceCancelService(InvoiceApiClient apiUrl)
         {
-            _apiClient = apiClient;
+            _apiUrl = apiUrl;
         }
 
         /// <summary>
@@ -28,6 +46,12 @@ namespace twbobibobi.Services
         /// </summary>
         /// <param name="cancelInvoiceNumber">欲作廢的發票號碼</param>
         /// <returns>API 回應字串（通常為 JSON 格式）</returns>
+        /// <remarks>
+        /// 這個方法會根據提供的發票號碼，構建請求並將其發送到發票 API。API 回應會被返回，通常為 JSON 格式，包含是否成功的結果。
+        /// </remarks>
+        /// <example>
+        /// var result = await invoiceCancelService.CancelInvoiceAsync("INV123456789");
+        /// </example>
         public async Task<string> CancelInvoiceAsync(string cancelInvoiceNumber)
         {
             // 組成 POST 表單內容（單筆發票號碼）
@@ -38,7 +62,18 @@ namespace twbobibobi.Services
             };
 
             // 呼叫發票 API 送出作廢請求
-            return await _apiClient.PostAsync("/json/f0501", payload);
+            return await _apiUrl.PostAsync("/json/f0501", payload);
         }
+
+        /// <summary>
+        /// 呼叫遠端 API 作廢指定的折讓單編號。
+        /// </summary>
+        /// <param name="cancelAllowanceNumber">欲作廢的折讓單編號</param>
+        /// <returns>API 回應字串（通常為 JSON 格式）</returns>
+        public Task<string> CancelAllowanceAsync(string cancelAllowanceNumber)
+        {
+            throw new System.NotImplementedException();
+        }
+
     }
 }

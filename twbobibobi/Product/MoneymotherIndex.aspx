@@ -294,7 +294,7 @@
                         <ul>
                             <li>
                                 <h5>鎮宅錢母擺件</h5>
-                                <div class="content TxtB">獨家開賣，新港奉天宮授權鎮宅錢母擺件(錢母樣式為甲辰龍年)</div>
+                                <div class="content TxtB">獨家開賣，新港奉天宮授權鎮宅錢母擺件。</div>
                             </li>
                             <li>
                                 <h5>壓轎金贈送</h5>
@@ -342,15 +342,12 @@
                 <div class="ProductsList">
                     <div class="Products">
                         <ul class="ProductsImg">
-                            <%--<li><a href="https://bobibobi.tw/Product/images/products/products_A_10.jpg" data-fancybox><img src="https://bobibobi.tw/Product/images/products/products_A_10.jpg" width="1200" height="1200" alt="開運錢母擺件" title="開運錢母擺件"/></a></li>--%>
-                            <li><a href="https://bobibobi.tw/Product/images/products/products_A_1.jpg" data-fancybox><img src="https://bobibobi.tw/Product/images/products/products_A_1.jpg" width="1200" height="1200" alt=""/></a></li>
-                            <li><a href="https://bobibobi.tw/Product/images/products/products_A_7.jpg" data-fancybox><img src="https://bobibobi.tw/Product/images/products/products_A_7.jpg" width="1200" height="1200" alt=""/></a></li>
-                            <%--<li><a href="https://bobibobi.tw/Product/images/products/products_A_3.jpg" data-fancybox><img src="https://bobibobi.tw/Product/images/products/products_A_3.jpg" width="1200" height="1200" alt=""/></a></li>--%>
-                            <li><a href="https://bobibobi.tw/Product/images/products/products_A_4.jpg" data-fancybox><img src="https://bobibobi.tw/Product/images/products/products_A_4.jpg" width="1200" height="1200" alt=""/></a></li>
-                            <%--<li><a href="https://bobibobi.tw/Product/images/products/products_A_5.jpg" data-fancybox><img src="https://bobibobi.tw/Product/images/products/products_A_5.jpg" width="1200" height="1200" alt=""/></a></li>
-                            <li><a href="https://bobibobi.tw/Product/images/products/products_A_6.jpg" data-fancybox><img src="https://bobibobi.tw/Product/images/products/products_A_6.jpg" width="1200" height="1200" alt=""/></a></li>--%>
-                            <li><a href="https://bobibobi.tw/Product/images/products/products_A_8.jpg" data-fancybox><img src="https://bobibobi.tw/Product/images/products/products_A_8.jpg" width="1200" height="1200" alt=""/></a></li>
-                            <li><a href="https://bobibobi.tw/Product/images/products/products_A_9.jpg" data-fancybox><img src="https://bobibobi.tw/Product/images/products/products_A_9.jpg" width="1200" height="1200" alt=""/></a></li>
+                            <li><a href="https://bobibobi.tw/Product/images/products/products_A_1.jpg" data-fancybox><img src="https://bobibobi.tw/Product/images/products/products_A_1.jpg" width="1200" height="1200" alt="鎮宅、開運錢母擺件" title="鎮宅、開運錢母擺件"/></a></li>
+                            <li><a href="https://bobibobi.tw/Product/images/products/products_A_11.jpg" data-fancybox><img src="https://bobibobi.tw/Product/images/products/products_A_11.jpg" width="1200" height="1200" alt="鎮宅、開運錢母擺件" title="鎮宅、開運錢母擺件"/></a></li>
+                            <li><a href="https://bobibobi.tw/Product/images/products/products_A_7.jpg" data-fancybox><img src="https://bobibobi.tw/Product/images/products/products_A_7.jpg" width="1200" height="1200" alt="鎮宅、開運錢母擺件" title="鎮宅、開運錢母擺件"/></a></li>
+                            <li><a href="https://bobibobi.tw/Product/images/products/products_A_4.jpg" data-fancybox><img src="https://bobibobi.tw/Product/images/products/products_A_4.jpg" width="1200" height="1200" alt="鎮宅、開運錢母擺件" title="鎮宅、開運錢母擺件"/></a></li>
+                            <li><a href="https://bobibobi.tw/Product/images/products/products_A_5.jpg" data-fancybox><img src="https://bobibobi.tw/Product/images/products/products_A_5.jpg" width="1200" height="1200" alt="鎮宅、開運錢母擺件" title="鎮宅、開運錢母擺件"/></a></li>
+                            <li><a href="https://bobibobi.tw/Product/images/products/products_A_6.jpg" data-fancybox><img src="https://bobibobi.tw/Product/images/products/products_A_6.jpg" width="1200" height="1200" alt="鎮宅、開運錢母擺件" title="鎮宅、開運錢母擺件"/></a></li>
                         </ul>
                         <h5>鎮宅、開運錢母擺件 <span id="type_1" runat="server" style="color: red;">( 已售完 )</span></h5>
                         <div class="ProductsPrice">原價：2480 / 活動價：<span>1480</span></div>

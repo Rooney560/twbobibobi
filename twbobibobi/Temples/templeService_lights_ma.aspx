@@ -234,10 +234,10 @@
                             <h1 class="TempleName">安奉值年太歲燈</h1>
                             <h2>誠聘府城延陵道壇吳政憲道長主持年初起點安燈及年底謝燈科儀!</h2>
                             <p>民國115年/歲次丙午馬年<br />
-                                馬「犯太歲及刑太歲」<br />
+                                馬「犯太歲」<br />
                                 鼠「沖太歲」<br />
                                 牛「害太歲」<br />
-                                兔跟雞「破太歲」</p>
+                                兔「破太歲」</p>
                             <p>犯沖太歲流年總會讓人感到不安，難免讓人產生不好的聯想。因此，前往廟宇祭拜並祀奉太歲星君，安定心神，祈求整年順順利利。費用$500元，
                                 <span style="color:red;" class="content_a">限量250名。
                                 </span><span id="light2" style="color:red;" class="content_a" runat="server">(已額滿)</span></p>

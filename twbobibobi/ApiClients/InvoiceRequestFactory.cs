@@ -1,7 +1,16 @@
-﻿using System;
+﻿/* ===================================================================================================
+   專案名稱：twbobibobi
+   檔案名稱：InvoiceRequestFactory.cs
+   類別說明：根據情境自動設定各種屬性的 InvoiceRequest 工廠，負責生成發票請求資料。
+   建立日期：2025-11-28
+   建立人員：Rooney
+
+   目前維護人員：Rooney
+   =================================================================================================== */
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Web;
 using twbobibobi.Model;
 
 namespace twbobibobi.ApiClients
@@ -9,6 +18,10 @@ namespace twbobibobi.ApiClients
     /// <summary>
     /// 根據情境自動設定各種屬性的 InvoiceRequest 工廠
     /// </summary>
+    /// <remarks>
+    /// 這個靜態類別負責根據不同的發票開立情境（例如：標準列印、手機載具、捐贈、統一編號開立等），
+    /// 自動生成對應的 `InvoiceRequest` 實例，並填充各種屬性。這有助於簡化發票請求的創建過程。
+    /// </remarks>
     public static class InvoiceRequestFactory
     {
         /// <summary>
@@ -27,6 +40,13 @@ namespace twbobibobi.ApiClients
         /// <param name="carrierId">載具碼</param>
         /// <param name="npoban">捐贈碼</param>
         /// <returns>配置好的 InvoiceRequest</returns>
+        /// <remarks>
+        /// 根據傳入的發票開立情境，這個方法會自動選擇對應的配置並返回填充好的 `InvoiceRequest` 實例。
+        /// 若情境是手機載具或捐贈，需要提供對應的載具類別和載具碼或捐贈碼。
+        /// </remarks>
+        /// <example>
+        /// var request = InvoiceRequestFactory.Create(InvoiceIssueScenario.MobileCarrier, "ORD123456789", items, "0000000000", "消費者", "台北市信義路", "0987654321", "buyer@example.com");
+        /// </example>
         public static InvoiceRequest Create(
             InvoiceIssueScenario scenario,
             string orderId,

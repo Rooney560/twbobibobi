@@ -1,14 +1,19 @@
-﻿using Newtonsoft.Json.Linq;
+﻿/* ===================================================================================================
+   專案名稱：twbobibobi
+   檔案名稱：InvoiceStatus.aspx.cs
+   類別說明：WebForms API 頁面，處理 /Api/InvoiceStatus.aspx POST 請求，查詢發票狀態。
+   建立日期：2025-11-28
+   建立人員：Rooney
+
+   目前維護人員：Rooney
+   =================================================================================================== */
+
+using Newtonsoft.Json.Linq;
 using Newtonsoft.Json;
-using Org.BouncyCastle.Asn1.Ocsp;
 using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Threading.Tasks;
 using System.Web;
-using System.Web.UI;
-using System.Web.UI.WebControls;
 using twbobibobi.Services;
 using twbobibobi.Data;
 using twbobibobi.Helpers;
@@ -16,19 +21,30 @@ using twbobibobi.Helpers;
 namespace twbobibobi.Api
 {
     /// <summary>
-    /// WebForms API 頁面：處理 /Api/InvoiceStatus.aspx POST 請求
+    /// WebForms API 頁面，處理 /Api/InvoiceStatus.aspx POST 請求。
+    /// 這個頁面負責接收查詢發票狀態的請求，並調用 `IInvoiceStatusService` 服務來查詢發票狀態。
     /// </summary>
+    /// <remarks>
+    /// 這個頁面只接受 POST 請求，當收到請求時，會從請求的 JSON 內容中提取發票號碼，
+    /// 然後調用相應的服務來查詢發票狀態，並返回查詢結果。如果出現錯誤，會返回對應的錯誤訊息。
+    /// </remarks>
     public partial class InvoiceStatus : AjaxBasePage
     {
+        // 注入發票查詢服務，依據環境設定選擇 UAT 或 Prod
         IInvoiceStatusService _service = InvoiceServiceFactory.CreateStatusService(GetEnvironment());
 
+        /// <summary>
+        /// 根據環境參數決定要使用的 API 環境。
+        /// </summary>
+        /// <returns>回傳 "_UAT" 或 "_Prod"</returns>
         private static string GetEnvironment()
         {
             return HttpContext.Current?.Request["env"] == "uat" ? "_UAT" : "_Prod";
         }
 
         /// <summary>
-        /// Page Load 事件：僅接受 POST
+        /// Page Load 事件，僅接受 POST 請求。
+        /// 若不是 POST 請求，回傳 405 錯誤並結束處理。
         /// </summary>
         protected void Page_Load(object sender, EventArgs e)
         {
@@ -36,66 +52,80 @@ namespace twbobibobi.Api
             {
                 if (Request.HttpMethod != "POST")
                 {
-                    Response.StatusCode = 405;
-                    Response.End();
+                    Response.StatusCode = 405; // Method Not Allowed
+                    Response.End(); // 結束處理
                 }
-                ProcessRequest();
+                ProcessRequest(); // 處理請求
             }
         }
 
+        /// <summary>
+        /// 處理查詢發票狀態的請求。
+        /// </summary>
         private void ProcessRequest()
         {
+            twbobibobi.Data.BasePage basePage = new twbobibobi.Data.BasePage();
             string body;
             using (var reader = new StreamReader(Request.InputStream))
-                body = reader.ReadToEnd();
+                body = reader.ReadToEnd(); // 讀取請求內容
 
             string invoiceNumber;
             try
             {
+                // 解析 JSON 內容
                 var obj = JsonConvert.DeserializeObject<JObject>(body);
                 invoiceNumber = obj?.Value<string>("InvoiceNumber");
             }
-            catch
+            catch (Exception error)
             {
-                WriteJsonError(400, "無法解析 JSON 格式");
+                // 解析 JSON 失敗，記錄錯誤
+                string detailedError = ErrorLogger.FormatError(error, typeof(InvoiceStatus).FullName);
+                string msg = "InvoiceQuery.ProcessRequest(無法解析 JSON 格式)：\r\n" + detailedError;
+                basePage.SaveErrorLog(msg);
+                WriteJsonError(400, msg);
                 return;
             }
 
+            // 未提供發票號碼
             if (string.IsNullOrWhiteSpace(invoiceNumber))
             {
-                WriteJsonError(400, "請提供 InvoiceNumber");
+                basePage.SaveErrorLog("InvoiceStatus.ProcessRequest(請提供 InvoiceNumber)");
+                WriteJsonError(400, "請提供 InvoiceNumber"); // 錯誤的 JSON 格式
                 return;
             }
 
             try
-            {
+            { 
                 var raw = Task.Run(() => _service.QueryStatusAsync(invoiceNumber)).Result;
                 var dto = JObject.Parse(raw).ToInvoiceStatusResponseDto();
 
+                // 返回結果
                 var output = new
                 {
                     success = dto.Success,
-                    code = dto.Success ? "00000" : "40002",
+                    code = dto.Code,
                     msg = dto.Success ? "查詢成功" : dto.ErrorMessage,
                     data = dto
                 };
 
+                // 回傳 JSON 格式結果
                 Response.ContentType = "application/json";
                 Response.Write(JsonConvert.SerializeObject(output, Formatting.None));
             }
-            catch(Exception ex)
+            catch(Exception error)
             {
-                WriteJsonError(500, "伺服器內部錯誤");
-                //Exception inner = ex.InnerException ?? ex;
+                string detailedError = ErrorLogger.FormatError(error, typeof(InvoiceStatus).FullName);
+                basePage.SaveErrorLog("InvoiceStatus：\r\n" + detailedError);
 
-                //// 取出內部最底層例外訊息
-                //while (inner.InnerException != null)
-                //    inner = inner.InnerException;
-
-                //WriteJsonError(500, $"內部錯誤：{inner.Message}");
+                WriteJsonError(500, "伺服器內部錯誤"); // 伺服器錯誤
             }
         }
 
+        /// <summary>
+        /// 輸出 JSON 格式的錯誤訊息。
+        /// </summary>
+        /// <param name="statusCode">HTTP 狀態碼</param>
+        /// <param name="message">錯誤訊息</param>
         private void WriteJsonError(int statusCode, string message)
         {
             Response.StatusCode = statusCode;
